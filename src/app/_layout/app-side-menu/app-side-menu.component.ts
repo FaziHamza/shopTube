@@ -13,7 +13,33 @@ export class AppSideMenuComponent implements OnInit {
   constructor(private employeeService:EmployeeService) { }
 
   ngOnInit(): void {
-    this.getMenu();
+    // this.getMenu();
+    this.menuItems = [
+      {
+        label:'Request',
+      },
+      {
+        label:'Problems',
+      },
+      {
+        label:'Changes',
+      },
+      {
+        label:'Projects',
+      },
+      {
+        label:'Solutions',
+      },
+      {
+        label:'Assets',
+      },
+      {
+        label:'CMDB',
+      },
+      {
+        label:'Purchases',
+      },
+    ]
   }
   isCollapsed = false;
 

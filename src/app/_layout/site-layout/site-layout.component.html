@@ -23,22 +23,40 @@
 <nz-layout>
   <nz-sider nzCollapsible nzWidth="200px">
     <div class="logo text-white text-center">Shopo Tube</div>
-    <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu [nzMode]="'vertical'" nzTheme="dark" >
       <ng-container *ngFor="let item of menuItems">
-        <li nz-submenu [nzTitle]="item.label" nzIcon="appstore" *ngIf="item.subItems && item.subItems.length > 0">
-          <ul>
-            <li nz-menu-item *ngFor="let sub of item.subItems">{{sub.label}}</li>
-          </ul>
-        </li>
-        <li nz-menu-item nz-tooltip nzTooltipPlacement="right" *ngIf="!item.subItems || item.subItems.length == 0">
-          <span nz-icon nzType="appstore"></span>
-          <span>{{item.label}}</span>
-        </li>
+        <ng-container *ngIf="item.isTitle;else subMenu">
+          <li nz-menu-group [nzTitle]="item.label">
+          </li>
+        </ng-container>
+        <ng-template #subMenu>
+          <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
+            <li nz-submenu [nzTitle]="item.label" nzIcon="appstore" >
+              <ul>
+                <li nz-menu-item *ngFor="let sub of item.subItems">{{sub.label}}</li>
+              </ul>
+            </li>
+          </ng-container>
+        </ng-template>
+        <ng-template #menu>
+          <li nz-menu-item nz-tooltip nzTooltipPlacement="right">
+            <span nz-icon nzType="appstore"></span>
+            <span>{{item.label}}</span>
+          </li>
+        </ng-template>
+
+
+
       </ng-container>
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header></nz-header>
+    <nz-header>
+      <app-app-side-menu></app-app-side-menu>
+    </nz-header>
+    <nz-header>
+      <app-menu></app-menu>
+    </nz-header>
     <nz-content>
       <nz-breadcrumb>
         <!-- <nz-breadcrumb-item>User</nz-breadcrumb-item>
