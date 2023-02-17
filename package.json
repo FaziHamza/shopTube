@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@ant-design/icons-angular": "^11.0.1",
     "@ngx-formly/core": "^6.0.0",
     "@ngx-formly/ng-zorro-antd": "^6.1.1",
     "ng-zorro-antd": "^13.4.0",

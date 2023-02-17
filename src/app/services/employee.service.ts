@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable, observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MenuItem } from '../models/menu';
 import { TreeNode } from '../models/treeNode';
 
 @Injectable({
@@ -23,6 +24,17 @@ export class EmployeeService {
             this.baseUrl + "froms/"
         );
     }
+    getMenuData(roleId: number): Observable<any[]> {
+        return this.http.get<any[]>(
+            this.baseUrl + "menus?roleId=" + roleId
+       );
+    }
+    getJsonModules(moduleName: any): Observable<MenuItem[]> {
+      return this.http.get<MenuItem[]>(
+        this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
+      );
+    }
+
 }
 
 
