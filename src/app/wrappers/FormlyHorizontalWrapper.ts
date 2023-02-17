@@ -8,7 +8,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   <label [attr.for]="id" class= {{firstColum}} *ngIf="to.label" >
    <span><i *ngIf="to.labelIcon" class={{to.labelIcon}} style="padding-right: 3%;"></i>{{to.label }}</span>
     <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container> -->
-    <span *ngIf="to?.tooltip && to.tooltip.content" nz-tooltip nzTooltipTitle="prompt text" class=" uil uil-question-circle">Tooltip will show when mouse enter.</span>
+    <span *ngIf="to?.tooltip && to.tooltip.content" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
   </label>
   <div class= {{secondColum1}}>
     <ng-template #fieldComponent></ng-template>
@@ -28,17 +28,17 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   secondColum2 = '';
   ngOnInit(): void {
     if (this.to.className == 'col-12' || this.to.className == 'col-12 s-icon' || this.to.className == 'col-12 tagSt') {
-      if(this.to.labelPosition){
-        this.firstColum = "col-3 col-form-label " + this.to.labelPosition;
+      if(''){
+        this.firstColum = "col-3 col-form-label " + '';
         }else{
           this.firstColum = "col-3 col-form-label";
         }
       this.secondColum1 = "col-sm-10 mt-2";
       this.secondColum2 = "col-10 offset-md-3 offset-sm-3 invalid-feedback d-block";
     } else {
-      this.firstColum = 'col-3 col-form-label '  + this.to.labelPosition;
-      if(this.to.labelPosition){
-        this.firstColum = "col-3 col-form-label " + this.to.labelPosition;
+      this.firstColum = 'col-3 col-form-label '  + '';
+      if(''){
+        this.firstColum = "col-3 col-form-label " + '';
         }else{
           this.firstColum = "col-3 col-form-label";
         }

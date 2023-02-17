@@ -1,7 +1,12 @@
-<form [formGroup]="form">
-    <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-  </form>
-  <!-- <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1> -->
-
+<div class="bg-gray-100 p-4 min-h-screen">
+  <div class="block shadow-lg bg-white">
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b p-3 text-base">Header</h5>
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b px-3 pb-3  text-base">Header</h5>
+    <div class="px-3">
+      <form [formGroup]="form">
+        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+      </form>
+    </div>
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-t p-3 text-base">Footer</h5>
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-t px-3 pb-3 text-base">Footer</h5>
+  </div>

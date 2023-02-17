@@ -22,8 +22,8 @@ import { FieldWrapper } from '@ngx-formly/core';
 export class FormlyVerticalWrapper extends FieldWrapper {
   class : any;
   ngOnInit(): void {
-    if(this.to.labelPosition){
-      this.class = "row " + this.to.labelPosition; 
+    if(''){
+      this.class = "row " + ''; 
     }else {
       this.class = "row"; 
     }

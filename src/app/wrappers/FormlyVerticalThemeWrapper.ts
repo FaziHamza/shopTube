@@ -24,8 +24,8 @@ import { FieldWrapper } from '@ngx-formly/core';
 export class FormlyVerticalThemeWrapper extends FieldWrapper {
   class: any;
   ngOnInit(): void {
-    if (this.to.labelPosition) {
-      this.class = "col-sm-4 col-form-label " + this.to.labelPosition;
+    if ('') {
+      this.class = "col-sm-4 col-form-label " + '';
     } else {
       this.class = "col-sm-4 col-form-label";
     }
