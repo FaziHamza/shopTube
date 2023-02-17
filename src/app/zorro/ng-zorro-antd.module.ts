@@ -149,7 +149,7 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes';
     NzResizableModule,
     NzPipesModule,
     // NzCodeEditorModule,
-    // NzGraphModule
+    // NzGraphModule,
   ]
 })
 export class NgZorroAntdModule {

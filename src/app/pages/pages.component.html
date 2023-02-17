@@ -1,2 +1,40 @@
-<!-- <app-zorro *ngIf="resData.length > 0" [data]="resData"></app-zorro> -->
-<app-zorro ></app-zorro>
+<div *ngIf="dbRes.length > 0">
+    <!-- PAGE HEADER -->
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b p-3 text-lg">
+        {{dbRes[0].children[0].label}}
+    </h5>
+    <!-- SECTION -->
+    <ng-container *ngFor="let j of dbRes[0].children[1].children">
+        <!-- INCOLAPSSABLE CASE -->
+        <ng-container *ngIf="!j.children[0].isExpanded">
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b px-3 pb-3 text-lg">
+                {{j.children[0].label}}</h5>
+            <div class="px-3" *ngIf="fields.length > 0">
+                <app-main [mainData]="fields"></app-main>
+            </div>
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b border-t p-3 text-lg">
+                {{j.children[2].label}}</h5>
+        </ng-container>
+        <!-- COLLAPSABLE CASE -->
+        <ng-container *ngIf="j.children[0].isExpanded">
+            <nz-collapse >
+                <nz-collapse-panel [nzHeader]="j.children[0].label" [nzExtra]="extraTpl">
+                    <div class="px-3" *ngIf="fields.length > 0">
+                        <app-main [mainData]="fields"></app-main>
+                    </div>
+                </nz-collapse-panel>
+            </nz-collapse>
+            <ng-template #extraTpl>
+                <!-- You can use stopPropagation if you don't want the panel to toggle -->
+                <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
+            </ng-template>
+            <br />
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b px-3 pb-3 text-lg">
+                {{j.children[2].label}}</h5>
+            <br />
+        </ng-container>
+    </ng-container>
+    <!-- PAGE FOOTER -->
+    <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b px-3 pb-3 text-lg">
+        {{dbRes[0].children[2].label}}</h5>
+</div>
