@@ -12,7 +12,7 @@ export class MenuComponent implements OnInit {
   constructor(private employeeService:EmployeeService) { }
 
   ngOnInit(): void {
-    this.getMenu();
+    // this.getMenu();
   }
   isCollapsed = false;
 

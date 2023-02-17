@@ -1,13 +1,8 @@
-<div class="wrapper">
+<!-- <div class="wrapper">
   <button nz-button nzType="primary" (click)="toggleCollapsed()">
     <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
   </button>
   <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
-    <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''"
-      nzSelected>
-      <span nz-icon nzType="mail"></span>
-      <span>Navigation One</span>
-    </li> -->
     <ng-container *ngFor="let item of menuItems">
       <li nz-submenu [nzTitle]="item.label" nzIcon="appstore" *ngIf="item.subItems && item.subItems.length > 0">
 
@@ -21,4 +16,17 @@
       </li>
     </ng-container>
   </ul>
+</div> -->
+
+<div class="ml-7">
+  <nz-tabset>
+    <nz-tab nzTitle="Details"></nz-tab>
+    <nz-tab nzTitle="Resoltion"></nz-tab>
+    <nz-tab nzTitle="Tasks"></nz-tab>
+    <nz-tab nzTitle="Checklist"></nz-tab>
+    <nz-tab nzTitle="Work logs"></nz-tab>
+    <nz-tab nzTitle="Time Analysis"></nz-tab>
+    <nz-tab nzTitle="History"></nz-tab>
+  </nz-tabset>
 </div>
+
