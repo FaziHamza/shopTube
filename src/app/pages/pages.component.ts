@@ -13,7 +13,7 @@ export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute) { }
   resData: any = [];
   fields: any = [];
-  dbRes : any = [];
+  dbRes: any = [];
   // fields: FormlyFieldConfig[] = [
   //   {
   //     fieldGroupClassName: "flex flex-wrap",
@@ -460,16 +460,27 @@ export class PagesComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
         if (res.length > 0) {
-          this.dbRes =  res[0].menuData;
-          this.resData = res[0].menuData[0].children[1].chartCardConfig[0][0].chartCardConfig[0].formly;
-          if (this.resData.length > 0) {
-            this.resData[0].fieldGroup.forEach((a: any) => {
-              if (a.wrappers[0] == 'form-field-horizontal')
-                var newWrappers: any = ["form-field-horizontal"];
-              a.wrappers = newWrappers;
-            });
-            this.fields = this.resData;
-          }
+          res[0].menuData[0].children[1].chartCardConfig[0].forEach((a: any) => {
+            if (a.formlyType) {
+              if (a.formlyType == "input") {
+                a.chartCardConfig[0].formly[0].fieldGroup.forEach((b : any) => {
+                  if(b.wrappers.length > 1){
+                    b.wrappers.splice(1, 1);
+                  }
+                });
+              }
+            }
+          });
+          this.dbRes = res[0].menuData;
+          this.resData = res[0].menuData[0].children[1].chartCardConfig;
+          // if (this.resData.length > 0) {
+          //   this.resData[0].fieldGroup.forEach((a: any) => {
+          //     if (a.wrappers[0] == 'form-field-horizontal')
+          //       var newWrappers: any = ["form-field-horizontal"];
+          //     a.wrappers = newWrappers;
+          //   });
+          //   this.fields = this.resData;
+          // }
         }
       }));
     });
