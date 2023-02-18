@@ -7,7 +7,6 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormlyWrapperRow } from './zorro/wrapper';
-import { ZorroComponent } from './zorro/zorro.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesComponent } from './pages/pages.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -22,6 +21,7 @@ import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.comp
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { SiteFooterComponent } from './_layout/site-footer/site-footer.component';
 import { SiteHeaderComponent } from './_layout/site-header/site-header.component';
+import { NgxMaskModule } from 'ngx-mask';
 // import { NzIconModule } from 'ng-zorro-antd/icon';
 // import { SettingOutline } from '@ant-design/icons-angular/icons';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
@@ -29,6 +29,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { MainComponent } from './main/main.component';
+import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -42,13 +43,13 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 @NgModule({
   declarations: [
     AppComponent,
-    ZorroComponent,
     FormlyWrapperRow,
     PagesComponent,
     HomePageComponent,
     FormlyHorizontalWrapper,
     FormlyVerticalWrapper,
     FormlyVerticalThemeWrapper,
+    FormlyFieldCustomInputComponent,
     MenuComponent,
     AppSideMenuComponent,
     SiteLayoutComponent,
@@ -61,9 +62,16 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NgZorroAntdModule,
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,
-    FormlyModule.forRoot({
-      validationMessages: [{ name: 'required', message: 'This field is required' }],
-    }),
+    NgxMaskModule.forRoot(),
+    FormlyModule.forRoot(formlyCustomeConfig),
+    // FormlyModule.forRoot({
+    //   validationMessages: [{ name: 'required', message: 'This field is required' }],
+    // }),
+    // FormlyModule.forRoot({
+    //   types: [
+    //     { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
+    //   ],
+    // }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
