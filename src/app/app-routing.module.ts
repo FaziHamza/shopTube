@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
-import { ZorroComponent } from './zorro/zorro.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 
 const routes: Routes = [
@@ -13,7 +12,6 @@ const routes: Routes = [
       component: PagesComponent
     },
   ]},
-  { path: 'ZorroComponent', component: ZorroComponent },
 
 ];
 

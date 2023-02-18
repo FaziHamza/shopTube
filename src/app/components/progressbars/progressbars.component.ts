@@ -1,0 +1,32 @@
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-progressbars',
+  templateUrl: './progressbars.component.html',
+  styleUrls: ['./progressbars.component.scss']
+})
+
+/**
+ * Progressbars components
+ */
+export class ProgressbarsComponent implements OnInit {
+
+  // bread crumb items
+  breadCrumbItems!: Array<{}>;
+  @Input() progressBarData: any;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    
+    this.progressBarData;
+    /**
+     * BreadCrumb 
+     */
+    this.breadCrumbItems = [
+      { label: 'UI Elements' },
+      { label: 'Progress Bars', active: true }
+    ];
+  }
+
+}

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 
@@ -9,14 +9,21 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 })
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
+  @Input() dataModel !: any;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
-  constructor() { }
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     debugger
-    this.mainData;
+    this.mainData = this.mainData[0];
   }
+
+  submit() {
+    // this.commonChartService.submit();
+    this.cd.detectChanges();
+  }
+
 
 }

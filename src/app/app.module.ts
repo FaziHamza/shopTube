@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
@@ -29,6 +29,17 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { MainComponent } from './main/main.component';
+import { MultiFileUploadComponent } from './components/multi-file-upload/multi-file-upload.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { SalesCardComponent } from './components/sales-card/sales-card.component';
+import { HeadingComponent } from './components/heading/heading.component';
+import { SanitizePipe } from './pipe';
+import { BlockButtonsCardComponent } from './components/block-buttons-card/block-buttons-card.component';
+import { ProgressbarsComponent } from './components/progressbars/progressbars.component';
+import { DividerComponent } from './components/divider/divider.component';
+import { VideosComponent } from './components/videos/videos.component';
+import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
+import { SwitchComponent } from './components/switch/switch.component';
 import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 
 const antDesignIcons = AllIcons as {
@@ -56,8 +67,19 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     SiteFooterComponent,
     SiteHeaderComponent,
     MainComponent,
+    MultiFileUploadComponent,
+    SalesCardComponent,
+    HeadingComponent,
+    SanitizePipe,
+    BlockButtonsCardComponent,
+    ProgressbarsComponent,
+    DividerComponent,
+    VideosComponent,
+    NewAlertsComponent,
+    SwitchComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
@@ -75,6 +97,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    NgxDropzoneModule,
     // NzIconModule.forRoot([ SettingOutline  ]),
     FormlyModule.forRoot(formlyCustomeConfig),
   ],

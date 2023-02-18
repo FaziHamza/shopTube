@@ -1,40 +1,41 @@
-<div *ngIf="dbRes.length > 0">
-    <!-- PAGE HEADER -->
-    <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b p-3 text-lg">
+<div class="bg-white" *ngIf="dbRes.length > 0">
+    <div class="py-3 px-6 border-b border-gray-300">
         {{dbRes[0].children[0].label}}
-    </h5>
-    <!-- SECTION -->
-    <ng-container *ngFor="let j of dbRes[0].children[1].children">
-        <!-- INCOLAPSSABLE CASE -->
-        <ng-container *ngIf="!j.children[0].isExpanded">
-            <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2 border-b px-3 pb-3 text-lg">
-                {{j.children[0].label}}</h5>
-            <div class="px-3" *ngIf="fields.length > 0">
-                <app-main [mainData]="fields"></app-main>
+    </div>
+    <div class="p-6">
+        <!-- SECTION -->
+        <div *ngFor="let j of dbRes[0].children[1].children">
+            <!-- INCOLAPSSABLE CASE -->
+            <div class="border" *ngIf="!j.children[0].isExpanded">
+                <div class="py-3 px-6 border-b border-gray-300">
+                    {{j.children[0].label}}
+                </div>
+                <div class="p-6" *ngIf="resData.length > 0">
+                    <app-main [mainData]="resData"></app-main>
+                </div>
+                <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
+                    {{j.children[2].label}}
+                </div>
             </div>
-            <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b border-t p-3 text-lg">
-                {{j.children[2].label}}</h5>
-        </ng-container>
-        <!-- COLLAPSABLE CASE -->
-        <ng-container *ngIf="j.children[0].isExpanded">
-            <nz-collapse >
-                <nz-collapse-panel [nzHeader]="j.children[0].label" [nzExtra]="extraTpl">
-                    <div class="px-3" *ngIf="fields.length > 0">
-                        <app-main [mainData]="fields"></app-main>
-                    </div>
-                </nz-collapse-panel>
-            </nz-collapse>
-            <ng-template #extraTpl>
-                <!-- You can use stopPropagation if you don't want the panel to toggle -->
-                <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
-            </ng-template>
-            <br />
-            <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b px-3 pb-3 text-lg">
-                {{j.children[2].label}}</h5>
-            <br />
-        </ng-container>
-    </ng-container>
-    <!-- PAGE FOOTER -->
-    <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-b px-3 pb-3 text-lg">
-        {{dbRes[0].children[2].label}}</h5>
+            <!-- COLLAPSABLE CASE -->
+            <div *ngIf="j.children[0].isExpanded">
+                <nz-collapse>
+                    <nz-collapse-panel [nzHeader]="j.children[0].label" [nzExtra]="extraTpl">
+                        <div class="px-3" *ngIf="resData.length > 0">
+                            <app-main [mainData]="resData"></app-main>
+                        </div>
+                        <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-t px-3 pb-3 text-lg">
+                            {{j.children[2].label}}</h5>
+                        <br />
+                    </nz-collapse-panel>
+                </nz-collapse>
+                <ng-template #extraTpl>
+                    <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
+        {{dbRes[0].children[2].label}}
+    </div>
 </div>
