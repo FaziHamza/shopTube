@@ -96,8 +96,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     TabsComponent,
     FormlyFieldStepper,
     InvoiceTemplateComponent,
-    AudioComponent
-    AccordionButtonComponent,
+    AudioComponent,
     LoginComponent,
     RegisterComponent
   ],
