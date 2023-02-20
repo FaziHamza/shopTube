@@ -52,6 +52,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { InvoiceTemplateComponent } from './components/invoice-template/invoice-template.component';
 import { AudioComponent } from './components/audio/audio.component';
+import { FormlyFieldNgSearchComponent } from './wrappers/formly-field-ng-search.component';
+import { FormlyFieldNgSelectComponent } from './wrappers/formly-field-ng-select.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -71,6 +73,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyVerticalWrapper,
     FormlyVerticalThemeWrapper,
     FormlyFieldCustomInputComponent,
+    FormlyFieldNgSearchComponent,
+    FormlyFieldNgSelectComponent,
     MenuComponent,
     AppSideMenuComponent,
     SiteLayoutComponent,
