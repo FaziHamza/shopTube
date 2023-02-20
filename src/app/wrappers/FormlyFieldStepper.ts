@@ -5,8 +5,8 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 @Component({
   selector: 'formly-field-stepper',
   template: `
-  {{field.fieldGroup | json}}
-    <nz-steps>
+  <!-- {{field.fieldGroup | json}} -->
+    <nz-steps >
       <nz-step *ngFor="let step of field.fieldGroup" [nzTitle]="step.templateOptions?.label">
       </nz-step>
     </nz-steps>
