@@ -42,6 +42,8 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 import { BuilderToaterComponent } from './components/builder-toater/builder-toater.component';
 import { RangInputsComponent } from './components/rang-inputs/rang-inputs.component';
 import { CarouselCrossfadeCardComponent } from './components/carousel-crossfade-card/carousel-crossfade-card.component';
@@ -95,6 +97,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyFieldStepper,
     InvoiceTemplateComponent,
     AudioComponent
+    AccordionButtonComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     FormsModule,
