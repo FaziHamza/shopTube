@@ -1,0 +1,464 @@
+<nz-tabset>
+    <nz-tab   *ngFor="let items of tabs; let i = index ; let last = last" [nzTitle]="titleTemplate">
+        <ng-template #titleTemplate>
+            <span nz-icon nzType="star" nzTheme="outline"></span>
+            {{items.chartCardConfig[0].dashonicTabsConfig[0].tabLabel}}
+        </ng-template><div class="card-content row">
+            <div class="{{item.hideExpression  === undefined || item.hideExpression == false   ? item.className : ''}}"
+            *ngFor="let item of items.chartCardConfig[0].dashonicTabsConfig[0].dashonicTabsChild">
+                <ng-container *ngIf="item.type == 'multiFileUpload';else one">
+                    <div [ngClass]="{'highLight': item.highLight == true}"
+                        *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                        <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon
+                                nzType="question-circle" nzTheme="outline"></span></span>
+                        <app-multi-file-upload
+                            [multiFileUploadData]="item.chartCardConfig[0].uploadBtnLabel"></app-multi-file-upload>
+                    </div>
+                </ng-container>
+                <ng-template #one>
+                    <ng-container *ngIf="item.type == 'chart';else second">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-sales-card [salesdata]="item.chartCardConfig" *ngIf="item.type == 'chart' "></app-sales-card>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #second>
+                    <ng-container *ngIf="item.type == 'sectionCard';else third">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-growth-percentage-card [widgetSecondCard]="item.chartCardConfig">
+                            </app-growth-percentage-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #third>
+                    <ng-container *ngIf="item.type == 'widgetSectionCard';else fourth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-growth-graph-card [allChart]=" item.chartCardConfig">
+                            </app-growth-graph-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourth>
+                    <ng-container *ngIf="item.type == 'browserCard';else fifth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-visitor-browser-card [browserdata]="item.chartCardConfig">
+                            </app-visitor-browser-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fifth>
+                    <ng-container *ngIf="item.type == 'donutChart';else sixth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-visitor-source-card [donutChart]="item.chartCardConfig">
+                            </app-visitor-source-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #sixth>
+                    <ng-container *ngIf="item.type == 'donuteSaleChart';else seventh">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-sale-donute-card [saleDonutChart]="item.chartCardConfig">
+                            </app-sale-donute-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #seventh>
+                    <ng-container *ngIf="item.type == 'salesAnalyticschart';else eight">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-sale-analytics-card [analyticsChart]="item.chartCardConfig">
+                            </app-sale-analytics-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #eight>
+                    <ng-container *ngIf="item.type == 'card';else tenth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-task-detail-card [widgetcard]="item.chartCardConfig"></app-task-detail-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #tenth>
+                    <ng-container *ngIf="item.type == 'header'; else eleventh">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <div *ngIf="item.tooltip" style="text-align: right;">
+                                    <span nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
+                                            nzTheme="outline"></span></span>
+                                </div>
+                            </div>
+                            <app-heading [headingData]="item"></app-heading>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #eleventh>
+                    <ng-container *ngIf="item.type =='paragraph' ; else twelth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip" style="text-align: right;">
+                                <span nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
+                                        nzTheme="outline"></span></span>
+                            </div>
+                            <app-heading [headingData]="item"></app-heading>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twelth>
+                    <ng-container *ngIf="item.type == 'button'; else thirteenth">
+                        <div [ngClass]="{'highLight': item.highLight == true}">
+                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            </app-block-buttons-card>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirteenth>
+                    <ng-container *ngIf="item.type =='linkButton'; else forteenth">
+                        <div [ngClass]="{'highLight': item.highLight == true}">
+                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            </app-block-buttons-card>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #forteenth>
+                    <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
+                        <div [ngClass]="{'highLight': item.highLight == true}">
+                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            </app-block-buttons-card>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fifteen>
+                    <ng-container *ngIf="item.type =='dropdownButton'; else sixteen">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            </app-block-buttons-card>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #sixteen>
+                    <ng-container *ngIf="item.forCommomComponentCondition =='gridListEditDelete';else seventeen">
+                        <div [ngClass]="{'highLight': item.highLight == true}">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <!-- <app-addorupdatetuigrid [gridData]="item">
+                            </app-addorupdatetuigrid> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #seventeen>
+                    <ng-container *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <!-- <app-tui-grid [gridData]="item"></app-tui-grid> -->
+        
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #eighteen>
+                    <ng-container *ngIf="item.type == 'progressBar'; else ninteen">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-progressbars [progressBarData]="item.chartCardConfig"></app-progressbars>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #ninteen>
+                    <ng-container *ngIf="item.type == 'divider' ; else twenty">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <app-divider [dividerData]="item"></app-divider>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twenty>
+                    <ng-container *ngIf="item.type == 'video'; else twentyone">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-videos [videoData]="item.chartCardConfig"></app-videos> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentyone>
+                    <ng-container *ngIf="item.type == 'audio' ;else twentytwo">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <!-- <app-audio [audioData]="item.chartCardConfig"></app-audio> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentytwo>
+                    <ng-container *ngIf="item.type == 'browserCombineChart' ;else twentythree">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <!-- <app-browser-combine-chart
+                                [browserCombinechartData]="item.chartCardConfig"></app-browser-combine-chart> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentythree>
+                    <ng-container *ngIf="item.type == 'tuiCalender' ;else twentyfour">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+        
+                            <!-- <app-tui-calendar [calendarData]="item"></app-tui-calendar> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentyfour>
+                    <ng-container *ngIf="item.type == 'sharedMessagesChart' ;else twentyfive">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-shared-messages-card [sharedMessagesData]="item.chartCardConfig"></app-shared-messages-card> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentyfive>
+                    <ng-container *ngIf="item.type == 'alert' ;else twentysix">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-new-alerts [alertData]="item.chartCardConfig"></app-new-alerts>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentysix>
+                    <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-simple-card-with-header-body-footer
+                                [SimpleCardWithHeaderBodyFooterData]="item.chartCardConfig[0].simpleCardWithHeaderBodyFooterConfig">
+                            </app-simple-card-with-header-body-footer>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentyseven>
+                    <ng-container *ngIf="item.type == 'mainDashonicTabs' else twentyeight">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <app-tabs [tabs]="item.children"></app-tabs>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentyeight>
+                    <ng-container *ngIf="item.type == 'timeline' ;else twentynine">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <app-timeline-builder [timelineData]="item.chartCardConfig"></app-timeline-builder>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #twentynine>
+                    <ng-container *ngIf="item.type == 'multiFileUpload' ;else thirty">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+        
+                            <!-- <app-multi-file-upload [multiFileUploadData]="item.chartCardConfig"></app-multi-file-upload> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirty>
+                    <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
+                        <div *ngFor="let items of item.children">
+                            <formly-form [fields]="items.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                            </formly-form>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyOne>
+                    <ng-container *ngIf="item.formlyType == 'stepper'; else thirtyTwo">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.hideExpression == false">
+                            <div *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip && item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip!=''"
+                                style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                            </formly-form>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyTwo>
+                    <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-accordion-button
+                                [accordionData]="item.chartCardConfig[0].accordionConfig"></app-accordion-button>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyThree>
+                    <ng-container *ngIf="item.type == 'switch'; else thirtyforth">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-switch [switchData]="item"></app-switch>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyforth>
+                    <ng-container *ngIf="item.type == 'kanban' ; else thirtyfifth">
+                        <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <!-- <app-kanban-boards [kanbanData]="item.chartCardConfig"></app-kanban-boards> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyfifth>
+                    <ng-container *ngIf="item.type == 'fixedDiv'; else thirtySix">
+                        <div class="div_button bg-white-500"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <ng-container *ngIf="item.tooltip" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </ng-container>
+                            <div *ngFor="let data of item.chartCardConfig[0].fixedDivChild">
+                                <ng-container
+                                    *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || data.type == 'dropdownButton'">
+                                    <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
+                                    </app-block-buttons-card>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtySix>
+                    <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
+                        <form [formGroup]="form" >
+                            <div
+                                [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
+                                <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                                </formly-form>
+                                <!-- <button type="submit" class="btn btn-primary submit-button mt-2">Submit</button> -->
+                            </div>
+                        </form>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtySeven>
+                    <ng-container *ngIf="item.type == 'textEditor'; else thirtyEight">
+                        <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true} "
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-editors [editorData]="item"></app-editors> -->
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyEight>
+                    <ng-container *ngIf="item.type == 'breakTag' ; else thirtyNine">
+                        <div style="height: 0;">
+                            <div *ngIf="item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <div [ngClass]="{'highLight': item.highLight == true}"
+                                *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                                <br>
+                            </div>
+                        </div>
+        
+                    </ng-container>
+                </ng-template>
+                <ng-template #thirtyNine>
+                    <ng-container *ngIf="item.type == 'carouselCrossfade' ; else fourty">
+                        <div [ngClass]="{'highLight': item.highLight == true}"
+                            *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div class="p-2">
+                                <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                    <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                        class="uil uil-question-circle"></span>
+                                </div>
+                                <app-carousel-crossfade-card
+                                    [carouselslides]="item.chartCardConfig"></app-carousel-crossfade-card>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourty>
+                    <ng-container *ngIf="item.type == 'toastr' ; else fourtyOne">
+                        <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-builder-toater [toastrData]="item"></app-builder-toater>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourtyOne>
+                    <ng-container *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
+                        <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <app-rang-inputs [rangSlider]="item"></app-rang-inputs>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourtyTwo>
+                    <ng-container *ngIf="item.type == 'editor_js' ; else fourtyThree">
+                        <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <!-- <app-editor-js></app-editor-js> -->
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourtyThree>
+                    <ng-container *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+                        <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
+                                [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
+                                alt={{item.alt}} />
+                            <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
+                                [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
+                                alt={{item.alt}} />
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+                <ng-template #fourtyFour>
+                    <ng-container *ngIf="item.type == 'invoice'">
+                        <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                            <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                                    class="uil uil-question-circle"></span>
+                            </div>
+                            <app-invoice-template [invoiceData]="item"></app-invoice-template>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+            </div>
+        </div>
+        
+    </nz-tab>
+</nz-tabset>

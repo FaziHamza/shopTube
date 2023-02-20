@@ -1,5 +1,6 @@
 import { ConfigOption } from "@ngx-formly/core";
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
+import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
 import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 import { FormlyVerticalThemeWrapper } from "./wrappers/FormlyVerticalThemeWrapper";
 import { FormlyVerticalWrapper } from "./wrappers/FormlyVerticalWrapper";
@@ -13,7 +14,7 @@ export const fieldComponents = [
 
 export const formlyCustomeConfig: ConfigOption = {
     types: [
-        // { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
+        { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
         //   { name: 'extended-input', extends: 'input' },
         //   { name: 'customInput', component: FormlyFieldCustomInputComponent },
         // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },

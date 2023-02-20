@@ -1,0 +1,203 @@
+<div class="border">
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-6">
+                <ng-container class="col-5">
+                    <input type="file" class="form-control ml-1" id="imageUpload" style="display:none"
+                        (change)="displayImage($event)">
+                    <div *ngIf="!image" class="card text-center"
+                        onclick="document.getElementById('imageUpload').click()" style="height: 150px; width: 252px;"><i
+                            class="uil uil-plus"></i>
+                        <h3>Add Your Logo</h3>
+                    </div>
+                    <div class="container">
+                        <div class="hidden">
+                            <i class="uil uil-times-square" (click)="removeImage()"></i>
+                        </div>
+                        <img [src]="image" *ngIf="image" style="height: 150px; width: 252px;">
+                    </div>
+                </ng-container>
+                <ng-container class="col-8">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Who is this invoice from? (required)" formControlName="from"></textarea>
+                    <!-- <div *ngIf="form.get('from').invalid && form.get('from').touched">
+                        <p *ngIf="form.get('from').errors.required" style="color:red">* Required</p>
+                    </div> -->
+                </ng-container>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">{{invoiceData.billToLabel}}</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                placeholder="Who is this invoice to? (required)" formControlName="to"></textarea>
+                            <!-- <div *ngIf="form.get('to').invalid && form.get('to').touched">
+                                <p *ngIf="form.get('to').errors.required" style="color:red">* Required</p>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">{{invoiceData.shipToLabel}}</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                placeholder="(optional)" formControlName="shipTo"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group row">
+                    <div *ngFor="let item of invoiceData.invoiceChild">
+                        <div class="text-right">
+                            <app-heading *ngIf="item.type == 'header'" [headingData]="item"></app-heading>
+                        </div>
+                    </div>
+                    <div class="col-6 text-right">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.invoiceNumberLabel}}
+                        </label>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            </div>
+                            <span class="input-group-text">#</span>
+                            <input type="text" class="form-control" formControlName="invoiceNumber">
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <label for="staticEmail" class="col-sm-4 col-form-label pt-2 text-right"
+                        style="margin-top: 2%;">{{invoiceData.datelabel}}</label>
+                    <div class="col-sm-8 pt-2">
+                        <input type="date" class="form-control" id="staticEmail" formControlName="date">
+                    </div>
+                    <label for="staticEmail" class="col-sm-4 col-form-label pt-2 text-right"
+                        style="margin-top: 2%;">{{invoiceData.paymentTermsLabel}}</label>
+                    <div class="col-sm-8 pt-2">
+                        <input type="text" class="form-control" id="staticEmail" formControlName="paymentTerms">
+                    </div>
+                    <label for="staticEmail" class="col-sm-4 col-form-label pt-2 text-right"
+                        style="margin-top: 2%;">{{invoiceData.dueDateLabel}}</label>
+                    <div class="col-sm-8 pt-2">
+                        <input type="date" class="form-control" id="staticEmail" formControlName="dueDate">
+                    </div>
+                    <label for="staticEmail" class="col-sm-4 col-form-label pt-2 text-right"
+                        style="margin-top: 2%;">{{invoiceData.poNumber}}</label>
+                    <div class="col-sm-8 pt-2">
+                        <input type="text" class="form-control" id="staticEmail" formControlName="poNumber">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngFor="let item of invoiceData.invoiceChild">
+                    <!-- <app-tui-grid *ngIf="item.type =='gridList'" [gridData]="item"></app-tui-grid> -->
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="mt-2">{{invoiceData.notesLabel}}</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="Notes - any relevant information not already covered"
+                    formControlName="notes"></textarea>
+                <label class="mt-2">{{invoiceData.termsLabel}}</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    placeholder="Terms and conditions - late fees, payment methods, delivery schedule"
+                    formControlName="termsAndConditions"></textarea>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 text-right">
+                        <label>
+                            {{invoiceData.subtotalLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8">
+                        {{subTotal}}
+                    </div>
+                    <div class="col-4 text-right">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.dicountLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            </div>
+                            <input type="number" class="form-control" formControlName="discount"
+                                (keyup)="applyDisount()">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                    <div class="col-4 text-right">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.shippingLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            </div>
+                            <input type="number" class="form-control" formControlName="shipping">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                    <div class="col-4 text-right">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.taxLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            </div>
+                            <input type="number" class="form-control" formControlName="tax" (keyup)="findtax()">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                    <!-- <div class="col-3"></div>
+                    <div *ngIf="!showDiscnt" class="col-3 pt-2">
+                        <h3 class="text-success hand-Cursor" (click)="showDiscount()"><i
+                                class="uil uil-plus pr-2"></i>Dicount
+                        </h3>
+                    </div>
+                    <div *ngIf="!showShipping" class="col-3 pt-2">
+                        <h3 class="text-success hand-Cursor" (click)="shipping()"><i
+                                class="uil uil-plus pr-2"></i>Shipping
+                        </h3>
+                    </div> -->
+                    <div class="col-4 text-right mb-2">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.totalLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8">
+                        {{total}}
+                    </div>
+                    <div class="col-4 text-right mb-2">
+                        <label style="margin-top: 2%;">
+                            {{invoiceData.amountpaidLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <input type="number" class="form-control" formControlName="amountPaid"
+                            (keyup)="findDueBalance()">
+                    </div>
+                    <div class="col-4 text-right mb-2">
+                        <label>
+                            {{invoiceData.balanceDueLabel}}
+                        </label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        {{balanceDue}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<button id="generate-pdf" class="btn btn-primary" (click)="openModal(content)">Generate PDF</button>
+
+<ng-template #content role="document" let-modal>
+    <div class="modal-body">
+        <!-- <app-print-invoice [printInvoiceData]="invoiceObject"></app-print-invoice> -->
+    </div>
+</ng-template>

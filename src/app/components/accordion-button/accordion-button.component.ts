@@ -9,34 +9,26 @@ import { FormGroup } from '@angular/forms';
 export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
   @Input() dataModel !: any;
-  expandIconPosition : any = "left";
+  expandIconPosition: any = "left";
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
-    
+    debugger
     this.accordionData;
+    this.accordionData[0].accordionChild.forEach((a: any) => {
+      if (a.formlyType) {
+        if (a.formlyType == "input") {
+          a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
+            if (b.wrappers.length > 1) {
+              b.wrappers.splice(1, 1);
+            }
+          });
+        }
+      }
+    });
   }
   form = new FormGroup({});
   submit() {
     // this.commonChartService.submit();
     this.cd.detectChanges();
   }
-
-  panels = [
-    {
-      active: true,
-      name: 'This is panel header 1',
-      disabled: false
-    },
-    {
-      active: false,
-      disabled: false,
-      name: 'This is panel header 2'
-    },
-    {
-      active: false,
-      disabled: true,
-      name: 'This is panel header 3'
-    }
-  ];
-
 }

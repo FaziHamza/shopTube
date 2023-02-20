@@ -1,0 +1,9 @@
+<h5 class="font-size-14 label-style">{{rangSlider.label}}<span *ngIf="rangSlider.tooltip" style="text-align: right;">
+        <span *ngIf="rangSlider.tooltip" nz-tooltip nzTooltipTitle={{rangSlider.tooltip}}><span nz-icon
+                nzType="question-circle" nzTheme="outline"></span></span>
+    </span></h5>
+<nz-row>
+    <nz-col nzSpan="12">
+        <nz-slider [nzMin]="rangSlider.min" [nzMax]="rangSlider.max" [nzDisabled]='rangSlider.disabled'></nz-slider>
+    </nz-col>
+</nz-row>

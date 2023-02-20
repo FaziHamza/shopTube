@@ -188,7 +188,7 @@
             <ng-container *ngIf="item.type == 'video'; else twentyone">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <!-- <app-videos [videoData]="item.chartCardConfig"></app-videos> -->
+                    <app-videos [videoData]="item.chartCardConfig"></app-videos>
                 </div>
             </ng-container>
         </ng-template>
@@ -200,7 +200,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <!-- <app-audio [audioData]="item.chartCardConfig"></app-audio> -->
+                    <app-audio [audioData]="item.chartCardConfig"></app-audio>
                 </div>
             </ng-container>
         </ng-template>
@@ -260,7 +260,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <!-- <app-bootstrap-tabs [bootstrapTabsData]="item.children"></app-bootstrap-tabs> -->
+                    <app-tabs [tabs]="item.children"></app-tabs>
                 </div>
             </ng-container>
         </ng-template>
@@ -272,7 +272,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <!-- <app-timeline-builder [timelineData]="item.chartCardConfig"></app-timeline-builder> -->
+                    <app-timeline-builder [timelineData]="item.chartCardConfig"></app-timeline-builder>
                 </div>
             </ng-container>
         </ng-template>
@@ -302,8 +302,8 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <!-- <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
-                    </formly-form> -->
+                    <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                    </formly-form>
                 </div>
             </ng-container>
         </ng-template>
@@ -338,28 +338,26 @@
         </ng-template>
         <ng-template #thirtyfifth>
             <ng-container *ngIf="item.type == 'fixedDiv'; else thirtySix">
-                <div class="div_button bg-white"
+                <div class="div_button bg-blue-500"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                     <ng-container *ngIf="item.tooltip" style="text-align: right;">
-                        <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
-                            class="uil uil-question-circle"></span>
                     </ng-container>
                     <div *ngFor="let data of item.chartCardConfig[0].fixedDivChild">
                         <ng-container *ngIf="data.type == 'button';else second">
-                            <!-- <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
-                            </app-block-buttons-card> -->
+                            <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
+                            </app-block-buttons-card>
                         </ng-container>
                         <ng-template #second>
                             <ng-container *ngIf="data.type == 'linkButton';else third">
-                                <!-- <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
-                                </app-block-buttons-card> -->
+                                <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
+                                </app-block-buttons-card>
                             </ng-container>
                         </ng-template>
                         <ng-template #third>
                             <ng-container *ngIf="data.type == 'buttonGroup'">
-                                <!-- <app-block-buttons-card
+                                <app-block-buttons-card
                                     [softIconList]="data.children[0].chartCardConfig[0].buttonGroup[0]">
-                                </app-block-buttons-card> -->
+                                </app-block-buttons-card>
                             </ng-container>
                         </ng-template>
                     </div>
@@ -410,8 +408,8 @@
                             <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                 class="uil uil-question-circle"></span>
                         </div>
-                        <!-- <app-carousel-crossfade-card
-                            [carouselslides]="item.chartCardConfig"></app-carousel-crossfade-card> -->
+                        <app-carousel-crossfade-card
+                            [carouselslides]="item.chartCardConfig"></app-carousel-crossfade-card>
                     </div>
                 </div>
             </ng-container>
@@ -419,14 +417,14 @@
         <ng-template #fourty>
             <ng-container *ngIf="item.type == 'toastr' ; else fourtyOne">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <!-- <app-builder-toater [toastrData]="item"></app-builder-toater> -->
+                    <app-builder-toater [toastrData]="item"></app-builder-toater>
                 </ng-container>
             </ng-container>
         </ng-template>
         <ng-template #fourtyOne>
             <ng-container *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <!-- <app-rang-inputs [rangSlider]="item"></app-rang-inputs> -->
+                    <app-rang-inputs [rangSlider]="item"></app-rang-inputs>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -444,10 +442,12 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <img *ngIf="item.source" src={{item.source}} class={{item.imageClass}} alt={{item.alt}}
-                        [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth">
-                    <img *ngIf="item.base64Image" src={{item.base64Image}} class={{item.imageClass}} alt={{item.alt}}
-                        [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth">
+                    <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
+                        [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
+                        alt={{item.alt}} />
+                    <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
+                        [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
+                        alt={{item.alt}} />
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -458,7 +458,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <!-- <app-invoice-template [invoiceData]="item"></app-invoice-template> -->
+                    <app-invoice-template [invoiceData]="item"></app-invoice-template>
                 </ng-container>
             </ng-container>
         </ng-template>

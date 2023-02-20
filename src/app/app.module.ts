@@ -6,7 +6,6 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormlyWrapperRow } from './zorro/wrapper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesComponent } from './pages/pages.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -43,6 +42,14 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
+import { BuilderToaterComponent } from './components/builder-toater/builder-toater.component';
+import { RangInputsComponent } from './components/rang-inputs/rang-inputs.component';
+import { CarouselCrossfadeCardComponent } from './components/carousel-crossfade-card/carousel-crossfade-card.component';
+import { TimelineBuilderComponent } from './components/timeline-builder/timeline-builder.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
+import { InvoiceTemplateComponent } from './components/invoice-template/invoice-template.component';
+import { AudioComponent } from './components/audio/audio.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -56,7 +63,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 @NgModule({
   declarations: [
     AppComponent,
-    FormlyWrapperRow,
     PagesComponent,
     HomePageComponent,
     FormlyHorizontalWrapper,
@@ -80,7 +86,15 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NewAlertsComponent,
     SwitchComponent,
     SimpleCardWithHeaderBodyFooterComponent,
-    AccordionButtonComponent
+    AccordionButtonComponent,
+    BuilderToaterComponent,
+    RangInputsComponent,
+    CarouselCrossfadeCardComponent,
+    TimelineBuilderComponent,
+    TabsComponent,
+    FormlyFieldStepper,
+    InvoiceTemplateComponent,
+    AudioComponent
   ],
   imports: [
     FormsModule,

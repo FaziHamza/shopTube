@@ -1,7 +1,22 @@
 <div *ngFor="let multuItem of videoData">
-    <div *ngFor="let item of videoData[0].videoConfig">
-        <!-- <nz-media-player [nzSrc]={{item.videoSrc}}>
-            <video [nzSrc]="item.videoSrc | sanitize: 'resourceUrl'" type="video/mp4"></video>
-        </nz-media-player> -->
-    </div>
-</div>
+    <div class="{{multuItem.className}}" *ngFor="let item of videoData[0].videoConfig">
+        <div class="card">
+            <div class="card-header justify-content-between d-flex align-items-center">
+                <h4 class="label-style pt-2">{{item.title}}<span *ngIf="item.tooltip" style="text-align: right;">
+                    </span><span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon
+                            nzType="question-circle" nzTheme="outline"></span></span>
+
+                </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <!-- 16:9 aspect ratio -->
+                <div class={{item.videoRatio}}>
+                    <!-- <video width="320" height="240" controls>
+                        <source src={{item.src}} type="video/mp4">
+                      </video> -->
+                    <iframe [src]="item.videoSrc | sanitize: 'resourceUrl'" title="YouTube video"></iframe>
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div><!-- end col -->
