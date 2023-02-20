@@ -21,6 +21,7 @@ import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.comp
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { SiteFooterComponent } from './_layout/site-footer/site-footer.component';
 import { SiteHeaderComponent } from './_layout/site-header/site-header.component';
+import { NgxMaskModule } from 'ngx-mask';
 // import { NzIconModule } from 'ng-zorro-antd/icon';
 // import { SettingOutline } from '@ant-design/icons-angular/icons';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
@@ -39,6 +40,7 @@ import { DividerComponent } from './components/divider/divider.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
 
@@ -60,6 +62,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyHorizontalWrapper,
     FormlyVerticalWrapper,
     FormlyVerticalThemeWrapper,
+    FormlyFieldCustomInputComponent,
     MenuComponent,
     AppSideMenuComponent,
     SiteLayoutComponent,
@@ -85,9 +88,16 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NgZorroAntdModule,
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,
-    FormlyModule.forRoot({
-      validationMessages: [{ name: 'required', message: 'This field is required' }],
-    }),
+    NgxMaskModule.forRoot(),
+    FormlyModule.forRoot(formlyCustomeConfig),
+    // FormlyModule.forRoot({
+    //   validationMessages: [{ name: 'required', message: 'This field is required' }],
+    // }),
+    // FormlyModule.forRoot({
+    //   types: [
+    //     { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
+    //   ],
+    // }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
