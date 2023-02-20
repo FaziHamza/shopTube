@@ -1,5 +1,7 @@
 import { ConfigOption } from "@ngx-formly/core";
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
+import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.component";
+import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
 import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
 import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 import { FormlyVerticalThemeWrapper } from "./wrappers/FormlyVerticalThemeWrapper";
@@ -20,8 +22,8 @@ export const formlyCustomeConfig: ConfigOption = {
         // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },
         // { name: 'repeatSection', component: FormlyFieldRepeatSectionComponent },
         // { name: 'multiRepeatSection', component: MultiRepeatComponent },
-        // { name: 'ng-select', component: FormlyFieldNgSelectComponent },
-        // { name: 'ng-search', component: FormlyFieldNgSearchComponent },
+        { name: 'ng-select', component: FormlyFieldNgSelectComponent },
+        { name: 'ng-search', component: FormlyFieldNgSearchComponent },
         { name: 'custom', component: FormlyFieldCustomInputComponent },
         // { name: 'tabs', component: FormlyFieldTabs },
         // { name: 'tab', component: FormlyVerticalFieldTabs },
