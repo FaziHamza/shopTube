@@ -39,6 +39,8 @@ import { DividerComponent } from './components/divider/divider.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
+import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -73,7 +75,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     DividerComponent,
     VideosComponent,
     NewAlertsComponent,
-    SwitchComponent
+    SwitchComponent,
+    SimpleCardWithHeaderBodyFooterComponent,
+    AccordionButtonComponent
   ],
   imports: [
     FormsModule,

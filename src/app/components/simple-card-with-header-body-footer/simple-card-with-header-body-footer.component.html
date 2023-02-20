@@ -1,0 +1,7 @@
+<div class="m-2" *ngFor="let item of SimpleCardWithHeaderBodyFooterData">
+    <div (click)="loadURLData(item.link)">
+        <nz-card nzTitle={{item.headerText}}>
+            <div [innerHTML]="item.bodyText | sanitize: 'html'"></div>
+        </nz-card>
+    </div>
+</div>

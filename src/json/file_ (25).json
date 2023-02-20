@@ -1,0 +1,477 @@
+{
+    "moduleName": "CRMAPP",
+    "menuData": [
+        {
+            "id": "page",
+            "label": "page",
+            "type": "page",
+            "footer": false,
+            "header": false,
+            "isExpanded": false,
+            "isNextChild": true,
+            "children": [
+                {
+                    "id": "pageHeader_d8d88fc8",
+                    "label": "Page Header",
+                    "type": "pageHeader",
+                    "headingSize": "",
+                    "footer": false,
+                    "header": true,
+                    "isExpanded": false,
+                    "highLight": false,
+                    "labelPosition": "text-left",
+                    "alertPosition": "topHeader",
+                    "isNextChild": true,
+                    "formly": [
+                        {
+                            "key": "pageHeader_dfd2fd7c"
+                        }
+                    ],
+                    "children": []
+                },
+                {
+                    "id": "pageBody_52620652",
+                    "label": "Page Body",
+                    "type": "pageBody",
+                    "footer": false,
+                    "header": false,
+                    "isExpanded": false,
+                    "highLight": false,
+                    "isNextChild": true,
+                    "formly": [
+                        {
+                            "key": "pageBody_c3922bca"
+                        }
+                    ],
+                    "children": [
+                        {
+                            "id": "according_5d7f58bd",
+                            "label": "Section_1",
+                            "type": "according",
+                            "className": "",
+                            "footer": false,
+                            "header": false,
+                            "isExpanded": false,
+                            "sectionDisabled": "editable",
+                            "labelPosition": "text-right",
+                            "highLight": false,
+                            "isNextChild": true,
+                            "repeatable": false,
+                            "formly": [
+                                {
+                                    "key": "according_3877271f"
+                                }
+                            ],
+                            "children": [
+                                {
+                                    "id": "accordingHeader_ba4ba737",
+                                    "label": "Header",
+                                    "type": "accordingHeader",
+                                    "footer": false,
+                                    "headingSize": "",
+                                    "header": true,
+                                    "isExpanded": false,
+                                    "highLight": false,
+                                    "labelPosition": "text-left",
+                                    "isNextChild": true,
+                                    "backGroundColor": "#FFFFFF",
+                                    "textColor": "#000000",
+                                    "formly": [
+                                        {
+                                            "key": "accordingHeader_0ff04081"
+                                        }
+                                    ],
+                                    "children": []
+                                },
+                                {
+                                    "id": "accordingBody_9b3e8ab2",
+                                    "label": "Body",
+                                    "type": "accordingBody",
+                                    "footer": false,
+                                    "header": false,
+                                    "isExpanded": false,
+                                    "highLight": false,
+                                    "isNextChild": true,
+                                    "formly": [
+                                        {
+                                            "key": "accordingBody_10edf5ae"
+                                        }
+                                    ],
+                                    "children": [
+                                        {
+                                            "id": "common131f6524",
+                                            "label": "Text_1",
+                                            "type": "input",
+                                            "formlyType": "input",
+                                            "isNextChild": false,
+                                            "chartCardConfig": [
+                                                {
+                                                    "getVariable": "",
+                                                    "setVariable": "",
+                                                    "styleConfig": [
+                                                        {}
+                                                    ],
+                                                    "formly": [
+                                                        {
+                                                            "fieldGroupClassName": "row",
+                                                            "fieldGroup": [
+                                                                {
+                                                                    "className": "col-md-6 col-xs-12",
+                                                                    "key": "text_b96281d9",
+                                                                    "type": "input",
+                                                                    "defaultValue": "",
+                                                                    "focus": false,
+                                                                    "wrappers": [
+                                                                        "form-field-horizontal"
+                                                                    ],
+                                                                    "templateOptions": {
+                                                                        "attributes": {
+                                                                            "autocomplete": "off"
+                                                                        },
+                                                                        "addonLeft": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "addonRight": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "labelPosition": "text-right",
+                                                                        "className": "col-md-6 col-xs-12",
+                                                                        "label": "Text_Text1",
+                                                                        "placeholder": "Enter Text",
+                                                                        "error": null,
+                                                                        "tooltip": {
+                                                                            "content": ""
+                                                                        },
+                                                                        "labelIcon": "",
+                                                                        "name": "",
+                                                                        "minLength": null,
+                                                                        "maxLength": null,
+                                                                        "readonly": false,
+                                                                        "hidden": false,
+                                                                        "keyup": "(model) => {\r\n                                                let currentVal = document.getElementById(model.id).value;\r\n                                                this.checkConditionUIRule(model, currentVal);\r\n                                            }"
+                                                                    },
+                                                                    "hideExpression": false
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_ee4156de",
+                                            "label": "email_1",
+                                            "type": "input",
+                                            "formlyType": "input",
+                                            "isNextChild": false,
+                                            "chartCardConfig": [
+                                                {
+                                                    "styleConfig": [
+                                                        {}
+                                                    ],
+                                                    "formly": [
+                                                        {
+                                                            "fieldGroupClassName": "row",
+                                                            "fieldGroup": [
+                                                                {
+                                                                    "key": "email_981837b3",
+                                                                    "className": "col-md-6 col-xs-12",
+                                                                    "type": "input",
+                                                                    "defaultValue": "",
+                                                                    "wrappers": [
+                                                                        "form-field-horizontal"
+                                                                    ],
+                                                                    "templateOptions": {
+                                                                        "attributes": {
+                                                                            "autocomplete": "off"
+                                                                        },
+                                                                        "addonLeft": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "addonRight": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "labelPosition": "text-right",
+                                                                        "className": "col-md-6 col-xs-12",
+                                                                        "type": "email",
+                                                                        "label": "Email",
+                                                                        "placeholder": "Enter Email Address",
+                                                                        "tooltip": {
+                                                                            "content": ""
+                                                                        },
+                                                                        "labelIcon": "",
+                                                                        "minLength": null,
+                                                                        "maxLength": null,
+                                                                        "keyup": "(model) => {\r\n                                                let currentVal = document.getElementById(model.id).value;\r\n                                                this.checkConditionUIRule(model, currentVal);\r\n                                            }"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_40f3c1f2",
+                                            "label": "alert_1",
+                                            "type": "alert",
+                                            "className": "col-12",
+                                            "hideExpression": false,
+                                            "tooltip": "Alert",
+                                            "highLight": false,
+                                            "isNextChild": false,
+                                            "chartCardConfig": [
+                                                {
+                                                    "alertConfig": [
+                                                        {
+                                                            "tooltip": "",
+                                                            "alertColor": "alert alert-primary",
+                                                            "text": "This is a primary alert—check it out!",
+                                                            "icon": "uil uil-question-circle",
+                                                            "type": "",
+                                                            "key": "alert_653d5417"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_424b94db",
+                                            "type": "switch",
+                                            "highLight": false,
+                                            "isNextChild": false,
+                                            "className": "col-md-6 col-xs-12",
+                                            "hideExpression": false,
+                                            "tooltip": "",
+                                            "key": "switch9acee326",
+                                            "switchPosition": "left",
+                                            "label": "Switch",
+                                            "switchType": "defaultSwitch",
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_68e7074d",
+                                            "label": "telephone_1",
+                                            "formlyType": "input",
+                                            "type": "telephone",
+                                            "isNextChild": false,
+                                            "chartCardConfig": [
+                                                {
+                                                    "formly": [
+                                                        {
+                                                            "fieldGroupClassName": "row",
+                                                            "fieldGroup": [
+                                                                {
+                                                                    "className": "col-md-6 col-xs-12",
+                                                                    "key": "telephone_ebff708a",
+                                                                    "type": "input",
+                                                                    "wrappers": [
+                                                                        "form-field-horizontal"
+                                                                    ],
+                                                                    "templateOptions": {
+                                                                        "addonLeft": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "addonRight": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "labelPosition": "text-right",
+                                                                        "className": "col-md-6 col-xs-12",
+                                                                        "type": "tel",
+                                                                        "label": "Phone No.",
+                                                                        "placeholder": "Enter Phone no",
+                                                                        "tooltip": {
+                                                                            "content": ""
+                                                                        },
+                                                                        "labelIcon": "",
+                                                                        "minLength": null,
+                                                                        "maxLength": null,
+                                                                        "keyup": "(model, formControl) => {\r\n                                                let currentVal = document.getElementById(model.id).value;\r\n                                                this.checkConditionUIRule(model, currentVal);\r\n                                            }"
+                                                                    },
+                                                                    "hideExpression": false
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_27e2a1b1",
+                                            "label": "Date_1",
+                                            "type": "date",
+                                            "formlyType": "input",
+                                            "isNextChild": false,
+                                            "chartCardConfig": [
+                                                {
+                                                    "formly": [
+                                                        {
+                                                            "fieldGroupClassName": "row",
+                                                            "fieldGroup": [
+                                                                {
+                                                                    "className": "col-md-6 col-xs-12",
+                                                                    "key": "date_9538ffd7",
+                                                                    "type": "input",
+                                                                    "wrappers": [
+                                                                        "form-field-horizontal"
+                                                                    ],
+                                                                    "templateOptions": {
+                                                                        "addonLeft": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "addonRight": {
+                                                                            "text": ""
+                                                                        },
+                                                                        "labelPosition": "text-right",
+                                                                        "type": "date",
+                                                                        "label": "Date_1",
+                                                                        "placeholder": "Select Date",
+                                                                        "tooltip": {
+                                                                            "content": ""
+                                                                        },
+                                                                        "labelIcon": "",
+                                                                        "minLength": null,
+                                                                        "maxLength": null,
+                                                                        "labelBackgroundColor": "",
+                                                                        "change": "(model) => {\r\n                                                let currentVal = document.getElementById(model.id).value;\r\n                                                this.checkConditionUIRule(model, currentVal);\r\n                                            }"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        },
+                                        {
+                                            "id": "common_c8351a1c",
+                                            "label": "buttonGroup",
+                                            "type": "buttonGroup",
+                                            "highLight": false,
+                                            "isNextChild": true,
+                                            "hideExpression": false,
+                                            "className": "co-3",
+                                            "chartCardConfig": [
+                                                {
+                                                    "position": "text-center",
+                                                    "key": "buttongroup_bc4a7929",
+                                                    "id": "buttongroup",
+                                                    "btnGroupPosition": "header-button",
+                                                    "btngroupformat": "text-left",
+                                                    "className": "co-3"
+                                                }
+                                            ],
+                                            "children": [
+                                                {
+                                                    "id": "common_d897e5a6",
+                                                    "label": "insert_1",
+                                                    "type": "button",
+                                                    "actionType": "insert",
+                                                    "highLight": false,
+                                                    "isNextChild": false,
+                                                    "className": "col-md-3 col-sm-6 col-xs-12",
+                                                    "chartCardConfig": [
+                                                        {
+                                                            "buttonGroup": [
+                                                                {
+                                                                    "btnGroupFormat": "text-left",
+                                                                    "highLight": false,
+                                                                    "btnConfig": [
+                                                                        {
+                                                                            "hideExpression": false,
+                                                                            "tooltip": "",
+                                                                            "key": "insertcade4654",
+                                                                            "color": "btn btn-success",
+                                                                            "title": "Insert",
+                                                                            "type": "insert",
+                                                                            "btnIcon": "uil uil-user",
+                                                                            "btnDisables": false
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "children": []
+                                                },
+                                                {
+                                                    "id": "common_51a3d8bb",
+                                                    "label": "insert_1",
+                                                    "type": "button",
+                                                    "actionType": "insert",
+                                                    "highLight": false,
+                                                    "isNextChild": false,
+                                                    "className": "col-md-3 col-sm-6 col-xs-12",
+                                                    "chartCardConfig": [
+                                                        {
+                                                            "buttonGroup": [
+                                                                {
+                                                                    "btnGroupFormat": "text-left",
+                                                                    "highLight": false,
+                                                                    "btnConfig": [
+                                                                        {
+                                                                            "hideExpression": false,
+                                                                            "tooltip": "",
+                                                                            "key": "insert894f3439",
+                                                                            "color": "btn btn-success",
+                                                                            "title": "Insert",
+                                                                            "type": "insert",
+                                                                            "btnIcon": "uil uil-user",
+                                                                            "btnDisables": false
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "accordingFooter_732d65c1",
+                                    "label": "Footer",
+                                    "type": "accordingFooter",
+                                    "footer": false,
+                                    "header": false,
+                                    "isExpanded": false,
+                                    "highLight": false,
+                                    "isNextChild": true,
+                                    "formly": [
+                                        {
+                                            "key": "accordingFooter_a3bca86a"
+                                        }
+                                    ],
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "pageFooter_6d194d99",
+                    "label": "Page Footer",
+                    "type": "pageFooter",
+                    "footer": false,
+                    "header": false,
+                    "isExpanded": false,
+                    "highLight": false,
+                    "isNextChild": true,
+                    "formly": [
+                        {
+                            "key": "pageFooter_bece720e"
+                        }
+                    ],
+                    "children": []
+                }
+            ]
+        }
+    ],
+    "moduleId": "55"
+}

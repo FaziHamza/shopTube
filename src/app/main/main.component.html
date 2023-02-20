@@ -4,7 +4,8 @@
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}"
                 *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle" nzTheme="outline"></span></span>
+                <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon
+                        nzType="question-circle" nzTheme="outline"></span></span>
                 <app-multi-file-upload
                     [multiFileUploadData]="item.chartCardConfig[0].uploadBtnLabel"></app-multi-file-upload>
             </div>
@@ -84,8 +85,10 @@
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                     <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
-                        <!-- <i-feather class=" uil uil-question-circle" [ngbTooltip]="item.tooltip"
-                            tooltip-is-open="true"></i-feather> -->
+                        <div *ngIf="item.tooltip" style="text-align: right;">
+                            <span nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
+                                    nzTheme="outline"></span></span>
+                        </div>
                     </div>
                     <app-heading [headingData]="item"></app-heading>
                 </div>
@@ -95,9 +98,9 @@
             <ng-container *ngIf="item.type =='paragraph' ; else twelth">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
-                        <!-- <i-feather class=" uil uil-question-circle" [ngbTooltip]="item.tooltip"
-                            tooltip-is-open="true"></i-feather> -->
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
+                                nzTheme="outline"></span></span>
                     </div>
                     <app-heading [headingData]="item"></app-heading>
                 </div>
@@ -243,9 +246,9 @@
             <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <!-- <app-simple-card-with-header-body-footer
+                    <app-simple-card-with-header-body-footer
                         [SimpleCardWithHeaderBodyFooterData]="item.chartCardConfig[0].simpleCardWithHeaderBodyFooterConfig">
-                    </app-simple-card-with-header-body-footer> -->
+                    </app-simple-card-with-header-body-footer>
                 </div>
             </ng-container>
         </ng-template>
@@ -308,8 +311,8 @@
             <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <!-- <app-accordion-button
-                        [accordionData]="item.chartCardConfig[0].accordionConfig"></app-accordion-button> -->
+                    <app-accordion-button
+                        [accordionData]="item.chartCardConfig[0].accordionConfig"></app-accordion-button>
                 </div>
             </ng-container>
         </ng-template>
