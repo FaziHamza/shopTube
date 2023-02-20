@@ -43,6 +43,8 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -80,7 +82,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NewAlertsComponent,
     SwitchComponent,
     SimpleCardWithHeaderBodyFooterComponent,
-    AccordionButtonComponent
+    AccordionButtonComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     FormsModule,

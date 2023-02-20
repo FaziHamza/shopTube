@@ -1,0 +1,29 @@
+<body class="antialiased bg-gray-200 text-gray-900 font-sans">
+  <div class="flex items-center h-screen w-full">
+    <div class="w-full bg-white rounded shadow-lg p-8 m-4 md:max-w-sm md:mx-auto">
+      <span class="block w-full text-xl uppercase font-bold mb-4">Login</span>
+      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Email!">
+            <nz-input-group nzPrefixIcon="email">
+              <input type="text" class="w-full border rounded p-2 outline-none focus:shadow-outline" nz-input formControlName="email" placeholder="Email" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group nzPrefixIcon="lock">
+              <input class="w-full border rounded p-2 outline-none focus:shadow-outline" type="password" nz-input formControlName="password" placeholder="Password" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <button nz-button class="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" [nzType]="'primary'">Log in</button>
+        Or
+        <a href="/register">register now!</a>
+      </form>
+      <a class="text-blue-700 text-center text-sm" href="/login">Forgot password?</a>
+    </div>
+  </div>
+</body>
+
+
