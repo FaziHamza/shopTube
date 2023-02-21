@@ -159,7 +159,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
-                    <app-table></app-table>
+                    <app-table [gridData]="item"></app-table>
                     <!-- <app-tui-grid [gridData]="item"></app-tui-grid> -->
 
                 </div>
