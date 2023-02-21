@@ -51,6 +51,10 @@ export class EmployeeService {
             this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
         );
     }
+    register(user: any) {
+        return this.http.post(this.baseUrl +`users`, user);
+    }
+    
 
 }
 
