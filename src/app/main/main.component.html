@@ -159,6 +159,7 @@
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
+                    <app-table></app-table>
                     <!-- <app-tui-grid [gridData]="item"></app-tui-grid> -->
 
                 </div>
@@ -567,7 +568,7 @@
             </ng-container>
         </ng-template>
         <ng-template #fiftyFive>
-            <ng-container *ngIf="item.type == 'spin'">
+            <ng-container *ngIf="item.type == 'spin' ; else fiftySix">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
@@ -576,5 +577,15 @@
                 </ng-container>
             </ng-container>
         </ng-template>
+        <ng-template #fiftySix>
+          <ng-container *ngIf="item.type == 'starrate'">
+              <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                  <div *ngIf="item.tooltip" style="text-align: right;">
+                      <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                  </div>
+                  <app-rate></app-rate>
+              </ng-container>
+          </ng-container>
+      </ng-template>
     </div>
 </div>
