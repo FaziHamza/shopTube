@@ -57,6 +57,8 @@ import { TreeSelectComponent } from './components/tree-select/tree-select.compon
 import { CascaderComponent } from './components/cascader/cascader.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { PopconfirmComponent } from './components/popconfirm/popconfirm.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -109,7 +111,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     TreeSelectComponent,
     CascaderComponent,
     AvatarComponent,
-    CommentComponent
+    CommentComponent,
+    ModalComponent,
+    PopconfirmComponent
   ],
   imports: [
     FormsModule,

@@ -578,14 +578,34 @@
             </ng-container>
         </ng-template>
         <ng-template #fiftySix>
-          <ng-container *ngIf="item.type == 'starrate'">
-              <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                  <div *ngIf="item.tooltip" style="text-align: right;">
-                      <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
-                  </div>
-                  <app-rate></app-rate>
-              </ng-container>
-          </ng-container>
-      </ng-template>
+            <ng-container *ngIf="item.type == 'starrate' ; else fiftySeven">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-rate></app-rate>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftySeven>
+            <ng-container *ngIf="item.type == 'modal' ; else fiftyEight">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-modal [modalData]="item"></app-modal>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyEight>
+            <ng-container *ngIf="item.type == 'popConfirm'">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-popconfirm [popConfirmData]="item"></app-popconfirm>
+                </ng-container>
+            </ng-container>
+        </ng-template>
     </div>
 </div>

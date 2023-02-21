@@ -1,0 +1,8 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()"><span>{{modalData.btnLabel}}</span></button>
+    <nz-modal [(nzVisible)]="isVisible" nzTitle={{modalData.modalTitle}} (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+        <div>
+           {{modalData.modalContent}} 
+        </div>
+      </ng-container>
+    </nz-modal>
