@@ -10,10 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesComponent } from './pages/pages.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page.component';
-import { FormlyHorizontalWrapper } from './wrappers/FormlyHorizontalWrapper';
-import { FormlyVerticalWrapper } from './wrappers/FormlyVerticalWrapper';
-import { FormlyVerticalThemeWrapper } from './wrappers/FormlyVerticalThemeWrapper';
-import { formlyCustomeConfig } from './formlyConfig';
+import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
 import { MenuComponent } from './menu/menu.component';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
 import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.component';
@@ -39,7 +36,6 @@ import { DividerComponent } from './components/divider/divider.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
 import { SwitchComponent } from './components/switch/switch.component';
-import { FormlyFieldCustomInputComponent } from './wrappers/formly-field-custom-input.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
 import { LoginComponent } from './user/login/login.component';
@@ -52,8 +48,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { InvoiceTemplateComponent } from './components/invoice-template/invoice-template.component';
 import { AudioComponent } from './components/audio/audio.component';
-import { FormlyFieldNgSearchComponent } from './wrappers/formly-field-ng-search.component';
-import { FormlyFieldNgSelectComponent } from './wrappers/formly-field-ng-select.component';
+import { RateComponent } from './components/rate/rate.component';
+import { TableComponent } from './components/table/table.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -69,12 +65,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppComponent,
     PagesComponent,
     HomePageComponent,
-    FormlyHorizontalWrapper,
-    FormlyVerticalWrapper,
-    FormlyVerticalThemeWrapper,
-    FormlyFieldCustomInputComponent,
-    FormlyFieldNgSearchComponent,
-    FormlyFieldNgSelectComponent,
+    fieldComponents,
     MenuComponent,
     AppSideMenuComponent,
     SiteLayoutComponent,
@@ -102,7 +93,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     InvoiceTemplateComponent,
     AudioComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    RateComponent,
+    TableComponent
   ],
   imports: [
     FormsModule,
@@ -112,20 +105,11 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
-    // FormlyModule.forRoot({
-    //   validationMessages: [{ name: 'required', message: 'This field is required' }],
-    // }),
-    // FormlyModule.forRoot({
-    //   types: [
-    //     { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
-    //   ],
-    // }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     NgxDropzoneModule,
     // NzIconModule.forRoot([ SettingOutline  ]),
-    FormlyModule.forRoot(formlyCustomeConfig),
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
