@@ -50,8 +50,6 @@ import { InvoiceTemplateComponent } from './components/invoice-template/invoice-
 import { AudioComponent } from './components/audio/audio.component';
 import { RateComponent } from './components/rate/rate.component';
 import { TableComponent } from './components/table/table.component';
-import { FormlyFieldNgSearchComponent } from './wrappers/formly-field-ng-search.component';
-import { FormlyFieldNgSelectComponent } from './wrappers/formly-field-ng-select.component';
 import { AffixComponent } from './components/affix/affix.component';
 import { BreadCrumbComponent } from './components/bread-crumb/bread-crumb.component';
 import { TransferComponent } from './components/transfer/transfer.component';
@@ -104,8 +102,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LoginComponent,
     RegisterComponent,
     RateComponent,
-    TableComponent
-    RegisterComponent,
+    TableComponent,
     AffixComponent,
     BreadCrumbComponent,
     TransferComponent,
