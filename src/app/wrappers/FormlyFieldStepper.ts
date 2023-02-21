@@ -6,12 +6,12 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
   selector: 'formly-field-stepper',
   template: `
   <!-- {{field.fieldGroup | json}} -->
-    <nz-steps >
+    <nz-steps [nzCurrent]="currentStepIndex">
       <nz-step *ngFor="let step of field.fieldGroup" [nzTitle]="step.templateOptions?.label">
       </nz-step>
     </nz-steps>
-    <!-- <formly-field [field]='getField()'></formly-field>
-   -->
+    <formly-field [field]='getField()'></formly-field>
+
     <div class="steps-action">
       <button nz-button nzType="default" (click)="prev()" [disabled]=" currentStepIndex === 0">
         Previous
@@ -70,11 +70,11 @@ export class FormlyFieldStepper extends FieldType {
     this.currentStepIndex -= 1;
   }
 
-  getField(): FormlyFieldConfig | undefined {
+  getField(): FormlyFieldConfig{
     if (this.field.fieldGroup) {
       return this.field.fieldGroup[this.currentStepIndex];
     }
-    return undefined;
+    return this.field;
   }
   ngOnInit(): void {
 
