@@ -58,6 +58,7 @@ import { CascaderComponent } from './components/cascader/cascader.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { PopconfirmComponent } from './components/popconfirm/popconfirm.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -111,7 +112,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     CascaderComponent,
     AvatarComponent,
     CommentComponent,
-    ModalComponent
+    ModalComponent,
+    PopconfirmComponent
   ],
   imports: [
     FormsModule,
