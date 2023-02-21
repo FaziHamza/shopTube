@@ -1,0 +1,9 @@
+<nz-transfer
+      [nzDataSource]="transferData.list"
+      [nzDisabled]="transferData.disabled"
+      nzShowSearch
+      [nzFilterOption]="filterOption"
+      (nzSearchChange)="search($event)"
+      (nzSelectChange)="select($event)"
+      (nzChange)="change($event)"
+    ></nz-transfer>

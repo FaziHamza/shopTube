@@ -24,6 +24,12 @@ export class MainComponent implements OnInit {
     // this.commonChartService.submit();
     this.cd.detectChanges();
   }
+  handleIndexChange(e: number): void {
+    console.log(e);
+  }
+  onClose(): void {
+    console.log('tag was closed.');
+  }
 
 
 }

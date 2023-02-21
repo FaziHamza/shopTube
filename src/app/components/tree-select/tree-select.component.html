@@ -1,0 +1,9 @@
+<nz-tree-select
+style="width: 250px"
+      [nzExpandedKeys]="treeSelectData.expandKeys"
+      [nzNodes]="treeSelectData.nodes"
+      nzShowSearch
+      nzPlaceHolder="Please select"
+      [(ngModel)]="value"
+      (ngModelChange)="onChange($event)"
+    ></nz-tree-select>

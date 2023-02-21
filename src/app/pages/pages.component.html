@@ -1,42 +1,105 @@
-
 <div class="bg-white" *ngIf="dbRes.length > 0">
-    <div class="py-3 px-6 border-b border-gray-300">
-        {{dbRes[0].children[0].label}}
+    <!-- PAGE HEADER -->
+    <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].children[0].header">
+        <nz-page-header class="site-page-header" [nzGhost]="false">
+            <nz-page-header-title>{{dbRes[0].children[0].label}}
+            </nz-page-header-title>
+            <nz-page-header-extra>
+                <div *ngFor="let item of dbRes[0]?.children[0]?.pageHeaderButtonGroupData">
+                    <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
+                </div>
+            </nz-page-header-extra>
+        </nz-page-header>
     </div>
+    <!-- SECTION -->
     <div class="p-6">
-        <!-- SECTION -->
-        <div *ngFor="let j of dbRes[0].children[1].children">
+        <div *ngFor="let j of dbRes[0].children[1].children ; index as i">
             <!-- INCOLAPSSABLE CASE -->
             <div class="border" *ngIf="!j.children[0].isExpanded">
-                <div class="py-3 px-6 border-b border-gray-300">
-                    {{j.children[0].label}}
+                <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
+                    <nz-page-header [nzGhost]="false">
+                        <nz-page-header-title>{{j.children[0].label}}
+                        </nz-page-header-title>
+                        <nz-page-header-extra>
+                            <nz-space>
+                                <div *ngFor="let item of dbRes[0].children[1].headerButtonGroupData[i]">
+                                    <app-block-buttons-card [softIconList]="item">
+                                    </app-block-buttons-card>
+                                </div>
+                                <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
+                                    <a nz-button nzType="link"
+                                        (click)="disabledAndEditableSection(resData)">Disabled</a>
+                                </div>
+                                <!-- <div *ngIf="j?.children[1].children[i].repeatable">
+                                    <a nz-button nzType="link"
+                                    (click)="sectionRepeat(j?.children[1].children)">Repeat Section</a>
+                                </div> -->
+                            </nz-space>
+                        </nz-page-header-extra>
+                    </nz-page-header>
                 </div>
                 <div class="p-6" *ngIf="resData.length > 0">
                     <app-main [mainData]="resData"></app-main>
                 </div>
-                <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
+                <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
                     {{j.children[2].label}}
+                    <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                        <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                    </div>
                 </div>
             </div>
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].isExpanded">
-                <nz-collapse>
+                <nz-collapse *ngIf="j.children[0].header">
                     <nz-collapse-panel [nzHeader]="j.children[0].label" [nzExtra]="extraTpl">
                         <div class="px-3" *ngIf="resData.length > 0">
                             <app-main [mainData]="resData"></app-main>
                         </div>
-                        <h5 class="text-gray-900 text-xl leading-tight font-medium mt-2 border-t px-3 pb-3 text-lg">
-                            {{j.children[2].label}}</h5>
+                        <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
+                            {{j.children[2].label}}
+                            <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                                <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                            </div>
+                        </div>
                         <br />
                     </nz-collapse-panel>
+                    <ng-template #extraTpl>
+                        <div *ngFor="let item of dbRes[0].children[1].headerButtonGroupData[i]">
+                            <app-block-buttons-card [softIconList]="item">
+                            </app-block-buttons-card>
+                        </div>
+                        <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
+                            <a nz-button nzType="link" (click)="disabledAndEditableSection(resData)">Disabled</a>
+                        </div>
+                        <!-- <div *ngIf="j?.children[1].children[i].repeatable">
+                            <a nz-button nzType="link"
+                            (click)="sectionRepeat(j?.children[1].children)">Repeat Section</a>
+                        </div> -->
+                    </ng-template>
                 </nz-collapse>
+                <div *ngIf="!j.children[0].header">
+                    <div class="px-3" *ngIf="resData.length > 0">
+                        <app-main [mainData]="resData"></app-main>
+                    </div>
+                    <br />
+                    <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
+                        {{j.children[2].label}}
+                        <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                            <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                        </div>
+                    </div>
+                </div>
                 <ng-template #extraTpl>
                     <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
                 </ng-template>
             </div>
         </div>
     </div>
-    <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
+    <!-- PAGE FOOTER -->
+    <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="dbRes[0].children[2].footer">
         {{dbRes[0].children[2].label}}
+        <div *ngFor="let item of dbRes[0]?.children[2]?.pageFooterButtonGroupData">
+            <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
+        </div>
     </div>
 </div>

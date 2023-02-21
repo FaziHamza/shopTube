@@ -84,7 +84,7 @@
             <ng-container *ngIf="item.type == 'header'; else eleventh">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <div *ngIf="item.tooltip" style="text-align: right;">
                             <span nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
                                     nzTheme="outline"></span></span>
@@ -142,7 +142,7 @@
         <ng-template #sixteen>
             <ng-container *ngIf="item.forCommomComponentCondition =='gridListEditDelete';else seventeen">
                 <div [ngClass]="{'highLight': item.highLight == true}">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -155,7 +155,7 @@
             <ng-container *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -176,7 +176,7 @@
             <ng-container *ngIf="item.type == 'divider' ; else twenty">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -196,7 +196,7 @@
             <ng-container *ngIf="item.type == 'audio' ;else twentytwo">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -208,7 +208,7 @@
             <ng-container *ngIf="item.type == 'browserCombineChart' ;else twentythree">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -256,7 +256,7 @@
             <ng-container *ngIf="item.type == 'mainDashonicTabs' else twentyeight">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -268,7 +268,7 @@
             <ng-container *ngIf="item.type == 'timeline' ;else twentynine">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -328,7 +328,7 @@
             <ng-container *ngIf="item.type == 'kanban' ; else thirtyfifth">
                 <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -404,7 +404,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                     <div class="p-2">
-                        <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                        <div *ngIf="item.tooltip" style="text-align: right;">
                             <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                 class="uil uil-question-circle"></span>
                         </div>
@@ -438,7 +438,7 @@
         <ng-template #fourtyThree>
             <ng-container *ngIf="item.type == 'imageUpload' ; else fourtyFour">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
@@ -452,13 +452,127 @@
             </ng-container>
         </ng-template>
         <ng-template #fourtyFour>
-            <ng-container *ngIf="item.type == 'invoice'">
+            <ng-container *ngIf="item.type == 'invoice' ; else fourtyFive">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                    <div *ngIf="item.tooltip&& item.tooltip!=''" style="text-align: right;">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                             class="uil uil-question-circle"></span>
                     </div>
                     <app-invoice-template [invoiceData]="item"></app-invoice-template>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fourtyFive>
+            <ng-container *ngIf="item.type == 'affix' ; else fourtysix">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
+                            class="uil uil-question-circle"></span>
+                    </div>
+                    <app-affix [affixData]="item"></app-affix>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fourtysix>
+            <ng-container *ngIf="item.type == 'transfer' ; else fourtyseven">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-transfer [transferData]="item"></app-transfer>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fourtyseven>
+            <ng-container *ngIf="item.type == 'treeSelect' ; else fourtyeight">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-tree-select [treeSelectData]="item"></app-tree-select>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fourtyeight>
+            <ng-container *ngIf="item.type == 'cascader' ; else fourtyNine">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-cascader [cascaderData]="item"></app-cascader>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fourtyNine>
+            <ng-container *ngIf="item.type == 'avatar' ; else fifty">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-avatar [avatarData]="item"></app-avatar>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fifty>
+            <ng-container *ngIf="item.type == 'badge' ; else fiftyOne">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <nz-badge [nzCount]='item.numberOfBadges'>
+                        <a class="head-example"></a>
+                    </nz-badge>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyOne>
+            <ng-container *ngIf="item.type == 'comment' ; else fiftyTwo">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <app-comment [commentData]="item"></app-comment>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyTwo>
+            <ng-container *ngIf="item.type == 'popOver' ; else fiftyThree">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <button nz-button nz-popover nzType="primary" nzPopoverTitle={{item.nzPopoverTitle}}
+                        nzPopoverContent={{item.nzPopoverContent}}>{{item.btnLabel}}</button>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyThree>
+            <ng-container *ngIf="item.type == 'segmented' ; else fiftyFour">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <nz-segmented [nzOptions]="item.options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyFour>
+            <ng-container *ngIf="item.type == 'nzTag' ; else fiftyFive">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <nz-tag [nzColor]='item.color' (nzOnClose)="onClose()">{{item.label}}</nz-tag>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #fiftyFive>
+            <ng-container *ngIf="item.type == 'spin'">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <div *ngIf="item.tooltip" style="text-align: right;">
+                        <span nz-tooltip nzTooltipTitle={{item.tooltip}} class="uil uil-question-circle"></span>
+                    </div>
+                    <nz-spin nzSimple [nzSize]='item.size'></nz-spin>
                 </ng-container>
             </ng-container>
         </ng-template>
