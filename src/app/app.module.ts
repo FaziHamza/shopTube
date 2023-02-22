@@ -59,6 +59,11 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { PopconfirmComponent } from './components/popconfirm/popconfirm.component';
+import { DrawerComponent } from './components/drawer/drawer.component';
+import { SkeletonComponent } from './components/skeleton/skeleton.component';
+import { EmptyComponent } from './components/empty/empty.component';
+import { ListComponent } from './components/list/list.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -113,7 +118,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AvatarComponent,
     CommentComponent,
     ModalComponent,
-    PopconfirmComponent
+    PopconfirmComponent,
+    DrawerComponent,
+    SkeletonComponent,
+    EmptyComponent,
+    ListComponent,
+    TreeViewComponent
   ],
   imports: [
     FormsModule,
