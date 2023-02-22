@@ -64,6 +64,11 @@ import { ResultComponent } from './components/result/result.component';
 import { AnchorComponent } from './components/anchor/anchor.component';
 import { BackTopComponent } from './components/back-top/back-top.component';
 import { StatisticComponent } from './components/statistic/statistic.component';
+import { DrawerComponent } from './components/drawer/drawer.component';
+import { SkeletonComponent } from './components/skeleton/skeleton.component';
+import { EmptyComponent } from './components/empty/empty.component';
+import { ListComponent } from './components/list/list.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -123,7 +128,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     ResultComponent,
     AnchorComponent,
     BackTopComponent,
-    StatisticComponent
+    StatisticComponent,
+    DrawerComponent,
+    SkeletonComponent,
+    EmptyComponent,
+    ListComponent,
+    TreeViewComponent
   ],
   imports: [
     FormsModule,
