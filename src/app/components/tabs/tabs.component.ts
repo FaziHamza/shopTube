@@ -13,7 +13,7 @@ export class TabsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.tabs;
     this.tabs.forEach((i: any) => {
       i.chartCardConfig[0].dashonicTabsConfig[0].dashonicTabsChild.forEach((j: any) => {

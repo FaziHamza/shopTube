@@ -1,0 +1,5 @@
+<nz-descriptions [nzTitle]="descriptionData.title">
+    <div *ngFor="let item of descriptionData.children">
+      <nz-descriptions-item nzTitle="UserName">{{ item.title }}</nz-descriptions-item>
+    </div>
+  </nz-descriptions>

@@ -6,9 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./affix.component.scss']
 })
 export class AffixComponent implements OnInit {
-  @Input() affixData : any;
+  @Input() affixData: any;
   offsetTop = 10;
-  nzOffsetBottom = 0;
+  nzOffsetBottom = 10;
 
   setOffsetTop(): void {
     this.offsetTop += 10;
@@ -17,10 +17,16 @@ export class AffixComponent implements OnInit {
   setOffsetBottom(): void {
     this.nzOffsetBottom += 10;
   }
+
+  onChange(status: boolean): void {
+    console.log(status);
+  }
   constructor() { }
 
   ngOnInit(): void {
-    this.offsetTop = this.affixData.affixTop;
+    debugger
+    this.offsetTop = this.affixData.margin;
+    this.nzOffsetBottom = this.affixData.margin;
   }
 
 }

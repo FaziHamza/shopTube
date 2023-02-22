@@ -23,14 +23,14 @@ export class SiteLayoutComponent implements OnInit {
   }
   getMenu(){
     this.employeeService.getJsonModules('Home Page').subscribe((res)=>{
-      debugger
+      
       if(res.length > 0)
         this.menuItems = res[0].menuData;
       else
         this.menuItems = [];
     })
     // this.employeeService.getMenuData(1).subscribe((res)=>{
-    //   debugger
+    //   
     //   this.menuItems = res;
     // })
   }

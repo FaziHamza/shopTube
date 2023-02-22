@@ -12,7 +12,7 @@ export class AccordionButtonComponent implements OnInit {
   expandIconPosition: any = "left";
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
-    debugger
+    
     this.accordionData;
     this.accordionData[0].accordionChild.forEach((a: any) => {
       if (a.formlyType) {

@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   validateForm!: UntypedFormGroup;
 
   submitForm(): void {
-    debugger
+    
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
       this.employeeService.login(this.validateForm.value.email

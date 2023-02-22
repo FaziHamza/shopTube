@@ -15,7 +15,7 @@ export class PagesComponent implements OnInit {
   fields: any = [];
   dbRes: any = [];
   ngOnInit(): void {
-    debugger
+    
     this.activatedRoute.params.subscribe((params: Params) => {
       this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
         if (res.length > 0) {
@@ -38,7 +38,7 @@ export class PagesComponent implements OnInit {
 
   }
   disabledAndEditableSection(data: any) {
-    debugger
+    
     data
     data[0].forEach((a: any) => {
       if (a.formlyType) {
@@ -53,4 +53,5 @@ export class PagesComponent implements OnInit {
       }
     });
   }
+  
 }

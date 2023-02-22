@@ -20,7 +20,7 @@ export class InvoiceTemplateComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.form = this.formBuilder.group({
       image: '',
       invoiceNumber: '',
@@ -65,7 +65,7 @@ export class InvoiceTemplateComponent implements OnInit {
   }
 
   displayImage(event: any) {
-    debugger
+    
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.image = e.target.result;
@@ -77,7 +77,7 @@ export class InvoiceTemplateComponent implements OnInit {
     this.image = "";
   }
   applyDisount() {
-    debugger
+    
     var discount = this.subTotal * (this.form.value.discount / 100)
     this.total = this.subTotal - discount;
     this.newAmount = this.total;
@@ -85,7 +85,7 @@ export class InvoiceTemplateComponent implements OnInit {
   }
 
   findtax() {
-    debugger
+    
     if (this.newAmount != 0) {
       var taxdeduction = this.newAmount * this.form.value.tax / 100;
       this.total = this.newAmount - taxdeduction;

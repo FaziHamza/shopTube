@@ -59,6 +59,11 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { PopconfirmComponent } from './components/popconfirm/popconfirm.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { ResultComponent } from './components/result/result.component';
+import { AnchorComponent } from './components/anchor/anchor.component';
+import { BackTopComponent } from './components/back-top/back-top.component';
+import { StatisticComponent } from './components/statistic/statistic.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -113,7 +118,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AvatarComponent,
     CommentComponent,
     ModalComponent,
-    PopconfirmComponent
+    PopconfirmComponent,
+    DescriptionComponent,
+    ResultComponent,
+    AnchorComponent,
+    BackTopComponent,
+    StatisticComponent
   ],
   imports: [
     FormsModule,
