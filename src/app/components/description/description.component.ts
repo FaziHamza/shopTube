@@ -10,6 +10,8 @@ export class DescriptionComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.descriptionData
+    debugger
   }
 
 }

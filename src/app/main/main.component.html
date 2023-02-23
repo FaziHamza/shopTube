@@ -1,4 +1,4 @@
-<div class="flex flex-wrap">
+<div class="card-content row">
     <div class="{{item.hideExpression  === undefined || item.hideExpression == false   ? item.className : ''}}"
         *ngFor="let item of mainData">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
@@ -682,11 +682,38 @@
             </ng-container>
         </ng-template>
         <ng-template #sixtyEight>
-            <ng-container *ngIf="item.type == 'treeView'">
+            <ng-container *ngIf="item.type == 'treeView' else sixtyNine">
                 <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                     <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                         nzTheme="twotone"></span></span>`
                     <app-tree-view [treeListData]="item"></app-tree-view>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #sixtyNine>
+            <ng-container *ngIf="item.type == 'mentions' else seventy">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                        nzTheme="twotone"></span></span>`
+                    <app-mention [mentionData]="item"></app-mention>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #seventy>
+            <ng-container *ngIf="item.type == 'message' else seventyOne">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                        nzTheme="twotone"></span></span>`
+                    <app-message [messageData]="item"></app-message>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        <ng-template #seventyOne>
+            <ng-container *ngIf="item.type == 'notification'">
+                <ng-container *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
+                    <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                        nzTheme="twotone"></span></span>`
+                    <app-notification [notificationData]="item"></app-notification>
                 </ng-container>
             </ng-container>
         </ng-template>

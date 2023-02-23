@@ -69,6 +69,9 @@ import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { EmptyComponent } from './components/empty/empty.component';
 import { ListComponent } from './components/list/list.component';
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import { MentionComponent } from './components/mention/mention.component';
+import { MessageComponent } from './components/message/message.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -133,7 +136,10 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     SkeletonComponent,
     EmptyComponent,
     ListComponent,
-    TreeViewComponent
+    TreeViewComponent,
+    MentionComponent,
+    MessageComponent,
+    NotificationComponent,
   ],
   imports: [
     FormsModule,

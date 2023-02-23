@@ -9,7 +9,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ListComponent implements OnInit {
   initLoading = true; // bug
-  loadingMore = false;
   data: any[] = [];
   list: Array<any> = [];
   constructor(private http: HttpClient, private msg: NzMessageService) { }
@@ -17,15 +16,15 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.listData;
     debugger
-    this.data = this.listData.listData;
-    this.list = this.listData.listData;
+    this.data = this.listData.options;
+    this.list = this.listData.options;
     this.initLoading = false;
   }
   onLoadMore(): void {
-    this.loadingMore = true;
-    this.data = this.data.concat(this.listData.listData);
+    this.listData.isLoad = true;
+    this.data = this.data.concat(this.listData.options);
     this.list = [...this.data];
-    this.loadingMore = false;
+    this.listData.isLoad = false;
   }
 
   edit(item: any): void {

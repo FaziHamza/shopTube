@@ -1,22 +1,26 @@
-<nz-list class="demo-loadmore-list" [nzLoading]="initLoading">
+<nz-list class="demo-loadmore-list" [nzLoading]="initLoading" [nzBordered]="this.listData.isBordered"
+    [nzFooter]="this.listData.footerText" [nzHeader]="this.listData.headerText" [nzItemLayout]="this.listData.formatter"
+    [nzSize]="this.listData.size" [nzSplit]="this.listData.isSplit">
     <nz-list-item *ngFor="let item of list">
-        <ng-container *ngIf="!item.loading">
-            <nz-list-item-meta nzAvatar="{{item.avater}}"
-                nzDescription="{{item.description}}">
+        <ng-container *ngIf="!item.isLoading">
+            <nz-list-item-meta [nzAvatar]="item.avater" [nzDescription]="item.description">
                 <nz-list-item-meta-title>
-                    <a href="{{item.lastNameHref}}">{{ item.name.last }}</a>
+                    <a href="{{item.lastNameHref}}">{{item.name}}</a>
                 </nz-list-item-meta-title>
             </nz-list-item-meta>
             {{item.content}}
             <ul nz-list-item-actions>
-                <nz-list-item-action *ngIf="this.listData.isEdit"><a (click)="edit(item)">{{item.editButton}}</a></nz-list-item-action>
-                <nz-list-item-action *ngIf="this.listData.isMore"><a (click)="edit(item)">{{item.moreButton}}</a></nz-list-item-action>
+                <nz-list-item-action *ngIf="this.listData.isEdit"><a (click)="edit(item)">Edit</a></nz-list-item-action>
+                <nz-list-item-action *ngIf="this.listData.isUpdate"><a
+                        (click)="edit(item)">Update</a></nz-list-item-action>
+                <nz-list-item-action *ngIf="this.listData.isDelete"><a
+                        (click)="edit(item)">Delete</a></nz-list-item-action>
             </ul>
         </ng-container>
-        <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false"
+        <nz-skeleton *ngIf="item.isLoading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false"
             [nzLoading]="true"></nz-skeleton>
     </nz-list-item>
     <div class="loadmore" nz-list-load-more>
-        <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">{{this.listData.loadMoreTitle}}</button>
+        <button nz-button *ngIf="!this.listData.isLoad" (click)="onLoadMore()">{{this.listData.loadText}}</button>
     </div>
 </nz-list>
