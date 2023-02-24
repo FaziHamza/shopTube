@@ -135,7 +135,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AvatarComponent,
     CommentComponent,
     ModalComponent,
-    PopconfirmComponent,
     BuilderComponent,
     GenericFieldComponent,
     BusinessRuleGridComponent,
