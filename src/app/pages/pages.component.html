@@ -1,9 +1,9 @@
 <!-- {{dbRes | json}} -->
-<div class="bg-white" *ngIf="dbRes.length > 0">
+<div class="bg-white" *ngIf="dbRes.length">
     <!-- PAGE HEADER -->
-    <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].header">
+    <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].children[0].header">
         <nz-page-header class="site-page-header" [nzGhost]="false">
-            <nz-page-header-title>{{dbRes[0].title}}
+            <nz-page-header-title>{{dbRes[0].children[0].label}}
             </nz-page-header-title>
             <nz-page-header-extra>
                 <div *ngFor="let item of dbRes[0]?.children[0]">
@@ -19,17 +19,17 @@
             <div class="border" *ngIf="!j.children[0].isExpanded">
                 <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
                     <nz-page-header [nzGhost]="false">
-                        <nz-page-header-title>{{j.children[0].title}}
+                        <nz-page-header-title>{{j.children[0].label}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
-                                <div *ngFor="let item of dbRes[0].children[1].headerButtonGroupData[i]">
+                                <div *ngFor="let item of dbRes[0].children[1].children[i]">
                                     <app-block-buttons-card [softIconList]="item">
                                     </app-block-buttons-card>
                                 </div>
                                 <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
                                     <a nz-button nzType="link"
-                                        (click)="disabledAndEditableSection(resData)">Disabled</a>
+                                        (click)="disabledAndEditableSection(j.children[1].children)">Disabled</a>
                                 </div>
                                 <!-- <div *ngIf="j?.children[1].children[i].repeatable">
                                     <a nz-button nzType="link"
@@ -39,7 +39,7 @@
                         </nz-page-header-extra>
                     </nz-page-header>
                 </div>
-                <div class="p-6" *ngIf="resData.length > 0">
+                <div class="p-6">
                     <app-main [mainData]="j.children[1].children"></app-main>
                 </div>
                 <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">

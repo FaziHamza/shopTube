@@ -8,7 +8,7 @@ import { formatDistance } from 'date-fns';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  @Input() commentData : any;
+  @Input() commentData: any;
   data: any[] = [];
   submitting = false;
   inputValue = '';
@@ -16,21 +16,18 @@ export class CommentComponent implements OnInit {
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';
-    // setTimeout(() => {
-    //   this.submitting = false;
-    //   this.data = [
-    //     ...this.data,
-    //     {
-    //       ...this.user,
-    //       content,
-    //       datetime: new Date(),
-    //       displayTime: formatDistance(new Date(), new Date())
-    //     }
-    //   ].map(e => ({
-    //     ...e,
-    //     displayTime: formatDistance(new Date(), e.datetime)
-    //   }));
-    // }, 800);
+    this.data = [
+      ...this.data,
+      {
+        content,
+        datetime: new Date(),
+        displayTime: formatDistance(new Date(), new Date())
+      }
+    ].map(e => ({
+      ...e,
+      displayTime: formatDistance(new Date(), e.datetime)
+    }));
+    this.submitting = false;
   }
   constructor() { }
 
