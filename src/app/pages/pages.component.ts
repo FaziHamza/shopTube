@@ -23,7 +23,7 @@ export class PagesComponent implements OnInit {
             // res[0].menuData[0].children[1].chartCardConfig[0].forEach((a: any) => {
             //   if (a.formlyType) {
             //     if (a.formlyType == "input") {
-            //       a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
+            //       a.formly[0].fieldGroup.forEach((b: any) => {
             //         if (b.wrappers.length > 1) {
             //           b.wrappers.splice(1, 1);
             //         }
@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit {
     data[0].forEach((a: any) => {
       if (a.formlyType) {
         if (a.formlyType == "input") {
-          a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
+          a.formly[0].fieldGroup.forEach((b: any) => {
             if (b.templateOptions.disabled == true)
             b.templateOptions.disabled = false;
             else if (b.templateOptions.disabled == false)

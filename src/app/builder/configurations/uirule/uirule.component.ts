@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { JsonEditorOptions } from 'ang-jsoneditor';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { BuilderService } from 'src/app/services/builder.service';
 
 @Component({
@@ -10,20 +10,31 @@ import { BuilderService } from 'src/app/services/builder.service';
 })
 export class UIRuleComponent implements OnInit {
 
-  @Input() screenModule:any;
-  @Input() screenName:any;
-  @Input() selectdNode:any;
-  @Input() nodes:any;
-  constructor(private formBuilder: FormBuilder,private builderService:BuilderService) { }
+  @Input() screenModule: any;
+  @Input() screenName: any;
+  @Input() selectdNode: any;
+  @Input() nodes: any;
+  // public editorOptions: JsonEditorOptions;
+  // makeOptions = () => new JsonEditorOptions();
+  // @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
+  constructor(private formBuilder: FormBuilder, private builderService: BuilderService) {
+    // this.editorOptions = new JsonEditorOptions();
+  }
 
   ngOnInit(): void {
     this.newTargetUIRule();
     this.newUIRule();
     this.uiRule();
+    // this.editorOptions['modes'] = ['code', 'text', 'tree', 'view'];
   }
+  // ngOnDestroy(): void {
+  //   if (this.editor) {
+  //     this.editor.destroy();
+  //   }
+  // }
   screenData: any;
 
-  public editorOptions: JsonEditorOptions;
+
   targetList: any = [];
   condationList: any;
   dataaa: any = [];
@@ -90,7 +101,7 @@ export class UIRuleComponent implements OnInit {
       nodeList = this.findElementNode(this.nodes, menuName);
 
     }
-    let inputType = nodeList.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type;
+    let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
     this.condationList = [];
     this.condationList = this.conditioList(inputType);
     if (ifIndex != undefined && uiIndex) {
@@ -133,7 +144,7 @@ export class UIRuleComponent implements OnInit {
         }
       } else if (inputType.type == "stepperMain") {
         for (let k = 0; k < inputType.children.length; k++) {
-          const element = inputType.children[k].chartCardConfig[0].formly[0].fieldGroup[0].key;
+          const element = inputType.children[k].formly[0].fieldGroup[0].key;
           if (element == event) {
             this.addTargetCondition(uiIndex).at(index).patchValue({
               inputJsonData: inputType.children[k],
@@ -146,11 +157,11 @@ export class UIRuleComponent implements OnInit {
         inputType.type == "search" || inputType.type == "repeatSection" || inputType.type == "tags" || inputType.type == "telephone"
         || inputType.type == "textarea" || inputType.type == "date" || inputType.type == "datetime" || inputType.type == "month"
         || inputType.type == "time" || inputType.type == "week") {
-        const element = inputType.chartCardConfig[0].formly[0].fieldGroup[0].key;
+        const element = inputType.formly[0].fieldGroup[0].key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.chartCardConfig[0].formly[0].fieldGroup[0],
-            inputOldJsonData: inputType.chartCardConfig[0].formly[0].fieldGroup[0]
+            inputJsonData: inputType.formly[0].fieldGroup[0],
+            inputOldJsonData: inputType.formly[0].fieldGroup[0]
           });
         }
       } else if (inputType.type == "alert") {
@@ -207,7 +218,6 @@ export class UIRuleComponent implements OnInit {
       }
     }
   }
-  makeOptions = () => new JsonEditorOptions()
   saveJsonStringify(uiIndex: number, index: number) {
     this.addTargetCondition(uiIndex).at(index).patchValue({
       // inputJsonData: this.addTargetCondition(uiIndex).at(index).get("inputJsonData").value,
@@ -294,8 +304,8 @@ export class UIRuleComponent implements OnInit {
       if (inputType.type == "stepperMain") {
         for (let k = 0; k < inputType.children.length; k++) {
           objTargetList = { key: '', value: '' };
-          objTargetList.key = (inputType.children[k].chartCardConfig[0].formly[0].fieldGroup[0].key).toString()
-          objTargetList.value = (inputType.children[k].chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.title).toString()
+          objTargetList.key = (inputType.children[k].formly[0].fieldGroup[0].key).toString()
+          objTargetList.value = (inputType.children[k].formly[0].fieldGroup[0].templateOptions.title).toString()
           this.targetList.push(objTargetList)
         }
       }
@@ -308,8 +318,8 @@ export class UIRuleComponent implements OnInit {
         }
       }
       else if (inputType.formlyType != undefined) {
-        objTargetList.key = (inputType.chartCardConfig[0].formly[0].fieldGroup[0].key).toString()
-        objTargetList.value = (inputType.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.title).toString()
+        objTargetList.key = (inputType.formly[0].fieldGroup[0].key).toString()
+        objTargetList.value = inputType.formly[0].fieldGroup[0].templateOptions.title ? (inputType.formly[0].fieldGroup[0].templateOptions.title).toString() : '';
         this.targetList.push(objTargetList);
       } else if (inputType.type == "buttonGroup") {
         // for (let k = 0; k < inputType.children.length; k++) {
@@ -362,7 +372,7 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j].chartCardConfig[0].formly[0].fieldGroup[0]);
+        this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
     this.dataaa = this.ifMenuList;
@@ -404,10 +414,13 @@ export class UIRuleComponent implements OnInit {
   getConditionListOnLoad(menuName: string) {
     let nodeList: any;
     nodeList = this.findElementNode(this.nodes, menuName);
-    let inputType = nodeList.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type;
-    this.condationList = [];
-    this.condationList = this.conditioList(inputType);
-    return this.condationList;
+    if (nodeList) {
+
+      let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
+      this.condationList = [];
+      this.condationList = this.conditioList(inputType);
+      return this.condationList;
+    }
   }
   checkConditionUIRule(model: any, currentValue: any) { }
   conditioList(inputType: string) {
@@ -436,7 +449,7 @@ export class UIRuleComponent implements OnInit {
     if (selectedNode[0].key == key) {
       console.log(selectedNode);
     } else {
-      if (selectedNode[0]) {
+      if (selectedNode[0] && selectedNode[0].children) {
         for (let i = 0; i < selectedNode[0].children.length; i++) {
           if (selectedNode[0].children[i].formly[0].key == key) {
             console.log(selectedNode[0].children[i]);
@@ -456,20 +469,20 @@ export class UIRuleComponent implements OnInit {
                   }
                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children.length > 0) {
                     for (let l = 0; l < selectedNode[0].children[i].children[j].children[k].children.length; l++) {
-                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.chartCardConfig[0]?.formly != undefined) {
-                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.chartCardConfig[0]?.formly[0]?.fieldGroup[0]?.key == key) {
+                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.formly != undefined) {
+                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.formly[0]?.fieldGroup[0]?.key == key) {
                           isSelectedKey = false;
                           console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
                           return selectedNode[0].children[i].children[j].children[k].children[l];
                         }
                       }
-                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.chartCardConfig[0]?.key == key) {
+                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.key == key) {
                         isSelectedKey = false;
                         console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
                         return selectedNode[0].children[i].children[j].children[k].children[l];
                       }
-                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.chartCardConfig[0]?.buttonGroup != undefined) {
-                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.chartCardConfig[0]?.buttonGroup[0]?.btnConfig[0]?.key == key) {
+                      if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup != undefined) {
+                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup[0]?.btnConfig[0]?.key == key) {
                           isSelectedKey = false;
                           console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
                           return selectedNode[0].children[i].children[j].children[k].children[l];

@@ -5,9 +5,9 @@ import { FieldType } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-field-custom-input',
   template: `
-  <input *ngIf="to['maskString']"  [mask]="to['maskString']"  class='form-control'
+  <input nz-input *ngIf="to['maskString']"  [mask]="to['maskString']"  class='form-control'
   [type]="type" [formlyAttributes]="field" aria-describedby="passwordHelpBlock">
-  <input *ngIf="!to['maskString']" class='form-control' [type]="type" [formlyAttributes]="field" >
+  <input nz-input *ngIf="!to['maskString']" class='form-control' [type]="type" [formlyAttributes]="field" >
 `,
 })
 export class FormlyFieldCustomInputComponent extends FieldType {
