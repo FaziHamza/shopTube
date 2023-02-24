@@ -1,0 +1,91 @@
+<div class="general_faq mt-3">
+  <form [formGroup]="actionForm" (ngSubmit)="SaveAction()">
+    <div class="row">
+      <div class="col-3 mb-2">
+        <select class="form-select" formControlName="submissionType"
+          aria-label="Default Select Example">
+          <option value="-1" selected>-Select-</option>
+          <option value="onLoad">On Load</option>
+          <option value="onClick">On Click</option>
+        </select>
+      </div>
+      <div class="col-3">
+        <select class="form-select" formControlName="actionLink"
+          aria-label="Default Select Example">
+          <option value="-1">-Select-</option>
+          <option value="get">GET</option>
+          <option value="post">POST</option>
+          <option value="put">PUT</option>
+          <option value="delete">DELETE</option>
+
+        </select>
+      </div>
+      <div class="col-4">
+        <select class="form-select" formControlName="actionType"
+          aria-label="Default Select Example">
+          <option value="-1">-Select-</option>
+          <option value="email">Email</option>
+          <option value="query">Query</option>
+          <option value="confirmEmail">Http</option>
+
+          <option value="confirmEmail">Confirm Email</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <button type="button" (click)="addActionFormGroup()" class="btn btn-primary">
+          <i class="fa fa-plus"></i>
+          Add Action
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3" formArrayName="Actions">
+      <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
+        <!-- <button type="button" class="btn btn-warning btn-sm">
+            Form # <span class="badge badge-dark">{{i}}</span>
+          </button> -->
+        <div class="row mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+          [formGroupName]="i">
+          <div class="col col-md-10" *ngIf="ActionsForms.value[i].type == 'email'">
+            <div class=" p-1">
+              <label class="form-label">Email</label>
+              <input type="text" formControlName="refranceId">
+              <input type="text" class="form-control" formControlName="email" />
+            </div>
+          </div>
+          <div class="col col-md-10" *ngIf="ActionsForms.value[i].type == 'query'">
+            <div class=" p-1">
+              <label [for]="'query' + i" class="form-label">Query</label>
+              <input type="text" formControlName="refranceId" class="form-control"
+                style="width: 18%;margin-bottom: 1%;">
+              <textarea type="text" rows="5" class="form-control" [id]="'query' + i"
+                formControlName="query"></textarea>
+            </div>
+          </div>
+          <div class="col col-md-10" *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
+            <div class=" p-1">
+              <label [for]="'confirmEmail' + i" class="form-label">Confirm Email</label>
+              <input type="text" formControlName="refranceId">
+              <input type="text" class="form-control" [id]="'confirmEmail' + i"
+                formControlName="confirmEmail" />
+            </div>
+          </div>
+          <div class="col-md-2" style="margin-top: 6%;">
+            <button class="btn btn-danger" type="button" (click)="removeActionFormGroup(i)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger ml-2" type="button"
+              (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
+              <i class="fa fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2"><i class="fa fa-database mr-1"></i>
+      Save</button>
+  </form>
+</div>
+

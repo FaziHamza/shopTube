@@ -36,7 +36,7 @@
 //   gridData: any = [];
 //   constructor(public employeeService: EmployeeService) { }
 
- 
+
 
 //   evalConditionRule(query: any, dataTargetIfValue: any) {
 //     dataTargetIfValue.forEach((e: any) => {
@@ -72,7 +72,7 @@
 //     return query;
 //   }
 //   checkConditionUIRule(model: any, currentValue: any) {
-//     debugger
+//
 //     if (this.screenData != undefined) {
 //       var inputType = this.nodes[0].children[1].children[0].children[1].children
 //       for (let j = 0; j < inputType.length; j++) {
@@ -259,7 +259,7 @@
 //           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
 //             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
 //         } else if (inputType[l].type == "header" || inputType[l].type == "paragraph") {
-//           debugger
+//
 //           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
 //             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
 //           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
@@ -289,7 +289,7 @@
 //     let oldformly = JSON.parse(JSON.stringify(makeObject));
 //     this.prepareDragDrop(this.templateNode, this.selectdNode);
 //     this.formlyModel = oldformly;
-//     debugger
+//
 //     let newSelectedNode = this.findElementNode(this.nodes, model.key);
 //     newSelectedNode.chartCardConfig[0].formly[0].fieldGroup[0].focus = true;
 //   }
@@ -993,7 +993,7 @@
 //             }
 //           }
 //           else if (data[i].children[j].id.includes("invoice")) {
-//             debugger
+//
 //             var index;
 //             if (array[arrayIndex] == undefined) {
 //               index = arrayIndex;
@@ -2127,7 +2127,7 @@
 //   }
 
 //   forPushInChilds(data: any, array: any) {
-//     debugger
+//
 //     var length = 0;
 //     for (let index = 0; index < data.children.length; index++) {
 //       if (index == 0) {
@@ -2176,7 +2176,7 @@
 //                 length = array.length - 1;
 //               }
 //             }
-            
+
 //             else {
 //               array.push(data.children[index]);
 //               length = array.length - 1;
@@ -2184,7 +2184,7 @@
 //           }
 //           else if (data.children[index].type == "gridList" ||data.children[index].type == "invoiceGrid" || data.children[index].type == "gridListEditDelete" && data.children[index].type != "buttonGroup") {
 //             length = this.addgridInAccordion(array, data.children[index])
-//           } 
+//           }
 //           else {
 //             array.push(data.children[index]);
 //             length = array.length - 1;

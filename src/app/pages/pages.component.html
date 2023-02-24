@@ -1,11 +1,12 @@
+<!-- {{dbRes | json}} -->
 <div class="bg-white" *ngIf="dbRes.length > 0">
     <!-- PAGE HEADER -->
-    <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].children[0].header">
+    <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].header">
         <nz-page-header class="site-page-header" [nzGhost]="false">
-            <nz-page-header-title>{{dbRes[0].children[0].label}}
+            <nz-page-header-title>{{dbRes[0].title}}
             </nz-page-header-title>
             <nz-page-header-extra>
-                <div *ngFor="let item of dbRes[0]?.children[0]?.pageHeaderButtonGroupData">
+                <div *ngFor="let item of dbRes[0]?.children[0]">
                     <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
                 </div>
             </nz-page-header-extra>
@@ -18,7 +19,7 @@
             <div class="border" *ngIf="!j.children[0].isExpanded">
                 <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
                     <nz-page-header [nzGhost]="false">
-                        <nz-page-header-title>{{j.children[0].label}}
+                        <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
@@ -39,10 +40,10 @@
                     </nz-page-header>
                 </div>
                 <div class="p-6" *ngIf="resData.length > 0">
-                    <app-main [mainData]="resData"></app-main>
+                    <app-main [mainData]="j.children[1].children"></app-main>
                 </div>
                 <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
-                    {{j.children[2].label}}
+                    {{j.children[2].title}}
                     <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
                         <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                     </div>
@@ -51,12 +52,12 @@
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].isExpanded">
                 <nz-collapse *ngIf="j.children[0].header">
-                    <nz-collapse-panel [nzHeader]="j.children[0].label" [nzExtra]="extraTpl">
+                    <nz-collapse-panel [nzHeader]="j.children[0].title" [nzExtra]="extraTpl">
                         <div class="px-3" *ngIf="resData.length > 0">
                             <app-main [mainData]="resData"></app-main>
                         </div>
                         <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
-                            {{j.children[2].label}}
+                            {{j.children[2].title}}
                             <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
                                 <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                             </div>
@@ -83,7 +84,7 @@
                     </div>
                     <br />
                     <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
-                        {{j.children[2].label}}
+                        {{j.children[2].title}}
                         <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                         </div>
@@ -97,7 +98,7 @@
     </div>
     <!-- PAGE FOOTER -->
     <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="dbRes[0].children[2].footer">
-        {{dbRes[0].children[2].label}}
+        {{dbRes[0].children[2].title}}
         <div *ngFor="let item of dbRes[0]?.children[2]?.pageFooterButtonGroupData">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
         </div>

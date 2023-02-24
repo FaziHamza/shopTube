@@ -14,7 +14,7 @@ export class MultiFileUploadComponent implements OnInit {
   constructor(private msg: NzMessageService) { }
 
   ngOnInit(): void {
-    debugger
+
     this.multiFileUploadData;
   }
     // handleUpload(event: any): void {
@@ -23,12 +23,12 @@ export class MultiFileUploadComponent implements OnInit {
   // }
 
   onFileSelected(event: any) {
-    debugger
+
     console.log(event.addedFiles);
   }
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-    debugger
+
     const status = file.status;
     console.log(fileList)
     // if (status !== 'uploading') {

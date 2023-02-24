@@ -3,7 +3,7 @@ import { btnGroup } from "./btnConfig";
 import { gridConfig } from "./gridConfig";
 
 
-export interface cardConfig {
+export interface builderConfig {
   colValue?: string;
   title?: string;
   total?: string;
@@ -107,7 +107,7 @@ export interface cardConfig {
   accordionConfig?: any,
   kambanChildren?: any,
   nodes?: any,
-  chartCardConfig?: cardConfig[]
+  chartCardConfig?: builderConfig[]
   formly?: FormlyFieldConfig[],
   buttonGroup?: btnGroup[],
   users?: any,

@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   validateForm!: UntypedFormGroup;
 
   submitForm(): void {
-    debugger
+
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
       this.employeeService.login(this.validateForm.value.email
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
         }
       }))
-    } 
+    }
     else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {

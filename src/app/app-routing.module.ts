@@ -1,3 +1,4 @@
+import { BuilderComponent } from './builder/builder.component';
 import { RegisterComponent } from './user/register/register.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'builder',
+    component: BuilderComponent
   },
 ];
 

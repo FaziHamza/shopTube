@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
@@ -11,34 +11,36 @@ import { EmployeeService } from '../services/employee.service';
 })
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute) { }
-  resData: any = [];
+  @Input() resData: any = [];
   fields: any = [];
-  dbRes: any = [];
+  @Input() dbRes: any = [];
   ngOnInit(): void {
-    debugger
+
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
-        if (res.length > 0) {
-          res[0].menuData[0].children[1].chartCardConfig[0].forEach((a: any) => {
-            if (a.formlyType) {
-              if (a.formlyType == "input") {
-                a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
-                  if (b.wrappers.length > 1) {
-                    b.wrappers.splice(1, 1);
-                  }
-                });
-              }
-            }
-          });
-          this.dbRes = res[0].menuData;
-          this.resData = res[0].menuData[0].children[1].chartCardConfig;
-        }
-      }));
+      if(params["schema"]){
+        this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
+          if (res.length > 0) {
+            // res[0].menuData[0].children[1].chartCardConfig[0].forEach((a: any) => {
+            //   if (a.formlyType) {
+            //     if (a.formlyType == "input") {
+            //       a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
+            //         if (b.wrappers.length > 1) {
+            //           b.wrappers.splice(1, 1);
+            //         }
+            //       });
+            //     }
+            //   }
+            // });
+            this.dbRes = res[0].menuData;
+            this.resData = res[0].menuData[0];
+          }
+        }));
+      }
     });
 
   }
   disabledAndEditableSection(data: any) {
-    debugger
+
     data
     data[0].forEach((a: any) => {
       if (a.formlyType) {

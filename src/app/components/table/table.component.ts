@@ -67,7 +67,7 @@ export class TableComponent implements OnInit {
   //   this.addRow();
   // }
   // onAllChecked(value: boolean): void {
-  //   debugger
+  //
   //   this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
   //   this.refreshCheckedStatus();
   // }
@@ -79,7 +79,7 @@ export class TableComponent implements OnInit {
   //   }
   // }
   // refreshCheckedStatus(): void {
-  //   debugger
+  //
   //   this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
   //   this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   // }

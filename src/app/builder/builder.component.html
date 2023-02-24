@@ -1,0 +1,318 @@
+<!-- {{ nodes | json}} -->
+<div class="flex pt-3">
+  <div class="w-1/6">
+    <nz-select [ngModel]="selectApplicationName" (change)="getDataFromApi(selectApplicationName,'application')">
+      <nz-option [nzValue]="item.name" placeholder="Select Application" [nzLabel]="item.name"
+        *ngFor="let item of applicationBuilder"></nz-option>
+    </nz-select>
+  </div>
+  <div class="w-1/6">
+    <nz-select [ngModel]="selectModuleName" (change)="getDataFromApi(selectModuleName,'module')">
+      <nz-option [nzValue]="item.name" placeholder="Select Application" [nzLabel]="item.name"
+        *ngFor="let item of moduleList"></nz-option>
+    </nz-select>
+  </div>
+  <div class="w-1/4 text-right"></div>
+  <div class="w-1/3">
+    <div class="text-right">
+      <button nz-button   nzType="primary">Preveiw</button>
+      <button nz-button  nzType="primary"  class="mx-2">Print</button>
+      <nz-button-group >
+        <button nz-button nzType="primary">
+          <span nz-icon nzType="left"></span>
+          Backward
+        </button>
+        <button nz-button nzType="primary">
+          Forward
+          <span nz-icon nzType="right"></span>
+        </button>
+      </nz-button-group>
+      <!-- <button type="button" class="btn btn-warning ml-2" (click)="openProductInvoice('preview')"><i
+          class="uil-file-alt"></i> Preveiw</button> -->
+      <!-- <button type="button" class="btn btn-primary ml-2" (click)="openProductInvoice('pdf')"><i class="uil-print"></i>
+        Print</button> -->
+      <!-- <div class="btn-group ml-2" role="group">
+        <button type="button" (click)="openOldJSON('previous')" class="btn btn-primary"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i></button>
+        <button type="button" (click)="openOldJSON('next')" class="btn btn-primary"><i class="fa fa-chevron-right"
+            aria-hidden="true"></i></button> -->
+    </div>
+  </div>
+</div>
+
+<nz-card nzTitle="" class="mt-4">
+  <!-- <p style="font-size:14px;color:rgba(0, 0, 0, 0.85);margin-bottom:16px;font-weight: 500;">Group title</p> -->
+  <div class="flex header-tab">
+    <div class="w-1/4 jsonEdiotTab">
+      <button nz-button  nzType="primary" class=" btn btn-light" title="Layer" (click)="LayerShow()" ngbTooltip="Show/hide builder layer">
+        <span nz-icon nzType="group" nzTheme="outline"></span>
+      </button>
+      <button nz-button  nzType="primary" class="ml-2  btn btn-light" title="Json Edit" (click)="JsonEditorShow()" ngbTooltip="Edit json">
+        <span nz-icon nzType="edit" nzTheme="outline"></span>
+      </button>
+      <button nz-button  nzType="primary" class="ml-2  btn btn-success colorChange" title="Json save" (click)="saveJson()"
+        ngbTooltip="Save screen"><span nz-icon nzType="save" nzTheme="outline"></span> </button>
+    </div>
+    <div class="w-1/2">
+      <nz-select [ngModel]="screenName" (change)="getFormLayers()">
+        <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
+          *ngFor="let item of screenModule"></nz-option>
+      </nz-select>
+    </div>
+    <div class="w-1/4 jsonEdiotTab">
+      <button nz-button nzType="primary" (click)="downloadJson()" class="mx-1"
+        nz-tooltip="download Json"><span nz-icon nzType="download"></span></button>
+
+      <!-- <button class="btn btn-primary text-white ml-2" (click)="applyFaker()" ngbTooltip="Faker">
+        <i class="uil uil-cloud-download"></i>
+      </button> -->
+      <!-- <button class="ml-2 mr-2 btn btn-primary" (click)="queryMaker()" ngbTooltip="Query">
+        <i class="uil uil-file-plus"></i>
+      </button> -->
+      <!-- <input type="file" class="form-control ml-1" id="fileInput" style="display:none" (change)="jsonUpload($event)"> -->
+      <button nz-button nzType="primary" class="btn btn-primary text-white" onclick="document.getElementById('fileInput').click()"
+        ngbTooltip="Upload json">
+        <span nz-icon nzType="upload" nzTheme="outline"></span>
+      </button>
+    </div>
+  </div>
+  <div class="flex body-tab">
+    <as-split style="width: 100%; height: 500px;" [gutterSize]="3">
+      <div class="side-btn" (click)="LayerShow()">
+        <i class="uil uil-angle-right"></i>
+      </div>
+      <!-- <div class="right-side-btn" (click)="controlLayerShow()">
+        <i class="uil uil-angle-left"></i>
+      </div> -->
+      <as-split-area [size]="sizes[0]">
+        <div>
+          <div class="carwd" *ngIf="IslayerVisible">
+            <div class="card-wheader d-flex justify-content-between">
+              <h1>Builder Layers
+              </h1>
+              <span (click)="clearChildNode()">
+                <i class="uil uil-file-plus icon-style" title="Add Section"></i>
+              </span>
+            </div>
+            <div class="card-bwody">
+              <input type="text" class="form-control" id="mySearch" (keyup)="menuSearch()" placeholder="Search..">
+              <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
+                <div *ngFor="let item of filterMenuData">
+                  <li class="menu-labels d-flex justify-content-between">{{item.label | uppercase}}
+                    <label (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                  </li>
+                </div>
+              </ul>
+              <!-- <nz-tree [nzData]="nodes" (nzClick)="openField($event)" nzDraggable nzBlockNode (nzOnDrop)="nzEvent($event)"></nz-tree> -->
+              <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys"  nzDraggable nzBlockNode (nzOnDrop)="nzEvent($event)">
+                <ng-template #nzTreeTemplate let-node  (nzClick)="openField($event)">
+                  <span *ngIf="node.children && node.children.length > 0; else leafNode">
+                    <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
+                    <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i>
+                    {{node.title}}
+                  </span>
+                  <ng-template #leafNode (nzClick)="openField($event)">
+                    {{node.title}}
+                  </ng-template>
+                  <span class="actions" *ngIf="screenPage">
+                    <span *ngIf="isVisible === node.id" (click)="insertAt(node,node)">
+                      <span nz-icon nzType="copy" nzTheme="outline"></span>
+                    </span>
+                  </span>
+                </ng-template>
+              </nz-tree>
+            </div>
+          </div>
+
+          <div class="carwd" *ngIf="IsjsonEditorVisible">
+            <div class="card-bwody">
+              <json-editor [(ngModel)]="this.nodes" (change)="clickBack()" [options]="editorOptions">
+              </json-editor>
+            </div>
+          </div>
+        </div>
+      </as-split-area>
+      <as-split-area [size]="sizes[1]" style="height:500px">
+        <div class=" col-border col-body-conter" style="position: relative ;">
+          <div id="mySidenav-right" class="sidenav-right" *ngIf="false">
+            <div class="mySidenav-right">
+              <div class="side-nav-header">
+                <h6>
+                  Control List
+                </h6>
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">
+                  <i class="uil uil-times-square"></i>
+                </a>
+              </div>
+              <div class="side-nav-body">
+                <div>
+                  <nz-tabset>
+                    <nz-tab nzTitle="Configuration"
+                      (click)="[clickButton(this.configurationData[0].name), navbarInstance()]">
+                      <div class=" general_faq mt-3">
+                        <div style="position:relative ;">
+                          <div *ngFor="let item of this.configurationData">
+                            <app-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [type]="item?.name"
+                              [itemData]="feildData" *ngIf="feildData" >
+                            </app-generic-field>
+                          </div>
+                        </div>
+                      </div>
+                    </nz-tab>
+                    <nz-tab nzTitle="UI Rule" >
+                      <app-uirule [selectdNode]="selectdNode" *ngIf="selectdNode && nodes.length  > 0" [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-uirule>
+                    </nz-tab>
+                    <nz-tab nzTitle="Validation Rule"
+                      (click)="[clickButton(this.configurationData[1].name), navbarInstance()]">
+                     <app-validation-rule></app-validation-rule>
+                    </nz-tab>
+                    <nz-tab nzTitle="Buisness Rule" (click)="[navbarInstance()]">
+                      <app-business-rule [selectdNode]="selectdNode" *ngIf="selectdNode" [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-business-rule>
+                    </nz-tab>
+                    <nz-tab nzTitle="Actions">
+                        <app-action-rule [selectdNode]="selectdNode" *ngIf="selectdNode" [screenName]="screenName" [screenModule]="screenModule"></app-action-rule>
+                    </nz-tab>
+                    <nz-tab nzTitle="Grid Rules">
+                        <app-business-rule-grid *ngIf="selectdNode && nodes.length  > 0"
+                          [selectdNode]="selectdNode" [screenName]="screenName" [screenModule]="screenModule" ></app-business-rule-grid>
+                    </nz-tab>
+                    <!-- <nz-tab nzTitle="Tab 3">Content of Tab Pane 3</nz-tab> -->
+                  </nz-tabset>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- side-nav-right -->
+          <nz-drawer [nzSize]="'large'"  [nzWidth]="'80%'" [nzVisible]="controlListvisible" nzPlacement="right" [nzTitle]="'Heading Here'"
+            [nzExtra]="extra" (nzOnClose)="controlListClose()">
+            <ng-container *nzDrawerContent>
+              <div *ngFor="let item of htmlTabsData">
+                <div class="nav-header" style="height:6%">
+                  <h3>{{item.label}}</h3>
+                  <div class="side-bar-search-row">
+                    <div class="search-bar">
+                      <input type="text" class="form-control" id="searchControll" (keyup)="searchControll()"
+                        placeholder="Search..">
+                      <ng-template #content role="document" let-modal>
+                        <form>
+                          <div class="modal-body">
+                            <!-- <img [src]="src[0].src" (click)="openImage()" class="img-fluid" /> -->
+                          </div>
+                          <div class="modal-footer">
+                            <button (click)="mainTemplate()" (click)="modal.close('Close click')" type="button"
+                              class="btn btn-primary w-sm">Add</button>
+                            <button type="button" class="btn btn-danger w-sm"
+                              (click)="modal.close('Close click')">Cancel</button>
+                          </div>
+                        </form>
+                      </ng-template>
+                      <!-- <ul id="search-menu" *ngIf="searchControllData.length > 0 ">
+                        <div class="row tab-pills">
+                          <div class="col-md-3 mb-1" *ngFor="let searchItems of searchControllData">
+                            <label
+                              *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
+                              (click)="addControlToJson(searchItems.parameter)"><i
+                                class={{searchItems.icon}}></i>{{searchItems.label}}
+                            </label>
+                            <ng-container
+                              *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
+                              <label
+                                *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form' "
+                                (click)="addFunctionsInHtml(searchItems.parameter)"><i
+                                  class={{searchItems.icon}}></i>{{searchItems.label}}
+                              </label>
+                            </ng-container>
+                            <label
+                              *ngIf="searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'"
+                              (click)="dashonicTemplates(searchItems.parameter)"><i class={{searchItems.icon}}
+                                (mouseenter)="openModal(content,searchItems.content,searchItems.name)"></i>{{searchItems.label}}
+                            </label>
+                          </div>
+                        </div>
+                      </ul> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="nav-body" *ngIf="!showSectionOnly">
+                  <nz-tabset>
+                    <nz-tab [nzTitle]="item1.label" *ngFor="let item1 of item.children let i= index">
+                      <nz-collapse>
+                        <nz-collapse-panel *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.label">
+                          <div class="flex flex-wrap">
+                            <ng-template #content role="document" let-modal>
+                              <form>
+                                <!-- <div class="modal-body">
+                                  <img [src]="src[0].src" (click)="openImage()" class="img-fluid" />
+                                </div> -->
+                                <div class="modal-footer">
+                                  <button (click)="mainTemplate()" (click)="modal.close('Close click')" type="button"
+                                    class="btn btn-primary w-sm">Add</button>
+                                  <button type="button" class="btn btn-danger w-sm"
+                                    (click)="modal.close('Close click')">Cancel</button>
+                                </div>
+                              </form>
+                            </ng-template>
+                            <div class="p-1" *ngFor="let item3 of item2.children">
+
+                              <button nz-button nzType="default" (click)="addControlToJson(item3.parameter,item3)"><i class={{item3.icon}}></i>{{item3.label}}
+                              </button>
+                            </div>
+                          </div>
+                        </nz-collapse-panel>
+                      </nz-collapse>
+                    </nz-tab>
+                  </nz-tabset>
+                </div>
+
+                <!-- This accordion use only when click on page body and show control only add section -->
+                <!-- <div class="nav-body" *ngIf="showSectionOnly">
+                  <ul ngbNav #customNav="ngbNav" [activeId]="0" class="nav nav-tabs nav-tabs-custom">
+                    <li [ngbNavItem]="0">
+                      <a ngbNavLink>
+                        <span class="d-none d-sm-block text-left">Input Fields</span>
+                      </a>
+                      <ng-template ngbNavContent>
+                        <div class=" general_faq">
+                          <ngb-accordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
+                            <ngb-panel id="static-1">
+                              <ng-template ngbPanelTitle class="accordion-header">
+                                <button class="accordion-button  list-width" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#gen-ques-collapseOne" aria-expanded="true"
+                                  aria-controls="gen-ques-collapseOne">
+                                  Basic
+                                </button>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <div class="row tab-pills">
+                                  <div class="col-md-3 mb-1">
+                                    <label (click)="addSection()"><i class="uil uil-bitcoin-sign"></i>Add Section
+                                    </label>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </ngb-panel>
+                          </ngb-accordion>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="customNav"></div>
+                  </div>
+                </div> -->
+              </div>
+            </ng-container>
+          </nz-drawer>
+          <ng-template #extra>
+            <button nz-button nzType="default" (click)="controlListClose()">Cancel</button>
+            &nbsp;
+            <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
+          </ng-template>
+          <app-pages [dbRes]="nodes" [resData]="nodes" *ngIf="nodes.length  > 0"></app-pages>
+        </div>
+      </as-split-area>
+    </as-split>
+  </div>
+</nz-card>

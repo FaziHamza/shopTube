@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   };
 
   submitForm(): void {
-    debugger
+
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
       this.employeeService.register(this.validateForm.value).pipe(first()).subscribe((data: any) => {

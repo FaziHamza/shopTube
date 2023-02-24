@@ -1,0 +1,149 @@
+<div class=" general_faq mt-3">
+  <div *ngIf="dynmaicRule  && UIRule == false" style="position:relative ;">
+    <form [formGroup]="buisnessForm">
+      <div formArrayName="buisnessRule">
+        <div *ngFor="let employee of buisnessRule().controls; let i=index">
+          <div class="row" [formGroupName]="i"
+            style="border: 1px solid rgb(197 187 187); border-radius: 5px;padding: 1%;">
+            <div class="col-md-5 ">
+              <div class="d-flex">
+                <h3 style="width:20%;margin-top: 1%;">If</h3>
+                <div style="width: 80%;margin-top: 1%;padding-right: 1%;">
+
+                  <nz-select nzShowSearch nzAllowClear formControlName="ifCondition"
+                    (change)="changeDynamicBuisnessRuleIf()">
+                    <nz-option [nzLabel]="ct.templateOptions.label" [nzValue]="ct.key"
+                      *ngFor="let ct of buisnessRuleData"></nz-option>
+                  </nz-select>
+                </div>
+                <div style="width:50%;margin-top: 1%;">
+                  <nz-select nzShowSearch nzAllowClear formControlName="oprator">
+                    <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
+                      *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
+                  </nz-select>
+                </div>
+                <input type="text" placeholder="Enter value" id="getValue{{i}}"
+                  formControlName="getValue" required class="form-control ml-1"
+                  style="width: 50%;margin-top: 1%;" name="getValue{{i}}" />
+              </div>
+            </div>
+            <div class="col-md-2 d-flex">
+              <h4 style="width:30%;margin-top: 4%;">then</h4>
+              <div style="width:70%;margin-top: 3%;">
+                <nz-select nzShowSearch nzAllowClear formControlName="target">
+                  <nz-option [nzLabel]="ct.templateOptions.label" [nzValue]="ct.key"
+                    *ngFor="let ct of buisnessRuleTargetList"></nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex">
+              <div style="width:50%;margin-top: 2%;">
+                <nz-select nzShowSearch nzAllowClear formControlName="opratorForTraget">
+                  <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
+                    *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
+                </nz-select>
+              </div>
+              <input type="text" placeholder="Enter value" id="resultValue{{i}}"
+                formControlName="resultValue" required class="form-control ml-1"
+                style="width:50%;margin-top: 2%;" name="resultValue{{i}}" />
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-danger" (click)="removeBuisnessRule(i)"><i
+                  class="fa fa-trash"></i></button>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div formArrayName="conditional">
+                  <div *ngFor="let skill of buisnessRuleSkills(i).controls; let skillIndex=index">
+                    <div [formGroupName]="skillIndex" class="row">
+                      <div class="col-md-11 mt-1">
+                        <div class="d-flex">
+                          <div class="d-flex" style="width:15%">
+                            <button class="btn btn-primary btn-sm" id="btn{{i}},{{skillIndex}}"
+                              (click)="buttonTextCahnge(i,skillIndex)">
+                              {{this.buisnessRuleSkills(i).at(skillIndex).get("condType")?.value}}
+                            </button>
+                          </div>
+                          <div style="width:35%;padding-right:1%">
+                            <nz-select nzShowSearch nzAllowClear formControlName="condifCodition">
+                              <nz-option [nzLabel]="ct.templateOptions.label" [nzValue]="ct.key"
+                                *ngFor="let ct of buisnessRuleData"></nz-option>
+                            </nz-select>
+                            <input type="text" placeholder="Enter condType"
+                              id="condType{{i}},{{skillIndex}}" formControlName="condType"
+                              required class="form-control ml-1 d-none"
+                              name="condType{{i}},{{skillIndex}}">
+                          </div>
+                          <div style="width:15%">
+                            <nz-select nzShowSearch nzAllowClear formControlName="condOperator">
+                              <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
+                                *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
+                            </nz-select>
+                          </div>
+                          <input type="text" placeholder="Enter value" id="condValue{{i}}"
+                            formControlName="condValue" required class="form-control ml-1"
+                            style="width:35%" name="condValue{{i}}" />
+                        </div>
+                      </div>
+                      <div class="col-md-1 mt-1">
+                        <button class="btn btn-danger btn-sm"
+                          (click)="removeBuisnessRuleSkill(i,skillIndex)">
+                          <i class="uil uil-trash"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 1%;">
+                  <button class="btn btn-primary" (click)="addBuisnessRuleSkill(i)">
+                    <b>+</b> Condition</button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div formArrayName="thenCondition">
+                  <div *ngFor="let skill of buisnessRuleThen(i).controls; let thenIndex=index">
+                    <div [formGroupName]="thenIndex" class="row">
+                      <div class="col-md-11 ">
+                        <div class="d-flex">
+                          <h4 style="width:15%">then</h4>
+                          <div style="width:35%;padding-right:1%">
+                            <nz-select nzShowSearch nzAllowClear formControlName="thenTarget">
+                              <nz-option [nzLabel]="ct.templateOptions.label" [nzValue]="ct.key"
+                                *ngFor="let ct of buisnessRuleTargetList"></nz-option>
+                            </nz-select>
+                          </div>
+                          <div style="width:15%">
+                            <nz-select nzShowSearch nzAllowClear
+                              formControlName="thenOpratorForTraget">
+                              <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
+                                *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
+                            </nz-select>
+                          </div>
+                          <input type="text" placeholder="Enter value" id="thenResultValue{{i}}"
+                            formControlName="thenResultValue" required class="form-control ml-1"
+                            style="width:35%" name="thenResultValue{{i}}" />
+                        </div>
+                      </div>
+                      <div class="col-md-1">
+                        <button class="btn btn-danger btn-sm"
+                          (click)="removeBuisnessRuleThen(i,thenIndex)">
+                          <i class="uil uil-trash"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button class="btn btn-primary" (click)="addBuisnessRuleThen(i)">
+                    <b>+</b> Then</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button class="btn btn-secondary mb-3 mt-1" (click)="addBuisnessRule()"><i
+        class="fa fa-plus"></i>Add Rule</button>
+    <button class="btn btn-info mb-3 ml-2 mt-1" (click)="saveBussinessRule()"><i
+        class="fa fa-save"></i> Save </button>
+  </div>
+</div>

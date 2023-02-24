@@ -16,8 +16,8 @@ export class MainComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    debugger
-    this.mainData = this.mainData[0];
+
+    this.mainData = this.mainData;
   }
 
   submit() {

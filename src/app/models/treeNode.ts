@@ -1,7 +1,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { badge } from "./badge";
 import { actionConfig, btnConfig, btnGroup } from "./btnConfig";
-import { cardConfig } from "./cardConfig";
+import { builderConfig } from "./cardConfig";
 import { formlyConfig } from "./formlyConfig";
 import { gridConfig } from "./gridConfig";
 import { headerConfig } from "./headerConfig"
@@ -51,15 +51,16 @@ export interface TreeNode {
   verticalLineHieghtForCssBinding?: any;
   verticalLineColorForCssBinding?: any;
   // fieldGroupClassName:?string;
-  children?: TreeNode[];
+  children: TreeNode[];
   rowData?: any;
   columnData?:any;
-  isExpanded?: boolean;
+  expanded?: boolean;
   screenVariables?: any[];
   sectionDisabled?: string;
   position?: string,
   header?: any;
   name?: any;
+  total?: any;
   sortingType?: any;
   showColumn?: any;
   editorType?: any;
@@ -94,17 +95,17 @@ export interface TreeNode {
   sortable?: any,
   headingConfig?: headerConfig[],
   paragrapghConfig?: headerConfig[],
-  simpleCardConfig?: cardConfig[],
-  chartCardConfig?: cardConfig[],
+  simpleCardConfig?: builderConfig[],
+  chartCardConfig?: builderConfig[],
   audioSrc?: any,
   dataOnly?: any,
   nodes?:any,
-  widgetSecondCard?: cardConfig[],
-  widgetSectionCard?: cardConfig[],
-  browserdata?: cardConfig[],
-  visitordonutChart?: cardConfig[],
-  saledDonutChart?: cardConfig[],
-  analyticsChart?: cardConfig[],
+  widgetSecondCard?: builderConfig[],
+  widgetSectionCard?: builderConfig[],
+  browserdata?: builderConfig[],
+  visitordonutChart?: builderConfig[],
+  saledDonutChart?: builderConfig[],
+  analyticsChart?: builderConfig[],
   gridList?: any,
   gridData?: any,
   label?: string,

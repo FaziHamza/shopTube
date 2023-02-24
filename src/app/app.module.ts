@@ -59,6 +59,15 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { PopconfirmComponent } from './components/popconfirm/popconfirm.component';
+import { BuilderComponent } from './builder/builder.component';
+import { AngularSplitModule } from 'angular-split';
+import { GenericFieldComponent } from './builder/generic-field/generic-field.component';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
+import { BusinessRuleGridComponent } from './builder/configurations/business-rule-grid/business-rule-grid.component';
+import { ActionRuleComponent } from './builder/configurations/action-rule/action-rule.component';
+import { BusinessRuleComponent } from './builder/configurations/business-rule/business-rule.component';
+import { ValidationRuleComponent } from './builder/configurations/validation-rule/validation-rule.component';
+import { UIRuleComponent } from './builder/configurations/uirule/uirule.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -113,10 +122,19 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AvatarComponent,
     CommentComponent,
     ModalComponent,
-    PopconfirmComponent
+    PopconfirmComponent,
+    BuilderComponent,
+    GenericFieldComponent,
+    BusinessRuleGridComponent,
+    ActionRuleComponent,
+    BusinessRuleComponent,
+    ValidationRuleComponent,
+    UIRuleComponent,
   ],
   imports: [
     FormsModule,
+    AngularSplitModule,
+    NgJsonEditorModule,
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,

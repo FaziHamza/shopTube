@@ -370,7 +370,7 @@
                 <form [formGroup]="form" (ngSubmit)="submit()">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                        <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                         </formly-form>
                         <!-- <button type="submit" class="btn btn-primary submit-button mt-2">Submit</button> -->
                     </div>
