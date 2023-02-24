@@ -68,6 +68,19 @@ import { ActionRuleComponent } from './builder/configurations/action-rule/action
 import { BusinessRuleComponent } from './builder/configurations/business-rule/business-rule.component';
 import { ValidationRuleComponent } from './builder/configurations/validation-rule/validation-rule.component';
 import { UIRuleComponent } from './builder/configurations/uirule/uirule.component';
+import { DescriptionComponent } from './components/description/description.component';
+import { ResultComponent } from './components/result/result.component';
+import { AnchorComponent } from './components/anchor/anchor.component';
+import { BackTopComponent } from './components/back-top/back-top.component';
+import { StatisticComponent } from './components/statistic/statistic.component';
+import { DrawerComponent } from './components/drawer/drawer.component';
+import { SkeletonComponent } from './components/skeleton/skeleton.component';
+import { EmptyComponent } from './components/empty/empty.component';
+import { ListComponent } from './components/list/list.component';
+import { TreeViewComponent } from './components/tree-view/tree-view.component';
+import { MentionComponent } from './components/mention/mention.component';
+import { MessageComponent } from './components/message/message.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -130,6 +143,20 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BusinessRuleComponent,
     ValidationRuleComponent,
     UIRuleComponent,
+    PopconfirmComponent,
+    DescriptionComponent,
+    ResultComponent,
+    AnchorComponent,
+    BackTopComponent,
+    StatisticComponent,
+    DrawerComponent,
+    SkeletonComponent,
+    EmptyComponent,
+    ListComponent,
+    TreeViewComponent,
+    MentionComponent,
+    MessageComponent,
+    NotificationComponent,
   ],
   imports: [
     FormsModule,

@@ -1,0 +1,20 @@
+<button nz-button [nzType]="this.drawerData.color" (click)="open()">{{this.drawerData.btnText}}</button>
+<nz-drawer [nzClosable]="this.drawerData.isClosable" [nzVisible]="visible" [nzPlacement]="this.drawerData.placement"
+    [nzTitle]="this.drawerData.title" (nzOnClose)="close()" [nzCloseIcon]="this.drawerData.icon" [nzExtra]="extra"
+    [nzKeyboard]="this.drawerData.isKeyboard" [nzFooter]="this.drawerData.footerText"
+    [nzVisible]="this.drawerData.isVisible">
+    <ng-container *nzDrawerContent>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+    </ng-container>
+</nz-drawer>
+
+<ng-template #extra>
+    <button nz-button nzType="default" (click)="close()">Cancel</button>
+    &nbsp;
+    <button nz-button nzType="primary" (click)="close()">OK</button>
+</ng-template>
+<ng-template #extra2>
+    <button nz-button nzType="primary" (click)="close()">OK</button>
+</ng-template>

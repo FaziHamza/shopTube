@@ -1,0 +1,20 @@
+<ng-template #template let-notification>
+    <div class="ant-notification-notice-content">
+        <div [ngClass]="notificationData.isSmile? 'ant-notification-notice-with-icon': ''">
+            <span *ngIf="notificationData.isSmile" class="ant-notification-notice-icon">
+                <span nz-icon [nzType]="notificationData.icon" [style.color]="notificationData.color"></span>
+            </span>
+            <div class="ant-notification-notice-message">{{notificationData.title}}</div>
+            <div class="ant-notification-notice-description">{{notificationData.content}}
+            </div>
+            <span *ngIf="notificationData.isEdit" class="ant-notification-notice-btn">
+                <button nz-button nzType="primary" nzSize="small" (click)="notification.close()">
+                    <span>Confirm</span>
+                </button>
+            </span>
+        </div>
+    </div>
+</ng-template>
+<button nz-button [nzType]="'primary'" (click)="createBasicNotification(template)">
+    Open the notification box
+</button>

@@ -7,9 +7,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AvatarComponent implements OnInit {
   @Input() avatarData : any;
+  gap = 60;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  handleAvatarError(event: Event) {
+    event.preventDefault();
+    console.log('An error occurred while loading the image: ', event);
   }
 
 }
