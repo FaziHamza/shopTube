@@ -253,22 +253,29 @@ export class BuilderComponent implements OnInit {
         ],
       } as TreeNode];
       this.nodes = newNode;
-      // this.selectdNode = newNode[0];
-      // this.addControlToJson('pageHeader');
-      // this.addControlToJson('pageBody');
-      // this.selectdNode = this.sectionBageBody;
-      // this.addControlToJson('according');
-      // this.selectdNode = this.sectionAccording;
-      // this.addControlToJson('accordingHeader');
-      // this.addControlToJson('accordingBody');
-      // this.addControlToJson('accordingFooter');
-      // this.selectdNode = this.sectionAccorBody;
-      // this.addControlToJson('text');
-      // this.selectdNode = newNode[0];
-      // this.addControlToJson('pageFooter');
-      // this.clickBack();
+      this.selectdNode = newNode[0];
+      this.addControlToJson('pageHeader',null);
+      this.addControlToJson('pageBody',null);
+      this.selectdNode = this.sectionBageBody;
+      this.addControlToJson('according',null);
+      this.selectdNode = this.sectionAccording;
+      this.addControlToJson('accordingHeader',null);
+      this.addControlToJson('accordingBody',null);
+      this.addControlToJson('accordingFooter',null);
+      this.selectdNode = this.sectionAccorBody;
+      this.addControlToJson('text',this.textJsonObj);
+      this.selectdNode = newNode[0];
+      this.addControlToJson('pageFooter',null);
+      this.updateNodes();
     }
   }
+  textJsonObj = {
+    parameter: "input",
+    icon: "uil uil-text",
+    label: "Input",
+    type: 'input',
+    fieldType: 'input',
+  };
   downloadJson() {
 
     var currentData = JSON.parse(
@@ -553,6 +560,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     this.nodes = [...this.nodes];
+    this.controlListClose();
     // if (this.screenName)
     // this.saveOldJson();
   }
@@ -642,7 +650,10 @@ export class BuilderComponent implements OnInit {
     }
     return data;
   }
-  openConfig(parent: TreeNode, node: TreeNode) {
+  openConfig(parent: any, node: any) {
+
+    parent =  parent.parentNode.origin;
+    node = node.origin;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     // document.getElementById("mySidenav-right").style.width = "100%";
@@ -2513,10 +2524,10 @@ export class BuilderComponent implements OnInit {
     };
   }
   hoverIn(data: any) {
-    this.isVisible = data.id;
+    this.isVisible = data.origin.id;
   }
   hoverOut(data: any) {
-    this.isVisible = data.id;
+    this.isVisible =  data.origin.id;
   }
   highlightSelect(id: any) {
     this.nodes.at(0)?.children?.forEach((element: any) => {
@@ -2598,8 +2609,8 @@ export class BuilderComponent implements OnInit {
   }
   openField(event: any) {
 
-    let id = event.node.origin.id;
-     let node =  event.node.origin;
+    let id = event.origin.id;
+     let node =  event.origin;
     if (this.screenPage) {
       this.searchControllData = [];
       this.isActiveShow = id;
@@ -2621,7 +2632,7 @@ export class BuilderComponent implements OnInit {
   }
   newChild: any = [];
   insertAt(parent: any, node: any) {
-    debugger
+
     parent =  parent.parentNode.origin;
     node = node.origin;
     var nodeData = JSON.parse(JSON.stringify(node));
@@ -2789,7 +2800,9 @@ export class BuilderComponent implements OnInit {
 
     // array.splice(index, 0, ...elementsArray);
   }
-  remove(parent: TreeNode, node: TreeNode) {
+  remove(parent: any, node: any) {
+    parent =  parent?.parentNode?.origin;
+    node = node.origin;
     if (parent != undefined) {
       console.log(parent, node);
       const idx = parent.children.indexOf(node);
@@ -2804,12 +2817,14 @@ export class BuilderComponent implements OnInit {
       // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
       // this.prepareDragDrop(this.templateNode, this.selectdNode);
     }
-
+    this.updateNodes();
   }
   nzEvent(event: NzFormatEmitEvent): void {
     console.log(event);
   }
-
+  updateNodes(){
+    this.nodes = [...this.nodes];
+  }
   clickBack() {
 
     this.nodes = JSON.parse(
