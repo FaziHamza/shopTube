@@ -26,7 +26,7 @@ export class BuilderComponent implements OnInit {
   IsjsonEditorVisible: boolean = false;
   sizes = [20, 80, 0];
   IsConfigurationVisible: boolean = true;
-  IsShowConfig: boolean = true;
+  IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];
   screenModule: any;
@@ -35,12 +35,8 @@ export class BuilderComponent implements OnInit {
   screenPage: boolean = false;
   feildData: GenaricFeild;
   searchControllData: any = [];
-  configurationData: any = [];
-  configuratioAction: any = [];
   selectdNode: TreeNode;
   selectdParentNode: TreeNode;
-  configurationList: any;
-
   formModalData: any;
   isActiveShow: string;
   filterMenuData: any = [];
@@ -136,9 +132,9 @@ export class BuilderComponent implements OnInit {
                       element3.children[0].highLight = false;
 
                     } else {
-                      if (element3.chartCardConfig[0].formly[0].fieldGroup[0].className && element3.chartCardConfig[0].formly[0].fieldGroup[0].className.includes("highLight")) {
-                        var className = element3.chartCardConfig[0].formly[0].fieldGroup[0].className;
-                        element3.chartCardConfig[0].formly[0].fieldGroup[0].className = className.replace("highLight", "");
+                      if (element3.formly[0].fieldGroup[0].className && element3.formly[0].fieldGroup[0].className.includes("highLight")) {
+                        var className = element3.formly[0].fieldGroup[0].className;
+                        element3.formly[0].fieldGroup[0].className = className.replace("highLight", "");
                       }
                     }
                   }
@@ -317,7 +313,7 @@ export class BuilderComponent implements OnInit {
       this.selectForDropdown = this.selectdNode;
     }
     let node = this.selectdNode;
-    this.IsShowConfig = true;
+    // this.IsShowConfig = true;
     if (value == 'page') {
       const newNode = {
         id: 'page_' + Guid.newGuid(),
@@ -504,6 +500,7 @@ export class BuilderComponent implements OnInit {
         id: 'common_' + Guid.newGuid(),
         title: data?.label,
         expanded:true,
+        type:'input',
         className:'col-md-6 col-xs-12',
         // type: data?.type,
         formlyType: data?.parameter,
@@ -560,7 +557,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     this.nodes = [...this.nodes];
-    this.controlListClose();
+    // this.controlListClose();
     // if (this.screenName)
     // this.saveOldJson();
   }
@@ -650,254 +647,22 @@ export class BuilderComponent implements OnInit {
     }
     return data;
   }
+  closeConfigurationList(){
+    this.IsShowConfig = false;
+  }
   openConfig(parent: any, node: any) {
-
     parent =  parent.parentNode.origin;
     node = node.origin;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
+    this.controlListvisible = false;
     // document.getElementById("mySidenav-right").style.width = "100%";
-    this.configurationData = [];
-    this.configuratioAction = [];
     this.IsShowConfig = true;
-    this.applySize();
     this.selectdNode = node;
     this.selectdParentNode = parent;
-    if (node.type == 'toastr') {
-      this.configurationData = this.configurationList?.toastrConfiguration?.controlProperty;
-    }
-    else if (node.type == 'rangeSlider') {
-      this.configurationData = this.configurationList?.rangeSliderConfiguration?.controlProperty;
-    }
-    else if (node.type == 'breakTag') {
-      this.configurationData = this.configurationList?.breakTagConfiguration?.controlProperty
-    }
-    else if (node.type == 'inputGroupGrid') {
-      this.configurationData = this.configurationList?.inputGroupGridConfiguration?.controlProperty;
-    }
-    else if (node.type == 'page') {
-      this.configurationData = this.configurationList?.pageConfiguration?.controlProperty;
-    }
-    else if (node.type == 'pageHeader') {
-      this.configurationData = this.configurationList?.pageHeaderConfiguration?.controlProperty;
-    }
-    else if (node.type == 'switch') {
-      this.configurationData = this.configurationList?.switchConfiguration?.controlProperty;
-    }
-    else if (node.type == 'multiFileUpload') {
-      this.configurationData = this.configurationList?.multiFileUploadConfiguration?.controlProperty;
-    }
-    else if (node.type == 'textEditor') {
-      this.configurationData = this.configurationList?.texteditorConfiguration?.controlProperty;
-    }
-    else if (node.type == 'tuiCalender') {
-      this.configurationData = this.configurationList?.tuiCalendarConfiguration?.controlProperty;
-    }
-    else if (node.type == 'dropdownButton') {
-      this.configurationData = this.configurationList?.dropdownButtonConfiguration?.controlProperty;
-    }
-    else if (node.type == 'accordionButton') {
-      this.configurationData = this.configurationList?.accordionButtonConfiguration?.controlProperty;
-    }
-    else if (node.type == 'fixedDiv') {
-      this.configurationData = this.configurationList?.fixedDivConfiguration?.controlProperty;
-    }
-    else if (node.type == 'sharedMessagesChart') {
-      this.configurationData = this.configurationList?.sharedMessagesChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'dashonicTabs') {
-      this.configurationData = this.configurationList?.dashonicTabsConfiguration?.controlProperty;
-    }
-    else if (node.type == 'mainDashonicTabs') {
-      this.configurationData = this.configurationList?.dashonicMainTabsConfiguration?.controlProperty;
-    }
-    else if (node.type == 'simpleCardWithHeaderBodyFooter') {
-      this.configurationData = this.configurationList?.simpleCardWithHeaderBodyFooterConfiguration?.controlProperty;
-    }
-    else if (node.type == 'progressBar') {
-      this.configurationData = this.configurationList?.progressBarConfiguration?.controlProperty;
-    }
-    else if (node.type == 'video') {
-      this.configurationData = this.configurationList?.videosConfiguration?.controlProperty;
-    }
-    else if (node.type == 'audio') {
-      this.configurationData = this.configurationList?.audioConfiguration?.controlProperty;
-    }
-    else if (node.type == 'kanban') {
-      this.configurationData = this.configurationList?.kanbanConfiguration?.controlProperty;
-    }
-    else if (node.type == 'kanbanTask') {
-      this.configurationData = this.configurationList?.kanbanTaskConfiguration?.controlProperty;
-    }
-    else if (node.type == 'carouselCrossfade') {
-      this.configurationData = this.configurationList?.carouselConfiguration?.controlProperty;
-    }
-    else if (node.type == 'alert') {
-      this.configurationData = this.configurationList?.alertConfiguration?.controlProperty;
-    }
-    else if (node.type == 'timeline') {
-      this.configurationData = this.configurationList?.timelineConfiguration?.controlProperty;
-    }
-    else if (node.type == 'divider') {
-      this.configurationData = this.configurationList?.dividerConfiguration?.controlProperty;
-    }
-    else if (node.type == 'pageBody') {
-      this.configurationData = this.configurationList?.pageBodyConfiguration?.controlProperty;
-    }
-    else if (node.type == 'pageFooter') {
-      this.configurationData = this.configurationList?.pageFooterConfiguration?.controlProperty;
-    }
-    else if (node.type == 'accordingHeader') {
-      this.configurationData = this.configurationList?.accordingHeaderConfiguration?.controlProperty;
-    }
-    else if (node.type == 'accordingBody') {
-      this.configurationData = this.configurationList?.accordingBodyConfiguration?.controlProperty;
-    }
-    else if (node.type == 'accordingFooter') {
-      this.configurationData = this.configurationList?.accordingFooterConfiguration?.controlProperty;
-    }
-    else if (node.type == 'input') {
-      if (this.selectdParentNode.type != 'gridList' && this.selectdParentNode.type != 'gridListEditDelete') {
-        this.configurationData = this.configurationList?.inputConfiguration?.controlProperty;
-      } else if (this.selectdParentNode.type == 'gridList' || this.selectdParentNode.type == 'gridListEditDelete') {
-        this.configurationData = this.configurationList?.gridConf?.controlProperty;
-      }
-    }
-    else if (node.type == 'inputGroup') {
-      this.configurationData = this.configurationList?.inputGroupConfiguration?.controlProperty;
-    }
-    else if (node.type == 'textarea') {
-      this.configurationData = this.configurationList?.textareaConfiguration?.controlProperty;
-    }
-    else if (node.type == 'heading') {
-      this.configurationData = this.configurationList?.headingConfiguration?.controlProperty;
-    }
-    else if (node.type == 'paragraph') {
-      this.configurationData = this.configurationList?.paragraphConfiguration?.controlProperty;
-    }
-    else if (node.type == 'image') {
-      this.configurationData = this.configurationList?.imageConfiguration?.controlProperty;
-    }
-    else if (node.type == 'card') {
-      this.configurationData = this.configurationList?.cardConfiguration?.controlProperty;
-    }
-    else if (node.type == 'chart') {
-      this.configurationData = this.configurationList?.chartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'browserCard') {
-      this.configurationData = this.configurationList?.browserChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'browserCombineChart') {
-      this.configurationData = this.configurationList?.browserComineChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'widgetSectionCard') {
-      this.configurationData = this.configurationList?.widgetSectionChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'sectionCard') {
-      this.configurationData = this.configurationList?.SectionChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'donutChart') {
-      this.configurationData = this.configurationList?.donutChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'donuteSaleChart') {
-      this.configurationData = this.configurationList?.donutSaleChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'salesAnalyticschart') {
-      this.configurationData = this.configurationList?.salesAnalyticsChartConfiguration?.controlProperty;
-    }
-    else if (node.type == 'telephone') {
-      this.configurationData = this.configurationList?.telephoneConfiguration?.controlProperty;
-    }
-    else if (node.type == 'checkbox') {
-      this.configurationData = this.configurationList?.checkBoxConfiguration?.controlProperty;
-    }
-    else if (node.type == 'time') {
-      this.configurationData = this.configurationList?.timeConfiguration?.controlProperty;
-    }
-    else if (node.type == 'datetime') {
-      this.configurationData = this.configurationList?.dateTimeConfiguration?.controlProperty;
-    }
-    else if (node.type == 'date') {
-      this.configurationData = this.configurationList?.dateConfiguration?.controlProperty;
-    }
-    else if (node.type == 'month') {
-      this.configurationData = this.configurationList?.monthConfiguration?.controlProperty;
-    }
-    else if (node.type == 'week') {
-      this.configurationData = this.configurationList?.weekConfiguration?.controlProperty;
-    }
-    else if (node.type == 'color') {
-      this.configurationData = this.configurationList?.colorconfiguration?.controlProperty;
-    }
-    else if (node.type == 'customMasking') {
-      this.configurationData = this.configurationList?.maskConf?.controlProperty;
-    }
-    else if (node.type == 'according') {
-      this.configurationData = this.configurationList?.accordingConfiguration?.controlProperty;
-    }
-    else if (node.type == 'formRows') {
-      this.configurationData = this.configurationList?.formRowsConfiguration?.controlProperty;
-    }
-    else if (node.type == 'stepper') {
-      this.configurationData = this.configurationList?.stepperConfiguration?.controlProperty;
-    }
-    else if (node.type == 'stepperMain') {
-      this.configurationData = this.configurationList?.mainStepperConfiguration?.controlProperty;
-    }
-    else if (node.type == 'tabs') {
-      this.configurationData = this.configurationList?.tabsConfiguration?.controlProperty;
-    }
-    else if (node.type == 'tabsMain') {
-      this.configurationData = this.configurationList?.mainTabsConfiguration?.controlProperty;
-    }
-    else if (this.selectdNode.type == 'gridList') {
-      this.configurationData = this.configurationList?.gridNameConfiguration?.controlProperty;
-    }
-    else if (this.selectdNode.type == 'gridListEditDelete') {
-      this.configurationData = this.configurationList?.gridNameConfiguration?.controlProperty;
-    }
-    else if (node.type == 'decimal') {
-      this.configurationData = this.configurationList?.decimalConfiguration?.controlProperty;
-    }
-    else if (node.type == 'repeatSection') {
-      this.configurationData = this.configurationList?.selectConfiguration?.controlProperty;
-    }
-    else if (node.type == 'tags') {
-      this.configurationData = this.configurationList?.tagConfiguration?.controlProperty;
-    }
-    else if (node.type == 'multiselect') {
-      this.configurationData = this.configurationList?.multiselectConfiguration?.controlProperty;
-    }
-    else if (node.type == 'search') {
-      this.configurationData = this.configurationList?.searchConfiguration?.controlProperty;
-    }
-    else if (node.type == 'radiobutton') {
-      this.configurationData = this.configurationList?.radioConfiguration?.controlProperty;
-    }
-    else if (node.type == 'button') {
-      this.configurationData = this.configurationList?.buttonConfiguration?.controlProperty;
-    }
-    else if (node.type == 'buttonGroup') {
-      this.configurationData = this.configurationList?.buttonGroupConfiguration?.controlProperty;
-    }
-    else if (node.type == 'linkButton') {
-      this.configurationData = this.configurationList?.linkButtonConfiguration?.controlProperty;
-    }
-    else if (node.type == 'simplecard') {
-      this.configurationData = this.configurationList?.cardConfiguration?.controlProperty;
-    }
-    else if (node.type == 'chartcard') {
-      this.configurationData = this.configurationList?.cardConfiguration?.controlProperty;
-    }
-    else if (node.type == 'imageUpload') {
-      this.configurationData = this.configurationList?.imageUploadConfiguration?.controlProperty;
-    }
-    else if (node.type == 'invoice') {
-      this.configurationData = this.configurationList?.invoiceConfiguration?.controlProperty;
-    }
-    if (this.configurationData.length > 0) {
-      this.clickButton(this.configurationData[0].name);
-    }
+
+    this.clickButton(node.type)
+
   }
   applyHighLight(data: boolean, element: any) {
     if (element.highLight) {
@@ -983,98 +748,13 @@ export class BuilderComponent implements OnInit {
     }
     return propertyName;
   };
-  commonConfigurationFields() {
-    let obj: FormlyFieldConfig[] = [
-      {
-        className: "col-md-4 col-sm-6 col-xs-12 ",
-        key: 'key',
-        type: 'input',
-        wrappers: ["formly-vertical-wrapper"],
-        templateOptions: {
-          title: 'Key',
-          required: true,
-          pattern: /^[a-z0-9_]+$/,
-        }
-      },
-      {
-        key: 'title',
-        type: 'input',
-        className: "col-md-4 col-sm-6 col-xs-12 ",
-        wrappers: ["formly-vertical-wrapper"],
-        templateOptions: {
-          title: 'title'
-        }
-      },
-      {
-        className: "col-md-4 col-sm-6 col-xs-12 ",
-        key: 'tooltip',
-        type: 'input',
-        wrappers: ["formly-vertical-wrapper"],
-        templateOptions: {
-          title: 'Tooltip',
-        }
-      },
-      {
-        key: 'className',
-        type: 'select',
-        className: "col-md-4 col-sm-6 col-xs-12 ",
-        wrappers: ["formly-vertical-wrapper"],
-        templateOptions: {
-          title: 'column',
-          options: [
-            {
-              title: 'col-2',
-              value: 'col-md-2 col-sm-6 col-xs-12'
-            },
-            {
-              title: 'col-3',
-              value: 'col-md-3 col-sm-6 col-xs-12'
-            },
-            {
-              title: 'col-4',
-              value: 'col-md-4 col-sm-6 col-xs-12'
-            },
-            {
-              title: 'col-6',
-              value: 'col-md-6 col-xs-12'
-            },
-            {
-              title: 'col-8',
-              value: 'col-md-8 col-xs-12'
-            },
-            {
-              title: 'col-9',
-              value: 'col-md-9 col-xs-12'
-            },
-            {
-              title: 'col-10',
-              value: 'col-md-10 col-xs-12'
-            },
-            {
-              title: 'col-12',
-              value: 'col-12'
-            }
-          ]
-        },
-      },
-      {
-        className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        key: 'hideExpression',
-        type: 'checkbox',
-        templateOptions: {
-          title: 'Hide',
-        },
-        defaultValue: false
-      },
-    ];
-    return obj;
-  }
+
   clickButton(type: any) {
     this.feildData = new GenaricFeild();
     let _formFeildData = new formFeildData();
     this.feildData.title = "Change Attribute Values";
     let configObj: any = {};
-    if (type == "selectAttributes") {
+    if (type == 'repeatSection') {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1092,10 +772,10 @@ export class BuilderComponent implements OnInit {
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.selectBoxFields;
     }
-    else if (type == "breakTagAttribute") {
+    else if (type == "breakTag") {
       configObj = {
         id: this.selectdNode.id as string,
         tooltip: this.selectdNode.tooltip,
@@ -1104,10 +784,10 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.breakTagFeilds;
     }
-    else if (type == "imageUploadAttribute") {
+    else if (type == "imageUpload") {
       configObj = {
         id: this.selectdNode.id as string,
         tooltip: this.selectdNode.tooltip,
@@ -1122,10 +802,10 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // image: this.selectdNode.base64Image,
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.imageUploadFeilds;
     }
-    else if (type == "toastrAttribute") {
+    else if (type == "toastr") {
       configObj = {
         id: this.selectdNode.id as string,
         title: this.selectdNode.title,
@@ -1137,10 +817,10 @@ export class BuilderComponent implements OnInit {
         toastrType: this.selectdNode.toastrType,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.toastrFeilds;
     }
-    else if (type == "invoiceAttribute") {
+    else if (type == "invoice") {
       configObj = {
         id: this.selectdNode.id as string,
         title: this.selectdNode.title,
@@ -1161,10 +841,10 @@ export class BuilderComponent implements OnInit {
         amountpaidtitle: this.selectdNode.amountpaidLabel,
         balanceDuetitle: this.selectdNode.balanceDueLabel,
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.invoiceFeilds;
     }
-    else if (type == "rangeSliderAttribute") {
+    else if (type == "rangeSlider") {
       configObj = {
         id: this.selectdNode.id as string,
         title: this.selectdNode.title,
@@ -1178,10 +858,10 @@ export class BuilderComponent implements OnInit {
         showValue: this.selectdNode.showValue,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.rangeSliderFeilds;
     }
-    else if (type == "inputGroupGridAttribute") {
+    else if (type == "inputGroupGrid") {
       configObj = {
         id: this.selectdNode.id as string,
         tooltip: this.selectdNode.tooltip,
@@ -1189,10 +869,10 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.inputGroupGridFeilds;
     }
-    else if (type == "cardAttributes") {
+    else if (type == "card") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1204,10 +884,10 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.cardFields;
     }
-    else if (type == "fixedDivAttribute") {
+    else if (type == "fixedDiv") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1217,7 +897,7 @@ export class BuilderComponent implements OnInit {
       }
       this.feildData.formData = _formFeildData.fixedDivFields;
     }
-    else if (type == "calendarAttribute") {
+    else if (type == "tuiCalender") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.selectdNode.hideExpression,
@@ -1229,10 +909,10 @@ export class BuilderComponent implements OnInit {
         disabled: this.selectdNode.disabled,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.tuiCalendarFeilds;
     }
-    else if (type == "multiFileUploadAttribute") {
+    else if (type == "multiFileUpload") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1241,10 +921,10 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.multiFileUploadFeilds;
     }
-    else if (type == "textEditorAttribute") {
+    else if (type == "textEditor") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1253,11 +933,11 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.textEditorFeilds;
     }
 
-    else if (type == "switchAttributes") {
+    else if (type == "switch") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1268,11 +948,11 @@ export class BuilderComponent implements OnInit {
         switchPosition: this.selectdNode.switchPosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.switchFeilds;
     }
 
-    else if (type == "dashonicTabAttributes") {
+    else if (type == "dashonicTabs") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode?.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.hideExpression, "hideExpression"),
@@ -1282,10 +962,10 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dashonicTabFields;
     }
-    else if (type == "kanbanAttribute") {
+    else if (type == "kanban") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1295,10 +975,10 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
 
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.kanbanFeilds;
     }
-    else if (type == "kanbanTaskAttribute") {
+    else if (type == "kanbanTask") {
       if (this.selectdNode.chartCardConfig) {
         for (let index = 0; index < this.selectdNode.chartCardConfig.length; index++) {
           if (typeof this.selectdNode?.chartCardConfig[index].users !== "string") {
@@ -1317,10 +997,10 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.kanbanTaskFeilds;
     }
-    else if (type == "dashonicMainTabAttributes") {
+    else if (type == "mainDashonicTabs") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1339,11 +1019,11 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dashoniMainTabFields;
     }
 
-    else if (type == "progressBarAttributes") {
+    else if (type == "progressBar") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1360,10 +1040,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.progressBarFeilds;
     }
-    else if (type == "dividerAttributes") {
+    else if (type == "divider") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1381,10 +1061,10 @@ export class BuilderComponent implements OnInit {
         verticalLinePosition: this.selectdNode.verticalLinePosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dividerFeilds;
     }
-    else if (type == "videosAttribute") {
+    else if (type == "video") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1397,10 +1077,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.videosFeilds;
     }
-    else if (type == "audioAttribute") {
+    else if (type == "audio") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1413,10 +1093,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.audioFeilds;
     }
-    else if (type == "carousalAttribute") {
+    else if (type == "carouselCrossfade") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1428,10 +1108,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.carousalFeilds;
     }
-    else if (type == "alertAttributes") {
+    else if (type == "alert") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1445,10 +1125,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.alertFeilds;
     }
-    else if (type == "timelineAttributes") {
+    else if (type == "timeline") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1464,12 +1144,12 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.timelineFeilds;
     }
 
 
-    else if (type == "simpleCardWithHeaderBodyFooterAttributes") {
+    else if (type == "simpleCardWithHeaderBodyFooter") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1485,12 +1165,12 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.simpleCardWithHeaderBodyFooterFeilds;
     }
 
 
-    else if (type == "sharedMessagesChartAttributes") {
+    else if (type == "sharedMessagesChart") {
 
       if (this.selectdNode.chartCardConfig) {
         configObj = {
@@ -1511,10 +1191,10 @@ export class BuilderComponent implements OnInit {
           repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.sharedMessagesChartFeilds;
     }
-    else if (type == "browserChartAttributes") {
+    else if (type == "browserCard") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1530,10 +1210,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.browserChartFields;
     }
-    else if (type == "browserCombineChartAttributes") {
+    else if (type == "browserCombineChart") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1549,10 +1229,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.browserComibeChartFields;
     }
-    else if (type == "widgetSectionChartAttributes") {
+    else if (type == "widgetSectionCard") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
@@ -1567,10 +1247,10 @@ export class BuilderComponent implements OnInit {
           // data: this.selectdNode.widgetSectionCard[0].section[0].Chart.series[0].data,
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.widgetSectionChartFields;
     }
-    else if (type == "SectionChartAttributes") {
+    else if (type == "sectionCard") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           title: this.selectdNode?.label,
@@ -1585,10 +1265,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.SectionChartFields;
     }
-    else if (type == "chartAttributes") {
+    else if (type == "chart") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           className: this.selectdNode.className,
@@ -1601,10 +1281,10 @@ export class BuilderComponent implements OnInit {
         }
       }
       // objSelect.options = this.selectdNode.chartCardConfig[0]?.section[0].data,
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.chartFields;
     }
-    else if (type == "donutChartAttributes") {
+    else if (type == "donutChart") {
       if (this.selectdNode.chartCardConfig) {
         let seriesDataV1 = [];
         for (let k = 0; k < this.selectdNode.chartCardConfig[0].section[0].series.length; k++) {
@@ -1626,10 +1306,10 @@ export class BuilderComponent implements OnInit {
           // options: generateColorData,
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.donutChartFields;
     }
-    else if (type == "donutSaleChartAttributes") {
+    else if (type == "donuteSaleChart") {
 
       if (this.selectdNode.chartCardConfig) {
         let seriesDataV1 = [];
@@ -1662,10 +1342,10 @@ export class BuilderComponent implements OnInit {
           // growth: this.selectdNode.saledDonutChart[0].growth,
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.donutSaleChartFields;
     }
-    else if (type == "salesAnalyticsChartAttributes") {
+    else if (type == "salesAnalyticschart") {
       if (this.selectdNode.chartCardConfig) {
         let series1Obj = [];
         for (let i = 0; i < this.selectdNode.chartCardConfig[0].section[0].series.length; i++) {
@@ -1690,13 +1370,10 @@ export class BuilderComponent implements OnInit {
 
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.saleAnalyticsChartFields;
     }
-    else if (type == "headingAttributes") {
-
-
-
+    else if (type == "heading") {
       configObj = {
         title: this.selectdNode.title,
         tooltip: this.selectdNode?.tooltip,
@@ -1714,13 +1391,10 @@ export class BuilderComponent implements OnInit {
         headingColor: this.selectdNode.headingColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.headingFields;
     }
-    else if (type == "paragraphAttributes") {
-
-
-
+    else if (type == "paragraph") {
       configObj = {
         id: this.selectdNode.id as string,
         padding: this.addPropertieInOldScreens(this.selectdNode.padding, "padding"),
@@ -1739,10 +1413,10 @@ export class BuilderComponent implements OnInit {
         color: this.selectdNode.color,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.paragraphFields;
     }
-    else if (type == "tagAttributes") {
+    else if (type == "tags") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1759,10 +1433,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.tagBoxFields;
     }
-    else if (type == "multiselectAttributes") {
+    else if (type == "multiselect") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1781,10 +1455,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.selectBoxFields;
     }
-    else if (type == "maskingAttribute") {
+    else if (type == "customMasking") {
       if (this.selectdNode.chartCardConfig) {
         configObj = {
           id: this.selectdNode.id as string,
@@ -1807,10 +1481,10 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.customMaskingFields;
     }
-    else if (type == "searchAttributes") {
+    else if (type == "search") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1826,10 +1500,10 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.searchBoxFields;
     }
-    else if (type == "radioAttributes") {
+    else if (type == "radiobutton") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1847,10 +1521,10 @@ export class BuilderComponent implements OnInit {
         titleBackgroundColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelBackgroundColor,
       }
       // _formFeildData.radioFields[0].fieldGroup[0].templateOptions.options = res;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.radioFields;
     }
-    else if (type == "checkBoxAttributes") {
+    else if (type == "checkbox") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1867,11 +1541,11 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.checkBoxFields;
     }
     //datandtime conditions
-    else if (type == "dateTimeAttributes") {
+    else if (type == "datetime") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1889,11 +1563,11 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dateTimeFields;
     }
     //time conditions
-    else if (type == "timeAttributes") {
+    else if (type == "time") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1911,11 +1585,11 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.timeFields;
     }
     //date condition
-    else if (type == "dateAttributes") {
+    else if (type == "date") {
       configObj = {
         id: this.selectdNode.id as string,
         hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1933,7 +1607,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dateFields;
     }
     //month condition
@@ -1955,7 +1629,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.monthFields;
     }
     //Number Conditions
@@ -1979,7 +1653,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.decimalFeilds;
     }
 
@@ -2001,7 +1675,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.weekFields;
     }
     //input color conditions
@@ -2022,7 +1696,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.colorFields;
     }
     //button Conditions
@@ -2049,7 +1723,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.buttonFields;
     }
     else if (type == "dropdownButtonAttributes") {
@@ -2067,7 +1741,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.dropdownButtonFields;
     }
     else if (type == "accordionButtonAttribute") {
@@ -2082,7 +1756,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.accordionButtonFields;
     }
     //Link Button Conditions
@@ -2105,7 +1779,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.linkButtonFields;
     }
     else if (type == "groupButtonAttributes") {
@@ -2120,7 +1794,7 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.buttonGroupFields;
     }
 
@@ -2131,8 +1805,8 @@ export class BuilderComponent implements OnInit {
 
     //Input Conditions
     else if (type == "inputAttributes") {
-      if (this.selectdNode.chartCardConfig) {
-        this.selectdNode.chartCardConfig[0] = this.addPropertieInOldScreens(this.selectdNode.chartCardConfig[0], "styleConfig");
+      if (this.selectdNode) {
+        this.selectdNode = this.addPropertieInOldScreens(this.selectdNode, "styleConfig");
         // this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions = this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "style");
         let veriableOptions = [];
         if (this.nodes[0].screenVariables) {
@@ -2151,8 +1825,8 @@ export class BuilderComponent implements OnInit {
           key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
           title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
           placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-          getVariable: this.selectdNode.chartCardConfig[0].getVariable,
-          setVariable: this.selectdNode.chartCardConfig[0].setVariable,
+          // getVariable: this.selectdNode.getVariable,
+          // setVariable: this.selectdNode.setVariable,
           default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
           className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
           minlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.minLength,
@@ -2163,13 +1837,13 @@ export class BuilderComponent implements OnInit {
           disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
           tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
           titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-          fontSize: this.selectdNode.chartCardConfig[0].styleConfig?.fontSize,
-          fontStyle: this.selectdNode.chartCardConfig[0].styleConfig?.fontStyle,
-          textColor: this.selectdNode.chartCardConfig[0].styleConfig?.textColor,
-          bgColor: this.selectdNode.chartCardConfig[0].styleConfig?.bgColor,
-          border: this.selectdNode.chartCardConfig[0].styleConfig?.border,
-          margin: this.selectdNode.chartCardConfig[0].styleConfig?.margin,
-          padding: this.selectdNode.chartCardConfig[0].styleConfig?.padding,
+          // fontSize: this.selectdNode.styleConfig?.fontSize,
+          // fontStyle: this.selectdNode.styleConfig?.fontStyle,
+          // textColor: this.selectdNode.styleConfig?.textColor,
+          // bgColor: this.selectdNode.styleConfig?.bgColor,
+          // border: this.selectdNode.styleConfig?.border,
+          // margin: this.selectdNode.styleConfig?.margin,
+          // padding: this.selectdNode.styleConfig?.padding,
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
           addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
           addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
@@ -2182,7 +1856,7 @@ export class BuilderComponent implements OnInit {
         //   });
         // }
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.inputFeilds;
     }
     else if (type == "inputGroupAttributes") {
@@ -2206,7 +1880,7 @@ export class BuilderComponent implements OnInit {
         titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.inputGroupFeilds;
     }
     //Image Conditions
@@ -2229,7 +1903,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
       // this.feildData.modal=obj;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.imageFeilds;
     }
     //Text Area Conditions
@@ -2255,7 +1929,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
       // this.feildData.modal=obj;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.textareaFeilds;
     }
     //Phone number Conditions
@@ -2277,7 +1951,7 @@ export class BuilderComponent implements OnInit {
         addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
         addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
       };
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.telephoneFeilds;
     }
     // Working For Page Section
@@ -2287,7 +1961,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         variables: this.selectdNode.screenVariables
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.pageFields;
     }
     else if (type == "pageHeaderAttributes") {
@@ -2299,7 +1973,7 @@ export class BuilderComponent implements OnInit {
         titlePosition: this.selectdNode.labelPosition,
         alertPosition: this.selectdNode.alertPosition,
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.pageHeaderFields;
     }
     else if (type == "pageBodyAttributes") {
@@ -2312,7 +1986,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title
       }
       this.formModalData = objPageBody;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.pageBodyFields;
     }
     else if (type == "pageFooterAttributes") {
@@ -2326,7 +2000,7 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
       }
       this.formModalData = objPageFooter;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.pageFooterFields;
     }
     else if (type == "accordingAttributes") {
@@ -2342,7 +2016,7 @@ export class BuilderComponent implements OnInit {
             wrappers: this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
             // disabled: this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
           }
-          this.feildData.commonData = this.commonConfigurationFields();
+          this.feildData.commonData = _formFeildData.commonConfigurationFields;
           this.feildData.formData = _formFeildData.accordingFields;
         }
         else {
@@ -2354,7 +2028,7 @@ export class BuilderComponent implements OnInit {
             repeatable: this.addPropertieInOldScreens(this.selectdNode.repeatable, 'repeatable'),
             // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
           }
-          this.feildData.commonData = this.commonConfigurationFields();
+          this.feildData.commonData = _formFeildData.commonConfigurationFields;
           this.feildData.formData = _formFeildData.accordingFields;
         }
       }
@@ -2371,7 +2045,7 @@ export class BuilderComponent implements OnInit {
         textColor: this.selectdNode.textColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.accordingHeaderFields;
     }
     else if (type == "accordingBodyAttributes") {
@@ -2380,7 +2054,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.accordingBodyFields;
     }
     else if (type == "accordingFooterAttributes") {
@@ -2390,7 +2064,7 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.accordingFooterFields;
     }
     else if (type == "stepperAttributes") {
@@ -2403,7 +2077,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.stepperFields;
     }
     else if (type == "mainStepperAttributes") {
@@ -2430,7 +2104,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.mainStepperFields;
     }
     else if (type == "maintabAttributes") {
@@ -2448,7 +2122,7 @@ export class BuilderComponent implements OnInit {
         // nodes: this.tabsNewlength,
       }
       this.formModalData = objTab;
-      this.feildData.commonData = this.commonConfigurationFields();
+      this.feildData.commonData = _formFeildData.commonConfigurationFields;
       this.feildData.formData = _formFeildData.mainTabFields;
     }
 
@@ -2566,14 +2240,14 @@ export class BuilderComponent implements OnInit {
                   else
                     element3.children[0].highLight = false;
                 } else {
-                  var className = element3.chartCardConfig[0].formly[0].fieldGroup[0].className;
+                  var className = element3.formly[0].fieldGroup[0].className;
                   if (id == element3.id) {
-                    if (!element3.chartCardConfig[0].formly[0].fieldGroup[0].className.includes("highLight")) {
-                      element3.chartCardConfig[0].formly[0].fieldGroup[0].className = element3.chartCardConfig[0].formly[0].fieldGroup[0].className + " highLight";
+                    if (!element3.formly[0].fieldGroup[0].className.includes("highLight")) {
+                      element3.formly[0].fieldGroup[0].className = element3.formly[0].fieldGroup[0].className + " highLight";
                     }
                   }
                   else
-                    element3.chartCardConfig[0].formly[0].fieldGroup[0].className = className.replace("highLight", "");
+                    element3.formly[0].fieldGroup[0].className = className.replace("highLight", "");
                 }
               }
             }
@@ -2616,7 +2290,7 @@ export class BuilderComponent implements OnInit {
       this.isActiveShow = id;
       this.selectdNode = node;
       if (this.selectdNode.isNextChild) {
-        this.IsShowConfig = true;
+        // this.IsShowConfig = true;
         this.controlListvisible = true;
       }
       if (this.selectdNode.type == 'pageBody') {
@@ -2724,7 +2398,7 @@ export class BuilderComponent implements OnInit {
             if (element.chartCardConfig) {
               if (element.chartCardConfig.length > 0) {
                 if (element.chartCardConfig[0].formly) {
-                  element.chartCardConfig[0].formly[0].fieldGroup[0].key = element.chartCardConfig[0].formly[0].fieldGroup[0].key + Guid.newGuid();
+                  element.formly[0].fieldGroup[0].key = element.formly[0].fieldGroup[0].key + Guid.newGuid();
                 }
               }
             }
@@ -2733,7 +2407,7 @@ export class BuilderComponent implements OnInit {
               if (element1.chartCardConfig) {
                 if (element1.chartCardConfig.length > 0) {
                   if (element1.chartCardConfig[0].formly) {
-                    element1.chartCardConfig[0].formly[0].fieldGroup[0].key = element1.chartCardConfig[0].formly[0].fieldGroup[0].key + Guid.newGuid();
+                    element1.formly[0].fieldGroup[0].key = element1.formly[0].fieldGroup[0].key + Guid.newGuid();
                   }
                 }
               }
@@ -2847,11 +2521,7 @@ export class BuilderComponent implements OnInit {
     // this.makeFaker();
 
   }
-  openSideAttributes: boolean = false;
-  navbarInstance() {
-    this.openSideAttributes = true;
-    // document.getElementById("mySidenav-right").style.width = "100%";
-  }
+
   notifyEmit(event: actionTypeFeild): void {
 
   }

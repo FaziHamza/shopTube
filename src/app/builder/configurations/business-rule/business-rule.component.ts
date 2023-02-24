@@ -37,7 +37,7 @@ export class BusinessRuleComponent implements OnInit {
     });
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.buisnessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].chartCardConfig[0].formly[0].fieldGroup[0]);
+        this.buisnessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
     this.buisnessRuleData = this.buisnessRuleIfList;
@@ -54,32 +54,35 @@ export class BusinessRuleComponent implements OnInit {
     ]
     if (mainModuleId.length > 0) {
       this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-        this.buisnessForm = this.formBuilder.group({
-          buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
-            this.formBuilder.group({
-              ifCondition: [getBuisnessRuleRes.ifCondition],
-              oprator: [getBuisnessRuleRes.oprator],
-              getValue: [getBuisnessRuleRes.getValue],
-              target: [getBuisnessRuleRes.target],
-              opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-              resultValue: [getBuisnessRuleRes.resultValue],
-              conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
-                this.formBuilder.group({
-                  condifCodition: getConditionalRes.condifCodition,
-                  condOperator: getConditionalRes.condOperator,
-                  condValue: getConditionalRes.condValue,
-                  condType: getConditionalRes.condType
-                })
-              )),
-              thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                this.formBuilder.group({
-                  thenTarget: getthenCodRes.thenTarget,
-                  thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
-                  thenResultValue: getthenCodRes.thenResultValue
-                })
-              ))
-            })))
-        });
+        if(getRes.length > 0){
+          this.buisnessForm = this.formBuilder.group({
+            buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
+              this.formBuilder.group({
+                ifCondition: [getBuisnessRuleRes.ifCondition],
+                oprator: [getBuisnessRuleRes.oprator],
+                getValue: [getBuisnessRuleRes.getValue],
+                target: [getBuisnessRuleRes.target],
+                opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
+                resultValue: [getBuisnessRuleRes.resultValue],
+                conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                  this.formBuilder.group({
+                    condifCodition: getConditionalRes.condifCodition,
+                    condOperator: getConditionalRes.condOperator,
+                    condValue: getConditionalRes.condValue,
+                    condType: getConditionalRes.condType
+                  })
+                )),
+                thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                  this.formBuilder.group({
+                    thenTarget: getthenCodRes.thenTarget,
+                    thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                    thenResultValue: getthenCodRes.thenResultValue
+                  })
+                ))
+              })))
+          });
+        }
+
       }))
     }
   }
@@ -96,7 +99,7 @@ export class BusinessRuleComponent implements OnInit {
     this.buisnessRuleTargetList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.buisnessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].chartCardConfig[0].formly[0].fieldGroup[0]);
+        this.buisnessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
     // this.buisnessRuleTargetList = this.buisnessRuleTargetList.filter((a: any) => a.key != this.ifDynamicMenuName);

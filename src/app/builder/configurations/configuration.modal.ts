@@ -1,1044 +1,4 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
-export const configurationList = {
-  buttonConfiguration: {
-    controlProperty: [
-      {
-        name: "buttonAttributes",
-        label: "Button Text"
-      },
-      {
-        name: "Buttonvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "ButtonDynamicRule",
-        label: "Dynamic Rules"
-      },
-      {
-        name: "buttonActionAttribute",
-        label: "Action Property",
-      }
-    ]
-  },
-  linkButtonConfiguration: {
-    controlProperty: [
-      {
-        name: "linkButtonAttributes",
-        label: "Button Text"
-      },
-      {
-        name: "linkButtonvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "linkButtonDynamicRule",
-        label: "Dynamic Rules"
-      },
-      {
-        name: "linkButtonActionAttribute",
-        label: "Action Property",
-      }
-    ]
-  },
-  buttonGroupConfiguration: {
-    controlProperty: [
-      {
-        name: "groupButtonAttributes",
-        label: "Button Text"
-      },
-      {
-        name: "groupButtonvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "groupButtonDynamicRule",
-        label: "Dynamic Rules"
-      },
-      {
-        name: "groupButtonActionAttribute",
-        label: "Action Property",
-      }
-    ]
-  },
-  dropdownButtonConfiguration: {
-    controlProperty: [
-      {
-        name: "dropdownButtonAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "dropdownButtonvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "dropdownButtonDynamicRule",
-        label: "Dynamic Rules"
-      },
-      {
-        name: "dropdownButtonActionAttribute",
-        label: "Action Property",
-      }
-    ]
-  },
-  stepperConfiguration: {
-    controlProperty: [
-      {
-        name: "stepperAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "stepperValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "stepperDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  mainStepperConfiguration: {
-    controlProperty: [
-      {
-        name: "mainStepperAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "mainStepperValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "mainStepperDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  tabsConfiguration: {
-    controlProperty: [
-      {
-        name: "tabAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "tabValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "tabDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  dashonicTabsConfiguration: {
-    controlProperty: [
-      {
-        name: "dashonicTabAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "dashonicTabtabValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "tabDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  dashonicMainTabsConfiguration: {
-    controlProperty: [
-      {
-        name: "dashonicMainTabAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "dashonicMainTabtabValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "tabDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  simpleCardWithHeaderBodyFooterConfiguration: {
-    controlProperty: [
-      {
-        name: "simpleCardWithHeaderBodyFooterAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "simpleCardWithHeaderBodyFooterAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  mainTabsConfiguration: {
-    controlProperty: [
-      {
-        name: "maintabAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "maintabValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "maintabDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  pageConfiguration: {
-    controlProperty: [
-      {
-        name: "pageAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  pageHeaderConfiguration: {
-    controlProperty: [
-      {
-        name: "pageHeaderAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageHeaderValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageHeaderDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  pageBodyConfiguration: {
-    controlProperty: [
-      {
-        name: "pageBodyAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageBodyValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageBodyDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  pageFooterConfiguration: {
-    controlProperty: [
-      {
-        name: "pageFooterAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageFooterValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageFooterDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  accordingHeaderConfiguration: {
-    controlProperty: [
-      {
-        name: "accordingHeaderAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageHeaderValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageHeaderDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  accordingBodyConfiguration: {
-    controlProperty: [
-      {
-        name: "accordingBodyAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageBodyValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageBodyDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  accordingFooterConfiguration: {
-    controlProperty: [
-      {
-        name: "accordingFooterAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "pageFooterValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "pageFooterDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  headingConfiguration: {
-    controlProperty: [
-      {
-        name: "headingAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "headingValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "headingDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  paragraphConfiguration: {
-    controlProperty: [
-      {
-        name: "paragraphAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "paragraphValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "paragraphDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  accordingConfiguration: {
-    controlProperty: [
-      {
-        name: "accordingAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "accordingvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "accordingDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  formRowsConfiguration: {
-    controlProperty: [
-      {
-        name: "formRowsAttributes",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  gridNameConfiguration: {
-    controlProperty: [
-      {
-        name: "gridNameAttributes",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  colorconfiguration: {
-    controlProperty: [
-      {
-        name: "colorAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "colorvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "colorDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  checkBoxConfiguration: {
-    controlProperty: [
-
-      {
-        name: "checkBoxAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "checkBoxvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "checkBoxDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  timeConfiguration: {
-    controlProperty: [
-
-      {
-        name: "timeAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "timevalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "timeDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  dateConfiguration: {
-    controlProperty: [
-
-      {
-        name: "dateAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "datevalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "dateDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  monthConfiguration: {
-    controlProperty: [
-
-      {
-        name: "monthAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "monthValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "monthDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  decimalConfiguration: {
-    controlProperty: [
-
-      {
-        name: "decimalAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "decimalvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "decimalDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  weekConfiguration: {
-    controlProperty: [
-
-      {
-        name: "weekAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "weekValidationRules",
-        label: "Validation Rules"
-      },
-      {
-        name: "weekDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  dateTimeConfiguration: {
-    controlProperty: [
-
-      {
-        name: "dateTimeAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "dateTimevalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "dateTimeDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  imageConfiguration: {
-    controlProperty: [
-
-      {
-        name: "imageAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "imagevalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "imageDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  inputConfiguration: {
-    controlProperty: [
-
-      {
-        name: "inputAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "inputValidationRule",
-        label: "Validation Rules"
-      },
-    ]
-  },
-  inputGroupConfiguration: {
-    controlProperty: [
-      {
-        name: "inputGroupAttributes",
-        label: "Control Attributes"
-      }
-    ]
-  },
-  telephoneConfiguration: {
-    controlProperty: [
-
-      {
-        name: "telephoneAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "telephonevalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "telephoneDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  textareaConfiguration: {
-    controlProperty: [
-
-      {
-        name: "textareaAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "textareavalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "textareaDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  selectConfiguration: {
-    controlProperty: [
-
-      {
-        name: "selectAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "selectvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "selectDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  tagConfiguration: {
-    controlProperty: [
-
-      {
-        name: "tagAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "tagvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "tagDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  multiselectConfiguration: {
-    controlProperty: [
-
-      {
-        name: "multiselectAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "multiselectvalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "multiselectDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  searchConfiguration: {
-    controlProperty: [
-      {
-        name: "searchAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "searchValidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "searchDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  radioConfiguration: {
-    controlProperty: [
-
-      {
-        name: "radioAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "radiovalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "radioDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  selectionConfiguration: {
-    controlProperty: [
-      {
-        name: "textareaAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "textareavalidationrules",
-        label: "Validation Rules"
-      },
-      {
-        name: "textareaDynamicRule",
-        label: "Dynamic Rules"
-      },
-    ]
-  },
-  cardConfiguration: {
-    controlProperty: [
-      {
-        name: "cardAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "cardAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  chartConfiguration: {
-    controlProperty: [
-      {
-        name: "chartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "chartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  donutChartConfiguration: {
-    controlProperty: [
-      {
-        name: "donutChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "donutChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  donutSaleChartConfiguration: {
-    controlProperty: [
-      {
-        name: "donutSaleChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "donutSaleChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  browserChartConfiguration: {
-    controlProperty: [
-      {
-        name: "browserChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "browserChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  browserComineChartConfiguration: {
-    controlProperty: [
-      {
-        name: "browserCombineChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "browserCombineChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  menuConf: {
-    controlProperty: [
-      {
-        name: "menuAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "menuAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  widgetSectionChartConfiguration: {
-    controlProperty: [
-      {
-        name: "widgetSectionChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "widgetSectionChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  SectionChartConfiguration: {
-    controlProperty: [
-      {
-        name: "SectionChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "SectionChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  salesAnalyticsChartConfiguration: {
-    controlProperty: [
-      {
-        name: "salesAnalyticsChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "salesAnalyticsChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  switchConfiguration: {
-    controlProperty: [
-
-      {
-        name: "switchAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "switchAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  progressBarConfiguration: {
-    controlProperty: [
-
-      {
-        name: "progressBarAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "progressBarAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  dividerConfiguration: {
-    controlProperty: [
-
-      {
-        name: "dividerAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "dividerAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  sharedMessagesChartConfiguration: {
-    controlProperty: [
-
-      {
-        name: "sharedMessagesChartAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "sharedMessagesChartAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  alertConfiguration: {
-    controlProperty: [
-
-      {
-        name: "alertAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "alertAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  timelineConfiguration: {
-    controlProperty: [
-
-      {
-        name: "timelineAttributes",
-        label: "Control Attributes"
-      },
-      {
-        name: "timelineAction",
-        label: "Action Attributes"
-      }
-    ]
-  },
-  gridConf: {
-    controlProperty: [
-      {
-        name: "gridAttributes",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  maskConf: {
-    controlProperty: [
-      {
-        name: "maskingAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  videosConfiguration: {
-    controlProperty: [
-      {
-        name: "videosAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  audioConfiguration: {
-    controlProperty: [
-      {
-        name: "audioAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  carouselConfiguration: {
-    controlProperty: [
-      {
-        name: "carousalAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  menuBuilderDropdownConfiguration: {
-    controlProperty: [
-      {
-        name: "DropdownAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  menuBuilderPagesFeildsConfiguration: {
-    controlProperty: [
-      {
-        name: "pagesAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  menuBuilderPagesButtonConfiguration: {
-    controlProperty: [
-      {
-        name: "ButtonAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  fixedDivConfiguration: {
-    controlProperty: [
-      {
-        name: "fixedDivAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  accordionButtonConfiguration: {
-    controlProperty: [
-      {
-        name: "accordionButtonAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  kanbanConfiguration: {
-    controlProperty: [
-      {
-        name: "kanbanAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  kanbanTaskConfiguration: {
-    controlProperty: [
-      {
-        name: "kanbanTaskAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  multiFileUploadConfiguration: {
-    controlProperty: [
-      {
-        name: "multiFileUploadAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  texteditorConfiguration: {
-    controlProperty: [
-      {
-        name: "textEditorAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  tuiCalendarConfiguration: {
-    controlProperty: [
-      {
-        name: "calendarAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  breakTagConfiguration: {
-    controlProperty: [
-      {
-        name: "breakTagAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  inputGroupGridConfiguration: {
-    controlProperty: [
-      {
-        name: "inputGroupGridAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  toastrConfiguration: {
-    controlProperty: [
-      {
-        name: "toastrAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  rangeSliderConfiguration: {
-    controlProperty: [
-      {
-        name: "rangeSliderAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  imageUploadConfiguration: {
-    controlProperty: [
-      {
-        name: "imageUploadAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-  invoiceConfiguration: {
-    controlProperty: [
-      {
-        name: "invoiceAttribute",
-        label: "Control Attributes"
-      },
-    ]
-  },
-
-}
 
 export interface actionTypeFeild {
   form?: any;
@@ -1050,10 +10,10 @@ export class formFeildData {
   radioFields: FormlyFieldConfig[] =
     [
       {
-        fieldGroupClassName: "row",
+        fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'key',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -1066,7 +26,7 @@ export class formFeildData {
           {
             key: 'label',
             type: 'input',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'label'
@@ -1075,7 +35,7 @@ export class formFeildData {
           {
             key: 'formCheck',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Format',
@@ -1097,7 +57,7 @@ export class formFeildData {
             key: 'multiselect',
             type: 'select',
 
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Select API',
@@ -1110,7 +70,7 @@ export class formFeildData {
             },
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'tooltip',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -1121,7 +81,7 @@ export class formFeildData {
           {
             key: 'className',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'column',
@@ -1164,7 +124,7 @@ export class formFeildData {
           {
             key: 'defaultValue',
             type: 'input',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Default Value'
@@ -1252,10 +212,10 @@ export class formFeildData {
   //Button Json
   buttonFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'key',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1276,7 +236,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text'
@@ -1285,7 +245,7 @@ export class formFeildData {
         {
           key: 'tooltip',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tooltip'
@@ -1294,7 +254,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -1338,7 +298,7 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -1393,7 +353,7 @@ export class formFeildData {
         {
           key: 'btnGroupFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Format',
@@ -1417,7 +377,7 @@ export class formFeildData {
         {
           key: 'btnIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Icon'
@@ -1454,7 +414,7 @@ export class formFeildData {
         //   template: '<div class="mt-5"></div>'
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'margin',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1464,7 +424,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'padding',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1474,7 +434,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'border',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1484,7 +444,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'bgColor',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1494,7 +454,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'textColor',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1504,7 +464,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'fontSize',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1514,7 +474,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'fontStyle',
         //   type: 'select',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1542,10 +502,10 @@ export class formFeildData {
   ]
   buttonGroupFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'key',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1567,14 +527,14 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text'
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'tooltip',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1585,7 +545,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -1629,7 +589,7 @@ export class formFeildData {
         {
           key: 'btnGroupFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Btn Group Format',
@@ -1672,7 +632,7 @@ export class formFeildData {
   ]
   dropdownButtonFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           key: 'id',
@@ -1687,7 +647,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text'
@@ -1696,7 +656,7 @@ export class formFeildData {
         {
           key: 'tooltip',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tooltip'
@@ -1705,7 +665,7 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -1764,7 +724,7 @@ export class formFeildData {
         {
           key: 'btnIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Icon'
@@ -1773,7 +733,7 @@ export class formFeildData {
         {
           key: 'btnGroupFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Btn Format',
@@ -1797,7 +757,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -1896,10 +856,10 @@ export class formFeildData {
   ]
   linkButtonFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'key',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -1920,7 +880,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text'
@@ -1929,7 +889,7 @@ export class formFeildData {
         {
           key: 'tooltip',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tooltip'
@@ -1938,7 +898,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -1982,7 +942,7 @@ export class formFeildData {
         {
           key: 'target',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Open Type',
@@ -2018,7 +978,7 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -2078,7 +1038,7 @@ export class formFeildData {
         {
           key: 'format',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Format',
@@ -2102,7 +1062,7 @@ export class formFeildData {
         {
           key: 'btnIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Icon'
@@ -2111,7 +1071,7 @@ export class formFeildData {
         {
           key: 'href',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Link'
@@ -2148,10 +1108,10 @@ export class formFeildData {
   //color Json
   colorFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -2174,14 +1134,14 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'label'
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -2190,7 +1150,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -2201,7 +1161,7 @@ export class formFeildData {
         // {
         //   key: 'name',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   templateOptions: {
         //     label: 'Name'
         //   }
@@ -2209,7 +1169,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -2253,7 +1213,7 @@ export class formFeildData {
         {
           key: 'defaultValue',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Default Color',
@@ -2262,7 +1222,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -2271,7 +1231,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -2331,10 +1291,10 @@ export class formFeildData {
   checkBoxFields: FormlyFieldConfig[] =
     [
       {
-        fieldGroupClassName: "row",
+        fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'key',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2347,7 +1307,7 @@ export class formFeildData {
           {
             key: 'label',
             type: 'input',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'label'
@@ -2356,7 +1316,7 @@ export class formFeildData {
           {
             key: 'formCheck',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Format',
@@ -2377,7 +1337,7 @@ export class formFeildData {
           {
             key: 'className',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'column',
@@ -2421,14 +1381,14 @@ export class formFeildData {
           // {
           //   key: 'defaultValue',
           //   type: 'input',
-          //   className: "col-md-4 col-sm-6 col-xs-12 ",
+          //   className: "w-1/4 px-1",
           //   wrappers: ["formly-vertical-wrapper"],
           //   templateOptions: {
           //     label: 'Default Value'
           //   },
           // },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'tooltip',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2439,7 +1399,7 @@ export class formFeildData {
           {
             key: 'multiselect',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Select API',
@@ -2522,11 +1482,11 @@ export class formFeildData {
   tagBoxFields: FormlyFieldConfig[] =
     [
       {
-        fieldGroupClassName: "row",
+        fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
 
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'labelIcon',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2537,7 +1497,7 @@ export class formFeildData {
           {
             key: 'apiData',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'API',
@@ -2554,7 +1514,7 @@ export class formFeildData {
             },
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonLeft',
             type: 'input',
@@ -2563,7 +1523,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonRight',
             type: 'input',
@@ -2630,11 +1590,11 @@ export class formFeildData {
   selectBoxFields: FormlyFieldConfig[] =
     [
       {
-        fieldGroupClassName: "row",
+        fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
 
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'labelIcon',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2643,7 +1603,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'defaultValue',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2654,7 +1614,7 @@ export class formFeildData {
           {
             key: 'multiselect',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'Select API',
@@ -2667,7 +1627,7 @@ export class formFeildData {
             },
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonLeft',
             type: 'input',
@@ -2676,7 +1636,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonRight',
             type: 'input',
@@ -2756,10 +1716,10 @@ export class formFeildData {
   searchBoxFields: FormlyFieldConfig[] =
     [
       {
-        fieldGroupClassName: "row",
+        fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'key',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2770,7 +1730,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'label',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2779,7 +1739,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'tooltip',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2788,7 +1748,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'labelIcon',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2797,7 +1757,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             key: 'placeholder',
             type: 'input',
             wrappers: ["formly-vertical-wrapper"],
@@ -2808,7 +1768,7 @@ export class formFeildData {
           {
             key: 'className',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'column',
@@ -2851,7 +1811,7 @@ export class formFeildData {
           {
             key: 'searchApi',
             type: 'select',
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
               label: 'API',
@@ -2864,7 +1824,7 @@ export class formFeildData {
             },
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonLeft',
             type: 'input',
@@ -2873,7 +1833,7 @@ export class formFeildData {
             }
           },
           {
-            className: "col-md-4 col-sm-6 col-xs-12 ",
+            className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             key: 'addonRight',
             type: 'input',
@@ -2908,7 +1868,7 @@ export class formFeildData {
           //   },
           // },
           // {
-          //   className: "col-md-4 col-sm-6 col-xs-12 ",
+          //   className: "w-1/4 px-1",
           //   key: "multiselect",
           //   type: "ng-select",
           //   defaultValue: '1',
@@ -2969,10 +1929,10 @@ export class formFeildData {
   // dateandtime json
   dateTimeFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -2993,7 +1953,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3002,7 +1962,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3011,7 +1971,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3020,7 +1980,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'defaultValue',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3032,7 +1992,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -3074,7 +2034,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -3083,7 +2043,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -3151,10 +2111,10 @@ export class formFeildData {
   //date json
   dateFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3175,7 +2135,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3184,7 +2144,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'defaultValue',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3194,7 +2154,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3203,7 +2163,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3214,7 +2174,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -3256,7 +2216,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -3265,7 +2225,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -3333,10 +2293,10 @@ export class formFeildData {
   //time json
   timeFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3357,7 +2317,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3366,7 +2326,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'defaultValue',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3376,7 +2336,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3385,7 +2345,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3396,7 +2356,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -3438,7 +2398,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -3447,7 +2407,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -3515,10 +2475,10 @@ export class formFeildData {
   //time json
   monthFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3548,7 +2508,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3557,7 +2517,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'defaultValue',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3567,7 +2527,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3576,7 +2536,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3587,7 +2547,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -3629,7 +2589,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -3638,7 +2598,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -3647,7 +2607,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'maskString',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -3716,10 +2676,10 @@ export class formFeildData {
   ]//time json
   weekFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3740,7 +2700,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3749,7 +2709,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'defaultValue',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3759,7 +2719,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3768,7 +2728,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3779,7 +2739,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -3820,7 +2780,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -3829,7 +2789,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -3886,7 +2846,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
+        //   templateOptions: {]
         //     label: 'Repeat'
         //   },
         // },
@@ -3896,40 +2856,10 @@ export class formFeildData {
   //Input Json
   inputFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -3938,60 +2868,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4000,7 +2877,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'default',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4009,27 +2886,27 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'getVariable',
           type: 'select',
           templateOptions: {
             label: 'Get Variable',
-            options:[]
+            options: []
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'setVariable',
           type: 'select',
           templateOptions: {
             label: 'Set Variable',
-            options:[]
+            options: []
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'minlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4039,7 +2916,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'maxlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4049,7 +2926,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -4058,7 +2935,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -4070,7 +2947,7 @@ export class formFeildData {
           template: '<div class="mt-3"></div>'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'margin',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4080,7 +2957,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'padding',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4090,7 +2967,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'border',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4100,7 +2977,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'bgColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4110,7 +2987,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'textColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4120,7 +2997,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'fontSize',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4130,7 +3007,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'fontStyle',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
@@ -4214,10 +3091,10 @@ export class formFeildData {
   ]
   inputGroupFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4239,7 +3116,7 @@ export class formFeildData {
         },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4248,7 +3125,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4257,7 +3134,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4268,7 +3145,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -4310,7 +3187,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'minlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4320,7 +3197,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4329,7 +3206,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'default',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4338,7 +3215,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -4347,7 +3224,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -4356,7 +3233,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'maxlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4425,10 +3302,10 @@ export class formFeildData {
   //Image Fields
   imageFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4450,7 +3327,7 @@ export class formFeildData {
         },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4459,7 +3336,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4468,7 +3345,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4479,7 +3356,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -4521,7 +3398,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'name',
         //   type: 'input',
         //   templateOptions: {
@@ -4532,7 +3409,7 @@ export class formFeildData {
         // {
         //   key: 'pattern',
         //   type: 'input',
-        // className: "col-md-4 col-sm-6 col-xs-12 ",
+        // className: "w-1/4 px-1",
         //   templateOptions: {
         //     label: 'pattern'
         //   }
@@ -4595,7 +3472,7 @@ export class formFeildData {
   //card Fields
   cardFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -4610,7 +3487,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -4652,7 +3529,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4661,7 +3538,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4670,7 +3547,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'name',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4679,7 +3556,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'total',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4689,7 +3566,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4720,10 +3597,10 @@ export class formFeildData {
   //Chart Fields
   chartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4732,7 +3609,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'sub_label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4743,7 +3620,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -4785,7 +3662,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4796,7 +3673,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -4965,7 +3842,7 @@ export class formFeildData {
   ]
   donutChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -4977,7 +3854,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4988,7 +3865,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -5030,7 +3907,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5042,7 +3919,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -5134,7 +4011,7 @@ export class formFeildData {
   ]
   donutSaleChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -5146,7 +4023,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5157,7 +4034,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -5199,7 +4076,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5211,7 +4088,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -5225,7 +4102,7 @@ export class formFeildData {
           // defaultValue: 'donutChart'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'thisTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5234,7 +4111,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'lastTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5243,7 +4120,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'prevTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5281,7 +4158,7 @@ export class formFeildData {
           },
           fieldArray: {
             className: 'ml-3 me-2',
-            fieldGroupClassName: "row",
+            fieldGroupClassName: "flex flex-wrap",
             fieldGroup: [
               {
                 className: "col-3",
@@ -5335,7 +4212,7 @@ export class formFeildData {
           },
           fieldArray: {
             className: 'ml-3 me-2',
-            fieldGroupClassName: "row",
+            fieldGroupClassName: "flex flex-wrap",
             fieldGroup: [
               {
                 className: "col-3",
@@ -5402,10 +4279,10 @@ export class formFeildData {
   ]
   browserChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5416,7 +4293,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -5460,7 +4337,7 @@ export class formFeildData {
         {
           key: 'defaultColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Default Color',
@@ -5506,7 +4383,7 @@ export class formFeildData {
           // defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'belowpercentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5518,7 +4395,7 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Below Percentage Color',
@@ -5564,7 +4441,7 @@ export class formFeildData {
           // defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5573,7 +4450,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5583,7 +4460,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5594,7 +4471,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -5701,10 +4578,10 @@ export class formFeildData {
   ]
   browserComibeChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5715,7 +4592,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -5759,7 +4636,7 @@ export class formFeildData {
         {
           key: 'defaultColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Default Color',
@@ -5805,7 +4682,7 @@ export class formFeildData {
           // defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'numberofcolumns',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5815,7 +4692,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'belowpercentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5827,7 +4704,7 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Below Percentage Color',
@@ -5873,7 +4750,7 @@ export class formFeildData {
           // defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5882,7 +4759,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5892,7 +4769,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -5903,7 +4780,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -6007,7 +4884,7 @@ export class formFeildData {
   ]
   widgetSectionChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -6019,7 +4896,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6030,7 +4907,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -6072,7 +4949,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6082,7 +4959,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'percentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6094,7 +4971,7 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Below Percentage Color',
@@ -6130,7 +5007,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -6143,7 +5020,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6237,7 +5114,7 @@ export class formFeildData {
   ]
   SectionChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -6249,7 +5126,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6260,7 +5137,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -6302,7 +5179,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6312,7 +5189,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'percentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6324,7 +5201,7 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Below Percentage Color',
@@ -6358,7 +5235,7 @@ export class formFeildData {
           // defaultValue: 'danger'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6369,7 +5246,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -6411,7 +5288,7 @@ export class formFeildData {
             canRemove: true
           },
           fieldArray: {
-            fieldGroupClassName: "row",
+            fieldGroupClassName: "flex flex-wrap",
             fieldGroup: [
               {
                 className: "col",
@@ -6477,7 +5354,7 @@ export class formFeildData {
         },
 
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'icon',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6486,7 +5363,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'name',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6495,7 +5372,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'total',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6504,7 +5381,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'percentage',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6517,7 +5394,7 @@ export class formFeildData {
   ]
   saleAnalyticsChartFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
 
         // {
@@ -6530,7 +5407,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6541,7 +5418,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -6583,7 +5460,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6594,7 +5471,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Api',
@@ -6636,7 +5513,7 @@ export class formFeildData {
             canRemove: true
           },
           fieldArray: {
-            fieldGroupClassName: "row",
+            fieldGroupClassName: "flex flex-wrap",
             fieldGroup: [
               {
                 className: "col-md-4 col-sm-6 col-xl-2 col-xs-12",
@@ -6720,7 +5597,7 @@ export class formFeildData {
   //Heading Field
   headingFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -6732,7 +5609,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6744,7 +5621,7 @@ export class formFeildData {
         {
           key: 'level',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Heading Level',
@@ -6784,7 +5661,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -6827,7 +5704,7 @@ export class formFeildData {
         {
           key: 'style',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Font Weight',
@@ -6851,7 +5728,7 @@ export class formFeildData {
         {
           key: 'textAlignment',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Text Alignment',
@@ -6873,7 +5750,7 @@ export class formFeildData {
           // defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'headingColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6883,7 +5760,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6892,7 +5769,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'padding',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6902,7 +5779,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingLeft',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6912,7 +5789,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingRight',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6922,7 +5799,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingTop',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6932,7 +5809,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingBottom',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -6942,7 +5819,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'headingApi',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -6984,7 +5861,7 @@ export class formFeildData {
   ]
   paragraphFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -6996,7 +5873,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7007,7 +5884,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -7051,7 +5928,7 @@ export class formFeildData {
         {
           key: 'style',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Font Weight',
@@ -7075,7 +5952,7 @@ export class formFeildData {
         {
           key: 'textAlignment',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Text Alignment',
@@ -7100,7 +5977,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'color',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7110,7 +5987,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7121,7 +5998,7 @@ export class formFeildData {
         {
           key: 'api',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'APi',
@@ -7135,7 +6012,7 @@ export class formFeildData {
         },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'padding',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7145,7 +6022,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingLeft',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7155,7 +6032,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingRight',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7165,7 +6042,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingTop',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7175,7 +6052,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'paddingBottom',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7217,10 +6094,10 @@ export class formFeildData {
   // Telephone
   telephoneFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7241,7 +6118,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7250,7 +6127,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7278,7 +6155,7 @@ export class formFeildData {
         //   // parsers: [onlyNumberParser]
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7287,7 +6164,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7296,7 +6173,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'default',
         //   type: 'input',
         //   templateOptions: {
@@ -7307,7 +6184,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -7348,7 +6225,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -7357,7 +6234,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -7417,10 +6294,10 @@ export class formFeildData {
   //textarea Json
   textareaFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7443,7 +6320,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'label'
@@ -7452,7 +6329,7 @@ export class formFeildData {
         {
           key: 'placeholder',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'placeholder'
@@ -7461,7 +6338,7 @@ export class formFeildData {
         {
           key: 'default',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'default value',
@@ -7470,7 +6347,7 @@ export class formFeildData {
         // {
         //   key: 'name',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   templateOptions: {
         //     label: 'Name'
         //   }
@@ -7478,14 +6355,14 @@ export class formFeildData {
         {
           key: 'rows',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Rows'
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7494,7 +6371,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7505,7 +6382,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -7556,7 +6433,7 @@ export class formFeildData {
         {
           key: 'minlength',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Min Length',
@@ -7566,7 +6443,7 @@ export class formFeildData {
         {
           key: 'maxlength',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Max Length',
@@ -7631,7 +6508,7 @@ export class formFeildData {
         // {
         //   key: 'hidden',
         //   type: 'checkbox',
-        // className: "col-md-4 col-sm-6 col-xs-12 ",
+        // className: "w-1/4 px-1",
         //   templateOptions: {
         //     label: 'Is Hidden'
         //   },
@@ -7643,10 +6520,10 @@ export class formFeildData {
   //Decimal Json
   decimalFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7667,7 +6544,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7676,7 +6553,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7685,7 +6562,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'default',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7696,7 +6573,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'decimalmode',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7706,7 +6583,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7715,7 +6592,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7724,7 +6601,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'name',
         //   type: 'input',
         //   templateOptions: {
@@ -7734,7 +6611,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -7776,7 +6653,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -7785,7 +6662,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -7797,13 +6674,13 @@ export class formFeildData {
         // {
         //   key: 'pattern',
         //   type: 'input',
-        // className: "col-md-4 col-sm-6 col-xs-12 ",
+        // className: "w-1/4 px-1",
         //   templateOptions: {
         //     label: 'pattern'
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'minlength',
         //   type: 'input',
         //   templateOptions: {
@@ -7812,7 +6689,7 @@ export class formFeildData {
         //   }
         // },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'maxlength',
         //   type: 'input',
         //   templateOptions: {
@@ -7880,10 +6757,10 @@ export class formFeildData {
   //Card Json
   customMaskingFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7904,7 +6781,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'maskLabel',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -7914,7 +6791,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'maskString',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7924,7 +6801,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7933,7 +6810,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7942,7 +6819,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7951,7 +6828,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -7962,7 +6839,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -8004,7 +6881,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
@@ -8013,7 +6890,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
@@ -8080,12 +6957,12 @@ export class formFeildData {
   ]
   // uiRuleFields: FormlyFieldConfig[] = [
   //   {
-  //     fieldGroupClassName: "row",
+  //     fieldGroupClassName: "flex flex-wrap",
   //     fieldGroup: [
   //       {
   //         key: 'if',
   //         type: 'select',
-  //         className: "col-md-4 col-sm-6 col-xs-12 ",
+  //         className: "w-1/4 px-1",
   //         wrappers: ["formly-vertical-wrapper"],
   //         templateOptions: {
   //           label: 'If',
@@ -8104,7 +6981,7 @@ export class formFeildData {
   //       {
   //         key: 'equals',
   //         type: 'select',
-  //         className: "col-md-4 col-sm-6 col-xs-12 ",
+  //         className: "w-1/4 px-1",
   //         wrappers: ["formly-vertical-wrapper"],
   //         templateOptions: {
   //           label: 'Equal',
@@ -8137,7 +7014,7 @@ export class formFeildData {
   //       {
   //         key: 'value',
   //         type: 'input',
-  //         className: "col-md-4 col-sm-6 col-xs-12 ",
+  //         className: "w-1/4 px-1",
   //         wrappers: ["formly-vertical-wrapper"],
   //         templateOptions: {
   //           label: 'Value',
@@ -8146,7 +7023,7 @@ export class formFeildData {
   //       {
   //         key: 'target',
   //         type: 'select',
-  //         className: "col-md-4 col-sm-6 col-xs-12 ",
+  //         className: "w-1/4 px-1",
   //         wrappers: ["formly-vertical-wrapper"],
   //         templateOptions: {
   //           label: "Target",
@@ -8165,7 +7042,7 @@ export class formFeildData {
   //       {
   //         key: 'operation',
   //         type: 'select',
-  //         className: "col-md-4 col-sm-6 col-xs-12 ",
+  //         className: "w-1/4 px-1",
   //         wrappers: ["formly-vertical-wrapper"],
   //         templateOptions: {
   //           label: "Operation",
@@ -8194,12 +7071,12 @@ export class formFeildData {
   // ]
   stepperFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   key: 'stepperText',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Label',
@@ -8209,14 +7086,14 @@ export class formFeildData {
         {
           key: 'stepperLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -8235,7 +7112,7 @@ export class formFeildData {
         // {
         //   key: 'stepperIcon',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Stepper Icon',
@@ -8246,12 +7123,12 @@ export class formFeildData {
   ]
   mainStepperFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   key: 'stepperText',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Label',
@@ -8261,7 +7138,7 @@ export class formFeildData {
         {
           key: 'stepperLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -8270,7 +7147,7 @@ export class formFeildData {
         {
           key: 'icon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Stepper Icon',
@@ -8279,7 +7156,7 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'number',
@@ -8289,7 +7166,7 @@ export class formFeildData {
         {
           key: 'stepperFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Stepper Format',
@@ -8308,7 +7185,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -8352,7 +7229,7 @@ export class formFeildData {
         {
           key: 'selectColor',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
@@ -8362,7 +7239,7 @@ export class formFeildData {
         {
           key: 'defaultColor',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
@@ -8370,7 +7247,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -8390,7 +7267,7 @@ export class formFeildData {
         {
           key: 'nextButtonText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Next Button Text',
@@ -8399,7 +7276,7 @@ export class formFeildData {
         {
           key: 'nextButtonIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Next Button Icon',
@@ -8408,7 +7285,7 @@ export class formFeildData {
         {
           key: 'nextButtonColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Next Button Color',
@@ -8453,7 +7330,7 @@ export class formFeildData {
         {
           key: 'backButtonText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Back Button Text',
@@ -8462,7 +7339,7 @@ export class formFeildData {
         {
           key: 'backButtonIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Back Button Icon',
@@ -8471,7 +7348,7 @@ export class formFeildData {
         {
           key: 'backButtonColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Back Button Color',
@@ -8514,7 +7391,7 @@ export class formFeildData {
         {
           key: 'submitButtonText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Submit Button Text',
@@ -8523,7 +7400,7 @@ export class formFeildData {
         {
           key: 'submitButtonIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Submit Button Icon',
@@ -8532,7 +7409,7 @@ export class formFeildData {
         {
           key: 'submitButtonColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Submit Button Color',
@@ -8587,12 +7464,12 @@ export class formFeildData {
   ]
   tabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   key: 'stepperText',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Label',
@@ -8602,7 +7479,7 @@ export class formFeildData {
         {
           key: 'stepperLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -8619,7 +7496,7 @@ export class formFeildData {
         // {
         //   key: 'stepperFormat',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Stepper Format',
@@ -8640,7 +7517,7 @@ export class formFeildData {
   ]
   dashonicTabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -8655,7 +7532,7 @@ export class formFeildData {
         {
           key: 'tabLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -8664,14 +7541,14 @@ export class formFeildData {
         {
           key: 'tabIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tab Icon',
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -8701,7 +7578,7 @@ export class formFeildData {
   ]
   dashoniMainTabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -8715,7 +7592,7 @@ export class formFeildData {
         {
           key: 'tabLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -8725,7 +7602,7 @@ export class formFeildData {
         {
           key: 'tabFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tab Format',
@@ -8742,7 +7619,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -8753,7 +7630,7 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'number',
@@ -8763,7 +7640,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -8807,7 +7684,7 @@ export class formFeildData {
         {
           key: 'tabsPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Position',
@@ -8830,7 +7707,7 @@ export class formFeildData {
         {
           key: 'selectTabColor',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
@@ -8840,7 +7717,7 @@ export class formFeildData {
         {
           key: 'tabsDisplayType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Display Type',
@@ -8863,7 +7740,7 @@ export class formFeildData {
         {
           key: 'buttonText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text',
@@ -8872,7 +7749,7 @@ export class formFeildData {
         {
           key: 'buttonIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Icon',
@@ -8881,7 +7758,7 @@ export class formFeildData {
         {
           key: 'buttonColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -8943,7 +7820,7 @@ export class formFeildData {
   ]
   menuBuilderdashonicTabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -8958,7 +7835,7 @@ export class formFeildData {
         {
           key: 'tabLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -8967,7 +7844,7 @@ export class formFeildData {
         {
           key: 'tabIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tab Icon',
@@ -8976,7 +7853,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Link',
@@ -8987,7 +7864,7 @@ export class formFeildData {
   ]
   menuBuilderDashoniMainTabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9002,7 +7879,7 @@ export class formFeildData {
         {
           key: 'tabLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -9012,7 +7889,7 @@ export class formFeildData {
         {
           key: 'tabFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tab Format',
@@ -9031,7 +7908,7 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'number',
@@ -9041,7 +7918,7 @@ export class formFeildData {
         // {
         //   key: 'className',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'column',
@@ -9085,7 +7962,7 @@ export class formFeildData {
         {
           key: 'tabsPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Position',
@@ -9108,7 +7985,7 @@ export class formFeildData {
         {
           key: 'selectTabColor',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
@@ -9118,7 +7995,7 @@ export class formFeildData {
         {
           key: 'tabsDisplayType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Display Type',
@@ -9141,7 +8018,7 @@ export class formFeildData {
         // {
         //   key: 'buttonText',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Button Text',
@@ -9150,7 +8027,7 @@ export class formFeildData {
         // {
         //   key: 'buttonIcon',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Button Icon',
@@ -9159,7 +8036,7 @@ export class formFeildData {
         // {
         //   key: 'buttonColor',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Button Color',
@@ -9206,12 +8083,12 @@ export class formFeildData {
   ]
   mainTabFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
         //   key: 'stepperText',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Label',
@@ -9221,7 +8098,7 @@ export class formFeildData {
         {
           key: 'stepperLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -9230,7 +8107,7 @@ export class formFeildData {
         {
           key: 'stepperFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Stepper Format',
@@ -9249,7 +8126,7 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'number',
@@ -9259,7 +8136,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -9303,7 +8180,7 @@ export class formFeildData {
         {
           key: 'tabsPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Position',
@@ -9326,7 +8203,7 @@ export class formFeildData {
         {
           key: 'selectTabColor',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
@@ -9336,7 +8213,7 @@ export class formFeildData {
         {
           key: 'tabsDisplayType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tabs Display Type',
@@ -9359,7 +8236,7 @@ export class formFeildData {
         {
           key: 'buttonText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Text',
@@ -9368,7 +8245,7 @@ export class formFeildData {
         {
           key: 'buttonIcon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Icon',
@@ -9377,7 +8254,7 @@ export class formFeildData {
         {
           key: 'buttonColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -9424,7 +8301,7 @@ export class formFeildData {
   ]
   fixedDivFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9439,14 +8316,14 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9477,7 +8354,7 @@ export class formFeildData {
   ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9492,7 +8369,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -9501,7 +8378,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -9545,7 +8422,7 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Button Color',
@@ -9586,7 +8463,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9618,7 +8495,7 @@ export class formFeildData {
   //For Page Section
   pageFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9630,7 +8507,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9663,7 +8540,7 @@ export class formFeildData {
               {
                 key: 'variableType',
                 type: 'select',
-                className: "col-md-4 col-sm-6 col-xs-12 ",
+                className: "w-1/4 px-1",
                 wrappers: ["formly-vertical-wrapper"],
                 templateOptions: {
                   label: 'Variable Type',
@@ -9694,7 +8571,7 @@ export class formFeildData {
   ]
   pageHeaderFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9706,7 +8583,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'key',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -9725,7 +8602,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9736,7 +8613,7 @@ export class formFeildData {
         {
           key: 'labelPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label Position',
@@ -9759,7 +8636,7 @@ export class formFeildData {
         {
           key: 'headingSize',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Heading Size',
@@ -9798,7 +8675,7 @@ export class formFeildData {
         {
           key: 'alertPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             defaultValue: 'topHeader',
@@ -9833,7 +8710,7 @@ export class formFeildData {
   ]
   pageBodyFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9857,7 +8734,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9870,7 +8747,7 @@ export class formFeildData {
   ]
   pageFooterFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -9883,7 +8760,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -9905,12 +8782,12 @@ export class formFeildData {
   ]
   accordingFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           key: 'accordingText',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -9920,7 +8797,7 @@ export class formFeildData {
         {
           key: 'wrappers',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Format',
@@ -9948,7 +8825,7 @@ export class formFeildData {
         {
           key: 'labelPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label Position',
@@ -9971,7 +8848,7 @@ export class formFeildData {
         {
           key: 'disabled',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Disabled',
@@ -10003,7 +8880,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -10099,7 +8976,7 @@ export class formFeildData {
   ]
   accordingHeaderFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10112,7 +8989,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10123,7 +9000,7 @@ export class formFeildData {
         {
           key: 'labelPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label Position',
@@ -10146,7 +9023,7 @@ export class formFeildData {
         {
           key: 'headingSize',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Heading Size',
@@ -10183,7 +9060,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'backGroundColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10193,7 +9070,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'textColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10232,7 +9109,7 @@ export class formFeildData {
   ]
   accordingBodyFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10245,7 +9122,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10266,7 +9143,7 @@ export class formFeildData {
   ]
   accordingFooterFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10279,7 +9156,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10309,12 +9186,12 @@ export class formFeildData {
   ]
   formRowsFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -10326,7 +9203,7 @@ export class formFeildData {
   ]
   switchFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10340,7 +9217,7 @@ export class formFeildData {
         },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10351,7 +9228,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -10395,7 +9272,7 @@ export class formFeildData {
         {
           key: 'switchType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Switch Type',
@@ -10434,7 +9311,7 @@ export class formFeildData {
         {
           key: 'switchPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Switch Position',
@@ -10455,7 +9332,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10485,7 +9362,7 @@ export class formFeildData {
   ]
   progressBarFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10498,7 +9375,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10507,7 +9384,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'value',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10518,7 +9395,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -10562,7 +9439,7 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Color',
@@ -10603,7 +9480,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10615,7 +9492,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'API',
@@ -10632,7 +9509,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10688,7 +9565,7 @@ export class formFeildData {
   ]
   dividerFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10701,7 +9578,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'label',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -10710,7 +9587,7 @@ export class formFeildData {
         //   }
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10719,7 +9596,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'textColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10729,7 +9606,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'lineColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10741,7 +9618,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -10785,7 +9662,7 @@ export class formFeildData {
         {
           key: 'classNameForPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column For Position',
@@ -10828,7 +9705,7 @@ export class formFeildData {
         {
           key: 'dividerPosition',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Divider Position',
@@ -10851,7 +9728,7 @@ export class formFeildData {
         {
           key: 'dividerFormat',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Divider Format',
@@ -10868,7 +9745,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'verticalLineHieght',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10877,7 +9754,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'verticalLinePosition',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10886,7 +9763,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10916,7 +9793,7 @@ export class formFeildData {
   ]
   sharedMessagesChartFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -10929,7 +9806,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10938,7 +9815,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10947,7 +9824,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'heading',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10956,7 +9833,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'headingIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -10967,7 +9844,7 @@ export class formFeildData {
         {
           key: 'headingColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Heading Color',
@@ -11012,7 +9889,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'subHeading',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11021,7 +9898,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'subHeadingIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11032,7 +9909,7 @@ export class formFeildData {
         {
           key: 'subheadingColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Sub Heading Color',
@@ -11079,7 +9956,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -11121,7 +9998,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11130,7 +10007,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11141,7 +10018,7 @@ export class formFeildData {
         {
           key: 'api',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Api',
@@ -11183,7 +10060,7 @@ export class formFeildData {
           },
           fieldArray: {
             className: 'ml-3 me-2',
-            fieldGroupClassName: "row",
+            fieldGroupClassName: "flex flex-wrap",
             fieldGroup: [
               {
                 className: "col-3",
@@ -11231,7 +10108,7 @@ export class formFeildData {
   ]
   alertFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -11247,7 +10124,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -11291,7 +10168,7 @@ export class formFeildData {
         {
           key: 'alertColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Alert Color',
@@ -11335,7 +10212,7 @@ export class formFeildData {
         {
           key: 'icon',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Alert Icon',
@@ -11344,7 +10221,7 @@ export class formFeildData {
         {
           key: 'type',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Alert Type',
@@ -11365,7 +10242,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11405,7 +10282,7 @@ export class formFeildData {
   ]
   simpleCardWithHeaderBodyFooterFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -11420,7 +10297,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -11464,7 +10341,7 @@ export class formFeildData {
         {
           key: 'textAlign',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Text Align',
@@ -11485,7 +10362,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'link',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
@@ -11508,7 +10385,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11518,7 +10395,7 @@ export class formFeildData {
         },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11579,7 +10456,7 @@ export class formFeildData {
   ]
   timelineFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -11592,7 +10469,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'timelineHeading',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11603,7 +10480,7 @@ export class formFeildData {
         {
           key: 'headingColor',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Color',
@@ -11651,7 +10528,7 @@ export class formFeildData {
         {
           key: 'headingShape',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Shape',
@@ -11670,7 +10547,7 @@ export class formFeildData {
         {
           key: 'timelineType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Type',
@@ -11693,7 +10570,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "col-12",
           templateOptions: {
@@ -11723,7 +10600,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11734,7 +10611,7 @@ export class formFeildData {
         {
           key: 'timelineExample',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'API Example',
@@ -11865,7 +10742,7 @@ export class formFeildData {
   ]
   videosFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -11880,7 +10757,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -11924,7 +10801,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Video Title',
@@ -11933,7 +10810,7 @@ export class formFeildData {
         // {
         //   key: 'videoRatio',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Video Ratio',
@@ -11942,14 +10819,14 @@ export class formFeildData {
         {
           key: 'videoSrc',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Video Source',
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -11979,7 +10856,7 @@ export class formFeildData {
   ]
   audioFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -11994,7 +10871,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -12038,7 +10915,7 @@ export class formFeildData {
         // {
         //   key: 'title',
         //   type: 'input',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Audio Title',
@@ -12047,7 +10924,7 @@ export class formFeildData {
         {
           key: 'audioSrc',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Audio Source',
@@ -12085,7 +10962,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12115,7 +10992,7 @@ export class formFeildData {
   ]
   carousalFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12130,7 +11007,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -12174,7 +11051,7 @@ export class formFeildData {
         {
           key: 'carousalType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "carousel-fade",
           templateOptions: {
@@ -12194,7 +11071,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "carousel-fade",
           templateOptions: {
@@ -12216,7 +11093,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12284,7 +11161,7 @@ export class formFeildData {
   ]
   kanbanFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12299,7 +11176,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -12308,14 +11185,14 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Nodes',
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12345,7 +11222,7 @@ export class formFeildData {
   ]
   multiFileUploadFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12360,7 +11237,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -12369,7 +11246,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -12411,7 +11288,7 @@ export class formFeildData {
           defaultValue: 'col-4'
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12441,7 +11318,7 @@ export class formFeildData {
   ]
   textEditorFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12456,7 +11333,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -12465,7 +11342,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -12506,7 +11383,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12536,7 +11413,7 @@ export class formFeildData {
   ]
   tuiCalendarFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12551,7 +11428,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -12560,7 +11437,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Column',
@@ -12603,7 +11480,7 @@ export class formFeildData {
         {
           key: 'viewType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Type',
@@ -12625,7 +11502,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12636,7 +11513,7 @@ export class formFeildData {
         {
           key: 'statusApi',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "col-12",
           templateOptions: {
@@ -12722,7 +11599,7 @@ export class formFeildData {
   ];
   kanbanTaskFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12737,7 +11614,7 @@ export class formFeildData {
         {
           key: 'label',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label',
@@ -12746,7 +11623,7 @@ export class formFeildData {
         {
           key: 'kanbanTaskApi',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "col-12",
           templateOptions: {
@@ -12761,7 +11638,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12909,7 +11786,7 @@ export class formFeildData {
   ]
   menuBuilderDropdownFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -12924,7 +11801,7 @@ export class formFeildData {
         // {
         //   key: 'className',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   defaultValue: "col-12",
         //   templateOptions: {
@@ -12962,7 +11839,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12971,7 +11848,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'nodes',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12981,7 +11858,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'dropdownIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -12995,7 +11872,7 @@ export class formFeildData {
   ]
   menuBuilderPagesFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13010,7 +11887,7 @@ export class formFeildData {
         // {
         //   key: 'className',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   defaultValue: "col-12",
         //   templateOptions: {
@@ -13048,7 +11925,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13057,7 +11934,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13070,7 +11947,7 @@ export class formFeildData {
   ]
   menuBuilderButtonFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13085,7 +11962,7 @@ export class formFeildData {
         // {
         //   key: 'className',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   defaultValue: "col-12",
         //   templateOptions: {
@@ -13123,7 +12000,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13132,7 +12009,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13141,7 +12018,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'ButtonIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13154,7 +12031,7 @@ export class formFeildData {
   ]
   Feilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13169,7 +12046,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -13213,7 +12090,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Audio Title',
@@ -13222,7 +12099,7 @@ export class formFeildData {
         {
           key: 'audioSrc',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Audio Source',
@@ -13233,14 +12110,14 @@ export class formFeildData {
   ]
   breakTagFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
       ]
     },
   ]
   inputGroupGridFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13253,7 +12130,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13282,7 +12159,7 @@ export class formFeildData {
   ]
   toastrFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13295,7 +12172,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13304,7 +12181,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'timeOut',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13314,7 +12191,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'message',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13325,7 +12202,7 @@ export class formFeildData {
         {
           key: 'toastrType',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Toastr Type',
@@ -13356,7 +12233,7 @@ export class formFeildData {
         {
           key: 'positionClass',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Position',
@@ -13426,7 +12303,7 @@ export class formFeildData {
 
   invoiceFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13439,7 +12316,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13448,7 +12325,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'invoiceNumberLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13457,7 +12334,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'datelabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13466,7 +12343,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'paymentTermsLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13475,7 +12352,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'billToLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13484,7 +12361,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'dueDateLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13493,7 +12370,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'poNumber',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13504,7 +12381,7 @@ export class formFeildData {
         {
           key: 'shipToLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Ship To Label',
@@ -13513,7 +12390,7 @@ export class formFeildData {
         {
           key: 'notesLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Notes Label',
@@ -13522,7 +12399,7 @@ export class formFeildData {
         {
           key: 'subtotalLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Subtotal Label',
@@ -13531,7 +12408,7 @@ export class formFeildData {
         {
           key: 'dicountLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Dicount Label',
@@ -13540,7 +12417,7 @@ export class formFeildData {
         {
           key: 'shippingLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Shipping Label',
@@ -13549,7 +12426,7 @@ export class formFeildData {
         {
           key: 'taxLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Tax Label',
@@ -13558,7 +12435,7 @@ export class formFeildData {
         {
           key: 'termsLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Terms Label',
@@ -13567,7 +12444,7 @@ export class formFeildData {
         {
           key: 'totalLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Total Label',
@@ -13576,7 +12453,7 @@ export class formFeildData {
         {
           key: 'amountpaidLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Amount Paid Label',
@@ -13585,7 +12462,7 @@ export class formFeildData {
         {
           key: 'balanceDueLabel',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Balance Due Label',
@@ -13596,7 +12473,7 @@ export class formFeildData {
   ]
   imageUploadFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13609,7 +12486,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13618,7 +12495,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'alt',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13627,7 +12504,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'source',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13636,7 +12513,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'imagHieght',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13646,7 +12523,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'imageWidth',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13656,7 +12533,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13667,7 +12544,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -13710,7 +12587,7 @@ export class formFeildData {
         {
           key: 'imageClass',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -13757,7 +12634,7 @@ export class formFeildData {
         {
           key: 'image',
           type: 'image-upload',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Image Upload',
@@ -13784,7 +12661,7 @@ export class formFeildData {
   ]
   rangeSliderFeilds: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13797,7 +12674,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13806,7 +12683,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'min',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13816,7 +12693,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'max',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13828,7 +12705,7 @@ export class formFeildData {
         // {
         //   key: 'sliderType',
         //   type: 'select',
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
         //   templateOptions: {
         //     label: 'Toastr Type',
@@ -13845,7 +12722,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13856,7 +12733,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -13934,7 +12811,7 @@ export class formFeildData {
   ]
   menufield: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -13947,7 +12824,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'menuLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13956,7 +12833,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'menuIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13965,7 +12842,7 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 ",
+        //   className: "w-1/4 px-1",
         //   key: 'textColor',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
@@ -13976,7 +12853,7 @@ export class formFeildData {
         // },
 
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'menuLink',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -13999,7 +12876,7 @@ export class formFeildData {
 
   gridFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           key: 'id',
@@ -14155,7 +13032,7 @@ export class formFeildData {
   ]
   gridNameFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           key: 'id',
@@ -14170,7 +13047,7 @@ export class formFeildData {
         {
           key: 'gridName',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Label'
@@ -14179,7 +13056,7 @@ export class formFeildData {
         {
           key: 'pagination',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'number',
@@ -14189,7 +13066,7 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'API Data Link',
@@ -14212,14 +13089,14 @@ export class formFeildData {
         {
           key: 'deleteapi',
           type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Delete API'
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14230,7 +13107,7 @@ export class formFeildData {
         {
           key: 'className',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'column',
@@ -14271,13 +13148,13 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           key: 'getVariable',
           type: 'select',
           templateOptions: {
             label: 'Get Variable',
-            options:[]
+            options: []
           }
         },
         // {
@@ -14462,7 +13339,7 @@ export class formFeildData {
   ]
   inputValidationRuleFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "col-md-4 col-sm-6 col-xs-12 d-none",
@@ -14485,7 +13362,7 @@ export class formFeildData {
           }
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14496,7 +13373,7 @@ export class formFeildData {
         {
           key: 'type',
           type: 'select',
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'InputType',
@@ -14553,7 +13430,7 @@ export class formFeildData {
           defaultValue: 'text',
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'refrance',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14565,7 +13442,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'minlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14578,7 +13455,7 @@ export class formFeildData {
           },
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'maxlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14603,7 +13480,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "col-md-4 col-sm-6 col-xs-12 ",
+          className: "w-1/4 px-1",
           key: 'pattern',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -14652,6 +13529,105 @@ export class formFeildData {
         //   template: '<div class="mb-3"></div>'
         // },
 
+      ]
+    },
+  ]
+  commonConfigurationFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 ",
+          key: 'key',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Key',
+            required: true,
+            pattern: /^[a-z0-9_]+$/,
+          }
+        },
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'id',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ID',
+            pattern: '^\\S*$',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'label',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'label'
+          }
+        },
+        {
+          className: "w-1/4 px-2",
+          key: 'tooltip',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Tooltip',
+          }
+        },
+        {
+          key: 'className',
+          type: 'select',
+          className: "w-1/4 ",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'column',
+            options: [
+              {
+                label: 'col-2',
+                value: 'col-md-2 col-sm-6 col-xs-12'
+              },
+              {
+                label: 'col-3',
+                value: 'col-md-3 col-sm-6 col-xs-12'
+              },
+              {
+                label: 'col-4',
+                value: 'col-md-4 col-sm-6 col-xs-12'
+              },
+              {
+                label: 'col-6',
+                value: 'col-md-6 col-xs-12'
+              },
+              {
+                label: 'col-8',
+                value: 'col-md-8 col-xs-12'
+              },
+              {
+                label: 'col-9',
+                value: 'col-md-9 col-xs-12'
+              },
+              {
+                label: 'col-10',
+                value: 'col-md-10 col-xs-12'
+              },
+              {
+                label: 'col-12',
+                value: 'col-12'
+              }
+            ]
+          },
+          defaultValue: 'col-4'
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'hideExpression',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Hide',
+          },
+          defaultValue: false
+        },
       ]
     },
   ]

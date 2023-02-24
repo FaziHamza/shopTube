@@ -278,7 +278,7 @@
         <ng-template #thirty>
             <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
                 <div *ngFor="let items of item.children">
-                    <formly-form [fields]="items.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                    <formly-form [fields]="items.formly" [model]="dataModel" [form]="form">
                     </formly-form>
                 </div>
             </ng-container>
@@ -286,13 +286,13 @@
         <ng-template #thirtyOne>
             <ng-container *ngIf="item.formlyType == 'stepper'; else thirtyTwo">
                 <div [ngClass]="{'highLight': item.highLight == true}"
-                    *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.hideExpression == false">
-                    <div *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip && item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip!=''"
+                    *ngIf="item.formly[0].fieldGroup[0].templateOptions.hideExpression == false">
+                    <div *ngIf="item.formly[0].fieldGroup[0].templateOptions.tooltip && item.formly[0].fieldGroup[0].templateOptions.tooltip!=''"
                         style="text-align: right;">
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                    <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                     </formly-form>
                 </div>
             </ng-container>

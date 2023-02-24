@@ -165,7 +165,7 @@
                                     class="uil uil-question-circle"></span>
                             </div>
                             <!-- <app-tui-grid [gridData]="item"></app-tui-grid> -->
-        
+
                         </div>
                     </ng-container>
                 </ng-template>
@@ -226,7 +226,7 @@
                     <ng-container *ngIf="item.type == 'tuiCalender' ;else twentyfour">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-        
+
                             <!-- <app-tui-calendar [calendarData]="item"></app-tui-calendar> -->
                         </div>
                     </ng-container>
@@ -285,7 +285,7 @@
                     <ng-container *ngIf="item.type == 'multiFileUpload' ;else thirty">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-        
+
                             <!-- <app-multi-file-upload [multiFileUploadData]="item.chartCardConfig"></app-multi-file-upload> -->
                         </div>
                     </ng-container>
@@ -301,8 +301,8 @@
                 <ng-template #thirtyOne>
                     <ng-container *ngIf="item.formlyType == 'stepper'; else thirtyTwo">
                         <div [ngClass]="{'highLight': item.highLight == true}"
-                            *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.hideExpression == false">
-                            <div *ngIf="item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip && item.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tooltip!=''"
+                            *ngIf="item.formly[0].fieldGroup[0].templateOptions.hideExpression == false">
+                            <div *ngIf="item.formly[0].fieldGroup[0].templateOptions.tooltip && item.formly[0].fieldGroup[0].templateOptions.tooltip!=''"
                                 style="text-align: right;">
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
@@ -391,7 +391,7 @@
                                 <br>
                             </div>
                         </div>
-        
+
                     </ng-container>
                 </ng-template>
                 <ng-template #thirtyNine>
@@ -459,6 +459,6 @@
                 </ng-template>
             </div>
         </div>
-        
+
     </nz-tab>
 </nz-tabset>

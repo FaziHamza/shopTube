@@ -17,7 +17,7 @@ export class AccordionButtonComponent implements OnInit {
     this.accordionData[0].accordionChild.forEach((a: any) => {
       if (a.formlyType) {
         if (a.formlyType == "input") {
-          a.chartCardConfig[0].formly[0].fieldGroup.forEach((b: any) => {
+          a.formly[0].fieldGroup.forEach((b: any) => {
             if (b.wrappers.length > 1) {
               b.wrappers.splice(1, 1);
             }
