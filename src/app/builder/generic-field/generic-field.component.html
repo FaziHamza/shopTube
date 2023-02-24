@@ -1,10 +1,10 @@
-{{itemData.commonData | json}}
 <div>
   <form [formGroup]="actionform" (ngSubmit)="onSubmit()">
     <h5 style="font-size: 14px; font-weight: 500;"> {{itemData.title}} </h5>
     <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
     <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
     <br>
-    <button type="submit" class="btn btn-mb btn-primary" onclick="event.stopPropagation()">Save</button>
+    <button nz-button nzType="primary"  onclick="event.stopPropagation()">Save</button>
+    <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
   </form>
 </div>
