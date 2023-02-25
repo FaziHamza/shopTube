@@ -4,6 +4,13 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+.logo-sm{
+  height: 32px;
+  margin: 24px;
+  background: rgba(255, 255, 255, 0.3);
+
+}
+
 nz-header {
   background: #fff;
   padding: 0;
@@ -30,4 +37,11 @@ nz-footer {
   padding: 0px !important;
   background: #fff;
   min-height: 360px;
+}
+.ant-drawer-header {
+  background:blue !important;
+}
+
+.menuColumn {
+  overflow-y: auto;
 }
