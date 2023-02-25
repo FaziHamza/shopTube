@@ -15,22 +15,11 @@ export class PagesComponent implements OnInit {
   fields: any = [];
   @Input() dbRes: any = [];
   ngOnInit(): void {
-
+    debugger
     this.activatedRoute.params.subscribe((params: Params) => {
       if(params["schema"]){
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
           if (res.length > 0) {
-            // res[0].menuData[0].children[1].chartCardConfig[0].forEach((a: any) => {
-            //   if (a.formlyType) {
-            //     if (a.formlyType == "input") {
-            //       a.formly[0].fieldGroup.forEach((b: any) => {
-            //         if (b.wrappers.length > 1) {
-            //           b.wrappers.splice(1, 1);
-            //         }
-            //       });
-            //     }
-            //   }
-            // });
             this.dbRes = res[0].menuData;
             this.resData = res[0].menuData[0];
           }
@@ -40,7 +29,6 @@ export class PagesComponent implements OnInit {
 
   }
   disabledAndEditableSection(data: any) {
-
     data
     data[0].forEach((a: any) => {
       if (a.formlyType) {
