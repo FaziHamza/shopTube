@@ -204,7 +204,7 @@ export class BuilderComponent implements OnInit {
       }))
     }
   }
-  expandedKeys :any;
+  expandedKeys: any;
   getFormLayers() {
 
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
@@ -230,7 +230,7 @@ export class BuilderComponent implements OnInit {
         this.clearChildNode();
         // this.clickBack();
       }
-      this.expandedKeys = this.nodes.map((node:any) => node.key);
+      this.expandedKeys = this.nodes.map((node: any) => node.key);
     }
     ));
     this.screenPage = true;
@@ -250,18 +250,18 @@ export class BuilderComponent implements OnInit {
       } as TreeNode];
       this.nodes = newNode;
       this.selectdNode = newNode[0];
-      this.addControlToJson('pageHeader',null);
-      this.addControlToJson('pageBody',null);
+      this.addControlToJson('pageHeader', null);
+      this.addControlToJson('pageBody', null);
       this.selectdNode = this.sectionBageBody;
-      this.addControlToJson('according',null);
+      this.addControlToJson('according', null);
       this.selectdNode = this.sectionAccording;
-      this.addControlToJson('accordingHeader',null);
-      this.addControlToJson('accordingBody',null);
-      this.addControlToJson('accordingFooter',null);
+      this.addControlToJson('accordingHeader', null);
+      this.addControlToJson('accordingBody', null);
+      this.addControlToJson('accordingFooter', null);
       this.selectdNode = this.sectionAccorBody;
-      this.addControlToJson('text',this.textJsonObj);
+      this.addControlToJson('text', this.textJsonObj);
       this.selectdNode = newNode[0];
-      this.addControlToJson('pageFooter',null);
+      this.addControlToJson('pageFooter', null);
       this.updateNodes();
     }
   }
@@ -271,7 +271,7 @@ export class BuilderComponent implements OnInit {
     label: "Input",
     type: 'input',
     fieldType: 'input',
-    configType:'input',
+    configType: 'input',
   };
   downloadJson() {
 
@@ -308,7 +308,7 @@ export class BuilderComponent implements OnInit {
   stepperChild: TreeNode;
   tabsChild: TreeNode;
 
-  addControlToJson(value: string,data:any) {
+  addControlToJson(value: string, data: any) {
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectdNode;
@@ -500,9 +500,9 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         title: data?.label,
-        expanded:true,
+        expanded: true,
         type: data?.configType,
-        className:'w-1/4 pl-1',
+        className: 'w-1/4 pl-1',
         // type: data?.type,
         formlyType: data?.parameter,
         formly: [
@@ -524,7 +524,7 @@ export class BuilderComponent implements OnInit {
                   addonRight: {
                     text: ''
                   },
-                  type:data?.fieldType,
+                  type: data?.fieldType,
                   labelPosition: "text-right",
                   labelIcon: "",
                   label: data?.label,
@@ -536,7 +536,7 @@ export class BuilderComponent implements OnInit {
                   disabled: this.getLastNodeWrapper("disabled"),
                   readonly: false,
                   hidden: false,
-                  options:this.makeFormlyOptions(data?.options),
+                  options: this.makeFormlyOptions(data?.options),
                   change: (model, $event) => {
 
                     // let currentVal = model.form.value[model.key.toString()];
@@ -556,13 +556,2689 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
+    else if (value == "buttonGroup") {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'buttonGroup',
+        type: "buttonGroup",
+        highLight: false,
+        isNextChild: true,
+        hideExpression: false,
+        className: "co-3",
+        chartCardConfig: [{
+          position: "text-center",
+          key: "buttongroup_" + Guid.newGuid(),
+          id: "buttongroup",
+          btnGroupPosition: "header-button",
+          btngroupformat: "text-left",
+          className: "co-3",
+        }],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'insertButton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'insert_1',
+        type: "button",
+        actionType: "insert",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-3 col-sm-6 col-xs-12",
+        chartCardConfig: [{
+          buttonGroup: [
+            {
+              // btnGroupPosition: "text-left",
+              btnGroupFormat: "text-left",
+              highLight: false,
+              btnConfig: [
+                {
+                  hideExpression: false,
+                  tooltip: "",
+                  key: "insert" + Guid.newGuid(),
+                  color: "btn btn-success",
+                  title: "Insert",
+                  type: "insert",
+                  btnIcon: "uil uil-user",
+                  // format: "text-left",
+                  btnDisables: false,
+                  disabled: this.getLastNodeWrapper("disabled"),
+                },
+              ],
+
+            }
+          ],
+        }],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'dropdownButton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'dropdownButton_1',
+        type: "dropdownButton",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-3 col-sm-6 col-xs-12",
+        chartCardConfig: [{
+          buttonGroup: [
+            {
+              // btnGroupPosition: "text-left",
+              btnGroupFormat: "text-left",
+              highLight: false,
+              btnConfig: [
+                {
+                  hideExpression: false,
+                  tooltip: "",
+                  key: "button" + Guid.newGuid(),
+                  color: "btn btn-success",
+                  title: "Dropdown button",
+                  type: "dropdown",
+                  btnIcon: "uil uil-user",
+                  // format: "text-left",
+                  btnDisables: false,
+                  disabled: this.getLastNodeWrapper("disabled"),
+                  dropdownOptions: [
+                    {
+                      label: "Option 1",
+                      link: "1",
+                    },
+                    {
+                      label: "Option 2",
+                      link: "2",
+                    },
+                    {
+                      label: "Option 3",
+                      link: "3",
+                    },
+                    {
+                      label: "Option 4",
+                      link: "4",
+                    },
+                  ],
+                },
+
+              ],
+
+            }
+          ],
+        }],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'updateButton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'update_1',
+        type: "button",
+        highLight: false,
+        isNextChild: false,
+        actionType: "update",
+        className: "col-md-3 col-sm-6 col-xs-12",
+        chartCardConfig: [{
+          buttonGroup: [
+            {
+              // btnGroupPosition: "text-left",
+              btnGroupFormat: "text-left",
+              highLight: false,
+              btnConfig: [
+                {
+                  hideExpression: false,
+                  tooltip: "",
+                  color: "btn btn-primary",
+                  title: "Update",
+                  btnIcon: "uil uil-user",
+                  type: "update",
+                  key: "update" + Guid.newGuid(),
+                  // format: "text-left",
+                  btnDisables: false,
+                  disabled: this.getLastNodeWrapper("disabled"),
+                },
+              ],
+
+            }
+          ],
+        }],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'deleteButton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'delete_1',
+        type: "button",
+        highLight: false,
+        isNextChild: false,
+        actionType: "delete",
+        className: "col-md-3 col-sm-6 col-xs-12",
+        chartCardConfig: [{
+          buttonGroup: [
+            {
+              // btnGroupPosition: "text-left",
+              btnGroupFormat: "text-left",
+              btnConfig: [
+                {
+                  hideExpression: false,
+                  tooltip: "",
+                  key: "delete" + Guid.newGuid(),
+                  color: "btn btn-danger",
+                  title: "Delete",
+                  btnIcon: "uil uil-user",
+                  type: "delete",
+                  // format: "text-left",
+                  btnDisables: false,
+                  disabled: this.getLastNodeWrapper("disabled"),
+                },
+              ],
+
+            }
+          ],
+        }],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'switch') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        type: "switch",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        tooltip: "",
+        key: "switch" + Guid.newGuid(),
+        switchPosition: "left",
+        label: "Switch",
+        switchType: "defaultSwitch",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'imageUpload') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        type: "imageUpload",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-6 col-xs-12",
+        label: "Image Upload",
+        imageClass: "",
+        alt: "",
+        source: "https://cdn.pixabay.com/photo/2016/04/04/14/12/monitor-1307227__340.jpg",
+        imagHieght: 200,
+        imageWidth: 200,
+        base64Image: "",
+        hideExpression: false,
+        tooltip: "",
+        key: "imageUpload" + Guid.newGuid(),
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'progressBar') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        title: 'progressBar',
+        type: "progressBar",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        tooltip: "",
+        key: "progressBar" + Guid.newGuid(),
+        value: "25",
+        color: "primary",
+        showValue: false,
+        stripped: false,
+        height: 9,
+        animated: false,
+        hieghtWithPx: "9px",
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'video') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        title: 'Play Video Online',
+        type: "video",
+        highLight: false,
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        isNextChild: false,
+        tooltip: "",
+        key: "video" + Guid.newGuid(),
+
+        videoRatio: "ratio ratio-1x1",
+        videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'audio') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        title: "Audio Example",
+        type: "audio",
+        highLight: false,
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        isNextChild: false,
+        tooltip: "",
+        audioSrc: "https://pagalfree.com/musics/128-Rasiya%20-%20Brahmastra%20128%20Kbps.mp3",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'carouselCrossfade') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'carouselCrossfade_1',
+        type: "carouselCrossfade",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        tooltip: "",
+
+        carousalType: "carousel-fade",
+        carousalConfig: [
+          {
+            img: "assets/images/small/img-1.jpg",
+            captionTitle: "First slide label",
+            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          },
+          {
+            img: "assets/images/small/img-2.jpg",
+            captionTitle: "Second slide label",
+            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          },
+          {
+            img: "assets/images/small/img-3.jpg",
+            captionTitle: "Third slide label",
+            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          }
+        ],
+
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'tuiCalender') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'calender_1',
+        type: "tuiCalender",
+        className: "col-md-9 col-xs-12",
+        hideExpression: false,
+        highLight: false,
+        isNextChild: false,
+        tooltip: "",
+        viewType: "month",
+        disabled: false,
+        options: [
+          {
+            id: 'cal1',
+            name: 'Personal',
+            "bgColor": '#bbdc00',
+          },
+          {
+            id: 'cal2',
+            name: 'Work',
+            bgColor: '#ffbb3b',
+          },
+          {
+            id: 'cal2',
+            name: 'Work Tonight',
+            bgColor: 'black',
+          },
+        ],
+
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'sharedMessagesChart') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'Task  Widget_1',
+        type: "sharedMessagesChart",
+        className: "col-md-6 col-xs-12",
+        hideExpression: false,
+        highLight: false,
+        isNextChild: false,
+
+        tooltip: "",
+        labelIcon: "uil-shutter-alt",
+        heading: "Latest to do's",
+        headingIcon: "fas fa-exclamation-triangle",
+        headingColor: "text-warning",
+        subHeading: "Latest finished to do's",
+        subHeadingIcon: "fa fa-check",
+        subheadingColor: 'text-success',
+        link: '',
+        sharedMessagesConfig: [
+          {
+            message: "Bill's place for a.",
+            dateAndTime: "2022-11-05 04:21:01",
+            icon: "uil-pen",
+            icon1: "uil-times",
+          }
+        ],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'alert') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'alert_1',
+        type: "alert",
+        className: "col-12",
+        hideExpression: false,
+        tooltip: "Alert",
+        highLight: false,
+        isNextChild: false,
+        alertConfig: [
+          {
+            tooltip: "",
+            alertColor: "alert alert-primary",
+            text: "This is a primary alert—check it out!",
+            icon: "uil uil-question-circle",
+            type: "",
+            key: "alert_" + Guid.newGuid(),
+          }
+        ],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'simpleCardWithHeaderBodyFooter') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'simpleCard_1',
+        type: "simpleCardWithHeaderBodyFooter",
+        hideExpression: false,
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+
+        key: "simpleCard_" + Guid.newGuid(),
+        simpleCardWithHeaderBodyFooterConfig: [
+          {
+            tooltip: "",
+            textAlign: "text-left",
+            textSize: "h1",
+            headerText: "Card header",
+            bodyText: "card body",
+            footerText: "card footer",
+            link: '',
+            height: '100p',
+          }
+        ],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'dashonicTabs') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'SubTab_1',
+        type: "dashonicTabs",
+        className: "col-12",
+        isNextChild: true,
+        highLight: false,
+        key: 'SubTab_' + Guid.newGuid(),
+
+        dashonicTabsConfig: [
+          {
+            hideExpression: false,
+            tabLabel: 'Tab',
+            tooltip: '',
+            tabsPosition: 'nav-tabs justify-content-start',
+            selectTabColor: "",
+            tabsDisplayType: "--tabsDisplayType:None",
+            buttonText: "Submit",
+            buttonIcon: "",
+            buttonColor: "btn btn-primary mt-2",
+            underLineColor: "--underLineColor:none",
+            color: "none",
+            tabFormat: "horizental",
+            tabIcon: "uil-star",
+            dashonicTabsChild: []
+          }
+        ],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.tabsChild = newNode
+      this.addNode(node, newNode);
+    }
+    else if (value == 'mainDashonicTabs') {
+      const newNode = {
+        id: 'mainDashonicTabs_' + Guid.newGuid(),
+        label: 'MainTab_1',
+        type: "mainDashonicTabs",
+        isNextChild: true,
+        highLight: false,
+        className: "col-12",
+        tooltip: "",
+        hideExpression: false,
+        mainDashonicTabsConfig: [
+          {
+            tabLabel: 'Tab 1',
+            tabsPosition: 'nav-tabs justify-content-start',
+            selectTabColor: "#038EDC",
+            tabsDisplayType: "None",
+            buttonText: "Submit",
+            buttonIcon: "",
+            buttonColor: "btn btn-primary",
+            tabFormat: "horizental",
+            nodes: "3",
+            mainDashonicTabsChild: []
+          }
+
+        ],
+
+        children: [
+        ],
+
+      } as TreeNode;
+      this.tabsAdd = newNode
+      this.addNode(node, newNode);
+    }
+    else if (value == 'kanban') {
+      const newNode = {
+        id: 'kanban' + Guid.newGuid(),
+        label: 'kanban',
+        type: "kanban",
+        highLight: false,
+        isNextChild: true,
+        hideExpression: false,
+        tooltip: "",
+
+        key: "kanban" + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        text: "Kanban Board",
+        nodes: "3",
+        kambanChildren: [],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.tabsAdd = newNode
+      this.addNode(node, newNode);
+    }
+    else if (value == 'kanbanTask') {
+      const newNode = {
+        id: 'kanbanTask' + Guid.newGuid(),
+        label: 'kanbanTask',
+        type: "kanbanTask",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+
+        key: "kanbanTask" + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        text: "KanbanTask",
+        title: "Authentication Page Design",
+        date: "14 Oct, 2019",
+        content: "In enim justo rhoncus ut",
+        users: [
+          {
+            "name": "Emily Surface"
+          }
+        ],
+        status: "open",
+        variant: "bg-primary",
+        children: [
+        ],
+
+      } as TreeNode;
+      this.tabsChild = newNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'linkbutton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'linkbutton_1',
+        type: "linkButton",
+        highLight: false,
+        isNextChild: false,
+        className: "col-md-3 col-sm-6 col-xs-12",
+        buttonGroup: [
+          {
+            // btnPosition: "text-left",
+            btnGroupFormat: "text-left",
+            btnConfig: [
+              {
+                hideExpression: false,
+                className: "m-2",
+                tooltip: "",
+                key: "button_" + Guid.newGuid(),
+                type: "button",
+                color: "btn btn-primary",
+                target: "_blank",
+                btnType: "_blank",
+                title: "Link",
+                href: "fazi",
+                format: "text-left",
+                btnIcon: "",
+              },
+            ],
+
+          }
+        ],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'simplecard') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "card" + '_1',
+        type: "card",
+        className: "col-md-3 col-sm-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        icon: "uil uil-list-ul",
+        name: "Total Tasks",
+        total: "21",
+        key: "simplecard_" + Guid.newGuid(),
+        link: "",
+
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'chartcard') {
+      const newNode = {
+        id: "common" + Guid.newGuid(),
+        label: "chart" + '_1',
+        type: "chart",
+        className: "col-md-6 col-xs-12",
+        key: "chart",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        "link": "",
+        chartFilterData: [],
+        section: [
+          {
+            "filtertype": "Monthly",
+            "price": "$46.34k",
+            "data": [
+              10,
+              20,
+              15,
+              40,
+              20,
+              50,
+              70,
+              60,
+              90,
+              70,
+              110
+            ],
+            "colors": [
+              "#E10E0E",
+            ],
+            "filterData": [
+              {
+                "heading": "TOTAL REVENUE",
+                "price": "$46.34k",
+                "subheading": "Earning this month",
+                "defaultfilter": "Monthly",
+                "refundsChart": {
+                  "series": [
+                    {
+                      "name": "Series A",
+                      "data": [
+                        10,
+                        20,
+                        15,
+                        40,
+                        20,
+                        50,
+                        70,
+                        60,
+                        90,
+                        70,
+                        110
+                      ]
+                    }
+                  ],
+                  "chart": {
+                    "height": 50,
+                    "type": "bar",
+                    "sparkline": {
+                      "enabled": true
+                    },
+                    "toolbar": {
+                      "show": false
+                    }
+                  },
+                  "dataLabels": {
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "curve": "smooth",
+                    "width": 2
+                  },
+                  "fill": {
+                    "type": "gradient",
+                    "gradient": {
+                      "shadeIntensity": 1,
+                      "inverseColors": false,
+                      "opacityFrom": 0.45,
+                      "opacityTo": 0.05,
+                      "stops": [
+                        50,
+                        100,
+                        100,
+                        100
+                      ]
+                    }
+                  },
+                  "colors": [
+                    "#E10E0E",
+                  ]
+                },
+                "filters": [
+                  {
+                    "filtertype": "Monthly"
+                  },
+                  {
+                    "filtertype": "Yearly"
+                  },
+                  {
+                    "filtertype": "Weekly"
+                  }
+                ]
+              },
+            ]
+          },
+        ],
+
+        // formly: [
+        //   {
+        //     key: "inputfeildGen",
+        //     type: "input",
+        //     templateOptions: {
+        //       label: "Genaric Added",
+        // tooltip: {"content": ""},
+        //     },
+        //   }
+        // ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+
+    else if (value == 'sectionCard') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Section_Chart" + '_1',
+        type: "sectionCard",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+
+        tooltip: "",
+        "link": "",
+        "belowpercentage": 1,
+        "belowpercentageColor": "danger",
+        "key": "sectionCard_" + Guid.newGuid(),
+        "limit": 1,
+        section: [{
+          "icon": "fa-user",
+          "name": "Users",
+          "total": "2.2 k",
+          "percentage": "1.2",
+        }],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'widgetSectionCard') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Widget_Section_Card" + '_1',
+        type: "widgetSectionCard",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        "link": "",
+        "limit": 1,
+        "belowpercentage": 1,
+        "belowpercentageColor": "danger",
+        "key": "widgetSectionCard_" + Guid.newGuid(),
+
+        section: [
+          {
+            "name": "New Visitors",
+            "total": "1.2 k ",
+            "percentage": "0.2",
+            "data": [
+              21,
+              65,
+              32,
+              80,
+              42,
+              25, 90, 80, 10
+            ],
+            "Chart": {
+              "series": [
+                {
+                  "name": "New Visitors",
+                  "data": [
+                    21,
+                    65,
+                    32,
+                    80,
+                    42,
+                    25, 90, 80, 10
+                  ]
+                }
+              ],
+              "chart": {
+                "height": 52,
+                "type": "area",
+                "sparkline": {
+                  "enabled": true
+                },
+                "toolbar": {
+                  "show": false
+                }
+              },
+              "dataLabels": {
+                "enabled": false
+              },
+              "stroke": {
+                "curve": "smooth",
+                "width": 2
+              },
+              "colors": [
+                "#038edc"
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradient": {
+                  "shadeIntensity": 1,
+                  "inverseColors": false,
+                  "opacityFrom": 0.45,
+                  "opacityTo": 0.05,
+                  "stops": [
+                    20,
+                    100,
+                    100,
+                    100
+                  ]
+                }
+              },
+              "tooltip": {
+                "fixed": {
+                  "enabled": false
+                },
+                "x": {
+                  "show": false
+                },
+                "marker": {
+                  "show": false
+                }
+              }
+            }
+          }],
+
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'donutChart') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "donut_Chart" + '_1',
+        type: "donutChart",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+      
+            tooltip: "",
+            link: "",
+            defaultColor: "bg-primary",
+            key: "donutChart_" + Guid.newGuid(),
+            section: [{
+              "chart": {
+                "height": 245,
+                "type": "donut"
+              },
+              plotOptions: {
+                pie: {
+                  donut: {
+                    size: "70%"
+                  }
+                }
+              },
+              dataLabels: {
+                enabled: false
+              },
+              series: [
+                60,
+                35,
+                19,
+              ],
+              labels: [
+                "Social",
+                "Direct",
+                "Others",
+              ],
+              colors: [
+                "#038edc",
+                "#f5f6f8",
+                "#5fd0f3",
+              ],
+              legend: {
+                show: true,
+                position: "bottom",
+                horizontalAlign: "center",
+                verticalAlign: "middle",
+                floating: false,
+                fontSize: "14px",
+                offsetX: 0
+              }
+            }],
+       
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'browserChart') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Browser_Chart" + '_1',
+        type: "browserCard",
+        link: "",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+     
+            tooltip: "",
+            icon: "fa-chrome",
+            limit: 1,
+            belowpercentage: 100,
+            belowpercentageColor: "bg-danger",
+            key: "browserCard_" + Guid.newGuid(),
+            chart:
+              [
+                {
+                  name: "Chrome",
+                  percentage: 82,
+                  min: "82",
+                  max: "100",
+                  bar: "82%"
+                },
+              ],
+         
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'browserCombineChart') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Browser_CombineChart" + '_1',
+        type: "browserCombineChart",
+        link: "",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+ 
+            tooltip: "",
+            icon: "fa-chrome",
+            limit: 1,
+            belowpercentage: 100,
+            belowpercentageColor: "bg-danger",
+            key: "browserCard_" + Guid.newGuid(),
+            numberofcolumns: "",
+            chart:
+              [
+                {
+                  name: "Chrome",
+                  percentage: 82,
+                  min: "82",
+                  max: "100",
+                  bar: "82%"
+                },
+              ],
+        
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'donuteSaleChart') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Sale_Donute_Chart" + '_1',
+        type: "donuteSaleChart",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+            tooltip: "",
+            key: "donuteSaleChart_" + Guid.newGuid(),
+            thisTitle: "This Month",
+            lastTitle: "Last Month",
+            prevTitle: "From previous period",
+            thisValue: "$12,582",
+            lastValue: "$98,741",
+            prevValue: "25.2%",
+            growth: "+15%",
+            section: [
+              {
+                chart: {
+                  height: 130,
+                  type: "donut"
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                series: [
+                  44,
+                  25,
+                  19
+                ],
+                labels: [
+                  "Revenue",
+                  "Expenses",
+                  "Profit"
+                ],
+                colors: [
+                  "#038edc",
+                  "#dfe2e6",
+                  "#5fd0f3"
+                ],
+                legend: {
+                  show: false,
+                  position: "bottom",
+                  horizontalAlign: "center",
+                  verticalAlign: "middle",
+                  floating: false,
+                  fontSize: "14px",
+                  offsetX: 0
+                }
+              }
+            ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'salesAnalyticschart') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "sales_Analytics_chart" + '_1',
+        type: "salesAnalyticschart",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+            tooltip: "",
+            key: "salesAnalyticschart_" + Guid.newGuid(),
+            firstTitle: "Income",
+            firstValue: "3.85k",
+            secondTitle: "Sales",
+            secondValue: "258",
+            thirdLabel: "Users",
+            thirdValue: "52k",
+            link: "",
+            section: [{
+              chartTitlesValues: [
+                {
+                  value: "3.85k",
+                },
+                {
+                  value: "258",
+                },
+                {
+                  value: "52k",
+                }
+              ],
+              chart: {
+                height: 332,
+                type: "line",
+                stacked: false,
+                offsetY: -5,
+                toolbar: {
+                  show: false
+                }
+              },
+              stroke: {
+                width: [
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                curve: "smooth"
+              },
+              plotOptions: {
+                bar: {
+                  columnWidth: "40%"
+                }
+              },
+              colors: [
+                "#5fd0f3",
+                "#038edc",
+                "#51d28c",
+                "#51d28c"
+              ],
+              series: [
+                {
+                  name: "Income",
+                  title: "Income",
+                  value: "3.85k",
+                  type: "column",
+                  data: [
+                    23,
+                    11,
+                    22,
+                    27,
+                    13,
+                    22,
+                    37,
+                    21,
+                    44,
+                    22,
+                    30
+                  ]
+                },
+                {
+                  name: "Sales",
+                  title: "Sales",
+                  value: "258",
+                  type: "column",
+                  data: [
+                    19,
+                    8,
+                    26,
+                    21,
+                    18,
+                    36,
+                    30,
+                    28,
+                    40,
+                    39,
+                    15
+                  ]
+                },
+                {
+                  name: "Conversation Ratio",
+                  title: "",
+                  value: "",
+                  type: "area",
+                  data: [
+                    44,
+                    55,
+                    41,
+                    67,
+                    22,
+                    43,
+                    21,
+                    41,
+                    56,
+                    27,
+                    43
+                  ]
+                },
+                {
+                  name: "Users",
+                  title: "Users",
+                  value: "52k",
+                  type: "line",
+                  data: [
+                    9,
+                    11,
+                    13,
+                    12,
+                    10,
+                    8,
+                    6,
+                    9,
+                    14,
+                    17,
+                    22
+                  ]
+                }
+              ],
+              fill: {
+                opacity: [
+                  0.85,
+                  1,
+                  0.25,
+                  1
+                ],
+                gradient: {
+                  inverseColors: false,
+                  shade: "light",
+                  type: "vertical",
+                  opacityFrom: 0.85,
+                  opacityTo: 0.55,
+                  stops: [
+                    0,
+                    100,
+                    100,
+                    100
+                  ]
+                }
+              },
+              labels: [
+                "01/01/2003",
+                "02/01/2003",
+                "03/01/2003",
+                "04/01/2003",
+                "05/01/2003",
+                "06/01/2003",
+                "07/01/2003",
+                "08/01/2003",
+                "09/01/2003",
+                "10/01/2003",
+                "11/01/2003"
+              ],
+              markers: {
+                "size": 0
+              },
+              xaxis: {
+                "type": "datetime"
+              },
+              yaxis: {
+                title: {
+                  text: "Sales Analytics",
+                  style: {
+                    fontWeight: 500
+                  }
+                }
+              },
+              tooltip: {
+                shared: true,
+                intersect: false,
+                y: "21 points"
+              },
+              grid: {
+                borderColor: "#f1f1f1",
+                padding: {
+                  bottom: 15
+                }
+              }
+            }],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'heading') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Heading" + '_1',
+        type: "header",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        key: "heading_" + Guid.newGuid(),
+        style: "font-weight:bold;",
+        textAlign: "text-align:left;",
+        headingColor: "#000000",
+        headingApi: "",
+        fontSize: "font-weight:bold;text-align:left;color:#000000",
+        paddingBottom: 0,
+        paddingTop: 0,
+        paddingRight: 0,
+        paddingLeft: 0,
+        data: {
+          text: "Editor.js",
+          level: 1
+        },
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'paragraph') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Paragraph" + '_1',
+        type: "paragraph",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        tooltip: "",
+        hideExpression: false,
+        key: "paragraph_" + Guid.newGuid(),
+        style: "font-weight:normal;",
+        textAlign: "text-align:left;",
+        fontSize: "font-weight:normal;text-align:left;",
+        color: "#000000",
+        api: "",
+        padding: '',
+        // paddingBottom: 0,
+        // paddingTop: 0,
+        // paddingRight: 0,
+        // paddingLeft: 0,
+        data: {
+          text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
+        },
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'htmlBlock') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Html Block" + '_1',
+        type: "paragraph",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        tooltip: "",
+        hideExpression: false,
+        key: "htmlBlock_" + Guid.newGuid(),
+        style: "font-weight:normal;",
+        textAlign: "text-align:left;",
+        fontSize: "font-weight:normal;text-align:left;",
+        api: "",
+        data: {
+          text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
+        },
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'textEditor') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        key: "textEditor" + Guid.newGuid(),
+        label: "Text Editor" + '_1',
+        type: "textEditor",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'editor_js') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        key: "editor_js" + Guid.newGuid(),
+        label: "editor_js" + '_1',
+        type: "editor_js",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }    
+    else if (value == 'breakTag') {
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "breakTag" + '_1',
+        type: "breakTag",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        tooltip: "",
+        hideExpression: false,
+            key: "breakTag_" + Guid.newGuid(),
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'multiFileUpload') {
+
+      const newNode = {
+        id: "common_" + Guid.newGuid(),
+        label: "Multi File Upload" + '_1',
+        type: "multiFileUpload",
+        className: "col-md-6 col-xs-12",
+        highLight: false,
+        isNextChild: false,
+        tooltip: "",
+        hideExpression: false,
+     
+            key: "multiFileUpload_" + Guid.newGuid(),
+            uploadBtnLabel: "Click here to upload",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'gridList') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'Grid List' + '_1',
+        type: 'gridList',
+        link: '',
+        key: "simpleGridList_" + Guid.newGuid(),
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        forCommomComponentCondition: 'simpleGridList',
+        className: "col-12",
+        pagination: 10,
+        filter: false,
+        sortable: false,
+        tooltip: "",
+        delete: true,
+        update: false,
+        create: false,
+            getVariable: "",
+            setVariable: "",
+        children: [
+          {
+            id: "name_" + Guid.newGuid(),
+            label: "name",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Name",
+            name: "name",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+          {
+            id: "father_name_" + Guid.newGuid(),
+            label: "father_name",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Father Name",
+            name: "father_name",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+          {
+            id: "address_" + Guid.newGuid(),
+            label: "address",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Address",
+            name: "address",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+        ],
+        rowData: [
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 1,
+            name: "Sebastian",
+            salary: 100,
+          },
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 2,
+            name: "Sebastian",
+            salary: 200,
+          },
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 3,
+            name: "Sebastian",
+            salary: 300,
+          },
+        ],
+        columnData: [],
+        icon: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'invoiceGrid') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'Grid List' + '_1',
+        type: 'invoiceGrid',
+        link: '',
+        key: "invoiceGrid_" + Guid.newGuid(),
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        className: "col-12",
+        pagination: 10,
+        filter: false,
+        sortable: false,
+        tooltip: "",
+        delete: true,
+        update: false,
+        create: false,
+       
+           
+         
+        children: [
+          {
+            "id": "description",
+            "label": "description",
+            "type": "input",
+            "header": "description",
+            "name": "description",
+            "showColumn": true,
+            "filter": false,
+            "editorType": false,
+            "sortable": false,
+            "editor": {
+              "type": "text"
+            },
+            "children": []
+          },
+          {
+            "id": "quantity",
+            "label": "quantity",
+            "type": "input",
+            "header": "quantity",
+            "name": "quantity",
+            "showColumn": true,
+            "filter": false,
+            "sortable": false,
+            "editorType": false,
+            "editor": {
+              "type": "text"
+            },
+            "children": []
+          },
+          {
+            "id": "price",
+            "label": "price",
+            "type": "input",
+            "header": "price",
+            "name": "price",
+            "showColumn": true,
+            "filter": false,
+            "sortable": false,
+            "editorType": false,
+            "editor": {
+              "type": "text"
+            },
+            "children": []
+          },
+          {
+            "id": "amount",
+            "label": "amount",
+            "type": "input",
+            "header": "amount",
+            "name": "amount",
+            "showColumn": true,
+            "filter": false,
+            "sortable": false,
+            "editorType": false,
+            "editor": {
+              "type": "text"
+            },
+            "children": []
+          }
+        ],
+        rowData: [
+          {
+            id: 1,
+            "description": "aa",
+            "quantity": 10,
+            "price": 10,
+            "amount": 100,
+          },
+          {
+
+            "description": "bb",
+            "quantity": 10,
+            "price": 10,
+            "amount": 100,
+          },
+          {
+            "description": "cc",
+            "quantity": 10,
+            "price": 10,
+            "amount": 100,
+          },
+          {
+            "description": "baby_ruth",
+            "quantity": 10,
+            "price": 10,
+            "amount": 100,
+          },
+        ],
+        columnData: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'gridListEditDelete') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'Grid List' + '_1',
+        type: 'gridListEditDelete',
+        link: '',
+        key: "gridListEditDelete_" + Guid.newGuid(),
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "Grid List Editable",
+        forCommomComponentCondition: 'gridListEditDelete',
+        pagination: 10,
+        filter: false,
+        sortable: false,
+        children: [
+          {
+            id: "name_" + Guid.newGuid(),
+            label: "name",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Name",
+            name: "name",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+          {
+            id: "father_name_" + Guid.newGuid(),
+            label: "father_name",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Father Name",
+            name: "father_name",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+          {
+            id: "address_" + Guid.newGuid(),
+            label: "address",
+            type: "input",
+            editor: { type: 'text' },
+            header: "Address",
+            name: "address",
+            sortingType: "desc",
+            sortable: false,
+            showColumn: true,
+            editorType: true,
+            children: []
+          },
+        ],
+        rowData: [
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 1,
+            name: "Sebastian",
+            salary: 100,
+          },
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 2,
+            name: "Sebastian",
+            salary: 200,
+          },
+          {
+            father_name: "baby_ruth",
+            address: "FSD",
+            id: 3,
+            name: "Sebastian",
+            salary: 300,
+          },
+        ],
+        columnData: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'column') {
+      const newNode = {
+        id: "Column " + Math.random().toFixed(3),
+        label: 'Column' + '_1',
+        type: "input",
+        isNextChild: false,
+        gridList: [
+          {
+            header: "Id " + Math.random().toFixed(3),
+            name: "id " + Math.random().toFixed(3),
+            textArea: ""
+          }
+        ],
+        children: []
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'timeline') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'timeline_1',
+        type: "timeline",
+        className: "col-12",
+        highLight: false,
+        isNextChild: false,
+        hideExpression: false,
+        
+          timelineConfig: [
+            {
+              tooltip: "",
+              timelineHeading: '2021',
+              headingColor: 'btn btn-danger',
+              headingShape: 'btn-rounded',
+              timelineType: 'verti-timeline',
+              data: [
+                {
+                  title: "Timeline Event One",
+                  content: "It will be as simple as occidental in fact. To an english person, it will seem like simplified English, as a skeptical friend",
+                  date: '11/7/2022',
+                  align: "",
+                  createdBy: "Zubair",
+                  image: ["assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg"],
+                  company: "",
+                }
+              ]
+            }
+          ],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'fixedDiv') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'FixedDiv_1',
+        type: "fixedDiv",
+        tooltip: "",
+        isNextChild: true,
+        hideExpression: false,
+          fixedDivConfig: [
+            {
+              key: "fixedDiv" + Guid.newGuid(),
+
+            }
+          ],
+          fixedDivChild: [],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'accordionButton') {
+      const newNode = {
+        id: 'accordionButton_' + Guid.newGuid(),
+        label: 'accordionButton_1',
+        type: "accordionButton",
+        highLight: false,
+        isNextChild: true,
+        className: "col-12",
+        hideExpression: false,
+          accordionConfig: [
+            {
+              tooltip: "",
+              label: "Accordion",
+              color: "bg-primary",
+              accordionChild: [],
+            }
+          ],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'divider') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'Divider_1',
+        type: "divider",
+        highLight: false,
+        isNextChild: true,
+        hideExpression: false,
+        tooltip: "",
+        text: "Divider",
+        key: "divider" + Guid.newGuid(),
+        dividerClassName: "col-md-6 col-xs-12",
+        textColor: "#000000",
+        textcolorForStyle: "",
+        lineColorForStyle: "--lineColor:#000000",
+        verticalLineColorForCssBinding: "--verticalLineColorForCssBinding:1px solid black",
+        lineColor: "#000000",
+        dividerPosition: "",
+        classNameForPosition: "",
+        dividerFormat: "horizental",
+        verticalLineHieght: "200",
+        verticalLineHieghtForCssBinding: "--verticalLineHieghtForCssBinding:200px",
+        verticalLinePosition: "50",
+        verticalLinePositionForCssBinding: "--verticalLinePositionForCssBinding:50px",
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'toastr') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'toastr_' + Guid.newGuid(),
+        label: 'toastr_1',
+        type: "toastr",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        toastrType: "success",
+        toasterTitle: "Title",
+        duration: 3000,
+        placement: "topRight",
+        closeIcon: "close-circle",
+        description: "message",
+        animate: true,
+        pauseOnHover: true,
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'starrate') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        label: 'starrate_1',
+        type: "starrate",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'rangeSlider') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'rangeSlider',
+        type: "rangeSlider",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        // sliderType:'simple',
+        min: '0',
+        max: '2',
+        disabled: false,
+        showValue: false,
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'invoice') {
+      const newNode = {
+        id: 'invoice_' + Guid.newGuid(),
+        className: "col-12",
+        label: 'Invoice',
+        type: "invoice",
+        isNextChild: true,
+        hideExpression: false,
+        tooltip: "",
+        invoiceNumberLabel: "Invoice Number",
+        poNumber: "PO Number",
+        datelabel: "Date Label",
+        paymentTermsLabel: "Payment Terms",
+        billToLabel: "Bill To ",
+        dueDateLabel: "Due Date ",
+        shipToLabel: "Ship To",
+        notesLabel: "Notes",
+        subtotalLabel: "Sub Total",
+        dicountLabel: "Dicount",
+        shippingLabel: "Shipping",
+        taxLabel: "Tax",
+        termsLabel: "Terms",
+        totalLabel: "Total",
+        amountpaidLabel: "Amount Paid",
+        balanceDueLabel: "Balance Due",
+        invoiceChild: [],
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'affix') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Affix',
+        type: "affix",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        affixType: 'affix-top',
+        margin: 10,
+        target: false,
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'statistic') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Statistic',
+        type: "statistic",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        statisticArray: [
+          {
+            nzTitle: "Active Users",
+            nzValue: 1949101,
+          },
+          {
+            nzTitle: "Account Balance (CNY)",
+            nzValue: 2019.111,
+          },
+        ],
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'backTop') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Back Top',
+        type: "backTop",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        description: "Scroll down to see the bottom-right",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'anchor') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Anchor',
+        type: "anchor",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        anchor: [
+          {
+            nzTitle: "Basic demo",
+            nzHref: "#components-anchor-demo-basic",
+            children: [],
+          },
+          {
+            nzTitle: "Static demo",
+            nzHref: "#components-anchor-demo-static",
+            children: [],
+          },
+          {
+            nzHref: "#api",
+            nzTitle: "API",
+            children: [
+              {
+                nzHref: "#nz-anchor",
+                nzTitle: "nz-anchor",
+              },
+              {
+                nzHref: "#nz-link",
+                nzTitle: "nz-link",
+              },
+            ]
+          },
+        ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'modal') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Modal',
+        type: "modal",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        btnLabel: "Show Modal",
+        modalContent: "Content",
+        modalTitle: "The first Modal",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'popConfirm') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Pop Confirm',
+        type: "popConfirm",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        btnLabel: "Open Popconfirm with Promise",
+        // modalContent:"Content",
+        // modalTitle:"The first Modal",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'avatar') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        key: "avatar_" + Guid.newGuid(),
+        label: 'Avatar',
+        type: "avatar",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        icon: "",
+        text: "",
+        src: "//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        bgColor: "#87d068",
+        color: "#f56a00",
+        alt: "",
+        gap: 0,
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'badge') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Badge',
+        type: "badge",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        numberOfBadges: 5,
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'comment') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'comment_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Comment',
+        type: "comment",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        author: 'Han Solo',
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'popOver') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'popOver_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Pop Over',
+        type: "popOver",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        btnLabel: "Hover me",
+        nzPopoverContent: "Content",
+        nzPopoverTitle: "Title",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'description') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'description_' + Guid.newGuid(),
+        type: "description",
+        label: 'Description',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: true,
+        title: "Description",
+        nzExtra: "extraTpl",
+        size: "default",
+        isBordered: true,
+        formatter: "horizontal",
+        isColon: false,
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'descriptionChild') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'descriptionchild_' + Guid.newGuid(),
+        label: 'descriptionchild',
+        type: "descriptionChild",
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        nzSpan: 2,
+        title: "title",
+        content: "content",
+        nzStatus: "processing",
+        isBadeg: true,
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'segmented') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Segmented',
+        type: "segmented",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        options: ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly'],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'result') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'result',
+        type: "result",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        status: "success",
+        resultTitle: "Successfully Purchased Cloud Server ECS!",
+        subTitle: "Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait.",
+        btnLabel: "Done",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'nzTag') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Tag',
+        type: "nzTag",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        color: "red",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'spin') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'spin_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Spin',
+        type: "spin",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        size: "large",
+        delayTime: 1000,
+        loaderText: "Loading...",
+        loaderIcon: "",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'transfer') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'transfer',
+        type: "transfer",
+        isNextChild: false,
+        hideExpression: false,
+        disabled: false,
+        list: [
+          {
+            key: '1',
+            title: 'content 1',
+            description: 'description of content 1',
+            direction: 'right',
+          },
+          {
+            key: '2',
+            title: 'content 2',
+            description: 'description of content 1',
+            direction: undefined,
+          },
+          {
+            key: '3',
+            title: 'content 3',
+            description: 'description of content 3',
+            direction: 'right',
+          },
+          {
+            key: '4',
+            title: 'content 4',
+            description: 'description of content 4',
+            direction: undefined,
+          },
+          {
+            key: '5',
+            title: 'content 5',
+            description: 'description of content 5',
+            direction: 'right',
+          },
+          {
+            key: '6',
+            title: 'content 6',
+            description: 'description of content 6',
+            direction: undefined,
+          },
+          {
+            key: '7',
+            title: 'content 7',
+            description: 'description of content 8',
+            direction: 'right',
+          },
+          {
+            key: '8',
+            title: 'content 8',
+            description: 'description of content 8',
+            direction: 'undefined',
+          },
+          {
+            key: '9',
+            title: 'content 9',
+            description: 'description of content 9',
+            direction: 'right',
+          },
+          {
+            key: '10',
+            title: 'content 10',
+            description: 'description of content 10',
+            direction: undefined,
+          },
+        ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'treeSelect') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'tree Select',
+        type: "treeSelect",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        expandKeys: ['100', '1001'],
+        title: 'parent 1',
+        key: '100',
+        nodes: [
+          {
+            title: 'parent 1',
+            key: '100',
+            children: [
+              {
+                title: 'parent 1-0',
+                key: '1001',
+                children: [
+                  { title: 'leaf 1-0-0', key: '10010', isLeaf: true },
+                  { title: 'leaf 1-0-1', key: '10011', isLeaf: true }
+                ]
+              },
+              {
+                title: 'parent 1-1',
+                key: '1002',
+                children: [{ title: 'leaf 1-1-0', key: '10020', isLeaf: true }]
+              }
+            ]
+          }
+        ],
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'cascader') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "col-md-6 col-xs-12",
+        label: 'Cascader',
+        type: "cascader",
+        isNextChild: false,
+        hideExpression: false,
+        options: [
+          {
+            value: 'zhejiang',
+            label: 'Zhejiang',
+            children: [
+              {
+                value: 'hangzhou',
+                label: 'Hangzhou',
+                children: [
+                  {
+                    value: 'xihu',
+                    label: 'West Lake',
+                    isLeaf: true
+                  }
+                ]
+              },
+              {
+                value: 'ningbo',
+                label: 'Ningbo',
+                isLeaf: true
+              }
+            ]
+          },
+          {
+            value: 'jiangsu',
+            label: 'Jiangsu',
+            children: [
+              {
+                value: 'nanjing',
+                label: 'Nanjing',
+                children: [
+                  {
+                    value: 'zhonghuamen',
+                    label: 'Zhong Hua Men',
+                    isLeaf: true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'drawer') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'drawer_' + Guid.newGuid(),
+        type: "drawer",
+        label: 'Drawer',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        color: "primary",
+        btnText: "Open Drawer",
+        isClosable: true,
+        icon: "close",
+        extra: "extra",
+        // isMask: true,
+        // isMaskClosable: true,
+        // isCloseOnNavigation: true,
+        isKeyboard: true,
+        // maskStyle: {},
+        // bodyStyle: {},
+        title: "Basic Drawer",
+        footerText: "",
+        isVisible: false,
+        placement: "right",
+        size: "right",
+        width: "",
+        height: "", //number and string
+        offsetX: 0,
+        offsetY: 0,
+        wrapClassName: "",
+        zIndex: 1,
+        // onClose: "right",//function
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'skeleton') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'skeleton_' + Guid.newGuid(),
+        type: "skeleton",
+        label: 'Skeleton',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        isNextChild: false,
+        hideExpression: false,
+
+        isActive: false, //true
+        size: "default", //large, small
+        buttonShape: "circle", //default ,round
+        avatarShape: "circle", //square
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'empty') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'empty_' + Guid.newGuid(),
+        type: "empty",
+        label: 'Empty',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        isNextChild: false,
+        hideExpression: false,
+
+        icon: "https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg",
+        content: "contentTpl",
+        text: "Description",
+        link: "#API",
+        btnText: "Create Now",
+        color: "primary",
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'list') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'list_' + Guid.newGuid(),
+        type: "list",
+        label: 'List with Load More',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        headerText: "this is Header",
+        footerText: "this is footer",
+        formatter: "vertical",
+        size: "default",
+        isBordered: true,
+        isSplit: false,
+        isEdit: true,
+        isUpdate: false,
+        isDelete: true,
+        isLoad: false,
+        loadText: "Loading more",
+        options: [
+          {
+            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            name: "Mr Felicíssimo Porto",
+            lastNameHref: "https://ng.ant.design",
+            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
+            email: "felicissimo.porto@example.com",
+            gender: "male",
+            content: "Content",
+            nat: "BR",
+            isLoading: false,
+          },
+          {
+            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            name: "Miss Léane Muller",
+            lastNameHref: "https://ng.ant.design",
+            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
+            email: "leane.muller@example.com",
+            gender: "female",
+            content: "Content",
+            nat: "FR",
+            loading: false,
+          },
+          {
+            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            name: "Mrs کیمیا موسوی",
+            lastNameHref: "https://ng.ant.design",
+            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
+            email: "khymy.mwswy@example.com",
+            gender: "female",
+            content: "Content",
+            nat: "IR",
+            loading: false,
+          },
+          {
+            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            name: "Mr Antonin Fabre",
+            lastNameHref: "https://ng.ant.design",
+            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
+            email: "antonin.fabre@example.com",
+            gender: "male",
+            content: "Content",
+            nat: "FR",
+            loading: true,
+          },
+          {
+            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            name: "Mr Jivan Ronner",
+            lastNameHref: "https://ng.ant.design",
+            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
+            email: "jivan.ronner@example.com",
+            gender: "male",
+            content: "Content",
+            nat: "NL",
+            loading: false,
+          }
+        ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'treeView') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'treeView_' + Guid.newGuid(),
+        type: "treeView",
+        label: 'Tree View',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        isBlockNode: true,
+        isDraggable: true,
+        isShowLine: true,
+        isCheckable: false,
+        isMultiple: false,
+        isExpandAll: false,
+        treeNode: [
+          {
+            title: 'parent 1',
+            key: '100',
+            expanded: true,
+            children: [
+              {
+                title: 'parent 1-0',
+                key: '1001',
+                expanded: true,
+                children: [
+                  { title: 'leaf', key: '10010', isLeaf: true },
+                  { title: 'leaf', key: '10011', isLeaf: true },
+                  { title: 'leaf', key: '10012', isLeaf: true }
+                ]
+              },
+              {
+                title: 'parent 1-1',
+                key: '1002',
+                children: [{ title: 'leaf', key: '10020', isLeaf: true }]
+              },
+              {
+                title: 'parent 1-2',
+                key: '1003',
+                children: [
+                  { title: 'leaf', key: '10030', isLeaf: true },
+                  { title: 'leaf', key: '10031', isLeaf: true }
+                ]
+              }
+            ]
+          }
+        ],
+        children: [
+        ],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'mentions') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'mentions_' + Guid.newGuid(),
+        type: "mentions",
+        label: 'Mention',
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        options: ['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご'],
+        title: "@afc163",
+        placeholder: "enter sugestion",
+        rows: "1",
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'message') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'message_' + Guid.newGuid(),
+        label: 'Message',
+        type: "message",
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        title: "show Message",
+        content: "this message is disappeard after 10 seconds",
+        duration: 10000,
+        messageType: "success",
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
+    else if (value == 'notification') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        key: 'notification_' + Guid.newGuid(),
+        label: 'Notification',
+        type: "notification",
+        className: "col-md-6 col-xs-12",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        title: "Notification Title",
+        content: "A function will be be called after the notification is closed (automatically after the 'duration' time of manually).",
+        isSmile: true,
+        icon: "smile",
+        color: "#108ee9",
+        duration: 3000,
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
     this.nodes = [...this.nodes];
     // this.controlListClose();
     // if (this.screenName)
     // this.saveOldJson();
   }
-  makeFormlyOptions(option:any){
-    if(option){
+  makeFormlyOptions(option: any) {
+    if (option) {
       let data = [
         {
           label: "option1",
@@ -578,7 +3254,7 @@ export class BuilderComponent implements OnInit {
         }
       ];
       return data;
-    }else
+    } else
       return [];
   }
   addNode(node: TreeNode, newNode: TreeNode) {
@@ -588,7 +3264,7 @@ export class BuilderComponent implements OnInit {
     // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectdNode);
   }
   getLastNodeWrapper(dataType?: string) {
-    let wrapperName : any = ['form-field-horizontal'];
+    let wrapperName: any = ['form-field-horizontal'];
     if (dataType == 'wrappers') {
       return wrapperName;
     } else if (dataType == 'disabled') {
@@ -647,11 +3323,11 @@ export class BuilderComponent implements OnInit {
     }
     return data;
   }
-  closeConfigurationList(){
+  closeConfigurationList() {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    parent =  parent.parentNode.origin;
+    parent = parent.parentNode.origin;
     node = node.origin;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
@@ -1393,10 +4069,10 @@ export class BuilderComponent implements OnInit {
       this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.paragraphFields;
     }
-    else if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" ||type == "checkbox"
-    ||type == "datetime" || type == "time" || type == "date" || type == "month" || type == "decimal" || type == "week"
-    ||type == "color" || type == "input" || type == "inputGroup" || type == "image" || type == "textarea"
-    || type == "telephone") {
+    else if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox"
+      || type == "datetime" || type == "time" || type == "date" || type == "month" || type == "decimal" || type == "week"
+      || type == "color" || type == "input" || type == "inputGroup" || type == "image" || type == "textarea"
+      || type == "telephone") {
       debugger
       if (this.selectdNode) {
         configObj = {
@@ -1418,9 +4094,9 @@ export class BuilderComponent implements OnInit {
         }
       }
       this.feildData.commonData = _formFeildData.commonFormlyConfigurationFields;
-      if(type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" ||type == "checkbox")
+      if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
         this.feildData.formData = _formFeildData.radioFields;
-      if(type == 'color')
+      if (type == 'color')
         this.feildData.formData = _formFeildData.colorFields;
 
     }
@@ -1800,7 +4476,7 @@ export class BuilderComponent implements OnInit {
     this.isVisible = data.origin.id;
   }
   hoverOut(data: any) {
-    this.isVisible =  data.origin.id;
+    this.isVisible = data.origin.id;
   }
   highlightSelect(id: any) {
     this.nodes.at(0)?.children?.forEach((element: any) => {
@@ -1883,18 +4559,18 @@ export class BuilderComponent implements OnInit {
   addSection() {
     this.sectionBageBody = this.nodes[0].children[1];
     this.selectdNode = this.sectionBageBody,
-      this.addControlToJson('according',null);
+      this.addControlToJson('according', null);
     this.selectdNode = this.sectionAccording;
-    this.addControlToJson('accordingHeader',null);
-    this.addControlToJson('accordingBody',null);
-    this.addControlToJson('accordingFooter',null);
+    this.addControlToJson('accordingHeader', null);
+    this.addControlToJson('accordingBody', null);
+    this.addControlToJson('accordingFooter', null);
     this.selectdNode = this.sectionAccorBody;
-    this.addControlToJson('text',this.textJsonObj);
+    this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
 
     let id = event.origin.id;
-     let node =  event.origin;
+    let node = event.origin;
     if (this.screenPage) {
       this.searchControllData = [];
       this.isActiveShow = id;
@@ -1917,7 +4593,7 @@ export class BuilderComponent implements OnInit {
   newChild: any = [];
   insertAt(parent: any, node: any) {
 
-    parent =  parent.parentNode.origin;
+    parent = parent.parentNode.origin;
     node = node.origin;
     var nodeData = JSON.parse(JSON.stringify(node));
     if (parent.children) {
@@ -2085,7 +4761,7 @@ export class BuilderComponent implements OnInit {
     // array.splice(index, 0, ...elementsArray);
   }
   remove(parent: any, node: any) {
-    parent =  parent?.parentNode?.origin;
+    parent = parent?.parentNode?.origin;
     node = node.origin;
     if (parent != undefined) {
       console.log(parent, node);
@@ -2106,7 +4782,7 @@ export class BuilderComponent implements OnInit {
   nzEvent(event: NzFormatEmitEvent): void {
     console.log(event);
   }
-  updateNodes(){
+  updateNodes() {
     this.nodes = [...this.nodes];
   }
   clickBack() {
