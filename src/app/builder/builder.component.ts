@@ -754,28 +754,7 @@ export class BuilderComponent implements OnInit {
     let _formFeildData = new formFeildData();
     this.feildData.title = "Change Attribute Values";
     let configObj: any = {};
-    if (type == 'repeatSection') {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        // key: this.selectdNode?.chartCardConfig[0]?.formly[0]?.fieldGroup[0]?.key,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['title'],
-        options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        // multiselect: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.multiselect,
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.selectBoxFields;
-    }
-    else if (type == "breakTag") {
+    if (type == "breakTag") {
       configObj = {
         id: this.selectdNode.id as string,
         tooltip: this.selectdNode.tooltip,
@@ -784,7 +763,7 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.breakTagFeilds;
     }
     else if (type == "imageUpload") {
@@ -802,7 +781,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // image: this.selectdNode.base64Image,
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.imageUploadFeilds;
     }
     else if (type == "toastr") {
@@ -817,7 +796,7 @@ export class BuilderComponent implements OnInit {
         toastrType: this.selectdNode.toastrType,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.toastrFeilds;
     }
     else if (type == "invoice") {
@@ -841,7 +820,7 @@ export class BuilderComponent implements OnInit {
         amountpaidtitle: this.selectdNode.amountpaidLabel,
         balanceDuetitle: this.selectdNode.balanceDueLabel,
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.invoiceFeilds;
     }
     else if (type == "rangeSlider") {
@@ -858,7 +837,7 @@ export class BuilderComponent implements OnInit {
         showValue: this.selectdNode.showValue,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.rangeSliderFeilds;
     }
     else if (type == "inputGroupGrid") {
@@ -869,7 +848,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.inputGroupGridFeilds;
     }
     else if (type == "card") {
@@ -884,7 +863,7 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.cardFields;
     }
     else if (type == "fixedDiv") {
@@ -909,7 +888,7 @@ export class BuilderComponent implements OnInit {
         disabled: this.selectdNode.disabled,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.tuiCalendarFeilds;
     }
     else if (type == "multiFileUpload") {
@@ -921,7 +900,7 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.multiFileUploadFeilds;
     }
     else if (type == "textEditor") {
@@ -933,10 +912,9 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.textEditorFeilds;
     }
-
     else if (type == "switch") {
       configObj = {
         id: this.selectdNode.id as string,
@@ -948,10 +926,9 @@ export class BuilderComponent implements OnInit {
         switchPosition: this.selectdNode.switchPosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.switchFeilds;
     }
-
     else if (type == "dashonicTabs") {
       configObj = {
         id: this.selectdNode.id as string,
@@ -962,7 +939,7 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.dashonicTabFields;
     }
     else if (type == "kanban") {
@@ -975,7 +952,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
 
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.kanbanFeilds;
     }
     else if (type == "kanbanTask") {
@@ -997,7 +974,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.kanbanTaskFeilds;
     }
     else if (type == "mainDashonicTabs") {
@@ -1019,7 +996,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.dashoniMainTabFields;
     }
 
@@ -1040,7 +1017,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.progressBarFeilds;
     }
     else if (type == "divider") {
@@ -1061,7 +1038,7 @@ export class BuilderComponent implements OnInit {
         verticalLinePosition: this.selectdNode.verticalLinePosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.dividerFeilds;
     }
     else if (type == "video") {
@@ -1077,7 +1054,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.videosFeilds;
     }
     else if (type == "audio") {
@@ -1093,7 +1070,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.audioFeilds;
     }
     else if (type == "carouselCrossfade") {
@@ -1108,7 +1085,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.carousalFeilds;
     }
     else if (type == "alert") {
@@ -1125,7 +1102,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.alertFeilds;
     }
     else if (type == "timeline") {
@@ -1144,7 +1121,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.timelineFeilds;
     }
 
@@ -1165,7 +1142,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.simpleCardWithHeaderBodyFooterFeilds;
     }
 
@@ -1191,7 +1168,7 @@ export class BuilderComponent implements OnInit {
           repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.sharedMessagesChartFeilds;
     }
     else if (type == "browserCard") {
@@ -1210,7 +1187,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.browserChartFields;
     }
     else if (type == "browserCombineChart") {
@@ -1229,7 +1206,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.browserComibeChartFields;
     }
     else if (type == "widgetSectionCard") {
@@ -1247,7 +1224,7 @@ export class BuilderComponent implements OnInit {
           // data: this.selectdNode.widgetSectionCard[0].section[0].Chart.series[0].data,
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.widgetSectionChartFields;
     }
     else if (type == "sectionCard") {
@@ -1265,7 +1242,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.SectionChartFields;
     }
     else if (type == "chart") {
@@ -1281,7 +1258,7 @@ export class BuilderComponent implements OnInit {
         }
       }
       // objSelect.options = this.selectdNode.chartCardConfig[0]?.section[0].data,
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.chartFields;
     }
     else if (type == "donutChart") {
@@ -1306,7 +1283,7 @@ export class BuilderComponent implements OnInit {
           // options: generateColorData,
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.donutChartFields;
     }
     else if (type == "donuteSaleChart") {
@@ -1342,7 +1319,7 @@ export class BuilderComponent implements OnInit {
           // growth: this.selectdNode.saledDonutChart[0].growth,
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.donutSaleChartFields;
     }
     else if (type == "salesAnalyticschart") {
@@ -1370,7 +1347,7 @@ export class BuilderComponent implements OnInit {
 
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.saleAnalyticsChartFields;
     }
     else if (type == "heading") {
@@ -1391,7 +1368,7 @@ export class BuilderComponent implements OnInit {
         headingColor: this.selectdNode.headingColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.headingFields;
     }
     else if (type == "paragraph") {
@@ -1413,53 +1390,42 @@ export class BuilderComponent implements OnInit {
         color: this.selectdNode.color,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.paragraphFields;
     }
-    else if (type == "tags") {
-      if (this.selectdNode.chartCardConfig) {
+    else if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" ||type == "checkbox"
+    ||type == "datetime" || type == "time" || type == "date" || type == "month" || type == "decimal" || type == "week"
+    ||type == "color" || type == "input" || type == "inputGroup" || type == "image" || type == "textarea"
+    || type == "telephone") {
+      debugger
+      if (this.selectdNode) {
         configObj = {
           id: this.selectdNode.id as string,
           hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
           key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-          title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-          className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
+          label: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
+          className: this.selectdNode?.className,
+          placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
           options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
           required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
+          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
+          rows: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.rows,
+          formCheck: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
           addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
           addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.tagBoxFields;
-    }
-    else if (type == "multiselect") {
-      if (this.selectdNode.chartCardConfig) {
-        configObj = {
-          id: this.selectdNode.id as string,
-          hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-          key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-          className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-          title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-          defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['defaultValue'],
-          options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-          required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-          multiselect: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['multiselect'],
-          addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-          addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-          // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        }
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.selectBoxFields;
+      this.feildData.commonData = _formFeildData.commonFormlyConfigurationFields;
+      if(type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" ||type == "checkbox")
+        this.feildData.formData = _formFeildData.radioFields;
+      if(type == 'color')
+        this.feildData.formData = _formFeildData.colorFields;
+
     }
     else if (type == "customMasking") {
-      if (this.selectdNode.chartCardConfig) {
+      if (this.selectdNode) {
         configObj = {
           id: this.selectdNode.id as string,
           hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
@@ -1474,230 +1440,15 @@ export class BuilderComponent implements OnInit {
           maskString: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['maskString'],
           masktitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['masktitle'],
           placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
+          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
           addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
           addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonFormlyConfigurationFields;
       this.feildData.formData = _formFeildData.customMaskingFields;
-    }
-    else if (type == "search") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.searchBoxFields;
-    }
-    else if (type == "radiobutton") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        formCheck: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        multiselect: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['multiselect'],
-        titleColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelColor,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        titleBackgroundColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelBackgroundColor,
-      }
-      // _formFeildData.radioFields[0].fieldGroup[0].templateOptions.options = res;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.radioFields;
-    }
-    else if (type == "checkbox") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        // defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        formCheck: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        multiselect: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['multiselect'],
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.checkBoxFields;
-    }
-    //datandtime conditions
-    else if (type == "datetime") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.dateTimeFields;
-    }
-    //time conditions
-    else if (type == "time") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.timeFields;
-    }
-    //date condition
-    else if (type == "date") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.dateFields;
-    }
-    //month condition
-    else if (type == "month") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.monthFields;
-    }
-    //Number Conditions
-    else if (type == "decimal") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-        decimalmode: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['decimalmode'],
-        default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.decimalFeilds;
-    }
-
-    //week condition
-    else if (type == "week") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.weekFields;
-    }
-    //input color conditions
-    else if (type == "color") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        // name: this.selectdNode.formly[0].fieldGroup[0].name,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.colorFields;
     }
     //button Conditions
     else if (type == "button") {
@@ -1723,7 +1474,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.buttonFields;
     }
     else if (type == "dropdownButton") {
@@ -1741,7 +1492,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.dropdownButtonFields;
     }
     else if (type == "accordionButton") {
@@ -1756,7 +1507,7 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.accordionButtonFields;
     }
     //Link Button Conditions
@@ -1779,7 +1530,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.linkButtonFields;
     }
     else if (type == "buttonGroup") {
@@ -1794,165 +1545,13 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.buttonGroupFields;
     }
 
     //Grid Conditions
     else if (type == "gridNameAttributes") {
 
-    }
-
-    //Input Conditions
-    else if (type == "input") {
-      if (this.selectdNode) {
-        this.selectdNode = this.addPropertieInOldScreens(this.selectdNode, "styleConfig");
-        // this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions = this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "style");
-        let veriableOptions = [];
-        if (this.nodes[0].screenVariables) {
-          for (let index = 0; index < this.nodes[0].screenVariables.length; index++) {
-            veriableOptions.push({
-              title: this.nodes[0].screenVariables[index].variableName,
-              value: this.nodes[0].screenVariables[index].variableName
-            })
-          }
-        }
-        // _formFeildData.inputFeilds[0].fieldGroup[8].templateOptions.options = veriableOptions;
-        // _formFeildData.inputFeilds[0].fieldGroup[9].templateOptions.options = veriableOptions;
-        configObj = {
-          id: this.selectdNode.id as string,
-          hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-          key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-          title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-          placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-          // getVariable: this.selectdNode.getVariable,
-          // setVariable: this.selectdNode.setVariable,
-          default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-          className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-          minlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.minLength,
-          maxlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.maxLength,
-          focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-          required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-          readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-          disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-          tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-          titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-          // fontSize: this.selectdNode.styleConfig?.fontSize,
-          // fontStyle: this.selectdNode.styleConfig?.fontStyle,
-          // textColor: this.selectdNode.styleConfig?.textColor,
-          // bgColor: this.selectdNode.styleConfig?.bgColor,
-          // border: this.selectdNode.styleConfig?.border,
-          // margin: this.selectdNode.styleConfig?.margin,
-          // padding: this.selectdNode.styleConfig?.padding,
-          // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-          addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-          addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-        };
-        // if (this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.type == 'number') {
-        //   _formFeildData.inputFeilds[0].fieldGroup.forEach(element => {
-        //     if (element.key == 'minlength' || element.key == 'maxlength') {
-        //       element['hideExpression'] = true;
-        //     }
-        //   });
-        // }
-      }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.inputFeilds;
-    }
-    else if (type == "inputGroup") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-        default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        minlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.minLength,
-        maxlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.maxLength,
-        focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        addonLeft: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['addonLeft'].text,
-        addonRight: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['addonRight'].text,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-      };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.inputGroupFeilds;
-    }
-    //Image Conditions
-    else if (type == "image") {
-
-
-      // this.feildData.formData = this.methodUrl;
-
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-      };
-      // this.feildData.modal=obj;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.imageFeilds;
-    }
-    //Text Area Conditions
-    else if (type == "textarea") {
-
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-        default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        rows: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.rows,
-        minlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.minLength,
-        maxlength: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.maxLength,
-        focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-      };
-      // this.feildData.modal=obj;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.textareaFeilds;
-    }
-    //Phone number Conditions
-    else if (type == "telephone") {
-      configObj = {
-        id: this.selectdNode.id as string,
-        hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-        key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-        title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-        default: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-        className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-        required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-        readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-        disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip?.content,
-        titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.labelIcon,
-        // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-        addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-        addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-      };
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
-      this.feildData.formData = _formFeildData.telephoneFeilds;
     }
     // Working For Page Section
     else if (type == "page") {
@@ -1961,7 +1560,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         variables: this.selectdNode.screenVariables
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.pageFields;
     }
     else if (type == "pageHeader") {
@@ -1973,7 +1572,7 @@ export class BuilderComponent implements OnInit {
         titlePosition: this.selectdNode.labelPosition,
         alertPosition: this.selectdNode.alertPosition,
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.pageHeaderFields;
     }
     else if (type == "pageBody") {
@@ -1986,7 +1585,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title
       }
       this.formModalData = objPageBody;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.pageBodyFields;
     }
     else if (type == "pageFooter") {
@@ -2000,7 +1599,7 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
       }
       this.formModalData = objPageFooter;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.pageFooterFields;
     }
     else if (type == "according") {
@@ -2016,7 +1615,7 @@ export class BuilderComponent implements OnInit {
             wrappers: this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
             // disabled: this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
           }
-          this.feildData.commonData = _formFeildData.commonConfigurationFields;
+          this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
           this.feildData.formData = _formFeildData.accordingFields;
         }
         else {
@@ -2028,7 +1627,7 @@ export class BuilderComponent implements OnInit {
             repeatable: this.addPropertieInOldScreens(this.selectdNode.repeatable, 'repeatable'),
             // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
           }
-          this.feildData.commonData = _formFeildData.commonConfigurationFields;
+          this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
           this.feildData.formData = _formFeildData.accordingFields;
         }
       }
@@ -2045,7 +1644,7 @@ export class BuilderComponent implements OnInit {
         textColor: this.selectdNode.textColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.accordingHeaderFields;
     }
     else if (type == "accordingBody") {
@@ -2054,7 +1653,7 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.accordingBodyFields;
     }
     else if (type == "accordingFooter") {
@@ -2064,20 +1663,20 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.accordingFooterFields;
     }
     else if (type == "stepper") {
       configObj = {
         // stepperText: this.selectdNode.id,
         steppertitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip,
+        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
         // stepperIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.icon,
         // stepperFormat: this.selectdNode.chartCardConfig?.at(0)?.formly?.at(0)?.stepperFormat,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.stepperFields;
     }
     else if (type == "stepperMain") {
@@ -2096,7 +1695,7 @@ export class BuilderComponent implements OnInit {
         submitButtonColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonColor'],
         selectColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectColor'],
         defaultColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['defaultColor'],
-        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.tooltip,
+        tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
         icon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['icon'],
         steppertitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
         nodes: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nodes'],
@@ -2104,7 +1703,7 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.mainStepperFields;
     }
     else if (type == "tabsMain") {
@@ -2122,7 +1721,7 @@ export class BuilderComponent implements OnInit {
         // nodes: this.tabsNewlength,
       }
       this.formModalData = objTab;
-      this.feildData.commonData = _formFeildData.commonConfigurationFields;
+      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
       this.feildData.formData = _formFeildData.mainTabFields;
     }
 
