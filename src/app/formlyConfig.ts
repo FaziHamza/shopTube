@@ -2,6 +2,7 @@ import { ConfigOption } from "@ngx-formly/core";
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
 import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.component";
 import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
+import { FormlyFieldRepeatSectionComponent } from "./wrappers/formly-field-repeat-section.component";
 import { FormlyFieldRangeDate } from "./wrappers/FormlyFieldRangeDate";
 import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
 import { FormlyFieldTimePicker } from "./wrappers/FormlyFieldTimePicker";
@@ -21,6 +22,7 @@ export const fieldComponents = [
     FormlyVerticalThemeWrapper,
     FormlyFieldRangeDate,
     FormlyFieldTimePicker,
+    FormlyFieldRepeatSectionComponent,
 ];
 
 
@@ -29,7 +31,7 @@ export const formlyCustomeConfig: ConfigOption = {
         { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
         //   { name: 'extended-input', extends: 'input' },
         // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },
-        // { name: 'repeatSection', component: FormlyFieldRepeatSectionComponent },
+        { name: 'repeatSection', component: FormlyFieldRepeatSectionComponent },
         // { name: 'multiRepeatSection', component: MultiRepeatComponent },
         { name: 'ng-select', component: FormlyFieldNgSelectComponent },
         { name: 'ng-search', component: FormlyFieldNgSearchComponent },

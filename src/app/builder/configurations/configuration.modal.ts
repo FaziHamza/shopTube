@@ -12,8 +12,6 @@ export class formFeildData {
       {
         fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
-
-
           {
             key: 'formCheck',
             type: 'select',
@@ -51,34 +49,6 @@ export class formFeildData {
               ]
             },
           },
-
-
-          {
-            key: 'defaultValue',
-            type: 'input',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Default Value'
-            },
-          },
-          {
-            className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-            key: 'required',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'required'
-            },
-            defaultValue: false
-          },
-          // {
-          //   key: 'repeat',
-          //   type: 'checkbox',
-          //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          //   templateOptions: {
-          //     label: 'Repeat'
-          //   },
-          // },
         ]
       },
       {
@@ -96,14 +66,7 @@ export class formFeildData {
         fieldArray: {
           className: 'ml-3 me-2',
           fieldGroup: [
-            {
-              key: 'label',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'label'
-              }
-            },
+
             {
               key: 'value',
               type: 'input',
@@ -340,26 +303,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'key',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Key',
-        //   }
-        // },
-        {
-          key: 'id',
 
-          type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'id Name',
-            readonly: true
-          }
-        },
         {
           key: 'title',
           type: 'input',
@@ -369,59 +313,7 @@ export class formFeildData {
             label: 'Button Text'
           }
         },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'tooltip',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Tooltip',
-        //   }
-        // },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'btnGroupFormat',
           type: 'select',
@@ -446,15 +338,8 @@ export class formFeildData {
           },
           defaultValue: ''
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -470,16 +355,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'id',
-          type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'id Name',
-            readonly: true
-          }
-        },
+
         {
           key: 'title',
           type: 'input',
@@ -489,15 +365,7 @@ export class formFeildData {
             label: 'Button Text'
           }
         },
-        {
-          key: 'tooltip',
-          type: 'input',
-          className: "w-1/4 px-1",
-          "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip'
-          }
-        },
+
         {
           key: 'color',
           type: 'select',
@@ -590,59 +458,7 @@ export class formFeildData {
           },
           defaultValue: ''
         },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -666,15 +482,7 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
-              {
-                key: 'label',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'label',
-                  hideLabel: true
-                }
-              },
+
               {
                 key: 'link',
                 type: 'input',
@@ -694,25 +502,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'key',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Key',
-        //   }
-        // },
-        {
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          templateOptions: {
-            label: 'id Name',
-            readonly: true
-          }
-        },
+
         {
           key: 'title',
           type: 'input',
@@ -722,59 +512,7 @@ export class formFeildData {
             label: 'Button Text'
           }
         },
-        {
-          key: 'tooltip',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip'
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'target',
           type: 'select',
@@ -913,15 +651,7 @@ export class formFeildData {
             label: 'Link'
           }
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -947,106 +677,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          key: 'id',
-          type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          },
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        // {
-        //   key: 'name',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   templateOptions: {
-        //     label: 'Name'
-        //   }
-        // },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
           key: 'defaultValue',
           type: 'input',
           className: "w-1/4 px-1",
@@ -1057,2251 +687,6 @@ export class formFeildData {
             // value:"#038edc",
           },
         },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-
-        {
-          key: 'required',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'readonly',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'disabled',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    },
-  ]
-  //CheckBox Json
-  checkBoxFields: FormlyFieldConfig[] =
-    [
-      {
-        fieldGroupClassName: "flex flex-wrap",
-        fieldGroup: [
-          {
-            className: "w-1/4 px-1",
-            key: 'key',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Key',
-              required: true,
-              pattern: /^[a-z0-9_]+$/,
-            },
-          },
-          {
-            key: 'label',
-            type: 'input',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'label'
-            }
-          },
-          {
-            key: 'formCheck',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Format',
-              options: [
-                {
-                  label: 'Horizontal',
-                  value: 'inline'
-                },
-                {
-                  label: 'Vertical',
-                  value: 'vertical'
-                },
-
-              ]
-            },
-            // defaultValue: 'Vertical'
-          },
-          {
-            key: 'className',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'column',
-              options: [
-                {
-                  label: 'col-2',
-                  value: 'col-md-2 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-3',
-                  value: 'col-md-3 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-4',
-                  value: 'col-md-4 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-6',
-                  value: 'col-md-6 col-xs-12'
-                },
-                {
-                  label: 'col-8',
-                  value: 'col-md-8 col-xs-12'
-                },
-                {
-                  label: 'col-9',
-                  value: 'col-md-9 col-xs-12'
-                },
-                {
-                  label: 'col-10',
-                  value: 'col-md-10 col-xs-12'
-                },
-                {
-                  label: 'col-12',
-                  value: 'col-12'
-                }
-              ]
-            },
-            defaultValue: 'col-4'
-          },
-          // {
-          //   key: 'defaultValue',
-          //   type: 'input',
-          //   className: "w-1/4 px-1",
-          //   wrappers: ["formly-vertical-wrapper"],
-          //   templateOptions: {
-          //     label: 'Default Value'
-          //   },
-          // },
-          {
-            className: "w-1/4 px-1",
-            key: 'tooltip',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Tooltip',
-            }
-          },
-          {
-            key: 'multiselect',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Select API',
-              options: [
-                {
-                  label: "Api",
-                  value: "MultiAPIData"
-                },
-              ]
-            },
-          },
-          {
-            className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-            key: 'hideExpression',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'Hide',
-            },
-            defaultValue: false
-          },
-          {
-            className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-            key: 'required',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'required'
-            },
-            defaultValue: false
-          },
-          // {
-          //   key: 'repeat',
-          //   type: 'checkbox',
-          //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          //   templateOptions: {
-          //     label: 'Repeat'
-          //   },
-          // },
-        ]
-      },
-      {
-        template: '<div class="bold-label mt-3">options</div>'
-      },
-      {
-        key: 'options',
-        type: 'repeatSection',
-        templateOptions: {
-          style: "margin-top: 6%;",
-          canAdd: true,
-          canRemove: true
-        },
-        fieldArray: {
-          // className: 'ml-3 me-2',
-          fieldGroup: [
-            {
-              key: 'label',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'label'
-              }
-            },
-            {
-              className: "ml-2",
-              key: 'value',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'value'
-              }
-            },
-
-          ]
-        }
-      },
-      {
-        template: '<div class="mb-3"></div>'
-      },
-
-    ]
-  tagBoxFields: FormlyFieldConfig[] =
-    [
-      {
-        fieldGroupClassName: "flex flex-wrap",
-        fieldGroup: [
-
-          {
-            className: "w-1/4 px-1",
-            key: 'labelIcon',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Label Icon',
-            }
-          },
-          {
-            key: 'apiData',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'API',
-              options: [
-                {
-                  label: 'API 1',
-                  value: 'tagOptionsData'
-                },
-                {
-                  label: 'none',
-                  value: ''
-                }
-              ]
-            },
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonLeft',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Left Text'
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonRight',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Right Text'
-            }
-          },
-          {
-            className: "col mt-5",
-            key: 'required',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'required'
-            },
-            defaultValue: false
-          },
-          // {
-          //   key: 'repeat',
-          //   type: 'checkbox',
-          //   className: "col mt-5",
-          //   templateOptions: {
-          //     label: 'Repeat'
-          //   },
-          // },
-        ]
-      },
-      {
-        template: '<div class="bold-label mt-3">options</div>',
-      },
-      {
-        key: 'options',
-        type: 'repeatSection',
-        templateOptions: {
-          style: "margin-top: 6%;",
-          canAdd: true,
-          canRemove: true
-        },
-        fieldArray: {
-          className: 'ml-3 me-2',
-          fieldGroup: [
-            {
-              key: 'label',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'label'
-              }
-            },
-            {
-              className: "ml-2",
-              key: 'value',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'value'
-              }
-            }
-          ]
-        }
-      },
-
-
-    ]
-  selectBoxFields: FormlyFieldConfig[] =
-    [
-      {
-        fieldGroupClassName: "flex flex-wrap",
-        fieldGroup: [
-
-          {
-            className: "w-1/4 px-1",
-            key: 'labelIcon',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Label Icon',
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            key: 'defaultValue',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Default Value',
-            }
-          },
-          {
-            key: 'multiselect',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Select API',
-              options: [
-                {
-                  label: "Api",
-                  value: "MultiAPIData"
-                },
-              ]
-            },
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonLeft',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Left Text'
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonRight',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Right Text'
-            }
-          },
-          {
-            key: 'disabled',
-            type: 'checkbox',
-            className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-            templateOptions: {
-              label: 'Disabled'
-            },
-            defaultValue: false
-          },
-          {
-            key: 'required',
-            type: 'checkbox',
-            className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-            templateOptions: {
-              label: 'required'
-            },
-            defaultValue: false
-          },
-
-          // {
-          //   key: 'repeat',
-          //   type: 'checkbox',
-          //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          //   templateOptions: {
-          //     label: 'Repeat'
-          //   },
-          // },
-        ]
-      },
-      {
-        template: '<div class="bold-label mt-3">options</div>',
-      },
-      {
-        key: 'options',
-        type: 'repeatSection',
-        templateOptions: {
-          style: "margin-top: 6%;",
-          canAdd: true,
-          canRemove: true
-        },
-        fieldArray: {
-          className: 'ml-3 me-2',
-          fieldGroup: [
-            {
-              key: 'label',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'label'
-              }
-            },
-            {
-              className: "ml-2",
-              key: 'value',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'value'
-              }
-            }
-          ]
-        }
-      },
-      {
-        template: '<div class="mb-3"></div>'
-      },
-
-
-    ]
-  searchBoxFields: FormlyFieldConfig[] =
-    [
-      {
-        fieldGroupClassName: "flex flex-wrap",
-        fieldGroup: [
-          {
-            className: "w-1/4 px-1",
-            key: 'key',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Key',
-              required: true,
-              pattern: /^[a-z0-9_]+$/,
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            key: 'label',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'label'
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            key: 'tooltip',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Tooltip',
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            key: 'labelIcon',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Label Icon',
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            key: 'placeholder',
-            type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Placeholder',
-            }
-          },
-          {
-            key: 'className',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'column',
-              options: [
-                {
-                  label: 'col-2',
-                  value: 'col-md-2 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-3',
-                  value: 'col-md-3 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-4',
-                  value: 'col-md-4 col-sm-6 col-xs-12'
-                },
-                {
-                  label: 'col-6',
-                  value: 'col-md-6 col-xs-12'
-                },
-                {
-                  label: 'col-8',
-                  value: 'col-md-8 col-xs-12'
-                },
-                {
-                  label: 'col-9',
-                  value: 'col-md-9 col-xs-12'
-                },
-                {
-                  label: 'col-10',
-                  value: 'col-md-10 col-xs-12'
-                },
-                {
-                  label: 'col-12',
-                  value: 'col-12'
-                }
-              ]
-            },
-          },
-          {
-            key: 'searchApi',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'API',
-              options: [
-                {
-                  label: 'Search API',
-                  value: 'MultiAPIData'
-                },
-              ]
-            },
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonLeft',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Left Text'
-            }
-          },
-          {
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            key: 'addonRight',
-            type: 'input',
-            templateOptions: {
-              label: 'Add On Right Text'
-            }
-          },
-          {
-            key: 'required',
-            className: "col-md-2 col-sm-6 col-xs-12 mt-3",
-            type: 'checkbox',
-            templateOptions: {
-              label: 'required'
-            },
-            defaultValue: false
-          },
-          {
-            className: "col-md-2 col-sm-6 col-xs-12 mt-3",
-            key: 'hideExpression',
-            type: 'checkbox',
-            templateOptions: {
-              label: 'Hide',
-            },
-            defaultValue: false
-          },
-          // {
-          //   key: 'repeat',
-          //   type: 'checkbox',
-          //   className: "col-md-2 col-sm-6 col-xs-12 mt-3",
-          //   templateOptions: {
-          //     label: 'Repeat'
-          //   },
-          // },
-          // {
-          //   className: "w-1/4 px-1",
-          //   key: "multiselect",
-          //   type: "ng-select",
-          //   defaultValue: '1',
-          //   wrappers: ["formly-vertical-wrapper"],
-          //   templateOptions: {
-          //     label: "Multi Select",
-          //     multiple: false,
-          //     placeholder: "Select Option",
-          //     tooltip: { "content": "" },
-          //     options: [
-          //       {
-          //         label: "Multi Api",
-          //         value: "MultiAPIData"
-          //       },
-
-          //     ]
-          //   }
-          // },
-
-        ]
-      },
-      {
-        template: '<div class="bold-label mt-3">options</div>',
-      },
-      {
-        key: 'options',
-        type: 'repeatSection',
-        templateOptions: {
-          style: "margin-top: 6%;",
-          canAdd: true,
-          canRemove: true
-        },
-        fieldArray: {
-          className: 'ml-3 me-2',
-          fieldGroup: [
-            {
-              key: 'label',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'label'
-              }
-            },
-            {
-              className: "ml-2",
-              key: 'value',
-              type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
-                label: 'value'
-              }
-            },
-
-          ]
-        }
-      }
-    ]
-  // dateandtime json
-  dateTimeFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'defaultValue',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'datetime-local'
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    }
-  ]
-  //date json
-  dateFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'defaultValue',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'date'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    }
-  ]
-  //time json
-  timeFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'defaultValue',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'time'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          className: "col-2 mt-3",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    }
-  ]
-  //time json
-  monthFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'custom',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Id',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'defaultValue',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'month'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'maskString',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Msking Format',
-        //     maskString: 'XXXX-X0-X0',
-        //   }
-        // },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-
-      ]
-    }
-  ]//time json
-  weekFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'defaultValue',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'week'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {]
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    }
-  ]
-  //Input Json
-  inputFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label Icon'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'placeholder',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'default',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'getVariable',
-          type: 'select',
-          templateOptions: {
-            label: 'Get Variable',
-            options: []
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'setVariable',
-          type: 'select',
-          templateOptions: {
-            label: 'Set Variable',
-            options: []
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'minlength',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Min Length',
-            type: 'number'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'maxlength',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Max Length',
-            type: 'number'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          template: '<div class="mt-3"></div>'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'margin',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Margin',
-            placeholder: '0px 0px 0px 0px'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'padding',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Padding',
-            placeholder: '0px 0px 0px 0px'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'border',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Border',
-            placeholder: '2px solid blue'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'bgColor',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Backgroung Color',
-            type: 'color'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'textColor',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Text Color',
-            type: 'color'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'fontSize',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Font Size',
-            placeholder: '12px'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'fontStyle',
-          type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Font Style',
-            options: [
-              {
-                label: 'Normal',
-                value: 'normal'
-              },
-              {
-                label: 'Italic',
-                value: 'italic'
-              },
-              {
-                label: 'Oblique',
-                value: 'oblique'
-              }
-            ]
-          },
-          defaultValue: 'normal'
-        },
-        {
-          template: '<div class="mt-3"></div>'
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    },
-  ]
-  inputGroupFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'minlength',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Min Length',
-            type: 'number'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'placeholder',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'default',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'maxlength',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Max Length',
-            type: 'number'
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    },
-  ]
-  //Image Fields
-  imageFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'name',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'Name'
-        //   }
-        // },
-
-        // {
-        //   key: 'pattern',
-        //   type: 'input',
-        // className: "w-1/4 px-1",
-        //   templateOptions: {
-        //     label: 'pattern'
-        //   }
-        // },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-        // {
-        //   key: 'hidden',
-        //   type: 'checkbox',
-        //   templateOptions: {
-        //     label: 'Is Hidden'
-        //   },
-        //   defaultValue: false
-        // }
       ]
     },
   ]
@@ -3310,60 +695,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'link',
@@ -3401,24 +733,7 @@ export class formFeildData {
             label: 'Total'
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -3435,15 +750,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'sub_label',
@@ -3453,59 +760,7 @@ export class formFeildData {
             label: 'Sub Label',
           }
         },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
         {
           key: 'link',
           type: 'select',
@@ -3521,15 +776,7 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -3638,15 +885,8 @@ export class formFeildData {
         //                 label: 'asdasd'
         //               }
         //             },
-        //             {
-        //               key: 'label',
-        //               type: 'input',
-        //               className: "col-3",
-        //               wrappers: ["formly-vertical-wrapper"],
-        //               templateOptions: {
-        //                 label: 'Label'
-        //               }
-        //             },
+        //
+
         //             {
         //               key: 'color',
         //               type: 'input',
@@ -3680,77 +920,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
 
         {
           key: 'link',
@@ -3768,15 +939,7 @@ export class formFeildData {
           },
           // defaultValue: 'donutChart'
         },
-        {
-          className: "col-3 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -3809,15 +972,7 @@ export class formFeildData {
                   label: 'Series'
                 }
               },
-              {
-                key: 'label',
-                type: 'input',
-                className: "col-3",
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'Label'
-                }
-              },
+
               {
                 key: 'color',
                 type: 'input',
@@ -3849,77 +1004,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
 
         {
           key: 'link',
@@ -3964,15 +1050,7 @@ export class formFeildData {
             label: 'Prev Title',
           }
         },
-        {
-          className: "col-3 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -4060,15 +1138,7 @@ export class formFeildData {
                   label: 'Series'
                 }
               },
-              {
-                className: "col-3",
-                key: 'label',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'Label'
-                }
-              },
+
               {
                 className: "col-3",
                 key: 'color',
@@ -4117,59 +1187,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Title Of Chart',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'defaultColor',
           type: 'select',
@@ -4295,15 +1313,7 @@ export class formFeildData {
             label: 'Limit',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
         {
           key: 'link',
           type: 'select',
@@ -4320,15 +1330,7 @@ export class formFeildData {
           },
           // defaultValue: 'browserdata'
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -4416,59 +1418,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Title Of Chart',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'defaultColor',
           type: 'select',
@@ -4604,15 +1554,8 @@ export class formFeildData {
             label: 'Limit',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'link',
           type: 'select',
@@ -4629,15 +1572,9 @@ export class formFeildData {
           },
           // defaultValue: 'browserdata'
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -4722,68 +1659,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
-        //   key: 'ID',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Id',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'limit',
@@ -4855,24 +1731,10 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -4952,68 +1814,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
-        //   key: 'ID',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Id',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'limit',
@@ -5070,15 +1871,8 @@ export class formFeildData {
           },
           // defaultValue: 'danger'
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'link',
           type: 'select',
@@ -5095,15 +1889,7 @@ export class formFeildData {
           },
           // defaultValue:"widgetSecondCard",
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -5233,77 +2019,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
 
-        // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
-        //   key: 'ID',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Id',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Title of Chart',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
         {
           key: 'link',
           type: 'select',
@@ -5320,15 +2035,7 @@ export class formFeildData {
           },
           // defaultValue: "analyticsChart",
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -5435,24 +2142,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'ID',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Id',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
 
         {
           key: 'level',
@@ -5493,49 +2183,6 @@ export class formFeildData {
             ]
           },
           // defaultValue: 'col-4'
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
         },
         {
           key: 'style',
@@ -5595,15 +2242,8 @@ export class formFeildData {
             label: 'Heading Color',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           className: "w-1/4 px-1",
           key: 'padding',
@@ -5664,15 +2304,7 @@ export class formFeildData {
             label: 'Heading Api',
           }
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -5699,68 +2331,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "col-md-4 col-sm-6 col-xs-12 d-none",
-        //   key: 'ID',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Id',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'style',
           type: 'select',
@@ -5822,15 +2393,8 @@ export class formFeildData {
             label: 'Paragraph Color',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'api',
           type: 'select',
@@ -5897,15 +2461,7 @@ export class formFeildData {
         //     label: 'Padding Bottom',
         //   }
         // },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -5927,705 +2483,11 @@ export class formFeildData {
       ]
     },
   ]
-  // Telephone
-  telephoneFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'placeholder',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder'
-          }
-        },
-        //For Number Masking
-        // {
-        //   name: 'nrn-field',
-        //   type: 'input-mask-field',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     maskConfig: {
-        //       mask: NrnValidators.FORMATS.mask,
-        //       showMask: false,
-        //       guide: true,
-        //       placeholderChar: '_'
-        //     },
-        //     required: true
-        //   },
-        //   validators: {
-        //     validation: [NrnValidators.nrn]
-        //   },
-        //   // parsers: [onlyNumberParser]
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label Icon',
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'default',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'default value',
-        //     pattern: '^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$',
-        //   }
-        // },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-
-
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    },
-  ]
-  //textarea Json
-  textareaFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          key: 'id',
-          type: 'input',
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          key: 'placeholder',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder'
-          }
-        },
-        {
-          key: 'default',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-          }
-        },
-        // {
-        //   key: 'name',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   templateOptions: {
-        //     label: 'Name'
-        //   }
-        // },
-        {
-          key: 'rows',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Rows'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label Icon',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        // {
-        //   key: 'pattern',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'pattern'
-        //   }
-        // },
-        {
-          key: 'minlength',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Min Length',
-            type: 'number'
-          }
-        },
-        {
-          key: 'maxlength',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Max Length',
-            type: 'number'
-          }
-        },
-
-
-        {
-          key: 'focus',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'required',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-5",
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'readonly',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-5",
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'disabled',
-          type: 'checkbox',
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6  mt-5",
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-2",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-        // {
-        //   key: 'hidden',
-        //   type: 'checkbox',
-        // className: "w-1/4 px-1",
-        //   templateOptions: {
-        //     label: 'Is Hidden'
-        //   },
-        //   defaultValue: false
-        // }
-      ]
-    },
-  ]
-  //Decimal Json
-  decimalFeilds: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'placeholder',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'default',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'default value',
-            type: 'number'
-
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'decimalmode',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Decimal Value',
-        //     type: 'number',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'name',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'Name'
-        //   }
-        // },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-
-        // {
-        //   key: 'pattern',
-        //   type: 'input',
-        // className: "w-1/4 px-1",
-        //   templateOptions: {
-        //     label: 'pattern'
-        //   }
-        // },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'minlength',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'Min Length',
-        //     type: 'number'
-        //   }
-        // },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'maxlength',
-        //   type: 'input',
-        //   templateOptions: {
-        //     label: 'Max Length',
-        //     type: 'number'
-        //   }
-        // },
-        {
-          className: "col mt-3",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col mt-3",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-3",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-3",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-      ]
-    },
-  ]
   //Card Json
   customMaskingFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-1/4 px-1",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'maskLabel',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Mask Label',
-        //     placeholder: 'e.g "xxxx-xxxx"',
-        //   }
-        // },
         {
           className: "w-1/4 px-1",
           key: 'maskString',
@@ -6636,289 +2498,13 @@ export class formFeildData {
             placeholder: 'e.g "xxxx-xxxx"',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'labelIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label Icon',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'placeholder',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'placeholder',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonLeft',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Left Text'
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'addonRight',
-          type: 'input',
-          templateOptions: {
-            label: 'Add On Right Text'
-          }
-        },
-        {
-          className: "col mt-5",
-          key: 'focus',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Autofocus'
-          },
-          defaultValue: false
-        },
-
-        {
-          className: "col mt-5",
-          key: 'required',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'required'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-5",
-          key: 'readonly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Readonly'
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-5",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
-        {
-          className: "col mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
       ]
     }
   ]
-  // uiRuleFields: FormlyFieldConfig[] = [
-  //   {
-  //     fieldGroupClassName: "flex flex-wrap",
-  //     fieldGroup: [
-  //       {
-  //         key: 'if',
-  //         type: 'select',
-  //         className: "w-1/4 px-1",
-  //         wrappers: ["formly-vertical-wrapper"],
-  //         templateOptions: {
-  //           label: 'If',
-  //           options: [
-  //             {
-  //               label: 'Text Input',
-  //               value: 'text-input'
-  //             },
-  //             {
-  //               label: 'External User',
-  //               value: 'external-user'
-  //             },
-  //           ],
-  //         },
-  //       },
-  //       {
-  //         key: 'equals',
-  //         type: 'select',
-  //         className: "w-1/4 px-1",
-  //         wrappers: ["formly-vertical-wrapper"],
-  //         templateOptions: {
-  //           label: 'Equal',
-  //           options: [
-  //             {
-  //               label: 'equals',
-  //               value: 'equals'
-  //             },
-  //             {
-  //               label: 'not euqals',
-  //               value: 'notEquals'
-  //             },
-  //             {
-  //               label: 'Greater Then',
-  //               value: 'greterThen'
-  //             },
-  //             {
-  //               label: 'contains',
-  //               value: 'contains'
-  //             },
-  //             {
-  //               label: 'not Contains',
-  //               value: 'notContains'
-  //             },
-
-  //           ],
-  //         },
-  //         defaultValue: "equals",
-  //       },
-  //       {
-  //         key: 'value',
-  //         type: 'input',
-  //         className: "w-1/4 px-1",
-  //         wrappers: ["formly-vertical-wrapper"],
-  //         templateOptions: {
-  //           label: 'Value',
-  //         }
-  //       },
-  //       {
-  //         key: 'target',
-  //         type: 'select',
-  //         className: "w-1/4 px-1",
-  //         wrappers: ["formly-vertical-wrapper"],
-  //         templateOptions: {
-  //           label: "Target",
-  //           options: [
-  //             {
-  //               label: 'Text Input',
-  //               value: 'text-input'
-  //             },
-  //             {
-  //               label: 'External User',
-  //               value: 'external-user'
-  //             },
-  //           ],
-  //         },
-  //       },
-  //       {
-  //         key: 'operation',
-  //         type: 'select',
-  //         className: "w-1/4 px-1",
-  //         wrappers: ["formly-vertical-wrapper"],
-  //         templateOptions: {
-  //           label: "Operation",
-  //           options: [
-  //             {
-  //               label: 'Disable',
-  //               value: 'disable'
-  //             },
-  //             {
-  //               label: 'Enabled',
-  //               value: 'enabled'
-  //             },
-  //             {
-  //               label: 'Visible',
-  //               value: 'visisble'
-  //             },
-  //             {
-  //               label: 'Not Visible',
-  //               value: 'notVisible'
-  //             },
-  //           ],
-  //         },
-  //       }
-  //     ]
-  //   },
-  // ]
   stepperFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   key: 'stepperText',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Label',
-        //     pattern: '^\\S*$',
-        //   }
-        // },
         {
           key: 'stepperLabel',
           type: 'input',
@@ -6928,32 +2514,6 @@ export class formFeildData {
             label: 'Label',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-        // {
-        //   key: 'stepperIcon',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Stepper Icon',
-        //   }
-        // },
       ]
     },
   ]
@@ -6961,16 +2521,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   key: 'stepperText',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Label',
-        //     pattern: '^\\S*$',
-        //   }
-        // },
         {
           key: 'stepperLabel',
           type: 'input',
@@ -7019,50 +2569,6 @@ export class formFeildData {
           },
         },
         {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
           key: 'selectColor',
           type: 'input',
           className: "w-1/4 px-1",
@@ -7082,24 +2588,8 @@ export class formFeildData {
             label: 'Default Color',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-4 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         {
           key: 'nextButtonText',
           type: 'input',
@@ -7355,16 +2845,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
         {
           key: 'tabLabel',
           type: 'input',
@@ -7383,24 +2864,8 @@ export class formFeildData {
             label: 'Tab Icon',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -7416,15 +2881,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-          }
-        },
+
         {
           key: 'tabLabel',
           type: 'input',
@@ -7454,15 +2911,8 @@ export class formFeildData {
             ],
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'nodes',
           type: 'input',
@@ -7472,50 +2922,6 @@ export class formFeildData {
             type: 'number',
             label: 'Number of Nodes',
           }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
         },
         {
           key: 'tabsPosition',
@@ -7634,15 +3040,7 @@ export class formFeildData {
             ],
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -7658,16 +3056,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
+
         {
           key: 'tabLabel',
           type: 'input',
@@ -7702,16 +3092,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
+
         {
           key: 'tabLabel',
           type: 'input',
@@ -7751,50 +3133,7 @@ export class formFeildData {
             label: 'Number of Nodes',
           }
         },
-        // {
-        //   key: 'className',
-        //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'column',
-        //     options: [
-        //       {
-        //         label: 'col-2',
-        //         value: 'col-2'
-        //       },
-        //       {
-        //         label: 'col-3',
-        //         value: 'col-3'
-        //       },
-        //       {
-        //         label: 'col-4',
-        //         value: 'col-4'
-        //       },
-        //       {
-        //         label: 'col-6',
-        //         value: 'col-6'
-        //       },
-        //       {
-        //         label: 'col-8',
-        //         value: 'col-8'
-        //       },
-        //       {
-        //         label: 'col-9',
-        //         value: 'col-9'
-        //       },
-        //       {
-        //         label: 'col-10',
-        //         value: 'col-10'
-        //       },
-        //       {
-        //         label: 'col-12',
-        //         value: 'col-12'
-        //       }
-        //     ]
-        //   },
-        //   defaultValue: 'col-4'
-        // },
+
         {
           key: 'tabsPosition',
           type: 'select',
@@ -7970,50 +3309,6 @@ export class formFeildData {
           }
         },
         {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
           key: 'tabsPosition',
           type: 'select',
           className: "w-1/4 px-1",
@@ -8139,43 +3434,9 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -8192,69 +3453,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'color',
           type: 'select',
@@ -8298,24 +3497,8 @@ export class formFeildData {
             ],
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -8333,24 +3516,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         {
           template: '<div class="mt-3">Variables</div>'
         },
@@ -8409,43 +3575,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'key',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Key',
-        //   }
-        // },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
+
         {
           key: 'labelPosition',
           type: 'select',
@@ -8548,36 +3679,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            required: true,
-            pattern: /^[a-z0-9_]+$/,
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
       ]
     },
   ]
@@ -8585,25 +3687,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         {
           key: 'footer',
           type: 'checkbox',
@@ -8713,49 +3797,6 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
         // {
         //   key: 'disabled',
         //   type: 'checkbox',
@@ -8814,25 +3855,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         {
           key: 'labelPosition',
           type: 'select',
@@ -8947,25 +3970,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -8981,25 +3986,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         {
           key: 'footer',
           type: 'checkbox',
@@ -9020,91 +4007,11 @@ export class formFeildData {
       ]
     },
   ]
-  formRowsFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-            pattern: '^\\S*$',
-          }
-        }
-      ]
-    },
-  ]
   switchFeilds: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
 
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
         {
           key: 'switchType',
           type: 'select',
@@ -9167,32 +4074,6 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
       ]
     },
   ]
@@ -9201,25 +4082,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
           className: "w-1/4 px-1",
           key: 'value',
           type: 'input',
@@ -9227,50 +4089,6 @@ export class formFeildData {
           templateOptions: {
             label: 'Value'
           }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
         },
         {
           key: 'color',
@@ -9344,15 +4162,8 @@ export class formFeildData {
             ]
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'showValue',
           type: 'checkbox',
@@ -9378,15 +4189,7 @@ export class formFeildData {
             label: 'Show Animated'
           },
         },
-        {
-          className: "col mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -9403,34 +4206,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'label',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Label',
-        //   }
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Text'
-          }
-        },
+
+
         {
           className: "w-1/4 px-1",
           key: 'textColor',
@@ -9450,50 +4227,6 @@ export class formFeildData {
             type: 'color',
             label: 'Line Color'
           }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
         },
         {
           key: 'classNameForPosition',
@@ -9598,24 +4331,8 @@ export class formFeildData {
             label: 'Vertical Line Position'
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -9631,25 +4348,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'labelIcon',
@@ -9789,59 +4488,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           className: "w-1/4 px-1",
           key: 'link',
@@ -9866,15 +4514,7 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -9946,61 +4586,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
 
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
         {
           key: 'alertColor',
           type: 'select',
@@ -10077,24 +4663,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -10120,60 +4690,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'textAlign',
           type: 'select',
@@ -10220,15 +4737,10 @@ export class formFeildData {
             ]
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
+
+
 
         {
           className: "w-1/4 px-1",
@@ -10239,15 +4751,7 @@ export class formFeildData {
             label: 'Height',
           }
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -10294,16 +4798,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'timelineHeading',
@@ -10403,47 +4898,7 @@ export class formFeildData {
             ]
           },
         },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          defaultValue: "col-12",
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
         {
           key: 'timelineExample',
           type: 'select',
@@ -10459,15 +4914,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -10580,60 +5028,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'title',
           type: 'input',
@@ -10661,24 +5056,10 @@ export class formFeildData {
             label: 'Video Source',
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -10694,60 +5075,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         // {
         //   key: 'title',
         //   type: 'input',
@@ -10797,24 +5125,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -10830,60 +5142,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'carousalType',
           type: 'select',
@@ -10928,24 +5187,8 @@ export class formFeildData {
             ]
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-3 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         {
           template: '<div class="bold-label mt-3">options</div>',
         },
@@ -10999,25 +5242,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          },
-        },
+
+
         {
           key: 'nodes',
           type: 'input',
@@ -11027,24 +5253,8 @@ export class formFeildData {
             label: 'Nodes',
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -11060,95 +5270,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          },
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
       ]
     },
   ]
@@ -11156,94 +5277,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          },
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-3 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
       ]
     },
   ]
@@ -11251,68 +5284,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          },
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
+
         {
           key: 'viewType',
           type: 'select',
@@ -11337,15 +5309,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
+
+
         {
           key: 'statusApi',
           type: 'select',
@@ -11363,15 +5328,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "col mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         {
           className: "col mt-5",
           key: 'disabled',
@@ -11403,14 +5361,7 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
-              {
-                className: "ml-2",
-                key: 'id',
-                type: 'input',
-                templateOptions: {
-                  label: 'id'
-                }
-              },
+
               {
                 className: "ml-2",
                 key: 'name',
@@ -11437,25 +5388,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'label',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          },
-        },
+
         {
           key: 'kanbanTaskApi',
           type: 'select',
@@ -11473,24 +5406,8 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
+
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -11513,15 +5430,7 @@ export class formFeildData {
           fieldArray: {
             // className: 'ml-3 me-2',
             fieldGroup: [
-              {
-                className: "col",
-                key: 'id',
-                type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'id'
-                }
-              },
+
               {
                 className: "col",
                 key: 'title',
@@ -11624,65 +5533,10 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        // {
-        //   key: 'className',
-        //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   defaultValue: "col-12",
-        //   templateOptions: {
-        //     label: 'column',
-        //     options: [
-        //       {
-        //         label: 'col-4',
-        //         value: 'col-4'
-        //       },
-        //       {
-        //         label: 'col-5',
-        //         value: 'col-5'
-        //       },
-        //       {
-        //         label: 'col-6',
-        //         value: 'col-6'
-        //       },
-        //       {
-        //         label: 'col-8',
-        //         value: 'col-8'
-        //       },
-        //       {
-        //         label: 'col-9',
-        //         value: 'col-9'
-        //       },
-        //       {
-        //         label: 'col-10',
-        //         value: 'col-10'
-        //       },
-        //       {
-        //         label: 'col-12',
-        //         value: 'col-12'
-        //       }
-        //     ]
-        //   },
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
+
+
+
         {
           className: "w-1/4 px-1",
           key: 'nodes',
@@ -11711,65 +5565,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        // {
-        //   key: 'className',
-        //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   defaultValue: "col-12",
-        //   templateOptions: {
-        //     label: 'column',
-        //     options: [
-        //       {
-        //         label: 'col-4',
-        //         value: 'col-4'
-        //       },
-        //       {
-        //         label: 'col-5',
-        //         value: 'col-5'
-        //       },
-        //       {
-        //         label: 'col-6',
-        //         value: 'col-6'
-        //       },
-        //       {
-        //         label: 'col-8',
-        //         value: 'col-8'
-        //       },
-        //       {
-        //         label: 'col-9',
-        //         value: 'col-9'
-        //       },
-        //       {
-        //         label: 'col-10',
-        //         value: 'col-10'
-        //       },
-        //       {
-        //         label: 'col-12',
-        //         value: 'col-12'
-        //       }
-        //     ]
-        //   },
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
           className: "w-1/4 px-1",
           key: 'link',
           type: 'input',
@@ -11785,65 +5580,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        // {
-        //   key: 'className',
-        //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   defaultValue: "col-12",
-        //   templateOptions: {
-        //     label: 'column',
-        //     options: [
-        //       {
-        //         label: 'col-4',
-        //         value: 'col-4'
-        //       },
-        //       {
-        //         label: 'col-5',
-        //         value: 'col-5'
-        //       },
-        //       {
-        //         label: 'col-6',
-        //         value: 'col-6'
-        //       },
-        //       {
-        //         label: 'col-8',
-        //         value: 'col-8'
-        //       },
-        //       {
-        //         label: 'col-9',
-        //         value: 'col-9'
-        //       },
-        //       {
-        //         label: 'col-10',
-        //         value: 'col-10'
-        //       },
-        //       {
-        //         label: 'col-12',
-        //         value: 'col-12'
-        //       }
-        //     ]
-        //   },
-        // },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
         {
           className: "w-1/4 px-1",
           key: 'link',
@@ -11869,60 +5605,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           key: 'title',
           type: 'input',
@@ -11955,41 +5638,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          className: "col-3 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
       ]
     },
   ]
@@ -11997,25 +5645,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'timeOut',
@@ -12109,14 +5739,7 @@ export class formFeildData {
             ]
           },
         },
-        {
-          className: "col mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-        },
+
         {
           className: "col mt-5",
           key: 'progressBar',
@@ -12141,25 +5764,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'invoiceNumberLabel',
@@ -12311,25 +5916,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'alt',
@@ -12368,58 +5955,7 @@ export class formFeildData {
             label: 'Image Width',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
+
         {
           key: 'imageClass',
           type: 'select',
@@ -12476,14 +6012,7 @@ export class formFeildData {
             label: 'Image Upload',
           }
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-3",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -12499,25 +6028,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
+
         {
           className: "w-1/4 px-1",
           key: 'min',
@@ -12557,59 +6068,7 @@ export class formFeildData {
         //     ]
         //   },
         // },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-          defaultValue: 'col-4'
-        },
+
         {
           className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
           key: 'disabled',
@@ -12618,14 +6077,8 @@ export class formFeildData {
             label: 'Disabled',
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-        },
+
+
         {
           className: "col-3 mt-3",
           key: 'showValue',
@@ -12714,16 +6167,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'id',
-          type: 'input',
-          className: "col-md-6 col-sm-12  d-none",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
         {
           key: 'header',
           type: 'input',
@@ -12870,16 +6314,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'id',
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
+
         {
           key: 'gridName',
           type: 'input',
@@ -12931,68 +6366,7 @@ export class formFeildData {
             label: 'Delete API'
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'tooltip',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tooltip',
-          }
-        },
-        {
-          key: 'className',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'column',
-            options: [
-              {
-                label: 'col-2',
-                value: 'col-md-2 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-3',
-                value: 'col-md-3 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-4',
-                value: 'col-md-4 col-sm-6 col-xs-12'
-              },
-              {
-                label: 'col-6',
-                value: 'col-md-6 col-xs-12'
-              },
-              {
-                label: 'col-8',
-                value: 'col-md-8 col-xs-12'
-              },
-              {
-                label: 'col-9',
-                value: 'col-md-9 col-xs-12'
-              },
-              {
-                label: 'col-10',
-                value: 'col-md-10 col-xs-12'
-              },
-              {
-                label: 'col-12',
-                value: 'col-12'
-              }
-            ]
-          },
-        },
-        {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          key: 'getVariable',
-          type: 'select',
-          templateOptions: {
-            label: 'Get Variable',
-            options: []
-          }
-        },
+
         // {
         //   key: 'delete',
         //   type: 'checkbox',
@@ -13033,14 +6407,7 @@ export class formFeildData {
             label: 'Enable Filter'
           },
         },
-        {
-          className: "col-md-2 col-sm-2 col-xl-2 col-xs-6 mt-5",
-          key: 'hideExpression',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Hide',
-          },
-        },
+
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -13064,15 +6431,7 @@ export class formFeildData {
           fieldArray: {
             // className: 'ml-3 me-2',
             fieldGroup: [
-              {
-                key: 'id',
-                type: 'input',
-                className: "col d-none",
-                templateOptions: {
-                  label: 'ID',
-                  readonly: true,
-                }
-              },
+
               {
                 key: 'name',
                 type: 'input',
@@ -13177,35 +6536,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'id',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "col-md-4 col-sm-6 col-xs-12 d-none",
-          key: 'key',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Key',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'label',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'label'
-          }
-        },
+
         {
           key: 'type',
           type: 'select',
@@ -13338,14 +6669,7 @@ export class formFeildData {
         //   fieldArray: {
         //     className: 'ml-3 me-2',
         //     fieldGroup: [
-        //       {
-        //         key: 'label',
-        //         type: 'input',
-        //         wrappers: ["formly-vertical-wrapper"],
-        //         templateOptions: {
-        //           label: 'label'
-        //         }
-        //       },
+        //
         //       {
         //         className: "ml-2",
         //         key: 'value',
@@ -13368,7 +6692,165 @@ export class formFeildData {
       ]
     },
   ]
-  commonConfigurationFields: FormlyFieldConfig[] = [
+  commonFormlyConfigurationFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 ",
+          key: 'key',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Key',
+            required: true,
+            pattern: /^[a-z0-9_]+$/,
+          }
+        },
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'id',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ID',
+            pattern: '^\\S*$',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'label',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'label'
+          }
+        },
+        {
+          className: "w-1/4 px-2",
+          key: 'tooltip',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Tooltip',
+          }
+        },
+        {
+          className: "w-1/4 px-2",
+          key: 'className',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'column',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'labelIcon',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Label Icon',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'placeholder',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Placeholder',
+          }
+        },
+
+        {
+          key: 'defaultValue',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Default Value'
+          },
+        },
+        {
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          key: 'addonLeft',
+          type: 'input',
+          templateOptions: {
+            label: 'Add On Left Text'
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          key: 'addonRight',
+          type: 'input',
+          templateOptions: {
+            label: 'Add On Right Text'
+          }
+        },
+        {
+          key: 'rows',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Rows'
+          }
+        },
+        {
+          template: '<div class="flex flex-wrap"></div>'
+        },
+        {
+          className: "mt-5 px-2",
+          key: 'focus',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Autofocus'
+          },
+          defaultValue: false
+        },
+        {
+          className: "mt-5 px-2",
+          key: 'required',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'required'
+          },
+          defaultValue: false
+        },
+        {
+          className: "mt-5 px-2",
+          key: 'readonly',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Readonly'
+          },
+          defaultValue: false
+        },
+        {
+          className: "mt-5 px-2",
+          key: 'disabled',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Disabled',
+          },
+          defaultValue: false
+        },
+        {
+          className: "mt-5 px-2",
+          key: 'hideExpression',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Hide',
+          },
+          defaultValue: false
+        },
+      ]
+    },
+  ]
+  commonOtherConfigurationFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [

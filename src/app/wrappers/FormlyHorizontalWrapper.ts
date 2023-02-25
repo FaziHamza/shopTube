@@ -6,9 +6,9 @@ import { FieldWrapper } from '@ngx-formly/core';
   template: `
   <div class=" row mt-1 mb-1">
   <label [attr.for]="id" class= {{firstColum}} *ngIf="to.label" >
-   <span><i *ngIf="to.labelIcon" class={{to.labelIcon}} style="padding-right: 3%;"></i>{{to.label }}</span>
+   <span><i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 3%;"></i>{{to.label }}</span>
     <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container> -->
-    <span *ngIf="to?.tooltip && to.tooltip.content" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
+    <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
   </label>
   <div class= {{secondColum1}}>
     <ng-template #fieldComponent></ng-template>
@@ -27,7 +27,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   secondColum1 = '';
   secondColum2 = '';
   ngOnInit(): void {
-    if (this.to.className == 'col-12' || this.to.className == 'col-12 s-icon' || this.to.className == 'col-12 tagSt') {
+    if (this.to['className'] == 'col-12' || this.to['className'] == 'col-12 s-icon' || this.to['className'] == 'col-12 tagSt') {
       if(''){
         this.firstColum = "col-3 col-form-label " + '';
         }else{
