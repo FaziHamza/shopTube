@@ -3447,7 +3447,7 @@ export class BuilderComponent implements OnInit {
       this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
       this.fieldData.formData = _formFieldData.breakTagFeilds;
     }
-    if (type == "drawerAttribute") {
+    if (type == "drawer") {
         configObj = {
         id: this.selectdNode.id as string,
         key: this.selectdNode.key,
@@ -3482,7 +3482,7 @@ export class BuilderComponent implements OnInit {
         onClose: this.selectdNode.onClose,
       }
     }
-    else if (type == "skeletonAttribute") {
+    else if (type == "skeleton") {
         configObj= {
         id: this.selectdNode.id as string,
         key: this.selectdNode.key,
@@ -3495,6 +3495,161 @@ export class BuilderComponent implements OnInit {
         size: this.selectdNode.size,
         buttonShape: this.selectdNode.buttonShape,
         avatarShape: this.selectdNode.avatarShape,
+      }
+    }
+    else if (type == "empty") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        icon: this.selectdNode.icon,
+        content: this.selectdNode.content,
+        text: this.selectdNode.text,
+        link: this.selectdNode.link,
+        btnText: this.selectdNode.btnText,
+        color: this.selectdNode.color,
+      }
+    }
+    else if (type == "list") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        headerText: this.selectdNode.headerText,
+        footerText: this.selectdNode.footerText,
+        formatter: this.selectdNode.formatter,
+        size: this.selectdNode.size,
+        isBordered: this.selectdNode.isBordered,
+        isSplit: this.selectdNode.isSplit,
+        isEdit: this.selectdNode.isEdit,
+        isUpdate: this.selectdNode.isUpdate,
+        isDelete: this.selectdNode.isDelete,
+        isLoad: this.selectdNode.isLoad,
+        loadText: this.selectdNode.loadText,
+        options: this.selectdNode.options,
+      }
+    }
+    else if (type == "descriptionAttribute") {
+        configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        title: this.selectdNode.title,
+        nzExtra: this.selectdNode.nzExtra,
+        formatter: this.selectdNode.formatter,
+        size: this.selectdNode.size,
+        isBordered: this.selectdNode.isBordered,
+        isColon: this.selectdNode.isColon,
+      }
+    }
+    else if (type == "descriptionChildAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        title: this.selectdNode.title,
+        content: this.selectdNode.content,
+        nzStatus: this.selectdNode.nzStatus,
+        isBadeg: this.selectdNode.isBadeg,
+        nzSpan: this.selectdNode.nzSpan,
+      }
+    }
+    else if (type == "affixAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        tooltip: this.selectdNode.tooltip,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        className: this.selectdNode.className,
+        affixType: this.selectdNode.affixType,
+        margin: this.selectdNode.margin,
+        target: this.selectdNode.target,
+      }
+    }
+    else if (type == "avatarAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        tooltip: this.selectdNode.tooltip,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        className: this.selectdNode.className,
+        icon: this.selectdNode.icon,
+        text: this.selectdNode.text,
+        src: this.selectdNode.src,
+        bgColor: this.selectdNode.bgColor,
+        color: this.selectdNode.color,
+        gap: this.selectdNode.gap,
+        alt: this.selectdNode.alt,
+      }
+    }
+    else if (type == "commentAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        className: this.selectdNode.className,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        tooltip: this.selectdNode.tooltip,
+        avatar: this.selectdNode.avatar,
+        author: this.selectdNode.author,
+      }
+    }
+    else if (type == "popOverAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        className: this.selectdNode.className,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        tooltip: this.selectdNode.tooltip,
+        btnLabel: this.selectdNode.btnLabel,
+        nzPopoverContent: this.selectdNode.nzPopoverContent,
+        nzPopoverTitle: this.selectdNode.nzPopoverTitle,
+      }
+    }
+    else if (type == "spinAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        className: this.selectdNode.className,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        tooltip: this.selectdNode.tooltip,
+        size: this.selectdNode.size,
+        delayTime: this.selectdNode.delayTime,
+        loaderText: this.selectdNode.loaderText,
+        loaderIcon: this.selectdNode.loaderIcon,
+      }
+    }
+    else if (type == "resultAttribute") {
+      configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        className: this.selectdNode.className,
+        label: this.selectdNode.label,
+        hideExpression: this.selectdNode.hideExpression,
+        tooltip: this.selectdNode.tooltip,
+        status: this.selectdNode.status,
+        resultTitle: this.selectdNode.resultTitle,
+        subTitle: this.selectdNode.subTitle,
+        btnLabel: this.selectdNode.btnLabel,
       }
     }
     else if (type == "imageUpload") {
@@ -4876,7 +5031,7 @@ export class BuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
     debugger
     switch (event.type) {
-      case "drawerAttribute":
+      case "drawer":
         if (this.selectdNode) {
           this.selectdNode.label = event.form.label;
           this.selectdNode.className = event.form.className;
@@ -4902,7 +5057,7 @@ export class BuilderComponent implements OnInit {
           this.selectdNode.onClose = event.form.onClose;
         }
         break;
-      case "skeletonAttribute":
+      case "skeleton":
         if (this.selectdNode) {
           this.selectdNode.label = event.form.label;
           this.selectdNode.className = event.form.className;
@@ -4914,7 +5069,7 @@ export class BuilderComponent implements OnInit {
           this.selectdNode.avatarShape = event.form.avatarShape;
         }
         break;
-      case "emptyAttribute":
+      case "empty":
         if (this.selectdNode) {
           this.selectdNode.label = event.form.label;
           this.selectdNode.className = event.form.className;
@@ -4928,7 +5083,7 @@ export class BuilderComponent implements OnInit {
           this.selectdNode.color = event.form.color;
         }
         break;
-      case "listAttribute":
+      case "list":
         if (this.selectdNode) {
           this.selectdNode.label = event.form.label;
           this.selectdNode.className = event.form.className;
