@@ -18,12 +18,12 @@ import { FieldArrayType } from '@ngx-formly/core';
             <!-- <formly-group  [field]='field' *ngIf="field" class="group-inline"></formly-group> -->
               </div>
               <div class="col-2" [style]="to['style']">
-                <button type="button" class="remove-btn btn btn-sm btn-danger mx-2" (click)="remove(i)"
+                <button nzType="primary" nz-button class="mx-2" (click)="remove(i)"
                     *ngIf="canRemove(i)">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
-                <button type="button" class="add-btn btn btn-sm btn-primary" (click)="add()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
+                <button type="button" nzType="primary" nzDanger (click)="add()">
+                <span nz-icon nzType="plus" nzTheme="outline"></span>
                 </button>
             </div>
             </div>

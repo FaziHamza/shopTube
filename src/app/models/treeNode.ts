@@ -12,6 +12,12 @@ export interface TreeNode {
   type?: string;
   editor?: any;
   formatter?: any;
+  limit?: number,
+  belowpercentage?: number,
+  belowpercentageColor?: string,
+  numberofcolumns?: string,
+  defaultColor?: string,
+  thisTitle?: string,
   actionType?: string;
   formlyType?: string;
   wrapper?: string;

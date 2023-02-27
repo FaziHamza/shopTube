@@ -1,4 +1,4 @@
-<ng-container class="mt-1" *ngFor="let item of alertData[0].alertConfig">
+<ng-container class="mt-1" *ngFor="let item of alertData.alertConfig">
     <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
             nzTheme="outline"></span></span>
     <nz-alert nzCloseable nzType="success" nzMessage={{item.text}} [nzShowIcon]="true">

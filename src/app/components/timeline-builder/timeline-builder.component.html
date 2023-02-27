@@ -1,12 +1,11 @@
-
-<div class="flex flex-row pt-6" *ngFor="let data of timelineData[0].timelineConfig">
+<div class="flex flex-row pt-6" *ngFor="let data of timelineData.timelineConfig">
     <div class="text-center">
         <button nz-button nzType="primary" nzDanger nzShape="round">
             {{data.timelineHeading}}
         </button>
     </div>
     <nz-timeline nzMode="alternate" *ngIf="data.timelineType == 'verti-timeline'">
-        <nz-timeline-item *ngFor="let childrenData of timelineData[0].timelineConfig[0].data">
+        <nz-timeline-item *ngFor="let childrenData of timelineData.timelineConfig[0].data">
             <nz-card>
                 <div>{{childrenData.date}}</div>
                 <div *ngIf="childrenData.createdBy!='' ">Created By: {{childrenData.createdBy}}</div>
@@ -23,7 +22,7 @@
         </nz-timeline-item>
     </nz-timeline>
     <nz-timeline *ngIf="data.timelineType == 'verti-timeline left-timeline'">
-        <nz-timeline-item *ngFor="let childrenData of timelineData[0].timelineConfig[0].data">
+        <nz-timeline-item *ngFor="let childrenData of timelineData.timelineConfig[0].data">
             <nz-card>
                 <div>{{childrenData.date}}</div>
                 <div *ngIf="childrenData.createdBy!='' ">Created By: {{childrenData.createdBy}}</div>
