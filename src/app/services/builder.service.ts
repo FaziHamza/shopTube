@@ -124,6 +124,26 @@ export class BuilderService {
         this.baseUrl + "jsonGridBusinessRule/" + moduleId
       );
     }
+    multiAPIData(): Observable<any> {
+      return this.http.get<any>(
+        this.baseUrl + "MultiAPIData"
+      );
+    }
+    jsonTagsDataGet(api: any): Observable<any> {
+      return this.http.get<any>(
+        this.baseUrl + api
+      );
+    }
+    salesDataApi(): Observable<any> {
+      return this.http.get<any>(
+        this.baseUrl + "salesDataApi"
+      );
+    }
+    visitordonutChart(): Observable<any> {
+      return this.http.get<any>(
+        this.baseUrl + "visitordonutChart"
+      );
+    }
 }
 
 

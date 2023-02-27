@@ -33,7 +33,7 @@ export class BuilderComponent implements OnInit {
   screenName: any;
   screenId: any = 0;
   screenPage: boolean = false;
-  feildData: GenaricFeild;
+  fieldData: GenaricFeild;
   searchControllData: any = [];
   selectdNode: TreeNode;
   selectdParentNode: TreeNode;
@@ -221,14 +221,14 @@ export class BuilderComponent implements OnInit {
           this.nodes = res[0].menuData;
           // this.uiRuleGetData(res[0].moduleId);
           // this.uiGridRuleGetData(res[0].moduleId);
-          // this.clickBack();
+          // this.updateNodes();
         }
 
       }
       else {
         this.screenId = 0;
         this.clearChildNode();
-        // this.clickBack();
+        // this.updateNodes();
       }
       this.expandedKeys = this.nodes.map((node: any) => node.key);
     }
@@ -810,7 +810,7 @@ export class BuilderComponent implements OnInit {
         color: "primary",
         showValue: false,
         stripped: false,
-        height: 9,
+        height: '9',
         animated: false,
         hieghtWithPx: "9px",
         children: [
@@ -1456,52 +1456,52 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-      
-            tooltip: "",
-            link: "",
-            defaultColor: "bg-primary",
-            key: "donutChart_" + Guid.newGuid(),
-            section: [{
-              "chart": {
-                "height": 245,
-                "type": "donut"
-              },
-              plotOptions: {
-                pie: {
-                  donut: {
-                    size: "70%"
-                  }
-                }
-              },
-              dataLabels: {
-                enabled: false
-              },
-              series: [
-                60,
-                35,
-                19,
-              ],
-              labels: [
-                "Social",
-                "Direct",
-                "Others",
-              ],
-              colors: [
-                "#038edc",
-                "#f5f6f8",
-                "#5fd0f3",
-              ],
-              legend: {
-                show: true,
-                position: "bottom",
-                horizontalAlign: "center",
-                verticalAlign: "middle",
-                floating: false,
-                fontSize: "14px",
-                offsetX: 0
+
+        tooltip: "",
+        link: "",
+        defaultColor: "bg-primary",
+        key: "donutChart_" + Guid.newGuid(),
+        section: [{
+          "chart": {
+            "height": 245,
+            "type": "donut"
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: "70%"
               }
-            }],
-       
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          series: [
+            60,
+            35,
+            19,
+          ],
+          labels: [
+            "Social",
+            "Direct",
+            "Others",
+          ],
+          colors: [
+            "#038edc",
+            "#f5f6f8",
+            "#5fd0f3",
+          ],
+          legend: {
+            show: true,
+            position: "bottom",
+            horizontalAlign: "center",
+            verticalAlign: "middle",
+            floating: false,
+            fontSize: "14px",
+            offsetX: 0
+          }
+        }],
+
         children: [
         ],
       } as TreeNode;
@@ -1517,24 +1517,24 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-     
-            tooltip: "",
-            icon: "fa-chrome",
-            limit: 1,
-            belowpercentage: 100,
-            belowpercentageColor: "bg-danger",
-            key: "browserCard_" + Guid.newGuid(),
-            chart:
-              [
-                {
-                  name: "Chrome",
-                  percentage: 82,
-                  min: "82",
-                  max: "100",
-                  bar: "82%"
-                },
-              ],
-         
+
+        tooltip: "",
+        icon: "fa-chrome",
+        limit: 1,
+        belowpercentage: 100,
+        belowpercentageColor: "bg-danger",
+        key: "browserCard_" + Guid.newGuid(),
+        chart:
+          [
+            {
+              name: "Chrome",
+              percentage: 82,
+              min: "82",
+              max: "100",
+              bar: "82%"
+            },
+          ],
+
         children: [
         ],
       } as TreeNode;
@@ -1550,25 +1550,25 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
- 
-            tooltip: "",
-            icon: "fa-chrome",
-            limit: 1,
-            belowpercentage: 100,
-            belowpercentageColor: "bg-danger",
-            key: "browserCard_" + Guid.newGuid(),
-            numberofcolumns: "",
-            chart:
-              [
-                {
-                  name: "Chrome",
-                  percentage: 82,
-                  min: "82",
-                  max: "100",
-                  bar: "82%"
-                },
-              ],
-        
+
+        tooltip: "",
+        icon: "fa-chrome",
+        limit: 1,
+        belowpercentage: 100,
+        belowpercentageColor: "bg-danger",
+        key: "browserCard_" + Guid.newGuid(),
+        numberofcolumns: "",
+        chart:
+          [
+            {
+              name: "Chrome",
+              percentage: 82,
+              min: "82",
+              max: "100",
+              bar: "82%"
+            },
+          ],
+
         children: [
         ],
       } as TreeNode;
@@ -1583,50 +1583,50 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-            tooltip: "",
-            key: "donuteSaleChart_" + Guid.newGuid(),
-            thisTitle: "This Month",
-            lastTitle: "Last Month",
-            prevTitle: "From previous period",
-            thisValue: "$12,582",
-            lastValue: "$98,741",
-            prevValue: "25.2%",
-            growth: "+15%",
-            section: [
-              {
-                chart: {
-                  height: 130,
-                  type: "donut"
-                },
-                dataLabels: {
-                  enabled: false
-                },
-                series: [
-                  44,
-                  25,
-                  19
-                ],
-                labels: [
-                  "Revenue",
-                  "Expenses",
-                  "Profit"
-                ],
-                colors: [
-                  "#038edc",
-                  "#dfe2e6",
-                  "#5fd0f3"
-                ],
-                legend: {
-                  show: false,
-                  position: "bottom",
-                  horizontalAlign: "center",
-                  verticalAlign: "middle",
-                  floating: false,
-                  fontSize: "14px",
-                  offsetX: 0
-                }
-              }
+        tooltip: "",
+        key: "donuteSaleChart_" + Guid.newGuid(),
+        thisTitle: "This Month",
+        lastTitle: "Last Month",
+        prevTitle: "From previous period",
+        thisValue: "$12,582",
+        lastValue: "$98,741",
+        prevValue: "25.2%",
+        growth: "+15%",
+        section: [
+          {
+            chart: {
+              height: 130,
+              type: "donut"
+            },
+            dataLabels: {
+              enabled: false
+            },
+            series: [
+              44,
+              25,
+              19
             ],
+            labels: [
+              "Revenue",
+              "Expenses",
+              "Profit"
+            ],
+            colors: [
+              "#038edc",
+              "#dfe2e6",
+              "#5fd0f3"
+            ],
+            legend: {
+              show: false,
+              position: "bottom",
+              horizontalAlign: "center",
+              verticalAlign: "middle",
+              floating: false,
+              fontSize: "14px",
+              offsetX: 0
+            }
+          }
+        ],
         children: [
         ],
       } as TreeNode;
@@ -1641,194 +1641,194 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-            tooltip: "",
-            key: "salesAnalyticschart_" + Guid.newGuid(),
-            firstTitle: "Income",
-            firstValue: "3.85k",
-            secondTitle: "Sales",
-            secondValue: "258",
-            thirdLabel: "Users",
-            thirdValue: "52k",
-            link: "",
-            section: [{
-              chartTitlesValues: [
-                {
-                  value: "3.85k",
-                },
-                {
-                  value: "258",
-                },
-                {
-                  value: "52k",
-                }
-              ],
-              chart: {
-                height: 332,
-                type: "line",
-                stacked: false,
-                offsetY: -5,
-                toolbar: {
-                  show: false
-                }
-              },
-              stroke: {
-                width: [
-                  0,
-                  0,
-                  0,
-                  1
-                ],
-                curve: "smooth"
-              },
-              plotOptions: {
-                bar: {
-                  columnWidth: "40%"
-                }
-              },
-              colors: [
-                "#5fd0f3",
-                "#038edc",
-                "#51d28c",
-                "#51d28c"
-              ],
-              series: [
-                {
-                  name: "Income",
-                  title: "Income",
-                  value: "3.85k",
-                  type: "column",
-                  data: [
-                    23,
-                    11,
-                    22,
-                    27,
-                    13,
-                    22,
-                    37,
-                    21,
-                    44,
-                    22,
-                    30
-                  ]
-                },
-                {
-                  name: "Sales",
-                  title: "Sales",
-                  value: "258",
-                  type: "column",
-                  data: [
-                    19,
-                    8,
-                    26,
-                    21,
-                    18,
-                    36,
-                    30,
-                    28,
-                    40,
-                    39,
-                    15
-                  ]
-                },
-                {
-                  name: "Conversation Ratio",
-                  title: "",
-                  value: "",
-                  type: "area",
-                  data: [
-                    44,
-                    55,
-                    41,
-                    67,
-                    22,
-                    43,
-                    21,
-                    41,
-                    56,
-                    27,
-                    43
-                  ]
-                },
-                {
-                  name: "Users",
-                  title: "Users",
-                  value: "52k",
-                  type: "line",
-                  data: [
-                    9,
-                    11,
-                    13,
-                    12,
-                    10,
-                    8,
-                    6,
-                    9,
-                    14,
-                    17,
-                    22
-                  ]
-                }
-              ],
-              fill: {
-                opacity: [
-                  0.85,
-                  1,
-                  0.25,
-                  1
-                ],
-                gradient: {
-                  inverseColors: false,
-                  shade: "light",
-                  type: "vertical",
-                  opacityFrom: 0.85,
-                  opacityTo: 0.55,
-                  stops: [
-                    0,
-                    100,
-                    100,
-                    100
-                  ]
-                }
-              },
-              labels: [
-                "01/01/2003",
-                "02/01/2003",
-                "03/01/2003",
-                "04/01/2003",
-                "05/01/2003",
-                "06/01/2003",
-                "07/01/2003",
-                "08/01/2003",
-                "09/01/2003",
-                "10/01/2003",
-                "11/01/2003"
-              ],
-              markers: {
-                "size": 0
-              },
-              xaxis: {
-                "type": "datetime"
-              },
-              yaxis: {
-                title: {
-                  text: "Sales Analytics",
-                  style: {
-                    fontWeight: 500
-                  }
-                }
-              },
-              tooltip: {
-                shared: true,
-                intersect: false,
-                y: "21 points"
-              },
-              grid: {
-                borderColor: "#f1f1f1",
-                padding: {
-                  bottom: 15
-                }
+        tooltip: "",
+        key: "salesAnalyticschart_" + Guid.newGuid(),
+        firstTitle: "Income",
+        firstValue: "3.85k",
+        secondTitle: "Sales",
+        secondValue: "258",
+        thirdLabel: "Users",
+        thirdValue: "52k",
+        link: "",
+        section: [{
+          chartTitlesValues: [
+            {
+              value: "3.85k",
+            },
+            {
+              value: "258",
+            },
+            {
+              value: "52k",
+            }
+          ],
+          chart: {
+            height: 332,
+            type: "line",
+            stacked: false,
+            offsetY: -5,
+            toolbar: {
+              show: false
+            }
+          },
+          stroke: {
+            width: [
+              0,
+              0,
+              0,
+              1
+            ],
+            curve: "smooth"
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: "40%"
+            }
+          },
+          colors: [
+            "#5fd0f3",
+            "#038edc",
+            "#51d28c",
+            "#51d28c"
+          ],
+          series: [
+            {
+              name: "Income",
+              title: "Income",
+              value: "3.85k",
+              type: "column",
+              data: [
+                23,
+                11,
+                22,
+                27,
+                13,
+                22,
+                37,
+                21,
+                44,
+                22,
+                30
+              ]
+            },
+            {
+              name: "Sales",
+              title: "Sales",
+              value: "258",
+              type: "column",
+              data: [
+                19,
+                8,
+                26,
+                21,
+                18,
+                36,
+                30,
+                28,
+                40,
+                39,
+                15
+              ]
+            },
+            {
+              name: "Conversation Ratio",
+              title: "",
+              value: "",
+              type: "area",
+              data: [
+                44,
+                55,
+                41,
+                67,
+                22,
+                43,
+                21,
+                41,
+                56,
+                27,
+                43
+              ]
+            },
+            {
+              name: "Users",
+              title: "Users",
+              value: "52k",
+              type: "line",
+              data: [
+                9,
+                11,
+                13,
+                12,
+                10,
+                8,
+                6,
+                9,
+                14,
+                17,
+                22
+              ]
+            }
+          ],
+          fill: {
+            opacity: [
+              0.85,
+              1,
+              0.25,
+              1
+            ],
+            gradient: {
+              inverseColors: false,
+              shade: "light",
+              type: "vertical",
+              opacityFrom: 0.85,
+              opacityTo: 0.55,
+              stops: [
+                0,
+                100,
+                100,
+                100
+              ]
+            }
+          },
+          labels: [
+            "01/01/2003",
+            "02/01/2003",
+            "03/01/2003",
+            "04/01/2003",
+            "05/01/2003",
+            "06/01/2003",
+            "07/01/2003",
+            "08/01/2003",
+            "09/01/2003",
+            "10/01/2003",
+            "11/01/2003"
+          ],
+          markers: {
+            "size": 0
+          },
+          xaxis: {
+            "type": "datetime"
+          },
+          yaxis: {
+            title: {
+              text: "Sales Analytics",
+              style: {
+                fontWeight: 500
               }
-            }],
+            }
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: "21 points"
+          },
+          grid: {
+            borderColor: "#f1f1f1",
+            padding: {
+              bottom: 15
+            }
+          }
+        }],
         children: [
         ],
       } as TreeNode;
@@ -1946,7 +1946,7 @@ export class BuilderComponent implements OnInit {
         ],
       } as TreeNode;
       this.addNode(node, newNode);
-    }    
+    }
     else if (value == 'breakTag') {
       const newNode = {
         id: "common_" + Guid.newGuid(),
@@ -1957,7 +1957,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-            key: "breakTag_" + Guid.newGuid(),
+        key: "breakTag_" + Guid.newGuid(),
         children: [
         ],
       } as TreeNode;
@@ -1974,9 +1974,9 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-     
-            key: "multiFileUpload_" + Guid.newGuid(),
-            uploadBtnLabel: "Click here to upload",
+
+        key: "multiFileUpload_" + Guid.newGuid(),
+        uploadBtnLabel: "Click here to upload",
         children: [
         ],
       } as TreeNode;
@@ -2001,8 +2001,8 @@ export class BuilderComponent implements OnInit {
         delete: true,
         update: false,
         create: false,
-            getVariable: "",
-            setVariable: "",
+        getVariable: "",
+        setVariable: "",
         children: [
           {
             id: "name_" + Guid.newGuid(),
@@ -2090,9 +2090,9 @@ export class BuilderComponent implements OnInit {
         delete: true,
         update: false,
         create: false,
-       
-           
-         
+
+
+
         children: [
           {
             "id": "description",
@@ -2296,27 +2296,27 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-        
-          timelineConfig: [
-            {
-              tooltip: "",
-              timelineHeading: '2021',
-              headingColor: 'btn btn-danger',
-              headingShape: 'btn-rounded',
-              timelineType: 'verti-timeline',
-              data: [
-                {
-                  title: "Timeline Event One",
-                  content: "It will be as simple as occidental in fact. To an english person, it will seem like simplified English, as a skeptical friend",
-                  date: '11/7/2022',
-                  align: "",
-                  createdBy: "Zubair",
-                  image: ["assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg"],
-                  company: "",
-                }
-              ]
-            }
-          ],
+
+        timelineConfig: [
+          {
+            tooltip: "",
+            timelineHeading: '2021',
+            headingColor: 'btn btn-danger',
+            headingShape: 'btn-rounded',
+            timelineType: 'verti-timeline',
+            data: [
+              {
+                title: "Timeline Event One",
+                content: "It will be as simple as occidental in fact. To an english person, it will seem like simplified English, as a skeptical friend",
+                date: '11/7/2022',
+                align: "",
+                createdBy: "Zubair",
+                image: ["assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg"],
+                company: "",
+              }
+            ]
+          }
+        ],
         children: [
         ],
 
@@ -2331,13 +2331,13 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         isNextChild: true,
         hideExpression: false,
-          fixedDivConfig: [
-            {
-              key: "fixedDiv" + Guid.newGuid(),
+        fixedDivConfig: [
+          {
+            key: "fixedDiv" + Guid.newGuid(),
 
-            }
-          ],
-          fixedDivChild: [],
+          }
+        ],
+        fixedDivChild: [],
         children: [
         ],
 
@@ -2353,14 +2353,14 @@ export class BuilderComponent implements OnInit {
         isNextChild: true,
         className: "col-12",
         hideExpression: false,
-          accordionConfig: [
-            {
-              tooltip: "",
-              label: "Accordion",
-              color: "bg-primary",
-              accordionChild: [],
-            }
-          ],
+        accordionConfig: [
+          {
+            tooltip: "",
+            label: "Accordion",
+            color: "bg-primary",
+            accordionChild: [],
+          }
+        ],
         children: [
         ],
 
@@ -3232,7 +3232,7 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    this.nodes = [...this.nodes];
+    this.updateNodes();
     // this.controlListClose();
     // if (this.screenName)
     // this.saveOldJson();
@@ -3258,6 +3258,7 @@ export class BuilderComponent implements OnInit {
       return [];
   }
   addNode(node: TreeNode, newNode: TreeNode) {
+    if(node.children)
     node.children.push(newNode);
     // this.dropTargetIds = [];
     // this.formlyService.templateNode = JSON.parse(JSON.stringify(this.formlyService.nodes));
@@ -3271,38 +3272,41 @@ export class BuilderComponent implements OnInit {
       return false;
     }
     let disabledProperty: any;
-    for (let j = 0; j < this.selectdNode.children.length; j++) {
-      if (this.selectdNode.children[j].formlyType != undefined) {
-        if (this.selectdNode.children[j].formlyType == 'input') {
-          wrapperName = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-          disabledProperty = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
-        }
-        else if (this.selectdNode.children[j].type == 'tabsMain') {
-          this.selectdNode.children[j].children.forEach(element => {
-            element.children.forEach(elementV1 => {
-              wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-              disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+    if(this.selectdNode.children){
+      for (let j = 0; j < this.selectdNode.children.length; j++) {
+        if (this.selectdNode.children[j].formlyType != undefined) {
+          if (this.selectdNode.children[j].formlyType == 'input') {
+            wrapperName = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+            disabledProperty = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+          }
+          else if (this.selectdNode.children[j].type == 'tabsMain') {
+            this.selectdNode.children[j].children?.forEach(element => {
+              element.children?.forEach(elementV1 => {
+                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+              });
             });
-          });
-        }
-        else if (this.selectdNode.children[j].type == 'stepperMain') {
-          this.selectdNode.children[j].children.forEach(element => {
-            element.children.forEach(elementV1 => {
-              wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-              disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+          }
+          else if (this.selectdNode.children[j].type == 'stepperMain') {
+            this.selectdNode.children[j].children?.forEach(element => {
+              element.children?.forEach(elementV1 => {
+                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+              });
             });
-          });
-        }
-        else if (this.selectdNode.children[j].type == 'mainDashonicTabs') {
-          this.selectdNode.children[j].children.forEach(element => {
-            element.children.forEach(elementV1 => {
-              wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-              disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+          }
+          else if (this.selectdNode.children[j].type == 'mainDashonicTabs') {
+            this.selectdNode.children[j].children?.forEach(element => {
+              element.children?.forEach(elementV1 => {
+                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+              });
             });
-          });
+          }
         }
       }
     }
+
     if (dataType == 'wrappers') {
       return wrapperName;
     } else if (dataType == 'disabled') {
@@ -3426,9 +3430,10 @@ export class BuilderComponent implements OnInit {
   };
 
   clickButton(type: any) {
-    this.feildData = new GenaricFeild();
-    let _formFeildData = new formFeildData();
-    this.feildData.title = "Change Attribute Values";
+    this.fieldData = new GenaricFeild();
+    let _formFieldData = new formFeildData();
+    this.fieldData.type = type;
+    this.fieldData.title = "Change Attribute Values";
     let configObj: any = {};
     if (type == "breakTag") {
       configObj = {
@@ -3439,8 +3444,58 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.breakTagFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.breakTagFeilds;
+    }
+    if (type == "drawerAttribute") {
+        configObj = {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        color: this.selectdNode.color,
+        btnText: this.selectdNode.btnText,
+        isClosable: this.selectdNode.isClosable,
+        icon: this.selectdNode.icon,
+        extra: this.selectdNode.extra,
+        // isMask: this.selectdNode.isMask,
+        // isMaskClosable: this.selectdNode.isMaskClosable,
+        // isCloseOnNavigation: this.selectdNode.isCloseOnNavigation,
+        isKeyboard: this.selectdNode.isKeyboard,
+        // maskStyle: this.selectdNode.maskStyle,
+        // bodyStyle: this.selectdNode.bodyStyle,
+        title: this.selectdNode.title,
+        footerText: this.selectdNode.footerText,
+        isVisible: this.selectdNode.isVisible,
+        placement: this.selectdNode.placement,
+
+        size: this.selectdNode.size,
+        width: this.selectdNode.width,
+        height: this.selectdNode.height,
+        offsetX: this.selectdNode.offsetX,
+        offsetY: this.selectdNode.offsetY,
+        wrapClassName: this.selectdNode.wrapClassName,
+        zIndex: this.selectdNode.zIndex,
+        onClose: this.selectdNode.onClose,
+      }
+    }
+    else if (type == "skeletonAttribute") {
+        configObj= {
+        id: this.selectdNode.id as string,
+        key: this.selectdNode.key,
+        label: this.selectdNode.label,
+        className: this.selectdNode.className,
+        tooltip: this.selectdNode.tooltip,
+        hideExpression: this.selectdNode.hideExpression,
+        //----------------------------------------
+        isActive: this.selectdNode.isActive,
+        size: this.selectdNode.size,
+        buttonShape: this.selectdNode.buttonShape,
+        avatarShape: this.selectdNode.avatarShape,
+      }
     }
     else if (type == "imageUpload") {
       configObj = {
@@ -3457,8 +3512,8 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // image: this.selectdNode.base64Image,
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.imageUploadFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.imageUploadFeilds;
     }
     else if (type == "toastr") {
       configObj = {
@@ -3472,8 +3527,8 @@ export class BuilderComponent implements OnInit {
         toastrType: this.selectdNode.toastrType,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.toastrFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.toastrFeilds;
     }
     else if (type == "invoice") {
       configObj = {
@@ -3496,8 +3551,8 @@ export class BuilderComponent implements OnInit {
         amountpaidtitle: this.selectdNode.amountpaidLabel,
         balanceDuetitle: this.selectdNode.balanceDueLabel,
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.invoiceFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.invoiceFeilds;
     }
     else if (type == "rangeSlider") {
       configObj = {
@@ -3513,8 +3568,8 @@ export class BuilderComponent implements OnInit {
         showValue: this.selectdNode.showValue,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.rangeSliderFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.rangeSliderFeilds;
     }
     else if (type == "inputGroupGrid") {
       configObj = {
@@ -3524,8 +3579,8 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.inputGroupGridFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
     }
     else if (type == "card") {
       configObj = {
@@ -3539,8 +3594,8 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.cardFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.cardFields;
     }
     else if (type == "fixedDiv") {
       configObj = {
@@ -3550,7 +3605,7 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.formData = _formFeildData.fixedDivFields;
+      this.fieldData.formData = _formFieldData.fixedDivFields;
     }
     else if (type == "tuiCalender") {
       configObj = {
@@ -3564,8 +3619,8 @@ export class BuilderComponent implements OnInit {
         disabled: this.selectdNode.disabled,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.tuiCalendarFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
     }
     else if (type == "multiFileUpload") {
       configObj = {
@@ -3576,8 +3631,8 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.multiFileUploadFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
     }
     else if (type == "textEditor") {
       configObj = {
@@ -3588,8 +3643,8 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.textEditorFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.textEditorFeilds;
     }
     else if (type == "switch") {
       configObj = {
@@ -3602,8 +3657,8 @@ export class BuilderComponent implements OnInit {
         switchPosition: this.selectdNode.switchPosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.switchFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.switchFeilds;
     }
     else if (type == "dashonicTabs") {
       configObj = {
@@ -3615,8 +3670,8 @@ export class BuilderComponent implements OnInit {
         tooltip: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.dashonicTabFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.dashonicTabFields;
     }
     else if (type == "kanban") {
       configObj = {
@@ -3628,8 +3683,8 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
 
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.kanbanFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.kanbanFeilds;
     }
     else if (type == "kanbanTask") {
       if (this.selectdNode.chartCardConfig) {
@@ -3650,8 +3705,8 @@ export class BuilderComponent implements OnInit {
         hideExpression: this.selectdNode.hideExpression,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.kanbanTaskFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
     }
     else if (type == "mainDashonicTabs") {
       if (this.selectdNode.chartCardConfig) {
@@ -3672,8 +3727,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.dashoniMainTabFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.dashoniMainTabFields;
     }
 
     else if (type == "progressBar") {
@@ -3693,8 +3748,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.progressBarFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.progressBarFeilds;
     }
     else if (type == "divider") {
       configObj = {
@@ -3714,8 +3769,8 @@ export class BuilderComponent implements OnInit {
         verticalLinePosition: this.selectdNode.verticalLinePosition,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.dividerFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.dividerFeilds;
     }
     else if (type == "video") {
       if (this.selectdNode.chartCardConfig) {
@@ -3730,8 +3785,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.videosFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.videosFeilds;
     }
     else if (type == "audio") {
       if (this.selectdNode.chartCardConfig) {
@@ -3746,8 +3801,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.audioFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.audioFeilds;
     }
     else if (type == "carouselCrossfade") {
       if (this.selectdNode.chartCardConfig) {
@@ -3761,8 +3816,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.carousalFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.carousalFeilds;
     }
     else if (type == "alert") {
       if (this.selectdNode.chartCardConfig) {
@@ -3778,8 +3833,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.alertFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.alertFeilds;
     }
     else if (type == "timeline") {
       if (this.selectdNode.chartCardConfig) {
@@ -3797,8 +3852,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.timelineFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.timelineFeilds;
     }
 
 
@@ -3818,8 +3873,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.simpleCardWithHeaderBodyFooterFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
     }
 
 
@@ -3844,8 +3899,8 @@ export class BuilderComponent implements OnInit {
           repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.sharedMessagesChartFeilds;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.sharedMessagesChartFeilds;
     }
     else if (type == "browserCard") {
       if (this.selectdNode.chartCardConfig) {
@@ -3863,8 +3918,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.browserChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.browserChartFields;
     }
     else if (type == "browserCombineChart") {
       if (this.selectdNode.chartCardConfig) {
@@ -3882,8 +3937,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.browserComibeChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.browserComibeChartFields;
     }
     else if (type == "widgetSectionCard") {
       if (this.selectdNode.chartCardConfig) {
@@ -3900,8 +3955,8 @@ export class BuilderComponent implements OnInit {
           // data: this.selectdNode.widgetSectionCard[0].section[0].Chart.series[0].data,
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.widgetSectionChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.widgetSectionChartFields;
     }
     else if (type == "sectionCard") {
       if (this.selectdNode.chartCardConfig) {
@@ -3918,8 +3973,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.SectionChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.SectionChartFields;
     }
     else if (type == "chart") {
       if (this.selectdNode.chartCardConfig) {
@@ -3934,8 +3989,8 @@ export class BuilderComponent implements OnInit {
         }
       }
       // objSelect.options = this.selectdNode.chartCardConfig[0]?.section[0].data,
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.chartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.chartFields;
     }
     else if (type == "donutChart") {
       if (this.selectdNode.chartCardConfig) {
@@ -3959,8 +4014,8 @@ export class BuilderComponent implements OnInit {
           // options: generateColorData,
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.donutChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.donutChartFields;
     }
     else if (type == "donuteSaleChart") {
 
@@ -3995,8 +4050,8 @@ export class BuilderComponent implements OnInit {
           // growth: this.selectdNode.saledDonutChart[0].growth,
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.donutSaleChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.donutSaleChartFields;
     }
     else if (type == "salesAnalyticschart") {
       if (this.selectdNode.chartCardConfig) {
@@ -4023,8 +4078,8 @@ export class BuilderComponent implements OnInit {
 
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.saleAnalyticsChartFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.saleAnalyticsChartFields;
     }
     else if (type == "heading") {
       configObj = {
@@ -4044,8 +4099,8 @@ export class BuilderComponent implements OnInit {
         headingColor: this.selectdNode.headingColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.headingFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.headingFields;
     }
     else if (type == "paragraph") {
       configObj = {
@@ -4066,8 +4121,8 @@ export class BuilderComponent implements OnInit {
         color: this.selectdNode.color,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.paragraphFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.paragraphFields;
     }
     else if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox"
       || type == "datetime" || type == "time" || type == "date" || type == "month" || type == "decimal" || type == "week"
@@ -4093,11 +4148,11 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonFormlyConfigurationFields;
+      this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
       if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
-        this.feildData.formData = _formFeildData.radioFields;
+        this.fieldData.formData = _formFieldData.radioFields;
       if (type == 'color')
-        this.feildData.formData = _formFeildData.colorFields;
+        this.fieldData.formData = _formFieldData.colorFields;
 
     }
     else if (type == "customMasking") {
@@ -4123,8 +4178,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonFormlyConfigurationFields;
-      this.feildData.formData = _formFeildData.customMaskingFields;
+      this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
+      this.fieldData.formData = _formFieldData.customMaskingFields;
     }
     //button Conditions
     else if (type == "button") {
@@ -4150,8 +4205,8 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       };
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.buttonFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.buttonFields;
     }
     else if (type == "dropdownButton") {
       configObj = {
@@ -4168,8 +4223,8 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.dropdownButtonFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.dropdownButtonFields;
     }
     else if (type == "accordionButton") {
       if (this.selectdNode.chartCardConfig) {
@@ -4183,8 +4238,8 @@ export class BuilderComponent implements OnInit {
           // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         }
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.accordionButtonFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.accordionButtonFields;
     }
     //Link Button Conditions
     else if (type == "linkButton") {
@@ -4206,8 +4261,8 @@ export class BuilderComponent implements OnInit {
         btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.linkButtonFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.linkButtonFields;
     }
     else if (type == "buttonGroup") {
 
@@ -4221,8 +4276,8 @@ export class BuilderComponent implements OnInit {
         className: this.selectdNode.className,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.buttonGroupFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.buttonGroupFields;
     }
 
     //Grid Conditions
@@ -4236,8 +4291,8 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         variables: this.selectdNode.screenVariables
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.pageFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.pageFields;
     }
     else if (type == "pageHeader") {
       configObj = {
@@ -4248,26 +4303,26 @@ export class BuilderComponent implements OnInit {
         titlePosition: this.selectdNode.labelPosition,
         alertPosition: this.selectdNode.alertPosition,
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.pageHeaderFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.pageHeaderFields;
     }
     else if (type == "pageBody") {
 
 
-      // this.feildData.formData = this.methodUrl;
+      // this.fieldData.formData = this.methodUrl;
 
       var objPageBody = {
         id: this.selectdNode.id,
         title: this.selectdNode.title
       }
       this.formModalData = objPageBody;
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.pageBodyFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.pageBodyFields;
     }
     else if (type == "pageFooter") {
 
 
-      // this.feildData.formData = this.methodUrl;
+      // this.fieldData.formData = this.methodUrl;
 
       var objPageFooter = {
         id: this.selectdNode.id,
@@ -4275,8 +4330,8 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
       }
       this.formModalData = objPageFooter;
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.pageFooterFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.pageFooterFields;
     }
     else if (type == "according") {
       if (this.selectdNode.children) {
@@ -4291,8 +4346,8 @@ export class BuilderComponent implements OnInit {
             wrappers: this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
             // disabled: this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectdNode.children[1].children[0].chartCardConfig[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
           }
-          this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-          this.feildData.formData = _formFeildData.accordingFields;
+          this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+          this.fieldData.formData = _formFieldData.accordingFields;
         }
         else {
           configObj = {
@@ -4303,8 +4358,8 @@ export class BuilderComponent implements OnInit {
             repeatable: this.addPropertieInOldScreens(this.selectdNode.repeatable, 'repeatable'),
             // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
           }
-          this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-          this.feildData.formData = _formFeildData.accordingFields;
+          this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+          this.fieldData.formData = _formFieldData.accordingFields;
         }
       }
     }
@@ -4320,8 +4375,8 @@ export class BuilderComponent implements OnInit {
         textColor: this.selectdNode.textColor,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.accordingHeaderFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.accordingHeaderFields;
     }
     else if (type == "accordingBody") {
       configObj = {
@@ -4329,8 +4384,8 @@ export class BuilderComponent implements OnInit {
         title: this.selectdNode.title,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.accordingBodyFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.accordingBodyFields;
     }
     else if (type == "accordingFooter") {
       configObj = {
@@ -4339,8 +4394,8 @@ export class BuilderComponent implements OnInit {
         footer: this.selectdNode.footer,
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.accordingFooterFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.accordingFooterFields;
     }
     else if (type == "stepper") {
       configObj = {
@@ -4352,8 +4407,8 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.stepperFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.stepperFields;
     }
     else if (type == "stepperMain") {
       configObj = {
@@ -4379,8 +4434,8 @@ export class BuilderComponent implements OnInit {
         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
         // nodes: this.stepperNewlength,
       }
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.mainStepperFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.mainStepperFields;
     }
     else if (type == "tabsMain") {
       let objTab = {
@@ -4397,12 +4452,12 @@ export class BuilderComponent implements OnInit {
         // nodes: this.tabsNewlength,
       }
       this.formModalData = objTab;
-      this.feildData.commonData = _formFeildData.commonOtherConfigurationFields;
-      this.feildData.formData = _formFeildData.mainTabFields;
+      this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
+      this.fieldData.formData = _formFieldData.mainTabFields;
     }
 
     else if (type == "gridAttributes") {
-      this.feildData.formData = _formFeildData.gridFields;
+      this.fieldData.formData = _formFieldData.gridFields;
     }
     this.formModalData = configObj;
   }
@@ -4553,7 +4608,7 @@ export class BuilderComponent implements OnInit {
           });
         });
       });
-      // this.clickBack();
+      // this.updateNodes();
     });
   }
   addSection() {
@@ -4755,7 +4810,7 @@ export class BuilderComponent implements OnInit {
 
     }
 
-    this.nodes = [...this.nodes];
+    this.updateNodes();
     // this.jsonStringifData();
 
     // array.splice(index, 0, ...elementsArray);
@@ -4807,11 +4862,1719 @@ export class BuilderComponent implements OnInit {
     // this.makeFaker();
 
   }
-
+  EnumView() {
+    this.builderService.multiAPIData().subscribe((res => {
+      const node = this.selectdNode ?? {};
+      const formly = node.formly ?? [];
+      const fieldGroup = formly?.[0]?.fieldGroup ?? [];
+      const templateOptions = fieldGroup[0]?.templateOptions ?? {};
+      templateOptions.options = res ?? undefined;
+      this.updateNodes();
+      // this.updateNodes();
+    }));
+  }
   notifyEmit(event: actionTypeFeild): void {
+    debugger
+    switch (event.type) {
+      case "drawerAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.color = event.form.color;
+          this.selectdNode.btnText = event.form.btnText;
+          this.selectdNode.isClosable = event.form.isClosable;
+          this.selectdNode.icon = event.form.icon;
+          this.selectdNode.extra = event.form.extra;
+          this.selectdNode.isKeyboard = event.form.isKeyboard;
+          this.selectdNode.title = event.form.title;
+          this.selectdNode.footerText = event.form.footerText;
+          this.selectdNode.isVisible = event.form.isVisible;
+          this.selectdNode.placement = event.form.placement;
+          this.selectdNode.size = event.form.size;
+          this.selectdNode.width = event.form.width;
+          this.selectdNode.height = event.form.height;
+          this.selectdNode.offsetX = event.form.offsetX;
+          this.selectdNode.offsetY = event.form.offsetY;
+          this.selectdNode.wrapClassName = event.form.wrapClassName;
+          this.selectdNode.zIndex = event.form.zIndex;
+          this.selectdNode.onClose = event.form.onClose;
+        }
+        break;
+      case "skeletonAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.isActive = event.form.isActive;
+          this.selectdNode.size = event.form.size;
+          this.selectdNode.buttonShape = event.form.buttonShape;
+          this.selectdNode.avatarShape = event.form.avatarShape;
+        }
+        break;
+      case "emptyAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.icon = event.form.icon;
+          this.selectdNode.content = event.form.content;
+          this.selectdNode.text = event.form.text;
+          this.selectdNode.link = event.form.link;
+          this.selectdNode.btnText = event.form.btnText;
+          this.selectdNode.color = event.form.color;
+        }
+        break;
+      case "listAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.headerText = event.form.headerText;
+          this.selectdNode.footerText = event.form.footerText;
+          this.selectdNode.formatter = event.form.formatter;
+          this.selectdNode.size = event.form.size;
+          this.selectdNode.isBordered = event.form.isBordered;
+          this.selectdNode.isSplit = event.form.isSplit;
+          this.selectdNode.isEdit = event.form.isEdit;
+          this.selectdNode.isUpdate = event.form.isUpdate;
+          this.selectdNode.isDelete = event.form.isDelete;
+          this.selectdNode.isLoad = event.form.isLoad;
+          this.selectdNode.loadText = event.form.loadText;
+          this.selectdNode.options = event.form.options;
+        }
+        break;
+      case "descriptionAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.title = event.form.title;
+          this.selectdNode.nzExtra = event.form.nzExtra;
+          this.selectdNode.formatter = event.form.formatter;
+          this.selectdNode.size = event.form.size;
+          this.selectdNode.isBordered = event.form.isBordered;
+          this.selectdNode.isColon = event.form.isColon;
+        }
+        break;
+      case "descriptionChildAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.title = event.form.title;
+          this.selectdNode.content = event.form.content;
+          this.selectdNode.nzStatus = event.form.nzStatus;
+          this.selectdNode.isBadeg = event.form.isBadeg;
+          this.selectdNode.nzSpan = event.form.nzSpan;
+        }
+        break;
+      case "selectAttributes" || 'tagAttributes' || 'searchAttributes' || 'radioAttributes'
+        || 'checkBoxAttributes' || 'decimalAttributes' || 'inputAttributes' ||
+        'inputGroupAttributes' || 'imageAttributes' || 'telephoneAttributes' || 'textareaAttributes'
+        || 'textareaAttributes' || 'timeAttributes' || 'monthAttributes' || 'weekAttributes' || 'dateTimeAttributes'
+        || 'dateAttributes' || 'colorAttributes' :
+        if (this.selectdNode) {
+          this.selectdNode.className = event.form.className
+          this.selectdNode.formly?.forEach(elementV1 => {
+            // MapOperator(elementV1 = currentData);
+            const formly = elementV1 ?? {};
+            const fieldGroup = formly.fieldGroup ?? [];
+            const templateOptions = fieldGroup[0]?.templateOptions ?? {};
+
+            templateOptions.label = event.form.label;
+            templateOptions['key'] = event.form.key;
+            templateOptions['defaultValue'] = event.form.defaultValue;
+            templateOptions['className'] = event.form.className;
+            templateOptions['hideExpression'] = event.form.hideExpression;
+            templateOptions.placeholder = event.form.placeholder;
+            // templateOptions['className'] = event.form.className;
+            templateOptions['options'] = event.form.options;
+            templateOptions['required'] = event.form.required;
+            templateOptions['disabled'] = event.form.disabled;
+            templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['labelIcon'] = event.form.labelIcon;
+            templateOptions['addonLeft'].text = event.form.addonLeft;
+            templateOptions['addonRight'].text = event.form.addonRight;
+            templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
+            if (this.selectdNode.type == "multiselect") {
+              const arr = event.form.defaultValue.split(',');
+              templateOptions['defaultValue'] = arr;
+            } else {
+              templateOptions['defaultValue'] = event.form.defaultValue;
+            }
+            if (event.form.apiData != undefined) {
+              this.selectdNode.link = event.form.apiData;
+              this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
+
+                templateOptions.options = res;
+              })
+            } else {
+              templateOptions.options = event.form.options;
+            }
+          });
+          this.selectdNode.label = event.form.label;
+          if (event.form.multiselect != "") {
+            this.EnumView();
+          }
+        }
+        break;
+
+      case "breakTagAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+        }
+        break;
+      case "affixAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.affixType = event.form.affixType;
+          this.selectdNode.margin = event.form.margin;
+          this.selectdNode.target = event.form.target;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+        }
+        break;
+      case "avatarAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.key = event.form.key;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.src = event.form.src;
+          this.selectdNode.text = event.form.text;
+          this.selectdNode.icon = event.form.icon;
+          this.selectdNode.bgColor = event.form.bgColor;
+          this.selectdNode.color = event.form.color;
+          this.selectdNode.gap = event.form.gap;
+          this.selectdNode.alt = event.form.alt;
+        }
+        break;
+      case "commentAttribute":
+        debugger
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.key = event.form.key;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.avatar = event.form.avatar;
+          this.selectdNode.author = event.form.author;
+        }
+        break;
+      case "popOverAttribute":
+        debugger
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.key = event.form.key;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.btnLabel = event.form.btnLabel;
+          this.selectdNode.nzPopoverContent = event.form.nzPopoverContent;
+          this.selectdNode.nzPopoverTitle = event.form.nzPopoverTitle;
+        }
+        break;
+      case "spinAttribute":
+        debugger
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.key = event.form.key;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.size = event.form.size;
+          this.selectdNode.delayTime = event.form.delayTime;
+          this.selectdNode.loaderText = event.form.loaderText;
+          this.selectdNode.loaderIcon = event.form.loaderIcon;
+        }
+        break;
+      case "resultAttribute":
+        debugger
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.key = event.form.key;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.status = event.form.status;
+          this.selectdNode.resultTitle = event.form.resultTitle;
+          this.selectdNode.subTitle = event.form.subTitle;
+          this.selectdNode.btnLabel = event.form.btnLabel;
+        }
+        break;
+      case "imageUploadAttribute":
+        if (this.selectdNode) {
+
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.alt = event.form.alt;
+          this.selectdNode.source = event.form.source;
+          this.selectdNode.imagHieght = event.form.imagHieght;
+          this.selectdNode.imageWidth = event.form.imageWidth;
+          this.selectdNode.imageClass = event.form.imageClass;
+          if (event.form.source) {
+            // this.formlyService.imageUrl = '';
+            this.selectdNode.base64Image = '';
+          }
+          // else if (this.formlyService.imageUrl) {
+          //   this.selectdNode.base64Image = this.formlyService.imageUrl;
+          // }
+        }
+        break;
+      case "toastrAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.toastrType = event.form.toastrType;
+          this.selectdNode.toasterTitle = event.form.toasterTitle;
+          this.selectdNode.duration = event.form.duration;
+          this.selectdNode.placement = event.form.placement;
+          this.selectdNode.closeIcon = event.form.closeIcon;
+          this.selectdNode.description = event.form.description;
+          this.selectdNode.animate = event.form.animate;
+          this.selectdNode.pauseOnHover = event.form.pauseOnHover;
+        }
+        break;
+      case "invoiceAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.invoiceNumberLabel = event.form.invoiceNumberLabel;
+          this.selectdNode.datelabel = event.form.datelabel;
+          this.selectdNode.paymentTermsLabel = event.form.paymentTermsLabel;
+          this.selectdNode.poNumber = event.form.poNumber;
+          this.selectdNode.billToLabel = event.form.billToLabel;
+          this.selectdNode.dueDateLabel = event.form.dueDateLabel;
+          this.selectdNode.shipToLabel = event.form.shipToLabel;
+          this.selectdNode.notesLabel = event.form.notesLabel;
+          this.selectdNode.subtotalLabel = event.form.subtotalLabel;
+          this.selectdNode.dicountLabel = event.form.dicountLabel;
+          this.selectdNode.shippingLabel = event.form.shippingLabel;
+          this.selectdNode.taxLabel = event.form.taxLabel;
+          this.selectdNode.termsLabel = event.form.termsLabel;
+          this.selectdNode.totalLabel = event.form.totalLabel;
+          this.selectdNode.amountpaidLabel = event.form.amountpaidLabel;
+          this.selectdNode.balanceDueLabel = event.form.balanceDueLabel;
+        }
+        break;
+      case "rangeSliderAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.min = event.form.min;
+          this.selectdNode.max = event.form.max;
+          this.selectdNode.sliderType = event.form.sliderType;
+          this.selectdNode.progressBar = event.form.progressBar;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.disabled = event.form.disabled;
+          this.selectdNode.showValue = event.form.showValue;
+        }
+        break;
+      case "inputGroupGridAttribute":
+
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+        }
+        break;
+
+      case "calendarAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.viewType = event.form.viewType;
+          this.selectdNode.disabled = event.form.disabled;
+          if (event.form.statusApi != undefined) {
+            this.builderService.genericApis(event.form.statusApi).subscribe((res => {
+              this.selectdNode.options = res;
+              this.updateNodes();
+            }))
+          }
+          // this.updateNodes();
+        }
+        break;
+      case "maskingAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.className = event.form.className
+          this.selectdNode?.formly?.forEach(elementV1 => {
+            // MapOperator(elementV1 =currentData);
+            const formly = elementV1 ?? {};
+            const fieldGroup = formly.fieldGroup ?? [];
+            const templateOptions = fieldGroup[0]?.templateOptions ?? {};
+            templateOptions['key'] = event.form.key;
+
+            templateOptions.label = event.form.label;
+            templateOptions.focus = event.form.focus;
+            templateOptions['hideExpression'] = event.form.hideExpression;
+            templateOptions['defaultValue'] = event.form.defaultValue;
+            templateOptions['required'] = event.form.required;
+            templateOptions.readonly = event.form.readonly;
+            templateOptions.placeholder = event.form.placeholder;
+            templateOptions['required'] = event.form.required;
+            templateOptions['disabled'] = event.form.disabled;
+            templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['maskString'] = event.form.maskString;
+            templateOptions['maskLabel'] = event.form.maskLabel;
+            templateOptions['labelIcon'] = event.form.labelIcon;
+            templateOptions['addonLeft'].text = event.form.addonLeft;
+            templateOptions['addonRight'].text = event.form.addonRight;
+            templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
+          });
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.id = event.form.id;
+        }
+        break;
+      case "gridAttributes":
+
+        if (this.selectdNode.id) {
+          this.selectdNode.label = event.form.header,
+            this.selectdNode.editorType = event.form.editorType,
+            this.selectdNode.sortable = event.form.sortable,
+            this.selectdNode.filter = event.form.filter;
+          this.selectdNode.header = event.form.header;
+          if (event.form?.sortable) {
+            this.selectdNode.sortingType = "desc";
+            this.selectdNode.sortable = true;
+          }
+          else {
+            delete this.selectdNode.sortingType;
+            delete this.selectdNode.sortable;
+          }
+
+          if (event.form.filter) {
+            this.selectdNode['filter'] = {};
+            this.selectdNode.filter["type"] = {};
+            this.selectdNode.filter.type = event.form?.filterType;
+            if (event.form.filterType != "select") {
+              this.selectdNode.filter.operator = "OR"
+              this.selectdNode.filter.showApplyBtn = true;
+              this.selectdNode.filter.showClearBtn = true;
+            }
+          } else {
+            delete this.selectdNode.filter;
+          }
+          if (event.form.editorType) {
+            this.selectdNode.editorType = event.form.editorType;
+            if (event.form.fieldType == "text" || event.form.fieldType == "number") {
+              this.selectdNode["editor"] = {};
+              this.selectdNode.editor["type"] = {};
+              this.selectdNode.editor.type = event.form.fieldType
+            };
+            if (event.form.fieldType == "select" || event.form.fieldType == "radio" || event.form.fieldType == "checkbox") {
+              if (event.form.options.length > 0) {
+                this.selectdNode['editor'] = {};
+                this.selectdNode.editor['type'];
+                this.selectdNode.editor.type = event.form.fieldType;
+                this.selectdNode.editor['options'] = {};
+                this.selectdNode.editor.options['listItems'] = [];
+                this.selectdNode['formatter'] = {}
+                this.selectdNode.formatter = "listItemText";
+                this.selectdNode.editor.options.listItems = event.form.options;
+              } else {
+                this.selectdNode.editor.type = event.form.fieldType;
+              }
+            }
+          }
+          else if (this.selectdNode.editor.options && event.form.options.length > 0) {
+            this.selectdNode.editor.options.listItems = event.form.options;
+          }
+          this.selectdParentNode.columnData.forEach((element: any) => {
+            if (element.id == this.selectdNode.id) {
+              element = this.selectdNode;
+            }
+          });
+        }
+        break;
+
+      case "gridNameAttributes":
+        if (this.selectdNode) {
+
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.sortable = event.form.sortable;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.gridName;
+          this.selectdNode.pagination = event.form.pagination;
+          this.selectdNode.filter = event.form.filter;
+          this.selectdNode.icon = event.form.icon;
+          this.selectdNode.id = event.form.id;
+          // this.selectdNode.getVariable = event?.form?.getVariable,
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.delete = event.form.delete;
+          this.selectdNode.update = event.form.update;
+          this.selectdNode.create = event.form.create;
+          this.selectdNode['deleteapi'] = event.form.deleteapi;
+          this.selectdNode.columnData.forEach((a: any) => {
+            if (event.form?.sortable) {
+              a.sortingType = "desc";
+              a.sortable = true;
+            }
+            else {
+              delete a?.sortingType;
+              delete a?.sortable;
+            }
+            if (event.form.filter) {
+              a['filter'] = {};
+              a.filter.type = "select";
+              // a.filter.type = event.form?.filterType;
+              if (event.form.filterType != "select") {
+                a.filter.operator = "OR"
+                a.filter.showApplyBtn = true;
+                a.filter.showClearBtn = true;
+              }
+            } else {
+              delete a.filter;
+            }
+          });
+          let newColumnData: any = [];
+          let data = JSON.parse(JSON.stringify(event.form.options))
+          for (let element = 0; element < data.length; element++) {
+            for (let index = 0; index < this.selectdNode.columnData.length; index++) {
+              if (data[element].id) {
+                if (this.selectdNode.columnData[index].id == data[element].id) {
+                  this.selectdNode.columnData[index].label = data[element].header;
+                  this.selectdNode.columnData[index].name = data[element].name;
+                  this.selectdNode.columnData[index].header = data[element].header;
+                  this.selectdNode.columnData[index].showColumn = data[element].showColumn;
+                  this.selectdNode.columnData[index].sumColumn = data[element].sumColumn;
+                  this.selectdNode.columnData[index]["api"] = data[element].api;
+                  newColumnData.push(this.selectdNode.columnData[index]);
+                }
+              }
+              else {
+                data[element]["id"] = data[element].name + "_" + Guid.newGuid();
+                data[element]["children"] = [];
+                data[element]["type"] = "input";
+                data[element]["label"] = data[element].name;
+                newColumnData.push(data[element]);
+              }
+            }
+          }
+          this.selectdNode.columnData = newColumnData;
+          this.selectdNode.children = this.selectdNode.columnData;
+          if (event.form?.link != null) {
+            this.selectdNode.columnData = [];
+            this.builderService.genericApis(event.form?.link).subscribe((res => {
+              this.selectdNode.children = res[0].columnData;
+              res[0].columnData.forEach((element: any) => {
+                element["id"] = element.name + "_" + Guid.newGuid();
+                this.selectdNode.columnData.push(element);
+
+              });
+              this.selectdNode.rowData = res[0].rowData;
+              this.selectdNode.columnData.forEach((a: any) => {
+                if (event.form?.sortable) {
+                  a.sortingType = "desc";
+                  a.sortable = true;
+                }
+                else {
+                  delete a?.sortingType;
+                  delete a?.sortable;
+                }
+                if (event.form.filter) {
+                  a['filter'] = {};
+                  a.filter.type = "select";
+                  a.filter.type = event.form?.filterType;
+                  if (event.form.filterType != "select") {
+                    a.filter.operator = "OR"
+                    a.filter.showApplyBtn = true;
+                    a.filter.showClearBtn = true;
+                  }
+                } else {
+                  delete a.filter;
+                }
+              });
+              this.updateNodes();
+            }))
+            // this.GridView(event.form.link);
+          }
+        }
+
+
+        break;
+
+      case "gridNameAction":
+        this.selectdNode.link = event.form.APIList;
+        // this.GridView(event.form.APIList);
+        break;
+
+      case "buttonAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.title;
+          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
+            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            // this.selectdNode.chartCardConfig[0].buttonGroup[0].btnConfig[0].format = event.form.format;
+            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectdNode.buttonGroup[0].btnConfig[0].disabled = event.form.disabled;
+            if (event.form.disabled) {
+              // this.selectdNode.buttonGroup[0].btnConfig[0].btnDisables = this.form.valid;
+            } else
+              this.selectdNode.buttonGroup[0].btnConfig[0].btnDisables = false;
+            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+          }
+        }
+        break;
+
+      case "groupButtonAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          // this.selectdNode.chartCardConfig[0].buttonGroup[0].btnConfig[0].key = event.form.key
+          this.selectdNode.label = event.form.title
+          if (this.selectdNode && this.selectdNode.children) {
+            this.selectdNode.btnGroupPosition = event.form.btnGroupPosition;
+            for (let i = 0; i < this.selectdNode.children.length; i++) {
+              const node = this.selectdNode.children ?? [];
+              const btnGroup = node[i].buttonGroup ?? [];
+              btnGroup[0].btnGroupFormat = event.form.btnGroupFormat
+              btnGroup[0].btnConfig[0].hideExpression = event.form.hideExpression
+              this.selectdNode.children[i].className = event.form.className
+              // this.selectdNode.children.forEach(elementV1 => elementV1.chartCardConfig[0].buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat);
+              if (event.form.btnGroupPosition == 'header') {
+                this.selectdParentNode.header = true;
+              }
+              else if (event.form.btnGroupPosition == 'default') {
+                this.selectdParentNode.header = false;
+              }
+              if (event.form.btnGroupPosition == 'footer') {
+                this.selectdParentNode.footer = true;
+              }
+            }
+
+          }
+        }
+        break;
+      case "linkButtonAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.title;
+          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
+            this.selectdNode.buttonGroup[0].btnConfig[0].key = event.form.key;
+            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectdNode.buttonGroup[0].btnConfig[0].href = event.form.href;
+            this.selectdNode.buttonGroup[0].btnConfig[0].format = event.form.format;
+            this.selectdNode.buttonGroup[0].btnConfig[0].target = event.form.target;
+            this.selectdNode.buttonGroup[0].btnConfig[0].btnType = event.form.target;
+            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.format;
+            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
+              this.selectdNode.buttonGroup[0].btnConfig[0].btnType = "modal";
+            }
+          }
+
+        }
+        break;
+      case "dropdownButtonAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.title;
+          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
+            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectdNode.buttonGroup[0].btnConfig[0].dropdownOptions = event.form.options;
+          }
+        }
+        break;
+      case "accordionButtonAttribute":
+        if (this.selectdNode) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          if (this.selectdNode && this.selectdNode.accordionConfig) {
+            this.selectdNode.accordionConfig[0].label = event.form.label;
+            this.selectdNode.accordionConfig[0].color = event.form.color;
+            this.selectdNode.accordionConfig[0].tooltip = event.form.tooltip;
+          }
+        }
+        break;
+      //Card Case
+      case "cardAttributes":
+        this.selectdNode.hideExpression = event.form.hideExpression;
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.name;
+          this.selectdNode.className = event.form.className;
+          // this.selectdNode.chartCardConfig[0].className = event.form.className;
+          this.selectdNode.chartCardConfig[0].icon = event.form.icon;
+          this.selectdNode.chartCardConfig[0].name = event.form.name;
+          this.selectdNode.chartCardConfig[0].total = event.form.total;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+        }
+        break;
+      case "fixedDivAttribute":
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.label = event.form.label;
+        }
+        break;
+
+      case "chartAttributes":
+
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          var seriesList = [];
+          var ans = Array.isArray(event.form.options[0].data)
+          if (ans != true) {
+            {
+              var arrayData = event.form.options[0].data.split(',');
+              for (let index = 0; index < arrayData.length; index++) {
+                seriesList.push(arrayData[index]);
+              }
+            }
+          } else {
+            seriesList = event.form.options[0].data;
+          };
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].section[0].filterData[0].heading = event.form.label;
+          this.selectdNode.chartCardConfig[0].section[0].filterData[0].subheading = event.form.sub_label;
+          // this.selectdNode.chartCardConfig[0].section[0].filterData[0].refundsChart.series[0].data = event.form.options;
+          this.selectdNode.chartCardConfig[0].section[0].filterData[0].price = event.form.options[0].price;
+          this.selectdNode.chartCardConfig[0].section[0].filterData[0].refundsChart.colors = event.form.options[0].colors;
+          this.selectdNode.chartCardConfig[0].section[0].filterData[0].refundsChart.series[0].data = seriesList;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          if (event.form.link) {
+            this.builderService.salesDataApi().subscribe((res => {
+              // this.selectdNode.chartCardConfig[0].chartFilterData = res;
+              if (this.selectdNode.section) {
+                this.selectdNode.section[0].price = res[0]?.price;
+                this.selectdNode.section[0].filterData[0].price = res[0]?.price;
+                this.selectdNode.section[0].colors = res[0]?.colors;
+                this.selectdNode.section[0].data = res[0]?.data;
+                this.selectdNode.section[0].filtertype = res[0]?.filter;
+                this.selectdNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
+                this.selectdNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
+              }
+
+              this.updateNodes()
+            }));
+            event.form.link = "";
+          }
+        }
+        break;
+
+      case "donutChartAttributes":
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].label = event.form.label;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].section[0].series = [];
+          this.selectdNode.chartCardConfig[0].section[0].labels = [];
+          this.selectdNode.chartCardConfig[0].section[0].colors = [];
+          for (let k = 0; k < event.form.options.length; k++) {
+            this.selectdNode.chartCardConfig[0].section[0].series.push(event.form.options[k].series);
+            this.selectdNode.chartCardConfig[0].section[0].labels.push(event.form.options[k].label);
+            this.selectdNode.chartCardConfig[0].section[0].colors.push(event.form.options[k].color);
+          }
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api != undefined) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+                for (let h = 0; h < event.form.options.length; h++) {
+                  if (event.form.options[index].api != undefined) {
+                    this.selectdNode.section[0].series[index] = res.series[0];
+                    this.selectdNode.section[0].labels[index] = res.labels[0];
+                    this.selectdNode.section[0].colors[index] = res.colors[0];
+                    this.updateNodes();
+                  }
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.visitordonutChart().subscribe((res => {
+              this.selectdNode.section = res;
+              this.updateNodes();
+            }));
+          }
+        }
+        break;
+
+      case "donutSaleChartAttributes":
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].label = event.form.label;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].thisTitle = event.form.thisTitle;
+          this.selectdNode.chartCardConfig[0].lastTitle = event.form.lastTitle;
+          this.selectdNode.chartCardConfig[0].prevTitle = event.form.prevTitle;
+          this.selectdNode.chartCardConfig[0].section[0].series = [];
+          this.selectdNode.chartCardConfig[0].section[0].labels = [];
+          this.selectdNode.chartCardConfig[0].section[0].colors = [];
+          for (let k = 0; k < event.form.options.length; k++) {
+            this.selectdNode.chartCardConfig[0].section[0].series.push(event.form.options[k].series);
+            this.selectdNode.chartCardConfig[0].section[0].labels.push(event.form.options[k].label);
+            this.selectdNode.chartCardConfig[0].section[0].colors.push(event.form.options[k].color);
+          }
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api != undefined) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+                if (event.form.options[index].api != undefined) {
+                  // this.selectdNode.saledDonutChart[index].labels = res.labels;
+                  // this.selectdNode.saledDonutChart[index].series = res.series;
+                  // this.selectdNode.saledDonutChart[index].colors = res.colors;
+                  this.selectdNode.thisValue = res.thisValue;
+                  this.selectdNode.lastValue = res.lastValue;
+                  this.selectdNode.prevValue = res.prevValue;
+                  this.selectdNode.growth = res.growth;
+                  this.updateNodes();
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.genericApis("donutChart").subscribe((res => {
+              this.selectdNode.section = res;
+              this.updateNodes()
+            }));
+          }
+        }
+        break;
+
+      case "browserChartAttributes":
+
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].label = event.form.label;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].icon = event.form.icon;
+          this.selectdNode.chartCardConfig[0].limit = event.form.limit;
+          this.selectdNode.chartCardConfig[0].defaultColor = event.form.defaultColor;
+          this.selectdNode.chartCardConfig[0].belowpercentage = event.form.belowpercentage;
+          this.selectdNode.chartCardConfig[0].belowpercentageColor = event.form.below_percentage_color;
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api != undefined) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+                for (let h = 0; h < event.form.options.length; h++) {
+                  if (event.form.options[index].api != undefined) {
+                    this.selectdNode.chart[index].percentage = res.min;
+                    this.selectdNode.chart[index].min = res.min;
+                    this.selectdNode.chart[index].bar = res.min + "%";
+                    this.updateNodes();
+                  }
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.genericApis("browserdata").subscribe((res => {
+              this.selectdNode.chart = res;
+              this.updateNodes();
+            }))
+          }
+        }
+        break;
+
+      case "browserCombineChartAttributes":
+
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].label = event.form.label;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].icon = event.form.icon;
+          this.selectdNode.chartCardConfig[0].limit = event.form.limit;
+          this.selectdNode.chartCardConfig[0].defaultColor = event.form.defaultColor;
+          this.selectdNode.chartCardConfig[0].belowpercentage = event.form.belowpercentage;
+          this.selectdNode.chartCardConfig[0].numberofcolumns = event.form.numberofcolumns;
+          this.selectdNode.chartCardConfig[0].belowpercentageColor = event.form.below_percentage_color;
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api != undefined) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+
+                for (let h = 0; h < event.form.options.length; h++) {
+                  if (event.form.options[index].api != undefined) {
+                    this.selectdNode.chart[index].percentage = res.min;
+                    this.selectdNode.chart[index].min = res.min;
+                    this.selectdNode.chart[index].bar = res.min + "%";
+                    this.updateNodes();
+                  }
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.genericApis("browserdata").subscribe((res => {
+              this.selectdNode.chart = res;
+              this.updateNodes();
+            }))
+          }
+        }
+        break;
+
+      case "salesAnalyticsChartAttributes":
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].label = event.form.label;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          this.selectdNode.chartCardConfig[0].section[0].series = event.form.options;
+          for (let index = 0; index < this.selectdNode.chartCardConfig[0].section[0].series.length; index++) {
+            if (this.selectdNode.chartCardConfig[0].section[0].series[index].type != event.form.options[index].type) {
+              this.selectdNode.chartCardConfig[0].section[0].series[index].type = event.form.options[index]?.type;
+            }
+          }
+          for (let i = 0; i < this.selectdNode.chartCardConfig[0].section[0].chartTitlesValues.length; i++) {
+            this.selectdNode.chartCardConfig[0].section[0].chartTitlesValues[i].value = event.form.options[i].value;
+            this.selectdNode.chartCardConfig[0].section[0].series[i].title = event.form.options[i].name1;
+          }
+          this.selectdNode.chartCardConfig[0].section[0].series = event.form.options;
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.genericApis("analyticsChart").subscribe((res => {
+              this.selectdNode.section[0].chart = res.chart;
+              this.selectdNode.section[0].stroke = res.stroke;
+              this.selectdNode.section[0].plotOptions = res.plotOptions;
+              this.selectdNode.section[0].colors = res.colors;
+              for (let j = 0; j < res.series.length; j++) {
+                this.selectdNode.section[0].series[j].name = res.series[j].name;
+                this.selectdNode.section[0].series[j].title = res.series[j].name;
+                this.selectdNode.section[0].series[j].data = res.series[j].data;
+              }
+              this.selectdNode.section[0].fill = res.fill;
+              this.selectdNode.section[0].labels = res.labels;
+              this.selectdNode.section[0].markers = res.markers;
+              this.selectdNode.section[0].xaxis = res.xaxis;
+              this.selectdNode.section[0].yaxis = res.yaxis;
+              this.selectdNode.section[0].tooltip = res.tooltip;
+              this.selectdNode.section[0].grid = res.grid;
+              this.updateNodes();
+            }))
+          }
+        }
+        break;
+
+      case "widgetSectionChartAttributes":
+
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].limit = event.form.limit;
+          this.selectdNode.chartCardConfig[0].belowpercentage = event.form.percentage;
+          this.selectdNode.chartCardConfig[0].belowpercentageColor = event.form.below_percentage_color;
+          // for (let i = 0; i < event.form.options.length; i++) {
+          //   this.selectdNode.chartCardConfig[0].section[i].name = event.form.options[i].name
+          //   this.selectdNode.chartCardConfig[0].section[i].total = event.form.options[i].total
+          //   this.selectdNode.chartCardConfig[0].section[i].percentage = event.form.options[i].percentage
+          //   var data : any = [];
+          //   data.push(event.form.options[i].data)
+          //   this.selectdNode.chartCardConfig[0].section[i].data = data
+          // };
+          // this.selectdNode.chartCardConfig[0].section = event.form.options;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+                this.selectdNode.section = '';
+                for (let h = 0; h < event.form.options.length; h++) {
+                  if (event.form.options[index].api != undefined) {
+                    this.selectdNode.section[index].total = res.total;
+                    this.selectdNode.section[index].percentage = res.percentage;
+                    this.selectdNode.section[index].data = res.Chart.series[0].data;
+                    this.selectdNode.section[index].Chart = res.Chart;
+                    this.updateNodes();
+                  }
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.link != undefined) {
+            this.builderService.genericApis("widgetChart").subscribe((res => {
+              this.selectdNode.section = res;
+              for (let index = 0; index < res.length; index++) {
+                this.selectdNode.section[index].data = res[index].Chart.series[0].data;
+              }
+              this.updateNodes();
+            }))
+            event.form.link = "";
+          }
+        }
+        break;
+
+      case "SectionChartAttributes":
+        if (this.selectdNode.chartCardConfig) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.chartCardConfig[0].limit = event.form.limit;
+          this.selectdNode.chartCardConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.chartCardConfig[0].key = event.form.key;
+          this.selectdNode.chartCardConfig[0].belowpercentage = event.form.percentage;
+          this.selectdNode.chartCardConfig[0].section.icon = event.form.options;
+          this.selectdNode.chartCardConfig[0].section.name = event.form.options;
+          this.selectdNode.chartCardConfig[0].section.percentage = event.form.options;
+          this.selectdNode.chartCardConfig[0].section.total = event.form.options;
+          this.selectdNode.chartCardConfig[0].belowpercentageColor = event.form.below_percentage_color;
+          this.selectdNode.chartCardConfig[0].link = event.form.link;
+          for (let index = 0; index < event.form.options.length; index++) {
+            if (event.form.options[index].api != undefined) {
+              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
+                for (let h = 0; h < event.form.options.length; h++) {
+                  if (event.form.options[index].api != undefined) {
+                    this.selectdNode.section[index].total = res.total;
+                    this.selectdNode.section[index].percentage = res.percentage;
+                    this.updateNodes();
+                  }
+                }
+              }))
+            }
+          }
+          if (this.selectdNode.chartCardConfig[0].link != undefined) {
+            this.builderService.genericApis( "widgetSecondCard").subscribe((res => {
+              this.selectdNode.section = res;
+              this.updateNodes();
+            }))
+            event.form.link = "";
+          }
+        }
+        break;
+
+      case "headingAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.className = event.form.className;
+          this.selectdNode.padding = event.form.padding;
+          // this.selectdNode.paddingLeft = event.form.paddingLeft;
+          // this.selectdNode.paddingRight = event.form.paddingRight;
+          // this.selectdNode.paddingTop = event.form.paddingTop;
+          // this.selectdNode.paddingBottom = event.form.paddingBottom;
+          this.selectdNode.data.level = event.form.level;
+          this.selectdNode.data.text = event.form.text;
+          this.selectdNode.style = event.form.style;
+          this.selectdNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
+          this.selectdNode.textAlign = event.form.textAlignment;
+          this.selectdNode.headingColor = event.form.headingColor;
+          if (event.form.headingApi) {
+            this.builderService.genericApis(event.form.headingApi).subscribe((res => {
+              this.selectdNode.data = res.data;
+              this.updateNodes();
+            }))
+          }
+          this.updateNodes();
+        }
+        break;
+
+      case "paragraphAttributes":
+        if (this.selectdNode) {
+          this.selectdNode.label = event.form.label;
+          // this.selectdNode.paddingLeft = event.form.paddingLeft;
+          // this.selectdNode.paddingRight = event.form.paddingRight;
+          // this.selectdNode.paddingTop = event.form.paddingTop;
+          // this.selectdNode.paddingBottom = event.form.paddingBottom;
+          this.selectdNode.padding = event.form.padding;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.className = event.form.className;
+          this.selectdNode.data.text = event.form.text;
+          this.selectdNode.style = event.form.style;
+          this.selectdNode.fontSize = event.form.style + event.form.textAlignment + "color:" + event.form.color;
+          this.selectdNode.textAlign = event.form.textAlignment;
+          this.selectdNode.color = event.form.color;
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              // this.selectdNode.data.text = this.fillTemplate(this.selectdNode.data.text, res)//this.selectdNode.chartCardConfig[0].data.text;
+              // let response = JSON.stringify(res);
+              // let arrayData = response.split(',');
+              // this.selectdNode.headingConfig[0].data.text = res;
+              // var seriesList = [];
+              // var arrayData = res[0].split(" ");
+              // for (let index = 0; index < arrayData.length; index++) {
+              //   let columnValue = arrayData[index].toString();
+              //   let assignValue = columnValue.split(':');
+              //   for (let j = 0; j < assignValue.length; j++) {
+              //     assignValue[0] = assignValue[0].replace('{', '');
+              //     assignValue[1] = assignValue[1].replace('{', '');
+              //     assignValue[0] = assignValue[0].replace('}', '');
+              //     assignValue[1] = assignValue[1].replace('}', '');
+              //     let parseValue = JSON.parse(assignValue[0]);
+              //     let parseData = JSON.parse(assignValue[1]);
+              //     this.selectdNode.chartCardConfig[0].data.text = JSON.stringify(this.selectdNode.chartCardConfig[0].data.text).replace(parseValue, parseData);
+              //     this.selectdNode.chartCardConfig[0].data.text = this.selectdNode.chartCardConfig[0].data.text.replace('"\\\"', '');
+              //     this.selectdNode.chartCardConfig[0].data.text = this.selectdNode.chartCardConfig[0].data.text.replace('\\\"', '');
+              //   }
+              // }
+              this.updateNodes()
+            }));
+          }
+
+        }
+        break;
+
+      case "stepperAttributes":
+        if (this.selectdNode.id) {
+          // this.selectdNode.id = event.form.stepperText;
+          this.selectdNode.label = event.form.stepperLabel;
+          this.selectdNode.className = event.form.className;
+          if(this.selectdNode && this.selectdNode.formly && this.selectdNode.formly[0].fieldGroup && this.selectdNode.formly[0].fieldGroup[0].templateOptions){
+            this.selectdNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+            this.selectdNode.formly[0].fieldGroup[0].templateOptions['tooltip'] = event.form.tooltip;
+          }
+
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.icon = event.form.stepperIcon;
+          this.updateNodes()
+        }
+        break;
+
+      case "mainStepperAttributes":
+        if (this.selectdNode.id) {
+          // this.selectdNode.id = event.form.stepperText;
+          this.selectdNode.label = event.form.stepperLabel;
+          this.selectdNode.className = event.form.className;
+          // if(this.selectdNode && this.selectdNode.formly && this.selectdNode.formly[0].fieldGroup && this.selectdNode.formly[0].fieldGroup[0].templateOptions){
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+          //   this.selectdNode.formly[0].[stepperFormat] = event.form.stepperFormat;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.selectColor = event.form.selectColor;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.defaultColor = event.form.defaultColor;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.className = event.form.className;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nodes = event.form.nodes;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip;
+          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression;
+          // }
+
+          // for (let index = 0; index < this.selectdNode.children.length; index++) {
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
+          //   this.selectdNode.children[index].className = event.form.className;
+          // }
+          // this.adddynamicStepper(event.form.nodes);
+        }
+        break;
+
+      case "tabAttributes":
+        if (this.selectdNode.id) {
+          // this.selectdNode.id = event.form.stepperText;
+          this.selectdNode.label = event.form.stepperLabel;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].props.label = event.form.stepperLabel;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].props.stepperFormat = event.form.stepperFormat;
+        }
+        break;
+      case "maintabAttributes":
+        if (this.selectdNode.id) {
+          // this.selectdNode.id = event.form.stepperText;
+          this.selectdNode.label = event.form.stepperLabel;
+          this.selectdNode.className = event.form.className;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.stepperFormat = event.form.stepperFormat;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.buttonText = event.form.buttonText;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.buttonIcon = event.form.buttonIcon;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.buttonColor = event.form.buttonColor;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tabsPosition = event.form.tabsPosition;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
+          // this.selectdNode.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
+          // for (let index = 0; index < this.selectdNode.children.length; index++) {
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
+          //   if (event.form.tabsDisplayType == "buttonType") {
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
+          //   } else if (event.form.tabsDisplayType == "None" || event.form.tabsDisplayType == "underLine") {
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
+          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
+          //   }
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
+          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
+          //   this.selectdNode.children[index].className = event.form.className;
+          //   this.selectdNode.children[index].type = event.form.stepperFormat;
+          // }
+          // this.adddynamictab(event.form.nodes);
+        }
+        break;
+      // For Section Page Changes
+      case "pageAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.screenVariables = event.form.variables;
+        }
+        break;
+
+      case "pageHeaderAttributes":
+
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.headingSize = event.form.headingSize;
+          this.selectdNode.header = event.form.header;
+          this.selectdNode.labelPosition = event.form.labelPosition;
+          this.selectdNode.alertPosition = event.form.alertPosition;
+        }
+        break;
+
+      case "pageBodyAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+        }
+        break;
+
+      case "pageFooterAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.footer = event.form.footer;
+        }
+        break;
+      case "accordingAttributes":
+        if (this.selectdNode.id) {
+
+          // this.selectdNode.id = event.form.accordingText;
+          this.selectdNode.label = event.form.accordingText;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.sectionDisabled = event.form.disabled;
+          this.selectdNode.labelPosition = event.form.labelPosition;
+          this.selectdNode.repeatable = event.form.repeatable;
+          this.selectdNode?.children?.[1]?.children?.forEach(res => {
+            if (res.chartCardConfig) {
+              if (res.chartCardConfig[0].formly != undefined) {
+                if (res.type != "stepperMain" && res.type != "tabsMain") {
+                  res['wrapper'] = event.form.wrappers;
+                  res['dataOnly'] = event.form.disabled;
+                  // if (event.form.className) {
+                  //   res.className = event.form.className;
+                  // }
+                  res.chartCardConfig[0].formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.chartCardConfig[0].formly[0].fieldGroup);
+                }
+                if (res.type == "tabsMain") {
+
+                  if (event.form.className) {
+                    res.className = event.form.className;
+                  }
+                  res.children?.forEach((element: any) => {
+                    element.children.forEach((elementV1: any) => {
+                      elementV1['wrapper'] = event.form.wrappers;
+                      elementV1.chartCardConfig[0].formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.chartCardConfig[0].formly[0].fieldGroup);
+                    });
+                  });
+                }
+                if (res.type == "stepperMain") {
+                  if (event.form.className) {
+                    res.className = event.form.className;
+                  }
+                  res.children?.forEach((element: any) => {
+                    element.children.forEach((elementV1: any) => {
+                      elementV1['wrapper'] = event.form.wrappers;
+                      elementV1.chartCardConfig[0].formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.chartCardConfig[0].formly[0].fieldGroup);
+                    });
+                  });
+                }
+              }
+              if (res.type == "mainDashonicTabs") {
+                res.children?.forEach((element: any) => {
+                  element.children.forEach((elementV1: any) => {
+                    elementV1['wrapper'] = event.form.wrappers;
+                    elementV1.chartCardConfig[0].formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.chartCardConfig[0].formly[0].fieldGroup);
+                  });
+                });
+              }
+              if (res.type == "accordionButton") {
+                res?.children?.forEach((elementV1: any) => {
+                  elementV1['wrapper'] = event.form.wrappers;
+                  elementV1.chartCardConfig[0].formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.chartCardConfig[0].formly[0].fieldGroup);
+                });
+              }
+              // if (event.form.className) {
+              //   res.className = event.form.className;
+              // }
+            }
+          })
+        }
+        break;
+      case "accordingHeaderAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.headingSize = event.form.headingSize;
+          this.selectdNode.backGroundColor = event.form.backGroundColor;
+          this.selectdNode.textColor = event.form.textColor;
+          this.selectdNode.header = event.form.header;
+          this.selectdNode.isExpanded = event.form.isExpanded;
+          this.selectdNode.labelPosition = event.form.labelPosition;
+          this.updateNodes();
+        }
+        break;
+
+      case "accordingBodyAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+        }
+        break;
+
+      case "accordingFooterAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.footer = event.form.footer;
+        }
+        break;
+      case "switchAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.switchType = event.form.switchType;
+          this.selectdNode.switchPosition = event.form.switchPosition;
+          this.selectdNode.tooltip = event.form.tooltip;
+        }
+        break;
+      case "multiFileUploadAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.uploadBtnLabel = event.form.label;
+        }
+        break;
+      case "textEditorAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+        }
+        break;
+
+      case "dashonicTabAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.label = event.form.tabLabel;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.dashonicTabsConfig[0].tabLabel = event.form.tabLabel;
+          this.selectdNode.dashonicTabsConfig[0].tabIcon = event.form.tabIcon;
+          this.selectdNode.dashonicTabsConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.dashonicTabsConfig[0].hideExpression = event.form.hideExpression;
+          this.updateNodes();
+        }
+        break;
+      case "kanbanAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.text = event.form.label;
+          this.selectdNode.nodes = event.form.nodes;
+          // this.adddynamicKanban(event.form.nodes);
+          this.updateNodes();
+        }
+        break;
+      case "kanbanTaskAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.hideExpression = event.form.hideExpression,
+            this.selectdNode.label = event.form.label;
+            if(this.selectdNode.children){
+              for (let i = 0; i < this.selectdNode.children.length; i++) {
+                this.selectdNode.children[i].id = event.form.options[i].id;
+                this.selectdNode.children[i].title = event.form.options[i].title;
+                this.selectdNode.children[i].date = event.form.options[i].date;
+                this.selectdNode.children[i].content = event.form.options[i].content;
+                this.selectdNode.children[i].users = JSON.parse(event.form.options[i].users);
+                this.selectdNode.children[i].status = event.form.options[i].status;
+                this.selectdNode.children[i].variant = event.form.options[i].variant;
+              }
+            }
+
+          if (event.form.kanbanTaskApi != undefined) {
+            this.builderService.genericApis(event.form.kanbanTaskApi).subscribe((res => {
+              this.selectdNode.chartCardConfig = res;
+              for (let index = 0; index < res.length; index++) {
+                this.selectdNode.id = res[index].id;
+                this.selectdNode.title = res[index].title;
+                this.selectdNode.date = res[index].date;
+                this.selectdNode.users = res[index].users;
+                this.selectdNode.status = res[index].status;
+                this.selectdNode.variant = res[index].variant;
+                this.selectdNode.content = res[index].content;
+              }
+              this.updateNodes();
+            }))
+          }
+          this.updateNodes();
+        }
+        break;
+
+      case "dashonicMainTabAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.label = event.form.tabLabel;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.mainDashonicTabsConfig[0].tabsDisplayType = event.form.tabsDisplayType;
+          this.selectdNode.mainDashonicTabsConfig[0].selectTabColor = event.form.selectTabColor;
+          this.selectdNode.mainDashonicTabsConfig[0].buttonText = event.form.buttonText;
+          this.selectdNode.mainDashonicTabsConfig[0].buttonIcon = event.form.buttonIcon;
+          this.selectdNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
+          this.selectdNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
+          this.selectdNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
+          this.selectdNode.mainDashonicTabsConfig[0].nodes = event.form.nodes;
+          if(this.selectdNode.children){
+            for (let index = 0; index < this.selectdNode.children.length; index++) {
+              this.selectdNode.children.forEach(elementV1 => {
+                elementV1.dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition,
+                  elementV1.dashonicTabsConfig[0].buttonText = event.form.buttonText,
+                  elementV1.dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1",
+                  elementV1.dashonicTabsConfig[0].buttonColor = event.form.buttonColor + " mt-2",
+                  elementV1.dashonicTabsConfig[0].tabFormat = event.form.tabFormat
+              });
+
+              if (event.form.tabsDisplayType == "buttonType") {
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:#fff");
+              } else if (event.form.tabsDisplayType == "None") {
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
+              } else if (event.form.tabsDisplayType == "underLine") {
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor);
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
+                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
+              }
+            }
+          }
+
+          // this.adddynamicDashonictab(event.form.nodes);
+          this.updateNodes();
+        }
+        break;
+      case "progressBarAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.link = event.form.link;
+          this.selectdNode.progressBArConfig[0].title = event.form.label;
+          this.selectdNode.progressBArConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.progressBArConfig[0].value = event.form.value;
+          this.selectdNode.progressBArConfig[0].color = event.form.color;
+          this.selectdNode.progressBArConfig[0].showValue = event.form.showValue;
+          this.selectdNode.progressBArConfig[0].stripped = event.form.stripped;
+          this.selectdNode.progressBArConfig[0].height = event.form.height;
+          this.selectdNode.progressBArConfig[0].hieghtWithPx = event.form.height + "px";
+          this.selectdNode.progressBArConfig[0].animated = event.form.animated;
+          this.selectdNode.link = event.form.link;
+          if (this.selectdNode.link != undefined) {
+            this.selectdNode.link = event.form.link;
+            this.builderService.genericApis(event.form.link).subscribe((res => {
+              this.selectdNode.progressBArConfig[0].value = res.value;
+              this.selectdNode.progressBArConfig[0].color = res.color;
+              this.selectdNode.progressBArConfig[0].showValue = res.showValue;
+              this.selectdNode.progressBArConfig[0].stripped = res.stripped;
+              this.selectdNode.progressBArConfig[0].height = res.height;
+              this.selectdNode.progressBArConfig[0].hieghtWithPx = res.height + "px";
+              this.selectdNode.progressBArConfig[0].animated = res.animated;
+              this.updateNodes()
+            }));
+            event.form.link = "";
+          }
+          this.updateNodes()
+        }
+        break;
+
+
+      case "dividerAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip;
+          if (event.form.label == '') {
+            this.selectdNode.label = this.selectdNode.label;
+          } else if (event.form.label != '') {
+            this.selectdNode.label = event.form.label;
+          }
+          this.selectdNode.dividerClassName = event.form.className;
+          this.selectdNode.classNameForPosition = event.form.classNameForPosition;
+          this.selectdNode.dividerPosition = event.form.dividerPosition;
+          this.selectdNode.text = event.form.label;
+          this.selectdNode.textColor = event.form.textColor;
+          this.selectdNode.lineColor = event.form.lineColor;
+          this.selectdNode.textcolorForStyle = "color:" + event.form.textColor;
+          this.selectdNode.lineColorForStyle = "--lineColor:" + event.form.lineColor;
+          this.selectdNode.dividerFormat = event.form.dividerFormat;
+          this.selectdNode.verticalLineHieght = event.form.verticalLineHieght;
+          this.selectdNode.verticalLineHieghtForCssBinding = "--verticalLineHieghtForCssBinding:" + event.form.verticalLineHieght + "px";
+          this.selectdNode.verticalLinePosition = event.form.verticalLinePosition;
+          this.selectdNode.verticalLinePositionForCssBinding = "--verticalLinePositionForCssBinding:" + event.form.verticalLinePosition + "%";
+          this.selectdNode.verticalLineColorForCssBinding = "--verticalLineColorForCssBinding:1px solid" + event.form.lineColor;
+          this.updateNodes()
+        }
+        break;
+
+      case "sharedMessagesChartAttributes":
+
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.label = event.form.label;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.labelIcon = event.form.labelIcon;
+          this.selectdNode.heading = event.form.heading;
+          this.selectdNode.headingIcon = event.form.headingIcon;
+          this.selectdNode.headingColor = event.form.headingColor;
+          this.selectdNode.subHeading = event.form.subHeading;
+          this.selectdNode.subHeadingIcon = event.form.subHeadingIcon;
+          this.selectdNode.subheadingColor = event.form.subheadingColor;
+          this.selectdNode.link = event.form.link;
+          for (let index = 0; index < this.selectdNode.sharedMessagesConfig[0].length; index++) {
+            this.selectdNode.sharedMessagesConfig[0].message = event.form.options.message;
+            this.selectdNode.sharedMessagesConfig[0].dateAndTime = event.form.options.dateAndTime;
+            this.selectdNode.sharedMessagesConfig[0].icon = event.form.options.icon;
+            this.selectdNode.sharedMessagesConfig[0].icon1 = event.form.options.icon1;
+          }
+          if (event.form.api != undefined) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              this.selectdNode.sharedMessagesConfig = res;
+              this.updateNodes();
+            }))
+          }
+          this.updateNodes()
+        }
+        break;
+
+      case "audioAttribute":
+        if (this.selectdNode.id) {
+
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.title = event.form.title;
+          this.selectdNode.audioSrc = event.form.audioSrc;
+          this.updateNodes()
+        }
+        break;
+      case "carousalAttribute":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.carousalType = event.form.carousalType;
+          // this.selectdNode.carousalConfig[0].captionTitle = event.form.captionTitle;
+          // this.selectdNode.carousalConfig[0].caption = event.form.caption;
+          // this.selectdNode.carousalConfig[0].img = event.form.imgSrc;
+          this.selectdNode.carousalConfig = event.form.options;
+          this.selectdNode.tooltip = event.form.tooltip;
+          this.selectdNode.link = event.form.link;
+
+          if (event.form.link != undefined || event.form.link != "") {
+            this.builderService.genericApis(event.form.link).subscribe((res) => {
+
+              this.selectdNode.carousalType = res[0].carousalType;
+              this.selectdNode.carousalConfig = res[0].options;
+              this.updateNodes();
+            })
+          }
+        }
+        break;
+      case "videosAttribute":
+        if (this.selectdNode.id) {
+
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.videoConfig[0].title = event.form.title;
+          this.selectdNode.videoConfig[0].videoRatio = event.form.videoRatio;
+          this.selectdNode.videoConfig[0].videoSrc = event.form.videoSrc;
+          this.selectdNode.videoConfig[0].tooltip = event.form.tooltip;
+          this.updateNodes()
+        }
+        break;
+      case "alertAttributes":
+
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.alertConfig[0].icon = event.form.icon;
+          this.selectdNode.alertConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.alertConfig[0].type = event.form.type;
+          this.selectdNode.alertConfig[0].text = event.form.text;
+          this.selectdNode.alertConfig[0].alertColor = event.form.alertColor;
+          this.updateNodes()
+        }
+        break;
+      case "timelineAttributes":
+
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.tooltip = event.form.tooltip,
+            this.selectdNode.className = event.form.className;
+            this.selectdNode.timelineConfig[0].timelineHeading = event.form.timelineHeading;
+            this.selectdNode.timelineConfig[0].headingColor = event.form.headingColor;
+            this.selectdNode.timelineConfig[0].headingShape = event.form.headingShape;
+            this.selectdNode.timelineConfig[0].timelineType = event.form.timelineType;
+            this.selectdNode.timelineConfig[0].data = event.form.timelineData;
+
+            for (let index = 0; index < event.form.timelineData.length; index++) {
+              event.form.timelineData[index].image = event.form.timelineData[index].image.toString();
+              this.selectdNode.timelineConfig[0].data[index].image = event.form.timelineData[index].image.split(",");
+            }
+            if (event.form.timelineExample != undefined) {
+              this.selectdNode.timelineConfig[0].timelineExample = event.form.timelineExample;
+              this.builderService.genericApis(event.form.timelineExample).subscribe((res) => {
+
+                this.selectdNode.timelineConfig[0].data = res[0].data;
+                this.updateNodes();
+              })
+          }
+        }
+        break;
+
+      case "simpleCardWithHeaderBodyFooterAttributes":
+        if (this.selectdNode.id) {
+          this.selectdNode.id = event.form.id;
+          this.selectdNode.hideExpression = event.form.hideExpression;
+          this.selectdNode.className = event.form.className;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = event.form.headerText;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].tooltip = event.form.tooltip;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = event.form.bodyText;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = event.form.footerText;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].height = event.form.height;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].link = event.form.link;
+          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].textAlign = event.form.textAlign;
+          if (event.form.link != undefined || event.form.link != "") {
+            this.builderService.genericApis(event.form.link).subscribe((res => {
+
+              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
+              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
+              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
+              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
+              this.updateNodes();
+            }))
+          }
+          this.updateNodes()
+        }
+        break;
+
+      default:
+        break;
+
+    }
+    this.showSuccess();
+    this.updateNodes();
+    // document.getElementById("mySidenav-right").style.width = "0";
+    // this.formlyService.templateNode = JSON.parse(JSON.stringify(this.formlyService.nodes));
+    // this.wrapperForCombineFeilds(this.formlyService.templateNode)
 
   }
-
+  showSuccess() {
+    this.toastr.success('Information update successfully!',{nzDuration:3000});
+  }
 
 
 
@@ -4830,12 +6593,49 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
+  diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
+
+    if (fieldGroup) {
+      if (fieldGroup[0].templateOptions) {
+        if (fieldGroup[0].templateOptions.labelPosition == undefined && fieldGroup[0].templateOptions.labelPosition == '') {
+          fieldGroup[0].templateOptions["labelPosition"];
+        }
+        if (formValues.disabled == "editable") {
+          fieldGroup[0].templateOptions.disabled = false;
+        }
+        else if (formValues.disabled == "disabled") {
+          fieldGroup[0].templateOptions.disabled = true;
+        }
+        else if (formValues.disabled == "disabled-But-ditable") {
+          fieldGroup[0].templateOptions.disabled = true;
+        }
+        if (formValues.labelPosition == "text-right") {
+          fieldGroup[0].templateOptions.labelPosition = "text-right";
+        }
+        else if (formValues.labelPosition == "text-center") {
+          fieldGroup[0].templateOptions.labelPosition = "text-center";
+        }
+        else if (formValues.labelPosition == "text-left") {
+          fieldGroup[0].templateOptions.labelPosition = "text-left";
+        }
+        if (formValues.wrappers) {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+        }
+        if (formValues.className) {
+          fieldGroup[0].templateOptions.className = formValues.className;
+          fieldGroup[0].className = formValues.className;
+        }
+      }
+    }
+    return fieldGroup;
+  }
+
   functionName: any;
   mainTemplate() {
     this.builderService.genericApis(this.functionName).subscribe((res => {
-
+      if(this.selectdNode.children)
       this.selectdNode.children.push(res)
-      // this.clickBack();
+      // this.updateNodes();
     }));
   }
 }

@@ -4,4 +4,5 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
     title?: string;
     formData?:FormlyFieldConfig[]
     commonData?:FormlyFieldConfig[]
+    type:string
   }

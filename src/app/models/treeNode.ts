@@ -15,16 +15,19 @@ export interface TreeNode {
   actionType?: string;
   formlyType?: string;
   wrapper?: string;
-  highLight?:boolean;
-  isNextChild?:boolean;
-  padding?:any;
-  hideExpression?:boolean;
-  paddingLeft?:any;
-  paddingRight?:any;
-  paddingTop?:any;
-  paddingBottom?:any;
-  showValue?:boolean;
+  highLight?: boolean;
+  isNextChild?: boolean;
+  padding?: any;
+  hideExpression?: boolean;
+  paddingLeft?: any;
+  paddingRight?: any;
+  paddingTop?: any;
+  paddingBottom?: any;
+  showValue?: boolean;
   className?: string;
+  affixType?: any;
+  margin?: any;
+  target?: any;
   alt?: any;
   source?: any;
   imagHieght?: any;
@@ -41,6 +44,9 @@ export interface TreeNode {
   dividerPosition?: any;
   options?: any;
   text?: any;
+  src?: any;
+  bgColor?: any;
+  gap?: any;
   lineColor?: any;
   textcolorForStyle?: any;
   lineColorForStyle?: any;
@@ -51,16 +57,17 @@ export interface TreeNode {
   verticalLineHieghtForCssBinding?: any;
   verticalLineColorForCssBinding?: any;
   // fieldGroupClassName:?string;
-  children: TreeNode[];
+  children?: TreeNode[];
   rowData?: any;
-  columnData?:any;
+  columnData?: any;
+  isExpanded?: boolean;
   expanded?: boolean;
   screenVariables?: any[];
   sectionDisabled?: string;
   position?: string,
+
   header?: any;
   name?: any;
-  total?: any;
   sortingType?: any;
   showColumn?: any;
   editorType?: any;
@@ -71,7 +78,7 @@ export interface TreeNode {
   pageFooterButtonGroupData?: any[],
   pageHeaderData?: any[],
   pageHeaderButtonGroupData?: any[],
-  pageHeaderAlertData?:any[],
+  pageHeaderAlertData?: any[],
   btnConfig?: btnConfig[],
   buttonGroupData?: any[],
   headerButtonGroupData?: any[],
@@ -84,6 +91,18 @@ export interface TreeNode {
   haediing?: string,
   viewType?: string,
   tooltip?: any,
+  status?: any,
+  resultTitle?: any,
+  subTitle?: any,
+  delayTime?: any,
+  loaderText?: any,
+  loaderIcon?: any,
+  btnLabel?: any,
+  nzPopoverContent?: any,
+  nzPopoverTitle?: any,
+  avatar?: any,
+  author?: any,
+  node?: any,
   switchType?: any,
   switchPosition?: any,
   timeOut?: any,
@@ -91,15 +110,36 @@ export interface TreeNode {
   progressBar?: any,
   message?: any,
   toastrType?: any,
+  toasterTitle?: any,
+  closeIcon?: any,
+  description?: any,
+  animate?: any,
+  pauseOnHover?: any,
+  duration?: any,
   title?: any,
+  content?: any,
   sortable?: any,
   headingConfig?: headerConfig[],
   paragrapghConfig?: headerConfig[],
   simpleCardConfig?: builderConfig[],
+  accordionConfig?: any,
+  section?: any,
+  thisValue?: string,
+  lastTitle?: string,
+  lastValue?: string,
+  prevTitle?: string,
+  prevValue?: string,
+  growth?: string,
+  value?: string,
+  chart?: any,
+  simpleCardWithHeaderBodyFooterConfig?: any,
+  timelineConfig?: any,
+  alertConfig?: any,
+  videoConfig?: any,
   chartCardConfig?: builderConfig[],
   audioSrc?: any,
   dataOnly?: any,
-  nodes?:any,
+  nodes?: any,
   widgetSecondCard?: builderConfig[],
   widgetSectionCard?: builderConfig[],
   browserdata?: builderConfig[],
@@ -165,5 +205,75 @@ export interface TreeNode {
   minlength?: number;
   maxlength?: number;
   required?: boolean;
-  deleteapi?:string
+  deleteapi?: string;
+  //FOR DRAWER
+  btnText?: string;
+  isClosable?: boolean;
+  extra?: string;
+  isMask?: boolean;
+  isMaskClosable?: boolean;
+  isCloseOnNavigation?: boolean;
+  isKeyboard?: boolean;
+  maskStyle?: {};
+  bodyStyle?: {};
+  headerText?: string;
+  footerText?: string;
+  isVisible?: boolean;
+  placement?: string;
+  size?: string;
+  width?: string;
+  height?: string;
+  offsetX?: number;
+  offsetY?: number;
+  wrapClassName?: string;
+  zIndex?: number;
+  onClose?: string;
+  //Skeleton
+  isActive?: boolean;
+  buttonShape?: string;
+  avatarShape?: string;
+
+  //list
+  isBordered?: boolean;
+  isSplit?: boolean;
+  isEdit?: boolean;
+  isUpdate?: boolean;
+  isDelete?: boolean;
+  isLoad?: boolean;
+  isColon?: boolean;
+  isBadeg?: boolean;
+  loadText?: string;
+  nzExtra?: string;
+  nzStatus?: string;
+  nzSpan?: number;
+  mainDashonicTabsConfig?: any,
+  dashonicTabsConfig?: any,
+  dropdownConfig?: any,
+  pageConfig?: any,
+  carousalConfig?: any,
+  carousalType?: any,
+  buttonsConfig?: any,
+  bootstrapTabsConfig?: any,
+  dividerConfig?: any,
+  fixedDivConfig?: any,
+  fixedDivChild?: any,
+  kambanChildren?: any,
+  users?: any,
+  getVariable?: string,
+  setVariable?: string,
+  date?: string;
+  variant?: string;
+  total?: string;
+  mainDashonicTabsChild?: any
+  switchConfig?: any,
+  uploadBtnLabel?: any,
+  progressBArConfig?: any,
+  calenderConfig?: any,
+  sharedMessagesConfig?: any,
+  heading?: string,
+  labelIcon?: string,
+  headingIcon?: string,
+  subHeading?: string,
+  subHeadingIcon?: string,
+  subheadingColor?: string,
 }

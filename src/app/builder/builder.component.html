@@ -165,7 +165,7 @@
                           <div class=" general_faq mt-3">
                             <div style="position:relative ;">
                               <app-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
-                                [itemData]="feildData" *ngIf="feildData">
+                                [itemData]="fieldData" [type]="fieldData.type" *ngIf="fieldData">
                               </app-generic-field>
                             </div>
                           </div>
