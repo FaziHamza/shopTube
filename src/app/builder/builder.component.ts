@@ -118,7 +118,7 @@ export class BuilderComponent implements OnInit {
       element = this.applyHighLight(false, element);
       element.children.forEach((element1: any) => {
         if (element1.type == "buttonGroup") {
-          element1.children[0].chartCardConfig[0].buttonGroup[0].highLight = false;
+          element1.children[0].highLight = false;
         }
         else if (element1.type != "buttonGroup") {
           element1 = this.applyHighLight(false, element1);
@@ -126,10 +126,10 @@ export class BuilderComponent implements OnInit {
         element1.children.forEach((element2: any) => {
           element2 = this.applyHighLight(false, element2);
           element2.children.forEach((element3: any) => {
-            if (element3.chartCardConfig) {
-              if (element3.chartCardConfig.length > 0) {
-                if (element3.chartCardConfig) {
-                  if (element3.chartCardConfig[0].formly != undefined) {
+            if (element3) {
+              if (element3.length > 0) {
+                if (element3) {
+                  if (element3.formly != undefined) {
                     if (element3.type == "stepperMain") {
                       element3.children[0].highLight = false;
 
@@ -142,9 +142,9 @@ export class BuilderComponent implements OnInit {
                   }
                 }
                 else if (element3.type == "buttonGroup") {
-                  element3.children[0].chartCardConfig[0].buttonGroup[0].highLight = false;
+                  element3.children[0].highLight = false;
                 }
-                else if (element3.type != "buttonGroup" && element3.chartCardConfig == undefined) {
+                else if (element3.type != "buttonGroup" && element3 == undefined) {
                   element3 = this.applyHighLight(false, element3);
                 }
                 element3.children.forEach((element4: any) => {
@@ -212,7 +212,7 @@ export class BuilderComponent implements OnInit {
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
 
       if (res.length > 0) {
-        if (res[0].menuData[0].children[1].chartCardConfig) {
+        if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
           this.nodes = res[0].menuData;
           // this.uiRuleGetData(res[0].moduleId);
@@ -661,16 +661,16 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "update",
         className: "w-1/4",
-         btnConfig: [
-              {
-                color: "btn btn-primary",
-                btnIcon: "uil uil-user",
-                type: "update",
-                // format: "text-left",
-                btnDisables: false,
-                disabled: this.getLastNodeWrapper("disabled"),
-              },
-            ],
+        btnConfig: [
+          {
+            color: "btn btn-primary",
+            btnIcon: "uil uil-user",
+            type: "update",
+            // format: "text-left",
+            btnDisables: false,
+            disabled: this.getLastNodeWrapper("disabled"),
+          },
+        ],
         children: [
         ],
 
@@ -689,24 +689,16 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "delete",
         className: "w-1/4",
-        buttonGroup: [
+        btnConfig: [
           {
-            // btnGroupPosition: "text-left",
-            btnGroupFormat: "text-left",
-            btnConfig: [
-              {
-                color: "btn btn-danger",
-                btnIcon: "uil uil-user",
-                type: "delete",
-                // format: "text-left",
-                btnDisables: false,
-                disabled: this.getLastNodeWrapper("disabled"),
-              },
-            ],
-
-          }
+            color: "btn btn-danger",
+            btnIcon: "uil uil-user",
+            type: "delete",
+            // format: "text-left",
+            btnDisables: false,
+            disabled: this.getLastNodeWrapper("disabled"),
+          },
         ],
-
         children: [
         ],
 
@@ -1105,28 +1097,21 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
-        buttonGroup: [
+        btnConfig: [
           {
-            // btnPosition: "text-left",
-            btnGroupFormat: "text-left",
-            btnConfig: [
-              {
-                hideExpression: false,
-                className: "m-2",
-                tooltip: "",
-                key: "button_" + Guid.newGuid(),
-                type: "button",
-                color: "btn btn-primary",
-                target: "_blank",
-                btnType: "_blank",
-                title: "Link",
-                href: "fazi",
-                format: "text-left",
-                btnIcon: "",
-              },
-            ],
-
-          }
+            hideExpression: false,
+            className: "m-2",
+            tooltip: "",
+            key: "button_" + Guid.newGuid(),
+            type: "button",
+            color: "btn btn-primary",
+            target: "_blank",
+            btnType: "_blank",
+            title: "Link",
+            href: "fazi",
+            format: "text-left",
+            btnIcon: "",
+          },
         ],
         children: [
         ],
@@ -3846,19 +3831,19 @@ export class BuilderComponent implements OnInit {
   handleButtonGroup(element: any, id: any) {
     if (id == element.id) {
       if (element.children.length > 0)
-        element.buttonGroup[0].highLight = true;
+        element.highLight = true;
     }
     else {
       if (element.children.length > 0)
-        element.buttonGroup[0].highLight = false;
+        element.highLight = false;
     }
   }
 
   // define function to handle formly fields
   handleFormly(element: any, id: any) {
-    if (!element.chartCardConfig) return;
+    if (!element) return;
 
-    if (element.chartCardConfig[0].formly != undefined) {
+    if (element.formly != undefined) {
       if (element.type == "stepperMain") {
         if (id == element.id)
           element.children[0].highLight = true;
@@ -3992,7 +3977,7 @@ export class BuilderComponent implements OnInit {
                 else if (nodeData?.type == "buttonGroup") {
                   for (let index = 0; index < element.children[0].children[1].children.length; index++) {
                     if (element.children[0].children[1].children[index].type == "buttonGroup") {
-                      obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children[0].children[1].children[index].children, chartCardConfig: element.children[0].children[1].children[index].chartCardConfig[0], key: element.key }
+                      obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children[0].children[1].children[index].children, key: element.key }
                     }
                   }
                 }
@@ -4022,7 +4007,6 @@ export class BuilderComponent implements OnInit {
             children: nodeData.children,
             formly: nodeData?.formly,
             key: nodeData.key + Guid.newGuid(),
-            chartCardConfig: nodeData.chartCardConfig,
 
           } as TreeNode;
           parent.children.splice(idx as number + 1, 0, newNode);
@@ -4031,18 +4015,18 @@ export class BuilderComponent implements OnInit {
           nodeData.id = nodeData.id + Guid.newGuid();
           nodeData.children.forEach((element: any) => {
             element.id = element.id + Guid.newGuid();
-            if (element.chartCardConfig) {
-              if (element.chartCardConfig.length > 0) {
-                if (element.chartCardConfig[0].formly) {
+            if (element) {
+              if (element.length > 0) {
+                if (element.formly) {
                   element.formly[0].fieldGroup[0].key = element.formly[0].fieldGroup[0].key + Guid.newGuid();
                 }
               }
             }
             element.children.forEach((element1: any) => {
               element1.id = element1.id + Guid.newGuid();
-              if (element1.chartCardConfig) {
-                if (element1.chartCardConfig.length > 0) {
-                  if (element1.chartCardConfig[0].formly) {
+              if (element1) {
+                if (element1.length > 0) {
+                  if (element1.formly) {
                     element1.formly[0].fieldGroup[0].key = element1.formly[0].fieldGroup[0].key + Guid.newGuid();
                   }
                 }
@@ -4089,8 +4073,8 @@ export class BuilderComponent implements OnInit {
         this.newChild.push(obj);
 
       }
-      // this.newChild.forEach(elementV2.chartCardConfig[0] => {
-      //   elementV2.chartCardConfig[0].id=elementV2.chartCardConfig[0].id+"f"+1;
+      // this.newChild.forEach(elementV2 => {
+      //   elementV2.id=elementV2.id+"f"+1;
       // });
 
       const newNode = {
@@ -4739,20 +4723,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
-            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            // this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
-            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
-            this.selectedNode.buttonGroup[0].btnConfig[0].disabled = event.form.disabled;
+          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
+            this.selectedNode.btnConfig[0].title = event.form.title;
+            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.btnConfig[0].color = event.form.color;
+            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.btnConfig[0].className = event.form.className;
+            // this.selectedNode.btnConfig[0].format = event.form.format;
+            this.selectedNode.btnConfig[0].disabled = event.form.disabled;
             if (event.form.disabled) {
-              // this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = this.form.valid;
+              // this.selectedNode.btnConfig[0].btnDisables = this.form.valid;
             } else
-              this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = false;
-            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+              this.selectedNode.btnConfig[0].btnDisables = false;
+            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
           }
         }
         break;
@@ -4761,17 +4744,15 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          // this.selectedNode.buttonGroup[0].btnConfig[0].key = event.form.key
+          // this.selectedNode.btnConfig[0].key = event.form.key
           this.selectedNode.label = event.form.title
           if (this.selectedNode && this.selectedNode.children) {
             this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
             for (let i = 0; i < this.selectedNode.children.length; i++) {
               const node = this.selectedNode.children ?? [];
-              const btnGroup = node[i].buttonGroup ?? [];
-              btnGroup[0].btnGroupFormat = event.form.btnGroupFormat
-              btnGroup[0].btnConfig[0].hideExpression = event.form.hideExpression
+              const btnGroup = node[i] ?? {};
               this.selectedNode.children[i].className = event.form.className
-              // this.selectedNode.children.forEach(elementV1 => elementV1.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat);
+              // this.selectedNode.children.forEach(elementV1 => elementV1.btnGroupFormat = event.form.btnGroupFormat);
               if (event.form.btnGroupPosition == 'header') {
                 this.selectdParentNode.header = true;
               }
@@ -4791,21 +4772,20 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
-            this.selectedNode.buttonGroup[0].btnConfig[0].key = event.form.key;
-            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            this.selectedNode.buttonGroup[0].btnConfig[0].href = event.form.href;
-            this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
-            this.selectedNode.buttonGroup[0].btnConfig[0].target = event.form.target;
-            this.selectedNode.buttonGroup[0].btnConfig[0].btnType = event.form.target;
-            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.format;
-            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
+            this.selectedNode.btnConfig[0].key = event.form.key;
+            this.selectedNode.btnConfig[0].title = event.form.title;
+            this.selectedNode.btnConfig[0].color = event.form.color;
+            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.btnConfig[0].className = event.form.className;
+            this.selectedNode.btnConfig[0].href = event.form.href;
+            this.selectedNode.btnConfig[0].format = event.form.format;
+            this.selectedNode.btnConfig[0].target = event.form.target;
+            this.selectedNode.btnConfig[0].btnType = event.form.target;
+            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-              this.selectedNode.buttonGroup[0].btnConfig[0].btnType = "modal";
+              this.selectedNode.btnConfig[0].btnType = "modal";
             }
           }
 
@@ -4816,15 +4796,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
-            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
-            this.selectedNode.buttonGroup[0].btnConfig[0].dropdownOptions = event.form.options;
+          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
+            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.btnConfig[0].title = event.form.title;
+            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.btnConfig[0].color = event.form.color;
+            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.btnConfig[0].className = event.form.className;
+            this.selectedNode.btnConfig[0].dropdownOptions = event.form.options;
           }
         }
         break;
@@ -5308,22 +5287,22 @@ export class BuilderComponent implements OnInit {
           // }
 
           // for (let index = 0; index < this.selectedNode.children.length; index++) {
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
           //   this.selectedNode.children[index].className = event.form.className;
           // }
           // this.adddynamicStepper(event.form.nodes);
@@ -5352,26 +5331,26 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
           // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
           // for (let index = 0; index < this.selectedNode.children.length; index++) {
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
           //   if (event.form.tabsDisplayType == "buttonType") {
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
           //   } else if (event.form.tabsDisplayType == "None" || event.form.tabsDisplayType == "underLine") {
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
-          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
+          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
           //   }
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
-          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
+          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
           //   this.selectedNode.children[index].className = event.form.className;
           //   this.selectedNode.children[index].type = event.form.stepperFormat;
           // }
