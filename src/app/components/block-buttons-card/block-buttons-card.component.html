@@ -1,11 +1,12 @@
-<div [ngClass]="{'highLight': softIconList.highLight == true}" *ngIf="softIconList.type != 'buttonGroup' && softIconList.type == 'button'">
-  {{softIconList | json}}
+<div [ngClass]="{'highLight': softIconList.highLight == true}"
+  *ngIf="softIconList.type">
   <div class="inline-flex rounded-md shadow-sm" role="group">
-    <div *ngFor="let btnItem of softIconList?.btnConfig">
-      <div class="m-1" *ngIf="btnItem.hideExpression == false">
-        <button nz-radio-button *ngIf="softIconList.type != 'dropdown' && btnItem.href === undefined" nz-button
-          [nzSize]="size" [nzType]="softIconList.type" (click)="getButtonType(softIconList?.type)">{{softIconList.title}}<span
-            *ngIf="btnItem.btnIcon" nz-icon nzType="home"></span></button>
+    <div *ngFor="let btnItem of softIconList.btnConfig">
+      <div class="m-1" *ngIf="softIconList.hideExpression == false">
+        <button nz-radio-button *ngIf="softIconList.type != 'dropdownButton' && btnItem.href === undefined" nz-button
+          [nzSize]="size" [nzType]="softIconList.type"
+          (click)="getButtonType(softIconList?.type)">{{softIconList.title}}<span *ngIf="btnItem.btnIcon" nz-icon
+            nzType="home"></span></button>
         <a id="more" routerLink="/pages/{{btnItem.href}}" *ngIf="btnItem.href !==undefined && btnItem.btnType ==''"
           [ngClass]="btnItem.color" class="p-2">
           <i *ngIf="btnItem.btnIcon" [ngClass]="btnItem.btnIcon"></i>
@@ -22,7 +23,7 @@
           <i *ngIf="btnItem.btnIcon" [ngClass]="btnItem.btnIcon"></i>
           {{softIconList.title}}<span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title"></span>
         </a>
-        <div class="dropdown " *ngIf="softIconList.type == 'dropdown'">
+        <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
           <button nz-button nz-dropdown [nzDropdownMenu]="menu">
             <span *ngIf="btnItem.btnIcon" nz-icon nzType="homes"></span>{{softIconList.title}}
             <span nz-icon nzType="down"></span>
@@ -46,7 +47,7 @@
     <div class="inline-block rounded-md shadow-sm " role="group">
       <div *ngFor="let btnItem of item?.btnConfig" class="">
         <div class="m-1" *ngIf="btnItem.hideExpression == false">
-          <button nz-radio-button *ngIf="btnItem.type != 'dropdown' && btnItem.href === undefined" nz-button
+          <button nz-radio-button *ngIf="btnItem.type != 'dropdownButton' && btnItem.href === undefined" nz-button
             [nzSize]="size" [nzType]="btnItem.type" (click)="getButtonType(btnItem?.type)">{{btnItem.title}}<span
               *ngIf="btnItem.btnIcon" nz-icon nzType="home"></span></button>
           <a id="more" routerLink="/pages/{{btnItem.href}}" *ngIf="btnItem.href !==undefined && btnItem.btnType ==''"
@@ -65,7 +66,7 @@
             <i *ngIf="btnItem.btnIcon" [ngClass]="btnItem.btnIcon"></i>
             {{btnItem.title}}<span class="mr-2" *ngIf="btnItem.btnIcon && btnItem.title"></span>
           </a>
-          <div class="dropdown " *ngIf="btnItem.type == 'dropdown'">
+          <div class="dropdown " *ngIf="btnItem.type == 'dropdownButton'">
             <button nz-button nz-dropdown [nzDropdownMenu]="menu">
               <span *ngIf="btnItem.btnIcon" nz-icon nzType="homes"></span>{{btnItem.title}}
               <span nz-icon nzType="down"></span>
