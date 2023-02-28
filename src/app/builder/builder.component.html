@@ -52,10 +52,10 @@
         ngbTooltip="Edit json">
         <span nz-icon nzType="edit" nzTheme="outline"></span>
       </button>
-      <button nz-button nzType="primary" class="ml-2 " title="Json save"
-        (click)="saveJson()" ngbTooltip="Save screen"><span nz-icon nzType="save" nzTheme="outline"></span> </button>
-        <button nz-button nzType="primary"  class="ml-2" (click)="clearChildNode()" >
-          <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
+      <button nz-button nzType="primary" class="ml-2 " title="Json save" (click)="saveJson()"
+        ngbTooltip="Save screen"><span nz-icon nzType="save" nzTheme="outline"></span> </button>
+      <button nz-button nzType="primary" class="ml-2" (click)="clearChildNode()">
+        <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
     </div>
     <div class="w-1/2">
       <nz-select [ngModel]="screenName" (change)="getFormLayers()">
@@ -113,10 +113,15 @@
               <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
                 (nzOnDrop)="nzEvent($event)">
                 <ng-template #nzTreeTemplate let-node>
-                  <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="openField(node)">
-                    <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
+                  <div class="flex">
+
+
+                    <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="openField(node)">
+                      <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
                     <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
-                    {{node.title}}
+                      {{node.title}}
+
+                    </div>
                     <span *ngIf="screenPage">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node,node)">
                         <span nz-icon nzType="copy" nzTheme="outline"></span>
@@ -129,7 +134,6 @@
                       </label>
                     </span>
                   </div>
-
                 </ng-template>
               </nz-tree>
             </div>
@@ -178,16 +182,16 @@
                           <app-validation-rule></app-validation-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
-                          <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
-                            [screenModule]="screenModule" [nodes]="nodes"></app-business-rule>
+                          <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
                           <app-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
                             [screenModule]="screenModule"></app-action-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Grid Rules">
-                          <app-business-rule-grid *ngIf="selectedNode && nodes.length  > 0" [selectedNode]="selectedNode"
-                            [screenName]="screenName" [screenModule]="screenModule"
+                          <app-business-rule-grid *ngIf="selectedNode && nodes.length  > 0"
+                            [selectedNode]="selectedNode" [screenName]="screenName" [screenModule]="screenModule"
                             [nodes]="nodes"></app-business-rule-grid>
                         </nz-tab>
                         <!-- <nz-tab nzTitle="Tab 3">Content of Tab Pane 3</nz-tab> -->
@@ -276,11 +280,12 @@
                             </ng-template>
                             <div class="p-1" *ngFor="let item3 of item2.children">
 
-                              <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'" (click)="addControlToJson(item3.parameter,item3)"><i
+                              <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'"
+                                (click)="addControlToJson(item3.parameter,item3)"><i
                                   class={{item3.icon}}></i>{{item3.label}}
                               </button>
-                              <button nz-button nzType="default" *ngIf="item3.parameter == 'addSection'"  (click)="addSection()"><i
-                                  class={{item3.icon}}></i>{{item3.label}}
+                              <button nz-button nzType="default" *ngIf="item3.parameter == 'addSection'"
+                                (click)="addSection()"><i class={{item3.icon}}></i>{{item3.label}}
                               </button>
                             </div>
                           </div>
