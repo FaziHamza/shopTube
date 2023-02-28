@@ -1,5 +1,4 @@
 <div [ngClass]="{'highLight': softIconList.highLight == true}" *ngIf="softIconList.type != 'buttonGroup' && softIconList.type == 'button'">
-  {{softIconList | json}}
   <div class="inline-flex rounded-md shadow-sm" role="group">
     <div *ngFor="let btnItem of softIconList?.buttonGroup[0].btnConfig">
       <div class="m-1" *ngIf="btnItem.hideExpression == false">
@@ -43,8 +42,8 @@
 </div>
 <div *ngIf="softIconList.type == 'buttonGroup'">
   <div [ngClass]="{'highLight': softIconList.highLight == true}" *ngFor="let item of softIconList.children">
-    <div class="inline-block rounded-md shadow-sm" role="group">
-      <div *ngFor="let btnItem of item?.buttonGroup[0].btnConfig">
+    <div class="inline-block rounded-md shadow-sm " role="group">
+      <div *ngFor="let btnItem of item?.buttonGroup[0].btnConfig" class="">
         <div class="m-1" *ngIf="btnItem.hideExpression == false">
           <button nz-radio-button *ngIf="btnItem.type != 'dropdown' && btnItem.href === undefined" nz-button
             [nzSize]="size" [nzType]="btnItem.type" (click)="getButtonType(btnItem?.type)">{{btnItem.title}}<span

@@ -107,7 +107,6 @@
         </ng-template>
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
-              {{item | json}}
                 <div [ngClass]="{'highLight': item.highLight == true}">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
