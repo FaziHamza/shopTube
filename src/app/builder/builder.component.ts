@@ -310,7 +310,8 @@ export class BuilderComponent implements OnInit {
   stepperChild: TreeNode;
   tabsChild: TreeNode;
 
-  addControlToJson(value: string, data: any) {
+  addControlToJson(value: string, data?: any) {
+    debugger
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -320,6 +321,7 @@ export class BuilderComponent implements OnInit {
     if (value == 'page') {
       const newNode = {
         id: 'page_' + Guid.newGuid(),
+        key: "pages_" + Guid.newGuid(),
         title: 'Page',
         type: "page",
         footer: false,
@@ -347,6 +349,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageHeader') {
       const newNode = {
         id: 'pageHeader_' + Guid.newGuid(),
+        key: "pageHeader_" + Guid.newGuid(),
+
         title: 'Page Header',
         type: "pageHeader",
         headingSize: "",
@@ -370,6 +374,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageBody') {
       const newNode = {
         id: 'pageBody_' + Guid.newGuid(),
+        key: "pageBody_" + Guid.newGuid(),
         title: 'Page Body',
         type: "pageBody",
         footer: false,
@@ -391,6 +396,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageFooter') {
       const newNode = {
         id: 'pageFooter_' + Guid.newGuid(),
+        key: "pageFooter_" + Guid.newGuid(),
+
         title: 'Page Footer',
         type: "pageFooter",
         footer: false,
@@ -411,6 +418,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'according') {
       const newNode = {
         id: 'according_' + Guid.newGuid(),
+        key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
         className: "",
@@ -436,6 +444,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordingHeader') {
       const newNode = {
         id: 'accordingHeader_' + Guid.newGuid(),
+        key: "accordingHeader_" + Guid.newGuid(),
+
         title: 'Header',
         type: "accordingHeader",
         footer: false,
@@ -460,6 +470,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordingBody') {
       const newNode = {
         id: 'accordingBody_' + Guid.newGuid(),
+        key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
         footer: false,
@@ -483,6 +494,8 @@ export class BuilderComponent implements OnInit {
         id: 'accordingFooter_' + Guid.newGuid(),
         title: 'Footer',
         type: "accordingFooter",
+        key: "accordingFooter_" + Guid.newGuid(),
+
         footer: false,
         header: false,
         expanded: true,
@@ -501,6 +514,8 @@ export class BuilderComponent implements OnInit {
     else if (data?.parameter == 'input') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: data?.label + Guid.newGuid(),
+
         title: data?.label,
         expanded: true,
         type: data?.configType,
@@ -792,6 +807,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'audio') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: "Audio Example",
         type: "audio",
         highLight: false,
@@ -808,6 +824,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'carouselCrossfade') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'carouselCrossfade_1',
         type: "carouselCrossfade",
         highLight: false,
@@ -845,6 +862,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'tuiCalender') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'calender_1',
         type: "tuiCalender",
         className: "w-10/12",
@@ -882,6 +900,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'sharedMessagesChart') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'Task  Widget_1',
         type: "sharedMessagesChart",
         className: "w-1/2",
@@ -919,6 +938,7 @@ export class BuilderComponent implements OnInit {
         type: "alert",
         className: "w-full",
         hideExpression: false,
+        key: "alert_" + Guid.newGuid(),
         tooltip: "Alert",
         highLight: false,
         isNextChild: false,
@@ -948,7 +968,6 @@ export class BuilderComponent implements OnInit {
         className: "w-1/2",
         highLight: false,
         isNextChild: false,
-
         key: "simpleCard_" + Guid.newGuid(),
         simpleCardWithHeaderBodyFooterConfig: [
           {
@@ -1007,6 +1026,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'mainDashonicTabs') {
       const newNode = {
         id: 'mainDashonicTabs_' + Guid.newGuid(),
+        key: 'mainDashonicTabs_' + Guid.newGuid(),
         title: 'MainTab_1',
         type: "mainDashonicTabs",
         isNextChild: true,
@@ -1097,6 +1117,8 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
+        key: "button_" + Guid.newGuid(),
+
         btnConfig: [
           {
             hideExpression: false,
@@ -1146,7 +1168,7 @@ export class BuilderComponent implements OnInit {
         title: "chart" + '_1',
         type: "chart",
         className: "w-1/2",
-        key: "chart",
+        key: "chart" + Guid.newGuid(),
         highLight: false,
         isNextChild: false,
         hideExpression: false,
@@ -1275,7 +1297,6 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-
         tooltip: "",
         "link": "",
         "belowpercentage": 1,
@@ -2216,6 +2237,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'column') {
       const newNode = {
         id: "Column " + Math.random().toFixed(3),
+        key: "Column " + Math.random().toFixed(3),
         title: 'Column' + '_1',
         type: "input",
         isNextChild: false,
@@ -2233,6 +2255,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'timeline') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'timeline_1',
         type: "timeline",
         tooltip: "",
@@ -2270,6 +2293,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'fixedDiv') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "fixedDiv" + Guid.newGuid(),
         title: 'FixedDiv_1',
         type: "fixedDiv",
         tooltip: "",
@@ -2291,6 +2315,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordionButton') {
       const newNode = {
         id: 'accordionButton_' + Guid.newGuid(),
+        key: 'accordionButton_' + Guid.newGuid(),
         title: 'accordionButton_1',
         type: "accordionButton",
         highLight: false,
@@ -2367,6 +2392,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'starrate') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'starrate_1',
         type: "starrate",
         isNextChild: false,
@@ -2381,6 +2407,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'rangeSlider') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'rangeSlider',
         type: "rangeSlider",
@@ -2401,6 +2428,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'invoice') {
       const newNode = {
         id: 'invoice_' + Guid.newGuid(),
+        key: 'invoice_' + Guid.newGuid(),
         className: "w-full",
         title: 'Invoice',
         type: "invoice",
@@ -2433,6 +2461,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'affix') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Affix',
         type: "affix",
@@ -2450,6 +2479,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'statistic') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Statistic',
         type: "statistic",
@@ -2473,6 +2503,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'backTop') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Back Top',
         type: "backTop",
@@ -2488,6 +2519,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'anchor') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Anchor',
         type: "anchor",
@@ -2528,6 +2560,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'modal') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Modal',
         type: "modal",
@@ -2545,6 +2578,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'popConfirm') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Pop Confirm',
         type: "popConfirm",
@@ -2584,6 +2618,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'badge') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Badge',
         type: "badge",
@@ -2672,6 +2707,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'segmented') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Segmented',
         type: "segmented",
@@ -2687,6 +2723,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'result') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'result',
         type: "result",
@@ -2705,6 +2742,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'nzTag') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Tag',
         type: "nzTag",
@@ -2739,6 +2777,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'transfer') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'transfer',
         type: "transfer",
@@ -2852,6 +2891,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'cascader') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'cascader-' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Cascader',
         type: "cascader",
@@ -3276,8 +3316,12 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    parent = parent.parentNode.origin;
-    node = node.origin;
+    debugger
+    if(node.origin){
+      parent = parent?.parentNode?.origin;
+      node = node.origin;
+    }
+    
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -3286,7 +3330,7 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = node;
     this.selectdParentNode = parent;
 
-    this.clickButton(node.type)
+    this.clickButton(node?.type)
 
   }
   applyHighLight(data: boolean, element: any) {
@@ -3664,9 +3708,11 @@ export class BuilderComponent implements OnInit {
       case "telephone":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
+        if (type == "tags" || type == "multiselect" || type == "search")
+          this.fieldData.formData = _formFieldData.selectFields;
+        else if (type == "radiobutton" || type == "checkbox")
           this.fieldData.formData = _formFieldData.radioFields;
-        if (type == 'color')
+        else if (type == 'color')
           this.fieldData.formData = _formFieldData.colorFields;
         break;
 
@@ -4094,6 +4140,100 @@ export class BuilderComponent implements OnInit {
 
     // array.splice(index, 0, ...elementsArray);
   }
+  addFunctionsInHtml(type: any) {
+    if (type == "dashonictabsAddNew")
+      this.dashonictabsAddNew();
+    else if (type == "stepperAddNew")
+      this.stepperAddNew();
+    else if (type == "kanabnAddNew")
+      this.kanabnAddNew();
+    else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
+      this.formDataFromApi(type);
+    else if (type == "addSection")
+      this.addSection();
+  }
+  kanabnAddNew() {
+    this.addControlToJson('kanban');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.selectedNode = this.selectForDropdown;
+    this.updateNodes();
+  }
+  stepperAddNew() {
+
+    this.addControlToJson('stepperMain');
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.selectForDropdown;
+    // this.stepperNewlength = 3;
+    this.updateNodes();
+  }
+  tabsAddNew() {
+
+    this.addControlToJson('tabsMain');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.selectForDropdown;
+    // this.tabsNewlength = 3;
+    this.updateNodes();
+  }
+  dashonictabsAddNew() {
+
+    this.addControlToJson('mainDashonicTabs');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text', this.textJsonObj);
+    this.selectedNode = this.selectForDropdown;
+    // this.tabsNewlength = 3;
+    this.updateNodes();
+  }
+  formDataFromApi(screenId: any) {
+    this.builderService.genericApis(screenId).subscribe((res => {
+      this.nodes[0].children[1].children.push(res[0])
+      this.updateNodes();
+    }));
+  }
+  dashonicTemplates(model: any) {
+    this.builderService.dashonicTemplates(model).subscribe((res => {
+      this.selectedNode?.children?.push(res);
+      this.updateNodes();
+      this.toastr.success('Controll Added', { nzDuration: 3000 });
+    }));
+  }
   remove(parent: any, node: any) {
     parent = parent?.parentNode?.origin;
     node = node.origin;
@@ -4263,6 +4403,7 @@ export class BuilderComponent implements OnInit {
       case 'image':
       case 'telephone':
       case 'textarea':
+      case 'multiselect':
       case 'time':
       case 'month':
       case 'week':
@@ -4294,13 +4435,13 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
-            if (this.selectedNode.type == "multiselect") {
+            if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
             } else {
               templateOptions['defaultValue'] = event.form.defaultValue;
             }
-            if (event.form.apiData != undefined) {
+            if (event.form.apiData) {
               this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
 
@@ -5308,56 +5449,6 @@ export class BuilderComponent implements OnInit {
           // this.adddynamicStepper(event.form.nodes);
         }
         break;
-
-      case "tab":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].props.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].props.stepperFormat = event.form.stepperFormat;
-        }
-        break;
-      case "maintab":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
-          this.selectedNode.className = event.form.className;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.stepperFormat = event.form.stepperFormat;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonText = event.form.buttonText;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonIcon = event.form.buttonIcon;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonColor = event.form.buttonColor;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsPosition = event.form.tabsPosition;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
-          // for (let index = 0; index < this.selectedNode.children.length; index++) {
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
-          //   if (event.form.tabsDisplayType == "buttonType") {
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
-          //   } else if (event.form.tabsDisplayType == "None" || event.form.tabsDisplayType == "underLine") {
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
-          //   }
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
-          //   this.selectedNode.children[index].className = event.form.className;
-          //   this.selectedNode.children[index].type = event.form.stepperFormat;
-          // }
-          // this.adddynamictab(event.form.nodes);
-        }
-        break;
-      // For Section Page Changes
       case "page":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
@@ -5578,7 +5669,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "dashonicMainTab":
+      case "mainDashonicTabs":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5619,7 +5710,7 @@ export class BuilderComponent implements OnInit {
             }
           }
 
-          // this.adddynamicDashonictab(event.form.nodes);
+          this.adddynamicDashonictab(event.form.nodes);
           this.updateNodes();
         }
         break;
@@ -5852,17 +5943,53 @@ export class BuilderComponent implements OnInit {
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
+  adddynamicDashonictab(abc: any) {
 
+    if (this.selectedNode.children) {
+      let tabsLength = this.selectedNode.children?.length;
+      if (tabsLength < abc) {
+        for (let k = 0; k < abc; k++) {
+          if (tabsLength < abc) {
+            this.addControlToJson('dashonicTabs');
+            this.selectedNode = this.tabsChild;
+            this.addControlToJson('text', this.textJsonObj);
+            this.selectedNode = this.tabsAdd;
+            tabsLength = tabsLength + 1;
+          }
+        }
+      }
+      else {
+        if (this.selectdParentNode.children) {
+          let removeTabsLength = this.selectedNode.children.length;
+          let checkParentLength = this.selectdParentNode.children.length;
+          for (let a = 0; a < removeTabsLength; a++) {
+            for (let i = 0; i < checkParentLength; i++) {
+              for (let j = 0; j < removeTabsLength; j++) {
+                if (this.selectdParentNode.children[i].type == "mainDashonicTabs") {
+                  if (abc < tabsLength) {
+                    this.remove(this.selectdParentNode.children[i], this.selectedNode.children[tabsLength - 1]);
+                    tabsLength = tabsLength - 1;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
 
 
   searchControll() {
+    // debugger
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
       this.htmlTabsData[0].children.forEach((a: any) => {
         a.children.forEach((b: any) => {
           b.children.forEach((c: any) => {
-            if (c.title.toUpperCase().includes(input)) {
+            if (c.label.toUpperCase().includes(input)) {
               this.searchControllData.push(c)
             }
           });

@@ -144,6 +144,11 @@ export class BuilderService {
         this.baseUrl + "visitordonutChart"
       );
     }
+    dashonicTemplates(model: any): Observable<any> {
+      return this.http.get<any>(
+        this.baseUrl + model
+      );
+    }
 }
 
 

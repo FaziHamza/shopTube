@@ -2,24 +2,24 @@
     <nz-tab   *ngFor="let items of tabs; let i = index ; let last = last" [nzTitle]="titleTemplate">
         <ng-template #titleTemplate>
             <span nz-icon nzType="star" nzTheme="outline"></span>
-            {{items.chartCardConfig[0].dashonicTabsConfig[0].tabLabel}}
-        </ng-template><div class="card-content row">
+            {{items.dashonicTabsConfig[0].tabLabel}}
+        </ng-template><div class="card-content flex flex-wrap">
             <div class="{{item.hideExpression  === undefined || item.hideExpression == false   ? item.className : ''}}"
-            *ngFor="let item of items.chartCardConfig[0].dashonicTabsConfig[0].dashonicTabsChild">
+            *ngFor="let item of items.children">
                 <ng-container *ngIf="item.type == 'multiFileUpload';else one">
                     <div [ngClass]="{'highLight': item.highLight == true}"
                         *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                         <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon
                                 nzType="question-circle" nzTheme="outline"></span></span>
                         <app-multi-file-upload
-                            [multiFileUploadData]="item.chartCardConfig[0].uploadBtnLabel"></app-multi-file-upload>
+                            [multiFileUploadData]="item.uploadBtnLabel"></app-multi-file-upload>
                     </div>
                 </ng-container>
                 <ng-template #one>
                     <ng-container *ngIf="item.type == 'chart';else second">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <app-sales-card [salesdata]="item.chartCardConfig" *ngIf="item.type == 'chart' "></app-sales-card>
+                            <app-sales-card [salesdata]="item" *ngIf="item.type == 'chart' "></app-sales-card>
                         </div>
                     </ng-container>
                 </ng-template>
@@ -27,7 +27,7 @@
                     <ng-container *ngIf="item.type == 'sectionCard';else third">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-growth-percentage-card [widgetSecondCard]="item.chartCardConfig">
+                            <!-- <app-growth-percentage-card [widgetSecondCard]="item">
                             </app-growth-percentage-card> -->
                         </div>
                     </ng-container>
@@ -36,7 +36,7 @@
                     <ng-container *ngIf="item.type == 'widgetSectionCard';else fourth">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-growth-graph-card [allChart]=" item.chartCardConfig">
+                            <!-- <app-growth-graph-card [allChart]=" item">
                             </app-growth-graph-card> -->
                         </div>
                     </ng-container>
@@ -45,7 +45,7 @@
                     <ng-container *ngIf="item.type == 'browserCard';else fifth">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-visitor-browser-card [browserdata]="item.chartCardConfig">
+                            <!-- <app-visitor-browser-card [browserdata]="item">
                             </app-visitor-browser-card> -->
                         </div>
                     </ng-container>
@@ -54,7 +54,7 @@
                     <ng-container *ngIf="item.type == 'donutChart';else sixth">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-visitor-source-card [donutChart]="item.chartCardConfig">
+                            <!-- <app-visitor-source-card [donutChart]="item">
                             </app-visitor-source-card> -->
                         </div>
                     </ng-container>
@@ -63,7 +63,7 @@
                     <ng-container *ngIf="item.type == 'donuteSaleChart';else seventh">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-sale-donute-card [saleDonutChart]="item.chartCardConfig">
+                            <!-- <app-sale-donute-card [saleDonutChart]="item">
                             </app-sale-donute-card> -->
                         </div>
                     </ng-container>
@@ -72,7 +72,7 @@
                     <ng-container *ngIf="item.type == 'salesAnalyticschart';else eight">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-sale-analytics-card [analyticsChart]="item.chartCardConfig">
+                            <!-- <app-sale-analytics-card [analyticsChart]="item">
                             </app-sale-analytics-card> -->
                         </div>
                     </ng-container>
@@ -81,7 +81,7 @@
                     <ng-container *ngIf="item.type == 'card';else tenth">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-task-detail-card [widgetcard]="item.chartCardConfig"></app-task-detail-card> -->
+                            <!-- <app-task-detail-card [widgetcard]="item"></app-task-detail-card> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -114,7 +114,7 @@
                 <ng-template #twelth>
                     <ng-container *ngIf="item.type == 'button'; else thirteenth">
                         <div [ngClass]="{'highLight': item.highLight == true}">
-                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
                     </ng-container>
@@ -122,7 +122,7 @@
                 <ng-template #thirteenth>
                     <ng-container *ngIf="item.type =='linkButton'; else forteenth">
                         <div [ngClass]="{'highLight': item.highLight == true}">
-                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
                     </ng-container>
@@ -130,7 +130,7 @@
                 <ng-template #forteenth>
                     <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
                         <div [ngClass]="{'highLight': item.highLight == true}">
-                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
                     </ng-container>
@@ -139,7 +139,7 @@
                     <ng-container *ngIf="item.type =='dropdownButton'; else sixteen">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <app-block-buttons-card [softIconList]="item.chartCardConfig[0].buttonGroup[0]">
+                            <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
                     </ng-container>
@@ -173,7 +173,7 @@
                     <ng-container *ngIf="item.type == 'progressBar'; else ninteen">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <app-progressbars [progressBarData]="item.chartCardConfig"></app-progressbars>
+                            <app-progressbars [progressBarData]="item"></app-progressbars>
                         </div>
                     </ng-container>
                 </ng-template>
@@ -193,7 +193,7 @@
                     <ng-container *ngIf="item.type == 'video'; else twentyone">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-videos [videoData]="item.chartCardConfig"></app-videos> -->
+                            <!-- <app-videos [videoData]="item"></app-videos> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -205,7 +205,7 @@
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
                             </div>
-                            <!-- <app-audio [audioData]="item.chartCardConfig"></app-audio> -->
+                            <!-- <app-audio [audioData]="item"></app-audio> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -218,7 +218,7 @@
                                     class="uil uil-question-circle"></span>
                             </div>
                             <!-- <app-browser-combine-chart
-                                [browserCombinechartData]="item.chartCardConfig"></app-browser-combine-chart> -->
+                                [browserCombinechartData]="item"></app-browser-combine-chart> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -235,7 +235,7 @@
                     <ng-container *ngIf="item.type == 'sharedMessagesChart' ;else twentyfive">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <!-- <app-shared-messages-card [sharedMessagesData]="item.chartCardConfig"></app-shared-messages-card> -->
+                            <!-- <app-shared-messages-card [sharedMessagesData]="item"></app-shared-messages-card> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -243,7 +243,7 @@
                     <ng-container *ngIf="item.type == 'alert' ;else twentysix">
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
-                            <app-new-alerts [alertData]="item.chartCardConfig"></app-new-alerts>
+                            <app-new-alerts [alertData]="item"></app-new-alerts>
                         </div>
                     </ng-container>
                 </ng-template>
@@ -252,7 +252,7 @@
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                             <app-simple-card-with-header-body-footer
-                                [SimpleCardWithHeaderBodyFooterData]="item.chartCardConfig[0].simpleCardWithHeaderBodyFooterConfig">
+                                [SimpleCardWithHeaderBodyFooterData]="item.simpleCardWithHeaderBodyFooterConfig">
                             </app-simple-card-with-header-body-footer>
                         </div>
                     </ng-container>
@@ -277,7 +277,7 @@
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
                             </div>
-                            <app-timeline-builder [timelineData]="item.chartCardConfig"></app-timeline-builder>
+                            <app-timeline-builder [timelineData]="item"></app-timeline-builder>
                         </div>
                     </ng-container>
                 </ng-template>
@@ -286,14 +286,14 @@
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
 
-                            <!-- <app-multi-file-upload [multiFileUploadData]="item.chartCardConfig"></app-multi-file-upload> -->
+                            <!-- <app-multi-file-upload [multiFileUploadData]="item"></app-multi-file-upload> -->
                         </div>
                     </ng-container>
                 </ng-template>
                 <ng-template #thirty>
                     <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
                         <div *ngFor="let items of item.children">
-                            <formly-form [fields]="items.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                            <formly-form [fields]="items.formly" [model]="dataModel" [form]="form">
                             </formly-form>
                         </div>
                     </ng-container>
@@ -307,7 +307,7 @@
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
                             </div>
-                            <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                            <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                             </formly-form>
                         </div>
                     </ng-container>
@@ -317,7 +317,7 @@
                         <div [ngClass]="{'highLight': item.highLight == true}"
                             *ngIf="item.hideExpression == false || item.hideExpression  == undefined">
                             <app-accordion-button
-                                [accordionData]="item.chartCardConfig[0].accordionConfig"></app-accordion-button>
+                                [accordionData]="item.accordionConfig"></app-accordion-button>
                         </div>
                     </ng-container>
                 </ng-template>
@@ -337,7 +337,7 @@
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
                             </div>
-                            <!-- <app-kanban-boards [kanbanData]="item.chartCardConfig"></app-kanban-boards> -->
+                            <!-- <app-kanban-boards [kanbanData]="item"></app-kanban-boards> -->
                         </div>
                     </ng-container>
                 </ng-template>
@@ -349,10 +349,10 @@
                                 <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}
                                     class="uil uil-question-circle"></span>
                             </ng-container>
-                            <div *ngFor="let data of item.chartCardConfig[0].fixedDivChild">
+                            <div *ngFor="let data of item.fixedDivChild">
                                 <ng-container
                                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || data.type == 'dropdownButton'">
-                                    <app-block-buttons-card [softIconList]="data.chartCardConfig[0].buttonGroup[0]">
+                                    <app-block-buttons-card [softIconList]="data">
                                     </app-block-buttons-card>
                                 </ng-container>
                             </div>
@@ -364,7 +364,7 @@
                         <form [formGroup]="form" >
                             <div
                                 [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                                <formly-form [fields]="item.chartCardConfig[0].formly" [model]="dataModel" [form]="form">
+                                <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                                 </formly-form>
                                 <!-- <button type="submit" class="btn btn-primary submit-button mt-2">Submit</button> -->
                             </div>
@@ -404,7 +404,7 @@
                                         class="uil uil-question-circle"></span>
                                 </div>
                                 <app-carousel-crossfade-card
-                                    [carouselslides]="item.chartCardConfig"></app-carousel-crossfade-card>
+                                    [carouselslides]="item"></app-carousel-crossfade-card>
                             </div>
                         </div>
                     </ng-container>

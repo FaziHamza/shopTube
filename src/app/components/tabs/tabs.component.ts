@@ -16,7 +16,7 @@ export class TabsComponent implements OnInit {
 
     this.tabs;
     this.tabs.forEach((i: any) => {
-      i.chartCardConfig[0].dashonicTabsConfig[0].dashonicTabsChild.forEach((j: any) => {
+      i.dashonicTabsConfig[0].dashonicTabsChild.forEach((j: any) => {
         j.formly[0].fieldGroup.forEach((b: any) => {
           if (b.wrappers.length > 1) {
             b.wrappers.splice(1, 1);

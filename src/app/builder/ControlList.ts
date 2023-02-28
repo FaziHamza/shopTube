@@ -743,11 +743,11 @@ export const htmlTabsData = [
                 icon: "uil-sliders-v-alt",
                 label: "Slider"
               },
-              {
-                parameter: "carouselCrossfade",
-                icon: "uil-sliders-v-alt",
-                label: "Slider"
-              },
+              // {
+              //   parameter: "carouselCrossfade",
+              //   icon: "uil-sliders-v-alt",
+              //   label: "Slider"
+              // },
               {
                 parameter: "cascader",
                 icon: "uil-arrow-break",

@@ -88,6 +88,73 @@ export class formFeildData {
       //   },
       // },
     ]
+  selectFields: FormlyFieldConfig[] =
+    [
+      {
+        fieldGroupClassName: "flex flex-wrap",
+        fieldGroup: [
+          {
+            key: 'multiselect',
+            type: 'select',
+
+            className: "w-1/4 px-1",
+            wrappers: ["formly-vertical-wrapper"],
+            templateOptions: {
+              label: 'Select API',
+              options: [
+                {
+                  label: "Api",
+                  value: "MultiAPIData"
+                },
+              ]
+            },
+          },
+        ]
+      },
+      {
+        template: '<div class="bold-label mt-3">options</div>',
+      },
+      {
+        key: 'options',
+        type: 'repeatSection',
+        templateOptions: {
+          style: "margin-top: 6%;",
+          canAdd: true,
+          canRemove: true
+        },
+        fieldArray: {
+          className: 'ml-3 me-2',
+          fieldGroup: [
+            {
+              key: 'label',
+              type: 'input',
+              wrappers: ["formly-vertical-wrapper"],
+              templateOptions: {
+                label: 'label'
+              }
+            },
+            {
+              className: "ml-2",
+              key: 'value',
+              type: 'input',
+              wrappers: ["formly-vertical-wrapper"],
+              templateOptions: {
+                label: 'value'
+              }
+            },
+
+          ]
+        }
+      }
+      // {
+      //   key: 'repeat',
+      //   type: 'checkbox',
+      //   className: "w-1/6 px-1 mt-5",
+      //   templateOptions: {
+      //     label: 'Repeat'
+      //   },
+      // },
+    ]
   //used in formly form
   methodUrl: FormlyFieldConfig[] = [{
     key: 'method',
