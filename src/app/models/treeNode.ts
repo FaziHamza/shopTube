@@ -90,7 +90,7 @@ export interface TreeNode {
   headerButtonGroupData?: any[],
   bodyButtonGroupData?: any[],
   footerButtonGroupData?: any[],
-  buttonGroup?: btnGroup[],
+  // buttonGroup?: btnGroup[],
   actionConfig?: actionConfig,
   // btnConfig?: any[],
   gridConfig?: any,
