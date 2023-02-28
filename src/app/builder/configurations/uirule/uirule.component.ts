@@ -12,7 +12,7 @@ export class UIRuleComponent implements OnInit {
 
   @Input() screenModule: any;
   @Input() screenName: any;
-  @Input() selectdNode: any;
+  @Input() selectedNode: any;
   @Input() nodes: any;
   // public editorOptions: JsonEditorOptions;
   // makeOptions = () => new JsonEditorOptions();
@@ -126,7 +126,7 @@ export class UIRuleComponent implements OnInit {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
       if (inputType.type == "buttonGroup") {
         // for (let k = 0; k < inputType.children.length; k++) {
-        const element = inputType.chartCardConfig[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
             inputJsonData: inputType.children,
@@ -135,11 +135,11 @@ export class UIRuleComponent implements OnInit {
         }
         // }
       } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
-        const element = inputType.chartCardConfig[0].buttonGroup[0].btnConfig[0].key;
+        const element = inputType.buttonGroup[0].btnConfig[0].key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.chartCardConfig[0].buttonGroup[0],
-            inputOldJsonData: inputType.chartCardConfig[0].buttonGroup[0]
+            inputJsonData: inputType.buttonGroup[0],
+            inputOldJsonData: inputType.buttonGroup[0]
           });
         }
       } else if (inputType.type == "stepperMain") {
@@ -165,27 +165,27 @@ export class UIRuleComponent implements OnInit {
           });
         }
       } else if (inputType.type == "alert") {
-        const element = inputType.chartCardConfig[0].alertConfig[0].key;
+        const element = inputType.alertConfig[0].key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.chartCardConfig[0].alertConfig[0],
-            inputOldJsonData: inputType.chartCardConfig[0].alertConfig[0]
+            inputJsonData: inputType.alertConfig[0],
+            inputOldJsonData: inputType.alertConfig[0]
           });
         }
       } else if (inputType.type == "card") {
-        const element = inputType.chartCardConfig[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.chartCardConfig[0],
-            inputOldJsonData: inputType.chartCardConfig[0]
+            inputJsonData: inputType,
+            inputOldJsonData: inputType
           });
         }
       } else if (inputType.type == "simpleCardWithHeaderBodyFooter") {
-        const element = inputType.chartCardConfig[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.chartCardConfig[0].simpleCardWithHeaderBodyFooterConfig,
-            inputOldJsonData: inputType.chartCardConfig[0].simpleCardWithHeaderBodyFooterConfig
+            inputJsonData: inputType.simpleCardWithHeaderBodyFooterConfig,
+            inputOldJsonData: inputType.simpleCardWithHeaderBodyFooterConfig
           });
         }
       }
@@ -257,8 +257,8 @@ export class UIRuleComponent implements OnInit {
   updateRule() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonUIResult = {
-      "key": this.selectdNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectdNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-      "title": this.selectdNode.title,
+      "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+      "title": this.selectedNode.title,
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       "uiData": this.uiRuleForm.value.uiRules,
@@ -313,7 +313,7 @@ export class UIRuleComponent implements OnInit {
         for (let k = 0; k < inputType.children.length; k++) {
           objTargetList = { key: '', value: '' };
           objTargetList.key = (inputType.children[k].key).toString()
-          objTargetList.value = (inputType.children[k].chartCardConfig[0].dashonicTabsConfig[0].tabtitle).toString()
+          objTargetList.value = (inputType.children[k].dashonicTabsConfig[0].tabtitle).toString()
           this.targetList.push(objTargetList)
         }
       }
@@ -324,21 +324,21 @@ export class UIRuleComponent implements OnInit {
       } else if (inputType.type == "buttonGroup") {
         // for (let k = 0; k < inputType.children.length; k++) {
         // objTargetList = { key: '', value: '' };
-        objTargetList.key = (inputType.chartCardConfig[0].key).toString()
+        objTargetList.key = (inputType.key).toString()
         objTargetList.value = (inputType.title).toString()
         this.targetList.push(objTargetList)
         // }
       } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
-        objTargetList.key = (inputType.chartCardConfig[0].buttonGroup[0].btnConfig[0].key).toString()
-        objTargetList.value = (inputType.chartCardConfig[0].buttonGroup[0].btnConfig[0].title).toString()
+        objTargetList.key = (inputType.buttonGroup[0].btnConfig[0].key).toString()
+        objTargetList.value = (inputType.buttonGroup[0].btnConfig[0].title).toString()
         this.targetList.push(objTargetList)
       } else if (inputType.type == "card" ||
         inputType.type == "simpleCardWithHeaderBodyFooter") {
-        objTargetList.key = (inputType.chartCardConfig[0].key).toString()
+        objTargetList.key = (inputType.key).toString()
         objTargetList.value = (inputType.title).toString()
         this.targetList.push(objTargetList)
       } else if (inputType.type == "alert") {
-        objTargetList.key = (inputType.chartCardConfig[0].alertConfig[0].key).toString()
+        objTargetList.key = (inputType.alertConfig[0].key).toString()
         objTargetList.value = (inputType.title).toString()
         this.targetList.push(objTargetList)
       } else if (inputType.type == "mainDashonicTabs") {

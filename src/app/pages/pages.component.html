@@ -1,13 +1,12 @@
-
-<div class="bg-white" *ngIf="dbRes.length">
+<div class="bg-white" *ngIf="dbRes.length > 0">
     <!-- PAGE HEADER -->
     <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="dbRes[0].children[0].header">
         <nz-page-header class="site-page-header" [nzGhost]="false">
-            <nz-page-header-title>{{dbRes[0].children[0].label}}
+            <nz-page-header-title>{{dbRes[0].children[0].title}}
             </nz-page-header-title>
             <nz-page-header-extra>
-                <div *ngFor="let item of dbRes[0]?.children[0]">
-                    <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
+                <div *ngFor="let item of dbRes[0]?.children[0].children">
+                    <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                 </div>
             </nz-page-header-extra>
         </nz-page-header>
@@ -19,15 +18,15 @@
             <div class="border" *ngIf="!j.children[0].isExpanded">
                 <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
                     <nz-page-header [nzGhost]="false">
-                        <nz-page-header-title>{{j.children[0].label}}
+                        <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
-                                <div *ngFor="let item of dbRes[0].children[1].children[i]">
+                                <div *ngFor="let item of dbRes[0].children[1].children">
                                     <app-block-buttons-card [softIconList]="item">
                                     </app-block-buttons-card>
                                 </div>
-                                <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
+                                <div *ngIf="j.sectionDisabled == 'disabled-But-ditable'">
                                     <a nz-button nzType="link"
                                         (click)="disabledAndEditableSection(j.children[1].children)">Disabled</a>
                                 </div>
@@ -44,7 +43,7 @@
                 </div>
                 <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
                     {{j.children[2].title}}
-                    <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                    <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
                         <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                     </div>
                 </div>
@@ -58,14 +57,14 @@
                         </div>
                         <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
                             {{j.children[2].title}}
-                            <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                            <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
                                 <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                             </div>
                         </div>
                         <br />
                     </nz-collapse-panel>
                     <ng-template #extraTpl>
-                        <div *ngFor="let item of dbRes[0].children[1].headerButtonGroupData[i]">
+                        <div *ngFor="let item of dbRes[0].children[1].children[i]">
                             <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
@@ -85,7 +84,7 @@
                     <br />
                     <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
-                        <div *ngFor="let item of dbRes[0]?.children[1].footerButtonGroupData[i]">
+                        <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                         </div>
                     </div>
@@ -99,7 +98,7 @@
     <!-- PAGE FOOTER -->
     <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="dbRes[0].children[2].footer">
         {{dbRes[0].children[2].title}}
-        <div *ngFor="let item of dbRes[0]?.children[2]?.pageFooterButtonGroupData">
+        <div *ngFor="let item of dbRes[0]?.children[2]?.children">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
         </div>
     </div>

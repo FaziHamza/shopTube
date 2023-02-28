@@ -5813,7 +5813,7 @@ export class formFeildData {
         {
           className: "w-1/4 px-1",
           key: 'placement',
-          type: 'size',
+          type: 'select',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Select Size',

@@ -36,7 +36,7 @@ export class BuilderComponent implements OnInit {
   screenPage: boolean = false;
   fieldData: GenaricFeild;
   searchControllData: any = [];
-  selectdNode: TreeNode;
+  selectedNode: TreeNode;
   selectdParentNode: TreeNode;
   formModalData: any;
   isActiveShow: string;
@@ -251,18 +251,18 @@ export class BuilderComponent implements OnInit {
         ],
       } as TreeNode];
       this.nodes = newNode;
-      this.selectdNode = newNode[0];
+      this.selectedNode = newNode[0];
       this.addControlToJson('pageHeader', null);
       this.addControlToJson('pageBody', null);
-      this.selectdNode = this.sectionBageBody;
+      this.selectedNode = this.sectionBageBody;
       this.addControlToJson('according', null);
-      this.selectdNode = this.sectionAccording;
+      this.selectedNode = this.sectionAccording;
       this.addControlToJson('accordingHeader', null);
       this.addControlToJson('accordingBody', null);
       this.addControlToJson('accordingFooter', null);
-      this.selectdNode = this.sectionAccorBody;
+      this.selectedNode = this.sectionAccorBody;
       this.addControlToJson('text', this.textJsonObj);
-      this.selectdNode = newNode[0];
+      this.selectedNode = newNode[0];
       this.addControlToJson('pageFooter', null);
       this.updateNodes();
     }
@@ -313,9 +313,9 @@ export class BuilderComponent implements OnInit {
   addControlToJson(value: string, data: any) {
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
-      this.selectForDropdown = this.selectdNode;
+      this.selectForDropdown = this.selectedNode;
     }
-    let node = this.selectdNode;
+    let node = this.selectedNode;
     // this.IsShowConfig = true;
     if (value == 'page') {
       const newNode = {
@@ -3266,7 +3266,7 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Control Added', { nzDuration: 3000 });
     // this.dropTargetIds = [];
     // this.formlyService.templateNode = JSON.parse(JSON.stringify(this.formlyService.nodes));
-    // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectdNode);
+    // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectedNode);
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
@@ -3276,31 +3276,31 @@ export class BuilderComponent implements OnInit {
       return false;
     }
     let disabledProperty: any;
-    if (this.selectdNode.children) {
-      for (let j = 0; j < this.selectdNode.children.length; j++) {
-        if (this.selectdNode.children[j].formlyType != undefined) {
-          if (this.selectdNode.children[j].formlyType == 'input') {
-            wrapperName = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-            disabledProperty = this.selectdNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+    if (this.selectedNode.children) {
+      for (let j = 0; j < this.selectedNode.children.length; j++) {
+        if (this.selectedNode.children[j].formlyType != undefined) {
+          if (this.selectedNode.children[j].formlyType == 'input') {
+            wrapperName = this.selectedNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+            disabledProperty = this.selectedNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
           }
-          else if (this.selectdNode.children[j].type == 'tabsMain') {
-            this.selectdNode.children[j].children?.forEach(element => {
+          else if (this.selectedNode.children[j].type == 'tabsMain') {
+            this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
                 disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
               });
             });
           }
-          else if (this.selectdNode.children[j].type == 'stepperMain') {
-            this.selectdNode.children[j].children?.forEach(element => {
+          else if (this.selectedNode.children[j].type == 'stepperMain') {
+            this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
                 disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
               });
             });
           }
-          else if (this.selectdNode.children[j].type == 'mainDashonicTabs') {
-            this.selectdNode.children[j].children?.forEach(element => {
+          else if (this.selectedNode.children[j].type == 'mainDashonicTabs') {
+            this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
                 disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
@@ -3342,7 +3342,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = false;
     // document.getElementById("mySidenav-right").style.width = "100%";
     this.IsShowConfig = true;
-    this.selectdNode = node;
+    this.selectedNode = node;
     this.selectdParentNode = parent;
 
     this.clickButton(node.type)
@@ -3440,11 +3440,11 @@ export class BuilderComponent implements OnInit {
       title: "Change Attribute Values",
       commonData: _formFieldData.commonOtherConfigurationFields,
     });
-    const selectdNode = this.selectdNode;
+    const selectedNode = this.selectedNode;
     let configObj = {
-      id: selectdNode.id as string, className: selectdNode.className,
-      key: selectdNode.key, title: selectdNode.title,
-      tooltip: selectdNode.tooltip, hideExpression: selectdNode.hideExpression
+      id: selectedNode.id as string, className: selectedNode.className,
+      key: selectedNode.key, title: selectedNode.title,
+      tooltip: selectedNode.tooltip, hideExpression: selectedNode.hideExpression
     };
 
     switch (type) {
@@ -3454,25 +3454,25 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "drawer":
-        configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectdNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
 
       case "skeleton":
-        configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectdNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.skeletonFields;
         break;
       case "empty":
-        configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectdNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
         break;
       case "list":
-        configObj = { ...configObj,...this.clickButtonService.getlistConfig(selectdNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getlistConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.listFields;
         break;
 
       // case "description":
-      //   configObj = { ...configObj, key: selectdNode.key, title: selectdNode.title, nzExtra: selectdNode.nzExtra, ...this.getDescriptionConfig(selectdNode) };
+      //   configObj = { ...configObj, key: selectedNode.key, title: selectedNode.title, nzExtra: selectedNode.nzExtra, ...this.getDescriptionConfig(selectedNode) };
       //   this.fieldData.formData = _formFieldData.descriptionFields;
       //   break;
 
@@ -3482,405 +3482,405 @@ export class BuilderComponent implements OnInit {
 
     // else if (type == "empty") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
     //     //----------------------------------------
-    //     icon: this.selectdNode.icon,
-    //     content: this.selectdNode.content,
-    //     text: this.selectdNode.text,
-    //     link: this.selectdNode.link,
-    //     btnText: this.selectdNode.btnText,
-    //     color: this.selectdNode.color,
+    //     icon: this.selectedNode.icon,
+    //     content: this.selectedNode.content,
+    //     text: this.selectedNode.text,
+    //     link: this.selectedNode.link,
+    //     btnText: this.selectedNode.btnText,
+    //     color: this.selectedNode.color,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.emptyFields;
     // }
     // else if (type == "list") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
     //     //----------------------------------------
-    //     headerText: this.selectdNode.headerText,
-    //     footerText: this.selectdNode.footerText,
-    //     formatter: this.selectdNode.formatter,
-    //     size: this.selectdNode.size,
-    //     isBordered: this.selectdNode.isBordered,
-    //     isSplit: this.selectdNode.isSplit,
-    //     isEdit: this.selectdNode.isEdit,
-    //     isUpdate: this.selectdNode.isUpdate,
-    //     isDelete: this.selectdNode.isDelete,
-    //     isLoad: this.selectdNode.isLoad,
-    //     loadText: this.selectdNode.loadText,
-    //     options: this.selectdNode.options,
+    //     headerText: this.selectedNode.headerText,
+    //     footerText: this.selectedNode.footerText,
+    //     formatter: this.selectedNode.formatter,
+    //     size: this.selectedNode.size,
+    //     isBordered: this.selectedNode.isBordered,
+    //     isSplit: this.selectedNode.isSplit,
+    //     isEdit: this.selectedNode.isEdit,
+    //     isUpdate: this.selectedNode.isUpdate,
+    //     isDelete: this.selectedNode.isDelete,
+    //     isLoad: this.selectedNode.isLoad,
+    //     loadText: this.selectedNode.loadText,
+    //     options: this.selectedNode.options,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.listFields;
     // }
     // else if (type == "description") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
     //     //----------------------------------------
-    //     title: this.selectdNode.title,
-    //     nzExtra: this.selectdNode.nzExtra,
-    //     formatter: this.selectdNode.formatter,
-    //     size: this.selectdNode.size,
-    //     isBordered: this.selectdNode.isBordered,
-    //     isColon: this.selectdNode.isColon,
+    //     title: this.selectedNode.title,
+    //     nzExtra: this.selectedNode.nzExtra,
+    //     formatter: this.selectedNode.formatter,
+    //     size: this.selectedNode.size,
+    //     isBordered: this.selectedNode.isBordered,
+    //     isColon: this.selectedNode.isColon,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.descriptionFields;
     // }
     // else if (type == "descriptionChild") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
     //     //----------------------------------------
-    //     content: this.selectdNode.content,
-    //     nzStatus: this.selectdNode.nzStatus,
-    //     isBadeg: this.selectdNode.isBadeg,
-    //     nzSpan: this.selectdNode.nzSpan,
+    //     content: this.selectedNode.content,
+    //     nzStatus: this.selectedNode.nzStatus,
+    //     isBadeg: this.selectedNode.isBadeg,
+    //     nzSpan: this.selectedNode.nzSpan,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.descriptionChildFields;
     // }
     // else if (type == "affix") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     tooltip: this.selectdNode.tooltip,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     className: this.selectdNode.className,
-    //     affixType: this.selectdNode.affixType,
-    //     margin: this.selectdNode.margin,
-    //     target: this.selectdNode.target,
+    //     id: this.selectedNode.id as string,
+    //     tooltip: this.selectedNode.tooltip,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     className: this.selectedNode.className,
+    //     affixType: this.selectedNode.affixType,
+    //     margin: this.selectedNode.margin,
+    //     target: this.selectedNode.target,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.affixFields;
     // }
     // else if (type == "avatar") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     tooltip: this.selectdNode.tooltip,
-    //     key: this.selectdNode.key,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     className: this.selectdNode.className,
-    //     icon: this.selectdNode.icon,
-    //     text: this.selectdNode.text,
-    //     src: this.selectdNode.src,
-    //     bgColor: this.selectdNode.bgColor,
-    //     color: this.selectdNode.color,
-    //     gap: this.selectdNode.gap,
-    //     alt: this.selectdNode.alt,
+    //     id: this.selectedNode.id as string,
+    //     tooltip: this.selectedNode.tooltip,
+    //     key: this.selectedNode.key,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     className: this.selectedNode.className,
+    //     icon: this.selectedNode.icon,
+    //     text: this.selectedNode.text,
+    //     src: this.selectedNode.src,
+    //     bgColor: this.selectedNode.bgColor,
+    //     color: this.selectedNode.color,
+    //     gap: this.selectedNode.gap,
+    //     alt: this.selectedNode.alt,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.avatarFields;
     // }
     // else if (type == "comment") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     tooltip: this.selectdNode.tooltip,
-    //     avatar: this.selectdNode.avatar,
-    //     author: this.selectdNode.author,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     tooltip: this.selectedNode.tooltip,
+    //     avatar: this.selectedNode.avatar,
+    //     author: this.selectedNode.author,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.commentFields;
     // }
     // else if (type == "popOver") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     tooltip: this.selectdNode.tooltip,
-    //     btnLabel: this.selectdNode.btnLabel,
-    //     nzPopoverContent: this.selectdNode.nzPopoverContent,
-    //     nzPopoverTitle: this.selectdNode.nzPopoverTitle,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     tooltip: this.selectedNode.tooltip,
+    //     btnLabel: this.selectedNode.btnLabel,
+    //     nzPopoverContent: this.selectedNode.nzPopoverContent,
+    //     nzPopoverTitle: this.selectedNode.nzPopoverTitle,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.popOverFields;
     // }
     // else if (type == "spin") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     tooltip: this.selectdNode.tooltip,
-    //     size: this.selectdNode.size,
-    //     delayTime: this.selectdNode.delayTime,
-    //     loaderText: this.selectdNode.loaderText,
-    //     loaderIcon: this.selectdNode.loaderIcon,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     tooltip: this.selectedNode.tooltip,
+    //     size: this.selectedNode.size,
+    //     delayTime: this.selectedNode.delayTime,
+    //     loaderText: this.selectedNode.loaderText,
+    //     loaderIcon: this.selectedNode.loaderIcon,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.spinFields;
     // }
     // else if (type == "result") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     key: this.selectdNode.key,
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     tooltip: this.selectdNode.tooltip,
-    //     status: this.selectdNode.status,
-    //     resultTitle: this.selectdNode.resultTitle,
-    //     subTitle: this.selectdNode.subTitle,
-    //     btnLabel: this.selectdNode.btnLabel,
+    //     id: this.selectedNode.id as string,
+    //     key: this.selectedNode.key,
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     tooltip: this.selectedNode.tooltip,
+    //     status: this.selectedNode.status,
+    //     resultTitle: this.selectedNode.resultTitle,
+    //     subTitle: this.selectedNode.subTitle,
+    //     btnLabel: this.selectedNode.btnLabel,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.resultFields;
     // }
     // else if (type == "imageUpload") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     tooltip: this.selectdNode.tooltip,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     className: this.selectdNode.className,
-    //     imageClass: this.selectdNode.imageClass,
-    //     alt: this.selectdNode.alt,
-    //     source: this.selectdNode.source,
-    //     imagHieght: this.selectdNode.imagHieght,
-    //     imageWidth: this.selectdNode.imageWidth,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-    //     // image: this.selectdNode.base64Image,
+    //     id: this.selectedNode.id as string,
+    //     tooltip: this.selectedNode.tooltip,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     className: this.selectedNode.className,
+    //     imageClass: this.selectedNode.imageClass,
+    //     alt: this.selectedNode.alt,
+    //     source: this.selectedNode.source,
+    //     imagHieght: this.selectedNode.imagHieght,
+    //     imageWidth: this.selectedNode.imageWidth,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
+    //     // image: this.selectedNode.base64Image,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.imageUploadFeilds;
     // }
     // else if (type == "toastr") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     timeOut: this.selectdNode.timeOut,
-    //     positionClass: this.selectdNode.positionClass,
-    //     progressBar: this.selectdNode.progressBar,
-    //     message: this.selectdNode.message,
-    //     toastrType: this.selectdNode.toastrType,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     timeOut: this.selectedNode.timeOut,
+    //     positionClass: this.selectedNode.positionClass,
+    //     progressBar: this.selectedNode.progressBar,
+    //     message: this.selectedNode.message,
+    //     toastrType: this.selectedNode.toastrType,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.toastrFeilds;
     // }
     // else if (type == "invoice") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     title: this.selectdNode.title,
-    //     invoiceNumbertitle: this.selectdNode.invoiceNumberLabel,
-    //     datetitle: this.selectdNode.datelabel,
-    //     paymentTermstitle: this.selectdNode.paymentTermsLabel,
-    //     poNumber: this.selectdNode.poNumber,
-    //     billTotitle: this.selectdNode.billToLabel,
-    //     dueDatetitle: this.selectdNode.dueDateLabel,
-    //     shipTotitle: this.selectdNode.shipToLabel,
-    //     notestitle: this.selectdNode.notesLabel,
-    //     subtotaltitle: this.selectdNode.subtotalLabel,
-    //     dicounttitle: this.selectdNode.dicountLabel,
-    //     shippingtitle: this.selectdNode.shippingLabel,
-    //     taxtitle: this.selectdNode.taxLabel,
-    //     termstitle: this.selectdNode.termsLabel,
-    //     totaltitle: this.selectdNode.totalLabel,
-    //     amountpaidtitle: this.selectdNode.amountpaidLabel,
-    //     balanceDuetitle: this.selectdNode.balanceDueLabel,
+    //     id: this.selectedNode.id as string,
+    //     title: this.selectedNode.title,
+    //     invoiceNumbertitle: this.selectedNode.invoiceNumberLabel,
+    //     datetitle: this.selectedNode.datelabel,
+    //     paymentTermstitle: this.selectedNode.paymentTermsLabel,
+    //     poNumber: this.selectedNode.poNumber,
+    //     billTotitle: this.selectedNode.billToLabel,
+    //     dueDatetitle: this.selectedNode.dueDateLabel,
+    //     shipTotitle: this.selectedNode.shipToLabel,
+    //     notestitle: this.selectedNode.notesLabel,
+    //     subtotaltitle: this.selectedNode.subtotalLabel,
+    //     dicounttitle: this.selectedNode.dicountLabel,
+    //     shippingtitle: this.selectedNode.shippingLabel,
+    //     taxtitle: this.selectedNode.taxLabel,
+    //     termstitle: this.selectedNode.termsLabel,
+    //     totaltitle: this.selectedNode.totalLabel,
+    //     amountpaidtitle: this.selectedNode.amountpaidLabel,
+    //     balanceDuetitle: this.selectedNode.balanceDueLabel,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.invoiceFeilds;
     // }
     // else if (type == "rangeSlider") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     min: this.selectdNode.min,
-    //     max: this.selectdNode.max,
-    //     sliderType: this.selectdNode.sliderType,
-    //     disabled: this.selectdNode.disabled,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     showValue: this.selectdNode.showValue,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     min: this.selectedNode.min,
+    //     max: this.selectedNode.max,
+    //     sliderType: this.selectedNode.sliderType,
+    //     disabled: this.selectedNode.disabled,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     showValue: this.selectedNode.showValue,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.rangeSliderFeilds;
     // }
     // else if (type == "inputGroupGrid") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     tooltip: this.selectdNode.tooltip,
-    //     title: this.selectdNode.title,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     tooltip: this.selectedNode.tooltip,
+    //     title: this.selectedNode.title,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
     // }
     // else if (type == "card") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     className: this.selectdNode.className,
-    //     icon: this.selectdNode?.icon,
-    //     name: this.selectdNode?.name,
-    //     total: this.selectdNode?.total,
-    //     link: this.selectdNode?.link,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     className: this.selectedNode.className,
+    //     icon: this.selectedNode?.icon,
+    //     name: this.selectedNode?.name,
+    //     total: this.selectedNode?.total,
+    //     link: this.selectedNode?.link,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.cardFields;
     // }
     // else if (type == "fixedDiv") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     title: this.selectdNode.title,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     title: this.selectedNode.title,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.formData = _formFieldData.fixedDivFields;
     // }
     // else if (type == "tuiCalender") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     options: this.selectdNode.options,
-    //     viewType: this.selectdNode.viewType,
-    //     disabled: this.selectdNode.disabled,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     options: this.selectedNode.options,
+    //     viewType: this.selectedNode.viewType,
+    //     disabled: this.selectedNode.disabled,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
     // }
     // else if (type == "multiFileUpload") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
     // }
     // else if (type == "textEditor") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     title: this.selectdNode.title,
-    //     className: this.selectdNode.className,
-    //     tooltip: this.selectdNode.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     title: this.selectedNode.title,
+    //     className: this.selectedNode.className,
+    //     tooltip: this.selectedNode.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.textEditorFeilds;
     // }
     // else if (type == "switch") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.title,
-    //     tooltip: this.selectdNode.tooltip,
-    //     switchType: this.selectdNode.switchType,
-    //     switchPosition: this.selectdNode.switchPosition,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.title,
+    //     tooltip: this.selectedNode.tooltip,
+    //     switchType: this.selectedNode.switchType,
+    //     switchPosition: this.selectedNode.switchPosition,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.switchFeilds;
     // }
     // else if (type == "dashonicTabs") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode?.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.hideExpression, "hideExpression"),
-    //     className: this.selectdNode.className,
-    //     tabtitle: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabtitle,
-    //     tabIcon: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabIcon,
-    //     tooltip: this.selectdNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode?.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.hideExpression, "hideExpression"),
+    //     className: this.selectedNode.className,
+    //     tabtitle: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabtitle,
+    //     tabIcon: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabIcon,
+    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.dashonicTabFields;
     // }
     // else if (type == "kanban") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     title: this.selectdNode.chartCardConfig?.at(0)?.text,
-    //     nodes: this.selectdNode.chartCardConfig?.at(0)?.nodes,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     title: this.selectedNode.chartCardConfig?.at(0)?.text,
+    //     nodes: this.selectedNode.chartCardConfig?.at(0)?.nodes,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
 
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.kanbanFeilds;
     // }
     // else if (type == "kanbanTask") {
-    //   // if (this.selectdNode) {
-    //   //   for (let index = 0; index < this.selectdNode.users.length; index++) {
-    //   //     if (typeof this.selectdNode?.users[index] !== "string") {
-    //   //       this.selectdNode?.users[index] = JSON.stringify(this.selectdNode?.users[index]);
+    //   // if (this.selectedNode) {
+    //   //   for (let index = 0; index < this.selectedNode.users.length; index++) {
+    //   //     if (typeof this.selectedNode?.users[index] !== "string") {
+    //   //       this.selectedNode?.users[index] = JSON.stringify(this.selectedNode?.users[index]);
     //   //     } else {
-    //   //       this.selectdNode?.users[index] = JSON.parse(this.selectdNode?.users[index]);
-    //   //       this.selectdNode?.users[index] = JSON.stringify(this.selectdNode?.users[index]);
+    //   //       this.selectedNode?.users[index] = JSON.parse(this.selectedNode?.users[index]);
+    //   //       this.selectedNode?.users[index] = JSON.stringify(this.selectedNode?.users[index]);
     //   //     }
     //   //   }
     //   // }
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     title: this.selectdNode.title,
-    //     options: this.selectdNode.chartCardConfig,
-    //     tooltip: this.selectdNode.tooltip,
-    //     hideExpression: this.selectdNode.hideExpression,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     title: this.selectedNode.title,
+    //     options: this.selectedNode.chartCardConfig,
+    //     tooltip: this.selectedNode.tooltip,
+    //     hideExpression: this.selectedNode.hideExpression,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
     // }
     // else if (type == "mainDashonicTabs") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       tabtitle: this.selectdNode.title,
-    //       tabsPosition: this.selectdNode.mainDashonicTabsConfig[0]?.tabsPosition,
-    //       selectTabColor: this.selectdNode.mainDashonicTabsConfig[0]?.selectTabColor,
-    //       tabsDisplayType: this.selectdNode.mainDashonicTabsConfig[0]?.tabsDisplayType,
-    //       buttonText: this.selectdNode.mainDashonicTabsConfig[0]?.buttonText,
-    //       buttonIcon: this.selectdNode.mainDashonicTabsConfig[0]?.buttonIcon,
-    //       buttonColor: this.selectdNode.mainDashonicTabsConfig[0]?.buttonColor,
-    //       tabFormat: this.selectdNode.mainDashonicTabsConfig[0]?.tabFormat,
-    //       nodes: this.selectdNode.mainDashonicTabsConfig[0]?.nodes,
-    //       tooltip: this.selectdNode?.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       tabtitle: this.selectedNode.title,
+    //       tabsPosition: this.selectedNode.mainDashonicTabsConfig[0]?.tabsPosition,
+    //       selectTabColor: this.selectedNode.mainDashonicTabsConfig[0]?.selectTabColor,
+    //       tabsDisplayType: this.selectedNode.mainDashonicTabsConfig[0]?.tabsDisplayType,
+    //       buttonText: this.selectedNode.mainDashonicTabsConfig[0]?.buttonText,
+    //       buttonIcon: this.selectedNode.mainDashonicTabsConfig[0]?.buttonIcon,
+    //       buttonColor: this.selectedNode.mainDashonicTabsConfig[0]?.buttonColor,
+    //       tabFormat: this.selectedNode.mainDashonicTabsConfig[0]?.tabFormat,
+    //       nodes: this.selectedNode.mainDashonicTabsConfig[0]?.nodes,
+    //       tooltip: this.selectedNode?.tooltip,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -3888,20 +3888,20 @@ export class BuilderComponent implements OnInit {
     // }
 
     // else if (type == "progressBar") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       title: this.selectdNode.title,
-    //       className: this.selectdNode.className,
-    //       tooltip: this.selectdNode.progressBArConfig[0]?.tooltip,
-    //       value: this.selectdNode.progressBArConfig[0]?.value,
-    //       color: this.selectdNode.progressBArConfig[0]?.color,
-    //       showValue: this.selectdNode.progressBArConfig[0]?.showValue,
-    //       stripped: this.selectdNode.progressBArConfig[0]?.stripped,
-    //       height: this.selectdNode.progressBArConfig[0]?.height,
-    //       animated: this.selectdNode.progressBArConfig[0]?.animated,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       title: this.selectedNode.title,
+    //       className: this.selectedNode.className,
+    //       tooltip: this.selectedNode.progressBArConfig[0]?.tooltip,
+    //       value: this.selectedNode.progressBArConfig[0]?.value,
+    //       color: this.selectedNode.progressBArConfig[0]?.color,
+    //       showValue: this.selectedNode.progressBArConfig[0]?.showValue,
+    //       stripped: this.selectedNode.progressBArConfig[0]?.stripped,
+    //       height: this.selectedNode.progressBArConfig[0]?.height,
+    //       animated: this.selectedNode.progressBArConfig[0]?.animated,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -3909,104 +3909,104 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "divider") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     title: this.selectdNode.title,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     // title: this.selectdNode.dividerConfig[0]?.label,
-    //     // text: this.selectdNode.dividerConfig[0]?.text,
-    //     textColor: this.selectdNode.textColor,
-    //     lineColor: this.selectdNode.lineColor,
-    //     className: this.selectdNode.dividerClassName,
-    //     classNameForPosition: this.selectdNode.classNameForPosition,
-    //     dividerPosition: this.selectdNode.dividerPosition,
-    //     dividerFormat: this.selectdNode.dividerFormat,
-    //     verticalLineHieght: this.selectdNode.verticalLineHieght,
-    //     verticalLinePosition: this.selectdNode.verticalLinePosition,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     title: this.selectedNode.title,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     // title: this.selectedNode.dividerConfig[0]?.label,
+    //     // text: this.selectedNode.dividerConfig[0]?.text,
+    //     textColor: this.selectedNode.textColor,
+    //     lineColor: this.selectedNode.lineColor,
+    //     className: this.selectedNode.dividerClassName,
+    //     classNameForPosition: this.selectedNode.classNameForPosition,
+    //     dividerPosition: this.selectedNode.dividerPosition,
+    //     dividerFormat: this.selectedNode.dividerFormat,
+    //     verticalLineHieght: this.selectedNode.verticalLineHieght,
+    //     verticalLinePosition: this.selectedNode.verticalLinePosition,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.dividerFeilds;
     // }
     // else if (type == "video") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.videoConfig[0]?.label,
-    //       videoRatio: this.selectdNode.videoConfig[0]?.videoRatio,
-    //       videoSrc: this.selectdNode.videoConfig[0]?.videoSrc,
-    //       tooltip: this.selectdNode.videoConfig[0]?.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.videoConfig[0]?.label,
+    //       videoRatio: this.selectedNode.videoConfig[0]?.videoRatio,
+    //       videoSrc: this.selectedNode.videoConfig[0]?.videoSrc,
+    //       tooltip: this.selectedNode.videoConfig[0]?.tooltip,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.videosFeilds;
     // }
     // else if (type == "audio") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       tooltip: this.selectdNode.tooltip,
-    //       title: this.selectdNode.title,
-    //       audioSrc: this.selectdNode.audioSrc,
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       tooltip: this.selectedNode.tooltip,
+    //       title: this.selectedNode.title,
+    //       audioSrc: this.selectedNode.audioSrc,
     //       link: "",
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.audioFeilds;
     // }
     // else if (type == "carouselCrossfade") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       carousalType: this.selectdNode?.carousalType,
-    //       options: this.selectdNode.carousalConfig,
-    //       tooltip: this.selectdNode.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       carousalType: this.selectedNode?.carousalType,
+    //       options: this.selectedNode.carousalConfig,
+    //       tooltip: this.selectedNode.tooltip,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.carousalFeilds;
     // }
     // else if (type == "alert") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       icon: this.selectdNode.alertConfig[0]?.icon,
-    //       tooltip: this.selectdNode.alertConfig[0]?.tooltip,
-    //       type: this.selectdNode.alertConfig[0]?.type,
-    //       text: this.selectdNode.alertConfig[0]?.text,
-    //       alertColor: this.selectdNode.alertConfig[0]?.alertColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       icon: this.selectedNode.alertConfig[0]?.icon,
+    //       tooltip: this.selectedNode.alertConfig[0]?.tooltip,
+    //       type: this.selectedNode.alertConfig[0]?.type,
+    //       text: this.selectedNode.alertConfig[0]?.text,
+    //       alertColor: this.selectedNode.alertConfig[0]?.alertColor,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.alertFeilds;
     // }
     // else if (type == "timeline") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       tooltip: this.selectdNode?.tooltip,
-    //       title: this.selectdNode?.title,
-    //       className: this.selectdNode.className,
-    //       timelineData: this.selectdNode.timelineConfig[0].data,
-    //       timelineHeading: this.selectdNode.timelineConfig[0]?.timelineHeading,
-    //       headingColor: this.selectdNode.timelineConfig[0]?.headingColor,
-    //       headingShape: this.selectdNode.timelineConfig[0]?.headingShape,
-    //       timelineType: this.selectdNode.timelineConfig[0]?.timelineType,
-    //       // timelineExample: this.selectdNode.timelineConfig[0]?.timelineExample,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       tooltip: this.selectedNode?.tooltip,
+    //       title: this.selectedNode?.title,
+    //       className: this.selectedNode.className,
+    //       timelineData: this.selectedNode.timelineConfig[0].data,
+    //       timelineHeading: this.selectedNode.timelineConfig[0]?.timelineHeading,
+    //       headingColor: this.selectedNode.timelineConfig[0]?.headingColor,
+    //       headingShape: this.selectedNode.timelineConfig[0]?.headingShape,
+    //       timelineType: this.selectedNode.timelineConfig[0]?.timelineType,
+    //       // timelineExample: this.selectedNode.timelineConfig[0]?.timelineExample,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4015,19 +4015,19 @@ export class BuilderComponent implements OnInit {
 
 
     // else if (type == "simpleCardWithHeaderBodyFooter") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       headerText: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.headerText,
-    //       tooltip: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.tooltip,
-    //       bodyText: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.bodyText,
-    //       footerText: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.footerText,
-    //       textAlign: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.textAlign,
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       headerText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.headerText,
+    //       tooltip: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.tooltip,
+    //       bodyText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.bodyText,
+    //       footerText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.footerText,
+    //       textAlign: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.textAlign,
     //       link: "",
-    //       height: this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0]?.height,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       height: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.height,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4037,137 +4037,137 @@ export class BuilderComponent implements OnInit {
 
     // else if (type == "sharedMessagesChart") {
 
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode?.label,
-    //       titleIcon: this.selectdNode?.labelIcon,
-    //       heading: this.selectdNode?.heading,
-    //       headingIcon: this.selectdNode?.headingIcon,
-    //       headingColor: this.selectdNode?.headingColor,
-    //       subHeading: this.selectdNode?.subHeading,
-    //       subHeadingIcon: this.selectdNode?.subHeadingIcon,
-    //       subheadingColor: this.selectdNode?.subheadingColor,
-    //       tooltip: this.selectdNode?.tooltip,
-    //       link: this.selectdNode?.link,
-    //       options: this.selectdNode?.sharedMessagesConfig,
-    //       repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode?.label,
+    //       titleIcon: this.selectedNode?.labelIcon,
+    //       heading: this.selectedNode?.heading,
+    //       headingIcon: this.selectedNode?.headingIcon,
+    //       headingColor: this.selectedNode?.headingColor,
+    //       subHeading: this.selectedNode?.subHeading,
+    //       subHeadingIcon: this.selectedNode?.subHeadingIcon,
+    //       subheadingColor: this.selectedNode?.subheadingColor,
+    //       tooltip: this.selectedNode?.tooltip,
+    //       link: this.selectedNode?.link,
+    //       options: this.selectedNode?.sharedMessagesConfig,
+    //       repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.sharedMessagesChartFeilds;
     // }
     // else if (type == "browserCard") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.title,
-    //       tooltip: this.selectdNode.tooltip,
-    //       icon: this.selectdNode.icon,
-    //       options: this.selectdNode.chart,
-    //       limit: this.selectdNode?.limit,
-    //       defaultColor: this.selectdNode?.defaultColor,
-    //       belowpercentage: this.selectdNode?.belowpercentage,
-    //       below_percentage_color: this.selectdNode?.belowpercentageColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.title,
+    //       tooltip: this.selectedNode.tooltip,
+    //       icon: this.selectedNode.icon,
+    //       options: this.selectedNode.chart,
+    //       limit: this.selectedNode?.limit,
+    //       defaultColor: this.selectedNode?.defaultColor,
+    //       belowpercentage: this.selectedNode?.belowpercentage,
+    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.browserChartFields;
     // }
     // else if (type == "browserCombineChart") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.title,
-    //       icon: this.selectdNode.icon,
-    //       tooltip: this.selectdNode.tooltip,
-    //       options: this.selectdNode.chart,
-    //       limit: this.selectdNode?.limit,
-    //       defaultColor: this.selectdNode?.defaultColor,
-    //       belowpercentage: this.selectdNode?.belowpercentage,
-    //       below_percentage_color: this.selectdNode?.belowpercentageColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.title,
+    //       icon: this.selectedNode.icon,
+    //       tooltip: this.selectedNode.tooltip,
+    //       options: this.selectedNode.chart,
+    //       limit: this.selectedNode?.limit,
+    //       defaultColor: this.selectedNode?.defaultColor,
+    //       belowpercentage: this.selectedNode?.belowpercentage,
+    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.browserComibeChartFields;
     // }
     // else if (type == "widgetSectionCard") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       title: this.selectdNode?.label,
-    //       className: this.selectdNode.className,
-    //       tooltip: this.selectdNode?.tooltip,
-    //       limit: this.selectdNode?.limit,
-    //       percentage: this.selectdNode?.belowpercentage,
-    //       below_percentage_color: this.selectdNode?.belowpercentageColor,
-    //       options: this.selectdNode.section,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-    //       // data: this.selectdNode.widgetSectionCard[0].section[0].Chart.series[0].data,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       title: this.selectedNode?.label,
+    //       className: this.selectedNode.className,
+    //       tooltip: this.selectedNode?.tooltip,
+    //       limit: this.selectedNode?.limit,
+    //       percentage: this.selectedNode?.belowpercentage,
+    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
+    //       options: this.selectedNode.section,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
+    //       // data: this.selectedNode.widgetSectionCard[0].section[0].Chart.series[0].data,
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.widgetSectionChartFields;
     // }
     // else if (type == "sectionCard") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       title: this.selectdNode?.label,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       tooltip: this.selectdNode?.tooltip,
-    //       limit: this.selectdNode?.limit,
-    //       key: this.selectdNode?.key,
-    //       percentage: this.selectdNode?.belowpercentage,
-    //       below_percentage_color: this.selectdNode?.belowpercentageColor,
-    //       options: this.selectdNode?.section,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       title: this.selectedNode?.label,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       tooltip: this.selectedNode?.tooltip,
+    //       limit: this.selectedNode?.limit,
+    //       key: this.selectedNode?.key,
+    //       percentage: this.selectedNode?.belowpercentage,
+    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
+    //       options: this.selectedNode?.section,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.SectionChartFields;
     // }
     // else if (type == "chart") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       className: this.selectdNode.className,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       tooltip: this.selectdNode?.tooltip,
-    //       options: this.selectdNode?.section,
-    //       title: this.selectdNode.section[0].filterData[0].heading,
-    //       sub_title: this.selectdNode.section[0].filterData[0].subheading,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       className: this.selectedNode.className,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       tooltip: this.selectedNode?.tooltip,
+    //       options: this.selectedNode?.section,
+    //       title: this.selectedNode.section[0].filterData[0].heading,
+    //       sub_title: this.selectedNode.section[0].filterData[0].subheading,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
-    //   // objSelect.options = this.selectdNode?.section[0].data,
+    //   // objSelect.options = this.selectedNode?.section[0].data,
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.chartFields;
     // }
     // else if (type == "donutChart") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     let seriesDataV1 = [];
-    //     for (let k = 0; k < this.selectdNode.section[0].series.length; k++) {
+    //     for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
     //       var series = { "series": 90, "title": "abc", "color": "ds" };
-    //       series["series"] = this.selectdNode.section[0].series[k];
-    //       series["title"] = this.selectdNode.section[0].titles[k];
-    //       series["color"] = this.selectdNode.section[0].colors[k];
+    //       series["series"] = this.selectedNode.section[0].series[k];
+    //       series["title"] = this.selectedNode.section[0].titles[k];
+    //       series["color"] = this.selectedNode.section[0].colors[k];
     //       seriesDataV1.push(series);
     //     }
     //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       // id: this.selectdNode.id as string,
-    //       // title: this.selectdNode.title,
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.title,
-    //       tooltip: this.selectdNode.tooltip,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       // id: this.selectedNode.id as string,
+    //       // title: this.selectedNode.title,
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.title,
+    //       tooltip: this.selectedNode.tooltip,
     //       options: seriesDataV1,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //       // options: generateColorData,
     //     }
     //   }
@@ -4176,62 +4176,62 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "donuteSaleChart") {
 
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     let seriesDataV1 = [];
-    //     for (let k = 0; k < this.selectdNode.section[0].series.length; k++) {
+    //     for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
     //       var series = { "series": 90, "title": "abc", "color": "ds" };
-    //       series["series"] = this.selectdNode.section[0].series[k];
-    //       series["title"] = this.selectdNode.section[0].titles[k];
-    //       series["color"] = this.selectdNode.section[0].colors[k];
+    //       series["series"] = this.selectedNode.section[0].series[k];
+    //       series["title"] = this.selectedNode.section[0].titles[k];
+    //       series["color"] = this.selectedNode.section[0].colors[k];
     //       seriesDataV1.push(series);
     //     }
     //     configObj = {
-    //       // id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       // title: this.selectdNode.title,
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.title,
-    //       // className: this.selectdNode.className,
-    //       link: this.selectdNode.link,
-    //       tooltip: this.selectdNode.tooltip,
-    //       thisTitle: this.selectdNode.thisTitle,
-    //       lastTitle: this.selectdNode.lastTitle,
-    //       prevTitle: this.selectdNode.prevTitle,
-    //       options1: this.selectdNode.chartCardConfig,
+    //       // id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       // title: this.selectedNode.title,
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.title,
+    //       // className: this.selectedNode.className,
+    //       link: this.selectedNode.link,
+    //       tooltip: this.selectedNode.tooltip,
+    //       thisTitle: this.selectedNode.thisTitle,
+    //       lastTitle: this.selectedNode.lastTitle,
+    //       prevTitle: this.selectedNode.prevTitle,
+    //       options1: this.selectedNode.chartCardConfig,
     //       options: seriesDataV1,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //       // options: generateColorData,
-    //       // thisValue: this.selectdNode.saledDonutChart[0].thisValue,
-    //       // lastValue: this.selectdNode.saledDonutChart[0].lastValue,
-    //       // prevValue: this.selectdNode.saledDonutChart[0].prevValue,
-    //       // growth: this.selectdNode.saledDonutChart[0].growth,
+    //       // thisValue: this.selectedNode.saledDonutChart[0].thisValue,
+    //       // lastValue: this.selectedNode.saledDonutChart[0].lastValue,
+    //       // prevValue: this.selectedNode.saledDonutChart[0].prevValue,
+    //       // growth: this.selectedNode.saledDonutChart[0].growth,
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.donutSaleChartFields;
     // }
     // else if (type == "salesAnalyticschart") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     let series1Obj = [];
-    //     for (let i = 0; i < this.selectdNode.section[0].series.length; i++) {
-    //       series1Obj.push(this.selectdNode.section[0].series[i]);
+    //     for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
+    //       series1Obj.push(this.selectedNode.section[0].series[i]);
     //     }
     //     configObj = {
-    //       // id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.title,
-    //       tooltip: this.selectdNode.tooltip,
+    //       // id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.title,
+    //       tooltip: this.selectedNode.tooltip,
     //       options: series1Obj,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     };
-    //     // for (let index = 0; index < this.selectdNode.analyticsChart[0].section[0].chartTitlesValues.length; index++) {
-    //     //   objsaleAnalyticsChart.options[index].value = this.selectdNode.analyticsChart[0].section[0].chartTitlesValues[index].value;
+    //     // for (let index = 0; index < this.selectedNode.analyticsChart[0].section[0].chartTitlesValues.length; index++) {
+    //     //   objsaleAnalyticsChart.options[index].value = this.selectedNode.analyticsChart[0].section[0].chartTitlesValues[index].value;
     //     // };
-    //     for (let i = 0; i < this.selectdNode.section[0].series.length; i++) {
-    //       configObj.options[i].name1 = this.selectdNode.section[0].series[i].title;
-    //       configObj.options[i].value = this.selectdNode.section[0].series[i].value;
-    //       // objsaleAnalyticsChart.options[i].value = this.selectdNode.analyticsChart[0].section[0].chartTitlesValues[i].value;
+    //     for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
+    //       configObj.options[i].name1 = this.selectedNode.section[0].series[i].title;
+    //       configObj.options[i].value = this.selectedNode.section[0].series[i].value;
+    //       // objsaleAnalyticsChart.options[i].value = this.selectedNode.analyticsChart[0].section[0].chartTitlesValues[i].value;
 
     //     }
     //   }
@@ -4240,43 +4240,43 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "heading") {
     //   configObj = {
-    //     title: this.selectdNode.title,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     className: this.selectdNode.className,
-    //     id: this.selectdNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     padding: this.addPropertieInOldScreens(this.selectdNode.padding, "padding"),
-    //     // paddingRight: this.addPropertieInOldScreens(this.selectdNode.paddingRight, "hideExpression"),
-    //     // paddingTop: this.addPropertieInOldScreens(this.selectdNode.paddingTop, "hideExpression"),
-    //     // paddingBottom: this.addPropertieInOldScreens(this.selectdNode.paddingBottom, "hideExpression"),
-    //     level: this.selectdNode.data.level,
-    //     text: this.selectdNode.data.text,
-    //     style: this.selectdNode.style,
-    //     textAlignment: this.selectdNode.textAlign,
-    //     headingColor: this.selectdNode.headingColor,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     title: this.selectedNode.title,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     className: this.selectedNode.className,
+    //     id: this.selectedNode.id as string,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     padding: this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
+    //     // paddingRight: this.addPropertieInOldScreens(this.selectedNode.paddingRight, "hideExpression"),
+    //     // paddingTop: this.addPropertieInOldScreens(this.selectedNode.paddingTop, "hideExpression"),
+    //     // paddingBottom: this.addPropertieInOldScreens(this.selectedNode.paddingBottom, "hideExpression"),
+    //     level: this.selectedNode.data.level,
+    //     text: this.selectedNode.data.text,
+    //     style: this.selectedNode.style,
+    //     textAlignment: this.selectedNode.textAlign,
+    //     headingColor: this.selectedNode.headingColor,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   };
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.headingFields;
     // }
     // else if (type == "paragraph") {
     //   configObj = {
-    //     id: this.selectdNode.id as string,
-    //     padding: this.addPropertieInOldScreens(this.selectdNode.padding, "padding"),
-    //     // hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     // paddingLeft: this.addPropertieInOldScreens(this.selectdNode.paddingLeft, "paddingLeft"),
-    //     // paddingRight: this.addPropertieInOldScreens(this.selectdNode.paddingRight, "hideExpression"),
-    //     // paddingTop: this.addPropertieInOldScreens(this.selectdNode.paddingTop, "hideExpression"),
-    //     // paddingBottom: this.addPropertieInOldScreens(this.selectdNode.paddingBottom, "hideExpression"),
-    //     title: this.selectdNode.title,
-    //     // padding: this.selectdNode.padding,
-    //     tooltip: this.selectdNode?.tooltip,
-    //     className: this.selectdNode.className,
-    //     text: this.selectdNode.data.text,
-    //     style: this.selectdNode.style,
-    //     textAlignment: this.selectdNode.textAlign,
-    //     color: this.selectdNode.color,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id as string,
+    //     padding: this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
+    //     // hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     // paddingLeft: this.addPropertieInOldScreens(this.selectedNode.paddingLeft, "paddingLeft"),
+    //     // paddingRight: this.addPropertieInOldScreens(this.selectedNode.paddingRight, "hideExpression"),
+    //     // paddingTop: this.addPropertieInOldScreens(this.selectedNode.paddingTop, "hideExpression"),
+    //     // paddingBottom: this.addPropertieInOldScreens(this.selectedNode.paddingBottom, "hideExpression"),
+    //     title: this.selectedNode.title,
+    //     // padding: this.selectedNode.padding,
+    //     tooltip: this.selectedNode?.tooltip,
+    //     className: this.selectedNode.className,
+    //     text: this.selectedNode.data.text,
+    //     style: this.selectedNode.style,
+    //     textAlignment: this.selectedNode.textAlign,
+    //     color: this.selectedNode.color,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   };
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.paragraphFields;
@@ -4286,23 +4286,23 @@ export class BuilderComponent implements OnInit {
     //   || type == "color" || type == "input" || type == "inputGroup" || type == "image" || type == "textarea"
     //   || type == "telephone") {
     //   debugger
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       title: this.selectdNode.title,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-    //       className: this.selectdNode?.className,
-    //       placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-    //       options: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-    //       required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-    //       tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //       titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
-    //       rows: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.rows,
-    //       formCheck: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
-    //       addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-    //       addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       title: this.selectedNode.title,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       key: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
+    //       className: this.selectedNode?.className,
+    //       placeholder: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
+    //       options: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
+    //       required: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
+    //       tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+    //       titleIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
+    //       rows: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.rows,
+    //       formCheck: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
+    //       addonLeft: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
+    //       addonRight: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
@@ -4313,26 +4313,26 @@ export class BuilderComponent implements OnInit {
 
     // }
     // else if (type == "customMasking") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-    //       key: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-    //       focus: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-    //       className: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-    //       defaultValue: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-    //       title: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //       required: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-    //       readonly: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-    //       disabled: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-    //       maskString: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['maskString'],
-    //       masktitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['masktitle'],
-    //       placeholder: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-    //       tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //       titleIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
-    //       addonLeft: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-    //       addonRight: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id as string,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
+    //       key: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
+    //       focus: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
+    //       className: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
+    //       defaultValue: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
+    //       title: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
+    //       required: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
+    //       readonly: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
+    //       disabled: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
+    //       maskString: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['maskString'],
+    //       masktitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['masktitle'],
+    //       placeholder: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
+    //       tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+    //       titleIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
+    //       addonLeft: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
+    //       addonRight: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
@@ -4341,58 +4341,58 @@ export class BuilderComponent implements OnInit {
     // //button Conditions
     // else if (type == "button") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectdNode.className,
-    //     // key: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     title: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     // fontSize: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontSize,
-    //     // fontStyle: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontStyle,
-    //     // textColor: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].textColor,
-    //     // bgColor: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].bgColor,
-    //     // border: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].border,
-    //     // margin: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].margin,
-    //     // padding: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].padding,
-    //     // className: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     btnGroupFormat: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
-    //     disabled: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].disabled,
-    //     tooltip: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
+    //     className: this.selectedNode.className,
+    //     // key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
+    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
+    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
+    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
+    //     // fontSize: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontSize,
+    //     // fontStyle: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontStyle,
+    //     // textColor: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].textColor,
+    //     // bgColor: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].bgColor,
+    //     // border: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].border,
+    //     // margin: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].margin,
+    //     // padding: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].padding,
+    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
+    //     btnGroupFormat: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
+    //     disabled: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].disabled,
+    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
+    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   };
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.buttonFields;
     // }
     // else if (type == "dropdownButton") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectdNode.className,
-    //     title: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
-    //     // className: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     options: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].dropdownOptions,
-    //     btnGroupFormat: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
-    //     tooltip: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
+    //     className: this.selectedNode.className,
+    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
+    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
+    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
+    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
+    //     options: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].dropdownOptions,
+    //     btnGroupFormat: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
+    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
+    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.dropdownButtonFields;
     // }
     // else if (type == "accordionButton") {
-    //   if (this.selectdNode) {
+    //   if (this.selectedNode) {
     //     configObj = {
-    //       id: this.selectdNode.id,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //       className: this.selectdNode.className,
-    //       title: this.selectdNode.accordionConfig[0].title,
-    //       tooltip: this.selectdNode.accordionConfig[0].tooltip,
-    //       color: this.selectdNode.accordionConfig[0].color,
-    //       // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //       id: this.selectedNode.id,
+    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //       className: this.selectedNode.className,
+    //       title: this.selectedNode.accordionConfig[0].title,
+    //       tooltip: this.selectedNode.accordionConfig[0].tooltip,
+    //       color: this.selectedNode.accordionConfig[0].color,
+    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     }
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4402,21 +4402,21 @@ export class BuilderComponent implements OnInit {
     // else if (type == "linkButton") {
 
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectdNode.className,
-    //     key: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     title: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
-    //     // className: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     href: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].href,
-    //     target: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].target,
-    //     format: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].format,
-    //     btnType: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnType,
-    //     tooltip: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
+    //     className: this.selectedNode.className,
+    //     key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
+    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
+    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
+    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
+    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
+    //     href: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].href,
+    //     target: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].target,
+    //     format: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].format,
+    //     btnType: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnType,
+    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
+    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.linkButtonFields;
@@ -4424,14 +4424,14 @@ export class BuilderComponent implements OnInit {
     // else if (type == "buttonGroup") {
 
     //   configObj = {
-    //     id: this.selectdNode?.id,
-    //     title: this.selectdNode?.label,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.hideExpression, "hideExpression"),
-    //     // key: this.selectdNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     btnGroupFormat: this.selectdNode.btngroupformat,
-    //     // btnGroupFormat:this.selectdNode.className,
-    //     className: this.selectdNode.className,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode?.id,
+    //     title: this.selectedNode?.label,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
+    //     // key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
+    //     btnGroupFormat: this.selectedNode.btngroupformat,
+    //     // btnGroupFormat:this.selectedNode.className,
+    //     className: this.selectedNode.className,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.buttonGroupFields;
@@ -4444,21 +4444,21 @@ export class BuilderComponent implements OnInit {
     // // Working For Page Section
     // else if (type == "page") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     variables: this.selectdNode.screenVariables
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     variables: this.selectedNode.screenVariables
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.pageFields;
     // }
     // else if (type == "pageHeader") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     headingSize: this.selectdNode.headingSize,
-    //     header: this.selectdNode.header,
-    //     titlePosition: this.selectdNode.labelPosition,
-    //     alertPosition: this.selectdNode.alertPosition,
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     headingSize: this.selectedNode.headingSize,
+    //     header: this.selectedNode.header,
+    //     titlePosition: this.selectedNode.labelPosition,
+    //     alertPosition: this.selectedNode.alertPosition,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.pageHeaderFields;
@@ -4469,8 +4469,8 @@ export class BuilderComponent implements OnInit {
     //   // this.fieldData.formData = this.methodUrl;
 
     //   var objPageBody = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title
     //   }
     //   this.formModalData = objPageBody;
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4482,38 +4482,38 @@ export class BuilderComponent implements OnInit {
     //   // this.fieldData.formData = this.methodUrl;
 
     //   var objPageFooter = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     footer: this.selectdNode.footer,
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     footer: this.selectedNode.footer,
     //   }
     //   this.formModalData = objPageFooter;
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.pageFooterFields;
     // }
     // else if (type == "according") {
-    //   if (this.selectdNode.children) {
-    //     if (this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly) {
+    //   if (this.selectedNode.children) {
+    //     if (this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly) {
     //       configObj = {
-    //         accordingText: this.selectdNode.title,
-    //         disabled: this.selectdNode.sectionDisabled,
-    //         className: this.selectdNode.className,
-    //         titlePosition: this.selectdNode.labelPosition,
-    //         repeatable: this.addPropertieInOldScreens(this.selectdNode.repeatable, 'repeatable'),
-    //         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
-    //         wrappers: this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectdNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
-    //         // disabled: this.selectdNode.children[1].children[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectdNode.children[1].children[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
+    //         accordingText: this.selectedNode.title,
+    //         disabled: this.selectedNode.sectionDisabled,
+    //         className: this.selectedNode.className,
+    //         titlePosition: this.selectedNode.labelPosition,
+    //         repeatable: this.addPropertieInOldScreens(this.selectedNode.repeatable, 'repeatable'),
+    //         // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
+    //         wrappers: this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
+    //         // disabled: this.selectedNode.children[1].children[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectedNode.children[1].children[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
     //       }
     //       this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //       this.fieldData.formData = _formFieldData.accordingFields;
     //     }
     //     else {
     //       configObj = {
-    //         accordingText: this.selectdNode.title,
-    //         disabled: this.selectdNode.sectionDisabled,
-    //         className: this.selectdNode.className,
-    //         titlePosition: this.selectdNode.labelPosition,
-    //         repeatable: this.addPropertieInOldScreens(this.selectdNode.repeatable, 'repeatable'),
-    //         // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //         accordingText: this.selectedNode.title,
+    //         disabled: this.selectedNode.sectionDisabled,
+    //         className: this.selectedNode.className,
+    //         titlePosition: this.selectedNode.labelPosition,
+    //         repeatable: this.addPropertieInOldScreens(this.selectedNode.repeatable, 'repeatable'),
+    //         // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //       }
     //       this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //       this.fieldData.formData = _formFieldData.accordingFields;
@@ -4522,46 +4522,46 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "accordingHeader") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     headingSize: this.selectdNode.headingSize,
-    //     header: this.selectdNode.header,
-    //     expanded: this.selectdNode.expanded,
-    //     titlePosition: this.selectdNode.labelPosition,
-    //     backGroundColor: this.selectdNode.backGroundColor,
-    //     textColor: this.selectdNode.textColor,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     headingSize: this.selectedNode.headingSize,
+    //     header: this.selectedNode.header,
+    //     expanded: this.selectedNode.expanded,
+    //     titlePosition: this.selectedNode.labelPosition,
+    //     backGroundColor: this.selectedNode.backGroundColor,
+    //     textColor: this.selectedNode.textColor,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.accordingHeaderFields;
     // }
     // else if (type == "accordingBody") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.accordingBodyFields;
     // }
     // else if (type == "accordingFooter") {
     //   configObj = {
-    //     id: this.selectdNode.id,
-    //     title: this.selectdNode.title,
-    //     footer: this.selectdNode.footer,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     id: this.selectedNode.id,
+    //     title: this.selectedNode.title,
+    //     footer: this.selectedNode.footer,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
     //   this.fieldData.formData = _formFieldData.accordingFooterFields;
     // }
     // else if (type == "stepper") {
     //   configObj = {
-    //     // stepperText: this.selectdNode.id,
-    //     steppertitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //     // stepperIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.icon,
-    //     // stepperFormat: this.selectdNode.chartCardConfig?.at(0)?.formly?.at(0)?.stepperFormat,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     // stepperText: this.selectedNode.id,
+    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
+    //     tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+    //     // stepperIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.icon,
+    //     // stepperFormat: this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.stepperFormat,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     // nodes: this.stepperNewlength,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4569,26 +4569,26 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "stepperMain") {
     //   configObj = {
-    //     // stepperText: this.selectdNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['hideExpression'], "hideExpression"),
-    //     className: this.selectdNode.className,
-    //     nextButtonText: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonText'],
-    //     nextButtonIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonIcon'],
-    //     nextButtonColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonColor'],
-    //     backButtonText: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonText'],
-    //     backButtonIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonIcon'],
-    //     backButtonColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonColor'],
-    //     submitButtonText: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonText'],
-    //     submitButtonIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonIcon'],
-    //     submitButtonColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonColor'],
-    //     selectColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectColor'],
-    //     defaultColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['defaultColor'],
-    //     tooltip: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //     icon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['icon'],
-    //     steppertitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     nodes: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nodes'],
-    //     // stepperFormat: this.selectdNode.formly[0].stepperFormat,
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     // stepperText: this.selectedNode.id,
+    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['hideExpression'], "hideExpression"),
+    //     className: this.selectedNode.className,
+    //     nextButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonText'],
+    //     nextButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonIcon'],
+    //     nextButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonColor'],
+    //     backButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonText'],
+    //     backButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonIcon'],
+    //     backButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonColor'],
+    //     submitButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonText'],
+    //     submitButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonIcon'],
+    //     submitButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonColor'],
+    //     selectColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectColor'],
+    //     defaultColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['defaultColor'],
+    //     tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
+    //     icon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['icon'],
+    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
+    //     nodes: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nodes'],
+    //     // stepperFormat: this.selectedNode.formly[0].stepperFormat,
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     // nodes: this.stepperNewlength,
     //   }
     //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
@@ -4596,16 +4596,16 @@ export class BuilderComponent implements OnInit {
     // }
     // else if (type == "tabsMain") {
     //   let objTab = {
-    //     className: this.selectdNode.className,
-    //     steppertitle: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     stepperFormat: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['stepperFormat'],
-    //     buttonText: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonText'],
-    //     buttonIcon: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonIcon'],
-    //     buttonColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonColor'],
-    //     tabsPosition: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsPosition'],
-    //     selectTabColor: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectTabColor'],
-    //     tabsDisplayType: this.selectdNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsDisplayType'],
-    //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
+    //     className: this.selectedNode.className,
+    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
+    //     stepperFormat: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['stepperFormat'],
+    //     buttonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonText'],
+    //     buttonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonIcon'],
+    //     buttonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonColor'],
+    //     tabsPosition: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsPosition'],
+    //     selectTabColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectTabColor'],
+    //     tabsDisplayType: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsDisplayType'],
+    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
     //     // nodes: this.tabsNewlength,
     //   }
     //   this.formModalData = objTab;
@@ -4690,93 +4690,86 @@ export class BuilderComponent implements OnInit {
   hoverOut(data: any) {
     this.isVisible = data.origin.id;
   }
+  applyOrRemoveHighlight(element: any, id: any, highlight: boolean) {
+    if (id == element.id)
+      element = this.applyHighLight(highlight, element);
+    else
+      element = this.applyHighLight(false, element);
+  }
+
+  // define function to handle button group
+  handleButtonGroup(element: any, id: any) {
+    if (id == element.id) {
+      if (element.children.length > 0)
+        element.buttonGroup[0].highLight = true;
+    }
+    else {
+      if (element.children.length > 0)
+        element.buttonGroup[0].highLight = false;
+    }
+  }
+
+  // define function to handle formly fields
+  handleFormly(element: any, id: any) {
+    if (!element.chartCardConfig) return;
+
+    if (element.chartCardConfig[0].formly != undefined) {
+      if (element.type == "stepperMain") {
+        if (id == element.id)
+          element.children[0].highLight = true;
+        else
+          element.children[0].highLight = false;
+      } else {
+        var className = element.formly[0].fieldGroup[0].className;
+        if (id == element.id) {
+          if (!className.includes("highLight")) {
+            element.formly[0].fieldGroup[0].className = className + " highLight";
+          }
+        }
+        else {
+          element.formly[0].fieldGroup[0].className = className.replace("highLight", "");
+        }
+      }
+    }
+  }
   highlightSelect(id: any) {
     this.nodes.at(0)?.children?.forEach((element: any) => {
-      if (id == element.id)
-        element = this.applyHighLight(true, element);
-      else
-        element = this.applyHighLight(false, element);
-      element.children.forEach((element1: any) => {
-        if (element1.type == "buttonGroup") {
-          if (id == element1.id) {
-            if (element1.children.length > 0)
-              element1.children[0].chartCardConfig[0].buttonGroup[0].highLight = true;
-          }
-          else {
-            if (element1.children.length > 0)
-              element1.children[0].chartCardConfig[0].buttonGroup[0].highLight = false;
-          }
-        }
-        else if (element1.type != "buttonGroup") {
-          if (id == element1.id)
-            element1 = this.applyHighLight(true, element1);
-          else
-            element1 = this.applyHighLight(false, element1);
-        }
-        element1.children.forEach((element2: any) => {
-          if (id == element2.id)
-            element2 = this.applyHighLight(true, element2);
-          else
-            element2 = this.applyHighLight(false, element2);
-          element2.children.forEach((element3: any) => {
-            if (element3.chartCardConfig) {
-              if (element3.chartCardConfig[0].formly != undefined) {
-                if (element3.type == "stepperMain") {
-                  if (id == element3.id)
-                    element3.children[0].highLight = true;
-                  else
-                    element3.children[0].highLight = false;
-                } else {
-                  var className = element3.formly[0].fieldGroup[0].className;
-                  if (id == element3.id) {
-                    if (!element3.formly[0].fieldGroup[0].className.includes("highLight")) {
-                      element3.formly[0].fieldGroup[0].className = element3.formly[0].fieldGroup[0].className + " highLight";
-                    }
-                  }
-                  else
-                    element3.formly[0].fieldGroup[0].className = className.replace("highLight", "");
-                }
-              }
-            }
-            else if (element3.type == "buttonGroup") {
-              if (id == element3.id) {
-                if (element3.children.length > 0)
-                  element3.children[0].chartCardConfig[0].buttonGroup[0].highLight = true;
-              }
-              else {
-                if (element3.children.length > 0)
-                  element3.children[0].chartCardConfig[0].buttonGroup[0].highLight = false;
-              }
-            }
-            else if (element3.type != "buttonGroup" && element3.chartCardConfig == undefined) {
-              if (id == element3.id)
-                element3 = this.applyHighLight(true, element3);
-              else
-                element3 = this.applyHighLight(false, element3);
-            }
-            element3.children.forEach((element4: any) => {
-              if (element3.type != "buttonGroup" && element3.type != "stepperMain") {
-                if (id == element4.id)
-                  element4 = this.applyHighLight(true, element4);
-                else
-                  element4 = this.applyHighLight(true, element4);
-              }
+      this.applyOrRemoveHighlight(element, id, true);
+
+      element.children.forEach((child: any) => {
+        this.applyOrRemoveHighlight(child, id, false);
+
+        if (child.type == "buttonGroup") {
+          this.handleButtonGroup(child, id);
+        } else {
+          this.applyOrRemoveHighlight(child, id, false);
+
+          child.children.forEach((subChild: any) => {
+            this.applyOrRemoveHighlight(subChild, id, false);
+
+            this.handleButtonGroup(subChild, id);
+
+            this.handleFormly(subChild, id);
+
+            subChild.children.forEach((subSubChild: any) => {
+              this.applyOrRemoveHighlight(subSubChild, id, true);
             });
           });
-        });
+        }
       });
-      // this.updateNodes();
+
+      this.updateNodes();
     });
   }
   addSection() {
     this.sectionBageBody = this.nodes[0].children[1];
-    this.selectdNode = this.sectionBageBody,
+    this.selectedNode = this.sectionBageBody,
       this.addControlToJson('according', null);
-    this.selectdNode = this.sectionAccording;
+    this.selectedNode = this.sectionAccording;
     this.addControlToJson('accordingHeader', null);
     this.addControlToJson('accordingBody', null);
     this.addControlToJson('accordingFooter', null);
-    this.selectdNode = this.sectionAccorBody;
+    this.selectedNode = this.sectionAccorBody;
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
@@ -4786,12 +4779,12 @@ export class BuilderComponent implements OnInit {
     if (this.screenPage) {
       this.searchControllData = [];
       this.isActiveShow = id;
-      this.selectdNode = node;
-      if (this.selectdNode.isNextChild) {
+      this.selectedNode = node;
+      if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
       }
-      if (this.selectdNode.type == 'pageBody') {
+      if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;
       } else {
         this.showSectionOnly = false;
@@ -4800,7 +4793,7 @@ export class BuilderComponent implements OnInit {
   }
   add(node: TreeNode) {
     this.applySize();
-    this.selectdNode = node;
+    this.selectedNode = node;
   }
   newChild: any = [];
   insertAt(parent: any, node: any) {
@@ -4981,13 +4974,13 @@ export class BuilderComponent implements OnInit {
       this.columnData = this.columnData.filter((a: any) => a.name != parent.children[idx].id);
       parent.children.splice(idx as number, 1);
       // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-      // this.prepareDragDrop(this.templateNode, this.selectdNode);
+      // this.prepareDragDrop(this.templateNode, this.selectedNode);
     } else {
       console.log(parent, node);
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
       // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-      // this.prepareDragDrop(this.templateNode, this.selectdNode);
+      // this.prepareDragDrop(this.templateNode, this.selectedNode);
     }
     this.updateNodes();
   }
@@ -5015,13 +5008,13 @@ export class BuilderComponent implements OnInit {
         return value;
       });
     // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-    // this.prepareDragDrop(this.templateNode, this.selectdNode);
+    // this.prepareDragDrop(this.templateNode, this.selectedNode);
     // this.makeFaker();
 
   }
   EnumView() {
     this.builderService.multiAPIData().subscribe((res => {
-      const node = this.selectdNode ?? {};
+      const node = this.selectedNode ?? {};
       const formly = node.formly ?? [];
       const fieldGroup = formly?.[0]?.fieldGroup ?? [];
       const templateOptions = fieldGroup[0]?.templateOptions ?? {};
@@ -5033,101 +5026,101 @@ export class BuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
     switch (event.type) {
       case "drawer":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.color = event.form.color;
-          this.selectdNode.btnText = event.form.btnText;
-          this.selectdNode.isClosable = event.form.isClosable;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.extra = event.form.extra;
-          this.selectdNode.isKeyboard = event.form.isKeyboard;
-          this.selectdNode.footerText = event.form.footerText;
-          this.selectdNode.isVisible = event.form.isVisible;
-          this.selectdNode.placement = event.form.placement;
-          this.selectdNode.size = event.form.size;
-          this.selectdNode.width = event.form.width;
-          this.selectdNode.height = event.form.height;
-          this.selectdNode.offsetX = event.form.offsetX;
-          this.selectdNode.offsetY = event.form.offsetY;
-          this.selectdNode.wrapClassName = event.form.wrapClassName;
-          this.selectdNode.zIndex = event.form.zIndex;
-          this.selectdNode.onClose = event.form.onClose;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnText = event.form.btnText;
+          this.selectedNode.isClosable = event.form.isClosable;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.extra = event.form.extra;
+          this.selectedNode.isKeyboard = event.form.isKeyboard;
+          this.selectedNode.footerText = event.form.footerText;
+          this.selectedNode.isVisible = event.form.isVisible;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          this.selectedNode.offsetX = event.form.offsetX;
+          this.selectedNode.offsetY = event.form.offsetY;
+          this.selectedNode.wrapClassName = event.form.wrapClassName;
+          this.selectedNode.zIndex = event.form.zIndex;
+          this.selectedNode.onClose = event.form.onClose;
         }
         break;
       case "skeleton":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.isActive = event.form.isActive;
-          this.selectdNode.size = event.form.size;
-          this.selectdNode.buttonShape = event.form.buttonShape;
-          this.selectdNode.avatarShape = event.form.avatarShape;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.isActive = event.form.isActive;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.buttonShape = event.form.buttonShape;
+          this.selectedNode.avatarShape = event.form.avatarShape;
         }
         break;
       case "empty":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.content = event.form.content;
-          this.selectdNode.text = event.form.text;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.btnText = event.form.btnText;
-          this.selectdNode.color = event.form.color;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.content = event.form.content;
+          this.selectedNode.text = event.form.text;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.btnText = event.form.btnText;
+          this.selectedNode.color = event.form.color;
         }
         break;
       case "list":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.headerText = event.form.headerText;
-          this.selectdNode.footerText = event.form.footerText;
-          this.selectdNode.formatter = event.form.formatter;
-          this.selectdNode.size = event.form.size;
-          this.selectdNode.isBordered = event.form.isBordered;
-          this.selectdNode.isSplit = event.form.isSplit;
-          this.selectdNode.isEdit = event.form.isEdit;
-          this.selectdNode.isUpdate = event.form.isUpdate;
-          this.selectdNode.isDelete = event.form.isDelete;
-          this.selectdNode.isLoad = event.form.isLoad;
-          this.selectdNode.loadText = event.form.loadText;
-          this.selectdNode.options = event.form.options;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.headerText = event.form.headerText;
+          this.selectedNode.footerText = event.form.footerText;
+          this.selectedNode.formatter = event.form.formatter;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.isBordered = event.form.isBordered;
+          this.selectedNode.isSplit = event.form.isSplit;
+          this.selectedNode.isEdit = event.form.isEdit;
+          this.selectedNode.isUpdate = event.form.isUpdate;
+          this.selectedNode.isDelete = event.form.isDelete;
+          this.selectedNode.isLoad = event.form.isLoad;
+          this.selectedNode.loadText = event.form.loadText;
+          this.selectedNode.options = event.form.options;
         }
         break;
       case "description":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.nzExtra = event.form.nzExtra;
-          this.selectdNode.formatter = event.form.formatter;
-          this.selectdNode.size = event.form.size;
-          this.selectdNode.isBordered = event.form.isBordered;
-          this.selectdNode.isColon = event.form.isColon;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.nzExtra = event.form.nzExtra;
+          this.selectedNode.formatter = event.form.formatter;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.isBordered = event.form.isBordered;
+          this.selectedNode.isColon = event.form.isColon;
         }
         break;
       case "descriptionChild":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.content = event.form.content;
-          this.selectdNode.nzStatus = event.form.nzStatus;
-          this.selectdNode.isBadeg = event.form.isBadeg;
-          this.selectdNode.nzSpan = event.form.nzSpan;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.content = event.form.content;
+          this.selectedNode.nzStatus = event.form.nzStatus;
+          this.selectedNode.isBadeg = event.form.isBadeg;
+          this.selectedNode.nzSpan = event.form.nzSpan;
         }
         break;
       case 'select':
@@ -5147,10 +5140,10 @@ export class BuilderComponent implements OnInit {
       case 'datetime':
       case 'date':
       case 'color':
-        if (this.selectdNode) {
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.formly?.forEach(elementV1 => {
+        if (this.selectedNode) {
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
@@ -5172,14 +5165,14 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
-            if (this.selectdNode.type == "multiselect") {
+            if (this.selectedNode.type == "multiselect") {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
             } else {
               templateOptions['defaultValue'] = event.form.defaultValue;
             }
             if (event.form.apiData != undefined) {
-              this.selectdNode.link = event.form.apiData;
+              this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
 
                 templateOptions.options = res;
@@ -5195,195 +5188,195 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "breakTag":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
       case "affix":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.affixType = event.form.affixType;
-          this.selectdNode.margin = event.form.margin;
-          this.selectdNode.target = event.form.target;
-          this.selectdNode.hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.affixType = event.form.affixType;
+          this.selectedNode.margin = event.form.margin;
+          this.selectedNode.target = event.form.target;
+          this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
       case "avatar":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.src = event.form.src;
-          this.selectdNode.text = event.form.text;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.bgColor = event.form.bgColor;
-          this.selectdNode.color = event.form.color;
-          this.selectdNode.gap = event.form.gap;
-          this.selectdNode.alt = event.form.alt;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.src = event.form.src;
+          this.selectedNode.text = event.form.text;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.bgColor = event.form.bgColor;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.gap = event.form.gap;
+          this.selectedNode.alt = event.form.alt;
         }
         break;
       case "comment":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.avatar = event.form.avatar;
-          this.selectdNode.author = event.form.author;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.avatar = event.form.avatar;
+          this.selectedNode.author = event.form.author;
         }
         break;
       case "popOver":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.btnLabel = event.form.btnLabel;
-          this.selectdNode.nzPopoverContent = event.form.nzPopoverContent;
-          this.selectdNode.nzPopoverTitle = event.form.nzPopoverTitle;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.btnLabel = event.form.btnLabel;
+          this.selectedNode.nzPopoverContent = event.form.nzPopoverContent;
+          this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
         }
         break;
       case "spin":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.size = event.form.size;
-          this.selectdNode.delayTime = event.form.delayTime;
-          this.selectdNode.loaderText = event.form.loaderText;
-          this.selectdNode.loaderIcon = event.form.loaderIcon;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.delayTime = event.form.delayTime;
+          this.selectedNode.loaderText = event.form.loaderText;
+          this.selectedNode.loaderIcon = event.form.loaderIcon;
         }
         break;
       case "result":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.status = event.form.status;
-          this.selectdNode.resultTitle = event.form.resultTitle;
-          this.selectdNode.subTitle = event.form.subTitle;
-          this.selectdNode.btnLabel = event.form.btnLabel;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.resultTitle = event.form.resultTitle;
+          this.selectedNode.subTitle = event.form.subTitle;
+          this.selectedNode.btnLabel = event.form.btnLabel;
         }
         break;
       case "imageUpload":
-        if (this.selectdNode) {
+        if (this.selectedNode) {
 
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.alt = event.form.alt;
-          this.selectdNode.source = event.form.source;
-          this.selectdNode.imagHieght = event.form.imagHieght;
-          this.selectdNode.imageWidth = event.form.imageWidth;
-          this.selectdNode.imageClass = event.form.imageClass;
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.alt = event.form.alt;
+          this.selectedNode.source = event.form.source;
+          this.selectedNode.imagHieght = event.form.imagHieght;
+          this.selectedNode.imageWidth = event.form.imageWidth;
+          this.selectedNode.imageClass = event.form.imageClass;
           if (event.form.source) {
             // this.formlyService.imageUrl = '';
-            this.selectdNode.base64Image = '';
+            this.selectedNode.base64Image = '';
           }
           // else if (this.formlyService.imageUrl) {
-          //   this.selectdNode.base64Image = this.formlyService.imageUrl;
+          //   this.selectedNode.base64Image = this.formlyService.imageUrl;
           // }
         }
         break;
       case "toastr":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.toastrType = event.form.toastrType;
-          this.selectdNode.toasterTitle = event.form.toasterTitle;
-          this.selectdNode.duration = event.form.duration;
-          this.selectdNode.placement = event.form.placement;
-          this.selectdNode.closeIcon = event.form.closeIcon;
-          this.selectdNode.description = event.form.description;
-          this.selectdNode.animate = event.form.animate;
-          this.selectdNode.pauseOnHover = event.form.pauseOnHover;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.toastrType = event.form.toastrType;
+          this.selectedNode.toasterTitle = event.form.toasterTitle;
+          this.selectedNode.duration = event.form.duration;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.closeIcon = event.form.closeIcon;
+          this.selectedNode.description = event.form.description;
+          this.selectedNode.animate = event.form.animate;
+          this.selectedNode.pauseOnHover = event.form.pauseOnHover;
         }
         break;
       case "invoice":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.invoiceNumberLabel = event.form.invoiceNumberLabel;
-          this.selectdNode.datelabel = event.form.datelabel;
-          this.selectdNode.paymentTermsLabel = event.form.paymentTermsLabel;
-          this.selectdNode.poNumber = event.form.poNumber;
-          this.selectdNode.billToLabel = event.form.billToLabel;
-          this.selectdNode.dueDateLabel = event.form.dueDateLabel;
-          this.selectdNode.shipToLabel = event.form.shipToLabel;
-          this.selectdNode.notesLabel = event.form.notesLabel;
-          this.selectdNode.subtotalLabel = event.form.subtotalLabel;
-          this.selectdNode.dicountLabel = event.form.dicountLabel;
-          this.selectdNode.shippingLabel = event.form.shippingLabel;
-          this.selectdNode.taxLabel = event.form.taxLabel;
-          this.selectdNode.termsLabel = event.form.termsLabel;
-          this.selectdNode.totalLabel = event.form.totalLabel;
-          this.selectdNode.amountpaidLabel = event.form.amountpaidLabel;
-          this.selectdNode.balanceDueLabel = event.form.balanceDueLabel;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.invoiceNumberLabel = event.form.invoiceNumberLabel;
+          this.selectedNode.datelabel = event.form.datelabel;
+          this.selectedNode.paymentTermsLabel = event.form.paymentTermsLabel;
+          this.selectedNode.poNumber = event.form.poNumber;
+          this.selectedNode.billToLabel = event.form.billToLabel;
+          this.selectedNode.dueDateLabel = event.form.dueDateLabel;
+          this.selectedNode.shipToLabel = event.form.shipToLabel;
+          this.selectedNode.notesLabel = event.form.notesLabel;
+          this.selectedNode.subtotalLabel = event.form.subtotalLabel;
+          this.selectedNode.dicountLabel = event.form.dicountLabel;
+          this.selectedNode.shippingLabel = event.form.shippingLabel;
+          this.selectedNode.taxLabel = event.form.taxLabel;
+          this.selectedNode.termsLabel = event.form.termsLabel;
+          this.selectedNode.totalLabel = event.form.totalLabel;
+          this.selectedNode.amountpaidLabel = event.form.amountpaidLabel;
+          this.selectedNode.balanceDueLabel = event.form.balanceDueLabel;
         }
         break;
       case "rangeSlider":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.min = event.form.min;
-          this.selectdNode.max = event.form.max;
-          this.selectdNode.sliderType = event.form.sliderType;
-          this.selectdNode.progressBar = event.form.progressBar;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.disabled = event.form.disabled;
-          this.selectdNode.showValue = event.form.showValue;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.min = event.form.min;
+          this.selectedNode.max = event.form.max;
+          this.selectedNode.sliderType = event.form.sliderType;
+          this.selectedNode.progressBar = event.form.progressBar;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.showValue = event.form.showValue;
         }
         break;
       case "inputGroupGrid":
 
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
 
       case "calendar":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.viewType = event.form.viewType;
-          this.selectdNode.disabled = event.form.disabled;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.viewType = event.form.viewType;
+          this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
             this.builderService.genericApis(event.form.statusApi).subscribe((res => {
-              this.selectdNode.options = res;
+              this.selectedNode.options = res;
               this.updateNodes();
             }))
           }
@@ -5391,9 +5384,9 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "masking":
-        if (this.selectdNode) {
-          this.selectdNode.className = event.form.className
-          this.selectdNode?.formly?.forEach(elementV1 => {
+        if (this.selectedNode) {
+          this.selectedNode.className = event.form.className
+          this.selectedNode?.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 =currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
@@ -5418,91 +5411,91 @@ export class BuilderComponent implements OnInit {
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
           });
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.id = event.form.id;
         }
         break;
       case "grid":
 
-        if (this.selectdNode.id) {
-          this.selectdNode.label = event.form.header,
-            this.selectdNode.editorType = event.form.editorType,
-            this.selectdNode.sortable = event.form.sortable,
-            this.selectdNode.filter = event.form.filter;
-          this.selectdNode.header = event.form.header;
+        if (this.selectedNode.id) {
+          this.selectedNode.label = event.form.header,
+            this.selectedNode.editorType = event.form.editorType,
+            this.selectedNode.sortable = event.form.sortable,
+            this.selectedNode.filter = event.form.filter;
+          this.selectedNode.header = event.form.header;
           if (event.form?.sortable) {
-            this.selectdNode.sortingType = "desc";
-            this.selectdNode.sortable = true;
+            this.selectedNode.sortingType = "desc";
+            this.selectedNode.sortable = true;
           }
           else {
-            delete this.selectdNode.sortingType;
-            delete this.selectdNode.sortable;
+            delete this.selectedNode.sortingType;
+            delete this.selectedNode.sortable;
           }
 
           if (event.form.filter) {
-            this.selectdNode['filter'] = {};
-            this.selectdNode.filter["type"] = {};
-            this.selectdNode.filter.type = event.form?.filterType;
+            this.selectedNode['filter'] = {};
+            this.selectedNode.filter["type"] = {};
+            this.selectedNode.filter.type = event.form?.filterType;
             if (event.form.filterType != "select") {
-              this.selectdNode.filter.operator = "OR"
-              this.selectdNode.filter.showApplyBtn = true;
-              this.selectdNode.filter.showClearBtn = true;
+              this.selectedNode.filter.operator = "OR"
+              this.selectedNode.filter.showApplyBtn = true;
+              this.selectedNode.filter.showClearBtn = true;
             }
           } else {
-            delete this.selectdNode.filter;
+            delete this.selectedNode.filter;
           }
           if (event.form.editorType) {
-            this.selectdNode.editorType = event.form.editorType;
+            this.selectedNode.editorType = event.form.editorType;
             if (event.form.fieldType == "text" || event.form.fieldType == "number") {
-              this.selectdNode["editor"] = {};
-              this.selectdNode.editor["type"] = {};
-              this.selectdNode.editor.type = event.form.fieldType
+              this.selectedNode["editor"] = {};
+              this.selectedNode.editor["type"] = {};
+              this.selectedNode.editor.type = event.form.fieldType
             };
             if (event.form.fieldType == "select" || event.form.fieldType == "radio" || event.form.fieldType == "checkbox") {
               if (event.form.options.length > 0) {
-                this.selectdNode['editor'] = {};
-                this.selectdNode.editor['type'];
-                this.selectdNode.editor.type = event.form.fieldType;
-                this.selectdNode.editor['options'] = {};
-                this.selectdNode.editor.options['listItems'] = [];
-                this.selectdNode['formatter'] = {}
-                this.selectdNode.formatter = "listItemText";
-                this.selectdNode.editor.options.listItems = event.form.options;
+                this.selectedNode['editor'] = {};
+                this.selectedNode.editor['type'];
+                this.selectedNode.editor.type = event.form.fieldType;
+                this.selectedNode.editor['options'] = {};
+                this.selectedNode.editor.options['listItems'] = [];
+                this.selectedNode['formatter'] = {}
+                this.selectedNode.formatter = "listItemText";
+                this.selectedNode.editor.options.listItems = event.form.options;
               } else {
-                this.selectdNode.editor.type = event.form.fieldType;
+                this.selectedNode.editor.type = event.form.fieldType;
               }
             }
           }
-          else if (this.selectdNode.editor.options && event.form.options.length > 0) {
-            this.selectdNode.editor.options.listItems = event.form.options;
+          else if (this.selectedNode.editor.options && event.form.options.length > 0) {
+            this.selectedNode.editor.options.listItems = event.form.options;
           }
           this.selectdParentNode.columnData.forEach((element: any) => {
-            if (element.id == this.selectdNode.id) {
-              element = this.selectdNode;
+            if (element.id == this.selectedNode.id) {
+              element = this.selectedNode;
             }
           });
         }
         break;
 
       case "gridName":
-        if (this.selectdNode) {
+        if (this.selectedNode) {
 
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.sortable = event.form.sortable;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.label = event.form.gridName;
-          this.selectdNode.pagination = event.form.pagination;
-          this.selectdNode.filter = event.form.filter;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.id = event.form.id;
-          // this.selectdNode.getVariable = event?.form?.getVariable,
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.delete = event.form.delete;
-          this.selectdNode.update = event.form.update;
-          this.selectdNode.create = event.form.create;
-          this.selectdNode['deleteapi'] = event.form.deleteapi;
-          this.selectdNode.columnData.forEach((a: any) => {
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.sortable = event.form.sortable;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.label = event.form.gridName;
+          this.selectedNode.pagination = event.form.pagination;
+          this.selectedNode.filter = event.form.filter;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.id = event.form.id;
+          // this.selectedNode.getVariable = event?.form?.getVariable,
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.delete = event.form.delete;
+          this.selectedNode.update = event.form.update;
+          this.selectedNode.create = event.form.create;
+          this.selectedNode['deleteapi'] = event.form.deleteapi;
+          this.selectedNode.columnData.forEach((a: any) => {
             if (event.form?.sortable) {
               a.sortingType = "desc";
               a.sortable = true;
@@ -5527,16 +5520,16 @@ export class BuilderComponent implements OnInit {
           let newColumnData: any = [];
           let data = JSON.parse(JSON.stringify(event.form.options))
           for (let element = 0; element < data.length; element++) {
-            for (let index = 0; index < this.selectdNode.columnData.length; index++) {
+            for (let index = 0; index < this.selectedNode.columnData.length; index++) {
               if (data[element].id) {
-                if (this.selectdNode.columnData[index].id == data[element].id) {
-                  this.selectdNode.columnData[index].label = data[element].header;
-                  this.selectdNode.columnData[index].name = data[element].name;
-                  this.selectdNode.columnData[index].header = data[element].header;
-                  this.selectdNode.columnData[index].showColumn = data[element].showColumn;
-                  this.selectdNode.columnData[index].sumColumn = data[element].sumColumn;
-                  this.selectdNode.columnData[index]["api"] = data[element].api;
-                  newColumnData.push(this.selectdNode.columnData[index]);
+                if (this.selectedNode.columnData[index].id == data[element].id) {
+                  this.selectedNode.columnData[index].label = data[element].header;
+                  this.selectedNode.columnData[index].name = data[element].name;
+                  this.selectedNode.columnData[index].header = data[element].header;
+                  this.selectedNode.columnData[index].showColumn = data[element].showColumn;
+                  this.selectedNode.columnData[index].sumColumn = data[element].sumColumn;
+                  this.selectedNode.columnData[index]["api"] = data[element].api;
+                  newColumnData.push(this.selectedNode.columnData[index]);
                 }
               }
               else {
@@ -5548,19 +5541,19 @@ export class BuilderComponent implements OnInit {
               }
             }
           }
-          this.selectdNode.columnData = newColumnData;
-          this.selectdNode.children = this.selectdNode.columnData;
+          this.selectedNode.columnData = newColumnData;
+          this.selectedNode.children = this.selectedNode.columnData;
           if (event.form?.link != null) {
-            this.selectdNode.columnData = [];
+            this.selectedNode.columnData = [];
             this.builderService.genericApis(event.form?.link).subscribe((res => {
-              this.selectdNode.children = res[0].columnData;
+              this.selectedNode.children = res[0].columnData;
               res[0].columnData.forEach((element: any) => {
                 element["id"] = element.name + "_" + Guid.newGuid();
-                this.selectdNode.columnData.push(element);
+                this.selectedNode.columnData.push(element);
 
               });
-              this.selectdNode.rowData = res[0].rowData;
-              this.selectdNode.columnData.forEach((a: any) => {
+              this.selectedNode.rowData = res[0].rowData;
+              this.selectedNode.columnData.forEach((a: any) => {
                 if (event.form?.sortable) {
                   a.sortingType = "desc";
                   a.sortable = true;
@@ -5592,48 +5585,48 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "gridNameAction":
-        this.selectdNode.link = event.form.APIList;
+        this.selectedNode.link = event.form.APIList;
         // this.GridView(event.form.APIList);
         break;
 
       case "button":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.label = event.form.title;
-          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
-            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            // this.selectdNode.buttonGroup[0].btnConfig[0].format = event.form.format;
-            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
-            this.selectdNode.buttonGroup[0].btnConfig[0].disabled = event.form.disabled;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.label = event.form.title;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            // this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectedNode.buttonGroup[0].btnConfig[0].disabled = event.form.disabled;
             if (event.form.disabled) {
-              // this.selectdNode.buttonGroup[0].btnConfig[0].btnDisables = this.form.valid;
+              // this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = this.form.valid;
             } else
-              this.selectdNode.buttonGroup[0].btnConfig[0].btnDisables = false;
-            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+              this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = false;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
           }
         }
         break;
 
       case "groupButton":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          // this.selectdNode.buttonGroup[0].btnConfig[0].key = event.form.key
-          this.selectdNode.label = event.form.title
-          if (this.selectdNode && this.selectdNode.children) {
-            this.selectdNode.btnGroupPosition = event.form.btnGroupPosition;
-            for (let i = 0; i < this.selectdNode.children.length; i++) {
-              const node = this.selectdNode.children ?? [];
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          // this.selectedNode.buttonGroup[0].btnConfig[0].key = event.form.key
+          this.selectedNode.label = event.form.title
+          if (this.selectedNode && this.selectedNode.children) {
+            this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
+            for (let i = 0; i < this.selectedNode.children.length; i++) {
+              const node = this.selectedNode.children ?? [];
               const btnGroup = node[i].buttonGroup ?? [];
               btnGroup[0].btnGroupFormat = event.form.btnGroupFormat
               btnGroup[0].btnConfig[0].hideExpression = event.form.hideExpression
-              this.selectdNode.children[i].className = event.form.className
-              // this.selectdNode.children.forEach(elementV1 => elementV1.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat);
+              this.selectedNode.children[i].className = event.form.className
+              // this.selectedNode.children.forEach(elementV1 => elementV1.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat);
               if (event.form.btnGroupPosition == 'header') {
                 this.selectdParentNode.header = true;
               }
@@ -5649,86 +5642,86 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.label = event.form.title;
-          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
-            this.selectdNode.buttonGroup[0].btnConfig[0].key = event.form.key;
-            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            this.selectdNode.buttonGroup[0].btnConfig[0].href = event.form.href;
-            this.selectdNode.buttonGroup[0].btnConfig[0].format = event.form.format;
-            this.selectdNode.buttonGroup[0].btnConfig[0].target = event.form.target;
-            this.selectdNode.buttonGroup[0].btnConfig[0].btnType = event.form.target;
-            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.format;
-            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
-            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.label = event.form.title;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].key = event.form.key;
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectedNode.buttonGroup[0].btnConfig[0].href = event.form.href;
+            this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
+            this.selectedNode.buttonGroup[0].btnConfig[0].target = event.form.target;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnType = event.form.target;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.format;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
             if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-              this.selectdNode.buttonGroup[0].btnConfig[0].btnType = "modal";
+              this.selectedNode.buttonGroup[0].btnConfig[0].btnType = "modal";
             }
           }
 
         }
         break;
       case "dropdownButton":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.label = event.form.title;
-          if (this.selectdNode && this.selectdNode.buttonGroup && this.selectdNode.buttonGroup[0] && this.selectdNode.buttonGroup[0].btnConfig) {
-            this.selectdNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectdNode.buttonGroup[0].btnConfig[0].title = event.form.title;
-            this.selectdNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
-            this.selectdNode.buttonGroup[0].btnConfig[0].color = event.form.color;
-            this.selectdNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectdNode.buttonGroup[0].btnConfig[0].className = event.form.className;
-            this.selectdNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
-            this.selectdNode.buttonGroup[0].btnConfig[0].dropdownOptions = event.form.options;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.label = event.form.title;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectedNode.buttonGroup[0].btnConfig[0].dropdownOptions = event.form.options;
           }
         }
         break;
       case "accordionButton":
-        if (this.selectdNode) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          if (this.selectdNode && this.selectdNode.accordionConfig) {
-            this.selectdNode.accordionConfig[0].label = event.form.title;
-            this.selectdNode.accordionConfig[0].color = event.form.color;
-            this.selectdNode.accordionConfig[0].tooltip = event.form.tooltip;
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          if (this.selectedNode && this.selectedNode.accordionConfig) {
+            this.selectedNode.accordionConfig[0].label = event.form.title;
+            this.selectedNode.accordionConfig[0].color = event.form.color;
+            this.selectedNode.accordionConfig[0].tooltip = event.form.tooltip;
           }
         }
         break;
       //Card Case
       case "card":
-        this.selectdNode.hideExpression = event.form.hideExpression;
-        if (this.selectdNode) {
-          this.selectdNode.label = event.form.name;
-          this.selectdNode.className = event.form.className;
-          // this.selectdNode.className = event.form.className;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.name = event.form.name;
-          this.selectdNode.total = event.form.total;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.tooltip = event.form.tooltip;
+        this.selectedNode.hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.label = event.form.name;
+          this.selectedNode.className = event.form.className;
+          // this.selectedNode.className = event.form.className;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.name = event.form.name;
+          this.selectedNode.total = event.form.total;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.tooltip = event.form.tooltip;
         }
         break;
       case "fixedDiv":
-        if (this.selectdNode) {
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.title = event.form.title;
+        if (this.selectedNode) {
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.title = event.form.title;
         }
         break;
 
       case "chart":
 
-        if (this.selectdNode) {
-          this.selectdNode.hideExpression = event.form.hideExpression;
+        if (this.selectedNode) {
+          this.selectedNode.hideExpression = event.form.hideExpression;
           var seriesList = [];
           var ans = Array.isArray(event.form.options[0].data)
           if (ans != true) {
@@ -5741,27 +5734,27 @@ export class BuilderComponent implements OnInit {
           } else {
             seriesList = event.form.options[0].data;
           };
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.section[0].filterData[0].heading = event.form.title;
-          this.selectdNode.section[0].filterData[0].subheading = event.form.sub_label;
-          // this.selectdNode.section[0].filterData[0].refundsChart.series[0].data = event.form.options;
-          this.selectdNode.section[0].filterData[0].price = event.form.options[0].price;
-          this.selectdNode.section[0].filterData[0].refundsChart.colors = event.form.options[0].colors;
-          this.selectdNode.section[0].filterData[0].refundsChart.series[0].data = seriesList;
-          this.selectdNode.link = event.form.link;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.section[0].filterData[0].heading = event.form.title;
+          this.selectedNode.section[0].filterData[0].subheading = event.form.sub_label;
+          // this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = event.form.options;
+          this.selectedNode.section[0].filterData[0].price = event.form.options[0].price;
+          this.selectedNode.section[0].filterData[0].refundsChart.colors = event.form.options[0].colors;
+          this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = seriesList;
+          this.selectedNode.link = event.form.link;
           if (event.form.link) {
             this.builderService.salesDataApi().subscribe((res => {
-              // this.selectdNode.chartFilterData = res;
-              if (this.selectdNode.section) {
-                this.selectdNode.section[0].price = res[0]?.price;
-                this.selectdNode.section[0].filterData[0].price = res[0]?.price;
-                this.selectdNode.section[0].colors = res[0]?.colors;
-                this.selectdNode.section[0].data = res[0]?.data;
-                this.selectdNode.section[0].filtertype = res[0]?.filter;
-                this.selectdNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
-                this.selectdNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
+              // this.selectedNode.chartFilterData = res;
+              if (this.selectedNode.section) {
+                this.selectedNode.section[0].price = res[0]?.price;
+                this.selectedNode.section[0].filterData[0].price = res[0]?.price;
+                this.selectedNode.section[0].colors = res[0]?.colors;
+                this.selectedNode.section[0].data = res[0]?.data;
+                this.selectedNode.section[0].filtertype = res[0]?.filter;
+                this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
+                this.selectedNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
               }
 
               this.updateNodes()
@@ -5772,37 +5765,37 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "donutChart":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.section[0].series = [];
-          this.selectdNode.section[0].labels = [];
-          this.selectdNode.section[0].colors = [];
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.section[0].series = [];
+          this.selectedNode.section[0].labels = [];
+          this.selectedNode.section[0].colors = [];
           for (let k = 0; k < event.form.options.length; k++) {
-            this.selectdNode.section[0].series.push(event.form.options[k].series);
-            this.selectdNode.section[0].labels.push(event.form.options[k].label);
-            this.selectdNode.section[0].colors.push(event.form.options[k].color);
+            this.selectedNode.section[0].series.push(event.form.options[k].series);
+            this.selectedNode.section[0].labels.push(event.form.options[k].label);
+            this.selectedNode.section[0].colors.push(event.form.options[k].color);
           }
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
                 for (let h = 0; h < event.form.options.length; h++) {
                   if (event.form.options[index].api != undefined) {
-                    this.selectdNode.section[0].series[index] = res.series[0];
-                    this.selectdNode.section[0].labels[index] = res.labels[0];
-                    this.selectdNode.section[0].colors[index] = res.colors[0];
+                    this.selectedNode.section[0].series[index] = res.series[0];
+                    this.selectedNode.section[0].labels[index] = res.labels[0];
+                    this.selectedNode.section[0].colors[index] = res.colors[0];
                     this.updateNodes();
                   }
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.visitordonutChart().subscribe((res => {
-              this.selectdNode.section = res;
+              this.selectedNode.section = res;
               this.updateNodes();
             }));
           }
@@ -5810,42 +5803,42 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "donutSaleChart":
-        if (this.selectdNode) {
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.thisTitle = event.form.thisTitle;
-          this.selectdNode.lastTitle = event.form.lastTitle;
-          this.selectdNode.prevTitle = event.form.prevTitle;
-          this.selectdNode.section[0].series = [];
-          this.selectdNode.section[0].labels = [];
-          this.selectdNode.section[0].colors = [];
+        if (this.selectedNode) {
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.thisTitle = event.form.thisTitle;
+          this.selectedNode.lastTitle = event.form.lastTitle;
+          this.selectedNode.prevTitle = event.form.prevTitle;
+          this.selectedNode.section[0].series = [];
+          this.selectedNode.section[0].labels = [];
+          this.selectedNode.section[0].colors = [];
           for (let k = 0; k < event.form.options.length; k++) {
-            this.selectdNode.section[0].series.push(event.form.options[k].series);
-            this.selectdNode.section[0].labels.push(event.form.options[k].label);
-            this.selectdNode.section[0].colors.push(event.form.options[k].color);
+            this.selectedNode.section[0].series.push(event.form.options[k].series);
+            this.selectedNode.section[0].labels.push(event.form.options[k].label);
+            this.selectedNode.section[0].colors.push(event.form.options[k].color);
           }
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
                 if (event.form.options[index].api != undefined) {
-                  // this.selectdNode.saledDonutChart[index].labels = res.labels;
-                  // this.selectdNode.saledDonutChart[index].series = res.series;
-                  // this.selectdNode.saledDonutChart[index].colors = res.colors;
-                  this.selectdNode.thisValue = res.thisValue;
-                  this.selectdNode.lastValue = res.lastValue;
-                  this.selectdNode.prevValue = res.prevValue;
-                  this.selectdNode.growth = res.growth;
+                  // this.selectedNode.saledDonutChart[index].labels = res.labels;
+                  // this.selectedNode.saledDonutChart[index].series = res.series;
+                  // this.selectedNode.saledDonutChart[index].colors = res.colors;
+                  this.selectedNode.thisValue = res.thisValue;
+                  this.selectedNode.lastValue = res.lastValue;
+                  this.selectedNode.prevValue = res.prevValue;
+                  this.selectedNode.growth = res.growth;
                   this.updateNodes();
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("donutChart").subscribe((res => {
-              this.selectdNode.section = res;
+              this.selectedNode.section = res;
               this.updateNodes()
             }));
           }
@@ -5854,34 +5847,34 @@ export class BuilderComponent implements OnInit {
 
       case "browserChart":
 
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.limit = event.form.limit;
-          this.selectdNode.defaultColor = event.form.defaultColor;
-          this.selectdNode.belowpercentage = event.form.belowpercentage;
-          this.selectdNode.belowpercentageColor = event.form.below_percentage_color;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.limit = event.form.limit;
+          this.selectedNode.defaultColor = event.form.defaultColor;
+          this.selectedNode.belowpercentage = event.form.belowpercentage;
+          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
                 for (let h = 0; h < event.form.options.length; h++) {
                   if (event.form.options[index].api != undefined) {
-                    this.selectdNode.chart[index].percentage = res.min;
-                    this.selectdNode.chart[index].min = res.min;
-                    this.selectdNode.chart[index].bar = res.min + "%";
+                    this.selectedNode.chart[index].percentage = res.min;
+                    this.selectedNode.chart[index].min = res.min;
+                    this.selectedNode.chart[index].bar = res.min + "%";
                     this.updateNodes();
                   }
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("browserdata").subscribe((res => {
-              this.selectdNode.chart = res;
+              this.selectedNode.chart = res;
               this.updateNodes();
             }))
           }
@@ -5890,36 +5883,36 @@ export class BuilderComponent implements OnInit {
 
       case "browserCombineChart":
 
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.icon = event.form.icon;
-          this.selectdNode.limit = event.form.limit;
-          this.selectdNode.defaultColor = event.form.defaultColor;
-          this.selectdNode.belowpercentage = event.form.belowpercentage;
-          this.selectdNode.numberofcolumns = event.form.numberofcolumns;
-          this.selectdNode.belowpercentageColor = event.form.below_percentage_color;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.limit = event.form.limit;
+          this.selectedNode.defaultColor = event.form.defaultColor;
+          this.selectedNode.belowpercentage = event.form.belowpercentage;
+          this.selectedNode.numberofcolumns = event.form.numberofcolumns;
+          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
 
                 for (let h = 0; h < event.form.options.length; h++) {
                   if (event.form.options[index].api != undefined) {
-                    this.selectdNode.chart[index].percentage = res.min;
-                    this.selectdNode.chart[index].min = res.min;
-                    this.selectdNode.chart[index].bar = res.min + "%";
+                    this.selectedNode.chart[index].percentage = res.min;
+                    this.selectedNode.chart[index].min = res.min;
+                    this.selectedNode.chart[index].bar = res.min + "%";
                     this.updateNodes();
                   }
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("browserdata").subscribe((res => {
-              this.selectdNode.chart = res;
+              this.selectedNode.chart = res;
               this.updateNodes();
             }))
           }
@@ -5927,41 +5920,41 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "salesAnalyticsChart":
-        if (this.selectdNode) {
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.section[0].series = event.form.options;
-          for (let index = 0; index < this.selectdNode.section[0].series.length; index++) {
-            if (this.selectdNode.section[0].series[index].type != event.form.options[index].type) {
-              this.selectdNode.section[0].series[index].type = event.form.options[index]?.type;
+        if (this.selectedNode) {
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.section[0].series = event.form.options;
+          for (let index = 0; index < this.selectedNode.section[0].series.length; index++) {
+            if (this.selectedNode.section[0].series[index].type != event.form.options[index].type) {
+              this.selectedNode.section[0].series[index].type = event.form.options[index]?.type;
             }
           }
-          for (let i = 0; i < this.selectdNode.section[0].chartTitlesValues.length; i++) {
-            this.selectdNode.section[0].chartTitlesValues[i].value = event.form.options[i].value;
-            this.selectdNode.section[0].series[i].title = event.form.options[i].name1;
+          for (let i = 0; i < this.selectedNode.section[0].chartTitlesValues.length; i++) {
+            this.selectedNode.section[0].chartTitlesValues[i].value = event.form.options[i].value;
+            this.selectedNode.section[0].series[i].title = event.form.options[i].name1;
           }
-          this.selectdNode.section[0].series = event.form.options;
-          if (this.selectdNode.link != undefined) {
+          this.selectedNode.section[0].series = event.form.options;
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("analyticsChart").subscribe((res => {
-              this.selectdNode.section[0].chart = res.chart;
-              this.selectdNode.section[0].stroke = res.stroke;
-              this.selectdNode.section[0].plotOptions = res.plotOptions;
-              this.selectdNode.section[0].colors = res.colors;
+              this.selectedNode.section[0].chart = res.chart;
+              this.selectedNode.section[0].stroke = res.stroke;
+              this.selectedNode.section[0].plotOptions = res.plotOptions;
+              this.selectedNode.section[0].colors = res.colors;
               for (let j = 0; j < res.series.length; j++) {
-                this.selectdNode.section[0].series[j].name = res.series[j].name;
-                this.selectdNode.section[0].series[j].title = res.series[j].name;
-                this.selectdNode.section[0].series[j].data = res.series[j].data;
+                this.selectedNode.section[0].series[j].name = res.series[j].name;
+                this.selectedNode.section[0].series[j].title = res.series[j].name;
+                this.selectedNode.section[0].series[j].data = res.series[j].data;
               }
-              this.selectdNode.section[0].fill = res.fill;
-              this.selectdNode.section[0].labels = res.labels;
-              this.selectdNode.section[0].markers = res.markers;
-              this.selectdNode.section[0].xaxis = res.xaxis;
-              this.selectdNode.section[0].yaxis = res.yaxis;
-              this.selectdNode.section[0].tooltip = res.tooltip;
-              this.selectdNode.section[0].grid = res.grid;
+              this.selectedNode.section[0].fill = res.fill;
+              this.selectedNode.section[0].labels = res.labels;
+              this.selectedNode.section[0].markers = res.markers;
+              this.selectedNode.section[0].xaxis = res.xaxis;
+              this.selectedNode.section[0].yaxis = res.yaxis;
+              this.selectedNode.section[0].tooltip = res.tooltip;
+              this.selectedNode.section[0].grid = res.grid;
               this.updateNodes();
             }))
           }
@@ -5970,45 +5963,45 @@ export class BuilderComponent implements OnInit {
 
       case "widgetSectionChart":
 
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.limit = event.form.limit;
-          this.selectdNode.belowpercentage = event.form.percentage;
-          this.selectdNode.belowpercentageColor = event.form.below_percentage_color;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.limit = event.form.limit;
+          this.selectedNode.belowpercentage = event.form.percentage;
+          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
           // for (let i = 0; i < event.form.options.length; i++) {
-          //   this.selectdNode.section[i].name = event.form.options[i].name
-          //   this.selectdNode.section[i].total = event.form.options[i].total
-          //   this.selectdNode.section[i].percentage = event.form.options[i].percentage
+          //   this.selectedNode.section[i].name = event.form.options[i].name
+          //   this.selectedNode.section[i].total = event.form.options[i].total
+          //   this.selectedNode.section[i].percentage = event.form.options[i].percentage
           //   var data : any = [];
           //   data.push(event.form.options[i].data)
-          //   this.selectdNode.section[i].data = data
+          //   this.selectedNode.section[i].data = data
           // };
-          // this.selectdNode.section = event.form.options;
-          this.selectdNode.link = event.form.link;
+          // this.selectedNode.section = event.form.options;
+          this.selectedNode.link = event.form.link;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                this.selectdNode.section = '';
+                this.selectedNode.section = '';
                 for (let h = 0; h < event.form.options.length; h++) {
                   if (event.form.options[index].api != undefined) {
-                    this.selectdNode.section[index].total = res.total;
-                    this.selectdNode.section[index].percentage = res.percentage;
-                    this.selectdNode.section[index].data = res.Chart.series[0].data;
-                    this.selectdNode.section[index].Chart = res.Chart;
+                    this.selectedNode.section[index].total = res.total;
+                    this.selectedNode.section[index].percentage = res.percentage;
+                    this.selectedNode.section[index].data = res.Chart.series[0].data;
+                    this.selectedNode.section[index].Chart = res.Chart;
                     this.updateNodes();
                   }
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("widgetChart").subscribe((res => {
-              this.selectdNode.section = res;
+              this.selectedNode.section = res;
               for (let index = 0; index < res.length; index++) {
-                this.selectdNode.section[index].data = res[index].Chart.series[0].data;
+                this.selectedNode.section[index].data = res[index].Chart.series[0].data;
               }
               this.updateNodes();
             }))
@@ -6018,36 +6011,36 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "SectionChart":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.limit = event.form.limit;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.key = event.form.key;
-          this.selectdNode.belowpercentage = event.form.percentage;
-          this.selectdNode.section.icon = event.form.options;
-          this.selectdNode.section.name = event.form.options;
-          this.selectdNode.section.percentage = event.form.options;
-          this.selectdNode.section.total = event.form.options;
-          this.selectdNode.belowpercentageColor = event.form.below_percentage_color;
-          this.selectdNode.link = event.form.link;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.limit = event.form.limit;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.belowpercentage = event.form.percentage;
+          this.selectedNode.section.icon = event.form.options;
+          this.selectedNode.section.name = event.form.options;
+          this.selectedNode.section.percentage = event.form.options;
+          this.selectedNode.section.total = event.form.options;
+          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
+          this.selectedNode.link = event.form.link;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
               this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
                 for (let h = 0; h < event.form.options.length; h++) {
                   if (event.form.options[index].api != undefined) {
-                    this.selectdNode.section[index].total = res.total;
-                    this.selectdNode.section[index].percentage = res.percentage;
+                    this.selectedNode.section[index].total = res.total;
+                    this.selectedNode.section[index].percentage = res.percentage;
                     this.updateNodes();
                   }
                 }
               }))
             }
           }
-          if (this.selectdNode.link != undefined) {
+          if (this.selectedNode.link != undefined) {
             this.builderService.genericApis("widgetSecondCard").subscribe((res => {
-              this.selectdNode.section = res;
+              this.selectedNode.section = res;
               this.updateNodes();
             }))
             event.form.link = "";
@@ -6056,25 +6049,25 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "heading":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.className = event.form.className;
-          this.selectdNode.padding = event.form.padding;
-          // this.selectdNode.paddingLeft = event.form.paddingLeft;
-          // this.selectdNode.paddingRight = event.form.paddingRight;
-          // this.selectdNode.paddingTop = event.form.paddingTop;
-          // this.selectdNode.paddingBottom = event.form.paddingBottom;
-          this.selectdNode.data.level = event.form.level;
-          this.selectdNode.data.text = event.form.text;
-          this.selectdNode.style = event.form.style;
-          this.selectdNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
-          this.selectdNode.textAlign = event.form.textAlignment;
-          this.selectdNode.headingColor = event.form.headingColor;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.className = event.form.className;
+          this.selectedNode.padding = event.form.padding;
+          // this.selectedNode.paddingLeft = event.form.paddingLeft;
+          // this.selectedNode.paddingRight = event.form.paddingRight;
+          // this.selectedNode.paddingTop = event.form.paddingTop;
+          // this.selectedNode.paddingBottom = event.form.paddingBottom;
+          this.selectedNode.data.level = event.form.level;
+          this.selectedNode.data.text = event.form.text;
+          this.selectedNode.style = event.form.style;
+          this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
+          this.selectedNode.textAlign = event.form.textAlignment;
+          this.selectedNode.headingColor = event.form.headingColor;
           if (event.form.headingApi) {
             this.builderService.genericApis(event.form.headingApi).subscribe((res => {
-              this.selectdNode.data = res.data;
+              this.selectedNode.data = res.data;
               this.updateNodes();
             }))
           }
@@ -6083,27 +6076,27 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "paragraph":
-        if (this.selectdNode) {
-          this.selectdNode.title = event.form.title;
-          // this.selectdNode.paddingLeft = event.form.paddingLeft;
-          // this.selectdNode.paddingRight = event.form.paddingRight;
-          // this.selectdNode.paddingTop = event.form.paddingTop;
-          // this.selectdNode.paddingBottom = event.form.paddingBottom;
-          this.selectdNode.padding = event.form.padding;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.className = event.form.className;
-          this.selectdNode.data.text = event.form.text;
-          this.selectdNode.style = event.form.style;
-          this.selectdNode.fontSize = event.form.style + event.form.textAlignment + "color:" + event.form.color;
-          this.selectdNode.textAlign = event.form.textAlignment;
-          this.selectdNode.color = event.form.color;
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          // this.selectedNode.paddingLeft = event.form.paddingLeft;
+          // this.selectedNode.paddingRight = event.form.paddingRight;
+          // this.selectedNode.paddingTop = event.form.paddingTop;
+          // this.selectedNode.paddingBottom = event.form.paddingBottom;
+          this.selectedNode.padding = event.form.padding;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.className = event.form.className;
+          this.selectedNode.data.text = event.form.text;
+          this.selectedNode.style = event.form.style;
+          this.selectedNode.fontSize = event.form.style + event.form.textAlignment + "color:" + event.form.color;
+          this.selectedNode.textAlign = event.form.textAlignment;
+          this.selectedNode.color = event.form.color;
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
-              // this.selectdNode.data.text = this.fillTemplate(this.selectdNode.data.text, res)//this.selectdNode.data.text;
+              // this.selectedNode.data.text = this.fillTemplate(this.selectedNode.data.text, res)//this.selectedNode.data.text;
               // let response = JSON.stringify(res);
               // let arrayData = response.split(',');
-              // this.selectdNode.headingConfig[0].data.text = res;
+              // this.selectedNode.headingConfig[0].data.text = res;
               // var seriesList = [];
               // var arrayData = res[0].split(" ");
               // for (let index = 0; index < arrayData.length; index++) {
@@ -6116,9 +6109,9 @@ export class BuilderComponent implements OnInit {
               //     assignValue[1] = assignValue[1].replace('}', '');
               //     let parseValue = JSON.parse(assignValue[0]);
               //     let parseData = JSON.parse(assignValue[1]);
-              //     this.selectdNode.data.text = JSON.stringify(this.selectdNode.data.text).replace(parseValue, parseData);
-              //     this.selectdNode.data.text = this.selectdNode.data.text.replace('"\\\"', '');
-              //     this.selectdNode.data.text = this.selectdNode.data.text.replace('\\\"', '');
+              //     this.selectedNode.data.text = JSON.stringify(this.selectedNode.data.text).replace(parseValue, parseData);
+              //     this.selectedNode.data.text = this.selectedNode.data.text.replace('"\\\"', '');
+              //     this.selectedNode.data.text = this.selectedNode.data.text.replace('\\\"', '');
               //   }
               // }
               this.updateNodes()
@@ -6129,162 +6122,162 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "stepper":
-        if (this.selectdNode.id) {
-          // this.selectdNode.id = event.form.stepperText;
-          this.selectdNode.label = event.form.stepperLabel;
-          this.selectdNode.className = event.form.className;
-          if (this.selectdNode && this.selectdNode.formly && this.selectdNode.formly[0].fieldGroup && this.selectdNode.formly[0].fieldGroup[0].templateOptions) {
-            this.selectdNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-            this.selectdNode.formly[0].fieldGroup[0].templateOptions['tooltip'] = event.form.tooltip;
+        if (this.selectedNode.id) {
+          // this.selectedNode.id = event.form.stepperText;
+          this.selectedNode.label = event.form.stepperLabel;
+          this.selectedNode.className = event.form.className;
+          if (this.selectedNode && this.selectedNode.formly && this.selectedNode.formly[0].fieldGroup && this.selectedNode.formly[0].fieldGroup[0].templateOptions) {
+            this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+            this.selectedNode.formly[0].fieldGroup[0].templateOptions['tooltip'] = event.form.tooltip;
           }
 
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.stepperIcon;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.stepperIcon;
           this.updateNodes()
         }
         break;
 
       case "mainStepper":
-        if (this.selectdNode.id) {
-          // this.selectdNode.id = event.form.stepperText;
-          this.selectdNode.label = event.form.stepperLabel;
-          this.selectdNode.className = event.form.className;
-          // if(this.selectdNode && this.selectdNode.formly && this.selectdNode.formly[0].fieldGroup && this.selectdNode.formly[0].fieldGroup[0].templateOptions){
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-          //   this.selectdNode.formly[0].[stepperFormat] = event.form.stepperFormat;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.selectColor = event.form.selectColor;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.defaultColor = event.form.defaultColor;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.className = event.form.className;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.nodes = event.form.nodes;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip;
-          //   this.selectdNode.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression;
+        if (this.selectedNode.id) {
+          // this.selectedNode.id = event.form.stepperText;
+          this.selectedNode.label = event.form.stepperLabel;
+          this.selectedNode.className = event.form.className;
+          // if(this.selectedNode && this.selectedNode.formly && this.selectedNode.formly[0].fieldGroup && this.selectedNode.formly[0].fieldGroup[0].templateOptions){
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+          //   this.selectedNode.formly[0].[stepperFormat] = event.form.stepperFormat;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectColor = event.form.selectColor;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.defaultColor = event.form.defaultColor;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.className = event.form.className;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nodes = event.form.nodes;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip;
+          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression;
           // }
 
-          // for (let index = 0; index < this.selectdNode.children.length; index++) {
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
-          //   this.selectdNode.children[index].className = event.form.className;
+          // for (let index = 0; index < this.selectedNode.children.length; index++) {
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
+          //   this.selectedNode.children[index].className = event.form.className;
           // }
           // this.adddynamicStepper(event.form.nodes);
         }
         break;
 
       case "tab":
-        if (this.selectdNode.id) {
-          // this.selectdNode.id = event.form.stepperText;
-          this.selectdNode.label = event.form.stepperLabel;
-          // this.selectdNode.formly[0].fieldGroup[0].props.label = event.form.stepperLabel;
-          // this.selectdNode.formly[0].fieldGroup[0].props.stepperFormat = event.form.stepperFormat;
+        if (this.selectedNode.id) {
+          // this.selectedNode.id = event.form.stepperText;
+          this.selectedNode.label = event.form.stepperLabel;
+          // this.selectedNode.formly[0].fieldGroup[0].props.label = event.form.stepperLabel;
+          // this.selectedNode.formly[0].fieldGroup[0].props.stepperFormat = event.form.stepperFormat;
         }
         break;
       case "maintab":
-        if (this.selectdNode.id) {
-          // this.selectdNode.id = event.form.stepperText;
-          this.selectdNode.label = event.form.stepperLabel;
-          this.selectdNode.className = event.form.className;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.stepperFormat = event.form.stepperFormat;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.buttonText = event.form.buttonText;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.buttonIcon = event.form.buttonIcon;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.buttonColor = event.form.buttonColor;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.tabsPosition = event.form.tabsPosition;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
-          // this.selectdNode.formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
-          // for (let index = 0; index < this.selectdNode.children.length; index++) {
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
+        if (this.selectedNode.id) {
+          // this.selectedNode.id = event.form.stepperText;
+          this.selectedNode.label = event.form.stepperLabel;
+          this.selectedNode.className = event.form.className;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.stepperFormat = event.form.stepperFormat;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonText = event.form.buttonText;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonIcon = event.form.buttonIcon;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonColor = event.form.buttonColor;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsPosition = event.form.tabsPosition;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
+          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
+          // for (let index = 0; index < this.selectedNode.children.length; index++) {
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
           //   if (event.form.tabsDisplayType == "buttonType") {
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
           //   } else if (event.form.tabsDisplayType == "None" || event.form.tabsDisplayType == "underLine") {
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
-          //     this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
+          //     this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
           //   }
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
-          //   this.selectdNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
-          //   this.selectdNode.children[index].className = event.form.className;
-          //   this.selectdNode.children[index].type = event.form.stepperFormat;
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
+          //   this.selectedNode.children[index].chartCardConfig.forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
+          //   this.selectedNode.children[index].className = event.form.className;
+          //   this.selectedNode.children[index].type = event.form.stepperFormat;
           // }
           // this.adddynamictab(event.form.nodes);
         }
         break;
       // For Section Page Changes
       case "page":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.screenVariables = event.form.variables;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.screenVariables = event.form.variables;
         }
         break;
 
       case "pageHeader":
 
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.headingSize = event.form.headingSize;
-          this.selectdNode.header = event.form.header;
-          this.selectdNode.labelPosition = event.form.labelPosition;
-          this.selectdNode.alertPosition = event.form.alertPosition;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.headingSize = event.form.headingSize;
+          this.selectedNode.header = event.form.header;
+          this.selectedNode.labelPosition = event.form.labelPosition;
+          this.selectedNode.alertPosition = event.form.alertPosition;
         }
         break;
 
       case "pageBody":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
         }
         break;
 
       case "pageFooter":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.footer = event.form.footer;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.footer = event.form.footer;
         }
         break;
       case "according":
-        if (this.selectdNode.id) {
+        if (this.selectedNode.id) {
 
-          // this.selectdNode.id = event.form.accordingText;
-          this.selectdNode.label = event.form.accordingText;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.sectionDisabled = event.form.disabled;
-          this.selectdNode.labelPosition = event.form.labelPosition;
-          this.selectdNode.repeatable = event.form.repeatable;
-          this.selectdNode?.children?.[1]?.children?.forEach(res => {
+          // this.selectedNode.id = event.form.accordingText;
+          this.selectedNode.label = event.form.accordingText;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.sectionDisabled = event.form.disabled;
+          this.selectedNode.labelPosition = event.form.labelPosition;
+          this.selectedNode.repeatable = event.form.repeatable;
+          this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res.chartCardConfig) {
               if (res.formly != undefined) {
                 if (res.type != "stepperMain" && res.type != "tabsMain") {
@@ -6341,118 +6334,118 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "accordingHeader":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.headingSize = event.form.headingSize;
-          this.selectdNode.backGroundColor = event.form.backGroundColor;
-          this.selectdNode.textColor = event.form.textColor;
-          this.selectdNode.header = event.form.header;
-          this.selectdNode.isExpanded = event.form.isExpanded;
-          this.selectdNode.labelPosition = event.form.labelPosition;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.headingSize = event.form.headingSize;
+          this.selectedNode.backGroundColor = event.form.backGroundColor;
+          this.selectedNode.textColor = event.form.textColor;
+          this.selectedNode.header = event.form.header;
+          this.selectedNode.isExpanded = event.form.isExpanded;
+          this.selectedNode.labelPosition = event.form.labelPosition;
           this.updateNodes();
         }
         break;
 
       case "accordingBody":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
         }
         break;
 
       case "accordingFooter":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.footer = event.form.footer;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.footer = event.form.footer;
         }
         break;
       case "switch":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.switchType = event.form.switchType;
-          this.selectdNode.switchPosition = event.form.switchPosition;
-          this.selectdNode.tooltip = event.form.tooltip;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.switchType = event.form.switchType;
+          this.selectedNode.switchPosition = event.form.switchPosition;
+          this.selectedNode.tooltip = event.form.tooltip;
         }
         break;
       case "multiFileUpload":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.uploadBtnLabel = event.form.title;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.uploadBtnLabel = event.form.title;
         }
         break;
       case "textEditor":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
         }
         break;
 
       case "dashonicTab":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.label = event.form.tabLabel;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.dashonicTabsConfig[0].tabLabel = event.form.tabLabel;
-          this.selectdNode.dashonicTabsConfig[0].tabIcon = event.form.tabIcon;
-          this.selectdNode.dashonicTabsConfig[0].tooltip = event.form.tooltip;
-          this.selectdNode.dashonicTabsConfig[0].hideExpression = event.form.hideExpression;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.label = event.form.tabLabel;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.dashonicTabsConfig[0].tabLabel = event.form.tabLabel;
+          this.selectedNode.dashonicTabsConfig[0].tabIcon = event.form.tabIcon;
+          this.selectedNode.dashonicTabsConfig[0].tooltip = event.form.tooltip;
+          this.selectedNode.dashonicTabsConfig[0].hideExpression = event.form.hideExpression;
           this.updateNodes();
         }
         break;
       case "kanban":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.text = event.form.title;
-          this.selectdNode.nodes = event.form.nodes;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.text = event.form.title;
+          this.selectedNode.nodes = event.form.nodes;
           // this.adddynamicKanban(event.form.nodes);
           this.updateNodes();
         }
         break;
       case "kanbanTask":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.hideExpression = event.form.hideExpression,
-            this.selectdNode.title = event.form.title;
-          if (this.selectdNode.children) {
-            for (let i = 0; i < this.selectdNode.children.length; i++) {
-              this.selectdNode.children[i].id = event.form.options[i].id;
-              this.selectdNode.children[i].title = event.form.options[i].title;
-              this.selectdNode.children[i].date = event.form.options[i].date;
-              this.selectdNode.children[i].content = event.form.options[i].content;
-              this.selectdNode.children[i].users = JSON.parse(event.form.options[i].users);
-              this.selectdNode.children[i].status = event.form.options[i].status;
-              this.selectdNode.children[i].variant = event.form.options[i].variant;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.hideExpression = event.form.hideExpression,
+            this.selectedNode.title = event.form.title;
+          if (this.selectedNode.children) {
+            for (let i = 0; i < this.selectedNode.children.length; i++) {
+              this.selectedNode.children[i].id = event.form.options[i].id;
+              this.selectedNode.children[i].title = event.form.options[i].title;
+              this.selectedNode.children[i].date = event.form.options[i].date;
+              this.selectedNode.children[i].content = event.form.options[i].content;
+              this.selectedNode.children[i].users = JSON.parse(event.form.options[i].users);
+              this.selectedNode.children[i].status = event.form.options[i].status;
+              this.selectedNode.children[i].variant = event.form.options[i].variant;
             }
           }
 
           if (event.form.kanbanTaskApi != undefined) {
             this.builderService.genericApis(event.form.kanbanTaskApi).subscribe((res => {
-              this.selectdNode.chartCardConfig = res;
+              this.selectedNode.chartCardConfig = res;
               for (let index = 0; index < res.length; index++) {
-                this.selectdNode.id = res[index].id;
-                this.selectdNode.title = res[index].title;
-                this.selectdNode.date = res[index].date;
-                this.selectdNode.users = res[index].users;
-                this.selectdNode.status = res[index].status;
-                this.selectdNode.variant = res[index].variant;
-                this.selectdNode.content = res[index].content;
+                this.selectedNode.id = res[index].id;
+                this.selectedNode.title = res[index].title;
+                this.selectedNode.date = res[index].date;
+                this.selectedNode.users = res[index].users;
+                this.selectedNode.status = res[index].status;
+                this.selectedNode.variant = res[index].variant;
+                this.selectedNode.content = res[index].content;
               }
               this.updateNodes();
             }))
@@ -6462,23 +6455,23 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "dashonicMainTab":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.label = event.form.tabLabel;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.mainDashonicTabsConfig[0].tabsDisplayType = event.form.tabsDisplayType;
-          this.selectdNode.mainDashonicTabsConfig[0].selectTabColor = event.form.selectTabColor;
-          this.selectdNode.mainDashonicTabsConfig[0].buttonText = event.form.buttonText;
-          this.selectdNode.mainDashonicTabsConfig[0].buttonIcon = event.form.buttonIcon;
-          this.selectdNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
-          this.selectdNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
-          this.selectdNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-          this.selectdNode.mainDashonicTabsConfig[0].nodes = event.form.nodes;
-          if (this.selectdNode.children) {
-            for (let index = 0; index < this.selectdNode.children.length; index++) {
-              this.selectdNode.children.forEach(elementV1 => {
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.label = event.form.tabLabel;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.mainDashonicTabsConfig[0].tabsDisplayType = event.form.tabsDisplayType;
+          this.selectedNode.mainDashonicTabsConfig[0].selectTabColor = event.form.selectTabColor;
+          this.selectedNode.mainDashonicTabsConfig[0].buttonText = event.form.buttonText;
+          this.selectedNode.mainDashonicTabsConfig[0].buttonIcon = event.form.buttonIcon;
+          this.selectedNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
+          this.selectedNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
+          this.selectedNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
+          this.selectedNode.mainDashonicTabsConfig[0].nodes = event.form.nodes;
+          if (this.selectedNode.children) {
+            for (let index = 0; index < this.selectedNode.children.length; index++) {
+              this.selectedNode.children.forEach(elementV1 => {
                 elementV1.dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition,
                   elementV1.dashonicTabsConfig[0].buttonText = event.form.buttonText,
                   elementV1.dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1",
@@ -6487,17 +6480,17 @@ export class BuilderComponent implements OnInit {
               });
 
               if (event.form.tabsDisplayType == "buttonType") {
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:#fff");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:#fff");
               } else if (event.form.tabsDisplayType == "None") {
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
               } else if (event.form.tabsDisplayType == "underLine") {
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor);
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
-                this.selectdNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor);
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
+                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
               }
             }
           }
@@ -6507,32 +6500,32 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "progressBar":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.link = event.form.link;
-          this.selectdNode.progressBArConfig[0].title = event.form.title;
-          this.selectdNode.progressBArConfig[0].tooltip = event.form.tooltip;
-          this.selectdNode.progressBArConfig[0].value = event.form.value;
-          this.selectdNode.progressBArConfig[0].color = event.form.color;
-          this.selectdNode.progressBArConfig[0].showValue = event.form.showValue;
-          this.selectdNode.progressBArConfig[0].stripped = event.form.stripped;
-          this.selectdNode.progressBArConfig[0].height = event.form.height;
-          this.selectdNode.progressBArConfig[0].hieghtWithPx = event.form.height + "px";
-          this.selectdNode.progressBArConfig[0].animated = event.form.animated;
-          this.selectdNode.link = event.form.link;
-          if (this.selectdNode.link != undefined) {
-            this.selectdNode.link = event.form.link;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.progressBArConfig[0].title = event.form.title;
+          this.selectedNode.progressBArConfig[0].tooltip = event.form.tooltip;
+          this.selectedNode.progressBArConfig[0].value = event.form.value;
+          this.selectedNode.progressBArConfig[0].color = event.form.color;
+          this.selectedNode.progressBArConfig[0].showValue = event.form.showValue;
+          this.selectedNode.progressBArConfig[0].stripped = event.form.stripped;
+          this.selectedNode.progressBArConfig[0].height = event.form.height;
+          this.selectedNode.progressBArConfig[0].hieghtWithPx = event.form.height + "px";
+          this.selectedNode.progressBArConfig[0].animated = event.form.animated;
+          this.selectedNode.link = event.form.link;
+          if (this.selectedNode.link != undefined) {
+            this.selectedNode.link = event.form.link;
             this.builderService.genericApis(event.form.link).subscribe((res => {
-              this.selectdNode.progressBArConfig[0].value = res.value;
-              this.selectdNode.progressBArConfig[0].color = res.color;
-              this.selectdNode.progressBArConfig[0].showValue = res.showValue;
-              this.selectdNode.progressBArConfig[0].stripped = res.stripped;
-              this.selectdNode.progressBArConfig[0].height = res.height;
-              this.selectdNode.progressBArConfig[0].hieghtWithPx = res.height + "px";
-              this.selectdNode.progressBArConfig[0].animated = res.animated;
+              this.selectedNode.progressBArConfig[0].value = res.value;
+              this.selectedNode.progressBArConfig[0].color = res.color;
+              this.selectedNode.progressBArConfig[0].showValue = res.showValue;
+              this.selectedNode.progressBArConfig[0].stripped = res.stripped;
+              this.selectedNode.progressBArConfig[0].height = res.height;
+              this.selectedNode.progressBArConfig[0].hieghtWithPx = res.height + "px";
+              this.selectedNode.progressBArConfig[0].animated = res.animated;
               this.updateNodes()
             }));
             event.form.link = "";
@@ -6543,59 +6536,59 @@ export class BuilderComponent implements OnInit {
 
 
       case "divider":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
           if (event.form.title == '') {
-            this.selectdNode.label = this.selectdNode.label;
+            this.selectedNode.label = this.selectedNode.label;
           } else if (event.form.title != '') {
-            this.selectdNode.title = event.form.title;
+            this.selectedNode.title = event.form.title;
           }
-          this.selectdNode.dividerClassName = event.form.className;
-          this.selectdNode.classNameForPosition = event.form.classNameForPosition;
-          this.selectdNode.dividerPosition = event.form.dividerPosition;
-          this.selectdNode.text = event.form.title;
-          this.selectdNode.textColor = event.form.textColor;
-          this.selectdNode.lineColor = event.form.lineColor;
-          this.selectdNode.textcolorForStyle = "color:" + event.form.textColor;
-          this.selectdNode.lineColorForStyle = "--lineColor:" + event.form.lineColor;
-          this.selectdNode.dividerFormat = event.form.dividerFormat;
-          this.selectdNode.verticalLineHieght = event.form.verticalLineHieght;
-          this.selectdNode.verticalLineHieghtForCssBinding = "--verticalLineHieghtForCssBinding:" + event.form.verticalLineHieght + "px";
-          this.selectdNode.verticalLinePosition = event.form.verticalLinePosition;
-          this.selectdNode.verticalLinePositionForCssBinding = "--verticalLinePositionForCssBinding:" + event.form.verticalLinePosition + "%";
-          this.selectdNode.verticalLineColorForCssBinding = "--verticalLineColorForCssBinding:1px solid" + event.form.lineColor;
+          this.selectedNode.dividerClassName = event.form.className;
+          this.selectedNode.classNameForPosition = event.form.classNameForPosition;
+          this.selectedNode.dividerPosition = event.form.dividerPosition;
+          this.selectedNode.text = event.form.title;
+          this.selectedNode.textColor = event.form.textColor;
+          this.selectedNode.lineColor = event.form.lineColor;
+          this.selectedNode.textcolorForStyle = "color:" + event.form.textColor;
+          this.selectedNode.lineColorForStyle = "--lineColor:" + event.form.lineColor;
+          this.selectedNode.dividerFormat = event.form.dividerFormat;
+          this.selectedNode.verticalLineHieght = event.form.verticalLineHieght;
+          this.selectedNode.verticalLineHieghtForCssBinding = "--verticalLineHieghtForCssBinding:" + event.form.verticalLineHieght + "px";
+          this.selectedNode.verticalLinePosition = event.form.verticalLinePosition;
+          this.selectedNode.verticalLinePositionForCssBinding = "--verticalLinePositionForCssBinding:" + event.form.verticalLinePosition + "%";
+          this.selectedNode.verticalLineColorForCssBinding = "--verticalLineColorForCssBinding:1px solid" + event.form.lineColor;
           this.updateNodes()
         }
         break;
 
       case "sharedMessagesChart":
 
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.labelIcon = event.form.labelIcon;
-          this.selectdNode.heading = event.form.heading;
-          this.selectdNode.headingIcon = event.form.headingIcon;
-          this.selectdNode.headingColor = event.form.headingColor;
-          this.selectdNode.subHeading = event.form.subHeading;
-          this.selectdNode.subHeadingIcon = event.form.subHeadingIcon;
-          this.selectdNode.subheadingColor = event.form.subheadingColor;
-          this.selectdNode.link = event.form.link;
-          for (let index = 0; index < this.selectdNode.sharedMessagesConfig[0].length; index++) {
-            this.selectdNode.sharedMessagesConfig[0].message = event.form.options.message;
-            this.selectdNode.sharedMessagesConfig[0].dateAndTime = event.form.options.dateAndTime;
-            this.selectdNode.sharedMessagesConfig[0].icon = event.form.options.icon;
-            this.selectdNode.sharedMessagesConfig[0].icon1 = event.form.options.icon1;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.labelIcon = event.form.labelIcon;
+          this.selectedNode.heading = event.form.heading;
+          this.selectedNode.headingIcon = event.form.headingIcon;
+          this.selectedNode.headingColor = event.form.headingColor;
+          this.selectedNode.subHeading = event.form.subHeading;
+          this.selectedNode.subHeadingIcon = event.form.subHeadingIcon;
+          this.selectedNode.subheadingColor = event.form.subheadingColor;
+          this.selectedNode.link = event.form.link;
+          for (let index = 0; index < this.selectedNode.sharedMessagesConfig[0].length; index++) {
+            this.selectedNode.sharedMessagesConfig[0].message = event.form.options.message;
+            this.selectedNode.sharedMessagesConfig[0].dateAndTime = event.form.options.dateAndTime;
+            this.selectedNode.sharedMessagesConfig[0].icon = event.form.options.icon;
+            this.selectedNode.sharedMessagesConfig[0].icon1 = event.form.options.icon1;
           }
           if (event.form.api != undefined) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
-              this.selectdNode.sharedMessagesConfig = res;
+              this.selectedNode.sharedMessagesConfig = res;
               this.updateNodes();
             }))
           }
@@ -6604,90 +6597,90 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "audio":
-        if (this.selectdNode.id) {
+        if (this.selectedNode.id) {
 
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.audioSrc = event.form.audioSrc;
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.audioSrc = event.form.audioSrc;
           this.updateNodes()
         }
         break;
       case "carousal":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.carousalType = event.form.carousalType;
-          // this.selectdNode.carousalConfig[0].captionTitle = event.form.captionTitle;
-          // this.selectdNode.carousalConfig[0].caption = event.form.caption;
-          // this.selectdNode.carousalConfig[0].img = event.form.imgSrc;
-          this.selectdNode.carousalConfig = event.form.options;
-          this.selectdNode.tooltip = event.form.tooltip;
-          this.selectdNode.link = event.form.link;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.carousalType = event.form.carousalType;
+          // this.selectedNode.carousalConfig[0].captionTitle = event.form.captionTitle;
+          // this.selectedNode.carousalConfig[0].caption = event.form.caption;
+          // this.selectedNode.carousalConfig[0].img = event.form.imgSrc;
+          this.selectedNode.carousalConfig = event.form.options;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.link = event.form.link;
 
           if (event.form.link != undefined || event.form.link != "") {
             this.builderService.genericApis(event.form.link).subscribe((res) => {
 
-              this.selectdNode.carousalType = res[0].carousalType;
-              this.selectdNode.carousalConfig = res[0].options;
+              this.selectedNode.carousalType = res[0].carousalType;
+              this.selectedNode.carousalConfig = res[0].options;
               this.updateNodes();
             })
           }
         }
         break;
       case "videos":
-        if (this.selectdNode.id) {
+        if (this.selectedNode.id) {
 
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.videoConfig[0].title = event.form.title;
-          this.selectdNode.videoConfig[0].videoRatio = event.form.videoRatio;
-          this.selectdNode.videoConfig[0].videoSrc = event.form.videoSrc;
-          this.selectdNode.videoConfig[0].tooltip = event.form.tooltip;
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.videoConfig[0].title = event.form.title;
+          this.selectedNode.videoConfig[0].videoRatio = event.form.videoRatio;
+          this.selectedNode.videoConfig[0].videoSrc = event.form.videoSrc;
+          this.selectedNode.videoConfig[0].tooltip = event.form.tooltip;
           this.updateNodes()
         }
         break;
       case "alert":
 
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.alertConfig[0].icon = event.form.icon;
-          this.selectdNode.alertConfig[0].tooltip = event.form.tooltip;
-          this.selectdNode.alertConfig[0].type = event.form.type;
-          this.selectdNode.alertConfig[0].text = event.form.text;
-          this.selectdNode.alertConfig[0].alertColor = event.form.alertColor;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.alertConfig[0].icon = event.form.icon;
+          this.selectedNode.alertConfig[0].tooltip = event.form.tooltip;
+          this.selectedNode.alertConfig[0].type = event.form.type;
+          this.selectedNode.alertConfig[0].text = event.form.text;
+          this.selectedNode.alertConfig[0].alertColor = event.form.alertColor;
           this.updateNodes()
         }
         break;
       case "timeline":
 
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.title = event.form.title;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.tooltip = event.form.tooltip,
-            this.selectdNode.className = event.form.className;
-          this.selectdNode.timelineConfig[0].timelineHeading = event.form.timelineHeading;
-          this.selectdNode.timelineConfig[0].headingColor = event.form.headingColor;
-          this.selectdNode.timelineConfig[0].headingShape = event.form.headingShape;
-          this.selectdNode.timelineConfig[0].timelineType = event.form.timelineType;
-          this.selectdNode.timelineConfig[0].data = event.form.timelineData;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.className = event.form.className;
+          this.selectedNode.timelineConfig[0].timelineHeading = event.form.timelineHeading;
+          this.selectedNode.timelineConfig[0].headingColor = event.form.headingColor;
+          this.selectedNode.timelineConfig[0].headingShape = event.form.headingShape;
+          this.selectedNode.timelineConfig[0].timelineType = event.form.timelineType;
+          this.selectedNode.timelineConfig[0].data = event.form.timelineData;
 
           for (let index = 0; index < event.form.timelineData.length; index++) {
             event.form.timelineData[index].image = event.form.timelineData[index].image.toString();
-            this.selectdNode.timelineConfig[0].data[index].image = event.form.timelineData[index].image.split(",");
+            this.selectedNode.timelineConfig[0].data[index].image = event.form.timelineData[index].image.split(",");
           }
           if (event.form.timelineExample != undefined) {
-            this.selectdNode.timelineConfig[0].timelineExample = event.form.timelineExample;
+            this.selectedNode.timelineConfig[0].timelineExample = event.form.timelineExample;
             this.builderService.genericApis(event.form.timelineExample).subscribe((res) => {
 
-              this.selectdNode.timelineConfig[0].data = res[0].data;
+              this.selectedNode.timelineConfig[0].data = res[0].data;
               this.updateNodes();
             })
           }
@@ -6695,24 +6688,24 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "simpleCardWithHeaderBodyFooter":
-        if (this.selectdNode.id) {
-          this.selectdNode.id = event.form.id;
-          this.selectdNode.hideExpression = event.form.hideExpression;
-          this.selectdNode.className = event.form.className;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = event.form.headerText;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].tooltip = event.form.tooltip;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = event.form.bodyText;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = event.form.footerText;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].height = event.form.height;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].link = event.form.link;
-          this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].textAlign = event.form.textAlign;
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = event.form.headerText;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].tooltip = event.form.tooltip;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = event.form.bodyText;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = event.form.footerText;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = event.form.height;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].link = event.form.link;
+          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].textAlign = event.form.textAlign;
           if (event.form.link != undefined || event.form.link != "") {
             this.builderService.genericApis(event.form.link).subscribe((res => {
 
-              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
-              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
-              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
-              this.selectdNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
+              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
+              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
+              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
+              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
               this.updateNodes();
             }))
           }
@@ -6793,8 +6786,8 @@ export class BuilderComponent implements OnInit {
   functionName: any;
   mainTemplate() {
     this.builderService.genericApis(this.functionName).subscribe((res => {
-      if (this.selectdNode.children)
-        this.selectdNode.children.push(res)
+      if (this.selectedNode.children)
+        this.selectedNode.children.push(res)
       // this.updateNodes();
     }));
   }
