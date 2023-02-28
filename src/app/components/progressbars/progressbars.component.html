@@ -1,9 +1,9 @@
-<div class="mt-3" *ngFor="let item of progressBarData[0].progressBArConfig">
+<div class="mt-3" *ngIf="progressBarData">
     <div>
         <h5 class="d-flex justify-content-between label-style">
-            {{item.title}}<span style="text-align: right;" *ngIf="item.tooltip" nz-tooltip
-                nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle" nzTheme="outline"></span></span>
+            {{progressBarData.title}}<span style="text-align: right;" *ngIf="progressBarData.tooltip" nz-tooltip
+                nzTooltipTitle={{progressBarData.tooltip}}><span nz-icon nzType="question-circle" nzTheme="outline"></span></span>
         </h5>
-        <nz-progress [nzPercent]='item.value' [nzStrokeColor]='item.color'></nz-progress>
+        <nz-progress [nzPercent]='progressBarData.value' [nzStrokeColor]='progressBarData.color'></nz-progress>
     </div>
 </div>

@@ -224,7 +224,7 @@ export class BuilderClickButtonService {
   //   configObj = {
   //     id: this.selectdNode.id as string,
   //     title: this.selectdNode.title,
-  //     options: this.selectdNode.chartCardConfig,
+  //     options: this.selectdNode.,
   //     tooltip: this.selectdNode.tooltip,
   //     hideExpression: this.selectdNode.hideExpression,
   //     // repeat: this.addPropertieInOldScreens(this.selectdNode.repeat, "repeat"),
@@ -396,7 +396,7 @@ export class BuilderClickButtonService {
       thisTitle: node.thisTitle,
       lastTitle: node.lastTitle,
       prevTitle: node.prevTitle,
-      // options1: node.chartCardConfig,
+      // options1: node.,
       options: '',
     }
   }
@@ -458,32 +458,32 @@ export class BuilderClickButtonService {
   }
   getButtonConfig(node: any) {
     return {
-      // key: node.buttonGroup[0].btnConfig[0]?.key,
-      color: node.buttonGroup[0].btnConfig[0].color,
-      // btnIcon: node.buttonGroup[0].btnConfig[0].title,
-      // fontSize: node.buttonGroup[0].btnConfig[0].fontSize,
-      // fontStyle: node.buttonGroup[0].btnConfig[0].fontStyle,
-      // textColor: node.buttonGroup[0].btnConfig[0].textColor,
-      // bgColor: node.buttonGroup[0].btnConfig[0].bgColor,
-      // border: node.buttonGroup[0].btnConfig[0].border,
-      // margin: node.buttonGroup[0].btnConfig[0].margin,
-      // padding: node.buttonGroup[0].btnConfig[0].padding,
-      // className: node.buttonGroup[0].btnConfig[0].className,
-      btnGroupFormat: node.buttonGroup[0].btnGroupFormat,
-      disabled: node.buttonGroup[0].btnConfig[0].disabled,
-      btnIcon: node.buttonGroup[0].btnConfig[0].icon,
+      // key: node.btnConfig[0]?.key,
+      color: node.btnConfig[0].color,
+      // btnIcon: node.btnConfig[0].title,
+      // fontSize: node.btnConfig[0].fontSize,
+      // fontStyle: node.btnConfig[0].fontStyle,
+      // textColor: node.btnConfig[0].textColor,
+      // bgColor: node.btnConfig[0].bgColor,
+      // border: node.btnConfig[0].border,
+      // margin: node.btnConfig[0].margin,
+      // padding: node.btnConfig[0].padding,
+      // className: node.btnConfig[0].className,
+      btnGroupFormat: node.btnGroupFormat,
+      disabled: node.btnConfig[0].disabled,
+      btnIcon: node.btnConfig[0].icon,
       // repeat: this.addPropertieInOldScreens(node.repeat, "repeat"),
     }
   }
   getDropdownButtonConfig(node: any) {
     return {
-      color: node.buttonGroup[0].btnConfig[0].color,
-      // btnIcon: node.buttonGroup[0].btnConfig[0].btnIcon,
-      // className: node.buttonGroup[0].btnConfig[0].className,
-      options: node.buttonGroup[0].btnConfig[0].dropdownOptions,
-      btnGroupFormat: node.buttonGroup[0].btnGroupFormat,
-      tooltip: node.buttonGroup[0].btnConfig[0]['tooltip'],
-      btnIcon: node.buttonGroup[0].btnConfig[0].icon,
+      color: node.btnConfig[0].color,
+      // btnIcon: node.btnConfig[0].btnIcon,
+      // className: node.btnConfig[0].className,
+      options: node.btnConfig[0].dropdownOptions,
+      btnGroupFormat: node.btnGroupFormat,
+      tooltip: node.btnConfig[0]['tooltip'],
+      btnIcon: node.btnConfig[0].icon,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -493,14 +493,14 @@ export class BuilderClickButtonService {
   }
   getLinkButtonConfig(node: any) {
     return {
-      color: node.buttonGroup[0].btnConfig[0].color,
-      // btnIcon: node.buttonGroup[0].btnConfig[0].btnIcon,
-      // className: node.buttonGroup[0].btnConfig[0].className,
-      href: node.buttonGroup[0].btnConfig[0].href,
-      target: node.buttonGroup[0].btnConfig[0].target,
-      format: node.buttonGroup[0].btnConfig[0].format,
-      btnType: node.buttonGroup[0].btnConfig[0].btnType,
-      btnIcon: node.buttonGroup[0].btnConfig[0].icon,
+      color: node.btnConfig[0].color,
+      // btnIcon: node.btnConfig[0].btnIcon,
+      // className: node.btnConfig[0].className,
+      href: node.btnConfig[0].href,
+      target: node.btnConfig[0].target,
+      format: node.btnConfig[0].format,
+      btnType: node.btnConfig[0].btnType,
+      btnIcon: node.btnConfig[0].icon,
     }
   }
   getBtnGroupConfig(node: any) {
@@ -534,7 +534,7 @@ export class BuilderClickButtonService {
         className: node.className,
         titlePosition: node.labelPosition,
         repeatable: node.repeatable,
-        wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].chartCardConfig[0].formly[0].fieldGroup[0].wrappers?.at(0),
+        wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
       }
     }
     else {

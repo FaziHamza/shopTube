@@ -1,6 +1,6 @@
-<ng-container *ngIf="carouselslides[0].carousalType == 'carousel-fade'; else secondCarousal">
+<ng-container *ngIf="carouselslides.carousalType == 'carousel-fade'; else secondCarousal">
     <nz-carousel [nzEffect]="'fade'">
-        <div nz-carousel-content *ngFor="let item of carouselslides[0].carousalConfig">
+        <div nz-carousel-content *ngFor="let item of carouselslides.carousalConfig">
             <div>
                 <img src="{{item.img}}" class="d-block img-fluid mx-auto" alt="..." />
             </div>
@@ -9,7 +9,7 @@
 </ng-container>
 <ng-template #secondCarousal>
     <nz-carousel nzAutoPlay>
-        <div nz-carousel-content *ngFor="let item of carouselslides[0].carousalConfig">
+        <div nz-carousel-content *ngFor="let item of carouselslides.carousalConfig">
             <div>
                 <img src="{{item.img}}" class="d-block img-fluid mx-auto" alt="..." />
             </div>

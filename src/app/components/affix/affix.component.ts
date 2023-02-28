@@ -24,7 +24,7 @@ export class AffixComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+
     this.offsetTop = this.affixData.margin;
     this.nzOffsetBottom = this.affixData.margin;
   }

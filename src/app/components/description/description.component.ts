@@ -6,12 +6,12 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./description.component.scss']
 })
 export class DescriptionComponent implements OnInit {
-  @Input() descriptionData : any; 
+  @Input() descriptionData : any;
   constructor() { }
 
   ngOnInit(): void {
     this.descriptionData
-    debugger
+
   }
 
 }

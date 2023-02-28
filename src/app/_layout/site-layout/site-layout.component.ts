@@ -20,7 +20,7 @@ export class SiteLayoutComponent implements OnInit {
   selected: any = 'vertical'
   theme = false;
   checked = false;
-  isModalOpen : any = false; 
+  isModalOpen : any = false;
   selectedTheme = {
     layout: 'vertical',
     colorScheme: '',
@@ -125,7 +125,7 @@ export class SiteLayoutComponent implements OnInit {
     debugger
     if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
       this.isCollapsed = value;
-    } 
+    }
     if (this.selectedTheme.sideBarSize == 'smallHoverView') {
       if (!this.checked)
         this.isCollapsed = value;

@@ -15,7 +15,7 @@ export class ListComponent implements OnInit {
   @Input() listData: any;
   ngOnInit(): void {
     this.listData;
-    debugger
+
     this.data = this.listData.options;
     this.list = this.listData.options;
     this.initLoading = false;
