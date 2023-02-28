@@ -3664,9 +3664,11 @@ export class BuilderComponent implements OnInit {
       case "telephone":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
+        if (type == "tags" || type == "multiselect" || type == "search")
+          this.fieldData.formData = _formFieldData.selectFields;
+        else if ( type == "radiobutton" || type == "checkbox")
           this.fieldData.formData = _formFieldData.radioFields;
-        if (type == 'color')
+        else if (type == 'color')
           this.fieldData.formData = _formFieldData.colorFields;
         break;
 
@@ -4357,6 +4359,7 @@ export class BuilderComponent implements OnInit {
       case 'image':
       case 'telephone':
       case 'textarea':
+      case 'multiselect':
       case 'time':
       case 'month':
       case 'week':
@@ -4388,13 +4391,13 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
-            if (this.selectedNode.type == "multiselect") {
+            if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
             } else {
               templateOptions['defaultValue'] = event.form.defaultValue;
             }
-            if (event.form.apiData != undefined) {
+            if (event.form.apiData) {
               this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
 
