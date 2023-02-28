@@ -52,9 +52,19 @@ export class EmployeeService {
         );
     }
     register(user: any) {
-        return this.http.post(this.baseUrl +`users`, user);
+        return this.http.post(this.baseUrl + `users`, user);
     }
-    
+    jsonApplicationBuilder(): Observable<any[]> {
+        return this.http.get<any[]>(
+            this.baseUrl + "jsonApplication"
+        );
+    }
+    jsonModuleModuleList(): Observable<any> {
+        return this.http.get<any>(
+          this.baseUrl + "jsonModule"
+        );
+      }
+
 
 }
 
