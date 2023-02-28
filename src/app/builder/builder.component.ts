@@ -588,25 +588,16 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
-        buttonGroup: [
+        btnConfig: [
           {
-            // btnGroupPosition: "text-left",
-            btnGroupFormat: "text-left",
-            highLight: false,
-            btnConfig: [
-              {
-                color: "btn btn-success",
-                type: "insert",
-                btnIcon: "uil uil-user",
-                // format: "text-left",
-                btnDisables: false,
-                disabled: this.getLastNodeWrapper("disabled"),
-              },
-            ],
-
-          }
+            color: "btn btn-success",
+            type: "insert",
+            btnIcon: "uil uil-user",
+            // format: "text-left",
+            btnDisables: false,
+            disabled: this.getLastNodeWrapper("disabled"),
+          },
         ],
-
         children: [
         ],
 
@@ -624,44 +615,34 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
-        buttonGroup: [
+        btnConfig: [
           {
-            // btnGroupPosition: "text-left",
-            btnGroupFormat: "text-left",
-            highLight: false,
-            btnConfig: [
+            color: "btn btn-success",
+            type: "dropdown",
+            btnIcon: "uil uil-user",
+            // format: "text-left",
+            btnDisables: false,
+            disabled: this.getLastNodeWrapper("disabled"),
+            dropdownOptions: [
               {
-                color: "btn btn-success",
-                type: "dropdown",
-                btnIcon: "uil uil-user",
-                // format: "text-left",
-                btnDisables: false,
-                disabled: this.getLastNodeWrapper("disabled"),
-                dropdownOptions: [
-                  {
-                    label: "Option 1",
-                    link: "1",
-                  },
-                  {
-                    label: "Option 2",
-                    link: "2",
-                  },
-                  {
-                    label: "Option 3",
-                    link: "3",
-                  },
-                  {
-                    label: "Option 4",
-                    link: "4",
-                  },
-                ],
+                label: "Option 1",
+                link: "1",
               },
-
+              {
+                label: "Option 2",
+                link: "2",
+              },
+              {
+                label: "Option 3",
+                link: "3",
+              },
+              {
+                label: "Option 4",
+                link: "4",
+              },
             ],
-
-          }
+          },
         ],
-
         children: [
         ],
 
@@ -680,12 +661,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "update",
         className: "w-1/4",
-        buttonGroup: [
-          {
-            // btnGroupPosition: "text-left",
-            btnGroupFormat: "text-left",
-            highLight: false,
-            btnConfig: [
+         btnConfig: [
               {
                 color: "btn btn-primary",
                 btnIcon: "uil uil-user",
@@ -695,9 +671,6 @@ export class BuilderComponent implements OnInit {
                 disabled: this.getLastNodeWrapper("disabled"),
               },
             ],
-
-          }
-        ],
         children: [
         ],
 
@@ -4766,20 +4739,20 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
             // this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
-            // this.selectedNode.btnGroupFormat = event.form.btnGroupFormat;
-            this.selectedNode.btnConfig[0].disabled = event.form.disabled;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectedNode.buttonGroup[0].btnConfig[0].disabled = event.form.disabled;
             if (event.form.disabled) {
               // this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = this.form.valid;
             } else
-              this.selectedNode.btnConfig[0].btnDisables = false;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+              this.selectedNode.buttonGroup[0].btnConfig[0].btnDisables = false;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
           }
         }
         break;
@@ -4794,8 +4767,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
             for (let i = 0; i < this.selectedNode.children.length; i++) {
               const node = this.selectedNode.children ?? [];
-              const btnGroup = node[i] ?? {};
-              btnGroup.hideExpression = event.form.hideExpression
+              const btnGroup = node[i].buttonGroup ?? [];
+              btnGroup[0].btnGroupFormat = event.form.btnGroupFormat
+              btnGroup[0].btnConfig[0].hideExpression = event.form.hideExpression
               this.selectedNode.children[i].className = event.form.className
               // this.selectedNode.children.forEach(elementV1 => elementV1.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat);
               if (event.form.btnGroupPosition == 'header') {
@@ -4817,20 +4791,21 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].key = event.form.key;
-            this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].href = event.form.href;
-            this.selectedNode.btnConfig[0].format = event.form.format;
-            this.selectedNode.btnConfig[0].target = event.form.target;
-            this.selectedNode.btnConfig[0].btnType = event.form.target;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].key = event.form.key;
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectedNode.buttonGroup[0].btnConfig[0].href = event.form.href;
+            this.selectedNode.buttonGroup[0].btnConfig[0].format = event.form.format;
+            this.selectedNode.buttonGroup[0].btnConfig[0].target = event.form.target;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnType = event.form.target;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.format;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
             if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-              this.selectedNode.btnConfig[0].btnType = "modal";
+              this.selectedNode.buttonGroup[0].btnConfig[0].btnType = "modal";
             }
           }
 
@@ -4841,14 +4816,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
-            this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].dropdownOptions = event.form.options;
+          if (this.selectedNode && this.selectedNode.buttonGroup && this.selectedNode.buttonGroup[0] && this.selectedNode.buttonGroup[0].btnConfig) {
+            this.selectedNode.buttonGroup[0].btnConfig[0].hideExpression = event.form.hideExpression;
+            this.selectedNode.buttonGroup[0].btnConfig[0].title = event.form.title;
+            this.selectedNode.buttonGroup[0].btnConfig[0].tooltip = event.form.tooltip;
+            this.selectedNode.buttonGroup[0].btnConfig[0].color = event.form.color;
+            this.selectedNode.buttonGroup[0].btnConfig[0].btnIcon = event.form.btnIcon;
+            this.selectedNode.buttonGroup[0].btnConfig[0].className = event.form.className;
+            this.selectedNode.buttonGroup[0].btnGroupFormat = event.form.btnGroupFormat;
+            this.selectedNode.buttonGroup[0].btnConfig[0].dropdownOptions = event.form.options;
           }
         }
         break;
