@@ -1,116 +1,27 @@
 <div class="ml-8">
-  <button class="hover:bg-blue-200 ;hover:text-blue-500 ; text-center ; rounded-md ; m-4" nz-button nz-dropdown
-    nzType="link" [nzDropdownMenu]="menu">
+  <button class="hover:bg-blue-200 ;hover:text-blue cursor-pointer ; text-center ; rounded-md ; m-4" nz-button
+    nz-dropdown nzType="link" [nzDropdownMenu]="menu">
     <h2 class="font-bold">Pages</h2>
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <nz-card class="rounded-md z-99">
       <nz-tabset>
-        <nz-tab nzTitle="General">
-          <div class="flex flex-nowrap">
-            <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
-              <h4 class="hover:bg-blue-200 ;hover:text-blue-500;rounded-md; font-bold ; py-3">Font</h4>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <div >
-                  <a href="javascript:void(0)" clas="menu-spannk">
-                    <span class="menu-title">Projects</span>
-                  </a>
+        <nz-tab *ngFor="let item of tabsData" [nzTitle]='item.tabLabel'>
+          <div class="flex flex-nowrap font-sans">
+            <ng-container *ngFor="let tabChild of item.tabChild">
+              <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
+                <div class="font-bold text-lg py-3">
+                  <h4 class="ml-2 font-sans">{{tabChild.label}}</h4>
                 </div>
+                <ng-container *ngFor="let itemChild of tabChild.children">
+                  <div class="hover:bg-blue-200 hover:text-blue-500 cursor-pointer rounded-md py-3">
+                    <p class="ml-2 font-sans text-md">{{itemChild.label}}</p>
+                  </div>
+                </ng-container>
               </div>
-             
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Compaigns</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Followes</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Activity</span>
-                </a>
-              </div>
-            </div>
-            <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
-              <h4 class="hover:bg-blue-200 ;hover:text-blue-500 ;rounded-md; font-bold ; py-3">Font</h4>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title ">Projects</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Compaigns</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Followes</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Activity</span>
-                </a>
-              </div>
-            </div>
-            <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
-              <h4 class="hover:bg-blue-200 ;hover:text-blue-500;rounded-md; font-bold ; py-3">Font</h4>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title ">Projects</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Compaigns</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Followes</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Activity</span>
-                </a>
-              </div>
-            </div>
-            <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
-              <h4 class="hover:bg-blue-200 ;hover:text-blue-500 ;rounded-md; font-bold ; py-3">Font</h4>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title ">Projects</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Compaigns</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Followes</span>
-                </a>
-              </div>
-              <div class="hover:bg-blue-200 ;hover:text-blue-500 ; rounded-md ; py-3">
-                <a href="javascript:void(0)" clas="menu-spannk">
-                  <span class="menu-title">Activity</span>
-                </a>
-              </div>
-            </div>
+            </ng-container>
           </div>
         </nz-tab>
-        <nz-tab nzTitle="Authentication
-        "></nz-tab>
-        <nz-tab nzTitle="Utispanties"></nz-tab>
-        <nz-tab nzTitle="Work logs"></nz-tab>
-        <nz-tab nzTitle="Time Analysis"></nz-tab>
-        <nz-tab nzTitle="Widgets"></nz-tab>
       </nz-tabset>
     </nz-card>
   </nz-dropdown-menu>
