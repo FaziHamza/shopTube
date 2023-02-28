@@ -320,6 +320,7 @@ export class BuilderComponent implements OnInit {
     if (value == 'page') {
       const newNode = {
         id: 'page_' + Guid.newGuid(),
+        key: "pages_" + Guid.newGuid(),
         title: 'Page',
         type: "page",
         footer: false,
@@ -347,6 +348,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageHeader') {
       const newNode = {
         id: 'pageHeader_' + Guid.newGuid(),
+        key: "pageHeader_" + Guid.newGuid(),
+
         title: 'Page Header',
         type: "pageHeader",
         headingSize: "",
@@ -370,6 +373,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageBody') {
       const newNode = {
         id: 'pageBody_' + Guid.newGuid(),
+        key: "pageBody_" + Guid.newGuid(),
         title: 'Page Body',
         type: "pageBody",
         footer: false,
@@ -391,6 +395,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'pageFooter') {
       const newNode = {
         id: 'pageFooter_' + Guid.newGuid(),
+        key: "pageFooter_" + Guid.newGuid(),
+
         title: 'Page Footer',
         type: "pageFooter",
         footer: false,
@@ -411,6 +417,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'according') {
       const newNode = {
         id: 'according_' + Guid.newGuid(),
+        key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
         className: "",
@@ -436,6 +443,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordingHeader') {
       const newNode = {
         id: 'accordingHeader_' + Guid.newGuid(),
+        key: "accordingHeader_" + Guid.newGuid(),
+
         title: 'Header',
         type: "accordingHeader",
         footer: false,
@@ -460,6 +469,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordingBody') {
       const newNode = {
         id: 'accordingBody_' + Guid.newGuid(),
+        key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
         footer: false,
@@ -483,6 +493,8 @@ export class BuilderComponent implements OnInit {
         id: 'accordingFooter_' + Guid.newGuid(),
         title: 'Footer',
         type: "accordingFooter",
+        key: "accordingFooter_" + Guid.newGuid(),
+
         footer: false,
         header: false,
         expanded: true,
@@ -501,6 +513,8 @@ export class BuilderComponent implements OnInit {
     else if (data?.parameter == 'input') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: data?.label + Guid.newGuid(),
+
         title: data?.label,
         expanded: true,
         type: data?.configType,
@@ -792,6 +806,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'audio') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: "Audio Example",
         type: "audio",
         highLight: false,
@@ -808,6 +823,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'carouselCrossfade') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'carouselCrossfade_1',
         type: "carouselCrossfade",
         highLight: false,
@@ -845,6 +861,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'tuiCalender') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'calender_1',
         type: "tuiCalender",
         className: "w-10/12",
@@ -882,6 +899,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'sharedMessagesChart') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'Task  Widget_1',
         type: "sharedMessagesChart",
         className: "w-1/2",
@@ -919,6 +937,7 @@ export class BuilderComponent implements OnInit {
         type: "alert",
         className: "w-full",
         hideExpression: false,
+        key: "alert_" + Guid.newGuid(),
         tooltip: "Alert",
         highLight: false,
         isNextChild: false,
@@ -948,7 +967,6 @@ export class BuilderComponent implements OnInit {
         className: "w-1/2",
         highLight: false,
         isNextChild: false,
-
         key: "simpleCard_" + Guid.newGuid(),
         simpleCardWithHeaderBodyFooterConfig: [
           {
@@ -1007,6 +1025,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'mainDashonicTabs') {
       const newNode = {
         id: 'mainDashonicTabs_' + Guid.newGuid(),
+        key: 'mainDashonicTabs_' + Guid.newGuid(),
         title: 'MainTab_1',
         type: "mainDashonicTabs",
         isNextChild: true,
@@ -1097,6 +1116,8 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
+        key: "button_" + Guid.newGuid(),
+
         btnConfig: [
           {
             hideExpression: false,
@@ -1146,7 +1167,7 @@ export class BuilderComponent implements OnInit {
         title: "chart" + '_1',
         type: "chart",
         className: "w-1/2",
-        key: "chart",
+        key: "chart" + Guid.newGuid(),
         highLight: false,
         isNextChild: false,
         hideExpression: false,
@@ -1275,7 +1296,6 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-
         tooltip: "",
         "link": "",
         "belowpercentage": 1,
@@ -2216,6 +2236,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'column') {
       const newNode = {
         id: "Column " + Math.random().toFixed(3),
+        key: "Column " + Math.random().toFixed(3),
         title: 'Column' + '_1',
         type: "input",
         isNextChild: false,
@@ -2233,6 +2254,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'timeline') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'timeline_1',
         type: "timeline",
         tooltip: "",
@@ -2270,6 +2292,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'fixedDiv') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "fixedDiv" + Guid.newGuid(),
         title: 'FixedDiv_1',
         type: "fixedDiv",
         tooltip: "",
@@ -2291,6 +2314,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordionButton') {
       const newNode = {
         id: 'accordionButton_' + Guid.newGuid(),
+       key: 'accordionButton_' + Guid.newGuid(),
         title: 'accordionButton_1',
         type: "accordionButton",
         highLight: false,
@@ -2367,6 +2391,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'starrate') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         title: 'starrate_1',
         type: "starrate",
         isNextChild: false,
@@ -2381,6 +2406,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'rangeSlider') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'rangeSlider',
         type: "rangeSlider",
@@ -2401,6 +2427,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'invoice') {
       const newNode = {
         id: 'invoice_' + Guid.newGuid(),
+        key: 'invoice_' + Guid.newGuid(),
         className: "w-full",
         title: 'Invoice',
         type: "invoice",
@@ -2433,6 +2460,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'affix') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Affix',
         type: "affix",
@@ -2450,6 +2478,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'statistic') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Statistic',
         type: "statistic",
@@ -2473,6 +2502,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'backTop') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Back Top',
         type: "backTop",
@@ -2488,6 +2518,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'anchor') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Anchor',
         type: "anchor",
@@ -2528,6 +2559,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'modal') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Modal',
         type: "modal",
@@ -2545,6 +2577,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'popConfirm') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Pop Confirm',
         type: "popConfirm",
@@ -2584,6 +2617,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'badge') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Badge',
         type: "badge",
@@ -2672,6 +2706,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'segmented') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Segmented',
         type: "segmented",
@@ -2687,6 +2722,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'result') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'result',
         type: "result",
@@ -2705,6 +2741,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'nzTag') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Tag',
         type: "nzTag",
@@ -2739,6 +2776,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'transfer') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'transfer',
         type: "transfer",
@@ -2852,6 +2890,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'cascader') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: 'common_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Cascader',
         type: "cascader",
