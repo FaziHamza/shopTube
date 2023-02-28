@@ -280,12 +280,31 @@
                             </ng-template>
                             <div class="p-1" *ngFor="let item3 of item2.children">
 
-                              <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'"
+                              <!-- <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'"
                                 (click)="addControlToJson(item3.parameter,item3)"><i
                                   class={{item3.icon}}></i>{{item3.label}}
                               </button>
                               <button nz-button nzType="default" *ngIf="item3.parameter == 'addSection'"
                                 (click)="addSection()"><i class={{item3.icon}}></i>{{item3.label}}
+                              </button> -->
+                              <button  nz-button nzType="default"
+                                *ngIf="item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item3.parameter != 'cvtemplate'  && item3.parameter != 'dashnoicPricingTemplate'  && item3.parameter != 'login' && item3.parameter != 'loremIpsum'  && item3.parameter != 'dashnoicPricingTabletemplate' && item3.parameter != 'pricingtemplate' && item3.parameter != 'registerTemplate' && item3.parameter != 'signUpTemplate' && item3.parameter != 'profiletemplate' && item3.parameter != 'invoiceTemplate'"
+                                (click)="addControlToJson(item3.parameter,item3)"><i class={{item3.icon}}></i>{{item3.label}}
+                              </button>
+
+                              <div
+                                *ngIf="item3.parameter != 'cvtemplate'  && item3.parameter != 'dashnoicPricingTemplate'  && item3.parameter != 'login' && item3.parameter != 'loremIpsum'  && item3.parameter != 'dashnoicPricingTabletemplate' && item3.parameter != 'pricingtemplate' && item3.parameter != 'registerTemplate' && item3.parameter != 'signUpTemplate' && item3.parameter != 'profiletemplate' && item3.parameter != 'invoiceTemplate'">
+                                <button  nz-button nzType="default"
+                                  *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'address_form' || item3.parameter == 'employee_form' || item3.parameter == 'login_Form' || item3.parameter == 'signUp_Form' "
+                                  (click)="addFunctionsInHtml(item3.parameter)"><i
+                                    class={{item3.icon}}></i>{{item3.label}}
+                                </button>
+                              </div>
+                              <button  nz-button nzType="default"
+                                *ngIf="item3.parameter == 'cvtemplate'  || item3.parameter == 'dashnoicPricingTemplate'  || item3.parameter == 'login' || item3.parameter == 'loremIpsum'  || item3.parameter == 'dashnoicPricingTabletemplate' || item3.parameter == 'pricingtemplate' || item3.parameter == 'registerTemplate' || item3.parameter == 'signUpTemplate' || item3.parameter == 'profiletemplate' || item3.parameter == 'invoiceTemplate'"
+                                (click)="dashonicTemplates(item3.parameter)">
+                                <!-- <i class={{item3.icon}} (mouseenter)="openModal(content,item3.content,item3.name)"></i> -->
+                                {{item3.label}}
                               </button>
                             </div>
                           </div>

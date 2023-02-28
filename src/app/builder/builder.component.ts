@@ -310,7 +310,7 @@ export class BuilderComponent implements OnInit {
   stepperChild: TreeNode;
   tabsChild: TreeNode;
 
-  addControlToJson(value: string, data: any) {
+  addControlToJson(value: string, data?: any) {
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -4093,6 +4093,100 @@ export class BuilderComponent implements OnInit {
     // this.jsonStringifData();
 
     // array.splice(index, 0, ...elementsArray);
+  }
+  addFunctionsInHtml(type: any) {
+    if (type == "dashonictabsAddNew")
+      this.dashonictabsAddNew();
+    else if (type == "stepperAddNew")
+      this.stepperAddNew();
+    else if (type == "kanabnAddNew")
+      this.kanabnAddNew();
+    else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
+      this.formDataFromApi(type);
+    else if (type == "addSection")
+      this.addSection();
+  }
+  kanabnAddNew() {
+    this.addControlToJson('kanban');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('kanbanTask');
+    this.selectedNode = this.tabsAdd;
+    this.selectedNode = this.selectForDropdown;
+    this.updateNodes();
+  }
+  stepperAddNew() {
+
+    this.addControlToJson('stepperMain');
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.stepperAdd;
+    this.addControlToJson('stepper');
+    this.selectedNode = this.stepperChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.selectForDropdown;
+    // this.stepperNewlength = 3;
+    this.updateNodes();
+  }
+  tabsAddNew() {
+
+    this.addControlToJson('tabsMain');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('tabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.selectForDropdown;
+    // this.tabsNewlength = 3;
+    this.updateNodes();
+  }
+  dashonictabsAddNew() {
+
+    this.addControlToJson('mainDashonicTabs');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.tabsAdd;
+    this.addControlToJson('dashonicTabs');
+    this.selectedNode = this.tabsChild;
+    this.addControlToJson('text');
+    this.selectedNode = this.selectForDropdown;
+    // this.tabsNewlength = 3;
+    this.updateNodes();
+  }
+  formDataFromApi(screenId: any) {
+    this.builderService.genericApis(screenId).subscribe((res => {
+      this.nodes[0].children[1].children.push(res[0])
+      this.updateNodes();
+    }));
+  }
+  dashonicTemplates(model: any) {
+    this.builderService.dashonicTemplates(model).subscribe((res => {
+      this.selectedNode?.children?.push(res);
+      this.updateNodes();
+      this.toastr.success('Controll Added',{nzDuration:3000});
+    }));
   }
   remove(parent: any, node: any) {
     parent = parent?.parentNode?.origin;
