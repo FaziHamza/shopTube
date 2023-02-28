@@ -99,7 +99,13 @@
               </span>
             </div>
             <div class="card-bwody">
-              <input type="text" class="form-control" id="mySearch" (keyup)="menuSearch()" placeholder="Search..">
+              <nz-input-group nzSearch nz-col nzSpan="24" [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input id="mySearch" (keyup)="menuSearch()" placeholder="Search..">
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+              </ng-template>
+              
               <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
                 <div *ngFor="let item of filterMenuData">
                   <li class="menu-labels d-flex justify-content-between">{{item.title | uppercase}}
@@ -217,8 +223,14 @@
                   <h3>{{item.label}}</h3>
                   <div class="side-bar-search-row">
                     <div class="search-bar">
-                      <input type="text" class="form-control" id="searchControll" (keyup)="searchControll()"
+                      <nz-input-group nzSearch nz-col nzSpan="8" [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input  id="searchControll" (keyup)="searchControll()"
                         placeholder="Search..">
+                      </nz-input-group>
+                      <ng-template #suffixIconButton>
+                        <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+                      </ng-template>
+                      
                       <ng-template #content role="document" let-modal>
                         <form>
                           <div class="modal-body">
@@ -232,12 +244,12 @@
                           </div>
                         </form>
                       </ng-template>
-                      <!-- <ul id="search-menu" *ngIf="searchControllData.length > 0 ">
+                     <ul id="search-menu" *ngIf="searchControllData.length > 0 ">
                         <div class="row tab-pills">
                           <div class="col-md-3 mb-1" *ngFor="let searchItems of searchControllData">
                             <label
                               *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
-                              (click)="addControlToJson(searchItems.parameter)"><i
+                              (click)="addControlToJson(searchItems.parameter,searchItems)"><i
                                 class={{searchItems.icon}}></i>{{searchItems.label}}
                             </label>
                             <ng-container
@@ -250,12 +262,14 @@
                             </ng-container>
                             <label
                               *ngIf="searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'"
-                              (click)="dashonicTemplates(searchItems.parameter)"><i class={{searchItems.icon}}
-                                (mouseenter)="openModal(content,searchItems.content,searchItems.name)"></i>{{searchItems.label}}
+                              (click)="dashonicTemplates(searchItems.parameter)">
+                              <!-- <i class={{searchItems.icon}}
+                                (mouseenter)="openModal(content,searchItems.content,searchItems.name)"></i> -->
+                                {{searchItems.label}}
                             </label>
                           </div>
                         </div>
-                      </ul> -->
+                      </ul> 
                     </div>
                   </div>
                 </div>

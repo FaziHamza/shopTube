@@ -311,6 +311,7 @@ export class BuilderComponent implements OnInit {
   tabsChild: TreeNode;
 
   addControlToJson(value: string, data?: any) {
+    debugger
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -2890,7 +2891,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'cascader') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        key: 'cascader-' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Cascader',
         type: "cascader",
@@ -3315,8 +3316,12 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    parent = parent.parentNode.origin;
-    node = node.origin;
+    debugger
+    if(node.origin){
+      parent = parent?.parentNode?.origin;
+      node = node.origin;
+    }
+    
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -3325,7 +3330,7 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = node;
     this.selectdParentNode = parent;
 
-    this.clickButton(node.type)
+    this.clickButton(node?.type)
 
   }
   applyHighLight(data: boolean, element: any) {
@@ -5989,13 +5994,14 @@ export class BuilderComponent implements OnInit {
 
 
   searchControll() {
+    // debugger
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
       this.htmlTabsData[0].children.forEach((a: any) => {
         a.children.forEach((b: any) => {
           b.children.forEach((c: any) => {
-            if (c.title.toUpperCase().includes(input)) {
+            if (c.label.toUpperCase().includes(input)) {
               this.searchControllData.push(c)
             }
           });
