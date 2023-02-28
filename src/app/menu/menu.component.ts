@@ -1,6 +1,6 @@
 import { EmployeeService } from './../services/employee.service';
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from '../models/menu';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-menu',
@@ -8,308 +8,34 @@ import { MenuItem } from '../models/menu';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-
-  menuItems: MenuItem[] = [];
-  tabsData: any = [];
-  constructor(private employeeService: EmployeeService) { }
-  isVisible: any = false;
+  @Output() notify: EventEmitter<any> = new EventEmitter();
+  applicationBuilder: any;
+  screenSetting: any;
+  constructor(private employeeService: EmployeeService, private notification: NzNotificationService) { }
 
   ngOnInit(): void {
-    // this.getMenu();
-    this.tabsData = [
-      {
-        tabLabel: "General",
-        tabChild: [
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-        ]
-      },
-      {
-        tabLabel: "Utispanties",
-        tabChild: [
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-        ]
-      },
-      {
-        tabLabel: "Work logs",
-        tabChild: [
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-        ]
-      },
-      {
-        tabLabel: "Time Analysis",
-        tabChild: [
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-          {
-            label: "Font",
-            children: [
-              {
-                label: "Projects",
-              },
-              {
-                label: "Campaigns",
-              },
-              {
-                label: "Followers",
-              },
-            ]
-          },
-        ]
-      },
-    ]
+    this.getApllicationAndModule();
   }
-  isCollapsed = false;
-
-  toggleCollapsed(): void {
-    this.isCollapsed = !this.isCollapsed;
+  getApllicationAndModule() {
+    this.employeeService.jsonApplicationBuilder().subscribe((res => {
+      this.applicationBuilder = res;
+    }));
+    this.employeeService.jsonModuleModuleList().subscribe((res => {
+      this.screenSetting = res;
+    }));
   }
-  getMenu() {
-    this.employeeService.getJsonModules('Home Page').subscribe((res) => {
-
-      if (res.length > 0)
-        this.menuItems = res[0].menuData;
-      else
-        this.menuItems = [];
-    })
-    // this.employeeService.getMenuData(1).subscribe((res)=>{
-    //
-    //   this.menuItems = res;
-    // })
+  UpdateMenuLink(moduleName: any) {
+    this.employeeService.getJsonModules(moduleName).subscribe((res => {
+      if (res.length > 0) {
+        this.notify.emit(res[0].menuData);
+      } 
+      else {
+        this.notification.create(
+          'error',
+          'Error',
+          'No menu agisnst this module'
+        );
+      }
+    }));
   }
-
-
-
 }

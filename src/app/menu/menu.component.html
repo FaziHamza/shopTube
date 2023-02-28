@@ -1,25 +1,22 @@
 <div class="ml-8">
   <button class="hover:bg-blue-200 ;hover:text-blue cursor-pointer ; text-center ; rounded-md ; m-4" nz-button
     nz-dropdown nzType="link" [nzDropdownMenu]="menu">
-    <h2 class="font-bold">Pages</h2>
+    <h2 class="font-bold font-sans">Category</h2>
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <nz-card class="rounded-md z-99">
       <nz-tabset>
-        <nz-tab *ngFor="let item of tabsData" [nzTitle]='item.tabLabel'>
-          <div class="flex flex-nowrap font-sans">
-            <ng-container *ngFor="let tabChild of item.tabChild">
-              <div class="w-full sm:w-1/2 md:w-1/2 mb-4 px-2">
-                <div class="font-bold text-lg py-3">
-                  <h4 class="ml-2 font-sans">{{tabChild.label}}</h4>
-                </div>
-                <ng-container *ngFor="let itemChild of tabChild.children">
-                  <div class="hover:bg-blue-200 hover:text-blue-500 cursor-pointer rounded-md py-3">
-                    <p class="ml-2 font-sans text-md">{{itemChild.label}}</p>
+        <nz-tab *ngFor="let item of applicationBuilder" [nzTitle]='item.name'>
+          <div class="flex flex-nowrap">
+            <div *ngFor="let user of screenSetting">
+              <div *ngIf="user.applicationName == item.name">
+                <div class="w-full sm:1/3 md:1/2 mb-4 px-2">
+                  <div class=" hover:bg-blue-200 hover:text-blue-500 cursor-pointer rounded-md py-3">
+                    <p class="font-sans text-md px-2" (click)="UpdateMenuLink(user.name)">{{user.name}}</p>
                   </div>
-                </ng-container>
+                </div>
               </div>
-            </ng-container>
+            </div>
           </div>
         </nz-tab>
       </nz-tabset>
