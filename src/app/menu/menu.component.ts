@@ -9,8 +9,8 @@ import { MenuItem } from '../models/menu';
 })
 export class MenuComponent implements OnInit {
   menuItems: MenuItem[] = [];
-  constructor(private employeeService:EmployeeService) { }
-
+  constructor(private employeeService:EmployeeService ) { }
+  isVisible : any = false;
   ngOnInit(): void {
     // this.getMenu();
   }
@@ -32,4 +32,5 @@ export class MenuComponent implements OnInit {
     //   this.menuItems = res;
     // })
   }
+ 
 }

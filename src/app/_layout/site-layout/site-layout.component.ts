@@ -19,6 +19,19 @@ export class SiteLayoutComponent implements OnInit {
   menuItems: MenuItem[] = [];
   selected: any = 'vertical'
   theme = false;
+  checked = false;
+  isModalOpen : any = false;
+  selectedTheme = {
+    layout: 'vertical',
+    colorScheme: '',
+    layoutWidth: '',
+    layouutPosiion: 'fixed',
+    topBarColor: '',
+    sideBarSize: '',
+    siderBarView: '',
+    sieBarColor: '',
+    siderBarImages: 'blankImage',
+  }
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
@@ -51,20 +64,13 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   changeLayout(layoutType: any) {
-
-    this.selected = layoutType;
-    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'boxed') {
+    debugger
+    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault') {
       this.menuMode = "inline",
         this.rowClass = 'flex flex-nowrap',
         this.menuColumn = '',
         this.contentColumn = 'w-full',
         this.showToggleButton = true
-      if (layoutType == 'boxed') {
-        this.isCollapsed = true;
-        this.rowClass = 'flex flex-nowrap container mx-auto';
-      } else {
-        this.isCollapsed = false;
-      }
     }
     else if (layoutType == 'horizental') {
       this.menuMode = "horizontal",
@@ -74,20 +80,59 @@ export class SiteLayoutComponent implements OnInit {
         this.showToggleButton = false,
         this.isCollapsed = false;
     }
-    else if(layoutType == 'dark'){
+    else if (layoutType == 'dark') {
       this.theme = true;
     }
-    else if(layoutType == 'light'){
+    else if (layoutType == 'light') {
       this.theme = false;
     }
+    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
+      this.isCollapsed = true;
+    }
+    else if (layoutType == 'boxed' ) {
+      this.isCollapsed = true;
+      this.rowClass = 'flex flex-nowrap container mx-auto';
+      this.checked = false;
+    }
+    else if (layoutType == 'default') {
+      this.isCollapsed = false;
+    }
+    // This conditions is used to assign value to object
+    if (layoutType == 'vertical' || layoutType == 'horizental') {
+      this.selectedTheme.layout = layoutType;
+    } else if (layoutType == 'fluid' || layoutType == 'boxed') {
+      this.selectedTheme.layoutWidth = layoutType;
+    }
+    else if (layoutType == 'light' || layoutType == 'dark') {
+      this.selectedTheme.sieBarColor = layoutType;
+    }
+    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default') {
+      this.selectedTheme.sideBarSize = layoutType;
+    }
+    else if (layoutType == 'fixed' || layoutType == 'scrollable') {
+      this.selectedTheme.layouutPosiion = layoutType;
+    }
+    else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
+      this.selectedTheme.siderBarView = layoutType;
+    }
+    else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
+      this.selectedTheme.siderBarImages = layoutType;
+    }
+
   }
 
   setHovered(value: boolean) {
-
-    if (this.selected == 'boxed') {
+    debugger
+    if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
       this.isCollapsed = value;
     }
+    if (this.selectedTheme.sideBarSize == 'smallHoverView') {
+      if (!this.checked)
+        this.isCollapsed = value;
+    }
   }
-
-
+  mouseHoverd(value: boolean) {
+    debugger
+    this.isModalOpen = value;
+  }
 }
