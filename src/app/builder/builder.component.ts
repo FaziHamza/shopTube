@@ -2315,7 +2315,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'accordionButton') {
       const newNode = {
         id: 'accordionButton_' + Guid.newGuid(),
-       key: 'accordionButton_' + Guid.newGuid(),
+        key: 'accordionButton_' + Guid.newGuid(),
         title: 'accordionButton_1',
         type: "accordionButton",
         highLight: false,
@@ -3708,9 +3708,11 @@ export class BuilderComponent implements OnInit {
       case "telephone":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
+        if (type == "tags" || type == "multiselect" || type == "search")
+          this.fieldData.formData = _formFieldData.selectFields;
+        else if (type == "radiobutton" || type == "checkbox")
           this.fieldData.formData = _formFieldData.radioFields;
-        if (type == 'color')
+        else if (type == 'color')
           this.fieldData.formData = _formFieldData.colorFields;
         break;
 
@@ -4168,15 +4170,15 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = this.stepperAdd;
     this.addControlToJson('stepper');
     this.selectedNode = this.stepperChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.stepperAdd;
     this.addControlToJson('stepper');
     this.selectedNode = this.stepperChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.stepperAdd;
     this.addControlToJson('stepper');
     this.selectedNode = this.stepperChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     // this.stepperNewlength = 3;
     this.updateNodes();
@@ -4187,15 +4189,15 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     // this.tabsNewlength = 3;
     this.updateNodes();
@@ -4206,15 +4208,15 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('dashonicTabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('dashonicTabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('dashonicTabs');
     this.selectedNode = this.tabsChild;
-    this.addControlToJson('text');
+    this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     // this.tabsNewlength = 3;
     this.updateNodes();
@@ -4229,7 +4231,7 @@ export class BuilderComponent implements OnInit {
     this.builderService.dashonicTemplates(model).subscribe((res => {
       this.selectedNode?.children?.push(res);
       this.updateNodes();
-      this.toastr.success('Controll Added',{nzDuration:3000});
+      this.toastr.success('Controll Added', { nzDuration: 3000 });
     }));
   }
   remove(parent: any, node: any) {
@@ -4401,6 +4403,7 @@ export class BuilderComponent implements OnInit {
       case 'image':
       case 'telephone':
       case 'textarea':
+      case 'multiselect':
       case 'time':
       case 'month':
       case 'week':
@@ -4432,13 +4435,13 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
-            if (this.selectedNode.type == "multiselect") {
+            if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
             } else {
               templateOptions['defaultValue'] = event.form.defaultValue;
             }
-            if (event.form.apiData != undefined) {
+            if (event.form.apiData) {
               this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
 
@@ -5446,56 +5449,6 @@ export class BuilderComponent implements OnInit {
           // this.adddynamicStepper(event.form.nodes);
         }
         break;
-
-      case "tab":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].props.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].props.stepperFormat = event.form.stepperFormat;
-        }
-        break;
-      case "maintab":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
-          this.selectedNode.className = event.form.className;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.stepperFormat = event.form.stepperFormat;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonText = event.form.buttonText;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonIcon = event.form.buttonIcon;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.buttonColor = event.form.buttonColor;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsPosition = event.form.tabsPosition;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectTabColor = event.form.selectTabColor;
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.tabsDisplayType = event.form.tabsDisplayType;
-          // for (let index = 0; index < this.selectedNode.children.length; index++) {
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonText = event.form.buttonText);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonIcon = event.form.buttonIcon + " mr-1");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.buttonColor = event.form.buttonColor + " mt-2");
-          //   if (event.form.tabsDisplayType == "buttonType") {
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:0.25rem");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:azure");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:large");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType:none");
-          //   } else if (event.form.tabsDisplayType == "None" || event.form.tabsDisplayType == "underLine") {
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.selectTabColor = "--selectTabColor:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.underLineColor = "--underLineColor:" + event.form.selectTabColor);
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.borderRadius = "--borderRadius:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.color = "--color:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.fontsize = "--fontsize:none");
-          //     this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsDisplayType = "--tabsDisplayType: " + event.form.tabsDisplayType);
-          //   }
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].type = event.form.stepperFormat);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.className = event.form.className);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].props.tabsPosition = event.form.tabsPosition);
-          //   this.selectedNode.children[index].className = event.form.className;
-          //   this.selectedNode.children[index].type = event.form.stepperFormat;
-          // }
-          // this.adddynamictab(event.form.nodes);
-        }
-        break;
-      // For Section Page Changes
       case "page":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
@@ -5716,7 +5669,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "dashonicMainTab":
+      case "mainDashonicTabs":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5757,7 +5710,7 @@ export class BuilderComponent implements OnInit {
             }
           }
 
-          // this.adddynamicDashonictab(event.form.nodes);
+          this.adddynamicDashonictab(event.form.nodes);
           this.updateNodes();
         }
         break;
@@ -5990,7 +5943,42 @@ export class BuilderComponent implements OnInit {
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
+  adddynamicDashonictab(abc: any) {
 
+    if (this.selectedNode.children) {
+      let tabsLength = this.selectedNode.children?.length;
+      if (tabsLength < abc) {
+        for (let k = 0; k < abc; k++) {
+          if (tabsLength < abc) {
+            this.addControlToJson('dashonicTabs');
+            this.selectedNode = this.tabsChild;
+            this.addControlToJson('text', this.textJsonObj);
+            this.selectedNode = this.tabsAdd;
+            tabsLength = tabsLength + 1;
+          }
+        }
+      }
+      else {
+        if (this.selectdParentNode.children) {
+          let removeTabsLength = this.selectedNode.children.length;
+          let checkParentLength = this.selectdParentNode.children.length;
+          for (let a = 0; a < removeTabsLength; a++) {
+            for (let i = 0; i < checkParentLength; i++) {
+              for (let j = 0; j < removeTabsLength; j++) {
+                if (this.selectdParentNode.children[i].type == "mainDashonicTabs") {
+                  if (abc < tabsLength) {
+                    this.remove(this.selectdParentNode.children[i], this.selectedNode.children[tabsLength - 1]);
+                    tabsLength = tabsLength - 1;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
 
 
   searchControll() {
