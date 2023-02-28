@@ -157,30 +157,6 @@ export class formFeildData {
           },
         },
         {
-          key: 'btnGroupFormat',
-          type: 'select',
-          className: "w-1/4 px-1",
-          "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Button Format',
-            options: [
-              {
-                label: 'Right',
-                value: 'text-right'
-              },
-              {
-                label: 'Left',
-                value: 'text-left'
-              },
-              {
-                label: 'Center',
-                value: 'text-center'
-              },
-            ]
-          },
-          defaultValue: ''
-        },
-        {
           key: 'btnIcon',
           type: 'input',
           className: "w-1/4 px-1",
@@ -311,33 +287,6 @@ export class formFeildData {
             label: 'Button Text'
           }
         },
-
-        {
-          key: 'btnGroupFormat',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Btn Group Format',
-            options: [
-              {
-                label: 'Right',
-                value: 'text-right'
-              },
-              {
-                label: 'Left',
-                value: 'text-left'
-              },
-              {
-                label: 'Center',
-                value: 'text-center'
-              },
-            ]
-          },
-          defaultValue: ''
-        },
-
-
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -432,39 +381,6 @@ export class formFeildData {
             label: 'Button Icon'
           }
         },
-        {
-          key: 'btnGroupFormat',
-          type: 'select',
-          className: "w-1/4 px-1",
-          "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Btn Format',
-            options: [
-              {
-                label: 'Right',
-                value: 'text-right'
-              },
-              {
-                label: 'Left',
-                value: 'text-left'
-              },
-              {
-                label: 'Center',
-                value: 'text-center'
-              },
-            ]
-          },
-          defaultValue: ''
-        },
-
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
         {
           template: '<div class="bold-label mt-3">options</div>',
         },
