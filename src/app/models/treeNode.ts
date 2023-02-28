@@ -142,7 +142,7 @@ export interface TreeNode {
   timelineConfig?: any,
   alertConfig?: any,
   videoConfig?: any,
-  chartCardConfig?: builderConfig[],
+  // chartCardConfig?: builderConfig[],
   audioSrc?: any,
   dataOnly?: any,
   nodes?: any,

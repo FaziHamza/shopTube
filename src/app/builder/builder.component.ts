@@ -566,15 +566,11 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         hideExpression: false,
-        className: "co-3",
-        chartCardConfig: [{
-          position: "text-center",
-          key: "buttongroup_" + Guid.newGuid(),
-          id: "buttongroup",
-          btnGroupPosition: "header-button",
-          btngroupformat: "text-left",
-          className: "co-3",
-        }],
+        className: "w-1/4",
+        position: "text-center",
+        key: "buttongroup_" + Guid.newGuid(),
+        btnGroupPosition: "header-button",
+        btngroupformat: "text-left",
         children: [
         ],
       } as TreeNode;
@@ -589,30 +585,28 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
-        chartCardConfig: [{
-          buttonGroup: [
-            {
-              // btnGroupPosition: "text-left",
-              btnGroupFormat: "text-left",
-              highLight: false,
-              btnConfig: [
-                {
-                  hideExpression: false,
-                  tooltip: "",
-                  key: "insert" + Guid.newGuid(),
-                  color: "btn btn-success",
-                  title: "Insert",
-                  type: "insert",
-                  btnIcon: "uil uil-user",
-                  // format: "text-left",
-                  btnDisables: false,
-                  disabled: this.getLastNodeWrapper("disabled"),
-                },
-              ],
+        buttonGroup: [
+          {
+            // btnGroupPosition: "text-left",
+            btnGroupFormat: "text-left",
+            highLight: false,
+            btnConfig: [
+              {
+                hideExpression: false,
+                tooltip: "",
+                key: "insert" + Guid.newGuid(),
+                color: "btn btn-success",
+                title: "Insert",
+                type: "insert",
+                btnIcon: "uil uil-user",
+                // format: "text-left",
+                btnDisables: false,
+                disabled: this.getLastNodeWrapper("disabled"),
+              },
+            ],
 
-            }
-          ],
-        }],
+          }
+        ],
 
         children: [
         ],
@@ -628,49 +622,47 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
-        chartCardConfig: [{
-          buttonGroup: [
-            {
-              // btnGroupPosition: "text-left",
-              btnGroupFormat: "text-left",
-              highLight: false,
-              btnConfig: [
-                {
-                  hideExpression: false,
-                  tooltip: "",
-                  key: "button" + Guid.newGuid(),
-                  color: "btn btn-success",
-                  title: "Dropdown button",
-                  type: "dropdown",
-                  btnIcon: "uil uil-user",
-                  // format: "text-left",
-                  btnDisables: false,
-                  disabled: this.getLastNodeWrapper("disabled"),
-                  dropdownOptions: [
-                    {
-                      label: "Option 1",
-                      link: "1",
-                    },
-                    {
-                      label: "Option 2",
-                      link: "2",
-                    },
-                    {
-                      label: "Option 3",
-                      link: "3",
-                    },
-                    {
-                      label: "Option 4",
-                      link: "4",
-                    },
-                  ],
-                },
+        buttonGroup: [
+          {
+            // btnGroupPosition: "text-left",
+            btnGroupFormat: "text-left",
+            highLight: false,
+            btnConfig: [
+              {
+                hideExpression: false,
+                tooltip: "",
+                key: "button" + Guid.newGuid(),
+                color: "btn btn-success",
+                title: "Dropdown button",
+                type: "dropdown",
+                btnIcon: "uil uil-user",
+                // format: "text-left",
+                btnDisables: false,
+                disabled: this.getLastNodeWrapper("disabled"),
+                dropdownOptions: [
+                  {
+                    label: "Option 1",
+                    link: "1",
+                  },
+                  {
+                    label: "Option 2",
+                    link: "2",
+                  },
+                  {
+                    label: "Option 3",
+                    link: "3",
+                  },
+                  {
+                    label: "Option 4",
+                    link: "4",
+                  },
+                ],
+              },
 
-              ],
+            ],
 
-            }
-          ],
-        }],
+          }
+        ],
 
         children: [
         ],
@@ -687,31 +679,28 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "update",
         className: "w-1/4",
-        chartCardConfig: [{
-          buttonGroup: [
-            {
-              // btnGroupPosition: "text-left",
-              btnGroupFormat: "text-left",
-              highLight: false,
-              btnConfig: [
-                {
-                  hideExpression: false,
-                  tooltip: "",
-                  color: "btn btn-primary",
-                  title: "Update",
-                  btnIcon: "uil uil-user",
-                  type: "update",
-                  key: "update" + Guid.newGuid(),
-                  // format: "text-left",
-                  btnDisables: false,
-                  disabled: this.getLastNodeWrapper("disabled"),
-                },
-              ],
+        buttonGroup: [
+          {
+            // btnGroupPosition: "text-left",
+            btnGroupFormat: "text-left",
+            highLight: false,
+            btnConfig: [
+              {
+                hideExpression: false,
+                tooltip: "",
+                color: "btn btn-primary",
+                title: "Update",
+                btnIcon: "uil uil-user",
+                type: "update",
+                key: "update" + Guid.newGuid(),
+                // format: "text-left",
+                btnDisables: false,
+                disabled: this.getLastNodeWrapper("disabled"),
+              },
+            ],
 
-            }
-          ],
-        }],
-
+          }
+        ],
         children: [
         ],
 
@@ -727,29 +716,27 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "delete",
         className: "w-1/4",
-        chartCardConfig: [{
-          buttonGroup: [
-            {
-              // btnGroupPosition: "text-left",
-              btnGroupFormat: "text-left",
-              btnConfig: [
-                {
-                  hideExpression: false,
-                  tooltip: "",
-                  key: "delete" + Guid.newGuid(),
-                  color: "btn btn-danger",
-                  title: "Delete",
-                  btnIcon: "uil uil-user",
-                  type: "delete",
-                  // format: "text-left",
-                  btnDisables: false,
-                  disabled: this.getLastNodeWrapper("disabled"),
-                },
-              ],
+        buttonGroup: [
+          {
+            // btnGroupPosition: "text-left",
+            btnGroupFormat: "text-left",
+            btnConfig: [
+              {
+                hideExpression: false,
+                tooltip: "",
+                key: "delete" + Guid.newGuid(),
+                color: "btn btn-danger",
+                title: "Delete",
+                btnIcon: "uil uil-user",
+                type: "delete",
+                // format: "text-left",
+                btnDisables: false,
+                disabled: this.getLastNodeWrapper("disabled"),
+              },
+            ],
 
-            }
-          ],
-        }],
+          }
+        ],
 
         children: [
         ],
@@ -3280,30 +3267,30 @@ export class BuilderComponent implements OnInit {
       for (let j = 0; j < this.selectedNode.children.length; j++) {
         if (this.selectedNode.children[j].formlyType != undefined) {
           if (this.selectedNode.children[j].formlyType == 'input') {
-            wrapperName = this.selectedNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-            disabledProperty = this.selectedNode.children[j].chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+            wrapperName = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+            disabledProperty = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
           }
           else if (this.selectedNode.children[j].type == 'tabsMain') {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
               });
             });
           }
           else if (this.selectedNode.children[j].type == 'stepperMain') {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
               });
             });
           }
           else if (this.selectedNode.children[j].type == 'mainDashonicTabs') {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
               });
             });
           }
@@ -3433,6 +3420,7 @@ export class BuilderComponent implements OnInit {
     return propertyName;
   };
 
+
   clickButton(type: any) {
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -3441,7 +3429,7 @@ export class BuilderComponent implements OnInit {
       commonData: _formFieldData.commonOtherConfigurationFields,
     });
     const selectedNode = this.selectedNode;
-    let configObj = {
+    let configObj: any = {
       id: selectedNode.id as string, className: selectedNode.className,
       key: selectedNode.key, title: selectedNode.title,
       tooltip: selectedNode.tooltip, hideExpression: selectedNode.hideExpression
@@ -3471,1151 +3459,339 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.listFields;
         break;
 
-      // case "description":
-      //   configObj = { ...configObj, key: selectedNode.key, title: selectedNode.title, nzExtra: selectedNode.nzExtra, ...this.getDescriptionConfig(selectedNode) };
-      //   this.fieldData.formData = _formFieldData.descriptionFields;
-      //   break;
+      case "description":
+        configObj = { ...configObj, ...this.clickButtonService.getDescriptionConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.descriptionFields;
+        break;
 
+      case "descriptionChild":
+        configObj = { ...configObj, ...this.clickButtonService.getDescriptionChildConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.descriptionChildFields;
+        break;
+
+      case "affix":
+        configObj = { ...configObj, ...this.clickButtonService.getAffixConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.affixFields;
+        break;
+
+      case "avatar":
+        configObj = { ...configObj, ...this.clickButtonService.getAvatarConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.avatarFields;
+        break;
+
+      case "popOver":
+        configObj = { ...configObj, ...this.clickButtonService.getPopOverConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.popOverFields;
+        break;
+
+      case "result":
+        configObj = { ...configObj, ...this.clickButtonService.getResultConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.resultFields;
+        break;
+
+      case "imageUpload":
+        configObj = { ...configObj, ...this.clickButtonService.getImageUploadConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.imageUploadFeilds;
+        break;
+
+      case "toastr":
+        configObj = { ...configObj, ...this.clickButtonService.getToastrConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.toastrFeilds;
+        break;
+
+
+      case "invoice":
+        configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.invoiceFeilds;
+        break;
+
+      case "rangeSlider":
+        configObj = { ...configObj, ...this.clickButtonService.getRangeSliderConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.rangeSliderFeilds;
+        break;
+
+      case "inputGroupGrid":
+        configObj = { ...configObj, ...this.clickButtonService.getInputGroupGridConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
+        break;
+
+      case "card":
+        configObj = { ...configObj, ...this.clickButtonService.getCardConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.cardFields;
+        break;
+
+      case "fixedDiv":
+        configObj = { ...configObj, ...this.clickButtonService.getFixedDivConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.fixedDivFields;
+        break;
+
+      case "tuiCalender":
+        configObj = { ...configObj, ...this.clickButtonService.getTuiCalenderConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
+        break;
+
+      case "multiFileUpload":
+        configObj = { ...configObj, ...this.clickButtonService.getMultiFileUploadConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
+        break;
+
+      case "textEditor":
+        configObj = { ...configObj, ...this.clickButtonService.getTextEditorConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.textEditorFeilds;
+        break;
+
+      case "switch":
+        configObj = { ...configObj, ...this.clickButtonService.getSwitchConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.switchFeilds;
+        break;
+
+      case "dashonicTabs":
+        configObj = { ...configObj, ...this.clickButtonService.getdashonicTabsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.dashonicTabFields;
+        break;
+
+      case "kanban":
+        configObj = { ...configObj, ...this.clickButtonService.getKanbanConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.kanbanFeilds;
+        break;
+
+      case "kanbanTask":
+        configObj = { ...configObj, ...this.clickButtonService.getKanbanTaskConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
+        break;
+
+      case "mainDashonicTabs":
+        configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.dashoniMainTabFields;
+        break;
+
+      case "progressBar":
+        configObj = { ...configObj, ...this.clickButtonService.getProgressBarConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.progressBarFeilds;
+        break;
+
+      case "divider":
+        configObj = { ...configObj, ...this.clickButtonService.getDividerConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.dividerFeilds;
+        break;
+
+      case "video":
+        configObj = { ...configObj, ...this.clickButtonService.getVideoConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.videosFeilds;
+        break;
+
+      case "audio":
+        configObj = { ...configObj, ...this.clickButtonService.getAudioConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.audioFeilds;
+        break;
+
+      case "carouselCrossfade":
+        configObj = { ...configObj, ...this.clickButtonService.getcarouselCrossfadeConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.carousalFeilds;
+        break;
+
+      case "alert":
+        configObj = { ...configObj, ...this.clickButtonService.getAlertConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.alertFeilds;
+        break;
+
+      case "timeline":
+        configObj = { ...configObj, ...this.clickButtonService.getTimelineConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.timelineFeilds;
+        break;
+
+      case "simpleCardWithHeaderBodyFooter":
+        configObj = { ...configObj, ...this.clickButtonService.getSimpleCardWithHeaderBodyFooterConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
+        break;
+
+      case "sharedMessagesChart":
+        configObj = { ...configObj, ...this.clickButtonService.getSharedMessagesChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.sharedMessagesChartFeilds;
+        break;
+
+      case "browserCard":
+        configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.browserChartFields;
+        break;
+
+      case "browserCombineChart":
+        configObj = { ...configObj, ...this.clickButtonService.getBrowserCombineChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.browserComibeChartFields;
+        break;
+
+      case "widgetSectionCard":
+        configObj = { ...configObj, ...this.clickButtonService.getWidgetSectionCardConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.widgetSectionChartFields;
+        break;
+
+      case "sectionCard":
+        configObj = { ...configObj, ...this.clickButtonService.getSectionCardConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.SectionChartFields;
+        break;
+
+      case "chart":
+        configObj = { ...configObj, ...this.clickButtonService.getChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.chartFields;
+        break;
+
+      case "donutChart":
+        var seriesDataV1 = [];
+        for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
+          var series = { "series": 90, "title": "abc", "color": "ds" };
+          series["series"] = this.selectedNode.section[0].series[k];
+          series["title"] = this.selectedNode.section[0].titles[k];
+          series["color"] = this.selectedNode.section[0].colors[k];
+          seriesDataV1.push(series);
+        }
+        configObj = { ...configObj, ...this.clickButtonService.getDonutChartConfig(selectedNode) };
+        configObj.options = seriesDataV1,
+          this.fieldData.formData = _formFieldData.chartFields;
+        break;
+
+      case "donuteSaleChart":
+        var seriesDataV1 = [];
+        for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
+          var series = { "series": 90, "title": "abc", "color": "ds" };
+          series["series"] = this.selectedNode.section[0].series[k];
+          series["title"] = this.selectedNode.section[0].titles[k];
+          series["color"] = this.selectedNode.section[0].colors[k];
+          seriesDataV1.push(series);
+        }
+        configObj = { ...configObj, ...this.clickButtonService.getDonuteSaleChartConfig(selectedNode) };
+        configObj.options = seriesDataV1,
+          this.fieldData.formData = _formFieldData.donutSaleChartFields;
+        break;
+
+      case "salesAnalyticschart":
+        var series1Obj = [];
+        for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
+          series1Obj.push(this.selectedNode.section[0].series[i]);
+        }
+        configObj = { ...configObj, ...this.clickButtonService.getSalesAnalyticschartConfig(selectedNode) };
+        //   configObj.option = series1Obj;
+        //   for (let i = 0; i < node.section[0].series.length; i++) {
+        //     configObj.options[i].name1 = node.section[0].series[i].title;
+        //     configObj.options[i].value = node.section[0].series[i].value;
+        //  }
+
+        this.fieldData.formData = _formFieldData.saleAnalyticsChartFields;
+
+        break;
+
+      case "heading":
+        configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
+        configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
+          this.fieldData.formData = _formFieldData.headingFields;
+        break;
+
+      case "paragraph":
+        configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
+        configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
+          this.fieldData.formData = _formFieldData.paragraphFields;
+        break;
+
+      case "tags":
+      case "multiselect":
+      case "search":
+      case "radiobutton":
+      case "checkbox":
+      case "datetime":
+      case "time":
+      case "date":
+      case "month":
+      case "decimal":
+      case "week":
+      case "color":
+      case "input":
+      case "inputGroup":
+      case "image":
+      case "textarea":
+      case "telephone":
+        configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
+        this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
+        if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
+          this.fieldData.formData = _formFieldData.radioFields;
+        if (type == 'color')
+          this.fieldData.formData = _formFieldData.colorFields;
+        break;
+
+      case "customMasking":
+        configObj = { ...configObj, ...this.clickButtonService.getMaskingFormlyConfig(selectedNode) };
+        this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
+        this.fieldData.formData = _formFieldData.customMaskingFields;
+        break;
+      case "button":
+        configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.buttonFields;
+        break;
+      case "dropdownButton":
+        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.dropdownButtonFields;
+        break;
+      case "accordionButton":
+        configObj = { ...configObj, ...this.clickButtonService.getAccordionButtonConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.accordionButtonFields;
+        break;
+      case "linkButton":
+        configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.linkButtonFields;
+        break;
+      case "buttonGroup":
+        configObj = { ...configObj, ...this.clickButtonService.getBtnGroupConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.buttonGroupFields;
+        break;
+      case "gridName":
+
+        break;
+      case "page":
+        configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pageFields;
+        break;
+      case "pageHeader":
+        configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pageHeaderFields;
+        break;
+      case "pageBody":
+        // configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pageBodyFields;
+        break;
+      case "pageFooter":
+        configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pageFooterFields;
+        break;
+      case "according":
+        configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.accordingFields;
+        break;
+      case "accordingHeader":
+        configObj = { ...configObj, ...this.clickButtonService.getSectionHeaderConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.accordingHeaderFields;
+        break;
+      case "accordingFooter":
+        configObj = { ...configObj, ...this.clickButtonService.getSectionFooterConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.accordingFooterFields;
+        break;
+      case "accordingBody":
+        // configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.accordingBodyFields;
+        break;
+      case "stepper":
+        configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.stepperFields;
+        break;
+      case "stepperMain":
+        configObj = { ...configObj, ...this.clickButtonService.getStepperMainConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mainStepperFields;
+        break;
+      case "tabsMain":
+        configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mainTabFields;
+        break;
       default:
         break;
+
     }
-
-    // else if (type == "empty") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     //----------------------------------------
-    //     icon: this.selectedNode.icon,
-    //     content: this.selectedNode.content,
-    //     text: this.selectedNode.text,
-    //     link: this.selectedNode.link,
-    //     btnText: this.selectedNode.btnText,
-    //     color: this.selectedNode.color,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.emptyFields;
-    // }
-    // else if (type == "list") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     //----------------------------------------
-    //     headerText: this.selectedNode.headerText,
-    //     footerText: this.selectedNode.footerText,
-    //     formatter: this.selectedNode.formatter,
-    //     size: this.selectedNode.size,
-    //     isBordered: this.selectedNode.isBordered,
-    //     isSplit: this.selectedNode.isSplit,
-    //     isEdit: this.selectedNode.isEdit,
-    //     isUpdate: this.selectedNode.isUpdate,
-    //     isDelete: this.selectedNode.isDelete,
-    //     isLoad: this.selectedNode.isLoad,
-    //     loadText: this.selectedNode.loadText,
-    //     options: this.selectedNode.options,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.listFields;
-    // }
-    // else if (type == "description") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     //----------------------------------------
-    //     title: this.selectedNode.title,
-    //     nzExtra: this.selectedNode.nzExtra,
-    //     formatter: this.selectedNode.formatter,
-    //     size: this.selectedNode.size,
-    //     isBordered: this.selectedNode.isBordered,
-    //     isColon: this.selectedNode.isColon,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.descriptionFields;
-    // }
-    // else if (type == "descriptionChild") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     //----------------------------------------
-    //     content: this.selectedNode.content,
-    //     nzStatus: this.selectedNode.nzStatus,
-    //     isBadeg: this.selectedNode.isBadeg,
-    //     nzSpan: this.selectedNode.nzSpan,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.descriptionChildFields;
-    // }
-    // else if (type == "affix") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     tooltip: this.selectedNode.tooltip,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     className: this.selectedNode.className,
-    //     affixType: this.selectedNode.affixType,
-    //     margin: this.selectedNode.margin,
-    //     target: this.selectedNode.target,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.affixFields;
-    // }
-    // else if (type == "avatar") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     tooltip: this.selectedNode.tooltip,
-    //     key: this.selectedNode.key,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     className: this.selectedNode.className,
-    //     icon: this.selectedNode.icon,
-    //     text: this.selectedNode.text,
-    //     src: this.selectedNode.src,
-    //     bgColor: this.selectedNode.bgColor,
-    //     color: this.selectedNode.color,
-    //     gap: this.selectedNode.gap,
-    //     alt: this.selectedNode.alt,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.avatarFields;
-    // }
-    // else if (type == "comment") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     tooltip: this.selectedNode.tooltip,
-    //     avatar: this.selectedNode.avatar,
-    //     author: this.selectedNode.author,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.commentFields;
-    // }
-    // else if (type == "popOver") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     tooltip: this.selectedNode.tooltip,
-    //     btnLabel: this.selectedNode.btnLabel,
-    //     nzPopoverContent: this.selectedNode.nzPopoverContent,
-    //     nzPopoverTitle: this.selectedNode.nzPopoverTitle,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.popOverFields;
-    // }
-    // else if (type == "spin") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     tooltip: this.selectedNode.tooltip,
-    //     size: this.selectedNode.size,
-    //     delayTime: this.selectedNode.delayTime,
-    //     loaderText: this.selectedNode.loaderText,
-    //     loaderIcon: this.selectedNode.loaderIcon,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.spinFields;
-    // }
-    // else if (type == "result") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     key: this.selectedNode.key,
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     tooltip: this.selectedNode.tooltip,
-    //     status: this.selectedNode.status,
-    //     resultTitle: this.selectedNode.resultTitle,
-    //     subTitle: this.selectedNode.subTitle,
-    //     btnLabel: this.selectedNode.btnLabel,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.resultFields;
-    // }
-    // else if (type == "imageUpload") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     tooltip: this.selectedNode.tooltip,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     className: this.selectedNode.className,
-    //     imageClass: this.selectedNode.imageClass,
-    //     alt: this.selectedNode.alt,
-    //     source: this.selectedNode.source,
-    //     imagHieght: this.selectedNode.imagHieght,
-    //     imageWidth: this.selectedNode.imageWidth,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     // image: this.selectedNode.base64Image,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.imageUploadFeilds;
-    // }
-    // else if (type == "toastr") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     timeOut: this.selectedNode.timeOut,
-    //     positionClass: this.selectedNode.positionClass,
-    //     progressBar: this.selectedNode.progressBar,
-    //     message: this.selectedNode.message,
-    //     toastrType: this.selectedNode.toastrType,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.toastrFeilds;
-    // }
-    // else if (type == "invoice") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     title: this.selectedNode.title,
-    //     invoiceNumbertitle: this.selectedNode.invoiceNumberLabel,
-    //     datetitle: this.selectedNode.datelabel,
-    //     paymentTermstitle: this.selectedNode.paymentTermsLabel,
-    //     poNumber: this.selectedNode.poNumber,
-    //     billTotitle: this.selectedNode.billToLabel,
-    //     dueDatetitle: this.selectedNode.dueDateLabel,
-    //     shipTotitle: this.selectedNode.shipToLabel,
-    //     notestitle: this.selectedNode.notesLabel,
-    //     subtotaltitle: this.selectedNode.subtotalLabel,
-    //     dicounttitle: this.selectedNode.dicountLabel,
-    //     shippingtitle: this.selectedNode.shippingLabel,
-    //     taxtitle: this.selectedNode.taxLabel,
-    //     termstitle: this.selectedNode.termsLabel,
-    //     totaltitle: this.selectedNode.totalLabel,
-    //     amountpaidtitle: this.selectedNode.amountpaidLabel,
-    //     balanceDuetitle: this.selectedNode.balanceDueLabel,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.invoiceFeilds;
-    // }
-    // else if (type == "rangeSlider") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     min: this.selectedNode.min,
-    //     max: this.selectedNode.max,
-    //     sliderType: this.selectedNode.sliderType,
-    //     disabled: this.selectedNode.disabled,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     showValue: this.selectedNode.showValue,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.rangeSliderFeilds;
-    // }
-    // else if (type == "inputGroupGrid") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     tooltip: this.selectedNode.tooltip,
-    //     title: this.selectedNode.title,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
-    // }
-    // else if (type == "card") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     className: this.selectedNode.className,
-    //     icon: this.selectedNode?.icon,
-    //     name: this.selectedNode?.name,
-    //     total: this.selectedNode?.total,
-    //     link: this.selectedNode?.link,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.cardFields;
-    // }
-    // else if (type == "fixedDiv") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     title: this.selectedNode.title,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.formData = _formFieldData.fixedDivFields;
-    // }
-    // else if (type == "tuiCalender") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     options: this.selectedNode.options,
-    //     viewType: this.selectedNode.viewType,
-    //     disabled: this.selectedNode.disabled,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
-    // }
-    // else if (type == "multiFileUpload") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
-    // }
-    // else if (type == "textEditor") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     title: this.selectedNode.title,
-    //     className: this.selectedNode.className,
-    //     tooltip: this.selectedNode.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.textEditorFeilds;
-    // }
-    // else if (type == "switch") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.title,
-    //     tooltip: this.selectedNode.tooltip,
-    //     switchType: this.selectedNode.switchType,
-    //     switchPosition: this.selectedNode.switchPosition,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.switchFeilds;
-    // }
-    // else if (type == "dashonicTabs") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode?.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.hideExpression, "hideExpression"),
-    //     className: this.selectedNode.className,
-    //     tabtitle: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabtitle,
-    //     tabIcon: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tabIcon,
-    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.dashonicTabsConfig[0]?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.dashonicTabFields;
-    // }
-    // else if (type == "kanban") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     title: this.selectedNode.chartCardConfig?.at(0)?.text,
-    //     nodes: this.selectedNode.chartCardConfig?.at(0)?.nodes,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.kanbanFeilds;
-    // }
-    // else if (type == "kanbanTask") {
-    //   // if (this.selectedNode) {
-    //   //   for (let index = 0; index < this.selectedNode.users.length; index++) {
-    //   //     if (typeof this.selectedNode?.users[index] !== "string") {
-    //   //       this.selectedNode?.users[index] = JSON.stringify(this.selectedNode?.users[index]);
-    //   //     } else {
-    //   //       this.selectedNode?.users[index] = JSON.parse(this.selectedNode?.users[index]);
-    //   //       this.selectedNode?.users[index] = JSON.stringify(this.selectedNode?.users[index]);
-    //   //     }
-    //   //   }
-    //   // }
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     title: this.selectedNode.title,
-    //     options: this.selectedNode.chartCardConfig,
-    //     tooltip: this.selectedNode.tooltip,
-    //     hideExpression: this.selectedNode.hideExpression,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
-    // }
-    // else if (type == "mainDashonicTabs") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       tabtitle: this.selectedNode.title,
-    //       tabsPosition: this.selectedNode.mainDashonicTabsConfig[0]?.tabsPosition,
-    //       selectTabColor: this.selectedNode.mainDashonicTabsConfig[0]?.selectTabColor,
-    //       tabsDisplayType: this.selectedNode.mainDashonicTabsConfig[0]?.tabsDisplayType,
-    //       buttonText: this.selectedNode.mainDashonicTabsConfig[0]?.buttonText,
-    //       buttonIcon: this.selectedNode.mainDashonicTabsConfig[0]?.buttonIcon,
-    //       buttonColor: this.selectedNode.mainDashonicTabsConfig[0]?.buttonColor,
-    //       tabFormat: this.selectedNode.mainDashonicTabsConfig[0]?.tabFormat,
-    //       nodes: this.selectedNode.mainDashonicTabsConfig[0]?.nodes,
-    //       tooltip: this.selectedNode?.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.dashoniMainTabFields;
-    // }
-
-    // else if (type == "progressBar") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       title: this.selectedNode.title,
-    //       className: this.selectedNode.className,
-    //       tooltip: this.selectedNode.progressBArConfig[0]?.tooltip,
-    //       value: this.selectedNode.progressBArConfig[0]?.value,
-    //       color: this.selectedNode.progressBArConfig[0]?.color,
-    //       showValue: this.selectedNode.progressBArConfig[0]?.showValue,
-    //       stripped: this.selectedNode.progressBArConfig[0]?.stripped,
-    //       height: this.selectedNode.progressBArConfig[0]?.height,
-    //       animated: this.selectedNode.progressBArConfig[0]?.animated,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.progressBarFeilds;
-    // }
-    // else if (type == "divider") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     title: this.selectedNode.title,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     // title: this.selectedNode.dividerConfig[0]?.label,
-    //     // text: this.selectedNode.dividerConfig[0]?.text,
-    //     textColor: this.selectedNode.textColor,
-    //     lineColor: this.selectedNode.lineColor,
-    //     className: this.selectedNode.dividerClassName,
-    //     classNameForPosition: this.selectedNode.classNameForPosition,
-    //     dividerPosition: this.selectedNode.dividerPosition,
-    //     dividerFormat: this.selectedNode.dividerFormat,
-    //     verticalLineHieght: this.selectedNode.verticalLineHieght,
-    //     verticalLinePosition: this.selectedNode.verticalLinePosition,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.dividerFeilds;
-    // }
-    // else if (type == "video") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.videoConfig[0]?.label,
-    //       videoRatio: this.selectedNode.videoConfig[0]?.videoRatio,
-    //       videoSrc: this.selectedNode.videoConfig[0]?.videoSrc,
-    //       tooltip: this.selectedNode.videoConfig[0]?.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.videosFeilds;
-    // }
-    // else if (type == "audio") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       tooltip: this.selectedNode.tooltip,
-    //       title: this.selectedNode.title,
-    //       audioSrc: this.selectedNode.audioSrc,
-    //       link: "",
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.audioFeilds;
-    // }
-    // else if (type == "carouselCrossfade") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       carousalType: this.selectedNode?.carousalType,
-    //       options: this.selectedNode.carousalConfig,
-    //       tooltip: this.selectedNode.tooltip,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.carousalFeilds;
-    // }
-    // else if (type == "alert") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       icon: this.selectedNode.alertConfig[0]?.icon,
-    //       tooltip: this.selectedNode.alertConfig[0]?.tooltip,
-    //       type: this.selectedNode.alertConfig[0]?.type,
-    //       text: this.selectedNode.alertConfig[0]?.text,
-    //       alertColor: this.selectedNode.alertConfig[0]?.alertColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.alertFeilds;
-    // }
-    // else if (type == "timeline") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       tooltip: this.selectedNode?.tooltip,
-    //       title: this.selectedNode?.title,
-    //       className: this.selectedNode.className,
-    //       timelineData: this.selectedNode.timelineConfig[0].data,
-    //       timelineHeading: this.selectedNode.timelineConfig[0]?.timelineHeading,
-    //       headingColor: this.selectedNode.timelineConfig[0]?.headingColor,
-    //       headingShape: this.selectedNode.timelineConfig[0]?.headingShape,
-    //       timelineType: this.selectedNode.timelineConfig[0]?.timelineType,
-    //       // timelineExample: this.selectedNode.timelineConfig[0]?.timelineExample,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.timelineFeilds;
-    // }
-
-
-    // else if (type == "simpleCardWithHeaderBodyFooter") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       headerText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.headerText,
-    //       tooltip: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.tooltip,
-    //       bodyText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.bodyText,
-    //       footerText: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.footerText,
-    //       textAlign: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.textAlign,
-    //       link: "",
-    //       height: this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0]?.height,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
-    // }
-
-
-    // else if (type == "sharedMessagesChart") {
-
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode?.label,
-    //       titleIcon: this.selectedNode?.labelIcon,
-    //       heading: this.selectedNode?.heading,
-    //       headingIcon: this.selectedNode?.headingIcon,
-    //       headingColor: this.selectedNode?.headingColor,
-    //       subHeading: this.selectedNode?.subHeading,
-    //       subHeadingIcon: this.selectedNode?.subHeadingIcon,
-    //       subheadingColor: this.selectedNode?.subheadingColor,
-    //       tooltip: this.selectedNode?.tooltip,
-    //       link: this.selectedNode?.link,
-    //       options: this.selectedNode?.sharedMessagesConfig,
-    //       repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.sharedMessagesChartFeilds;
-    // }
-    // else if (type == "browserCard") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.title,
-    //       tooltip: this.selectedNode.tooltip,
-    //       icon: this.selectedNode.icon,
-    //       options: this.selectedNode.chart,
-    //       limit: this.selectedNode?.limit,
-    //       defaultColor: this.selectedNode?.defaultColor,
-    //       belowpercentage: this.selectedNode?.belowpercentage,
-    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.browserChartFields;
-    // }
-    // else if (type == "browserCombineChart") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.title,
-    //       icon: this.selectedNode.icon,
-    //       tooltip: this.selectedNode.tooltip,
-    //       options: this.selectedNode.chart,
-    //       limit: this.selectedNode?.limit,
-    //       defaultColor: this.selectedNode?.defaultColor,
-    //       belowpercentage: this.selectedNode?.belowpercentage,
-    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.browserComibeChartFields;
-    // }
-    // else if (type == "widgetSectionCard") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       title: this.selectedNode?.label,
-    //       className: this.selectedNode.className,
-    //       tooltip: this.selectedNode?.tooltip,
-    //       limit: this.selectedNode?.limit,
-    //       percentage: this.selectedNode?.belowpercentage,
-    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
-    //       options: this.selectedNode.section,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //       // data: this.selectedNode.widgetSectionCard[0].section[0].Chart.series[0].data,
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.widgetSectionChartFields;
-    // }
-    // else if (type == "sectionCard") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       title: this.selectedNode?.label,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       tooltip: this.selectedNode?.tooltip,
-    //       limit: this.selectedNode?.limit,
-    //       key: this.selectedNode?.key,
-    //       percentage: this.selectedNode?.belowpercentage,
-    //       below_percentage_color: this.selectedNode?.belowpercentageColor,
-    //       options: this.selectedNode?.section,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.SectionChartFields;
-    // }
-    // else if (type == "chart") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       className: this.selectedNode.className,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       tooltip: this.selectedNode?.tooltip,
-    //       options: this.selectedNode?.section,
-    //       title: this.selectedNode.section[0].filterData[0].heading,
-    //       sub_title: this.selectedNode.section[0].filterData[0].subheading,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   // objSelect.options = this.selectedNode?.section[0].data,
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.chartFields;
-    // }
-    // else if (type == "donutChart") {
-    //   if (this.selectedNode) {
-    //     let seriesDataV1 = [];
-    //     for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
-    //       var series = { "series": 90, "title": "abc", "color": "ds" };
-    //       series["series"] = this.selectedNode.section[0].series[k];
-    //       series["title"] = this.selectedNode.section[0].titles[k];
-    //       series["color"] = this.selectedNode.section[0].colors[k];
-    //       seriesDataV1.push(series);
-    //     }
-    //     configObj = {
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       // id: this.selectedNode.id as string,
-    //       // title: this.selectedNode.title,
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.title,
-    //       tooltip: this.selectedNode.tooltip,
-    //       options: seriesDataV1,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //       // options: generateColorData,
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.donutChartFields;
-    // }
-    // else if (type == "donuteSaleChart") {
-
-    //   if (this.selectedNode) {
-    //     let seriesDataV1 = [];
-    //     for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
-    //       var series = { "series": 90, "title": "abc", "color": "ds" };
-    //       series["series"] = this.selectedNode.section[0].series[k];
-    //       series["title"] = this.selectedNode.section[0].titles[k];
-    //       series["color"] = this.selectedNode.section[0].colors[k];
-    //       seriesDataV1.push(series);
-    //     }
-    //     configObj = {
-    //       // id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       // title: this.selectedNode.title,
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.title,
-    //       // className: this.selectedNode.className,
-    //       link: this.selectedNode.link,
-    //       tooltip: this.selectedNode.tooltip,
-    //       thisTitle: this.selectedNode.thisTitle,
-    //       lastTitle: this.selectedNode.lastTitle,
-    //       prevTitle: this.selectedNode.prevTitle,
-    //       options1: this.selectedNode.chartCardConfig,
-    //       options: seriesDataV1,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //       // options: generateColorData,
-    //       // thisValue: this.selectedNode.saledDonutChart[0].thisValue,
-    //       // lastValue: this.selectedNode.saledDonutChart[0].lastValue,
-    //       // prevValue: this.selectedNode.saledDonutChart[0].prevValue,
-    //       // growth: this.selectedNode.saledDonutChart[0].growth,
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.donutSaleChartFields;
-    // }
-    // else if (type == "salesAnalyticschart") {
-    //   if (this.selectedNode) {
-    //     let series1Obj = [];
-    //     for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
-    //       series1Obj.push(this.selectedNode.section[0].series[i]);
-    //     }
-    //     configObj = {
-    //       // id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.title,
-    //       tooltip: this.selectedNode.tooltip,
-    //       options: series1Obj,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     };
-    //     // for (let index = 0; index < this.selectedNode.analyticsChart[0].section[0].chartTitlesValues.length; index++) {
-    //     //   objsaleAnalyticsChart.options[index].value = this.selectedNode.analyticsChart[0].section[0].chartTitlesValues[index].value;
-    //     // };
-    //     for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
-    //       configObj.options[i].name1 = this.selectedNode.section[0].series[i].title;
-    //       configObj.options[i].value = this.selectedNode.section[0].series[i].value;
-    //       // objsaleAnalyticsChart.options[i].value = this.selectedNode.analyticsChart[0].section[0].chartTitlesValues[i].value;
-
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.saleAnalyticsChartFields;
-    // }
-    // else if (type == "heading") {
-    //   configObj = {
-    //     title: this.selectedNode.title,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     className: this.selectedNode.className,
-    //     id: this.selectedNode.id as string,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     padding: this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
-    //     // paddingRight: this.addPropertieInOldScreens(this.selectedNode.paddingRight, "hideExpression"),
-    //     // paddingTop: this.addPropertieInOldScreens(this.selectedNode.paddingTop, "hideExpression"),
-    //     // paddingBottom: this.addPropertieInOldScreens(this.selectedNode.paddingBottom, "hideExpression"),
-    //     level: this.selectedNode.data.level,
-    //     text: this.selectedNode.data.text,
-    //     style: this.selectedNode.style,
-    //     textAlignment: this.selectedNode.textAlign,
-    //     headingColor: this.selectedNode.headingColor,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   };
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.headingFields;
-    // }
-    // else if (type == "paragraph") {
-    //   configObj = {
-    //     id: this.selectedNode.id as string,
-    //     padding: this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
-    //     // hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     // paddingLeft: this.addPropertieInOldScreens(this.selectedNode.paddingLeft, "paddingLeft"),
-    //     // paddingRight: this.addPropertieInOldScreens(this.selectedNode.paddingRight, "hideExpression"),
-    //     // paddingTop: this.addPropertieInOldScreens(this.selectedNode.paddingTop, "hideExpression"),
-    //     // paddingBottom: this.addPropertieInOldScreens(this.selectedNode.paddingBottom, "hideExpression"),
-    //     title: this.selectedNode.title,
-    //     // padding: this.selectedNode.padding,
-    //     tooltip: this.selectedNode?.tooltip,
-    //     className: this.selectedNode.className,
-    //     text: this.selectedNode.data.text,
-    //     style: this.selectedNode.style,
-    //     textAlignment: this.selectedNode.textAlign,
-    //     color: this.selectedNode.color,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   };
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.paragraphFields;
-    // }
-    // else if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox"
-    //   || type == "datetime" || type == "time" || type == "date" || type == "month" || type == "decimal" || type == "week"
-    //   || type == "color" || type == "input" || type == "inputGroup" || type == "image" || type == "textarea"
-    //   || type == "telephone") {
-    //   debugger
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       title: this.selectedNode.title,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       key: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-    //       className: this.selectedNode?.className,
-    //       placeholder: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-    //       options: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.options,
-    //       required: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-    //       tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //       titleIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
-    //       rows: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.rows,
-    //       formCheck: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['formCheck'],
-    //       addonLeft: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-    //       addonRight: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-    //   if (type == "tags" || type == "multiselect" || type == "search" || type == "radiobutton" || type == "checkbox")
-    //     this.fieldData.formData = _formFieldData.radioFields;
-    //   if (type == 'color')
-    //     this.fieldData.formData = _formFieldData.colorFields;
-
-    // }
-    // else if (type == "customMasking") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id as string,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.hideExpression, "hideExpression"),
-    //       key: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.key,
-    //       focus: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.focus,
-    //       className: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.className,
-    //       defaultValue: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.defaultValue,
-    //       title: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //       required: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.required,
-    //       readonly: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.readonly,
-    //       disabled: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled,
-    //       maskString: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['maskString'],
-    //       masktitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['masktitle'],
-    //       placeholder: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.placeholder,
-    //       tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //       titleIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['labelIcon'],
-    //       addonLeft: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonLeft"),
-    //       addonRight: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions, "addonRight"),
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.customMaskingFields;
-    // }
-    // //button Conditions
-    // else if (type == "button") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectedNode.className,
-    //     // key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     // fontSize: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontSize,
-    //     // fontStyle: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].fontStyle,
-    //     // textColor: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].textColor,
-    //     // bgColor: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].bgColor,
-    //     // border: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].border,
-    //     // margin: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].margin,
-    //     // padding: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].padding,
-    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     btnGroupFormat: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
-    //     disabled: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].disabled,
-    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   };
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.buttonFields;
-    // }
-    // else if (type == "dropdownButton") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectedNode.className,
-    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
-    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     options: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].dropdownOptions,
-    //     btnGroupFormat: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnGroupFormat,
-    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.dropdownButtonFields;
-    // }
-    // else if (type == "accordionButton") {
-    //   if (this.selectedNode) {
-    //     configObj = {
-    //       id: this.selectedNode.id,
-    //       hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //       className: this.selectedNode.className,
-    //       title: this.selectedNode.accordionConfig[0].title,
-    //       tooltip: this.selectedNode.accordionConfig[0].tooltip,
-    //       color: this.selectedNode.accordionConfig[0].color,
-    //       // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     }
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.accordionButtonFields;
-    // }
-    // //Link Button Conditions
-    // else if (type == "linkButton") {
-
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].hideExpression, "isShow"),
-    //     className: this.selectedNode.className,
-    //     key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     title: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].title,
-    //     color: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].color,
-    //     // btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnIcon,
-    //     // className: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].className,
-    //     href: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].href,
-    //     target: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].target,
-    //     format: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].format,
-    //     btnType: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].btnType,
-    //     tooltip: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]['tooltip'],
-    //     btnIcon: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].icon,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.linkButtonFields;
-    // }
-    // else if (type == "buttonGroup") {
-
-    //   configObj = {
-    //     id: this.selectedNode?.id,
-    //     title: this.selectedNode?.label,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.hideExpression, "hideExpression"),
-    //     // key: this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0]?.key,
-    //     btnGroupFormat: this.selectedNode.btngroupformat,
-    //     // btnGroupFormat:this.selectedNode.className,
-    //     className: this.selectedNode.className,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.buttonGroupFields;
-    // }
-
-    // //Grid Conditions
-    // else if (type == "gridName") {
-
-    // }
-    // // Working For Page Section
-    // else if (type == "page") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     variables: this.selectedNode.screenVariables
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.pageFields;
-    // }
-    // else if (type == "pageHeader") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     headingSize: this.selectedNode.headingSize,
-    //     header: this.selectedNode.header,
-    //     titlePosition: this.selectedNode.labelPosition,
-    //     alertPosition: this.selectedNode.alertPosition,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.pageHeaderFields;
-    // }
-    // else if (type == "pageBody") {
-
-
-    //   // this.fieldData.formData = this.methodUrl;
-
-    //   var objPageBody = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title
-    //   }
-    //   this.formModalData = objPageBody;
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.pageBodyFields;
-    // }
-    // else if (type == "pageFooter") {
-
-
-    //   // this.fieldData.formData = this.methodUrl;
-
-    //   var objPageFooter = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     footer: this.selectedNode.footer,
-    //   }
-    //   this.formModalData = objPageFooter;
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.pageFooterFields;
-    // }
-    // else if (type == "according") {
-    //   if (this.selectedNode.children) {
-    //     if (this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly) {
-    //       configObj = {
-    //         accordingText: this.selectedNode.title,
-    //         disabled: this.selectedNode.sectionDisabled,
-    //         className: this.selectedNode.className,
-    //         titlePosition: this.selectedNode.labelPosition,
-    //         repeatable: this.addPropertieInOldScreens(this.selectedNode.repeatable, 'repeatable'),
-    //         // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //         wrappers: this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers == undefined ? "" : this.selectedNode.children?.at(1)?.children?.at(0)?.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.wrappers?.at(0),
-    //         // disabled: this.selectedNode.children[1].children[0].formly[0].fieldGroup[0].templateOptions.disabled == undefined ? "" : this.selectedNode.children[1].children[0].formly[0].fieldGroup[0]?.templateOptions.disabled,
-    //       }
-    //       this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //       this.fieldData.formData = _formFieldData.accordingFields;
-    //     }
-    //     else {
-    //       configObj = {
-    //         accordingText: this.selectedNode.title,
-    //         disabled: this.selectedNode.sectionDisabled,
-    //         className: this.selectedNode.className,
-    //         titlePosition: this.selectedNode.labelPosition,
-    //         repeatable: this.addPropertieInOldScreens(this.selectedNode.repeatable, 'repeatable'),
-    //         // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //       }
-    //       this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //       this.fieldData.formData = _formFieldData.accordingFields;
-    //     }
-    //   }
-    // }
-    // else if (type == "accordingHeader") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     headingSize: this.selectedNode.headingSize,
-    //     header: this.selectedNode.header,
-    //     expanded: this.selectedNode.expanded,
-    //     titlePosition: this.selectedNode.labelPosition,
-    //     backGroundColor: this.selectedNode.backGroundColor,
-    //     textColor: this.selectedNode.textColor,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.accordingHeaderFields;
-    // }
-    // else if (type == "accordingBody") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.accordingBodyFields;
-    // }
-    // else if (type == "accordingFooter") {
-    //   configObj = {
-    //     id: this.selectedNode.id,
-    //     title: this.selectedNode.title,
-    //     footer: this.selectedNode.footer,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.accordingFooterFields;
-    // }
-    // else if (type == "stepper") {
-    //   configObj = {
-    //     // stepperText: this.selectedNode.id,
-    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //     // stepperIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.icon,
-    //     // stepperFormat: this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.stepperFormat,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     // nodes: this.stepperNewlength,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.stepperFields;
-    // }
-    // else if (type == "stepperMain") {
-    //   configObj = {
-    //     // stepperText: this.selectedNode.id,
-    //     hideExpression: this.addPropertieInOldScreens(this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['hideExpression'], "hideExpression"),
-    //     className: this.selectedNode.className,
-    //     nextButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonText'],
-    //     nextButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonIcon'],
-    //     nextButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nextButtonColor'],
-    //     backButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonText'],
-    //     backButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonIcon'],
-    //     backButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['backButtonColor'],
-    //     submitButtonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonText'],
-    //     submitButtonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonIcon'],
-    //     submitButtonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['submitButtonColor'],
-    //     selectColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectColor'],
-    //     defaultColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['defaultColor'],
-    //     tooltip: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tooltip'],
-    //     icon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['icon'],
-    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     nodes: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['nodes'],
-    //     // stepperFormat: this.selectedNode.formly[0].stepperFormat,
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     // nodes: this.stepperNewlength,
-    //   }
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.mainStepperFields;
-    // }
-    // else if (type == "tabsMain") {
-    //   let objTab = {
-    //     className: this.selectedNode.className,
-    //     steppertitle: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.label,
-    //     stepperFormat: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['stepperFormat'],
-    //     buttonText: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonText'],
-    //     buttonIcon: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonIcon'],
-    //     buttonColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['buttonColor'],
-    //     tabsPosition: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsPosition'],
-    //     selectTabColor: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['selectTabColor'],
-    //     tabsDisplayType: this.selectedNode.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.['tabsDisplayType'],
-    //     // repeat: this.addPropertieInOldScreens(this.selectedNode.repeat, "repeat"),
-    //     // nodes: this.tabsNewlength,
-    //   }
-    //   this.formModalData = objTab;
-    //   this.fieldData.commonData = _formFieldData.commonOtherConfigurationFields;
-    //   this.fieldData.formData = _formFieldData.mainTabFields;
-    // }
-
-    // else if (type == "grid") {
-    //   this.fieldData.formData = _formFieldData.gridFields;
-    // }
     this.formModalData = configObj;
   }
   menuSearch() {
@@ -6278,7 +5454,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
-            if (res.chartCardConfig) {
+            if (res) {
               if (res.formly != undefined) {
                 if (res.type != "stepperMain" && res.type != "tabsMain") {
                   res['wrapper'] = event.form.wrappers;
@@ -6437,7 +5613,7 @@ export class BuilderComponent implements OnInit {
 
           if (event.form.kanbanTaskApi != undefined) {
             this.builderService.genericApis(event.form.kanbanTaskApi).subscribe((res => {
-              this.selectedNode.chartCardConfig = res;
+              this.selectedNode = res;
               for (let index = 0; index < res.length; index++) {
                 this.selectedNode.id = res[index].id;
                 this.selectedNode.title = res[index].title;

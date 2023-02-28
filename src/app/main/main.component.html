@@ -124,6 +124,7 @@
         <ng-template #forteenth>
             <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
                 <div [ngClass]="{'highLight': item.highLight == true}">
+                  {{item | json}}
                     <app-block-buttons-card [softIconList]="item.buttonGroup[0]">
                     </app-block-buttons-card>
                 </div>
