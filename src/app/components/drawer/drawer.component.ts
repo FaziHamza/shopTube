@@ -14,9 +14,9 @@ export class DrawerComponent implements OnInit {
 
   ngOnInit(): void {
     this.drawerData;
-    debugger
+
   }
-  
+
   open(): void {
     this.visible = true;
   }

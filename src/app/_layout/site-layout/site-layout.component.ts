@@ -51,7 +51,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   changeLayout(layoutType: any) {
-    debugger
+
     this.selected = layoutType;
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'boxed') {
       this.menuMode = "inline",
@@ -83,11 +83,11 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   setHovered(value: boolean) {
-    debugger
+
     if (this.selected == 'boxed') {
       this.isCollapsed = value;
     }
   }
 
-  
+
 }

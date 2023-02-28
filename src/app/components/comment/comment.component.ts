@@ -32,7 +32,7 @@ export class CommentComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+
     this.commentData;
   }
 

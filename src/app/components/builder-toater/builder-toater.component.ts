@@ -11,7 +11,7 @@ export class BuilderToaterComponent implements OnInit {
   constructor(private notification: NzNotificationService) { }
 
   ngOnInit(): void {
-    debugger
+
     this.showNotification(this.toastrData);
   }
   showNotification(data : any): void {
@@ -19,8 +19,8 @@ export class BuilderToaterComponent implements OnInit {
       data.toastrType, // Notification type
       data.toasterTitle, // Title
       data.description, // Description
-      { 
-        nzDuration: data.duration, 
+      {
+        nzDuration: data.duration,
         nzPlacement: data.placement,
         nzCloseIcon: data.closeIcon,
         nzPauseOnHover : data.pauseOnHover,

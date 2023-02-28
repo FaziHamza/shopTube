@@ -108,7 +108,7 @@
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
                 <div [ngClass]="{'highLight': item.highLight == true}">
-                    <app-block-buttons-card [softIconList]="item.buttonGroup[0]">
+                    <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
             </ng-container>
@@ -116,7 +116,7 @@
         <ng-template #thirteenth>
             <ng-container *ngIf="item.type =='linkButton'; else forteenth">
                 <div [ngClass]="{'highLight': item.highLight == true}">
-                    <app-block-buttons-card [softIconList]="item.buttonGroup[0]">
+                    <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
             </ng-container>
@@ -124,8 +124,7 @@
         <ng-template #forteenth>
             <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
                 <div [ngClass]="{'highLight': item.highLight == true}">
-                  {{item | json}}
-                    <app-block-buttons-card [softIconList]="item.buttonGroup[0]">
+                    <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
             </ng-container>
@@ -134,7 +133,7 @@
             <ng-container *ngIf="item.type =='dropdownButton'; else sixteen">
                 <div [ngClass]="{'highLight': item.highLight == true}"
                     *ngIf="!item.hideExpression">
-                    <app-block-buttons-card [softIconList]="item.buttonGroup[0]">
+                    <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
             </ng-container>
@@ -332,19 +331,19 @@
                             nzTheme="twotone"></span></span>
                     <div *ngFor="let data of item.fixedDivChild">
                         <ng-container *ngIf="data.type == 'button';else second">
-                            <app-block-buttons-card [softIconList]="data.buttonGroup[0]">
+                            <app-block-buttons-card [softIconList]="data">
                             </app-block-buttons-card>
                         </ng-container>
                         <ng-template #second>
                             <ng-container *ngIf="data.type == 'linkButton';else third">
-                                <app-block-buttons-card [softIconList]="data.buttonGroup[0]">
+                                <app-block-buttons-card [softIconList]="data">
                                 </app-block-buttons-card>
                             </ng-container>
                         </ng-template>
                         <ng-template #third>
                             <ng-container *ngIf="data.type == 'buttonGroup'">
                                 <app-block-buttons-card
-                                    [softIconList]="data.children[0].buttonGroup[0]">
+                                    [softIconList]="data">
                                 </app-block-buttons-card>
                             </ng-container>
                         </ng-template>

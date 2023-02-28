@@ -1,7 +1,7 @@
 <div class="audio m-2">
-  <audio controls style="width:100%" *ngFor="let item of audioData">
+  <audio controls style="width:100%" *ngIf="audioData">
     <!-- <source src="https://pagalfree.com/musics/128-Current%20Laga%20Re%20-%20Cirkus%20128%20Kbps.mp3" type="audio/mpeg"> -->
-    <source [src]="item.audioSrc | sanitize: 'resourceUrl'" type="audio/mpeg">
+    <source [src]="audioData.audioSrc | sanitize: 'resourceUrl'" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 </div>
