@@ -11,7 +11,7 @@ export class BusinessRuleComponent implements OnInit {
 
   @Input() screenModule:any;
   @Input() screenName:any;
-  @Input() selectdNode:any;
+  @Input() selectedNode:any;
   @Input() nodes:any;
   constructor(private formBuilder: FormBuilder,private builderService:BuilderService) { }
 

@@ -11,7 +11,7 @@ export class ActionRuleComponent implements OnInit {
 
   @Input() screenModule:any;
   @Input() screenName:any;
-  @Input() selectdNode:any;
+  @Input() selectedNode:any;
   actionForm: FormGroup;
   insertQuery: any;
   updateQuery: any;
@@ -83,10 +83,10 @@ export class ActionRuleComponent implements OnInit {
   SaveAction() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonQuryResult = {
-      "key": this.selectdNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-      "title": this.selectdNode.title,
-      "type": this.selectdNode.type,
-      "btnActionType": this.selectdNode.actionType,
+      "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+      "title": this.selectedNode.title,
+      "type": this.selectedNode.type,
+      "btnActionType": this.selectedNode.actionType,
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       "queryData": this.actionForm.value.Actions,

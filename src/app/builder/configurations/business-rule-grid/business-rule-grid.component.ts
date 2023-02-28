@@ -11,7 +11,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class BusinessRuleGridComponent implements OnInit {
   @Input() screenModule:any = [];
   @Input() screenName:any;
-  @Input() selectdNode:any;
+  @Input() selectedNode:any;
   @Input() nodes:any;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,

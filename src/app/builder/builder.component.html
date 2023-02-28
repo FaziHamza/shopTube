@@ -165,28 +165,28 @@
                           <div class=" general_faq mt-3">
                             <div style="position:relative ;">
                               <app-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
-                                [itemData]="feildData" *ngIf="feildData">
+                                [itemData]="fieldData" [type]="fieldData.type" *ngIf="fieldData">
                               </app-generic-field>
                             </div>
                           </div>
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
-                          <app-uirule [selectdNode]="selectdNode" *ngIf="selectdNode && nodes.length  > 0"
+                          <app-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
                             [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-uirule>
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
                           <app-validation-rule></app-validation-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
-                          <app-business-rule [selectdNode]="selectdNode" *ngIf="selectdNode" [screenName]="screenName"
+                          <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
                             [screenModule]="screenModule" [nodes]="nodes"></app-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
-                          <app-action-rule [selectdNode]="selectdNode" *ngIf="selectdNode" [screenName]="screenName"
+                          <app-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
                             [screenModule]="screenModule"></app-action-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Grid Rules">
-                          <app-business-rule-grid *ngIf="selectdNode && nodes.length  > 0" [selectdNode]="selectdNode"
+                          <app-business-rule-grid *ngIf="selectedNode && nodes.length  > 0" [selectedNode]="selectedNode"
                             [screenName]="screenName" [screenModule]="screenModule"
                             [nodes]="nodes"></app-business-rule-grid>
                         </nz-tab>
@@ -276,7 +276,10 @@
                             </ng-template>
                             <div class="p-1" *ngFor="let item3 of item2.children">
 
-                              <button nz-button nzType="default" (click)="addControlToJson(item3.parameter,item3)"><i
+                              <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'" (click)="addControlToJson(item3.parameter,item3)"><i
+                                  class={{item3.icon}}></i>{{item3.label}}
+                              </button>
+                              <button nz-button nzType="default" *ngIf="item3.parameter == 'addSection'"  (click)="addSection()"><i
                                   class={{item3.icon}}></i>{{item3.label}}
                               </button>
                             </div>
@@ -337,3 +340,4 @@
     </as-split>
   </div>
 </nz-card>
+{{nodes | json}}
