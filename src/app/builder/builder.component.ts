@@ -579,6 +579,9 @@ export class BuilderComponent implements OnInit {
     else if (value == 'insertButton') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "insert" + Guid.newGuid(),
+        hideExpression: false,
+        tooltip: "",
         title: 'insert_1',
         type: "button",
         actionType: "insert",
@@ -592,11 +595,7 @@ export class BuilderComponent implements OnInit {
             highLight: false,
             btnConfig: [
               {
-                hideExpression: false,
-                tooltip: "",
-                key: "insert" + Guid.newGuid(),
                 color: "btn btn-success",
-                title: "Insert",
                 type: "insert",
                 btnIcon: "uil uil-user",
                 // format: "text-left",
@@ -618,6 +617,9 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         title: 'dropdownButton_1',
+        hideExpression: false,
+        tooltip: "",
+        key: "button" + Guid.newGuid(),
         type: "dropdownButton",
         highLight: false,
         isNextChild: false,
@@ -629,11 +631,7 @@ export class BuilderComponent implements OnInit {
             highLight: false,
             btnConfig: [
               {
-                hideExpression: false,
-                tooltip: "",
-                key: "button" + Guid.newGuid(),
                 color: "btn btn-success",
-                title: "Dropdown button",
                 type: "dropdown",
                 btnIcon: "uil uil-user",
                 // format: "text-left",
@@ -673,8 +671,11 @@ export class BuilderComponent implements OnInit {
     else if (value == 'updateButton') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "update" + Guid.newGuid(),
         title: 'update_1',
         type: "button",
+        hideExpression: false,
+        tooltip: "",
         highLight: false,
         isNextChild: false,
         actionType: "update",
@@ -686,13 +687,9 @@ export class BuilderComponent implements OnInit {
             highLight: false,
             btnConfig: [
               {
-                hideExpression: false,
-                tooltip: "",
                 color: "btn btn-primary",
-                title: "Update",
                 btnIcon: "uil uil-user",
                 type: "update",
-                key: "update" + Guid.newGuid(),
                 // format: "text-left",
                 btnDisables: false,
                 disabled: this.getLastNodeWrapper("disabled"),
@@ -710,6 +707,9 @@ export class BuilderComponent implements OnInit {
     else if (value == 'deleteButton') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        hideExpression: false,
+        tooltip: "",
+        key: "delete" + Guid.newGuid(),
         title: 'delete_1',
         type: "button",
         highLight: false,
@@ -722,11 +722,7 @@ export class BuilderComponent implements OnInit {
             btnGroupFormat: "text-left",
             btnConfig: [
               {
-                hideExpression: false,
-                tooltip: "",
-                key: "delete" + Guid.newGuid(),
                 color: "btn btn-danger",
-                title: "Delete",
                 btnIcon: "uil uil-user",
                 type: "delete",
                 // format: "text-left",
