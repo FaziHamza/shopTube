@@ -12,15 +12,16 @@ export class SiteLayoutComponent implements OnInit {
   size: NzButtonSize = 'large';
   visible = false;
   menuMode: any = 'inline';
-  menuColumn: any = '';
-  contentColumn: any = 'w-full';
+  menuColumn: any = 'w-2/12';
+  contentColumn: any = 'w-10/12';
   rowClass: any = 'flex flex-nowrap';
   showToggleButton: any = true;
   menuItems: MenuItem[] = [];
   selected: any = 'vertical'
   theme = false;
   checked = false;
-  isModalOpen : any = false;
+  ulIcon:"down"
+  isModalOpen: any = false;
   selectedTheme = {
     layout: 'vertical',
     colorScheme: '',
@@ -36,11 +37,19 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMenu();
+    this.ulIcon = "down";
   }
   isCollapsed = false;
 
   toggleCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;
+    if (this.isCollapsed == true) {
+      this.menuColumn = 'w-1/12';
+      this.contentColumn = 'w-11/12';
+    } else {
+      this.menuColumn = 'w-2/12';
+      this.contentColumn = 'w-10/12';
+    }
   }
   getMenu() {
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
@@ -89,7 +98,7 @@ export class SiteLayoutComponent implements OnInit {
     else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
       this.isCollapsed = true;
     }
-    else if (layoutType == 'boxed' ) {
+    else if (layoutType == 'boxed') {
       this.isCollapsed = true;
       this.rowClass = 'flex flex-nowrap container mx-auto';
       this.checked = false;
@@ -121,18 +130,25 @@ export class SiteLayoutComponent implements OnInit {
 
   }
 
-  setHovered(value: boolean) {
+  setHovered(value: any) {
     debugger
-    if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
-      this.isCollapsed = value;
-    }
-    if (this.selectedTheme.sideBarSize == 'smallHoverView') {
-      if (!this.checked)
+    if (value != 'down' && value != 'up') {
+      if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.isCollapsed = value;
+      }
+      if (this.selectedTheme.sideBarSize == 'smallHoverView') {
+        if (!this.checked)
+          this.isCollapsed = value;
+      }
+    }else if(value == 'down' || value == 'up'){
+      this.ulIcon = value;
     }
+
   }
-  mouseHoverd(value: boolean) {
+
+  notifyEmit(data: any) {
     debugger
-    this.isModalOpen = value;
+    this.menuItems = data
   }
+
 }

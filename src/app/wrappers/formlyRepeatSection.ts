@@ -11,7 +11,7 @@ interface ItemData {
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
-  {{ field | json}}
+  <!-- {{ field | json}} -->
      <buttonn  nzType="primary" nz-button (click)="addRow()">Add</buttonn>
     <br />
     <br />
