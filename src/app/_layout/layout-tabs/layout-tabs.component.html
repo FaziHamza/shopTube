@@ -1,0 +1,13 @@
+<br>
+<div class="bg-white pl-4">
+    <nz-tabset>
+        <nz-tab *ngFor="let tab of tabsData.subItems" [nzTitle]="titleTemplate">
+            <ng-template #titleTemplate>
+                <div (click)="screenLoad(tab.chartCardConfig[0].dashonicTabsConfig[0].link)">
+                    <span nz-icon nzType="android"></span>
+                    {{ tab.chartCardConfig[0].dashonicTabsConfig[0].tabLabel }}
+                </div>
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+</div>

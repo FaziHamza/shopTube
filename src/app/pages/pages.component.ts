@@ -29,7 +29,6 @@ export class PagesComponent implements OnInit {
 
   }
   disabledAndEditableSection(data: any) {
-    data
     data[0].forEach((a: any) => {
       if (a.formlyType) {
         if (a.formlyType == "input") {
