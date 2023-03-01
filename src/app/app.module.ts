@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -81,6 +80,8 @@ import { TreeViewComponent } from './components/tree-view/tree-view.component';
 import { MentionComponent } from './components/mention/mention.component';
 import { MessageComponent } from './components/message/message.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
+import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -156,6 +157,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MentionComponent,
     MessageComponent,
     NotificationComponent,
+    LayoutButtonComponent,
+    LayoutTabsComponent
   ],
   imports: [
     FormsModule,
