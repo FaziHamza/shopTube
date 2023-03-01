@@ -32,9 +32,11 @@
         </select>
       </div>
       <div class="col-2">
-        <button type="button" (click)="addActionFormGroup()" class="btn btn-primary">
-          <i class="fa fa-plus"></i>
-          Add Action
+        <button type="button" nz-button nzType="primary" (click)="addActionFormGroup()" class="bg-blue-500 hover:bg-blue-400 text-white font-bold px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+          <span nz-icon nzType="plus-circle" class="-top-1 py-2" nzTheme="outline">
+            <span class="px-2">Add Action</span>
+          </span>
+
         </button>
       </div>
     </div>
@@ -71,12 +73,12 @@
             </div>
           </div>
           <div class="col-md-2" style="margin-top: 6%;">
-            <button class="btn btn-danger" type="button" (click)="removeActionFormGroup(i)">
-              <i class="fa fa-trash" aria-hidden="true"></i>
+            <button type="button" nz-button nzType="primary" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" (click)="removeActionFormGroup(i)">
+              <span nz-icon nzType="delete" nzTheme="outline"></span>
             </button>
-            <button class="btn btn-danger ml-2" type="button"
+            <button type="button" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" nz-button nzType="primary"
               (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
-              <i class="fa fa-copy"></i>
+              <span nz-icon nzType="copy" nzTheme="outline"></span>
             </button>
           </div>
         </div>
@@ -84,7 +86,7 @@
 
     </div>
 
-    <button type="submit" class="btn btn-primary mt-2"><i class="fa fa-database mr-1"></i>
+    <button type="submit" nz-button nzType="primary" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fa fa-database mr-1"></i>
       Save</button>
   </form>
 </div>
