@@ -1,5 +1,5 @@
 <div class=" general_faq mt-3">
-  <div  style="position:relative ;">
+  <div style="position:relative ;">
     <form action="javascript:void(0);" [formGroup]="uiRuleForm">
       <div formArrayName="uiRules">
         <nz-collapse>
@@ -7,10 +7,10 @@
             [nzHeader]="(uiIndex+1).toString()">
             <div [formGroupName]="uiIndex">
               <div class="p-3">
-                <div class="row">
-                  <div class="d-flex col-md-4">
-                    <label style="width:20%" class="pt-1">If</label>
-                    <div style="width:80%">
+                <div class="flex flex-wrap -mb-4 -mx-2">
+                  <div class="w-1/4  mb-4 px-2">
+                    <label class="pt-1">If</label>
+                    <div>
                       <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                         (change)="[changeIf(),getConditionList(uiIndex)]">
                         <nz-option [nzLabel]="uiData.templateOptions.label" [nzValue]="uiData.key"
@@ -18,84 +18,88 @@
                       </nz-select>
                     </div>
                   </div>
-                  <div class="d-flex col-md-4">
-                    <label style="width:20%" class="mx-2 mt-2 mb-1">Equal</label>
-                    <div style="width:80%">
+                  <div class="w-1/4 mb-4 px-2">
+                    <label class="mx-2 mt-2 mb-1">Equal</label>
+                    <div>
                       <nz-select nzShowSearch nzAllowClear formControlName="condationName">
                         <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
                           *ngFor="let uiData of this.uiRuleFunc()?.at(uiIndex)?.get('condationList')?.value"></nz-option>
                       </nz-select>
                     </div>
                   </div>
-                  <div class="d-flex col-md-3">
-                    <label style="width:20%" class="mx-2 mt-2 mb-1">Value</label>
-                    <div style="width:80%">
-                      <input type="text" placeholder="Enter value" id="targetValue{{uiIndex}}"
-                        formControlName="targetValue" required class="form-control"
-                        name="targetValue{{uiIndex}}" />
+                  <div class="w-1/4  mb-4 px-2">
+                    <label class="mx-2 mt-2 mb-1">Value</label>
+                    <div>
+                      <input nz-input type="text" placeholder="Enter value" id="targetValue{{uiIndex}}"
+                        formControlName="targetValue" required class="form-control" name="targetValue{{uiIndex}}" />
                     </div>
                   </div>
-                  <div class="d-flex col-md-1">
-                    <button class="btn btn-danger w-100" (click)="removeUIRule(uiIndex)"
-                      type="button"><i aria-hidden="true" class="fa fa-trash"></i></button>
+                  <div class="w-1/4   px-2 mt-5">
+                    <button nz-button nzType="primary" nzDanger (click)="removeUIRule(uiIndex)" type="button">
+                      <span nz-icon nzType="delete" nzTheme="outline"></span></button>
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row ">
                   <div class="col-md-12">
                     <div formArrayName="targetIfValue">
-                      <div
-                        *ngFor="let ifRule of addUIRuleIfCondition(uiIndex).controls; let ifIndex=index">
+                      <div *ngFor="let ifRule of addUIRuleIfCondition(uiIndex).controls; let ifIndex=index">
                         <div [formGroupName]="ifIndex" class="row">
                           <div class="col-md-12 mt-1 mb-1">
-                            <button class="btn btn-sm w-100 btn-success"
-                              id="btn{{uiIndex}}{{ifIndex}}" type="button"
+                            <button nz-button nzType="primary" nzPrimary class="btn btn-sm w-100 btn-success" id="btn{{uiIndex}}{{ifIndex}}" 
                               (click)="buttonUITextCahnge(uiIndex,ifIndex)">
                               {{this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType")?.value}}
                             </button>
                           </div>
-                          <div class="d-flex col-md-4 mt-1">
-                            <label style="width:80%" class="pt-1">If</label>
-                            <nz-select nzShowSearch nzAllowClear formControlName="condationName"
-                              (change)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
-                              <nz-option [nzLabel]="uiData.templateOptions.label"
-                                [nzValue]="uiData.key" *ngFor="let uiData of dataaa"></nz-option>
-                            </nz-select>
-                          </div>
-                          <div class="d-flex col-md-4 mt-1">
-                            <label style="width:20%" class="mx-2 mt-2 mb-1">Equal</label>
-                            <nz-select nzShowSearch nzAllowClear formControlName="condationName">
-                              <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
-                                *ngFor="let uiData of this.uiRuleFunc().at(uiIndex).get('targetIfValue')?.value[ifIndex].condationList"></nz-option>
-                            </nz-select>
-                          </div>
-                          <div class="d-flex col-md-3 mt-1">
-                            <label style="width:20%" class="mx-2 mt-2 mb-1">Value</label>
-                            <input style="width:80%" type="text" placeholder="Enter value"
-                              id="targetValue{{uiIndex}}{{ifIndex}}" formControlName="targetValue"
-                              required class="form-control"
-                              name="targetValue{{uiIndex}}{{ifIndex}}" />
-                          </div>
-                          <div class="d-flex col-md-1 mt-1 ">
-                            <button class="btn btn-danger w-100"
-                              (click)="removeIfUIRule(uiIndex,ifIndex)" type="button"><i
-                                aria-hidden="true" class="fa fa-trash"></i></button>
+                          <div class="flex flex-wrap -mb-4 -mx-2">
+                            <div class="w-1/4  mb-4 px-2">
+                              <label class="pt-1">If</label>
+                              <div>
+                                <nz-select nzShowSearch nzAllowClear formControlName="condationName"
+                                  (change)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
+                                  <nz-option [nzLabel]="uiData.templateOptions.label" [nzValue]="uiData.key"
+                                    *ngFor="let uiData of dataaa"></nz-option>
+                                </nz-select>
+                              </div>
+                            </div>
+                            <div class="w-1/4  mb-4 px-2">
+                              <label class="mx-2 mt-2 mb-1">Equal</label>
+                              <div>
+
+                                <nz-select nzShowSearch nzAllowClear formControlName="condationName">
+                                  <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
+                                    *ngFor="let uiData of this.uiRuleFunc().at(uiIndex).get('targetIfValue')?.value[ifIndex].condationList"></nz-option>
+                                </nz-select>
+                              </div>
+                            </div>
+                            <div class="w-1/4  mb-4 px-2">
+                              <label class="mx-2 mt-2 mb-1">Value</label>
+                              <div>
+                                <input nz-input type="text" placeholder="Enter value"
+                                  id="targetValue{{uiIndex}}{{ifIndex}}" formControlName="targetValue" required
+                                  class="form-control" name="targetValue{{uiIndex}}{{ifIndex}}" />
+                              </div>
+                            </div>
+                            <div class="w-1/4  mt-5 px-2">
+                              <button nz-button nzType="primary" nzDanger class="btn btn-danger w-100" (click)="removeIfUIRule(uiIndex,ifIndex)"
+                                type="button">
+                                <span nz-icon nzType="delete" nzTheme="outline" ></span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
                     <div class="pt-2">
-                      <button class="btn btn-primary btn-sm w-100"
-                        (click)="addUITargetIfRule(uiIndex)">
+                      <button nz-button nzType="primary" nzPrimary class="btn btn-primary btn-sm w-100" (click)="addUITargetIfRule(uiIndex)">
                         <b>+</b> If</button>
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div formArrayName="targetCondition">
                       <nz-collapse>
-                        <nz-collapse-panel
-                          *ngFor="let skill of addTargetCondition(uiIndex).controls; let index=index"
+                        <nz-collapse-panel *ngFor="let skill of addTargetCondition(uiIndex).controls; let index=index"
                           [nzHeader]="((uiIndex+1)- (index+1)).toString()">
                           <div class="row">
                             <div class="col-md-11">
@@ -121,9 +125,8 @@
                               </div>
                             </div>
                             <div class="col-md-1 mt-4">
-                              <button class="btn btn-danger mx-1 mt-3"
-                                (click)="removeTargetUIRule(uiIndex,index)" type="button"><i
-                                  aria-hidden="true" class="fa fa-trash"></i></button>
+                              <button nz-button nzType="primary" nzDanger class="btn btn-danger mx-1 mt-3" (click)="removeTargetUIRule(uiIndex,index)"
+                                type="button"> <span nz-icon nzType="delete" nzTheme="outline" ></span></button>
                             </div>
                           </div>
                         </nz-collapse-panel>
@@ -131,8 +134,7 @@
 
                     </div>
                     <div class=" pt-2">
-                      <button class="btn btn-primary btn-sm w-100"
-                        (click)="addUITargetRule(uiIndex)">
+                      <button nz-button nzType="primary" nzPrimary  (click)="addUITargetRule(uiIndex)">
                         <b>+</b> Target</button>
                     </div>
                   </div>
@@ -141,10 +143,12 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        <button class="btn btn-primary mb-3 mt-2" type="button" (click)="addUIRule()"><i
-            class="fa fa-plus"></i>Add Rule</button>
-        <button class="btn btn-primary mb-3 ml-2 mt-2" (click)="updateRule()"><i
-            class="fa fa-database mr-1" aria-hidden="true"></i>Save </button>
+        <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2"  (click)="addUIRule()">
+          <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
+          <b>+</b>Add Rule</button>
+        <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="updateRule()">
+          <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
+          Save </button>
       </div>
     </form>
   </div>
