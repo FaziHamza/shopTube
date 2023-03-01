@@ -55,9 +55,14 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getMenu() {
+    debugger
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
-      if (res.length > 0)
+      if (res.length > 0) {
         this.menuItems = res[0].menuData;
+        this.menuItems.forEach((e: any) => {
+          e["menuIcon"] = "up"
+        });
+      }
       else
         this.menuItems = [];
     })
@@ -76,7 +81,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   changeLayout(layoutType: any) {
-    debugger
+
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault') {
       this.menuMode = "inline",
         this.rowClass = 'flex flex-nowrap',
@@ -138,7 +143,8 @@ export class SiteLayoutComponent implements OnInit {
 
   }
 
-  setHovered(value: any, type?: any) {
+  setHovered(value: any, data?: any) {
+    debugger
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.isCollapsed = value;
@@ -149,16 +155,13 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
     else if (value == 'down' || value == 'up') {
-      this.ulIcon = value;
-    }
-    else if (type == 'newMenuArray') {
-      this.newMenuArray[0].icon = value;
+      data = value;
     }
 
   }
 
   changeIcon() {
-    debugger
+
     this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
   }
 
@@ -172,7 +175,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    debugger
     event.stopPropagation();
     this.tabs = [];
     this.dropdown = [];

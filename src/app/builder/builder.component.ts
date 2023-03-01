@@ -311,7 +311,7 @@ export class BuilderComponent implements OnInit {
   tabsChild: TreeNode;
 
   addControlToJson(value: string, data?: any) {
-    debugger
+    
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -3316,7 +3316,7 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    debugger
+    
     if(node.origin){
       parent = parent?.parentNode?.origin;
       node = node.origin;
@@ -5982,7 +5982,7 @@ export class BuilderComponent implements OnInit {
 
 
   searchControll() {
-    // debugger
+    // 
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {

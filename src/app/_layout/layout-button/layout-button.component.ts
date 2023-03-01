@@ -14,7 +14,7 @@ export class LayoutButtonComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    debugger
+    
     let arrayIndex = 0;
     let mainIndex = 0;
     let mainAarayIndex = 0;
@@ -45,7 +45,7 @@ export class LayoutButtonComponent implements OnInit {
   }
 
   tabsLoad(data: any) {
-    debugger
+    
     this.newTabArray = [];
     data.subItems.forEach((k: any) => {
       if (k.type == "mainDashonicTabs") {
@@ -56,7 +56,7 @@ export class LayoutButtonComponent implements OnInit {
   }
 
   apiCall(link: any) {
-    debugger
+    
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);

@@ -12,7 +12,7 @@
     <div>
       <div style="overflow: auto;"
         [ngClass]="selectedTheme.layouutPosiion == 'fixed' && menuMode == 'inline'? 'scroll' : ''"
-        (mouseover)="setHovered(false)" (mouseout)="setHovered(true)">
+        (mouseover)="setHovered(false,'start')" (mouseout)="setHovered(true,'start')">
         <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
           style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]='menuMode'
           [nzInlineCollapsed]="isCollapsed" [nzTheme]="theme ? 'dark' : 'light'">
@@ -30,15 +30,15 @@
               </ng-container>
               <ng-template #subMenu>
                 <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
-                  <li nz-submenu [nzTitle]="item.label" nzIcon="appstore" (mouseover)="setHovered('up')"
-                    (mouseout)="setHovered('down')" (click)="loadTabsAndButtons($event,item)">
+                  <li nz-submenu [nzTitle]="item.label" nzIcon="appstore" (mouseover)="setHovered('up', item.menuIcon)"
+                    (mouseout)="setHovered('down',item.menuIcon)" (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.subItems">
                       <ng-container>
                         <li nz-menu-item [nzDanger]="true" (click)="loadTabsAndButtons($event, sub)">{{sub.label}}</li>
                       </ng-container>
                     </ul>
                   </li>
-                  <span nz-icon [nzType]="ulIcon" nzTheme="outline" *ngIf="menuMode === 'horizontal'"></span>
+                  <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="menuMode === 'horizontal'"></span>
                 </ng-container>
               </ng-template>
               <ng-template #menu>

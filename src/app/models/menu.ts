@@ -6,6 +6,7 @@ export interface MenuItem {
   type?: string;
   link?: string;
   subItems?: any;
+  menuIcon?: any;
   isTitle?: boolean;
   badge?: any;
   parentId?: number;
