@@ -13,6 +13,7 @@ export class BusinessRuleGridComponent implements OnInit {
   @Input() screenName:any;
   @Input() selectedNode:any;
   @Input() nodes:any;
+  isVisible = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
     private builderService: BuilderService,
@@ -654,5 +655,18 @@ export class BusinessRuleGridComponent implements OnInit {
       }
     });
     // console.log(fishRhyme(this.formlyModel));
+  }
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }
