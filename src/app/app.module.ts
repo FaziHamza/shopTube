@@ -82,6 +82,7 @@ import { MessageComponent } from './components/message/message.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
 import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
+import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -158,7 +159,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MessageComponent,
     NotificationComponent,
     LayoutButtonComponent,
-    LayoutTabsComponent
+    LayoutTabsComponent,
+    LayoutDrawerComponent
   ],
   imports: [
     FormsModule,

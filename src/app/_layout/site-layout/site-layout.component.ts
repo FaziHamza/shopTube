@@ -9,12 +9,13 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./site-layout.component.scss']
 })
 export class SiteLayoutComponent implements OnInit {
-  size: NzButtonSize = 'large';
   visible = false;
   menuMode: any = 'inline';
   menuColumn: any = 'w-2/12';
   contentColumn: any = 'w-10/12';
   rowClass: any = 'flex flex-nowrap';
+  horizontalRow = ''
+  horizontalColumn = ''
   showToggleButton: any = true;
   menuItems: MenuItem[] = [];
   selected: any = 'vertical'
@@ -25,6 +26,9 @@ export class SiteLayoutComponent implements OnInit {
   newMenuArray: any = false;
   tabs: any = [];
   dropdown: any = [];
+  menuChildArrayTwoColumn: any = [];
+  isCollapsed = false;
+  isTwoColumnCollapsed = false;
   selectedTheme = {
     layout: 'vertical',
     colorScheme: '',
@@ -42,14 +46,26 @@ export class SiteLayoutComponent implements OnInit {
     this.getMenu();
     this.ulIcon = "down";
   }
-  isCollapsed = false;
-
   toggleCollapsed(): void {
-    this.isCollapsed = !this.isCollapsed;
-    if (this.isCollapsed == true) {
-      this.menuColumn = 'w-1/12';
-      this.contentColumn = 'w-11/12';
-    } else {
+    debugger
+    if (this.selectedTheme.layout == 'twoColumn') {
+      this.isTwoColumnCollapsed = !this.isTwoColumnCollapsed;
+      if (this.isTwoColumnCollapsed) {
+        this.menuColumn = 'w-1/6';
+        this.contentColumn = 'w-10/12';
+      } else if (!this.isTwoColumnCollapsed) {
+        this.menuColumn = 'w-1/5';
+        this.contentColumn = 'w-4/5';
+      }
+    }
+    else {
+      this.isCollapsed = !this.isCollapsed;
+    }
+    if (this.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
+      this.menuColumn = '';
+      this.contentColumn = 'w-full';
+    }
+    else if (!this.isCollapsed) {
       this.menuColumn = 'w-2/12';
       this.contentColumn = 'w-10/12';
     }
@@ -72,28 +88,31 @@ export class SiteLayoutComponent implements OnInit {
     // })
   }
 
-  open(): void {
-    this.visible = true;
-  }
 
-  close(): void {
-    this.visible = false;
-  }
 
   changeLayout(layoutType: any) {
-
-    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault') {
+    this.horizontalRow = '';
+    this.rowClass = 'flex flex-nowrap';
+    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
       this.menuMode = "inline",
         this.rowClass = 'flex flex-nowrap',
-        this.menuColumn = '',
-        this.contentColumn = 'w-full',
-        this.showToggleButton = true;
+        this.menuColumn = '';
+      this.contentColumn = 'w-full';
+      this.showToggleButton = true;
       this.makeMenuItemsArray();
+      if (layoutType == 'twoColumn') {
+        this.isCollapsed = true;
+        this.isTwoColumnCollapsed = false;
+        this.menuColumn = 'w-1/5';
+        this.contentColumn = 'w-4/5';
+      }
     }
     else if (layoutType == 'horizental') {
-      this.menuMode = "horizontal",
-        this.rowClass = '',
-        this.menuColumn = 'w-full',
+      this.horizontalColumn = 'w-10/12';
+      this.horizontalRow = 'flex flex-wrap';
+      this.rowClass = 'w-10/12',
+        this.menuMode = "horizontal",
+        this.menuColumn = '',
         this.contentColumn = 'w-full',
         this.showToggleButton = false,
         this.isCollapsed = false;
@@ -110,17 +129,29 @@ export class SiteLayoutComponent implements OnInit {
       this.makeMenuItemsArray();
     }
     else if (layoutType == 'boxed') {
-      this.isCollapsed = true;
-      this.rowClass = 'flex flex-nowrap container mx-auto';
-      this.checked = false;
-      this.makeMenuItemsArray();
+      if (this.selectedTheme.layout == 'horizental') {
+        this.horizontalColumn = 'w-10/12';
+        this.horizontalRow = 'flex flex-wrap';
+        this.rowClass = 'w-10/12',
+          this.menuMode = "horizontal",
+          this.menuColumn = '',
+          this.contentColumn = 'w-full',
+          this.showToggleButton = false,
+          this.isCollapsed = false;
+        this.newMenuArrayFunc();
+      } else {
+        this.isCollapsed = true;
+        this.rowClass = 'flex flex-nowrap container mx-auto';
+        this.checked = false;
+        this.makeMenuItemsArray();
+      }
     }
     else if (layoutType == 'default') {
       this.isCollapsed = false;
       this.makeMenuItemsArray();
     }
     // This conditions is used to assign value to object
-    if (layoutType == 'vertical' || layoutType == 'horizental') {
+    if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn') {
       this.selectedTheme.layout = layoutType;
     } else if (layoutType == 'fluid' || layoutType == 'boxed') {
       this.selectedTheme.layoutWidth = layoutType;
@@ -175,14 +206,20 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
+    debugger
     event.stopPropagation();
     this.tabs = [];
     this.dropdown = [];
+    this.menuChildArrayTwoColumn = [];
     if (data.subItems.length > 0) {
       data.subItems.forEach((i: any) => {
+        if (this.selectedTheme.layout == 'twoColumn') {
+          this.menuChildArrayTwoColumn.push(i);
+        }
         if (i.type == 'mainDashonicTabs') {
           this.tabs.push(i);
-        } else if (i.type == 'dropdown') {
+        }
+        else if (i.type == 'dropdown') {
           this.dropdown.push(i);
         }
       });
