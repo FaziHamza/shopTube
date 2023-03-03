@@ -8,6 +8,10 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
+  getGridConfig(node: any) {
+    debugger
+    return { options: node.tableData};
+  }
 
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
