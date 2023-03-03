@@ -3824,6 +3824,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
+    debugger
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -3846,6 +3847,10 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
+        break;
+      case "gridList":
+        configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.gridNameFields;
         break;
 
       case "skeleton":
@@ -4148,7 +4153,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
       case "gridName":
-
+        debugger
         break;
       case "page":
         configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
@@ -5079,7 +5084,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "grid":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.label = event.form.header,
             this.selectedNode.editorType = event.form.editorType,
@@ -5142,7 +5147,7 @@ export class BuilderComponent implements OnInit {
 
       case "gridName":
         if (this.selectedNode) {
-
+          debugger
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.className = event.form.className;
           this.selectedNode.sortable = event.form.sortable;
