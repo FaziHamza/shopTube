@@ -11,8 +11,7 @@ interface ItemData {
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
-  {{this.form.value?.options | json}}
- <dynamic-table [tableId]='tableId' [tableData]='this.form.value?.options'  ></dynamic-table>
+ <dynamic-table [tableId]='tableId' [tableData]='this.form.value?.options'></dynamic-table>
   `,
   styles: [
     `

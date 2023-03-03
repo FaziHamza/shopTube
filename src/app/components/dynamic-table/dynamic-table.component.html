@@ -1,3 +1,4 @@
+{{tableData | json}}
 <button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
 <br />
 <br />
@@ -15,7 +16,7 @@
         <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
           {{data[header.name]}}
         </div>
-        <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]" (blur)="stopEdit()" />
+        <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]"  />
       </td>
       <td>
         <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">
@@ -25,3 +26,4 @@
     </tr>
   </tbody>
 </nz-table>
+<button nz-button (click)="save()" type="button" nzType="primary">Save</button>

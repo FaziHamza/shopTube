@@ -4803,6 +4803,7 @@ export class BuilderComponent implements OnInit {
       case 'date':
       case 'color':
         if (this.selectedNode) {
+          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {

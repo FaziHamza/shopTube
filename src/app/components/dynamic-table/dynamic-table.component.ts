@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'dynamic-table',
@@ -11,6 +11,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() tableData: any;
   @Input() tableHeaders: any[];
   editId: string | null = null;
+  @Output() tableNotify: EventEmitter<any> = new EventEmitter();
   key: any;
   constructor( private cd:ChangeDetectorRef  ) { }
 
@@ -24,11 +25,7 @@ export class DynamicTableComponent implements OnInit {
     const id = this.tableData.length + 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = id;
-    this.tableData.push(newRow);
-    this.tableData=this.tableData;
-    this.loadTableData();
-    this.cd.detectChanges();
-
+    this.tableData = [...this.tableData, newRow];
   };
   deleteRow(id: string): void {
     this.tableData = this.tableData.filter((d: any) => d.id !== id);
@@ -50,5 +47,11 @@ export class DynamicTableComponent implements OnInit {
       this.tableHeaders = this.key;
     }
 
+  }
+
+  save(){
+    debugger
+    this.tableData;
+    this.tableNotify.emit(this.tableData);
   }
 }
