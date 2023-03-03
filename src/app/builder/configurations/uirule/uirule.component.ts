@@ -14,16 +14,20 @@ export class UIRuleComponent implements OnInit {
   @Input() screenName: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
-  // public editorOptions: JsonEditorOptions;
-  // makeOptions = () => new JsonEditorOptions();
-  // @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
+  public editorOptions: JsonEditorOptions;
+  makeOptions = () => new JsonEditorOptions();
+  @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService) {
-    // this.editorOptions = new JsonEditorOptions();
+    this.editorOptions = new JsonEditorOptions();
   }
 
+  uiRuleForm: FormGroup;
+  screenData: any;
+  targetList: any = [];
+  condationList: any;
+  ifMenuName: any = [];
+  ifMenuList: any = [];
   ngOnInit(): void {
-    this.newTargetUIRule();
-    this.newUIRule();
     this.uiRule();
     // this.editorOptions['modes'] = ['code', 'text', 'tree', 'view'];
   }
@@ -32,28 +36,105 @@ export class UIRuleComponent implements OnInit {
   //     this.editor.destroy();
   //   }
   // }
-  screenData: any;
+  changeIf() {
+    // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
+    this.targetList = [];
+    var objTargetList = { key: '', value: '' };
+    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
+      objTargetList = { key: '', value: '' };
+      var inputType = this.nodes[0].children[1].children[0].children[1].children[j];
 
+      if (inputType.type == "input") {
+        objTargetList.key = (inputType.key).toString()
+        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
+        this.targetList.push(objTargetList);
+      }
 
-  targetList: any = [];
-  condationList: any;
-  dataaa: any = [];
-  ifMenuList: any = [];
-  uiRuleForm: FormGroup;
-  addUIRule() {
-    this.uiRuleFunc().push(this.newUIRule());
+      // else if (inputType.type == "stepperMain") {
+      //   for (let k = 0; k < inputType.children.length; k++) {
+      //     objTargetList = { key: '', value: '' };
+      //     objTargetList.key = (inputType.children[k].formly[0].fieldGroup[0].key).toString()
+      //     objTargetList.value = (inputType.children[k].formly[0].fieldGroup[0].templateOptions.title).toString()
+      //     this.targetList.push(objTargetList)
+      //   }
+      // }
+      // else if (inputType.type == "mainDashonicTabs") {
+      //   for (let k = 0; k < inputType.children.length; k++) {
+      //     objTargetList = { key: '', value: '' };
+      //     objTargetList.key = (inputType.children[k].key).toString()
+      //     objTargetList.value = (inputType.children[k].dashonicTabsConfig[0].tabtitle).toString()
+      //     this.targetList.push(objTargetList)
+      //   }
+      // } else if (inputType.type == "buttonGroup") {
+      //   // for (let k = 0; k < inputType.children.length; k++) {
+      //   // objTargetList = { key: '', value: '' };
+      //   objTargetList.key = (inputType.key).toString()
+      //   objTargetList.value = (inputType.title).toString()
+      //   this.targetList.push(objTargetList)
+      //   // }
+      // } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
+      //   objTargetList.key = (inputType.buttonGroup[0].btnConfig[0].key).toString()
+      //   objTargetList.value = (inputType.buttonGroup[0].btnConfig[0].title).toString()
+      //   this.targetList.push(objTargetList)
+      // } else if (inputType.type == "card" ||
+      //   inputType.type == "simpleCardWithHeaderBodyFooter") {
+      //   objTargetList.key = (inputType.key).toString()
+      //   objTargetList.value = (inputType.title).toString()
+      //   this.targetList.push(objTargetList)
+      // } else if (inputType.type == "alert") {
+      //   objTargetList.key = (inputType.alertConfig[0].key).toString()
+      //   objTargetList.value = (inputType.title).toString()
+      //   this.targetList.push(objTargetList)
+      // } else if (inputType.type == "mainDashonicTabs") {
+      //   for (let k = 0; k < inputType.children.length; k++) {
+      //     objTargetList = { key: '', value: '' };
+      //     objTargetList.key = (inputType.children[k].key).toString()
+      //     objTargetList.value = (inputType.children[k].title).toString()
+      //     this.targetList.push(objTargetList)
+      //   }
+      // } else if (inputType.type == "gridList" || inputType.type == "gridListEditDelete") {
+      //   objTargetList = { key: '', value: '' };
+      //   objTargetList.key = (inputType.key).toString()
+      //   objTargetList.value = (inputType.title).toString()
+      //   this.targetList.push(objTargetList)
+      // } else if (inputType.type == "header" || inputType.type == "paragraph") {
+      //   objTargetList = { key: '', value: '' };
+      //   objTargetList.key = (inputType.key).toString()
+      //   objTargetList.value = (inputType.title).toString()
+      //   this.targetList.push(objTargetList)
+      // }
+    }
+    // this.targetList = this.targetList.filter((a: any) => a.key != this.ifMenuName);
   }
-  newIfUIRule(): FormGroup {
-    return this.formBuilder.group({
-      ifMenuName: '',
-      inputType: '',
-      condationList: [''],
-      condationName: '',
-      targetValue: '',
-      conditonType: 'AND',
-    });
+  getConditionList(uiIndex?: number, ifIndex?: number) {
+    let nodeList: any;
+    let menuName: any;
+    // if (ifIndex != undefined && uiIndex != undefined) {
+    //   menuName = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("ifMenuName")?.value;
+    //   nodeList = this.findElementNode(this.nodes, menuName);
+    // }
+    // else {
+    if (uiIndex != undefined) {
+      menuName = this.getUiRule().at(uiIndex).get('ifMenuName')?.value;
+      nodeList = this.findElementNode(this.nodes, menuName);
+    }
+
+    let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
+    this.condationList = [];
+    this.condationList = this.conditioList(inputType);
+    if (ifIndex != undefined && uiIndex != undefined) {
+      this.addUIRuleIfCondition(uiIndex).at(ifIndex).patchValue({
+        condationList: this.condationList
+      });
+    }
+    else {
+      if (uiIndex != undefined)
+        this.getUiRule().at(uiIndex).patchValue({
+          condationList: this.condationList
+        });
+    }
   }
-  newUIRule(): FormGroup {
+  uIRuleInitilize(): FormGroup {
     return this.formBuilder.group({
       ifMenuName: '',
       inputType: '',
@@ -66,16 +147,36 @@ export class UIRuleComponent implements OnInit {
       targetCondition: this.formBuilder.array([]),
     });
   }
-  uiRuleFunc(): FormArray {
+  uiRuleFormInitilize() {
+    this.uiRuleForm = this.formBuilder.group({
+      uiRules: this.formBuilder.array([this.uIRuleInitilize()])
+    });
+  }
+  getUiRule(): FormArray {
     return this.uiRuleForm.get('uiRules') as FormArray;
   }
+  addUIRule() {
+    this.getUiRule().push(this.uIRuleInitilize());
+  }
+
+  newIfUIRule(): FormGroup {
+    return this.formBuilder.group({
+      ifMenuName: '',
+      inputType: '',
+      condationList: [''],
+      condationName: '',
+      targetValue: '',
+      conditonType: 'AND',
+    });
+  }
+
   addUIRuleIfCondition(ifIndex: number): FormArray {
-    return this.uiRuleFunc()
+    return this.getUiRule()
       .at(ifIndex)
       .get('targetIfValue') as FormArray;
   }
   removeUIRule(uiIndex: number) {
-    this.uiRuleFunc().removeAt(uiIndex);
+    this.getUiRule().removeAt(uiIndex);
   }
   removeIfUIRule(uiIndex: number, ifIndex: number) {
     this.addUIRuleIfCondition(uiIndex).removeAt(ifIndex);
@@ -87,41 +188,13 @@ export class UIRuleComponent implements OnInit {
     let conValue = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("conditonType")?.value == "AND" ? "OR" : "AND";
     this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("conditonType")?.setValue(conValue);
   };
-  getConditionList(uiIndex?: number, ifIndex?: number) {
-
-    let nodeList: any;
-    let menuName: any;
-    if (ifIndex != undefined && uiIndex) {
-      menuName = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("ifMenuName")?.value;
-      nodeList = this.findElementNode(this.nodes, menuName);
-    }
-    else {
-      if (uiIndex)
-        menuName = this.uiRuleFunc()?.at(uiIndex)?.get('ifMenuName')?.value;
-      nodeList = this.findElementNode(this.nodes, menuName);
-
-    }
-    let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
-    this.condationList = [];
-    this.condationList = this.conditioList(inputType);
-    if (ifIndex != undefined && uiIndex) {
-      this.addUIRuleIfCondition(uiIndex).at(ifIndex).patchValue({
-        condationList: this.condationList
-      });
-    }
-    else {
-      if (uiIndex)
-        this.uiRuleFunc().at(uiIndex).patchValue({
-          condationList: this.condationList
-        });
-    }
-  }
   addTargetCondition(uiIndex: number): FormArray {
-    return this.uiRuleFunc()
+    return this.getUiRule()
       .at(uiIndex)
       .get('targetCondition') as FormArray;
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
+    debugger
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
       if (inputType.type == "buttonGroup") {
@@ -157,11 +230,13 @@ export class UIRuleComponent implements OnInit {
         inputType.type == "search" || inputType.type == "repeatSection" || inputType.type == "tags" || inputType.type == "telephone"
         || inputType.type == "textarea" || inputType.type == "date" || inputType.type == "datetime" || inputType.type == "month"
         || inputType.type == "time" || inputType.type == "week") {
-        const element = inputType.formly[0].fieldGroup[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.formly[0].fieldGroup[0],
-            inputOldJsonData: inputType.formly[0].fieldGroup[0]
+            inputJsonData: "new Data",
+            inputOldJsonData: "new Data"
+            // inputJsonData: inputType.formly[0].fieldGroup[0],
+            // inputOldJsonData: inputType.formly[0].fieldGroup[0]
           });
         }
       } else if (inputType.type == "alert") {
@@ -257,7 +332,8 @@ export class UIRuleComponent implements OnInit {
   updateRule() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonUIResult = {
-      "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+      // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+      "key": this.selectedNode.key,
       "title": this.selectedNode.title,
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
@@ -293,125 +369,56 @@ export class UIRuleComponent implements OnInit {
     // this.cd.detectChanges();
     // this.clickBack();
   }
-  changeIf() {
-
-    // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
-    this.targetList = [];
-    var objTargetList = { key: '', value: '' };
-    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      objTargetList = { key: '', value: '' };
-      var inputType = this.nodes[0].children[1].children[0].children[1].children[j];
-      if (inputType.type == "stepperMain") {
-        for (let k = 0; k < inputType.children.length; k++) {
-          objTargetList = { key: '', value: '' };
-          objTargetList.key = (inputType.children[k].formly[0].fieldGroup[0].key).toString()
-          objTargetList.value = (inputType.children[k].formly[0].fieldGroup[0].templateOptions.title).toString()
-          this.targetList.push(objTargetList)
-        }
-      }
-      else if (inputType.type == "mainDashonicTabs") {
-        for (let k = 0; k < inputType.children.length; k++) {
-          objTargetList = { key: '', value: '' };
-          objTargetList.key = (inputType.children[k].key).toString()
-          objTargetList.value = (inputType.children[k].dashonicTabsConfig[0].tabtitle).toString()
-          this.targetList.push(objTargetList)
-        }
-      }
-      else if (inputType.formlyType != undefined) {
-        objTargetList.key = (inputType.formly[0].fieldGroup[0].key).toString()
-        objTargetList.value = inputType.formly[0].fieldGroup[0].templateOptions.title ? (inputType.formly[0].fieldGroup[0].templateOptions.title).toString() : '';
-        this.targetList.push(objTargetList);
-      } else if (inputType.type == "buttonGroup") {
-        // for (let k = 0; k < inputType.children.length; k++) {
-        // objTargetList = { key: '', value: '' };
-        objTargetList.key = (inputType.key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
-        // }
-      } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
-        objTargetList.key = (inputType.buttonGroup[0].btnConfig[0].key).toString()
-        objTargetList.value = (inputType.buttonGroup[0].btnConfig[0].title).toString()
-        this.targetList.push(objTargetList)
-      } else if (inputType.type == "card" ||
-        inputType.type == "simpleCardWithHeaderBodyFooter") {
-        objTargetList.key = (inputType.key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
-      } else if (inputType.type == "alert") {
-        objTargetList.key = (inputType.alertConfig[0].key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
-      } else if (inputType.type == "mainDashonicTabs") {
-        for (let k = 0; k < inputType.children.length; k++) {
-          objTargetList = { key: '', value: '' };
-          objTargetList.key = (inputType.children[k].key).toString()
-          objTargetList.value = (inputType.children[k].title).toString()
-          this.targetList.push(objTargetList)
-        }
-      } else if (inputType.type == "gridList" || inputType.type == "gridListEditDelete") {
-        objTargetList = { key: '', value: '' };
-        objTargetList.key = (inputType.key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
-      } else if (inputType.type == "header" || inputType.type == "paragraph") {
-        objTargetList = { key: '', value: '' };
-        objTargetList.key = (inputType.key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
-      }
-    }
-    // this.targetList = this.targetList.filter((a: any) => a.key != this.ifMenuName);
-  }
   uiRule() {
+    debugger
     //UIRule Form Declare
-    this.uiRuleForm = this.formBuilder.group({
-      uiRules: this.formBuilder.array([])
-    });
+    this.uiRuleFormInitilize();
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    this.dataaa = [];
+    this.ifMenuName = [];
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
+        this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
       }
     }
-    this.dataaa = this.ifMenuList;
+    this.ifMenuName = this.ifMenuList;
     this.changeIf();
-    this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes: Array<any>) => {
-      this.uiRuleForm = this.formBuilder.group({
-        uiRules: this.formBuilder.array(
-          getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
-            this.formBuilder.group({
-              ifMenuName: [getUIRes.ifMenuName],
-              condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
-              condationName: [getUIRes.condationName],
-              targetValue: [getUIRes.targetValue],
-              conditonType: [getUIRes.conditonType],
-              targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
-                this.formBuilder.group({
-                  ifMenuName: [getIFRes.ifMenuName],
-                  condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
-                  condationName: [getIFRes.condationName],
-                  targetValue: [getIFRes.targetValue],
-                  conditonType: [getIFRes.conditonType]
-                }))),
-              targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
-                this.formBuilder.group({
-                  targetValue: [getTargetRes.targetValue],
-                  targetName: [getTargetRes.targetName],
-                  formattingName: [getTargetRes.formattingName],
-                  inputJsonData: [getTargetRes.inputJsonData],
-                  inputOldJsonData: [getTargetRes.inputOldJsonData],
-                  changeData: getTargetRes.changeData
-                })
-              )),
-            })
-          )
-        )
-      });
-    });
+    // this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes: Array<any>) => {
+    //   this.uiRuleForm = this.formBuilder.group({
+    //     uiRules: this.formBuilder.array(
+    //       getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
+    //         this.formBuilder.group({
+    //           ifMenuName: [getUIRes.ifMenuName],
+    //           condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
+    //           condationName: [getUIRes.condationName],
+    //           targetValue: [getUIRes.targetValue],
+    //           conditonType: [getUIRes.conditonType],
+    //           targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+    //             this.formBuilder.group({
+    //               ifMenuName: [getIFRes.ifMenuName],
+    //               condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
+    //               condationName: [getIFRes.condationName],
+    //               targetValue: [getIFRes.targetValue],
+    //               conditonType: [getIFRes.conditonType]
+    //             }))),
+    //           targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
+    //             this.formBuilder.group({
+    //               targetValue: [getTargetRes.targetValue],
+    //               targetName: [getTargetRes.targetName],
+    //               formattingName: [getTargetRes.formattingName],
+    //               inputJsonData: [getTargetRes.inputJsonData],
+    //               inputOldJsonData: [getTargetRes.inputOldJsonData],
+    //               changeData: getTargetRes.changeData
+    //             })
+    //           )),
+    //         })
+    //       )
+    //     )
+    //   });
+    // });
   }
   getConditionListOnLoad(menuName: string) {
+    debugger
     let nodeList: any;
     nodeList = this.findElementNode(this.nodes, menuName);
     if (nodeList) {
@@ -424,7 +431,7 @@ export class UIRuleComponent implements OnInit {
   }
   checkConditionUIRule(model: any, currentValue: any) { }
   conditioList(inputType: string) {
-
+    debugger
     if (inputType == 'number' || inputType == 'decimal') {
       this.condationList = [
         { name: "Null OR Empty", key: "null" },
@@ -470,7 +477,7 @@ export class UIRuleComponent implements OnInit {
                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children.length > 0) {
                     for (let l = 0; l < selectedNode[0].children[i].children[j].children[k].children.length; l++) {
                       if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.formly != undefined) {
-                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.formly[0]?.fieldGroup[0]?.key == key) {
+                        if (selectedNode[0].children[i].children[j].children[k].children[l]?.key == key) {
                           isSelectedKey = false;
                           console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
                           return selectedNode[0].children[i].children[j].children[k].children[l];
@@ -480,7 +487,7 @@ export class UIRuleComponent implements OnInit {
                         isSelectedKey = false;
                         console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
                         return selectedNode[0].children[i].children[j].children[k].children[l];
-                      }
+                      }//strat Input Fields
                       if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup != undefined) {
                         if (selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup[0]?.btnConfig[0]?.key == key) {
                           isSelectedKey = false;
