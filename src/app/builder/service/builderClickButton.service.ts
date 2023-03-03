@@ -438,6 +438,10 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+      disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
+      readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
+      hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
+
     }
   }
   getMaskingFormlyConfig(node: any) {
@@ -454,6 +458,7 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+  
     }
   }
   getButtonConfig(node: any) {
