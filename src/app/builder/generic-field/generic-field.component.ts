@@ -22,7 +22,6 @@ export class GenericFieldComponent implements OnInit {
 
   constructor(private toastr: NzMessageService) { }
   ngOnInit(): void {
-
     this.itemData;
   }
   actionform = new FormGroup({});

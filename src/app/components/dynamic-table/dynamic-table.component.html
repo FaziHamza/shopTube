@@ -1,20 +1,25 @@
-<!-- [nzData]="listOfData"
-(nzCurrentPageDataChange)="onCurrentPageDataChange($event)" -->
-
-<nz-table
-      #rowSelectionTable
-      nzShowSizeChanger
- 
-    >
-    <thead>
-      <tr>
-        <th *ngFor="let header of tableHeaders">{{header}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of tableData">
-        <td *ngFor="let header of tableHeaders">{{row[header.toLowerCase()]}}</td>
-      </tr>
-    </tbody>
-  </nz-table>
-  
+<button nz-button (click)="addRow()" nzType="primary">Add</button>
+<br />
+<br />
+<nz-table #filterTable nzBordered [nzData]="tableData" [nzPageSize]="10">
+  <thead>
+    <tr>
+      <th [nzSortOrder]="header?.sortOrder"
+      [nzSortFn]="header?.sortFn"
+      [nzSortDirections]="header?.sortDirections"
+      [nzFilterMultiple]="header?.filterMultiple"
+      [nzFilters]="header?.listOfFilter"
+      [nzFilterFn]="header?.filterFn" *ngFor="let header of tableHeaders">{{header.name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableData">
+      <td *ngFor="let header of key">{{row[header.name]}}</td>
+      <td>
+        <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(row.id)">
+          <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

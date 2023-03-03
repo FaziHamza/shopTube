@@ -50,16 +50,16 @@ export class BuilderComponent implements OnInit {
   tableData: any[];
   tableHeaders: string[];
 
-makeTableData(){
-  this.tableHeaders = ['ID', 'Name', 'Age'];
-  this.tableData = [
-    {id: 1, name: 'John', age: 25},
-    {id: 2, name: 'Mary', age: 32},
-    {id: 3, name: 'Steve', age: 18},
-    {id: 4, name: 'Kate', age: 27}
-  ];
+  makeTableData() {
+    this.tableHeaders = ['ID', 'Name', 'Age'];
+    this.tableData = [
+      { id: 1, name: 'John', age: 25 },
+      { id: 2, name: 'Mary', age: 32 },
+      { id: 3, name: 'Steve', age: 18 },
+      { id: 4, name: 'Kate', age: 27 }
+    ];
 
-}
+  }
 
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
@@ -326,7 +326,7 @@ makeTableData(){
   tabsChild: TreeNode;
 
   addControlToJson(value: string, data?: any) {
-    
+
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -1943,7 +1943,6 @@ makeTableData(){
       this.addNode(node, newNode);
     }
     else if (value == 'multiFileUpload') {
-
       const newNode = {
         id: "common_" + Guid.newGuid(),
         title: "Multi File Upload" + '_1',
@@ -1953,7 +1952,6 @@ makeTableData(){
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-
         key: "multiFileUpload_" + Guid.newGuid(),
         uploadBtnLabel: "Click here to upload",
         children: [
@@ -1964,90 +1962,89 @@ makeTableData(){
     else if (value == 'gridList') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        className:"w-full",
         title: 'Grid List' + '_1',
         type: 'gridList',
         link: '',
-        key: "simpleGridList_" + Guid.newGuid(),
+        key: "gridList_" + Guid.newGuid(),
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-        forCommomComponentCondition: 'simpleGridList',
-        className: "w-full",
-        pagination: 10,
-        filter: false,
-        sortable: false,
-        tooltip: "",
-        delete: true,
-        update: false,
-        create: false,
-        getVariable: "",
-        setVariable: "",
-        children: [
+        tableId: "gridList_" + Guid.newGuid(),
+        tableHeaders:[
           {
-            id: "name_" + Guid.newGuid(),
-            label: "name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Name",
-            name: "name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Id',
+            sortOrder: null,
+            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+            // listOfFilter: [
+            //   { text: 'Joe', value: 'Joe' },
+            //   { text: 'Jim', value: 'Jim', byDefault: true }
+            // ],
+            // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
           {
-            id: "father_name_" + Guid.newGuid(),
-            label: "father_name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Father Name",
-            name: "father_name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Name',
+            sortOrder: null,
+            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+            listOfFilter: [
+              { text: 'Joe', value: 'Joe' },
+              { text: 'Jim', value: 'Jim', byDefault: true }
+            ],
+            filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
           {
-            id: "address_" + Guid.newGuid(),
-            label: "address",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Address",
-            name: "address",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Age',
+            sortOrder: 'descend',
+            sortFn: (a: any, b: any) => a.age - b.age,
+            sortDirections: ['descend', null],
+            listOfFilter: [],
+            filterFn: null,
+            filterMultiple: true
           },
+          {
+            name: 'Address',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: any, b: any) => a.address.length - b.address.length,
+            filterMultiple: false,
+            listOfFilter: [
+              { text: 'London', value: 'London' },
+              { text: 'Sidney', value: 'Sidney' }
+            ],
+            filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
+          }
         ],
-        rowData: [
+        tableData: [
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 1,
-            name: "Sebastian",
-            salary: 100,
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park'
           },
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 2,
-            name: "Sebastian",
-            salary: 200,
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park'
           },
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 3,
-            name: "Sebastian",
-            salary: 300,
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park'
           },
+          {
+            id: 4,
+            name: 'Jim Red',
+            age: 32,
+            address: 'London No. 2 Lake Park'
+          }
         ],
-        columnData: [],
-        icon: [],
+        children: []
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -3331,12 +3328,12 @@ makeTableData(){
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    
-    if(node.origin){
+
+    if (node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
-    
+
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -3624,6 +3621,7 @@ makeTableData(){
         break;
 
       case "browserCard":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.browserChartFields;
         break;
@@ -3721,6 +3719,7 @@ makeTableData(){
       case "image":
       case "textarea":
       case "telephone":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search")
@@ -6057,7 +6056,7 @@ makeTableData(){
       // this.updateNodes();
     }));
   }
-  
+
 }
 
 class Guid {

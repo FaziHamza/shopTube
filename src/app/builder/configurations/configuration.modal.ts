@@ -96,7 +96,6 @@ export class formFeildData {
           {
             key: 'multiselect',
             type: 'select',
-
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
