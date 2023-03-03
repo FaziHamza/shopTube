@@ -116,6 +116,7 @@ export class formFeildData {
       {
         key: 'options',
         type: 'repeatSection',
+        className: "w-full px-1",
         templateOptions: {
           style: "margin-top: 6%;",
           canAdd: true,

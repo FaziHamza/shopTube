@@ -15,12 +15,10 @@ export class DynamicTableComponent implements OnInit {
   constructor( private cd:ChangeDetectorRef  ) { }
 
   ngOnInit(): void {
-    if (this.tableHeaders != undefined) {
-
-    }
     this.loadTableData();
 
   }
+
   addRow(): void {
     debugger
     const id = this.tableData.length + 1;
@@ -36,6 +34,7 @@ export class DynamicTableComponent implements OnInit {
     this.tableData = this.tableData.filter((d: any) => d.id !== id);
   };
   startEdit(id: string): void {
+    debugger
     this.editId = id;
   }
 

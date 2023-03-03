@@ -26,7 +26,7 @@ export class GenericFieldComponent implements OnInit {
   }
   actionform = new FormGroup({});
   onSubmit() {
-
+    debugger
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
     // this.publicList.push(newProduct);

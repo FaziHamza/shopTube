@@ -5502,8 +5502,8 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "browserChart":
-
+      case "browserCard":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
