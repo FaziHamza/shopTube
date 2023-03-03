@@ -1,0 +1,20 @@
+<!-- [nzData]="listOfData"
+(nzCurrentPageDataChange)="onCurrentPageDataChange($event)" -->
+
+<nz-table
+      #rowSelectionTable
+      nzShowSizeChanger
+ 
+    >
+    <thead>
+      <tr>
+        <th *ngFor="let header of tableHeaders">{{header}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableData">
+        <td *ngFor="let header of tableHeaders">{{row[header.toLowerCase()]}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  

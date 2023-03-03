@@ -22,7 +22,7 @@
     "@ant-design/icons-angular": "^11.0.1",
     "@ngx-formly/core": "^6.0.0",
     "@ngx-formly/ng-zorro-antd": "^6.1.1",
-    "ang-jsoneditor": "^2.0.0",
+    "ang-jsoneditor": "^1.10.5",
     "angular-split": "^14.1.0",
     "ng-zorro-antd": "^13.4.0",
     "ngx-dropzone": "^3.1.0",

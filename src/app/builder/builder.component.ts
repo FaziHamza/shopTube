@@ -47,6 +47,20 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
   public editorOptions: JsonEditorOptions;
+  tableData: any[];
+  tableHeaders: string[];
+
+makeTableData(){
+  this.tableHeaders = ['ID', 'Name', 'Age'];
+  this.tableData = [
+    {id: 1, name: 'John', age: 25},
+    {id: 2, name: 'Mary', age: 32},
+    {id: 3, name: 'Steve', age: 18},
+    {id: 4, name: 'Kate', age: 27}
+  ];
+
+}
+
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
@@ -65,6 +79,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.makeTableData();
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
