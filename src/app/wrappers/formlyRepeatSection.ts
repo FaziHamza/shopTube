@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
 interface ItemData {
@@ -11,7 +11,7 @@ interface ItemData {
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table [tableId]='tableId' [tableData]='this.form.value?.options'></dynamic-table>
+ <dynamic-table    [tableId]='tableId' [tableData]='this.form.value?.options'></dynamic-table>
   `,
   styles: [
     `
@@ -33,13 +33,14 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   i = 0;
 
-  
+
   ngOnInit(): void {
-  
-    
+
+
     this.tableId = this.field.key + Guid.newGuid();
-    
+
   }
+
 }
 class Guid {
   static newGuid() {

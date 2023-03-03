@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'dynamic-table',
@@ -11,9 +12,9 @@ export class DynamicTableComponent implements OnInit {
   @Input() tableData: any;
   @Input() tableHeaders: any[];
   editId: string | null = null;
-  @Output() tableNotify: EventEmitter<any> = new EventEmitter();
+  @Output() notifyTable: EventEmitter<any> = new EventEmitter();
   key: any;
-  constructor( private cd:ChangeDetectorRef  ) { }
+  constructor(private _dataSharedService: DataSharedService ) { }
 
   ngOnInit(): void {
     this.loadTableData();
@@ -50,8 +51,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   save(){
-    debugger
-    this.tableData;
-    this.tableNotify.emit(this.tableData);
+  this._dataSharedService.setData(this.tableData);
   }
 }
