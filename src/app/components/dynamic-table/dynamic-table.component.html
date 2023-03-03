@@ -1,7 +1,7 @@
-<button nz-button (click)="addRow()" nzType="primary">Add</button>
+<button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
 <br />
 <br />
-<nz-table #filterTable nzBordered [nzData]="tableData" [nzPageSize]="10">
+<nz-table *ngIf="tableHeaders"  #filterTable nzBordered [nzData]="tableData" [nzPageSize]="10">
   <thead>
     <tr>
       <th [nzSortOrder]="header?.sortOrder"
@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of tableData">
+    <tr *ngFor="let row of filterTable.data">
       <td *ngFor="let header of key">{{row[header.name]}}</td>
       <td>
         <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(row.id)">

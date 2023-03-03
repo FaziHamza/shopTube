@@ -11,9 +11,8 @@ interface ItemData {
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
-  {{this.to | json}}
-  {{this.to.options | json}}
- <dynamic-table [tableId]='tableId' ></dynamic-table>
+  {{this.form.value?.options | json}}
+ <dynamic-table [tableId]='tableId' [tableData]='this.form.value?.options'  ></dynamic-table>
   `,
   styles: [
     `
@@ -35,9 +34,10 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   i = 0;
 
-
+  
   ngOnInit(): void {
-    debugger
+  
+    
     this.tableId = this.field.key + Guid.newGuid();
     
   }
