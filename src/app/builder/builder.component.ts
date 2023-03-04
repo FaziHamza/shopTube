@@ -18,6 +18,11 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
+  public editorOptions: JsonEditorOptions;
+
+  makeOptions = () => new JsonEditorOptions();
+
+
   size: NzButtonSize = 'large';
   selectModuleName: any;
   applicationBuilder: any = [];
@@ -46,7 +51,7 @@ export class BuilderComponent implements OnInit {
   showSectionOnly: boolean = false;
   columnData: any = [];
   controlListvisible = false;
-  public editorOptions: JsonEditorOptions;
+
   tableData: any[];
   tableHeaders: string[];
 
@@ -65,6 +70,8 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private clickButtonService: BuilderClickButtonService) {
+      this.editorOptions = new JsonEditorOptions()
+      this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
