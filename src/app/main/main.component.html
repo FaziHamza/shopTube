@@ -127,13 +127,13 @@
         </ng-template>
         <ng-template #sixteen>
             <ng-container *ngIf="item.type =='gridList';else seventeen">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
                     <dynamic-table [tableId]='item.tableId' [tableData]='item.tableData'
-                        [tableHeaders]='item.tableHeaders'></dynamic-table>
+                        [tableHeaders]='item.tableHeaders' [data]="item"></dynamic-table>
                 </div>
             </ng-container>
         </ng-template>

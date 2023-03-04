@@ -52,26 +52,16 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
 
-  tableData: any[];
-  tableHeaders: string[];
 
-  makeTableData() {
-    this.tableHeaders = ['ID', 'Name', 'Age'];
-    this.tableData = [
-      { id: 1, name: 'John', age: 25 },
-      { id: 2, name: 'Mary', age: 32 },
-      { id: 3, name: 'Steve', age: 18 },
-      { id: 4, name: 'Kate', age: 27 }
-    ];
 
-  }
+
 
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private clickButtonService: BuilderClickButtonService) {
-      this.editorOptions = new JsonEditorOptions()
-      this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+    this.editorOptions = new JsonEditorOptions()
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
@@ -86,7 +76,6 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-    this.makeTableData();
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -2365,7 +2354,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'gridList') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
-        className:"w-full",
+        className: "w-full",
         title: 'Grid List' + '_1',
         type: 'gridList',
         link: '',
@@ -2374,7 +2363,27 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tableId: "gridList_" + Guid.newGuid(),
-        tableHeaders:[
+        nzFooter: "This is footer",
+        nzTitle: "This is Title",
+        nzPaginationPosition: "bottom",
+        nzPaginationType: "default",
+        nzLoading: false,
+        nzFrontPagination: true,
+        nzShowPagination: true,
+        nzBordered: false,
+        showColumnHeader: true,
+        noResult: false,
+        nzSimple: false,
+        nzSize: 'default',
+        nzShowSizeChanger: false,
+        showCheckbox: true,
+        expandable: true,
+        fixHeader: false,
+        tableScroll: false,
+        fixedColumn: false,
+        sort: true,
+        filter: true,
+        tableHeaders: [
           {
             name: 'Id',
             sortOrder: null,
@@ -2426,25 +2435,37 @@ export class BuilderComponent implements OnInit {
             id: 1,
             name: 'John Brown',
             age: 32,
-            address: 'New York No. 1 Lake Park'
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 2,
             name: 'Jim Green',
             age: 42,
-            address: 'London No. 1 Lake Park'
+            address: 'London No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 3,
             name: 'Joe Black',
             age: 32,
-            address: 'Sidney No. 1 Lake Park'
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 4,
             name: 'Jim Red',
             age: 32,
-            address: 'London No. 2 Lake Park'
+            address: 'London No. 2 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           }
         ],
         children: []
@@ -2560,89 +2581,6 @@ export class BuilderComponent implements OnInit {
             "quantity": 10,
             "price": 10,
             "amount": 100,
-          },
-        ],
-        columnData: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'gridListEditDelete') {
-      const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        title: 'Grid List' + '_1',
-        type: 'gridListEditDelete',
-        link: '',
-        key: "gridListEditDelete_" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "Grid List Editable",
-        forCommomComponentCondition: 'gridListEditDelete',
-        pagination: 10,
-        filter: false,
-        sortable: false,
-        children: [
-          {
-            id: "name_" + Guid.newGuid(),
-            label: "name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Name",
-            name: "name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-          {
-            id: "father_name_" + Guid.newGuid(),
-            label: "father_name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Father Name",
-            name: "father_name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-          {
-            id: "address_" + Guid.newGuid(),
-            label: "address",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Address",
-            name: "address",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-        ],
-        rowData: [
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 1,
-            name: "Sebastian",
-            salary: 100,
-          },
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 2,
-            name: "Sebastian",
-            salary: 200,
-          },
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 3,
-            name: "Sebastian",
-            salary: 300,
           },
         ],
         columnData: [],
@@ -3834,9 +3772,9 @@ export class BuilderComponent implements OnInit {
   };
 
 
-  
-  
-  
+
+
+
   clickButton(type: any) {
 
     debugger
@@ -3865,7 +3803,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.gridNameFields;
+        this.fieldData.formData = _formFieldData.gridFields;
         break;
 
       case "skeleton":
@@ -4840,7 +4778,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['hideExpression'] = event.form.hideExpression;
             templateOptions.placeholder = event.form.placeholder;
             // templateOptions['className'] = event.form.className;
-            templateOptions['options'] = event.form.options;
+            templateOptions['options'] = event.tableDta;
             templateOptions['required'] = event.form.required;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
@@ -4849,7 +4787,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['readonly'] = event.form.readonly;
-            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
+            templateOptions['options'] = event.form.tableDta;
             if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
@@ -5077,7 +5015,6 @@ export class BuilderComponent implements OnInit {
             const fieldGroup = formly.fieldGroup ?? [];
             const templateOptions = fieldGroup[0]?.templateOptions ?? {};
             templateOptions['key'] = event.form.key;
-
             templateOptions.label = event.form.title;
             templateOptions.focus = event.form.focus;
             templateOptions['hideExpression'] = event.form.hideExpression;
@@ -5100,178 +5037,79 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
         }
         break;
-      case "grid":
+      case "gridList":
         debugger
         if (this.selectedNode.id) {
-          this.selectedNode.label = event.form.header,
-            this.selectedNode.editorType = event.form.editorType,
-            this.selectedNode.sortable = event.form.sortable,
-            this.selectedNode.filter = event.form.filter;
-          this.selectedNode.header = event.form.header;
-          if (event.form?.sortable) {
-            this.selectedNode.sortingType = "desc";
-            this.selectedNode.sortable = true;
-          }
-          else {
-            delete this.selectedNode.sortingType;
-            delete this.selectedNode.sortable;
-          }
-
-          if (event.form.filter) {
-            this.selectedNode['filter'] = {};
-            this.selectedNode.filter["type"] = {};
-            this.selectedNode.filter.type = event.form?.filterType;
-            if (event.form.filterType != "select") {
-              this.selectedNode.filter.operator = "OR"
-              this.selectedNode.filter.showApplyBtn = true;
-              this.selectedNode.filter.showClearBtn = true;
-            }
-          } else {
-            delete this.selectedNode.filter;
-          }
-          if (event.form.editorType) {
-            this.selectedNode.editorType = event.form.editorType;
-            if (event.form.fieldType == "text" || event.form.fieldType == "number") {
-              this.selectedNode["editor"] = {};
-              this.selectedNode.editor["type"] = {};
-              this.selectedNode.editor.type = event.form.fieldType
-            };
-            if (event.form.fieldType == "select" || event.form.fieldType == "radio" || event.form.fieldType == "checkbox") {
-              if (event.form.options.length > 0) {
-                this.selectedNode['editor'] = {};
-                this.selectedNode.editor['type'];
-                this.selectedNode.editor.type = event.form.fieldType;
-                this.selectedNode.editor['options'] = {};
-                this.selectedNode.editor.options['listItems'] = [];
-                this.selectedNode['formatter'] = {}
-                this.selectedNode.formatter = "listItemText";
-                this.selectedNode.editor.options.listItems = event.form.options;
-              } else {
-                this.selectedNode.editor.type = event.form.fieldType;
-              }
-            }
-          }
-          else if (this.selectedNode.editor.options && event.form.options.length > 0) {
-            this.selectedNode.editor.options.listItems = event.form.options;
-          }
-          this.selectdParentNode.columnData.forEach((element: any) => {
-            if (element.id == this.selectedNode.id) {
-              element = this.selectedNode;
-            }
-          });
-        }
-        break;
-
-      case "gridName":
-        if (this.selectedNode) {
-          debugger
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.sortable = event.form.sortable;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.label = event.form.gridName;
-          this.selectedNode.pagination = event.form.pagination;
-          this.selectedNode.filter = event.form.filter;
-          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
-          // this.selectedNode.getVariable = event?.form?.getVariable,
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.label = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.delete = event.form.delete;
-          this.selectedNode.update = event.form.update;
-          this.selectedNode.create = event.form.create;
-          this.selectedNode['deleteapi'] = event.form.deleteapi;
-          this.selectedNode.columnData.forEach((a: any) => {
-            if (event.form?.sortable) {
-              a.sortingType = "desc";
-              a.sortable = true;
-            }
-            else {
-              delete a?.sortingType;
-              delete a?.sortable;
-            }
-            if (event.form.filter) {
-              a['filter'] = {};
-              a.filter.type = "select";
-              // a.filter.type = event.form?.filterType;
-              if (event.form.filterType != "select") {
-                a.filter.operator = "OR"
-                a.filter.showApplyBtn = true;
-                a.filter.showClearBtn = true;
-              }
-            } else {
-              delete a.filter;
-            }
-          });
-          let newColumnData: any = [];
-          let data = JSON.parse(JSON.stringify(event.form.options))
-          for (let element = 0; element < data.length; element++) {
-            for (let index = 0; index < this.selectedNode.columnData.length; index++) {
-              if (data[element].id) {
-                if (this.selectedNode.columnData[index].id == data[element].id) {
-                  this.selectedNode.columnData[index].label = data[element].header;
-                  this.selectedNode.columnData[index].name = data[element].name;
-                  this.selectedNode.columnData[index].header = data[element].header;
-                  this.selectedNode.columnData[index].showColumn = data[element].showColumn;
-                  this.selectedNode.columnData[index].sumColumn = data[element].sumColumn;
-                  this.selectedNode.columnData[index]["api"] = data[element].api;
-                  newColumnData.push(this.selectedNode.columnData[index]);
-                }
-              }
-              else {
-                data[element]["id"] = data[element].name + "_" + Guid.newGuid();
-                data[element]["children"] = [];
-                data[element]["type"] = "input";
-                data[element]["label"] = data[element].name;
-                newColumnData.push(data[element]);
-              }
-            }
-          }
-          this.selectedNode.columnData = newColumnData;
-          this.selectedNode.children = this.selectedNode.columnData;
-          if (event.form?.link != null) {
-            this.selectedNode.columnData = [];
-            this.builderService.genericApis(event.form?.link).subscribe((res => {
-              this.selectedNode.children = res[0].columnData;
-              res[0].columnData.forEach((element: any) => {
-                element["id"] = element.name + "_" + Guid.newGuid();
-                this.selectedNode.columnData.push(element);
-
-              });
-              this.selectedNode.rowData = res[0].rowData;
-              this.selectedNode.columnData.forEach((a: any) => {
-                if (event.form?.sortable) {
-                  a.sortingType = "desc";
-                  a.sortable = true;
-                }
-                else {
-                  delete a?.sortingType;
-                  delete a?.sortable;
-                }
-                if (event.form.filter) {
-                  a['filter'] = {};
-                  a.filter.type = "select";
-                  a.filter.type = event.form?.filterType;
-                  if (event.form.filterType != "select") {
-                    a.filter.operator = "OR"
-                    a.filter.showApplyBtn = true;
-                    a.filter.showClearBtn = true;
-                  }
-                } else {
-                  delete a.filter;
-                }
-              });
-              this.updateNodes();
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.nzTitle = event.form.nzTitle;
+          this.selectedNode.nzBordered = event.form.nzBordered;
+          this.selectedNode.nzFooter = event.form.nzFooter;
+          this.selectedNode.nzLoading = event.form.nzLoading;
+          this.selectedNode.nzPaginationType = event.form.nzPaginationType;
+          this.selectedNode.nzPaginationPosition = event.form.nzPaginationPosition;
+          this.selectedNode.nzFrontPagination = event.form.nzShowPagination;
+          this.selectedNode.nzShowPagination = event.form.nzShowPagination;
+          this.selectedNode.showColumnHeader = event.form.showColumnHeader;
+          this.selectedNode.noResult = event.form.noResult;
+          this.selectedNode.nzSimple = event.form.nzSimple;
+          this.selectedNode.nzSize = event.form.nzSize;
+          this.selectedNode.nzShowSizeChanger = event.form.nzShowSizeChanger;
+          this.selectedNode.showCheckbox = event.form.showCheckbox;
+          this.selectedNode.expandable = event.form.expandable;
+          this.selectedNode.fixHeader = event.form.fixHeader;
+          this.selectedNode.tableScroll = event.form.tableScroll;
+          this.selectedNode.fixedColumn = event.form.fixedColumn;
+          if(event.form.api){
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+            this.selectedNode.tableData = res.tableData;
+            this.selectedNode.tableHeaders = res.tableHeaders;
             }))
-            // this.GridView(event.form.link);
           }
+          if(this.selectedNode.noResult){
+            if(this.selectedNode.tableData.length >0){
+            this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
+            }
+            this.selectedNode.tableData = []
+          }else{
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
+          }
+          // this.selectedNode.sort = event.form.sort;
+          // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
+          // const key = firstObjectKeys.map(key => ({ name: key }));
+          // if (this.selectedNode.sort) {
+          //   key.forEach((j: any) => {
+          //     this.selectedNode.tableHeaders.forEach((i: any) => {
+          //       if (i.name.toLowerCase() == j.name.toLowerCase()) {
+          //         i['sortOrder'] = null;
+          //         i['sortFn'] = (a: any, b: any) => {
+          //           Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //           Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //           const result = a.dynamicProp - b.dynamicProp;
+          //           delete a.dynamicProp;
+          //           delete b.dynamicProp;
+          //           return result;
+          //         };
+          //         // i['sortFn'] = (a: any, b: any) => {
+          //         //   Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //         //   Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //         //   const result = a.dynamicProp.localeCompare(b.dynamicProp);
+          //         //   delete a.dynamicProp;
+          //         //   delete b.dynamicProp;
+          //         //   return result;
+          //         // };
+          //         i['sortDirections'] = ['ascend', 'descend', null]
+          //       }
+          //     });
+          //   });
+          // }
+
+
         }
-
-
-        break;
-
-      case "gridNameAction":
-        this.selectedNode.link = event.form.APIList;
-        // this.GridView(event.form.APIList);
         break;
 
       case "button":

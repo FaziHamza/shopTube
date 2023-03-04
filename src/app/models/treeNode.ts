@@ -72,8 +72,20 @@ export interface TreeNode {
   screenVariables?: any[];
   sectionDisabled?: string;
   position?: string,
-
   header?: any;
+  noResult?: any;
+  nzSimple?: any;
+  nzSize?: any;
+  nzShowSizeChanger?: any;
+  showCheckbox?: any;
+  fixHeader?: any;
+  tableScroll?: any;
+  fixedColumn?: any;
+  sort?: any;
+  tableHeaders?: any;
+  tableNoResultArray?: any;
+  expandable?: any;
+  tableData?: any;
   name?: any;
   sortingType?: any;
   showColumn?: any;
@@ -206,6 +218,15 @@ export interface TreeNode {
   subItems?: any;
   menuData?: any;
   key?: any;
+  nzTitle?: any;
+  nzBordered?: any;
+  nzFooter?: any;
+  nzLoading?: any;
+  nzPaginationType?: any;
+  nzPaginationPosition?: any;
+  nzFrontPagination?: any;
+  nzShowPagination?: any;
+  showColumnHeader?: any;
   pattern?: any;
   emailTypeAllow?: any;
   refrance?: string;
