@@ -81,6 +81,9 @@ export interface TreeNode {
   fixHeader?: any;
   tableScroll?: any;
   fixedColumn?: any;
+  sort?: any;
+  tableHeaders?: any;
+  tableNoResultArray?: any;
   expandable?: any;
   tableData?: any;
   name?: any;

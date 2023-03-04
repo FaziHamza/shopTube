@@ -25,10 +25,10 @@
         <ng-container *ngFor="let header of key">
           <td [nzEllipsis]="true"
             *ngIf="header.name != 'description' && header.name != 'checked' && header.name != 'expand'">
-            <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(data.id)">
+            <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
               {{item[header.name]}}
             </div>
-            <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]" />
+            <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
           </td>
         </ng-container>
         <td>

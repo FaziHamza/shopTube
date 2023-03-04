@@ -53,7 +53,6 @@ export class BuilderComponent implements OnInit {
   controlListvisible = false;
 
 
-  tableNoResultArray : any =[];
 
 
 
@@ -2370,14 +2369,16 @@ export class BuilderComponent implements OnInit {
         nzBordered: false,
         showColumnHeader: true,
         noResult: false,
-        nzSimple:false,
-        nzSize:'default',
-        nzShowSizeChanger:false,
-        showCheckbox:true,
+        nzSimple: false,
+        nzSize: 'default',
+        nzShowSizeChanger: false,
+        showCheckbox: true,
         expandable: true,
-        fixHeader:false,
-        tableScroll:false,
-        fixedColumn : false,
+        fixHeader: false,
+        tableScroll: false,
+        fixedColumn: false,
+        sort: true,
+        filter: true,
         tableHeaders: [
           {
             name: 'Id',
@@ -3767,9 +3768,9 @@ export class BuilderComponent implements OnInit {
   };
 
 
-  
-  
-  
+
+
+
   clickButton(type: any) {
 
     debugger
@@ -4773,7 +4774,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['hideExpression'] = event.form.hideExpression;
             templateOptions.placeholder = event.form.placeholder;
             // templateOptions['className'] = event.form.className;
-            templateOptions['options'] = event.form.options;
+            templateOptions['options'] = event.tableDta;
             templateOptions['required'] = event.form.required;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
@@ -4782,7 +4783,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['readonly'] = event.form.readonly;
-            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
+            templateOptions['options'] = event.form.tableDta;
             if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
               templateOptions['defaultValue'] = arr;
@@ -5038,7 +5039,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.label;
+          this.selectedNode.label = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.nzTitle = event.form.nzTitle;
@@ -5059,6 +5060,51 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fixHeader = event.form.fixHeader;
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
+          if(event.form.api){
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+            this.selectedNode.tableData = res.tableData;
+            this.selectedNode.tableHeaders = res.tableHeaders;
+            }))
+          }
+          if(this.selectedNode.noResult){
+            if(this.selectedNode.tableData.length >0){
+            this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
+            }
+            this.selectedNode.tableData = []
+          }else{
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
+          }
+          // this.selectedNode.sort = event.form.sort;
+          // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
+          // const key = firstObjectKeys.map(key => ({ name: key }));
+          // if (this.selectedNode.sort) {
+          //   key.forEach((j: any) => {
+          //     this.selectedNode.tableHeaders.forEach((i: any) => {
+          //       if (i.name.toLowerCase() == j.name.toLowerCase()) {
+          //         i['sortOrder'] = null;
+          //         i['sortFn'] = (a: any, b: any) => {
+          //           Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //           Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //           const result = a.dynamicProp - b.dynamicProp;
+          //           delete a.dynamicProp;
+          //           delete b.dynamicProp;
+          //           return result;
+          //         };
+          //         // i['sortFn'] = (a: any, b: any) => {
+          //         //   Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //         //   Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //         //   const result = a.dynamicProp.localeCompare(b.dynamicProp);
+          //         //   delete a.dynamicProp;
+          //         //   delete b.dynamicProp;
+          //         //   return result;
+          //         // };
+          //         i['sortDirections'] = ['ascend', 'descend', null]
+          //       }
+          //     });
+          //   });
+          // }
+
+
         }
         break;
 

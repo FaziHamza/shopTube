@@ -26,21 +26,22 @@ export class DynamicTableComponent implements OnInit {
   ngOnInit(): void {
     debugger
     this.loadTableData();
-    this.data.noResult == true ? this.tableData = [] : true;
-    this.data.get('tableScroll')!.valueChanges.subscribe((scroll: any) => {
-      this.data.fixedColumn = scroll === 'fixed';
-      this.scrollX = scroll === 'scroll' || scroll === 'fixed' ? '100vw' : null;
-    });
-    this.data.get('fixHeader')!.valueChanges.subscribe((fixed: any) => {
-      this.scrollY = fixed ? '240px' : null;
-    });
+    // this.addThousanRows();
+    // this.data.noResult == true ? this.tableData = [] : true;
+    // this.data.get('tableScroll')!.valueChanges.subscribe((scroll: any) => {
+    //   this.data.fixedColumn = scroll === 'fixed';
+    //   this.scrollX = scroll === 'scroll' || scroll === 'fixed' ? '100vw' : null;
+    // });
+    // this.data.get('fixHeader')!.valueChanges.subscribe((fixed: any) => {
+    //   this.scrollY = fixed ? '240px' : null;
+    // });
   }
 
   addRow(): void {
     debugger
-    const id = this.tableData.length + 1;
+    const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
-    newRow["id"] = id;
+    newRow["id"] = this.tableData[id].id + 1;
     this.tableData = [...this.tableData, newRow];
   };
   deleteRow(id: string): void {
@@ -60,6 +61,38 @@ export class DynamicTableComponent implements OnInit {
     debugger
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
+    }
+    if(!this.data){
+      const newNode = {
+        nzFooter: "",
+        nzTitle: "",
+        nzPaginationPosition: "bottom",
+        nzPaginationType: "default",
+        nzLoading: false,
+        nzFrontPagination: true,
+        nzShowPagination: true,
+        nzBordered: true,
+        showColumnHeader: true,
+        noResult: false,
+        nzSimple: false,
+        nzSize: 'default',
+        nzShowSizeChanger: false,
+        showCheckbox: false,
+        expandable: false,
+        fixHeader: false,
+        tableScroll: false,
+        fixedColumn: false,
+        sort: true,
+        filter: true,
+      }
+      this.data = newNode;
+    }
+    let newId = 0;
+    if(!this.tableData[0].id){
+      this.tableData.forEach((j :any) => {
+        newId = newId + 1
+        j['id'] = newId; 
+      });
     }
 
   }
@@ -84,4 +117,10 @@ export class DynamicTableComponent implements OnInit {
     this.allChecked = allChecked;
     this.indeterminate = !allChecked && !allUnChecked;
   }
+
+  // addThousanRows(){
+  //     for (let index = 0; index < 1000; index++) {
+  //       this.addRow();
+  //     }
+  // }
 }

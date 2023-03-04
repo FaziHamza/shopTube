@@ -3,6 +3,7 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 export interface actionTypeFeild {
   form?: any;
   type?: any;
+  tableDta?:any;
 }
 // action form
 export class formFeildData {
@@ -7256,6 +7257,19 @@ export class formFeildData {
           },
         },
         {
+          key: 'api',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              { value: 'gridNewApi', label: 'Api' },
+             
+            ]
+          },
+        },
+        {
           key: 'nzLoading',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
@@ -7326,37 +7340,37 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          key: 'fixHeader',
-          type: 'checkbox',
-          className: "w-1/6 px-1 mt-5",
-          templateOptions: {
-            label: 'Fix header',
-          },
-          defaultValue: false
-        },
-        {
-          key: 'tableScroll',
-          type: 'select',
-          className: "w-1/6 px-1 mt-5",
-          templateOptions: {
-            label: 'tableScroll',
-            options: [
-              { value: 'unset', label: 'Unset' },
-              { value: 'scroll', label: 'Scroll' },
-              { value: 'fixed', label: 'Fixed' }
-            ]
-          },
-        },
-        {
-          key: 'fixedColumn',
-          type: 'checkbox',
-          className: "w-1/6 px-1 mt-5",
-          templateOptions: {
-            label: 'Fixed Column',
-          },
-          defaultValue: false
-        },
+        // {
+        //   key: 'fixHeader',
+        //   type: 'checkbox',
+        //   className: "w-1/6 px-1 mt-5",
+        //   templateOptions: {
+        //     label: 'Fix header',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'tableScroll',
+        //   type: 'select',
+        //   className: "w-1/6 px-1 mt-5",
+        //   templateOptions: {
+        //     label: 'tableScroll',
+        //     options: [
+        //       { value: 'unset', label: 'Unset' },
+        //       { value: 'scroll', label: 'Scroll' },
+        //       { value: 'fixed', label: 'Fixed' }
+        //     ]
+        //   },
+        // },
+        // {
+        //   key: 'fixedColumn',
+        //   type: 'checkbox',
+        //   className: "w-1/6 px-1 mt-5",
+        //   templateOptions: {
+        //     label: 'Fixed Column',
+        //   },
+        //   defaultValue: false
+        // },
       ]
     }
   ]
