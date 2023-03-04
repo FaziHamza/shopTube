@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
 interface ItemData {
@@ -11,35 +11,7 @@ interface ItemData {
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
-  <!-- {{ field | json}} -->
-     <buttonn  nzType="primary" nz-button (click)="addRow()">Add</buttonn>
-    <br />
-    <br />
-    <nz-table #editRowTable nzBordered [nzData]="listOfData">
-      <thead>
-        <tr>
-          <th nzWidth="30%">Name</th>
-          <th>Age</th>
-          <th>Address</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of editRowTable.data" class="editable-row">
-          <td>
-            <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-              {{ data.name }}
-            </div>
-            <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
-          </td>
-          <td>{{ data.age }}</td>
-          <td>{{ data.address }}</td>
-          <td>
-            <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">Delete</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+ <dynamic-table    [tableId]='tableId' [tableData]='this.form.value?.options'></dynamic-table>
   `,
   styles: [
     `
@@ -58,37 +30,26 @@ interface ItemData {
   ]
 })
 export class formlyRepeatSectionComponent extends FieldArrayType {
+  tableId: any = "";
   i = 0;
-  editId: string | null = null;
-  listOfData: ItemData[] = [];
 
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(): void {
-    this.editId = null;
-  }
-
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-  }
-
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-  }
 
   ngOnInit(): void {
-    this.addRow();
-    this.addRow();
+
+
+    this.tableId = this.field.key + Guid.newGuid();
+
+  }
+
+}
+class Guid {
+  static newGuid() {
+    let data = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+
+    return data.split("-")[0];
   }
 }

@@ -1,0 +1,29 @@
+{{tableData | json}}
+<button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
+<br />
+<br />
+<nz-table #editRowTable nzBordered [nzData]="tableData">
+  <thead>
+    <tr>
+      <th [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
+        [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
+        *ngFor="let header of tableHeaders">{{header.name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of editRowTable.data">
+      <td *ngFor="let header of key">
+        <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+          {{data[header.name]}}
+        </div>
+        <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]"  />
+      </td>
+      <td>
+        <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">
+          <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<button nz-button (click)="save()" type="button" nzType="primary">Save FF</button>

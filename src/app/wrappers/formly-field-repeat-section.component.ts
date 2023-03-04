@@ -5,32 +5,8 @@ import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-field-repeat-section',
   template: `
-    <div class="header" *ngIf="canAdd()">
-        <button type="button" class="add-btn btn btn-sm btn-primary mr-2" (click)="add()">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-        </button>
-    </div>
-    <div class="body" [ngClass]="{interactive: canAdd()}">
-        <div class="section flex-container" *ngFor="let field of field.fieldGroup; let i = index;"
-            [ngClass]="{interactive: canRemove(i)}">
-            <div class="row">
-              <div class="col-10">
-            <!-- <formly-group  [field]='field' *ngIf="field" class="group-inline"></formly-group> -->
-              </div>
-              <div class="col-2" [style]="to['style']">
-                <button nzType="primary" nz-button class="mx-2" (click)="remove(i)"
-                    *ngIf="canRemove(i)">
-                    <span nz-icon nzType="delete" nzTheme="outline"></span>
-                </button>
-                <button type="button" nzType="primary" nzDanger (click)="add()">
-                <span nz-icon nzType="plus" nzTheme="outline"></span>
-                </button>
-            </div>
-            </div>
-
-            <!-- <formly-form [fields]="field" ></formly-form> -->
-        </div>
-    </div>
+    <dynamic-table></dynamic-table>
+    
    `,
   styles: [`
   .group-inline{
