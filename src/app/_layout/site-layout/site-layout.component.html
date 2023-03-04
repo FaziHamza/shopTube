@@ -1,120 +1,178 @@
 <nz-layout>
-  <nz-header *ngIf="menuMode == 'horizontal'">
-    <div class="flex">
-      <img class="logo" src="assets/images/logo-dark.png">
-      <div class="w-11/12">
+  <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' ? 'dark' : 'light'" >
+    <div class="flex flex-wrap">
+      <div [ngClass]='topHeaderMenu'>
+        <img *ngIf="!isCollapsed" class="logo" src="assets/images/logo-dark.png">
+        <img *ngIf="isCollapsed" class="logo-sm" src="assets/images/logo-sm.png">
+      </div>
+      <div [ngClass]='topHeader'
+      [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
+       || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
+        *ngIf="selectedTheme.layout == 'vertical'" nz-menu
+        [nzTheme]="selectedTheme.layout === 'vertical' ? 'dark' : 'light'">
+        <app-menu (notify)="notifyEmit($event)"></app-menu>
+      </div>
+      <div [ngClass]='topHeader' *ngIf="selectedTheme.layout != 'vertical'">
         <app-menu (notify)="notifyEmit($event)"></app-menu>
       </div>
     </div>
   </nz-header>
-  <div [ngClass]='horizontalRow'>
-    <div *ngIf="menuMode == 'horizontal'" class="w-1/12"></div>
-    <div [ngClass]='rowClass'>
-      <div class={{menuColumn}} class="padding-left:50px ; padding-right:50px">
-        <div [ngClass]="menuMode == 'inline'? 'flex flex-wrap' : ''">
-          <div [ngClass]="selectedTheme.layouutPosiion == 'fixed' && menuMode == 'inline'? 'scroll' : ''"
-            (mouseover)="setHovered(false,'start')" (mouseout)="setHovered(true,'start')">
-            <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
-              style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]='menuMode'
-              [nzInlineCollapsed]="isCollapsed" [nzTheme]="theme ? 'dark' : 'light'">
-              <ng-container class="flex flex-nowrap">
-                <label *ngIf="menuMode == 'inline' && selectedTheme.sideBarSize == 'smallHoverView'" nz-checkbox
-                  [(ngModel)]="checked"></label>
-                <img *ngIf="menuMode == 'inline' && !isCollapsed" class="logo" src="assets/images/logo-dark.png">
-                <img *ngIf="menuMode == 'inline' && isCollapsed" class="logo-sm" src="assets/images/logo-sm.png">
-              </ng-container>
 
-              <ng-container *ngFor="let item of menuItems">
-                <ng-container>
-                  <ng-container *ngIf="item.isTitle;else subMenu">
-                    <span nz-icon nzType="appstore"></span>
-                  </ng-container>
-                  <ng-template #subMenu>
-                    <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
-                      <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
-                        (mouseover)="setHovered('up', item.menuIcon)" (mouseout)="setHovered('down',item.menuIcon)"
-                        (click)="loadTabsAndButtons($event,item)">
-                        <ul *ngFor="let sub of item.subItems">
-                          <ng-container>
-                            <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" [nzDanger]="true"
-                              (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start')" (mouseout)="setHovered(true,'start')">{{sub.label}}</li>
-                          </ng-container>
-                        </ul>
-                      </li>
-                      <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="menuMode === 'horizontal'"></span>
-                    </ng-container>
-                  </ng-template>
-                  <ng-template #menu>
-                    <li nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
-                      <span nz-icon nzType="appstore"></span>
-                      <span>{{item.label}}</span>
-                    </li>
-                  </ng-template>
+  <!-- <div [ngClass]='rowClass'> -->
+  <div [ngClass]='horizontalRow'>
+    <div [ngClass]='menuColumn'>
+      <div [ngClass]="selectedTheme.layout === 'twoColumn' ? 'flex flex-wrap' : ''">
+        <div [ngClass]="{'scroll': selectedTheme.layoutPosition === 'fixed' && menuMode === 'inline'}"
+          (mouseover)="setHovered(false,'start')" (mouseout)="setHovered(true,'start')">
+          <div [ngClass]="{'flex flex-wrap': menuMode === 'horizontal'}"
+            [ngStyle]="{'background': menuMode === 'horizontal'?'#fff' :''}"
+            style="background-size: cover; background-repeat: no-repeat; height: 100%; ">
+            <div *ngIf="menuMode == 'horizontal'" class="w-1/12"></div>
+            <div [ngClass]="{'w-4/5': menuMode === 'horizontal'}">
+              <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'" [nzMode]='menuMode'
+                [nzInlineCollapsed]="isCollapsed" [nzTheme]="theme ? 'dark' : 'light'">
+                <ng-container class="flex flex-nowrap">
+                  <label *ngIf="menuMode == 'inline' && selectedTheme.sideBarSize == 'smallHoverView'" nz-checkbox
+                    [(ngModel)]="checked"></label>
+
                 </ng-container>
-              </ng-container>
-              <!-- THIS BUTTON IS USED IN HORIZENTAL WHNEN LENGTH OF MENU IS GREATER THAN 7 -->
-              <ng-container *ngIf="menuMode == 'horizontal' && menuItems.length >= 7 ">
-                <ng-container *ngFor="let mainMenu of newMenuArray" (click)="changeIcon()">
-                  <li nz-submenu [nzTitle]="mainMenu.label" nzIcon="appstore">
-                    <ul *ngFor="let item of mainMenu.subMenu">
+
+                <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
+                  <ng-container *ngFor="let item of allMenuItems">
+                    <ng-container *ngIf="item.isTitle;else subMenu">
+                      <span nz-icon nzType="appstore"></span>
+                    </ng-container>
+                    <ng-template #subMenu>
+                      <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
+                        <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
+                          (mouseover)="setHovered('up', item.menuIcon)" (mouseout)="setHovered('down',item.menuIcon)"
+                          (click)="loadTabsAndButtons($event,item)">
+                          <ul *ngFor="let sub of item.subItems">
+                            <ng-container>
+                              <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
+                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start')"
+                                (mouseout)="setHovered(true,'start')">{{sub.label}}</li>
+                            </ng-container>
+                          </ul>
+                        </li>
+                        <span nz-icon [nzType]="item.menuIcon" nzTheme="outline"
+                          *ngIf="menuMode === 'horizontal'"></span>
+                      </ng-container>
+                    </ng-template>
+                    <ng-template #menu>
+                      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
+                        <span nz-icon nzType="appstore"></span>
+                        <span>{{item.label}}</span>
+                      </li>
+                    </ng-template>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectedTheme.sideBarSize == 'compact' && selectedTheme.layout == 'vertical'">
+                  <ng-container *ngFor="let item of allMenuItems">
+                    <ng-container>
                       <ng-container *ngIf="item.isTitle;else subMenu">
                         <span nz-icon nzType="appstore"></span>
                       </ng-container>
                       <ng-template #subMenu>
                         <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
-                          <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
-                            (click)="loadTabsAndButtons($event,item)">
-                            <ul>
-                              <li nz-menu-item *ngFor="let sub of item.subItems" [nzDanger]="true"
-                                (click)="loadTabsAndButtons($event,sub)">{{sub.label}}</li>
-                            </ul>
-                          </li>
+                          <div class="box block">
+                            <span nz-icon nzType="appstore" nzTheme="outline"></span>
+                            <!-- <p>{{item.label}}</p> -->
+                            <p class="my-4" (click)="loadTabsAndButtons($event,item)">{{item.label}}</p>
+                            <ng-container *ngIf="item.isOpen">
+                              <ul *ngFor="let sub of item.subItems">
+                                <ng-container>
+                                  <li nz-menu-item>{{sub.label}}</li>
+                                </ng-container>
+                              </ul>
+                            </ng-container>
+
+                          </div>
+                          <!-- <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="menuMode === 'horizontal' && !item.isOpen"></span> -->
+                          <!-- <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="menuMode === 'horizontal'"></span> -->
                         </ng-container>
                       </ng-template>
                       <ng-template #menu>
-                        <li nz-menu-item nz-tooltip nzTooltipPlacement="right">
+                        <div class="box block">
                           <span nz-icon nzType="appstore"></span>
-                          <span (click)="loadTabsAndButtons($event,item)">{{item.label}}</span>
-                        </li>
+                          <li nz-menu-item nz-tooltip nzTooltipPlacement="right"
+                            (click)="loadTabsAndButtons($event,item)">
+                            <span>{{item.label}}</span>
+                          </li>
+                        </div>
                       </ng-template>
-                    </ul>
-                  </li>
-                  <span class="new-menu-icon" nz-icon style="flex-grow: 1 ; text-align: left" [nzType]="mainMenu.icon"
-                    class="mt-4" *ngIf="menuMode === 'horizontal'"></span>
-                </ng-container>
-              </ng-container>
-              <!--------------------------------------->
-            </ul>
-          </div>
-          <!-- THIS IS USED IN TWO COLUMN CASE -->
-          <div class="" [ngClass]="selectedTheme.layouutPosiion == 'fixed' && menuMode == 'inline'? 'scroll' : ''"
-            *ngIf="selectedTheme.layout == 'twoColumn'">
-            <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
-              style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]='menuMode'
-              [nzTheme]="theme ? 'dark' : 'light'" [nzInlineCollapsed]="isTwoColumnCollapsed">
-              <img class="logo" src="assets/images/logo-dark.png">
-              <ng-container *ngFor="let item of menuChildArrayTwoColumn">
-                <ng-container>
-                  <ng-container *ngIf="item.isTitle;else menu">
-                    <span nz-icon nzType="line"></span>
+                    </ng-container>
                   </ng-container>
-                  <ng-template #menu>
-                    <li nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
-                      <span style="font-size: 5px;" nz-icon nzType="line"></span>
-                      <span>{{item.label}}</span>
-                    </li>
-                  </ng-template>
                 </ng-container>
-              </ng-container>
-            </ul>
+                <!-- THIS BUTTON IS USED IN HORIZENTAL WHNEN LENGTH OF MENU IS GREATER THAN 7 -->
+                <ng-container *ngIf="menuMode == 'horizontal' && menuItems.length >= 7 ">
+                  <ng-container *ngFor="let mainMenu of newMenuArray" (click)="changeIcon()">
+                    <li nz-submenu [nzTitle]="mainMenu.label" nzIcon="appstore">
+                      <ul *ngFor="let item of mainMenu.subMenu">
+                        <ng-container *ngIf="item.isTitle;else subMenu">
+                          <span nz-icon nzType="appstore"></span>
+                        </ng-container>
+                        <ng-template #subMenu>
+                          <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
+                            <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
+                              (click)="loadTabsAndButtons($event,item)">
+                              <ul>
+                                <li nz-menu-item *ngFor="let sub of item.subItems" class="bg-transparent"
+                                  (click)="loadTabsAndButtons($event,sub)">{{sub.label}}</li>
+                              </ul>
+                            </li>
+                          </ng-container>
+                        </ng-template>
+                        <ng-template #menu>
+                          <li nz-menu-item nz-tooltip nzTooltipPlacement="right">
+                            <span nz-icon nzType="appstore"></span>
+                            <span (click)="loadTabsAndButtons($event,item)">{{item.label}}</span>
+                          </li>
+                        </ng-template>
+                      </ul>
+                    </li>
+                    <span class="new-menu-icon" nz-icon style="flex-grow: 1 ; text-align: left" [nzType]="mainMenu.icon"
+                      class="mt-4" *ngIf="menuMode === 'horizontal'"></span>
+                  </ng-container>
+                </ng-container>
+                <!--------------------------------------->
+              </ul>
+            </div>
           </div>
-          <!--------------------------------------->
-        </div>
 
+        </div>
+        <!-- THIS IS USED IN TWO COLUMN CASE -->
+        <div *ngIf="selectedTheme.layout == 'twoColumn' && selectedTheme.sideBarSize != 'compact'">
+          <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
+            style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]='menuMode'
+            [nzTheme]="theme ? 'dark' : 'light'" [nzInlineCollapsed]="isTwoColumnCollapsed">
+            <ng-container *ngFor="let item of menuChildArrayTwoColumn">
+              <ng-container>
+                <ng-container *ngIf="item.isTitle;else menu">
+                  <span nz-icon nzType="line"></span>
+                </ng-container>
+                <ng-template #menu>
+                  <li nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
+                    <span style="font-size: 5px;" nz-icon nzType="line"></span>
+                    <span>{{item.label}}</span>
+                  </li>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </ul>
+        </div>
+        <!--------------------------------------->
       </div>
 
+    </div>
+    <div *ngIf="menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
+    <div [ngClass]='rowClass'>
+      <!-- {{menuColumn | json}} -->
+      <!-- {{rowClass | json}} -->
+
+
       <div class={{contentColumn}}>
-        <nz-header *ngIf="menuMode == 'inline'">
+        <!-- <nz-header *ngIf="menuMode == 'inline'">
           <div class="flex flex-nowrap">
             <div class="text-center">
               <span nz-icon *ngIf="selectedTheme.layoutWidth != 'boxed'" class="hover:cursor-pointer"
@@ -124,7 +182,7 @@
               <app-menu (notify)="notifyEmit($event)"></app-menu>
             </ng-container>
           </div>
-        </nz-header>
+        </nz-header> -->
         <nz-content>
           <ng-container *ngIf="dropdown.length">
             <app-layout-button (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></app-layout-button>

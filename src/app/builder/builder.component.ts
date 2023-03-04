@@ -3767,7 +3767,11 @@ export class BuilderComponent implements OnInit {
   };
 
 
+  
+  
+  
   clickButton(type: any) {
+
     debugger
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -4634,6 +4638,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
+    debugger
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -4776,6 +4781,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonLeft'].text = event.form.addonLeft;
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['readonly'] = event.form.readonly;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
             if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
@@ -6060,6 +6066,7 @@ export class BuilderComponent implements OnInit {
 
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
           this.selectedNode.alertConfig[0].icon = event.form.icon;

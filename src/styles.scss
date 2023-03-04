@@ -8,6 +8,7 @@
 @import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
 @import "~jsoneditor/dist/jsoneditor.min.css";
 
+$white: #F0F2F5;
 nz-input-number{
   width: 100% !important;
 }
@@ -50,3 +51,26 @@ nz-time-picker{
 }
 
 
+body {
+  // background-color: #232826;
+  // color: F0F2F5;
+  scroll-behavior: smooth;
+}
+
+html {
+  --scrollbarBG: #90a4ae;
+  --thumbBG: #90a4ae;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $white;
+}

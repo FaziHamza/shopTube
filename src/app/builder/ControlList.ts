@@ -366,7 +366,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-phone-alt",
-                label: "Telephone with Code Area",
+                label: "Telephone with Code",
                 type: 'custom',
                 configType:'customMasking',fieldType: 'custom',
                 maskString: "0000-0000",
@@ -472,7 +472,7 @@ export const htmlTabsData = [
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/dashonic-pricing-template.jpg",
                 name: "dashnoicPricingTemplate",
-                label: "Dashnoic Pricing Template"
+                label: "Pricing"
               },
               {
                 parameter: "login",
@@ -642,7 +642,7 @@ export const htmlTabsData = [
               {
                 parameter: "simpleCardWithHeaderBodyFooter",
                 icon: "uil uil-file-alt",
-                label: "Card With Header Body & Footer"
+                label: "Section Card"
               },
               {
                 parameter: "sharedMessagesChart",
@@ -674,7 +674,7 @@ export const htmlTabsData = [
               {
                 parameter: "gridListEditDelete",
                 icon: "uil uil-file-alt",
-                label: "List/Data Grid Update/Delete"
+                label: "List/Data Grid Editable"
               },
               {
                 parameter: "invoiceGrid",
