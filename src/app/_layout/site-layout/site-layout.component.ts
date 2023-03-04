@@ -10,14 +10,15 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class SiteLayoutComponent implements OnInit {
   visible = false;
+  topHeaderMenu = 'w-1/6'
+  topHeader = 'w-10/12'
   menuMode: any = 'inline';
   menuColumn: any = 'w-2/12';
-  contentColumn: any = 'w-10/12';
-  rowClass: any = 'flex flex-nowrap';
-  horizontalRow = ''
-  horizontalColumn = ''
-  showToggleButton: any = true;
+  contentColumn: any = 'w-full';
+  rowClass: any = 'w-10/12';
+  horizontalRow = 'flex flex-wrap'
   menuItems: MenuItem[] = [];
+  allMenuItems: MenuItem[] = [];
   selected: any = 'vertical'
   theme = false;
   checked = false;
@@ -33,7 +34,7 @@ export class SiteLayoutComponent implements OnInit {
     layout: 'vertical',
     colorScheme: '',
     layoutWidth: '',
-    layouutPosiion: 'fixed',
+    layoutPosition: '',
     topBarColor: '',
     sideBarSize: '',
     siderBarView: '',
@@ -45,6 +46,7 @@ export class SiteLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.getMenu();
     this.ulIcon = "down";
+    this.makeMenuData();
   }
   toggleCollapsed(): void {
     debugger
@@ -71,52 +73,64 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getMenu() {
-    debugger
+
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
         this.menuItems = res[0].menuData;
         this.menuItems.forEach((e: any) => {
           e["menuIcon"] = "up"
         });
+        this.makeMenuData();
       }
       else
         this.menuItems = [];
     })
-    // this.employeeService.getMenuData(1).subscribe((res)=>{
-    //
-    //   this.menuItems = res;
-    // })
   }
 
 
 
   changeLayout(layoutType: any) {
-    this.horizontalRow = '';
-    this.rowClass = 'flex flex-nowrap';
+    debugger
+    // this.horizontalRow = '';
+    // this.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
       this.menuMode = "inline",
-        this.rowClass = 'flex flex-nowrap',
-        this.menuColumn = '';
-      this.contentColumn = 'w-full';
-      this.showToggleButton = true;
-      this.makeMenuItemsArray();
+        this.contentColumn = 'w-full';
+      this.isCollapsed = false;
+      this.topHeaderMenu = 'w-1/6'
+      this.topHeader = 'w-10/12';
+      // this.menuColumn = 'w-1/6';
+      // this.rowClass = 'w-10/12';
+      if (layoutType == 'vertical' || layoutType == 'fluid') {
+        this.horizontalRow = 'flex flex-wrap';
+        this.menuColumn = 'w-1/6';
+        this.rowClass = 'w-10/12';
+        if (layoutType == 'vertical')
+          this.selectedTheme.layout = layoutType;
+      }
       if (layoutType == 'twoColumn') {
+        this.selectedTheme.layoutPosition = '';
+        this.selectedTheme.layout = layoutType;
+        this.horizontalRow = 'flex flex-wrap'
+        this.rowClass = 'w-11/12';
         this.isCollapsed = true;
         this.isTwoColumnCollapsed = false;
-        this.menuColumn = 'w-1/5';
-        this.contentColumn = 'w-4/5';
+        this.menuColumn = '-w-1/12';
+        this.contentColumn = '';
+        this.topHeaderMenu = '';
+        this.topHeader = '';
+        this.selectedTheme.layoutWidth = '';
+        if (this.menuChildArrayTwoColumn.length > 0) {
+          this.rowClass = 'w-10/12';
+          this.menuColumn = 'w-2/12';
+        }
       }
     }
     else if (layoutType == 'horizental') {
-      this.horizontalColumn = 'w-10/12';
-      this.horizontalRow = 'flex flex-wrap';
-      this.rowClass = 'w-10/12',
-        this.menuMode = "horizontal",
-        this.menuColumn = '',
-        this.contentColumn = 'w-full',
-        this.showToggleButton = false,
-        this.isCollapsed = false;
-      this.newMenuArrayFunc();
+      this.selectedTheme.layout = layoutType;
+      this.horizentalLayout();
+      if (this.selectedTheme.layoutWidth == 'boxed')
+        this.rowClass = 'w-full'
     }
     else if (layoutType == 'dark') {
       this.theme = true;
@@ -126,44 +140,50 @@ export class SiteLayoutComponent implements OnInit {
     }
     else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
       this.isCollapsed = true;
-      this.makeMenuItemsArray();
     }
     else if (layoutType == 'boxed') {
       if (this.selectedTheme.layout == 'horizental') {
-        this.horizontalColumn = 'w-10/12';
         this.horizontalRow = 'flex flex-wrap';
-        this.rowClass = 'w-10/12',
+        this.rowClass = 'w-full',
           this.menuMode = "horizontal",
-          this.menuColumn = '',
+          this.menuColumn = 'w-full',
           this.contentColumn = 'w-full',
-          this.showToggleButton = false,
           this.isCollapsed = false;
-        this.newMenuArrayFunc();
       } else {
         this.isCollapsed = true;
-        this.rowClass = 'flex flex-nowrap container mx-auto';
+        this.horizontalRow = 'flex flex-wrap';
+        this.rowClass = 'w-10/12';
         this.checked = false;
-        this.makeMenuItemsArray();
       }
     }
-    else if (layoutType == 'default') {
+    else if (layoutType == 'default' || layoutType == 'compact') {
       this.isCollapsed = false;
-      this.makeMenuItemsArray();
     }
     // This conditions is used to assign value to object
     if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn') {
       this.selectedTheme.layout = layoutType;
+      if (this.selectedTheme.sideBarSize == 'compact') {
+        if (layoutType == 'horizental' || layoutType == 'twoColumn')
+          this.selectedTheme.sideBarSize = '';
+      }
     } else if (layoutType == 'fluid' || layoutType == 'boxed') {
       this.selectedTheme.layoutWidth = layoutType;
+      if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
+        this.horizentalLayout();
+        // this.horizontalRow = 'flex flex-wrap';
+        // this.rowClass = 'h-5/6';
+        // this.menuColumn = 'w-full',
+        // this.menuMode = "horizontal";
+      }
     }
     else if (layoutType == 'light' || layoutType == 'dark') {
       this.selectedTheme.sieBarColor = layoutType;
     }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default') {
+    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact') {
       this.selectedTheme.sideBarSize = layoutType;
     }
     else if (layoutType == 'fixed' || layoutType == 'scrollable') {
-      this.selectedTheme.layouutPosiion = layoutType;
+      this.selectedTheme.layoutPosition = layoutType;
     }
     else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
       this.selectedTheme.siderBarView = layoutType;
@@ -171,16 +191,23 @@ export class SiteLayoutComponent implements OnInit {
     else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
       this.selectedTheme.siderBarImages = layoutType;
     }
-
+    this.makeMenuData();
   }
 
   setHovered(value: any, data?: any) {
-    debugger
+
     if (value != 'down' && value != 'up') {
-      if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.sideBarSize != 'smallHoverView') {
+      if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.isCollapsed = value;
+        // if(value){
+        //   this.rowClass = 'w-10/12';
+        //   this.menuColumn = 'w-1/6';
+        // }else{
+        //   this.rowClass = 'w-11/12';
+        //   this.menuColumn = 'w-1/12';
+        // }
       }
-      if (this.selectedTheme.sideBarSize == 'smallHoverView') {
+      if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
         if (!this.checked)
           this.isCollapsed = value;
       }
@@ -199,21 +226,27 @@ export class SiteLayoutComponent implements OnInit {
   notifyEmit(data: any) {
     this.menuItems = [];
     this.menuItems = data;
-    this.newMenuArrayFunc();
+    // this.newMenuArrayFunc();
+    this.makeMenuData();
   }
   notifyEmitForDropdown(data: any) {
     this.tabs = data;
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    debugger
+
     event.stopPropagation();
+    // event.preventDefault();
+    data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];
     this.menuChildArrayTwoColumn = [];
     if (data.subItems.length > 0) {
+
       data.subItems.forEach((i: any) => {
         if (this.selectedTheme.layout == 'twoColumn') {
+          this.rowClass = 'w-10/12';
+          this.menuColumn = 'w-2/12';
           this.menuChildArrayTwoColumn.push(i);
         }
         if (i.type == 'mainDashonicTabs') {
@@ -224,30 +257,46 @@ export class SiteLayoutComponent implements OnInit {
         }
       });
     }
+    else if (this.selectedTheme.layout == 'twoColumn') {
+      this.rowClass = 'w-11/12';
+      this.menuColumn = '-w-1/12';
+    }
   }
 
 
-  newMenuArrayFunc() {
+  // newMenuArrayFunc() {
+  //   this.newMenuArray = [];
+  //   if (this.menuItems.length > 7) {
+
+  //     // this.menuItems.splice(7);
+  //   }
+  // }
+  makeMenuData() {
+
+    let arrayList = [];
+    arrayList = this.menuItems;
+    this.allMenuItems = [];
     this.newMenuArray = [];
-    if (this.menuItems.length > 7) {
+    if (this.menuItems.length > 7 && this.selectedTheme.layout == 'horizental') {
       this.newMenuArray = [{
         label: "More",
         icon: "down",
         subMenu: []
       }]
       this.newMenuArray[0].subMenu = this.menuItems.slice(7);
-      this.menuItems.splice(7);
+      this.allMenuItems = arrayList.slice(7);
+    }
+    else {
+      this.allMenuItems = arrayList;
     }
   }
 
-  makeMenuItemsArray() {
-    if (this.newMenuArray.length > 0) {
-      if (this.newMenuArray[0].subMenu.length > 0) {
-        this.newMenuArray[0].subMenu.forEach((a: any) => {
-          this.menuItems.push(a);
-        });
-      }
-    }
-    this.newMenuArray = [];
+  horizentalLayout() {
+    this.horizontalRow = 'flex flex-wrap';
+    this.rowClass = 'w-10/12',
+      this.menuMode = "horizontal",
+      this.menuColumn = 'w-full',
+      this.contentColumn = 'w-full',
+      this.isCollapsed = false;
   }
 }

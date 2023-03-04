@@ -32,9 +32,9 @@
                 <P class="mt-2 font-bold">Two Column</P>
             </div>
         </div>
-        <h6 class="mb-0 font-bold uppercase pt-2">LAYOUT WIDTH</h6>
-        <p class="text-gray-500 text-xs">Choose Fluid or Boxed layout.</p>
-        <div class="flex pt-2">
+        <h6 class="mb-0 font-bold uppercase pt-2" *ngIf="selectedTheme.layout != 'twoColumn'">LAYOUT WIDTH</h6>
+        <p class="text-gray-500 text-xs" *ngIf="selectedTheme.layout != 'twoColumn'">Choose Fluid or Boxed layout.</p>
+        <div class="flex pt-2" *ngIf="selectedTheme.layout != 'twoColumn'">
             <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
                 <div
                     [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'rounded-md border border-blue-400' : 'rounded-md border border-gray-200'">

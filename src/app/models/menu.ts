@@ -14,4 +14,5 @@ export interface MenuItem {
   menuData?:any;
   color?:any;
   isShowChild?:any;
+  isOpen?: boolean;
 }
