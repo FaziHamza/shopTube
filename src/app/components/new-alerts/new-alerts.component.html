@@ -1,6 +1,10 @@
 <ng-container class="mt-1" *ngFor="let item of alertData.alertConfig">
-    <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon nzType="question-circle"
+    <span *ngIf="item.tooltip" nz-tooltip nzTooltipTitle={{item.tooltip}}><span nz-icon [nzType]='item.icon'
             nzTheme="outline"></span></span>
-    <nz-alert nzCloseable nzType="success" nzMessage={{item.text}} [nzShowIcon]="true">
+
+
+    <nz-alert  [nzType]='item.alertType' nzMessage={{item.text}} [nzBanner]="item.banner" [nzShowIcon]="item.showIcon" [nzIconType]="item.iconType" [nzCloseable]="item.closeable" [nzCloseText]="item.closeText"  [nzDescription]="item.description" [nzAction]="item.action">
     </nz-alert>
+
 </ng-container>
+{{alertData.alertConfig | json}}

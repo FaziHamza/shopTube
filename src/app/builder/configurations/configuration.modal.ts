@@ -4539,51 +4539,52 @@ export class formFeildData {
             options: [
               {
                 label: 'Blue',
-                value: 'alert alert-primary'
+                value: ''
               },
               {
                 label: 'Gray',
-                value: 'alert alert-secondary'
+                value: ''
               },
               {
                 label: 'Green',
-                value: 'alert alert-success'
+                value: ''
               },
               {
                 label: 'Red',
-                value: 'alert alert-danger'
+                value: ''
               },
               {
                 label: 'Yellow',
-                value: 'alert alert-warning'
+                value: ''
               },
               {
                 label: 'Light Blue',
-                value: 'alert alert-info'
+                value: ''
               },
               {
                 label: 'White',
-                value: 'alert alert-light'
+                value: ''
               },
               {
                 label: 'Black',
-                value: 'alert alert-dark'
+                value: ''
               }
             ]
           },
 
         },
+        // {
+        //   key: 'icon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Alert Icon',
+        //   },
+        // },
+     
         {
-          key: 'icon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Alert Icon',
-          },
-        },
-        {
-          key: 'type',
+          key: 'alertType',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
@@ -4591,16 +4592,20 @@ export class formFeildData {
             label: 'Alert Type',
             options: [
               {
-                label: 'Default',
-                value: ''
+                label: 'success',
+                value: 'success'
               },
               {
-                label: 'Outline',
-                value: 'alert-outline'
+                label: 'info',
+                value: 'info'
               },
               {
-                label: 'Top Border',
-                value: 'alert-top-border'
+                label: 'warning',
+                value: 'warning'
+              },
+              {
+                label: 'error',
+                value: 'error'
               }
             ]
           },
@@ -4616,14 +4621,81 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "w-full",
+          className: "w-full mt-2",
           key: 'text',
           type: 'textarea',
           // wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Alert Text',
-            rows: 3
+            rows: 2
           }
+        },
+        {
+          className: "w-1/3 px-1",
+          key: 'description',
+          type: 'input',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Description',
+            
+          }
+        },
+        {
+          className: "w-1/3 px-1",
+          key: 'action',
+          type: 'input',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Action',
+            
+          }
+        },
+        {
+          className: "w-1/3 px-1",
+          key: 'closeText',
+          type: 'input',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'CloseText',
+            
+          }
+        },
+        {
+          className: "w-1/3 px-1",
+          key: 'iconType',
+          type: 'input',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'IconType',
+            
+          }
+        },
+        {
+          key: 'banner',
+          type: 'checkbox',
+          className: "w-1/6 px-1",
+          templateOptions: {
+            label: 'Banner',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'closeable',
+          type: 'checkbox',
+          className: "w-1/6 px-1",
+          templateOptions: {
+            label: 'Closeable',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showIcon',
+          type: 'checkbox',
+          className: "w-1/6 px-1",
+          templateOptions: {
+            label: 'ShowIcon',
+          },
+          defaultValue: false
         },
       ]
     },

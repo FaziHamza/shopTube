@@ -1353,17 +1353,21 @@ export class BuilderComponent implements OnInit {
         className: "w-full",
         hideExpression: false,
         key: "alert_" + Guid.newGuid(),
-        tooltip: "Alert",
         highLight: false,
         isNextChild: false,
         alertConfig: [
           {
             tooltip: "",
             alertColor: "alert alert-primary",
-            text: "This is a primary alert—check it out!",
-            icon: "uil uil-question-circle",
+            text: "This is an alert—check it out!",
+            icon: "",
             type: "",
             key: "alert_" + Guid.newGuid(),
+            alertType:'success',
+            banner:false,
+            showIcon:false,
+            closeable:false,
+            description:'',
           }
         ],
 
@@ -6282,6 +6286,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.alertConfig[0].type = event.form.type;
           this.selectedNode.alertConfig[0].text = event.form.text;
           this.selectedNode.alertConfig[0].alertColor = event.form.alertColor;
+          this.selectedNode.alertConfig[0].alertType = event.form.alertType;
+          this.selectedNode.alertConfig[0].banner = event.form.banner;
+          this.selectedNode.alertConfig[0].showIcon = event.form.showIcon;
+          this.selectedNode.alertConfig[0].closeable = event.form.closeable;
+          this.selectedNode.alertConfig[0].description = event.form.description;
+          this.selectedNode.alertConfig[0].closeText = event.form.closeText;
+          this.selectedNode.alertConfig[0].iconType = event.form.iconType;
+          this.selectedNode.alertConfig[0].action = event.form.action;
           this.updateNodes()
         }
         break;

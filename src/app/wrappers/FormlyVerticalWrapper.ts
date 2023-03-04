@@ -9,7 +9,7 @@ import { FieldWrapper } from '@ngx-formly/core';
    [style.color]="to['labelColor']">
    <span ><i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 1%;"></i>{{ to.label }}</span>
     <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container> -->
-    <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class=" uil uil-question-circle">Tooltip will show when mouse enter.</span>
+    <span  nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
   </label>
   <div class="mt-1">
     <ng-template #fieldComponent></ng-template>

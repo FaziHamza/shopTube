@@ -303,6 +303,14 @@ export class BuilderClickButtonService {
       type: node.alertConfig[0]?.type,
       text: node.alertConfig[0]?.text,
       alertColor: node.alertConfig[0]?.alertColor,
+      alertType:node.alertConfig[0]?.alertType,
+      banner:node.alertConfig[0]?.banner,
+      showIcon:node.alertConfig[0]?.showIcon,
+      closeable:node.alertConfig[0]?.closeable,
+      description:node.alertConfig[0]?.description,
+      closeText:node.alertConfig[0]?.closeText,
+      iconType:node.alertConfig[0]?.iconType,
+      action:node.alertConfig[0]?.action,
     }
   }
 

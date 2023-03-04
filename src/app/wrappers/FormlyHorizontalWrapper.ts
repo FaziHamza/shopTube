@@ -8,7 +8,8 @@ import { FieldWrapper } from '@ngx-formly/core';
   <label [attr.for]="id" class= {{firstColum}} *ngIf="to.label" >
    <span><i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 3%;"></i>{{to.label }}</span>
     <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container> -->
-    <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
+    <span  nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
+    <!-- <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span> -->
   </label>
   <div class= {{secondColum1}}>
     <ng-template #fieldComponent></ng-template>
