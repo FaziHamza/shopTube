@@ -1,29 +1,46 @@
-{{tableData | json}}
 <button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
 <br />
 <br />
-<nz-table #editRowTable nzBordered [nzData]="tableData">
+<nz-table #editRowTable [nzBordered]='data.nzBordered' [nzData]="tableData" [nzFooter]="data?.nzFooter"
+  [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
+  [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='data?.nzFrontPagination'
+  [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize"
+  [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger" [nzScroll]="{ x: data.tableScroll, y: scrollY }">
   <thead>
-    <tr>
+    <tr *ngIf="data.showColumnHeader">
+      <th nzWidth="40px" *ngIf="data.expandable"></th>
+      <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+        (nzCheckedChange)="checkAll($event)"></th>
       <th [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
         [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
         *ngFor="let header of tableHeaders">{{header.name}}</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of editRowTable.data" [ngClass]="{ 'highlight': data?.age > 35 }">
-      <td *ngFor="let header of key">
-        <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-          {{data[header.name]}}
-        </div>
-        <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]"  />
-      </td>
-      <td>
-        <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">
-          <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
-        </a>
-      </td>
-    </tr>
+    <ng-container *ngFor="let item of editRowTable.data">
+      <tr>
+        <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
+        <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
+        <ng-container *ngFor="let header of key">
+          <td [nzEllipsis]="true"
+            *ngIf="header.name != 'description' && header.name != 'checked' && header.name != 'expand'">
+            <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(data.id)">
+              {{item[header.name]}}
+            </div>
+            <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data[header.name]" />
+          </td>
+        </ng-container>
+        <td>
+          <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item.id)">
+            <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+          </a>
+        </td>
+      </tr>
+      <tr *ngIf="data.expandable" [nzExpand]="item.expand">
+        <span>{{ item.description }}</span>
+      </tr>
+    </ng-container>
   </tbody>
 </nz-table>
-<button nz-button (click)="save()" type="button" nzType="primary">Save FF</button>
+<button nz-button (click)="save()" type="button" nzType="primary">Save</button>

@@ -10,7 +10,7 @@ export class BuilderClickButtonService {
   }
   getGridConfig(node: any) {
     debugger
-    return { options: node.tableData};
+    return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable , tableScroll: node.tableScroll , fixHeader: node.fixHeader , fixedColumn: node.fixedColumn };
   }
 
   getSkeletonConfig(node: any) {

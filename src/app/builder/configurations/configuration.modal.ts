@@ -6564,7 +6564,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            type:'number',
+            type: 'number',
             label: 'Delay time',
           }
         },
@@ -7187,146 +7187,176 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
-          key: 'header',
+          key: 'nzFooter',
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'header'
+            label: 'Footer Text'
           }
         },
         {
-          key: 'filterType',
+          key: 'nzTitle',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Header Text'
+          }
+        },
+        {
+          key: 'nzPaginationPosition',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Filter Type',
+            label: 'Pagination Position',
             options: [
               {
-                label: 'text',
-                value: 'text',
+                label: 'Top',
+                value: 'top'
               },
               {
-                label: 'select',
-                value: 'select',
+                label: 'Bottom',
+                value: 'bottom'
               },
               {
-                label: 'datePicker',
-                value: 'date',
-              }
+                label: 'Both',
+                value: 'both'
+              },
             ]
           },
         },
         {
-          key: 'fieldType',
+          key: 'nzPaginationType',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Field Type',
+            label: 'Pagination Type',
             options: [
-              {
-                label: 'text',
-                value: 'text',
-              },
-              {
-                label: 'number',
-                value: 'number',
-              },
-              {
-                label: 'select',
-                value: 'select',
-              },
-              {
-                label: 'radio',
-                value: 'radio',
-              },
-              {
-                label: 'checkbox',
-                value: 'checkbox',
-              },
-              {
-                label: 'datePicker',
-                value: 'datePicker',
-              }
+              { value: 'default', label: 'Default' },
+              { value: 'small', label: 'Small' }
             ]
           },
-          defaultValue: 'text',
         },
         {
-          key: 'sortable',
-          type: 'checkbox',
-          className: "w-1/6 px-1 mt-5",
+          key: 'nzSize',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Enable Sorting'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'filter',
-          type: 'checkbox',
-          className: "w-1/6 px-1 mt-5",
-          templateOptions: {
-            label: 'Enable Filter'
-          },
-          defaultValue: false
-        },
-        {
-          key: 'editorType',
-          type: 'checkbox',
-          className: "w-1/6 px-1 mt-5",
-          templateOptions: {
-            label: 'Enable Editor'
-          },
-          defaultValue: false
-        },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
-        {
-          template: '<div">options</div>'
-        },
-        {
-          key: 'options',
-          type: 'repeatSection',
-          // wrappers:["form-field-horizontal"],
-          templateOptions: {
-            style: "margin-top: 11%;",
-            canAdd: true,
-            canRemove: true
-          },
-          fieldArray: {
-            className: 'ml-3 me-2',
-            fieldGroup: [
-              {
-                key: 'text',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'text',
-                }
-              },
-              {
-                key: 'value',
-                type: 'input',
-                className: "ml-2",
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'value'
-                }
-              },
-
+            label: 'Size',
+            options: [
+              { value: 'default', label: 'Default' },
+              { value: 'middle', label: 'Middle' },
+              { value: 'small', label: 'Small' }
             ]
-          }
-        }
+          },
+        },
+        {
+          key: 'nzLoading',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Loading',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzShowPagination',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Show Pagination',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Show Border',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showColumnHeader',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Column Header',
+          },
+        },
+        {
+          key: 'noResult',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'No Result',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzShowSizeChanger',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'PageSizeChanger',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzSimple',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Simple Pagination',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showCheckbox',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Show checkbox',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'fixHeader',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Fix header',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'tableScroll',
+          type: 'select',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'tableScroll',
+            options: [
+              { value: 'unset', label: 'Unset' },
+              { value: 'scroll', label: 'Scroll' },
+              { value: 'fixed', label: 'Fixed' }
+            ]
+          },
+        },
+        {
+          key: 'fixedColumn',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Fixed Column',
+          },
+          defaultValue: false
+        },
       ]
     }
   ]

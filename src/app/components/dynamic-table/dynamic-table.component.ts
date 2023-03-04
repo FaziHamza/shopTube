@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output 
+} from '@angular/core';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -11,14 +13,27 @@ export class DynamicTableComponent implements OnInit {
   @Input() tableId: any;
   @Input() tableData: any;
   @Input() tableHeaders: any[];
+  @Input() data: any;
   editId: string | null = null;
   @Output() notifyTable: EventEmitter<any> = new EventEmitter();
   key: any;
-  constructor(private _dataSharedService: DataSharedService ) { }
+  allChecked = false;
+  indeterminate = false;
+  scrollX: string | null = null;
+  scrollY: string | null = null;
+  constructor(private _dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
+    debugger
     this.loadTableData();
-
+    this.data.noResult == true ? this.tableData = [] : true;
+    this.data.get('tableScroll')!.valueChanges.subscribe((scroll: any) => {
+      this.data.fixedColumn = scroll === 'fixed';
+      this.scrollX = scroll === 'scroll' || scroll === 'fixed' ? '100vw' : null;
+    });
+    this.data.get('fixHeader')!.valueChanges.subscribe((fixed: any) => {
+      this.scrollY = fixed ? '240px' : null;
+    });
   }
 
   addRow(): void {
@@ -42,15 +57,31 @@ export class DynamicTableComponent implements OnInit {
   loadTableData() {
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
-    this.tableData = this.tableData;
     debugger
-    if (this.tableHeaders == undefined) {
+    if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
 
   }
 
-  save(){
-  this._dataSharedService.setData(this.tableData);
+  save() {
+    this._dataSharedService.setData(this.tableData);
+  }
+
+  checkAll(value: boolean): void {
+    this.tableData.forEach((data: any) => {
+      if (!data.disabled) {
+        data.checked = value;
+      }
+    });
+    this.refreshStatus();
+  }
+
+  refreshStatus(): void {
+    const validData = this.tableData.filter((value: any) => !value.disabled);
+    const allChecked = validData.length > 0 && validData.every((value: any) => value.checked === true);
+    const allUnChecked = validData.every((value: any) => !value.checked);
+    this.allChecked = allChecked;
+    this.indeterminate = !allChecked && !allUnChecked;
   }
 }

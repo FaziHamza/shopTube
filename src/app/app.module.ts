@@ -178,6 +178,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     NgxDropzoneModule,
+    
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [
