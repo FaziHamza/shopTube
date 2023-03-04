@@ -96,7 +96,6 @@ export class formFeildData {
           {
             key: 'multiselect',
             type: 'select',
-
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
@@ -117,6 +116,7 @@ export class formFeildData {
       {
         key: 'options',
         type: 'repeatSection',
+        className: "w-full px-1",
         templateOptions: {
           style: "margin-top: 6%;",
           canAdd: true,
@@ -7334,16 +7334,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-        {
-          key: 'gridName',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label'
-          }
-        },
         {
           key: 'pagination',
           type: 'input',
@@ -7442,7 +7432,7 @@ export class formFeildData {
 
         {
           key: 'options',
-          type: 'gridrepeatsection',
+          type: 'repeatSection',
           templateOptions: {
             style: "margin-top: 5%;",
             canAdd: true,
@@ -7494,41 +7484,6 @@ export class formFeildData {
                   label: 'Sum'
                 },
                 defaultValue: false
-              },
-            ]
-          }
-        },
-        {
-          template: '<div class="bold-label mt-3">options</div>',
-        },
-
-        {
-          key: 'icon',
-          type: 'repeatSection',
-          templateOptions: {
-            style: "margin-top: 1%;",
-            canAdd: true,
-            canRemove: true
-          },
-          fieldArray: {
-            fieldGroup: [
-              {
-                key: 'name',
-                type: 'input',
-                className: "w-1/2",
-                wrappers: ["form-field-horizontal"],
-                templateOptions: {
-                  label: 'key',
-                }
-              },
-              {
-                key: 'api',
-                type: 'input',
-                className: "w-1/2",
-                wrappers: ["form-field-horizontal"],
-                templateOptions: {
-                  label: 'Api',
-                }
               },
             ]
           }

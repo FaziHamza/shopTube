@@ -147,8 +147,16 @@
 
           <div class="carwd" *ngIf="IsjsonEditorVisible">
             <div class="card-bwody">
-              <json-editor [(ngModel)]="this.nodes" (change)="clickBack()" [options]="editorOptions">
-              </json-editor>
+              asdada
+              <!-- <json-editor [(ngModel)]="this.nodes" (change)="clickBack()" [options]="editorOptions">
+              </json-editor> -->
+
+              <json-editor 
+              id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
+             
+              [options]="editorOptions" >
+            </json-editor>
+
             </div>
           </div>
         </div>
@@ -244,36 +252,36 @@
                           </div>
                         </form>
                       </ng-template>
-                     <ul id="search-menu" *ngIf="searchControllData.length > 0 ">
-                        <div class="row tab-pills">
-                          <div class="col-md-3 mb-1" *ngFor="let searchItems of searchControllData">
-                            <label
+                     <ul id="search-menu "  *ngIf="searchControllData.length > 0 ">
+                        <div class="flex flex-wrap tab-pills z-50" >
+                          <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  " *ngFor="let searchItems of searchControllData" >
+                            <button nz-button class=" rounded w-auto"
                               *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                               (click)="addControlToJson(searchItems.parameter,searchItems)"><i
                                 class={{searchItems.icon}}></i>{{searchItems.label}}
-                            </label>
+                            </button>
                             <ng-container
                               *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
-                              <label
+                              <button nz-button class="w-auto rounded"
                                 *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form' "
                                 (click)="addFunctionsInHtml(searchItems.parameter)"><i
                                   class={{searchItems.icon}}></i>{{searchItems.label}}
-                              </label>
+                              </button>
                             </ng-container>
-                            <label
+                            <button nz-button class="rounded w-auto"
                               *ngIf="searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'"
                               (click)="dashonicTemplates(searchItems.parameter)">
                               <!-- <i class={{searchItems.icon}}
                                 (mouseenter)="openModal(content,searchItems.content,searchItems.name)"></i> -->
                                 {{searchItems.label}}
-                            </label>
+                            </button>
                           </div>
                         </div>
                       </ul> 
                     </div>
                   </div>
                 </div>
-                <div class="nav-body" *ngIf="!showSectionOnly">
+                <div class="nav-body z-0 " *ngIf="!showSectionOnly">
                   <nz-tabset>
                     <nz-tab [nzTitle]="item1.label" *ngFor="let item1 of item.children let i= index">
                       <nz-collapse>
@@ -379,3 +387,4 @@
     </as-split>
   </div>
 </nz-card>
+

@@ -26,6 +26,7 @@ export interface TreeNode {
   padding?: any;
   hideExpression?: boolean;
   paddingLeft?: any;
+  tableId?: any;
   paddingRight?: any;
   paddingTop?: any;
   paddingBottom?: any;

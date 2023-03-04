@@ -8,6 +8,10 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
+  getGridConfig(node: any) {
+    debugger
+    return { options: node.tableData};
+  }
 
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
@@ -429,6 +433,7 @@ export class BuilderClickButtonService {
   }
 
   getFormlyConfig(node: any) {
+    debugger
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
@@ -438,6 +443,10 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+      disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
+      readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
+      hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
+
     }
   }
   getMaskingFormlyConfig(node: any) {
@@ -454,6 +463,7 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+  
     }
   }
   getButtonConfig(node: any) {

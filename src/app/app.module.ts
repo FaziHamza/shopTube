@@ -83,6 +83,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
 import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
 import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
+import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -160,7 +161,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NotificationComponent,
     LayoutButtonComponent,
     LayoutTabsComponent,
-    LayoutDrawerComponent
+    LayoutDrawerComponent,
+    DynamicTableComponent
   ],
   imports: [
     FormsModule,

@@ -18,6 +18,11 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
+  public editorOptions: JsonEditorOptions;
+
+  makeOptions = () => new JsonEditorOptions();
+
+
   size: NzButtonSize = 'large';
   selectModuleName: any;
   applicationBuilder: any = [];
@@ -46,11 +51,27 @@ export class BuilderComponent implements OnInit {
   showSectionOnly: boolean = false;
   columnData: any = [];
   controlListvisible = false;
-  public editorOptions: JsonEditorOptions;
+
+  tableData: any[];
+  tableHeaders: string[];
+
+  makeTableData() {
+    this.tableHeaders = ['ID', 'Name', 'Age'];
+    this.tableData = [
+      { id: 1, name: 'John', age: 25 },
+      { id: 2, name: 'Mary', age: 32 },
+      { id: 3, name: 'Steve', age: 18 },
+      { id: 4, name: 'Kate', age: 27 }
+    ];
+
+  }
+
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private clickButtonService: BuilderClickButtonService) {
+      this.editorOptions = new JsonEditorOptions()
+      this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
@@ -65,6 +86,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.makeTableData();
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -112,7 +134,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-
+    debugger
     //<---------------- This is used to unhighlight the highlight components------------------------->//
     this.nodes[0].children?.forEach((element: any) => {
       element = this.applyHighLight(false, element);
@@ -159,68 +181,81 @@ export class BuilderComponent implements OnInit {
       });
     });
 
-    var currentData = JSON.parse(
-      JSON.stringify(this.nodes, function (key, value) {
-        if (typeof value == 'function') {
-          return value.toString();
-        } else {
-          return value;
-        }
-      }) || '{}');
-    // this.nodes =
-    // var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    // this.prepareDragDrop(this.nodes);
-
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    // var newData = JSON.parse(
-    //   JSON.stringify(this.nodes, function (key, value) {
-    //     if (typeof node.type =='function') {
-    //       return value.toString();
-    //     } else {
-    //       return value;
-    //     }
-    //   }) || '{}');
-    var newData = JSON.parse(JSON.stringify(this.nodes));
+    var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     var data =
     {
       "moduleName": this.screenName,
       "menuData": newData,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
     };
-
-    if (this.screenId > 0) {
-      this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
-        this.builderService.jsonSaveBuilder(data).subscribe((res => {
-          this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
-            if (res.length > 0) {
-              this.screenId = res[0].id;
-              alert("Data Save");
-            }
-          }
-          ));
+    this.screenId = mainModuleId[0].screenId;
+    // if (this.screenId > 0) {
+    this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
+      if (res) {
+        this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
+          this.builderService.jsonSaveBuilder(data).subscribe((res => {
+            alert("Data Save");
+            this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+              if (getRes.length == 0) {
+                this.screenData = [];
+                this.screenData = getRes;
+              }
+            }));
+          }))
         }))
-      }))
-    } else {
-      this.builderService.jsonSaveBuilder(data).subscribe((res => {
-        alert("Data Save");
-      }))
-    }
+      } else {
+        this.builderService.jsonSaveBuilder(data).subscribe((res => {
+          alert("Data Save");
+          this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+            if (getRes.length == 0) {
+              this.screenData = [];
+              this.screenData = getRes;
+            }
+          }));
+        }))
+      }
+    }))
+    // this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
+    //   debugger
+    //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
+    //     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
+    //       if (res.length > 0) {
+    //         this.screenId = res[0].id;
+    //         alert("Data Save");
+    //         this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes => {
+    //           if (getRes.length == 0) {
+    //             this.screenData = [];
+    //             this.screenData = getRes;
+    //           }
+    //         }));
+    //       }
+    //     }
+    //     ));
+    //   }))
+    // }))
+    // } else {
+    //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
+    //     alert("Data Save");
+    //   }))
+    // }
   }
   expandedKeys: any;
   getFormLayers() {
-
+    debugger
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
 
       if (res.length > 0) {
         if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
-          this.nodes = res[0].menuData;
+          // this.nodes = res[0].menuData;
+          this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
           // this.uiRuleGetData(res[0].moduleId);
           // this.uiGridRuleGetData(res[0].moduleId);
         }
         else {
           this.screenId = res[0].id;
-          this.nodes = res[0].menuData;
+          this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
           // this.uiRuleGetData(res[0].moduleId);
           // this.uiGridRuleGetData(res[0].moduleId);
           // this.updateNodes();
@@ -233,9 +268,11 @@ export class BuilderComponent implements OnInit {
         // this.updateNodes();
       }
       this.expandedKeys = this.nodes.map((node: any) => node.key);
+      this.uiRuleGetData(this.screenName);
     }
     ));
     this.screenPage = true;
+
   }
   clearChildNode() {
     if (this.screenPage) {
@@ -277,14 +314,15 @@ export class BuilderComponent implements OnInit {
   };
   downloadJson() {
 
-    var currentData = JSON.parse(
-      JSON.stringify(this.nodes, function (key, value) {
-        if (typeof value == 'function') {
-          return value.toString();
-        } else {
-          return value;
-        }
-      }) || '{}');
+    var currentData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
+    // JSON.parse(
+    //   JSON.stringify(this.nodes, function (key, value) {
+    //     if (typeof value == 'function') {
+    //       return value.toString();
+    //     } else {
+    //       return value;
+    //     }
+    //   }) || '{}');
 
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     var data =
@@ -309,9 +347,378 @@ export class BuilderComponent implements OnInit {
   tabsAdd: TreeNode;
   stepperChild: TreeNode;
   tabsChild: TreeNode;
+  screenData: any;
+  formlyModel: any;
+  faker: boolean = false;
+  makeFaker() {
+
+    let dataModelFaker: any = [];
+    if (this.faker == true) {
+
+
+    }
+    if (this.nodes.length > 0) {
+      this.nodes.forEach((element: any) => {
+        if (element.children != undefined) {
+          element.children.forEach((element2: any) => {
+
+            if (element2.children != undefined) {
+              element2.children.forEach((according: any) => {
+                according.children.forEach((accordingBody: any) => {
+                  if (accordingBody.type == 'accordingBody') {
+                    accordingBody.children.forEach((V2: any) => {
+                      if (V2) {
+                        if (V2.formly != undefined) {
+                          if (V2.formly[0].type == 'stepper' || V2.formly[0].type == 'dashonicTabs') {
+                            V2.children.forEach((step1: any) => {
+                              step1.children.forEach((step2: any) => {
+                                dataModelFaker[step2.formly[0].fieldGroup[0].key] = this.makeFakerData(step2);
+                              });
+                            });
+                          }
+                          else {//input field
+                            dataModelFaker[V2.key] = this.makeFakerData(V2);
+                          }
+                        } else if (V2.mainDashonicTabsConfig) {
+                          V2.children.forEach((element: any) => {
+                            element.children.forEach((element2: any) => {
+                              if (element2.chartCardConfig) {
+                                if (element2.chartCardConfig.length > 0) {
+                                  if (element2.formly) {
+                                    if (element2.formly[0].fieldGroup) {
+                                      dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
+                                    }
+                                  }
+                                }
+                              }
+                            });
+                          });
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+              );
+            }
+          });
+        }
+      });
+    }
+    this.formlyModel = dataModelFaker;
+  }
+  makeFakerData(V2: any) {
+    if (V2.formly[0].fieldGroup[0].templateOptions) {
+      let modelFaker: any;
+      if (V2.formly[0].fieldGroup[0].templateOptions.type) {
+        if (V2.formly[0].fieldGroup[0].type == 'input') {
+          // modelFaker = faker.name.firstName()
+        }
+        else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+          // modelFaker = faker.lorem.paragraph()
+        }
+        else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+          // modelFaker = faker.name.firstName()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'password') {
+          // modelFaker = faker.name.firstName()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'tel') {
+          // modelFaker = faker.phone.number()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'date') {
+          // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'email') {
+          // modelFaker = faker.internet.email()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'checkbox') {
+          // modelFaker = faker.datatype.boolean()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'radio') {
+          // modelFaker = faker.datatype.boolean()
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'number') {
+          // modelFaker = 1
+          // modelFaker = faker.datatype.number(10)
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'decimal') {
+          // modelFaker = 0.0
+          // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'month') {
+          // modelFaker = faker.date.month({ abbr: true, context: true })
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'datetime-local') {
+          // modelFaker = faker.datatype.datetime(1893456000000)
+        }
+        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'color') {
+          // modelFaker = faker.color.colorByCSSColorSpace()
+        }
+      }
+      else if (V2.formly[0].fieldGroup[0].type) {
+        if (V2.formly[0].fieldGroup[0].type == 'input') {
+          // modelFaker = faker.name.firstName()
+        }
+        else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+          // modelFaker = faker.lorem.paragraph()
+        }
+        else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+          // modelFaker = faker.name.firstName()
+        }
+      }
+      return modelFaker;
+    }
+  }
+  uiRuleGetData(moduleId: any) {
+    this.builderService.jsonUIRuleGetData(moduleId).subscribe((getRes => {
+      this.screenData = [];
+      this.screenData = getRes[0];
+      this.makeFaker();
+      this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+    }));
+  }
+  evalConditionRule(query: any, dataTargetIfValue: any) {
+    dataTargetIfValue.forEach((e: any) => {
+      let type = e.conditonType == "AND" ? "&&" : "||";
+      type = query == '' ? "" : type;
+      let getModelValue = this.formlyModel[e.ifMenuName] == "" ? "''" : this.formlyModel[e.ifMenuName];
+      if (getModelValue == undefined)
+        getModelValue = "";
+
+      if (e.condationName == 'contains') {
+        if (this.formlyModel[e.ifMenuName] != undefined && this.formlyModel[e.ifMenuName].includes(e.targetValue))
+          query = query + " " + type + " " + '1 == 1';
+        else
+          query = query + " " + type + " " + '1 == 2';
+      } else if (e.condationName == 'null') {
+        if (typeof (this.formlyModel[e.ifMenuName]) != "number") {
+          if (this.formlyModel[e.ifMenuName] == '' || this.formlyModel[e.ifMenuName] == null)
+            query = query + " " + type + " " + '1 == 1';
+          else
+            query = query + " " + type + " " + '1 == 2';
+        }
+        else
+          query = query + " " + type + " " + '1 == 2';
+      } else {
+        if (e.ifMenuName.includes('number') || e.ifMenuName.includes('decimal')) {
+          query = query + " " + type + " " + Number(getModelValue) + " " + e.condationName + " " + e.targetValue;
+        }
+        else {
+          query = query + " " + type + " '" + getModelValue + "' " + e.condationName + " '" + e.targetValue + "'";
+        }
+      }
+    });
+    return query;
+  }
+  checkConditionUIRule(model: any, currentValue: any) {
+
+    if (this.screenData != undefined) {
+      var inputType = this.nodes[0].children[1].children[0].children[1].children
+      for (let j = 0; j < inputType.length; j++) {
+        for (let index = 0; index < this.screenData.uiData.length; index++) {
+          if (inputType[j] == undefined) {
+            let query: any;
+            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            if (this.screenData.uiData[index].condationName == 'contains') {
+              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+                query = '1 == 1';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+              else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            } else if (this.screenData.uiData[index].condationName == 'null') {
+              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                  query = '1 == 1';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+                else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+              } else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+
+            } else {
+              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              } else {
+                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            }
+            if (eval(query)) {
+              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+            }
+            else {
+              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+            }
+          } else if (inputType[j].formly != undefined) {
+            let query: any;
+            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            if (this.screenData.uiData[index].condationName == 'contains') {
+              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+                query = '1 == 1';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+              else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            } else if (this.screenData.uiData[index].condationName == 'null') {
+              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                  query = '1 == 1';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+                else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+              } else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+
+            } else {
+              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              } else {
+                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            }
+            if (eval(query)) {
+              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+            }
+            else {
+              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+            }
+          }
+        }
+      }
+      this.nodes[0].children[1].children[0].children[1].children = [];
+      this.nodes[0].children[1].children[0].children[1].children = inputType;
+      this.updateNodes();
+      // this.clickBack(model, currentValue);
+    }
+  }
+  lastFormlyModelValue: string;
+  makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
+    for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
+      for (let l = 0; l < inputType.length; l++) {
+        if (inputType[l].type == "button" || inputType[l].type == "linkButton" || inputType[l].type == "dropdownButton") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            // const element = this.screenData.uiData[index].targetCondition[k].changeData;
+            // var arr = JSON.parse(JSON.stringify(this.screenData.uiData[index].targetCondition[k].inputOldJsonData));
+            // arr = arr.btnConfig[0];
+            // for (let objIndex = 0; objIndex < element.length; objIndex++) {
+            //   for (const key of Object.keys(arr)) {
+            //     if (element[objIndex].key === key) {
+            //       arr[key] = element[objIndex].value;
+            //     }
+            //     //  else if (typeof arr[key] === 'object') {
+            //     //   for (const childKey of Object.keys(arr[key][0])) {
+            //     //     if (element[objIndex].key === childKey) {
+            //     //       arr[key][0][childKey] = element[objIndex].value;
+            //     //     }
+            //     //   }
+            //     // }
+            //   }
+            //   inputType[1].btnConfig[0] = JSON.parse(JSON.stringify(arr));
+            // }
+          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == "buttonGroup") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
+            inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+          // }
+        }
+        // else if (inputType[l].type == "stepperMain") {
+        //   for (let m = 0; m < inputType[l].children.length; m++) {
+        //     if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && currentValue)
+        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+        //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
+        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        //   }
+        // } 
+        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "checkbox" || inputType[l].type == "color" ||
+          inputType[l].type == "decimal" || inputType[l].type == "image" || inputType[l].type == "multiselect" ||
+          inputType[l].type == "radiobutton" || inputType[l].type == "search" || inputType[l].type == "repeatSection" ||
+          inputType[l].type == "tags" || inputType[l].type == "telephone" || inputType[l].type == "textarea"
+          || inputType[l].type == "date" || inputType[l].type == "datetime" || inputType[l].type == "month"
+          || inputType[l].type == "time" || inputType[l].type == "week") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
+            // inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            // this.lastFormlyModelValue = inputType[l].formly[0].fieldGroup[0].defaultValue;
+            // this.formlyModel[inputType[l].key.toString()] = inputType[l].formly[0].fieldGroup[0].defaultValue;
+            this.formlyModel[inputType[l].key.toString()] = "Value Changed";
+          }
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
+            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            // if (this.formlyModel[inputType[l].key.toString()] == this.lastFormlyModelValue)
+            //   this.formlyModel[inputType[l].key.toString()] = inputType[l].formly[0].fieldGroup[0].defaultValue;
+          }
+        } else if (inputType[l].type == "alert") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].alertConfig[0].key && currentValue)
+            inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].alertConfig[0].key && !currentValue)
+            inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == "card") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == "simpleCardWithHeaderBodyFooter") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
+            inputType[l].simpleCardWithHeaderBodyFooterConfig = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l].simpleCardWithHeaderBodyFooterConfig = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        }
+        // else if (inputType[l].type == "mainDashonicTabs") {
+        //   for (let m = 0; m < inputType[l].children.length; m++) {
+        //     if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && currentValue)
+        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+        //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && !currentValue)
+        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        //   }
+        // } 
+        else if (inputType[l].type == "gridList" || inputType[l].type == "gridListEditDelete") {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == "header" || inputType[l].type == "paragraph") {
+
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
+            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        }
+      }
+    }
+    return inputType;
+  }
 
   addControlToJson(value: string, data?: any) {
-    
+
+
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -526,7 +933,7 @@ export class BuilderComponent implements OnInit {
           {
             fieldGroup: [
               {
-                key: data?.label + Guid.newGuid(),
+                // key: data?.label + Guid.newGuid(),
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
@@ -554,13 +961,20 @@ export class BuilderComponent implements OnInit {
                   readonly: false,
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
-                  change: (model, $event) => {
+                  // keyup: (model:any, $event) => {
+                  //   debugger
+                  //   let currentVal = model.form.value[model.key.toString()];
+                  //   let value = currentVal.split(":");
+                  //   currentVal = value[1].slice(1);
+                  //   // this.formlyModel[model.key.toString()] = currentVal;
+                  //   this.checkConditionUIRule(model, currentVal);
+                  // }
 
-                    // let currentVal = model.form.value[model.key.toString()];
-                    // let value = currentVal.split(":");
-                    // currentVal = value[1].slice(1);
-                    // this.formlyModel[model.key.toString()] = currentVal;
-                    // this.checkConditionUIRule(model, currentVal);
+                  keyup: (model: any) => {
+                    debugger
+                    let currentVal = model.formControl.value;
+                    this.formlyModel[model.props.key] = model.formControl.value;
+                    this.checkConditionUIRule(model, currentVal);
                   }
                 },
                 hideExpression: false,
@@ -1928,7 +2342,6 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'multiFileUpload') {
-
       const newNode = {
         id: "common_" + Guid.newGuid(),
         title: "Multi File Upload" + '_1',
@@ -1938,7 +2351,6 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-
         key: "multiFileUpload_" + Guid.newGuid(),
         uploadBtnLabel: "Click here to upload",
         children: [
@@ -1949,90 +2361,89 @@ export class BuilderComponent implements OnInit {
     else if (value == 'gridList') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        className:"w-full",
         title: 'Grid List' + '_1',
         type: 'gridList',
         link: '',
-        key: "simpleGridList_" + Guid.newGuid(),
+        key: "gridList_" + Guid.newGuid(),
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-        forCommomComponentCondition: 'simpleGridList',
-        className: "w-full",
-        pagination: 10,
-        filter: false,
-        sortable: false,
-        tooltip: "",
-        delete: true,
-        update: false,
-        create: false,
-        getVariable: "",
-        setVariable: "",
-        children: [
+        tableId: "gridList_" + Guid.newGuid(),
+        tableHeaders:[
           {
-            id: "name_" + Guid.newGuid(),
-            label: "name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Name",
-            name: "name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Id',
+            sortOrder: null,
+            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+            // listOfFilter: [
+            //   { text: 'Joe', value: 'Joe' },
+            //   { text: 'Jim', value: 'Jim', byDefault: true }
+            // ],
+            // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
           {
-            id: "father_name_" + Guid.newGuid(),
-            label: "father_name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Father Name",
-            name: "father_name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Name',
+            sortOrder: null,
+            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+            sortDirections: ['ascend', 'descend', null],
+            filterMultiple: true,
+            listOfFilter: [
+              { text: 'Joe', value: 'Joe' },
+              { text: 'Jim', value: 'Jim', byDefault: true }
+            ],
+            filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
           {
-            id: "address_" + Guid.newGuid(),
-            label: "address",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Address",
-            name: "address",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
+            name: 'Age',
+            sortOrder: 'descend',
+            sortFn: (a: any, b: any) => a.age - b.age,
+            sortDirections: ['descend', null],
+            listOfFilter: [],
+            filterFn: null,
+            filterMultiple: true
           },
+          {
+            name: 'Address',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: any, b: any) => a.address.length - b.address.length,
+            filterMultiple: false,
+            listOfFilter: [
+              { text: 'London', value: 'London' },
+              { text: 'Sidney', value: 'Sidney' }
+            ],
+            filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
+          }
         ],
-        rowData: [
+        tableData: [
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 1,
-            name: "Sebastian",
-            salary: 100,
+            name: 'John Brown',
+            age: 32,
+            address: 'New York No. 1 Lake Park'
           },
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 2,
-            name: "Sebastian",
-            salary: 200,
+            name: 'Jim Green',
+            age: 42,
+            address: 'London No. 1 Lake Park'
           },
           {
-            father_name: "baby_ruth",
-            address: "FSD",
             id: 3,
-            name: "Sebastian",
-            salary: 300,
+            name: 'Joe Black',
+            age: 32,
+            address: 'Sidney No. 1 Lake Park'
           },
+          {
+            id: 4,
+            name: 'Jim Red',
+            age: 32,
+            address: 'London No. 2 Lake Park'
+          }
         ],
-        columnData: [],
-        icon: [],
+        children: []
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -3316,12 +3727,12 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-    
-    if(node.origin){
+
+    if (node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
-    
+
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -3419,7 +3830,12 @@ export class BuilderComponent implements OnInit {
   };
 
 
+  
+  
+  
   clickButton(type: any) {
+
+    debugger
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -3442,6 +3858,10 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
+        break;
+      case "gridList":
+        configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.gridNameFields;
         break;
 
       case "skeleton":
@@ -3609,6 +4029,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "browserCard":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.browserChartFields;
         break;
@@ -3706,6 +4127,7 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search")
@@ -3742,7 +4164,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
       case "gridName":
-
+        debugger
         break;
       case "page":
         configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
@@ -4261,21 +4683,7 @@ export class BuilderComponent implements OnInit {
   }
   clickBack() {
 
-    this.nodes = JSON.parse(
-      JSON.stringify(this.nodes, (key, value) => {
-        if (typeof value == 'function') {
-          return value.toString();
-        } else {
-          return value;
-        }
-      }), (key, value) => {
-        // if (typeof value != 'string') return value;
-        // return (value.substring(0, 8) == 'function') ? eval('(' + value + ')') : value;
-        if (typeof value === 'string' && value.startsWith('(')) {
-          return eval(`(${value})`);
-        }
-        return value;
-      });
+    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
     // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
     // this.prepareDragDrop(this.templateNode, this.selectedNode);
     // this.makeFaker();
@@ -4293,6 +4701,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
+    debugger
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -4411,6 +4820,7 @@ export class BuilderComponent implements OnInit {
       case 'date':
       case 'color':
         if (this.selectedNode) {
+          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -4434,6 +4844,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonLeft'].text = event.form.addonLeft;
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['readonly'] = event.form.readonly;
             templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
             if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
               const arr = event.form.defaultValue.split(',');
@@ -4686,7 +5097,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "grid":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.label = event.form.header,
             this.selectedNode.editorType = event.form.editorType,
@@ -4749,7 +5160,7 @@ export class BuilderComponent implements OnInit {
 
       case "gridName":
         if (this.selectedNode) {
-
+          debugger
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.className = event.form.className;
           this.selectedNode.sortable = event.form.sortable;
@@ -5110,8 +5521,8 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "browserChart":
-
+      case "browserCard":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5863,6 +6274,7 @@ export class BuilderComponent implements OnInit {
 
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
           this.selectedNode.alertConfig[0].icon = event.form.icon;
@@ -6041,6 +6453,31 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.children.push(res)
       // this.updateNodes();
     }));
+  }
+
+  jsonStringify(data: any) {
+    return JSON.stringify(data)
+  }
+  jsonStringifyWithObject(data: any) {
+    return JSON.stringify(data, function (key, value) {
+      if (typeof value == 'function') {
+        return value.toString();
+      } else {
+        return value;
+      }
+    }) || '{}'
+  }
+  jsonParse(data: any) {
+    return JSON.parse(data)
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(
+      data, (key, value) => {
+        if (typeof value === 'string' && value.startsWith('(')) {
+          return eval(`(${value})`);
+        }
+        return value;
+      });
   }
 }
 

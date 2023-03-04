@@ -2,6 +2,7 @@ import { GenaricFeild } from './../../models/genaricFeild.modal';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'app-generic-field',
@@ -20,14 +21,16 @@ export class GenericFieldComponent implements OnInit {
     { productName: "Apple", quantity: 1 }
   ]
 
-  constructor(private toastr: NzMessageService) { }
+  constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService) { }
   ngOnInit(): void {
-
     this.itemData;
   }
   actionform = new FormGroup({});
+  onSubmitV1(e: any) {
+    debugger
+  }
   onSubmit() {
-
+    debugger
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
     // this.publicList.push(newProduct);
@@ -38,10 +41,11 @@ export class GenericFieldComponent implements OnInit {
     }
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
+      currentData["tableDta"] = this._dataSharedService.getData();
       this.notify.emit(currentData);
     }
-    else{
-      this.toastr.error('In key no space allow, only underscore allow and lowercase', { nzDuration: 3000});
+    else {
+      this.toastr.error('In key no space allow, only underscore allow and lowercase', { nzDuration: 3000 });
     }
   }
 }
