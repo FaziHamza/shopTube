@@ -95,7 +95,7 @@
         </ng-template>
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -103,7 +103,7 @@
         </ng-template>
         <ng-template #thirteenth>
             <ng-container *ngIf="item.type =='linkButton'; else forteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}"*ngIf="!item.hideExpression" >
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>

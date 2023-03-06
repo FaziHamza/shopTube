@@ -179,48 +179,41 @@ export class formFeildData {
             options: [
               {
                 label: 'White',
-                value: 'btn btn-light'
+                value: 'bg-white-600'
               },
               {
                 label: 'Blue',
-                value: 'btn btn-primary'
+                value: 'bg-blue-600'
               },
               {
                 label: 'Grey',
-                value: 'btn btn-secondary'
+                value: 'bg-gray-600'
               },
               {
                 label: 'Red',
-                value: 'btn btn-danger'
+                value: 'bg-red-600'
               },
               {
                 label: 'Green',
-                value: 'btn btn-success'
+                value: 'bg-green-600'
               },
               {
                 label: 'Light Blue',
-                value: 'btn btn-info'
+                value: 'bg-blue-200'
               },
               {
                 label: 'Yellow',
-                value: 'btn btn-warning'
+                value: 'bg-yellow-600'
               },
               {
                 label: 'Purple',
-                value: 'btn btn-purple'
+                value: 'bg-purple-600'
               },
               {
                 label: 'Black',
-                value: 'btn btn-dark'
+                value: 'bg-black-600'
               },
-              {
-                label: 'Blue-Outine',
-                value: 'btn btn-outline-primary'
-              },
-              {
-                label: 'Blue-Soft',
-                value: 'btn btn-soft-primary'
-              },
+             
             ]
           },
         },
@@ -391,52 +384,41 @@ export class formFeildData {
             options: [
               {
                 label: 'White',
-                value: 'btn btn-light'
+                value: 'bg-white-600'
               },
               {
-                label: 'Primary',
-                value: 'btn btn-primary'
+                label: 'Blue',
+                value: 'bg-blue-600'
               },
               {
-                label: 'Secondary',
-                value: 'btn btn-secondary'
+                label: 'Grey',
+                value: 'bg-gray-600'
               },
               {
-                label: 'Danger',
-                value: 'btn btn-danger'
+                label: 'Red',
+                value: 'bg-red-600'
               },
               {
-                label: 'Success',
-                value: 'btn btn-success'
+                label: 'Green',
+                value: 'bg-green-600'
               },
               {
-                label: 'Info',
-                value: 'btn btn-info'
+                label: 'Light Blue',
+                value: 'bg-blue-200'
               },
               {
-                label: 'Warning',
-                value: 'btn btn-warning'
+                label: 'Yellow',
+                value: 'bg-yellow-600'
               },
               {
                 label: 'Purple',
-                value: 'btn btn-purple'
+                value: 'bg-purple-600'
               },
               {
-                label: 'Dark',
-                value: 'btn btn-dark'
+                label: 'Black',
+                value: 'bg-black-600'
               },
-              {
-                label: 'primary-Outine',
-                value: 'btn btn-outline-primary'
-              },
-              {
-                label: 'primary-Soft',
-                value: 'btn btn-soft-primary'
-              },
-              {
-                label: 'Link',
-                value: 'btn btn-link'
-              },
+             
             ]
           },
         },
@@ -485,15 +467,15 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
 
-        {
-          key: 'title',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Button Text'
-          }
-        },
+        // {
+        //   key: 'title',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Button Text'
+        //   }
+        // },
 
         {
           key: 'target',
@@ -512,24 +494,23 @@ export class formFeildData {
                 value: ''
               },
               {
-                label: 'Modal Small',
-                value: 'sm'
+                label: 'Modal',
+                value: 'modal'
               },
-              {
-                label: 'Modal Large',
-                value: 'lg'
-              },
-              {
-                label: 'Modal Extra Large',
-                value: 'xl'
-              },
-              {
-                label: 'Modal Fullscreen',
-                value: 'fullscreen'
-              },
+              // {
+              //   label: 'Modal Large',
+              //   value: 'lg'
+              // },
+              // {
+              //   label: 'Modal Extra Large',
+              //   value: 'xl'
+              // },
+              // {
+              //   label: 'Modal Fullscreen',
+              //   value: 'fullscreen'
+              // },
             ]
           },
-          defaultValue: '_blank'
         },
         {
           key: 'color',
@@ -541,55 +522,44 @@ export class formFeildData {
             options: [
               {
                 label: 'White',
-                value: 'btn btn-light'
+                value: 'bg-white-600'
               },
               {
                 label: 'Blue',
-                value: 'btn btn-primary'
+                value: 'bg-blue-600'
               },
               {
                 label: 'Grey',
-                value: 'btn btn-secondary'
+                value: 'bg-gray-600'
               },
               {
                 label: 'Red',
-                value: 'btn btn-danger'
+                value: 'bg-red-600'
               },
               {
                 label: 'Green',
-                value: 'btn btn-success'
+                value: 'bg-green-600'
               },
               {
                 label: 'Light Blue',
-                value: 'btn btn-info'
+                value: 'bg-blue-200'
               },
               {
                 label: 'Yellow',
-                value: 'btn btn-warning'
+                value: 'bg-yellow-600'
               },
               {
                 label: 'Purple',
-                value: 'btn btn-purple'
+                value: 'bg-purple-600'
               },
               {
                 label: 'Black',
-                value: 'btn btn-dark'
+                value: 'bg-black-600'
               },
-              {
-                label: 'Blue-Outine',
-                value: 'btn btn-outline-primary'
-              },
-              {
-                label: 'Blue-Soft',
-                value: 'btn btn-soft-primary'
-              },
-              {
-                label: 'Link',
-                value: 'btn btn-link'
-              },
+             
             ]
           },
-          defaultValue: 'btn btn-primary'
+          defaultValue: 'bg-blue-200'
         },
         {
           key: 'format',
@@ -6430,8 +6400,9 @@ export class formFeildData {
   ]
   affixFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+
         {
           key: 'affixType',
           type: 'select',
@@ -6439,6 +6410,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Affix Type',
+            className: "w-1/4 px-1",
             options: [
               {
                 label: 'Affix Top',
@@ -6474,7 +6446,7 @@ export class formFeildData {
   ]
   avatarFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "w-1/4 px-1",
@@ -6545,6 +6517,40 @@ export class formFeildData {
       ]
     },
   ];
+  backtopFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'visibleafter',
+          type: 'number',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Visible After',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'target',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Target',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'duration',
+          type: 'number',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Duration',
+          }
+        },
+      ]
+    }
+  ]
   commentFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "row",

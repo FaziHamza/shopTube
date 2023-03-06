@@ -12,6 +12,7 @@ import { actionTypeFeild, formFeildData } from './configurations/configuration.m
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 
+
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
@@ -999,7 +1000,6 @@ export class BuilderComponent implements OnInit {
         id: 'common_' + Guid.newGuid(),
         key: "insert" + Guid.newGuid(),
         hideExpression: false,
-        tooltip: "",
         title: 'insert_1',
         type: "button",
         actionType: "insert",
@@ -1008,12 +1008,15 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         btnConfig: [
           {
-            color: "btn btn-success",
+            color: "bg-blue-600",
             type: "insert",
-            btnIcon: "uil uil-user",
+            btnIcon: "upload",
+            tooltip: "button",
+            btntitle: 'insert_1',
+
             // format: "text-left",
-            btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            disabled: false,
+           
           },
         ],
         children: [
@@ -1035,9 +1038,10 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         btnConfig: [
           {
-            color: "btn btn-success",
+            color: "bg-green-600",
             type: "dropdown",
-            btnIcon: "uil uil-user",
+            btnIcon: "down",
+            btntitle:'dropdownButton_1',
             // format: "text-left",
             btnDisables: false,
             disabled: this.getLastNodeWrapper("disabled"),
@@ -1082,7 +1086,7 @@ export class BuilderComponent implements OnInit {
         btnConfig: [
           {
             color: "btn btn-primary",
-            btnIcon: "uil uil-user",
+            btnIcon: "redo",
             type: "update",
             // format: "text-left",
             btnDisables: false,
@@ -1110,7 +1114,7 @@ export class BuilderComponent implements OnInit {
         btnConfig: [
           {
             color: "btn btn-danger",
-            btnIcon: "uil uil-user",
+            btnIcon: "delete",
             type: "delete",
             // format: "text-left",
             btnDisables: false,
@@ -1525,20 +1529,15 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/4",
         key: "button_" + Guid.newGuid(),
-
+        hideExpression: false,
         btnConfig: [
           {
-            hideExpression: false,
-            className: "m-2",
             tooltip: "",
-            key: "button_" + Guid.newGuid(),
-            type: "button",
-            color: "btn btn-primary",
+            color: "bg-blue-200",
             target: "_blank",
             btnType: "_blank",
-            title: "Link",
             href: "fazi",
-            format: "text-left",
+            // format: "text-left",
             btnIcon: "",
           },
         ],
@@ -2864,6 +2863,9 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         description: "Scroll down to see the bottom-right",
+        visibleafter:'',
+        target:'',
+        duration:'',
         children: [
         ],
       } as TreeNode;
@@ -3832,6 +3834,11 @@ export class BuilderComponent implements OnInit {
       case "affix":
         configObj = { ...configObj, ...this.clickButtonService.getAffixConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.affixFields;
+        break;
+      case "backTop":
+        debugger
+        configObj = { ...configObj, ...this.clickButtonService.getBacktopConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.backtopFields;
         break;
 
       case "avatar":
@@ -4832,6 +4839,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
+      case "backTop":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.target = event.form.target;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.visibleafter = event.form.visibleafter;
+          this.selectedNode.duration = event.form.duration;
+        }
+        break;
       case "avatar":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
@@ -5113,23 +5133,23 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "button":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
             this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
             this.selectedNode.btnConfig[0].className = event.form.className;
+            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+
             // this.selectedNode.btnConfig[0].format = event.form.format;
             this.selectedNode.btnConfig[0].disabled = event.form.disabled;
-            if (event.form.disabled) {
-              // this.selectedNode.btnConfig[0].btnDisables = this.form.valid;
-            } else
-              this.selectedNode.btnConfig[0].btnDisables = false;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+            
           }
         }
         break;
@@ -5162,22 +5182,21 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
+          this.selectedNode.title = event.form.title;
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
             this.selectedNode.btnConfig[0].key = event.form.key;
-            this.selectedNode.btnConfig[0].title = event.form.title;
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
             this.selectedNode.btnConfig[0].href = event.form.href;
             this.selectedNode.btnConfig[0].format = event.form.format;
             this.selectedNode.btnConfig[0].target = event.form.target;
             this.selectedNode.btnConfig[0].btnType = event.form.target;
             this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
               this.selectedNode.btnConfig[0].btnType = "modal";
             }
@@ -5189,9 +5208,10 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+
+          this.selectedNode.title = event.form.title;
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             this.selectedNode.btnConfig[0].title = event.form.title;
             this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
             this.selectedNode.btnConfig[0].color = event.form.color;

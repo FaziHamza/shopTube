@@ -21,6 +21,7 @@ export interface btnConfig {
   format?:string,
   btnDisables?:boolean;
   tooltip?: any;
+  btntitle?: any;
   btngroupformat?: string;
   btnGroupPosition?:string;
   disabled?:boolean;
