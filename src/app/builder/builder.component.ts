@@ -1087,7 +1087,7 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         btnConfig: [
           {
-            color: "btn btn-primary",
+            color: "",
             btnIcon: "redo",
             type: "update",
             // format: "text-left",
@@ -5175,7 +5175,6 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          // this.selectedNode.btnConfig[0].key = event.form.key
           this.selectedNode.label = event.form.title
           if (this.selectedNode && this.selectedNode.children) {
             this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
