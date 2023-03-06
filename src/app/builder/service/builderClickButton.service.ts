@@ -16,6 +16,9 @@ export class BuilderClickButtonService {
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
+  getBadgeConfig(node: any) {
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor };
+  }
 
   getEmptyConfig(node: any) {
     return { text: node.text, icon: node.icon, link: node.link, btnText: node.btnText, color: node.color, content: node.content };
@@ -506,7 +509,13 @@ export class BuilderClickButtonService {
   }
   getAccordionButtonConfig(node: any) {
     return {
-      color: node.accordionConfig[0].color,
+      title: node.title,
+      nzBordered: node.nzBordered,
+      nzGhost: node.nzGhost,
+      nzExpandIconPosition: node.nzExpandIconPosition,
+      nzDisabled: node.nzDisabled,
+      nzExpandedIcon: node.nzExpandedIcon,
+      nzShowArrow: node.nzShowArrow,
     }
   }
   getLinkButtonConfig(node: any) {

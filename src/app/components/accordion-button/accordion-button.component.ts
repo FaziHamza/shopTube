@@ -10,6 +10,7 @@ export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
   @Input() dataModel !: any;
   expandIconPosition: any = "left";
+  
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
 
@@ -30,5 +31,11 @@ export class AccordionButtonComponent implements OnInit {
   submit() {
     // this.commonChartService.submit();
     this.cd.detectChanges();
+  }
+  handleIndexChange(e: number): void {
+    console.log(e);
+  }
+  onClose(): void {
+    console.log('tag was closed.');
   }
 }

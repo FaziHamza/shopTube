@@ -2671,23 +2671,21 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'accordionButton_' + Guid.newGuid(),
         key: 'accordionButton_' + Guid.newGuid(),
-        title: 'accordionButton_1',
+        title: 'accordionButton',
         type: "accordionButton",
         highLight: false,
         isNextChild: true,
         className: "w-full",
         hideExpression: false,
-        accordionConfig: [
-          {
-            tooltip: "",
-            label: "Accordion",
-            color: "bg-primary",
-            accordionChild: [],
-          }
-        ],
+        tooltip: "",
+        nzBordered:true,
+        nzGhost:false,
+        nzExpandIconPosition:"left",
+        nzDisabled:false,
+        nzExpandedIcon:'',
+        nzShowArrow:true,
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -2980,7 +2978,10 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        numberOfBadges: 5,
+        nzCount:5,
+        nzText:"Success",
+        nzColor:"#2db7f5",
+        nzStatus:"success",
         children: [
         ],
       } as TreeNode;
@@ -3811,6 +3812,10 @@ export class BuilderComponent implements OnInit {
       case "skeleton":
         configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.skeletonFields;
+        break;
+      case "badge":
+        configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.badgeFields;
         break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
@@ -4684,6 +4689,17 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.avatarShape = event.form.avatarShape;
         }
         break;
+      case "badge":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.nzCount = event.form.nzCount;
+          this.selectedNode.nzText = event.form.nzText;
+          this.selectedNode.nzColor = event.form.nzColor;
+        }
+        break;
       case "empty":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -5208,11 +5224,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
-          if (this.selectedNode && this.selectedNode.accordionConfig) {
-            this.selectedNode.accordionConfig[0].label = event.form.title;
-            this.selectedNode.accordionConfig[0].color = event.form.color;
-            this.selectedNode.accordionConfig[0].tooltip = event.form.tooltip;
-          }
+          this.selectedNode.nzBordered = event.form.nzBordered;
+          this.selectedNode.nzGhost = event.form.nzGhost;
+          this.selectedNode.nzExpandIconPosition = event.form.nzExpandIconPosition;
+          this.selectedNode.nzDisabled = event.form.nzDisabled;
+          this.selectedNode.nzExpandedIcon = event.form.nzExpandedIcon;
+          this.selectedNode.nzShowArrow = event.form.nzShowArrow;
         }
         break;
       //Card Case
