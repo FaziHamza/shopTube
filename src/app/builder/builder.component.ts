@@ -12,12 +12,14 @@ import { actionTypeFeild, formFeildData } from './configurations/configuration.m
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 
+
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
+  
   public editorOptions: JsonEditorOptions;
 
   makeOptions = () => new JsonEditorOptions();
@@ -52,26 +54,16 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
 
-  tableData: any[];
-  tableHeaders: string[];
 
-  makeTableData() {
-    this.tableHeaders = ['ID', 'Name', 'Age'];
-    this.tableData = [
-      { id: 1, name: 'John', age: 25 },
-      { id: 2, name: 'Mary', age: 32 },
-      { id: 3, name: 'Steve', age: 18 },
-      { id: 4, name: 'Kate', age: 27 }
-    ];
 
-  }
+
 
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private clickButtonService: BuilderClickButtonService) {
-      this.editorOptions = new JsonEditorOptions()
-      this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+    this.editorOptions = new JsonEditorOptions()
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
@@ -86,7 +78,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-    this.makeTableData();
+    
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -946,11 +938,11 @@ export class BuilderComponent implements OnInit {
                     text: ''
                   },
                   addonRight: {
-                    text: ''
+                    text: '$1',
                   },
                   type: data?.fieldType,
                   labelPosition: "text-right",
-                  labelIcon: "",
+                  titleIcon: "",
                   label: data?.label,
                   placeholder: data?.label,
                   tooltip: "",
@@ -1010,7 +1002,6 @@ export class BuilderComponent implements OnInit {
         id: 'common_' + Guid.newGuid(),
         key: "insert" + Guid.newGuid(),
         hideExpression: false,
-        tooltip: "",
         title: 'insert_1',
         type: "button",
         actionType: "insert",
@@ -1019,12 +1010,15 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         btnConfig: [
           {
-            color: "btn btn-success",
+            color: "bg-blue-600",
             type: "insert",
-            btnIcon: "uil uil-user",
+            btnIcon: "upload",
+            tooltip: "",
+            btntitle: 'insert_1',
+
             // format: "text-left",
-            btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            disabled: false,
+           
           },
         ],
         children: [
@@ -1044,14 +1038,15 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
+        
         btnConfig: [
           {
-            color: "btn btn-success",
+            color: "bg-green-600",
             type: "dropdown",
-            btnIcon: "uil uil-user",
+            btnIcon: "down",
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'update_1',
             dropdownOptions: [
               {
                 label: "Option 1",
@@ -1092,12 +1087,13 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         btnConfig: [
           {
-            color: "btn btn-primary",
-            btnIcon: "uil uil-user",
+            color: "",
+            btnIcon: "redo",
             type: "update",
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'update_1',
+          
           },
         ],
         children: [
@@ -1121,11 +1117,11 @@ export class BuilderComponent implements OnInit {
         btnConfig: [
           {
             color: "btn btn-danger",
-            btnIcon: "uil uil-user",
+            btnIcon: "delete",
             type: "delete",
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'delete_1',
           },
         ],
         children: [
@@ -1353,17 +1349,21 @@ export class BuilderComponent implements OnInit {
         className: "w-full",
         hideExpression: false,
         key: "alert_" + Guid.newGuid(),
-        tooltip: "Alert",
         highLight: false,
         isNextChild: false,
         alertConfig: [
           {
             tooltip: "",
             alertColor: "alert alert-primary",
-            text: "This is a primary alert—check it out!",
-            icon: "uil uil-question-circle",
+            text: "This is an alert—check it out!",
+            icon: "",
             type: "",
             key: "alert_" + Guid.newGuid(),
+            alertType:'success',
+            banner:false,
+            showIcon:false,
+            closeable:false,
+            description:'',
           }
         ],
 
@@ -1532,21 +1532,17 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/4",
         key: "button_" + Guid.newGuid(),
-
+        hideExpression: false,
         btnConfig: [
           {
-            hideExpression: false,
-            className: "m-2",
             tooltip: "",
-            key: "button_" + Guid.newGuid(),
-            type: "button",
-            color: "btn btn-primary",
+            color: "bg-blue-200",
             target: "_blank",
             btnType: "_blank",
-            title: "Link",
             href: "fazi",
-            format: "text-left",
+            // format: "text-left",
             btnIcon: "",
+            btnTitle:"linkbutton_1",
           },
         ],
         children: [
@@ -2361,7 +2357,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'gridList') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
-        className:"w-full",
+        className: "w-full",
         title: 'Grid List' + '_1',
         type: 'gridList',
         link: '',
@@ -2370,7 +2366,27 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tableId: "gridList_" + Guid.newGuid(),
-        tableHeaders:[
+        nzFooter: "This is footer",
+        nzTitle: "This is Title",
+        nzPaginationPosition: "bottom",
+        nzPaginationType: "default",
+        nzLoading: false,
+        nzFrontPagination: true,
+        nzShowPagination: true,
+        nzBordered: false,
+        showColumnHeader: true,
+        noResult: false,
+        nzSimple: false,
+        nzSize: 'default',
+        nzShowSizeChanger: false,
+        showCheckbox: true,
+        expandable: true,
+        fixHeader: false,
+        tableScroll: false,
+        fixedColumn: false,
+        sort: true,
+        filter: true,
+        tableHeaders: [
           {
             name: 'Id',
             sortOrder: null,
@@ -2422,25 +2438,37 @@ export class BuilderComponent implements OnInit {
             id: 1,
             name: 'John Brown',
             age: 32,
-            address: 'New York No. 1 Lake Park'
+            address: 'New York No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 2,
             name: 'Jim Green',
             age: 42,
-            address: 'London No. 1 Lake Park'
+            address: 'London No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 3,
             name: 'Joe Black',
             age: 32,
-            address: 'Sidney No. 1 Lake Park'
+            address: 'Sidney No. 1 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           },
           {
             id: 4,
             name: 'Jim Red',
             age: 32,
-            address: 'London No. 2 Lake Park'
+            address: 'London No. 2 Lake Park',
+            description: 'My name is John Brown, I am 2 years old, living in New York No',
+            checked: false,
+            expand: false
           }
         ],
         children: []
@@ -2562,89 +2590,6 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'gridListEditDelete') {
-      const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        title: 'Grid List' + '_1',
-        type: 'gridListEditDelete',
-        link: '',
-        key: "gridListEditDelete_" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "Grid List Editable",
-        forCommomComponentCondition: 'gridListEditDelete',
-        pagination: 10,
-        filter: false,
-        sortable: false,
-        children: [
-          {
-            id: "name_" + Guid.newGuid(),
-            label: "name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Name",
-            name: "name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-          {
-            id: "father_name_" + Guid.newGuid(),
-            label: "father_name",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Father Name",
-            name: "father_name",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-          {
-            id: "address_" + Guid.newGuid(),
-            label: "address",
-            type: "input",
-            editor: { type: 'text' },
-            header: "Address",
-            name: "address",
-            sortingType: "desc",
-            sortable: false,
-            showColumn: true,
-            editorType: true,
-            children: []
-          },
-        ],
-        rowData: [
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 1,
-            name: "Sebastian",
-            salary: 100,
-          },
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 2,
-            name: "Sebastian",
-            salary: 200,
-          },
-          {
-            father_name: "baby_ruth",
-            address: "FSD",
-            id: 3,
-            name: "Sebastian",
-            salary: 300,
-          },
-        ],
-        columnData: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
     else if (value == 'column') {
       const newNode = {
         id: "Column " + Math.random().toFixed(3),
@@ -2727,23 +2672,21 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'accordionButton_' + Guid.newGuid(),
         key: 'accordionButton_' + Guid.newGuid(),
-        title: 'accordionButton_1',
+        title: 'accordionButton',
         type: "accordionButton",
         highLight: false,
         isNextChild: true,
         className: "w-full",
         hideExpression: false,
-        accordionConfig: [
-          {
-            tooltip: "",
-            label: "Accordion",
-            color: "bg-primary",
-            accordionChild: [],
-          }
-        ],
+        tooltip: "",
+        nzBordered:true,
+        nzGhost:false,
+        nzExpandIconPosition:"left",
+        nzDisabled:false,
+        nzExpandedIcon:'',
+        nzShowArrow:true,
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -2922,6 +2865,9 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         description: "Scroll down to see the bottom-right",
+        visibleafter:'',
+        target:'',
+        duration:'',
         children: [
         ],
       } as TreeNode;
@@ -3036,7 +2982,10 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        numberOfBadges: 5,
+        nzCount:5,
+        nzText:"Success",
+        nzColor:"#2db7f5",
+        nzStatus:"success",
         children: [
         ],
       } as TreeNode;
@@ -3830,9 +3779,9 @@ export class BuilderComponent implements OnInit {
   };
 
 
-  
-  
-  
+
+
+
   clickButton(type: any) {
 
     debugger
@@ -3861,12 +3810,16 @@ export class BuilderComponent implements OnInit {
         break;
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.gridNameFields;
+        this.fieldData.formData = _formFieldData.gridFields;
         break;
 
       case "skeleton":
         configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.skeletonFields;
+        break;
+      case "badge":
+        configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.badgeFields;
         break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
@@ -3890,6 +3843,11 @@ export class BuilderComponent implements OnInit {
       case "affix":
         configObj = { ...configObj, ...this.clickButtonService.getAffixConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.affixFields;
+        break;
+      case "backTop":
+        debugger
+        configObj = { ...configObj, ...this.clickButtonService.getBacktopConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.backtopFields;
         break;
 
       case "avatar":
@@ -4740,6 +4698,17 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.avatarShape = event.form.avatarShape;
         }
         break;
+      case "badge":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.nzCount = event.form.nzCount;
+          this.selectedNode.nzText = event.form.nzText;
+          this.selectedNode.nzColor = event.form.nzColor;
+        }
+        break;
       case "empty":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -4827,31 +4796,30 @@ export class BuilderComponent implements OnInit {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
+            fieldGroup[0].defaultValue = event.form.defaultValue;
+            fieldGroup[0].hideExpression = event.form.hideExpression;
             const templateOptions = fieldGroup[0]?.templateOptions ?? {};
-
             templateOptions.label = event.form.title;
             templateOptions['key'] = event.form.key;
-            templateOptions['defaultValue'] = event.form.defaultValue;
             templateOptions['className'] = event.form.className;
             templateOptions['hideExpression'] = event.form.hideExpression;
             templateOptions.placeholder = event.form.placeholder;
             // templateOptions['className'] = event.form.className;
-            templateOptions['options'] = event.form.options;
+            templateOptions['options'] = event.tableDta;
             templateOptions['required'] = event.form.required;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
-            templateOptions['labelIcon'] = event.form.labelIcon;
+            templateOptions['titleIcon'] = event.form.titleIcon;
             templateOptions['addonLeft'].text = event.form.addonLeft;
             templateOptions['addonRight'].text = event.form.addonRight;
-            templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['readonly'] = event.form.readonly;
-            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
-            if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
-              const arr = event.form.defaultValue.split(',');
-              templateOptions['defaultValue'] = arr;
-            } else {
-              templateOptions['defaultValue'] = event.form.defaultValue;
-            }
+            templateOptions['options'] = event.form.tableDta;
+
+            // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
+            //   const arr = event.form.defaultValue.split(',');
+            //   templateOptions['defaultValue'] = arr;
+            // } else {
+            // }
             if (event.form.apiData) {
               this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
@@ -4859,7 +4827,7 @@ export class BuilderComponent implements OnInit {
                 templateOptions.options = res;
               })
             } else {
-              templateOptions.options = event.form.options;
+              templateOptions.options = event.form.tableDta;
             }
           });
           if (event.form.multiselect) {
@@ -4888,6 +4856,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.margin = event.form.margin;
           this.selectedNode.target = event.form.target;
           this.selectedNode.hideExpression = event.form.hideExpression;
+        }
+        break;
+      case "backTop":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.target = event.form.target;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.visibleafter = event.form.visibleafter;
+          this.selectedNode.duration = event.form.duration;
         }
         break;
       case "avatar":
@@ -5073,7 +5054,6 @@ export class BuilderComponent implements OnInit {
             const fieldGroup = formly.fieldGroup ?? [];
             const templateOptions = fieldGroup[0]?.templateOptions ?? {};
             templateOptions['key'] = event.form.key;
-
             templateOptions.label = event.form.title;
             templateOptions.focus = event.form.focus;
             templateOptions['hideExpression'] = event.form.hideExpression;
@@ -5096,198 +5076,99 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
         }
         break;
-      case "grid":
+      case "gridList":
         debugger
         if (this.selectedNode.id) {
-          this.selectedNode.label = event.form.header,
-            this.selectedNode.editorType = event.form.editorType,
-            this.selectedNode.sortable = event.form.sortable,
-            this.selectedNode.filter = event.form.filter;
-          this.selectedNode.header = event.form.header;
-          if (event.form?.sortable) {
-            this.selectedNode.sortingType = "desc";
-            this.selectedNode.sortable = true;
-          }
-          else {
-            delete this.selectedNode.sortingType;
-            delete this.selectedNode.sortable;
-          }
-
-          if (event.form.filter) {
-            this.selectedNode['filter'] = {};
-            this.selectedNode.filter["type"] = {};
-            this.selectedNode.filter.type = event.form?.filterType;
-            if (event.form.filterType != "select") {
-              this.selectedNode.filter.operator = "OR"
-              this.selectedNode.filter.showApplyBtn = true;
-              this.selectedNode.filter.showClearBtn = true;
-            }
-          } else {
-            delete this.selectedNode.filter;
-          }
-          if (event.form.editorType) {
-            this.selectedNode.editorType = event.form.editorType;
-            if (event.form.fieldType == "text" || event.form.fieldType == "number") {
-              this.selectedNode["editor"] = {};
-              this.selectedNode.editor["type"] = {};
-              this.selectedNode.editor.type = event.form.fieldType
-            };
-            if (event.form.fieldType == "select" || event.form.fieldType == "radio" || event.form.fieldType == "checkbox") {
-              if (event.form.options.length > 0) {
-                this.selectedNode['editor'] = {};
-                this.selectedNode.editor['type'];
-                this.selectedNode.editor.type = event.form.fieldType;
-                this.selectedNode.editor['options'] = {};
-                this.selectedNode.editor.options['listItems'] = [];
-                this.selectedNode['formatter'] = {}
-                this.selectedNode.formatter = "listItemText";
-                this.selectedNode.editor.options.listItems = event.form.options;
-              } else {
-                this.selectedNode.editor.type = event.form.fieldType;
-              }
-            }
-          }
-          else if (this.selectedNode.editor.options && event.form.options.length > 0) {
-            this.selectedNode.editor.options.listItems = event.form.options;
-          }
-          this.selectdParentNode.columnData.forEach((element: any) => {
-            if (element.id == this.selectedNode.id) {
-              element = this.selectedNode;
-            }
-          });
-        }
-        break;
-
-      case "gridName":
-        if (this.selectedNode) {
-          debugger
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.sortable = event.form.sortable;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.label = event.form.gridName;
-          this.selectedNode.pagination = event.form.pagination;
-          this.selectedNode.filter = event.form.filter;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.id = event.form.id;
-          // this.selectedNode.getVariable = event?.form?.getVariable,
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.delete = event.form.delete;
-          this.selectedNode.update = event.form.update;
-          this.selectedNode.create = event.form.create;
-          this.selectedNode['deleteapi'] = event.form.deleteapi;
-          this.selectedNode.columnData.forEach((a: any) => {
-            if (event.form?.sortable) {
-              a.sortingType = "desc";
-              a.sortable = true;
-            }
-            else {
-              delete a?.sortingType;
-              delete a?.sortable;
-            }
-            if (event.form.filter) {
-              a['filter'] = {};
-              a.filter.type = "select";
-              // a.filter.type = event.form?.filterType;
-              if (event.form.filterType != "select") {
-                a.filter.operator = "OR"
-                a.filter.showApplyBtn = true;
-                a.filter.showClearBtn = true;
-              }
-            } else {
-              delete a.filter;
-            }
-          });
-          let newColumnData: any = [];
-          let data = JSON.parse(JSON.stringify(event.form.options))
-          for (let element = 0; element < data.length; element++) {
-            for (let index = 0; index < this.selectedNode.columnData.length; index++) {
-              if (data[element].id) {
-                if (this.selectedNode.columnData[index].id == data[element].id) {
-                  this.selectedNode.columnData[index].label = data[element].header;
-                  this.selectedNode.columnData[index].name = data[element].name;
-                  this.selectedNode.columnData[index].header = data[element].header;
-                  this.selectedNode.columnData[index].showColumn = data[element].showColumn;
-                  this.selectedNode.columnData[index].sumColumn = data[element].sumColumn;
-                  this.selectedNode.columnData[index]["api"] = data[element].api;
-                  newColumnData.push(this.selectedNode.columnData[index]);
-                }
-              }
-              else {
-                data[element]["id"] = data[element].name + "_" + Guid.newGuid();
-                data[element]["children"] = [];
-                data[element]["type"] = "input";
-                data[element]["label"] = data[element].name;
-                newColumnData.push(data[element]);
-              }
-            }
-          }
-          this.selectedNode.columnData = newColumnData;
-          this.selectedNode.children = this.selectedNode.columnData;
-          if (event.form?.link != null) {
-            this.selectedNode.columnData = [];
-            this.builderService.genericApis(event.form?.link).subscribe((res => {
-              this.selectedNode.children = res[0].columnData;
-              res[0].columnData.forEach((element: any) => {
-                element["id"] = element.name + "_" + Guid.newGuid();
-                this.selectedNode.columnData.push(element);
-
-              });
-              this.selectedNode.rowData = res[0].rowData;
-              this.selectedNode.columnData.forEach((a: any) => {
-                if (event.form?.sortable) {
-                  a.sortingType = "desc";
-                  a.sortable = true;
-                }
-                else {
-                  delete a?.sortingType;
-                  delete a?.sortable;
-                }
-                if (event.form.filter) {
-                  a['filter'] = {};
-                  a.filter.type = "select";
-                  a.filter.type = event.form?.filterType;
-                  if (event.form.filterType != "select") {
-                    a.filter.operator = "OR"
-                    a.filter.showApplyBtn = true;
-                    a.filter.showClearBtn = true;
-                  }
-                } else {
-                  delete a.filter;
-                }
-              });
-              this.updateNodes();
-            }))
-            // this.GridView(event.form.link);
-          }
-        }
-
-
-        break;
-
-      case "gridNameAction":
-        this.selectedNode.link = event.form.APIList;
-        // this.GridView(event.form.APIList);
-        break;
-
-      case "button":
-        if (this.selectedNode) {
+          this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
           this.selectedNode.label = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.nzTitle = event.form.nzTitle;
+          this.selectedNode.nzBordered = event.form.nzBordered;
+          this.selectedNode.nzFooter = event.form.nzFooter;
+          this.selectedNode.nzLoading = event.form.nzLoading;
+          this.selectedNode.nzPaginationType = event.form.nzPaginationType;
+          this.selectedNode.nzPaginationPosition = event.form.nzPaginationPosition;
+          this.selectedNode.nzFrontPagination = event.form.nzShowPagination;
+          this.selectedNode.nzShowPagination = event.form.nzShowPagination;
+          this.selectedNode.showColumnHeader = event.form.showColumnHeader;
+          this.selectedNode.noResult = event.form.noResult;
+          this.selectedNode.nzSimple = event.form.nzSimple;
+          this.selectedNode.nzSize = event.form.nzSize;
+          this.selectedNode.nzShowSizeChanger = event.form.nzShowSizeChanger;
+          this.selectedNode.showCheckbox = event.form.showCheckbox;
+          this.selectedNode.expandable = event.form.expandable;
+          this.selectedNode.fixHeader = event.form.fixHeader;
+          this.selectedNode.tableScroll = event.form.tableScroll;
+          this.selectedNode.fixedColumn = event.form.fixedColumn;
+          if(event.form.api){
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+            this.selectedNode.tableData = res.tableData;
+            this.selectedNode.tableHeaders = res.tableHeaders;
+            }))
+          }
+          if(this.selectedNode.noResult){
+            if(this.selectedNode.tableData.length >0){
+            this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
+            }
+            this.selectedNode.tableData = []
+          }else{
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
+          }
+          // this.selectedNode.sort = event.form.sort;
+          // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
+          // const key = firstObjectKeys.map(key => ({ name: key }));
+          // if (this.selectedNode.sort) {
+          //   key.forEach((j: any) => {
+          //     this.selectedNode.tableHeaders.forEach((i: any) => {
+          //       if (i.name.toLowerCase() == j.name.toLowerCase()) {
+          //         i['sortOrder'] = null;
+          //         i['sortFn'] = (a: any, b: any) => {
+          //           Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //           Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //           const result = a.dynamicProp - b.dynamicProp;
+          //           delete a.dynamicProp;
+          //           delete b.dynamicProp;
+          //           return result;
+          //         };
+          //         // i['sortFn'] = (a: any, b: any) => {
+          //         //   Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
+          //         //   Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
+          //         //   const result = a.dynamicProp.localeCompare(b.dynamicProp);
+          //         //   delete a.dynamicProp;
+          //         //   delete b.dynamicProp;
+          //         //   return result;
+          //         // };
+          //         i['sortDirections'] = ['ascend', 'descend', null]
+          //       }
+          //     });
+          //   });
+          // }
+
+
+        }
+        break;
+
+      case "button":
+        debugger
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
             this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
             this.selectedNode.btnConfig[0].className = event.form.className;
+            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+
             // this.selectedNode.btnConfig[0].format = event.form.format;
             this.selectedNode.btnConfig[0].disabled = event.form.disabled;
-            if (event.form.disabled) {
-              // this.selectedNode.btnConfig[0].btnDisables = this.form.valid;
-            } else
-              this.selectedNode.btnConfig[0].btnDisables = false;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
+            
           }
         }
         break;
@@ -5296,7 +5177,6 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          // this.selectedNode.btnConfig[0].key = event.form.key
           this.selectedNode.label = event.form.title
           if (this.selectedNode && this.selectedNode.children) {
             this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
@@ -5320,22 +5200,21 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
+          this.selectedNode.title = event.form.title;
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
             this.selectedNode.btnConfig[0].key = event.form.key;
-            this.selectedNode.btnConfig[0].title = event.form.title;
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
             this.selectedNode.btnConfig[0].href = event.form.href;
             this.selectedNode.btnConfig[0].format = event.form.format;
             this.selectedNode.btnConfig[0].target = event.form.target;
             this.selectedNode.btnConfig[0].btnType = event.form.target;
             this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
               this.selectedNode.btnConfig[0].btnType = "modal";
             }
@@ -5347,15 +5226,16 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+
+          this.selectedNode.title = event.form.title;
           if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].hideExpression = event.form.hideExpression;
             this.selectedNode.btnConfig[0].title = event.form.title;
             this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
             this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].dropdownOptions = event.form.options;
+            this.selectedNode.btnConfig[0].dropdownOptions = event.form.tableDta;
           }
         }
         break;
@@ -5365,11 +5245,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
-          if (this.selectedNode && this.selectedNode.accordionConfig) {
-            this.selectedNode.accordionConfig[0].label = event.form.title;
-            this.selectedNode.accordionConfig[0].color = event.form.color;
-            this.selectedNode.accordionConfig[0].tooltip = event.form.tooltip;
-          }
+          this.selectedNode.nzBordered = event.form.nzBordered;
+          this.selectedNode.nzGhost = event.form.nzGhost;
+          this.selectedNode.nzExpandIconPosition = event.form.nzExpandIconPosition;
+          this.selectedNode.nzDisabled = event.form.nzDisabled;
+          this.selectedNode.nzExpandedIcon = event.form.nzExpandedIcon;
+          this.selectedNode.nzShowArrow = event.form.nzShowArrow;
         }
         break;
       //Card Case
@@ -6282,6 +6163,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.alertConfig[0].type = event.form.type;
           this.selectedNode.alertConfig[0].text = event.form.text;
           this.selectedNode.alertConfig[0].alertColor = event.form.alertColor;
+          this.selectedNode.alertConfig[0].alertType = event.form.alertType;
+          this.selectedNode.alertConfig[0].banner = event.form.banner;
+          this.selectedNode.alertConfig[0].showIcon = event.form.showIcon;
+          this.selectedNode.alertConfig[0].closeable = event.form.closeable;
+          this.selectedNode.alertConfig[0].description = event.form.description;
+          this.selectedNode.alertConfig[0].closeText = event.form.closeText;
+          this.selectedNode.alertConfig[0].iconType = event.form.iconType;
+          this.selectedNode.alertConfig[0].action = event.form.action;
           this.updateNodes()
         }
         break;

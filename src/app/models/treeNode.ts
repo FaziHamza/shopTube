@@ -25,6 +25,10 @@ export interface TreeNode {
   isNextChild?: boolean;
   padding?: any;
   hideExpression?: boolean;
+  nzCount?: any;
+  nzText?: any;
+  nzColor?: any;
+  visibleafter?: any;
   paddingLeft?: any;
   tableId?: any;
   paddingRight?: any;
@@ -72,8 +76,20 @@ export interface TreeNode {
   screenVariables?: any[];
   sectionDisabled?: string;
   position?: string,
-
   header?: any;
+  noResult?: any;
+  nzSimple?: any;
+  nzSize?: any;
+  nzShowSizeChanger?: any;
+  showCheckbox?: any;
+  fixHeader?: any;
+  tableScroll?: any;
+  fixedColumn?: any;
+  sort?: any;
+  tableHeaders?: any;
+  tableNoResultArray?: any;
+  expandable?: any;
+  tableData?: any;
   name?: any;
   sortingType?: any;
   showColumn?: any;
@@ -206,6 +222,20 @@ export interface TreeNode {
   subItems?: any;
   menuData?: any;
   key?: any;
+  nzTitle?: any;
+  nzGhost?: any;
+  nzExpandIconPosition?: any;
+  nzDisabled?: any;
+  nzExpandedIcon?: any;
+  nzShowArrow?: any;
+  nzBordered?: any;
+  nzFooter?: any;
+  nzLoading?: any;
+  nzPaginationType?: any;
+  nzPaginationPosition?: any;
+  nzFrontPagination?: any;
+  nzShowPagination?: any;
+  showColumnHeader?: any;
   pattern?: any;
   emailTypeAllow?: any;
   refrance?: string;

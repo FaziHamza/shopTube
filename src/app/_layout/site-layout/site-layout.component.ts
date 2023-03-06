@@ -27,14 +27,14 @@ export class SiteLayoutComponent implements OnInit {
   isTwoColumnCollapsed = false;
   selectedTheme = {
     layout: 'vertical',
-    colorScheme: '',
-    layoutWidth: '',
-    layoutPosition: '',
-    topBarColor: '',
-    sideBarSize: '',
-    siderBarView: '',
-    sieBarColor: '',
-    siderBarImages: 'blankImage',
+    colorScheme: 'light',
+    layoutWidth: 'fluid',
+    layoutPosition: 'fixed',
+    topBarColor: 'light',
+    sideBarSize: 'default',
+    siderBarView: 'sidebarViewDefault',
+    sieBarColor: 'light',
+    siderBarImages: '',
   }
   constructor(private employeeService: EmployeeService) { }
 

@@ -21,41 +21,13 @@ export class BlockButtonsCardComponent {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService,
   ) { }
   ngOnInit(): void {
-
-    this.url = window.location.origin;
-
+    debugger
     this.softIconList
+    this.url = window.location.origin;
   }
 
-  centerModal(dataModal: any, href: string, size: string) {
-    // this.dataSrc = href.split('/')[5]
-    this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
 
-      if (res.length > 0) {
-        this.isShow = true;
-        this.nodes = res[0].menuData;
-        this.open();
-        // this.modalService.open(dataModal, {size:size, centered: true, windowClass: 'modal-holder' });
-      }
-    }));
-  }
-
-  open() {
-    this.modalService.confirm({
-      nzTitle: 'Confirmation',
-      nzContent: 'Are you sure you want to do this?',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOnOk: () => {
-        // User clicked the confirm button
-      },
-      nzCancelText: 'No',
-      nzOnCancel: () => {
-        // User clicked the cancel button or closed the modal
-      }
-    });
-  }
-  getButtonType(type:any){
+  getButtonType(type: any) {
     console.log(type);
     // if(type == 'insert')
     //   this.insertData('insert');
@@ -77,5 +49,27 @@ export class BlockButtonsCardComponent {
   //   this.commonChartService.submit(type);
   //   alert("Delete Click");
   // }
+  isVisible = false;
 
+
+
+  showModal(href: string): void {
+    this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
+      debugger
+      if (res.length > 0) {
+        this.nodes = res[0].menuData;
+        this.isVisible = true;
+      }
+    }));
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
 }

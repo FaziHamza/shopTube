@@ -10,11 +10,14 @@ export class BuilderClickButtonService {
   }
   getGridConfig(node: any) {
     debugger
-    return { options: node.tableData};
+    return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable , tableScroll: node.tableScroll , fixHeader: node.fixHeader , fixedColumn: node.fixedColumn };
   }
 
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
+  }
+  getBadgeConfig(node: any) {
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor };
   }
 
   getEmptyConfig(node: any) {
@@ -61,6 +64,14 @@ export class BuilderClickButtonService {
     return {
       affixType: node.affixType,
       margin: node.margin,
+      target: node.target,
+    }
+  }
+
+  getBacktopConfig(node: any) {
+    return {
+      duration: node.duration,
+      visibleafter: node.visibleafter,
       target: node.target,
     }
   }
@@ -303,6 +314,14 @@ export class BuilderClickButtonService {
       type: node.alertConfig[0]?.type,
       text: node.alertConfig[0]?.text,
       alertColor: node.alertConfig[0]?.alertColor,
+      alertType:node.alertConfig[0]?.alertType,
+      banner:node.alertConfig[0]?.banner,
+      showIcon:node.alertConfig[0]?.showIcon,
+      closeable:node.alertConfig[0]?.closeable,
+      description:node.alertConfig[0]?.description,
+      closeText:node.alertConfig[0]?.closeText,
+      iconType:node.alertConfig[0]?.iconType,
+      action:node.alertConfig[0]?.action,
     }
   }
 
@@ -436,17 +455,17 @@ export class BuilderClickButtonService {
     debugger
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
+      defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
       required: node.formly[0].fieldGroup[0].templateOptions?.required,
-      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
+      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].templateOptions?.rows,
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
-      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
-      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft.text,
+      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight.text,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
       hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
-
     }
   }
   getMaskingFormlyConfig(node: any) {
@@ -470,7 +489,8 @@ export class BuilderClickButtonService {
     return {
       // key: node.btnConfig[0]?.key,
       color: node.btnConfig[0].color,
-      // btnIcon: node.btnConfig[0].title,
+      title: node.title,
+      hideExpression: node.hideExpression,
       // fontSize: node.btnConfig[0].fontSize,
       // fontStyle: node.btnConfig[0].fontStyle,
       // textColor: node.btnConfig[0].textColor,
@@ -481,36 +501,46 @@ export class BuilderClickButtonService {
       // className: node.btnConfig[0].className,
       btnGroupFormat: node.btnGroupFormat,
       disabled: node.btnConfig[0].disabled,
-      btnIcon: node.btnConfig[0].icon,
+      btnIcon: node.btnConfig[0].btnIcon,
+      tooltip: node.btnConfig[0].tooltip,
       // repeat: this.addPropertieInOldScreens(node.repeat, "repeat"),
     }
   }
   getDropdownButtonConfig(node: any) {
     return {
       color: node.btnConfig[0].color,
+      hideExpression: node.hideExpression,
       // btnIcon: node.btnConfig[0].btnIcon,
       // className: node.btnConfig[0].className,
       options: node.btnConfig[0].dropdownOptions,
       btnGroupFormat: node.btnGroupFormat,
       tooltip: node.btnConfig[0]['tooltip'],
-      btnIcon: node.btnConfig[0].icon,
+      btnIcon: node.btnConfig[0].btnIcon,
     }
   }
   getAccordionButtonConfig(node: any) {
     return {
-      color: node.accordionConfig[0].color,
+      title: node.title,
+      nzBordered: node.nzBordered,
+      nzGhost: node.nzGhost,
+      nzExpandIconPosition: node.nzExpandIconPosition,
+      nzDisabled: node.nzDisabled,
+      nzExpandedIcon: node.nzExpandedIcon,
+      nzShowArrow: node.nzShowArrow,
     }
   }
   getLinkButtonConfig(node: any) {
     return {
       color: node.btnConfig[0].color,
+      hideExpression: node.hideExpression,
+      tooltip: node.btnConfig[0]['tooltip'],
       // btnIcon: node.btnConfig[0].btnIcon,
       // className: node.btnConfig[0].className,
       href: node.btnConfig[0].href,
       target: node.btnConfig[0].target,
       format: node.btnConfig[0].format,
       btnType: node.btnConfig[0].btnType,
-      btnIcon: node.btnConfig[0].icon,
+      btnIcon: node.btnConfig[0].btnIcon,
     }
   }
   getBtnGroupConfig(node: any) {

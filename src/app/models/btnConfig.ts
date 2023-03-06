@@ -6,6 +6,7 @@ export interface btnConfig {
   color?: string;
   title?: string,
   btnIcon?: string,
+  btnTitle?: any,
   icon?: string,
   fontSize?: string,
   fontStyle?: string,
@@ -21,6 +22,7 @@ export interface btnConfig {
   format?:string,
   btnDisables?:boolean;
   tooltip?: any;
+  btntitle?: any;
   btngroupformat?: string;
   btnGroupPosition?:string;
   disabled?:boolean;

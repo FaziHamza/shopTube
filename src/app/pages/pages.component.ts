@@ -15,7 +15,6 @@ export class PagesComponent implements OnInit {
   fields: any = [];
   @Input() dbRes: any = [];
   ngOnInit(): void {
-
     this.activatedRoute.params.subscribe((params: Params) => {
       if(params["schema"]){
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {

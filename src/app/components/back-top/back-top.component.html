@@ -1,3 +1,8 @@
-<nz-back-top></nz-back-top>
+
+
+    <nz-back-top *ngIf="backTopData"  [nzVisibilityHeight]="backTopData.visibleafter" 
+    [nzTarget]="backTopData.target"
+     [nzDuration]="backTopData.duration">
+      </nz-back-top>
 {{backTopData.description}}
-<!-- <strong>{{backTopData.color}}</strong> -->
+

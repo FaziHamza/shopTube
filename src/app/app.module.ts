@@ -84,6 +84,7 @@ import { LayoutButtonComponent } from './_layout/layout-button/layout-button.com
 import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
 import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
+import { BadgeComponent } from './components/badge/badge.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -162,7 +163,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutButtonComponent,
     LayoutTabsComponent,
     LayoutDrawerComponent,
-    DynamicTableComponent
+    DynamicTableComponent,
+    BadgeComponent
   ],
   imports: [
     FormsModule,
@@ -178,6 +180,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     NgxDropzoneModule,
+    
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

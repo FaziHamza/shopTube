@@ -95,7 +95,7 @@
         </ng-template>
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -103,7 +103,7 @@
         </ng-template>
         <ng-template #thirteenth>
             <ng-container *ngIf="item.type =='linkButton'; else forteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}"*ngIf="!item.hideExpression" >
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -111,7 +111,7 @@
         </ng-template>
         <ng-template #forteenth>
             <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -127,13 +127,13 @@
         </ng-template>
         <ng-template #sixteen>
             <ng-container *ngIf="item.type =='gridList';else seventeen">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
                     <dynamic-table [tableId]='item.tableId' [tableData]='item.tableData'
-                        [tableHeaders]='item.tableHeaders'></dynamic-table>
+                        [tableHeaders]='item.tableHeaders' [data]="item"></dynamic-table>
                 </div>
             </ng-container>
         </ng-template>
@@ -273,7 +273,7 @@
         <ng-template #thirtyTwo>
             <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-accordion-button [accordionData]="item.accordionConfig"></app-accordion-button>
+                    <app-accordion-button [accordionData]="item"></app-accordion-button>
                 </div>
             </ng-container>
         </ng-template>
@@ -465,9 +465,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-badge [nzCount]='item.numberOfBadges'>
-                        <a class="head-example"></a>
-                    </nz-badge>
+                   <app-badge [badgeData]="item"></app-badge>
                 </ng-container>
             </ng-container>
         </ng-template>
