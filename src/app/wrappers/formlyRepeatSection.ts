@@ -35,9 +35,9 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
 
 
   ngOnInit(): void {
-
-
+    debugger
     this.tableId = this.field.key + Guid.newGuid();
+    this.form.value?.options
 
   }
 

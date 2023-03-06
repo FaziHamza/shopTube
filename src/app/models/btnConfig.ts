@@ -6,6 +6,7 @@ export interface btnConfig {
   color?: string;
   title?: string,
   btnIcon?: string,
+  btnTitle?: any,
   icon?: string,
   fontSize?: string,
   fontStyle?: string,

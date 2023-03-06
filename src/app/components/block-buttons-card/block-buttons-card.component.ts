@@ -55,6 +55,7 @@ export class BlockButtonsCardComponent {
 
   showModal(href: string): void {
     this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
+      debugger
       if (res.length > 0) {
         this.nodes = res[0].menuData;
         this.isVisible = true;

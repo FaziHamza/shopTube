@@ -13,13 +13,11 @@
       {{softIconList.title}}
       <span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title" nz-icon [nzType]='btnItem.btnIcon'></span>
     </a>
-
     <a nz-button href="{{url}}/pages/{{btnItem.href}}" nzType="link" *ngIf="btnItem.href && btnItem.btnType =='_blank'"
       target="{{btnItem?.btnType}}" [class]='btnItem.color' class="p-2">
       {{softIconList.title}}
       <span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title " nz-icon [nzType]='btnItem.btnIcon'></span>
     </a>
-
     <a nz-button nzType="link" *ngIf="btnItem.href && btnItem.btnType =='modal'" [class]='btnItem.color'
       data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" (click)="showModal(btnItem.href)">
       {{softIconList.title}}<span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title"></span>
@@ -48,31 +46,31 @@
       <div *ngFor="let btnItem of item?.btnConfig" >
         <div class="m-1">
           <!-- simple -->
-          <button [class]='btnItem.color' nz-radio-button *ngIf="softIconList.type != 'dropdownButton' && !btnItem.href"
+          <button [class]='btnItem.color' nz-radio-button *ngIf="item.type != 'dropdownButton' && !btnItem.href"
             nz-button [nzSize]="size" [nzType]="btnItem.type" [disabled]="btnItem.disabled"
-            (click)="getButtonType(softIconList?.type)">{{softIconList.title}}<span *ngIf="btnItem.btnIcon" nz-icon
+            (click)="getButtonType(item?.type)">{{item.title}}<span *ngIf="btnItem.btnIcon" nz-icon
               [nzType]='btnItem.btnIcon'></span>
           </button>
           <!-- link  -->
           <a nz-button routerLink="/pages/{{btnItem.href}}" nzType="link" *ngIf="btnItem.href && btnItem.btnType ==''"
             [class]='btnItem.color' class="p-2">
-            {{softIconList.title}}
-            <span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title" nz-icon [nzType]='btnItem.btnIcon'></span>
+            {{item.title}}
+            <span class="mr-2" *ngIf="btnItem.btnIcon && item.title" nz-icon [nzType]='btnItem.btnIcon'></span>
           </a>
 
           <a nz-button href="{{url}}/pages/{{btnItem.href}}" nzType="link"
             *ngIf="btnItem.href && btnItem.btnType =='_blank'" target="{{btnItem?.btnType}}" [class]='btnItem.color'
             class="p-2">
-            {{softIconList.title}}
+            {{item.title}}
             <span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title " nz-icon [nzType]='btnItem.btnIcon'></span>
           </a>
 
           <a nz-button nzType="link" *ngIf="btnItem.href && btnItem.btnType =='modal'" [class]='btnItem.color'
             data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" (click)="showModal(btnItem.href)">
-            {{softIconList.title}}<span class="mr-2" *ngIf="btnItem.btnIcon && softIconList.title"></span>
+            {{item.title}}<span class="mr-2" *ngIf="btnItem.btnIcon && item.title"></span>
           </a>
           <!-- dropdown  -->
-          <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
+          <div class="dropdown " *ngIf="item.type == 'dropdownButton'">
             <button [class]='btnItem.color' nz-button nz-dropdown [nzDropdownMenu]="menu">
               <span *ngIf="btnItem.btnIcon" nz-icon [nzType]='btnItem.btnIcon'></span>{{softIconList.title}}
             </button>
@@ -95,7 +93,7 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal nzWidth="1000px" nzWrapClassName="custom-modal" [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <app-pages [dbRes]="nodes" [resData]="nodes" *ngIf="nodes.length"></app-pages>
   </ng-container>
