@@ -18,6 +18,7 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
+  
   public editorOptions: JsonEditorOptions;
 
   makeOptions = () => new JsonEditorOptions();
@@ -76,6 +77,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -935,11 +937,11 @@ export class BuilderComponent implements OnInit {
                     text: ''
                   },
                   addonRight: {
-                    text: ''
+                    text: '$1',
                   },
                   type: data?.fieldType,
                   labelPosition: "text-right",
-                  labelIcon: "",
+                  titleIcon: "",
                   label: data?.label,
                   placeholder: data?.label,
                   tooltip: "",
@@ -4765,11 +4767,11 @@ export class BuilderComponent implements OnInit {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
+            fieldGroup[0].defaultValue = event.form.defaultValue;
+            fieldGroup[0].hideExpression = event.form.hideExpression;
             const templateOptions = fieldGroup[0]?.templateOptions ?? {};
-
             templateOptions.label = event.form.title;
             templateOptions['key'] = event.form.key;
-            templateOptions['defaultValue'] = event.form.defaultValue;
             templateOptions['className'] = event.form.className;
             templateOptions['hideExpression'] = event.form.hideExpression;
             templateOptions.placeholder = event.form.placeholder;
@@ -4778,18 +4780,17 @@ export class BuilderComponent implements OnInit {
             templateOptions['required'] = event.form.required;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
-            templateOptions['labelIcon'] = event.form.labelIcon;
+            templateOptions['titleIcon'] = event.form.titleIcon;
             templateOptions['addonLeft'].text = event.form.addonLeft;
             templateOptions['addonRight'].text = event.form.addonRight;
-            templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['readonly'] = event.form.readonly;
             templateOptions['options'] = event.form.tableDta;
-            if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
-              const arr = event.form.defaultValue.split(',');
-              templateOptions['defaultValue'] = arr;
-            } else {
-              templateOptions['defaultValue'] = event.form.defaultValue;
-            }
+
+            // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
+            //   const arr = event.form.defaultValue.split(',');
+            //   templateOptions['defaultValue'] = arr;
+            // } else {
+            // }
             if (event.form.apiData) {
               this.selectedNode.link = event.form.apiData;
               this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {

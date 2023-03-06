@@ -436,17 +436,17 @@ export class BuilderClickButtonService {
     debugger
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
+      defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
       required: node.formly[0].fieldGroup[0].templateOptions?.required,
-      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
+      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].templateOptions?.rows,
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
-      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
-      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft.text,
+      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight.text,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
       hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
-
     }
   }
   getMaskingFormlyConfig(node: any) {

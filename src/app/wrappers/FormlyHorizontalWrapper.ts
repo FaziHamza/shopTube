@@ -4,46 +4,23 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-  <div class=" row mt-1 mb-1">
-  <label [attr.for]="id" class= {{firstColum}} *ngIf="to.label" >
-   <span><i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 3%;"></i>{{to.label }}</span>
-    <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container> -->
-    <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
+  <div>
+  <label [attr.for]="id" *ngIf="to.label">
+   <span><span nz-icon [nzType]='to.labelIcon' nzTheme="outline" class="mr-1 mb-1"></span><span *ngIf="to.required">*</span>{{to.label}}</span>
+    <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]='to.tooltip' ><span nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
   </label>
-  <div class= {{secondColum1}}>
+  <div>
     <ng-template #fieldComponent></ng-template>
   </div>
-  <!-- <div *ngIf="to.error != null" class="col-10 offset-md-4 offset-sm-4 invalid-feedback d-block">
-      <p class="m-0 p-0">{{to.error }}</p>
-  </div> -->
-  <div *ngIf="showError" class={{secondColum2}}>
-    <formly-validation-message [field]="field"></formly-validation-message>
+  <div *ngIf="showError">
+    <formly-validation-message [field]="field" class="text-red-500"></formly-validation-message>
   </div>
 </div>
   `,
 })
 export class FormlyHorizontalWrapper extends FieldWrapper {
-  firstColum = '';
-  secondColum1 = '';
-  secondColum2 = '';
+  
   ngOnInit(): void {
-    if (this.to['className'] == 'col-12' || this.to['className'] == 'col-12 s-icon' || this.to['className'] == 'col-12 tagSt') {
-      if(''){
-        this.firstColum = "col-3 col-form-label " + '';
-        }else{
-          this.firstColum = "col-3 col-form-label";
-        }
-      this.secondColum1 = "col-sm-10 mt-2";
-      this.secondColum2 = "col-10 offset-md-3 offset-sm-3 invalid-feedback d-block";
-    } else {
-      this.firstColum = 'col-3 col-form-label '  + '';
-      if(''){
-        this.firstColum = "col-3 col-form-label " + '';
-        }else{
-          this.firstColum = "col-3 col-form-label";
-        }
-      this.secondColum1 = "col-sm-9 formly-horizontal-wrapper";
-      this.secondColum2 = 'col-9 offset-md-3 offset-sm-3 invalid-feedback d-block'
-    }
+    
   }
 }

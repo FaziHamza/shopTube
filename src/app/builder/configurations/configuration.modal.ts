@@ -7765,7 +7765,7 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
-          key: 'labelIcon',
+          key: 'titleIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
