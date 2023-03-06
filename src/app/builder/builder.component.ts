@@ -1013,7 +1013,7 @@ export class BuilderComponent implements OnInit {
             color: "bg-blue-600",
             type: "insert",
             btnIcon: "upload",
-            tooltip: "button",
+            tooltip: "",
             btntitle: 'insert_1',
 
             // format: "text-left",
@@ -1038,15 +1038,15 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/4",
+        
         btnConfig: [
           {
             color: "bg-green-600",
             type: "dropdown",
             btnIcon: "down",
-            btntitle:'dropdownButton_1',
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'update_1',
             dropdownOptions: [
               {
                 label: "Option 1",
@@ -1092,7 +1092,8 @@ export class BuilderComponent implements OnInit {
             type: "update",
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'update_1',
+          
           },
         ],
         children: [
@@ -1120,7 +1121,7 @@ export class BuilderComponent implements OnInit {
             type: "delete",
             // format: "text-left",
             btnDisables: false,
-            disabled: this.getLastNodeWrapper("disabled"),
+            btnTitle: 'delete_1',
           },
         ],
         children: [
@@ -1541,6 +1542,7 @@ export class BuilderComponent implements OnInit {
             href: "fazi",
             // format: "text-left",
             btnIcon: "",
+            btnTitle:"linkbutton_1",
           },
         ],
         children: [
@@ -4825,7 +4827,7 @@ export class BuilderComponent implements OnInit {
                 templateOptions.options = res;
               })
             } else {
-              templateOptions.options = event.form.options;
+              templateOptions.options = event.form.tableDta;
             }
           });
           if (event.form.multiselect) {
@@ -5234,7 +5236,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.btnConfig[0].color = event.form.color;
             this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
             this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].dropdownOptions = event.form.options;
+            this.selectedNode.btnConfig[0].dropdownOptions = event.form.tableDta;
           }
         }
         break;

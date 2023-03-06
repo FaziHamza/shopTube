@@ -437,6 +437,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
+          className: "w-full",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             style: "margin-top: 6%;",
@@ -446,7 +447,15 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
-
+              {
+                key: 'label',
+                type: 'input',
+                className: "ml-2",
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'label'
+                }
+              },
               {
                 key: 'link',
                 type: 'input',
