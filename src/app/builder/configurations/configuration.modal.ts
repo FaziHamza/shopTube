@@ -3400,60 +3400,70 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
-          key: 'color',
+          key: 'nzExpandedIcon',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Expanded Icon',
+          }
+        },
+        {
+          key: 'nzExpandIconPosition',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Button Color',
+            label: 'Expanded Icon',
             options: [
               {
-                label: 'Blue',
-                value: 'bg-primary'
+                label: 'Left',
+                value: 'left'
               },
               {
-                label: 'Gray',
-                value: 'bg-secondary'
-              },
-              {
-                label: 'Green',
-                value: 'bg-success'
-              },
-              {
-                label: 'Red',
-                value: 'bg-danger'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-warning'
-              },
-              {
-                label: 'Light blue',
-                value: 'bg-info'
-              },
-              {
-                label: 'White',
-                value: 'bg-light'
-              },
-              {
-                label: 'Black',
-                value: 'bg-dark'
+                label: 'Right',
+                value: 'right'
               },
             ],
-          },
+          }
         },
-
-
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
+        {
+          key: 'nzBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Bordered'
+          },
+          defaultValue:false
+        },
+        {
+          key: 'nzGhost',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Transparent'
+          },
+          defaultValue:false
+        },
+        {
+          key: 'nzDisabled',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Disables'
+          },
+          defaultValue:false
+        },
+        {
+          key: 'nzShowArrow',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Show arrow'
+          },
+          defaultValue:false
+        },
       ]
 
     },
@@ -6351,6 +6361,73 @@ export class formFeildData {
       ]
     },
   ]
+  badgeFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'nzCount',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'number',
+            label: 'Count',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'nzText',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Text',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'nzColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'color',
+            label: 'Color',
+          }
+        },
+        {
+          key: 'nzStatus',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Status',
+            options: [
+              {
+                label: 'Success',
+                value: 'success'
+              },
+              {
+                label: 'Error',
+                value: 'error'
+              },
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Processing',
+                value: 'processing'
+              },
+              {
+                label: 'Warning',
+                value: 'warning'
+              },
+            ]
+          }
+        },
+      ]
+    },
+  ]
   descriptionChildFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "row",
@@ -7843,7 +7920,7 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
-          key: 'labelIcon',
+          key: 'titleIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {

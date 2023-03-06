@@ -25,6 +25,9 @@ export interface TreeNode {
   isNextChild?: boolean;
   padding?: any;
   hideExpression?: boolean;
+  nzCount?: any;
+  nzText?: any;
+  nzColor?: any;
   visibleafter?: any;
   paddingLeft?: any;
   tableId?: any;
@@ -220,6 +223,11 @@ export interface TreeNode {
   menuData?: any;
   key?: any;
   nzTitle?: any;
+  nzGhost?: any;
+  nzExpandIconPosition?: any;
+  nzDisabled?: any;
+  nzExpandedIcon?: any;
+  nzShowArrow?: any;
   nzBordered?: any;
   nzFooter?: any;
   nzLoading?: any;

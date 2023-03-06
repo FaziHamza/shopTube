@@ -16,6 +16,9 @@ export class BuilderClickButtonService {
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
+  getBadgeConfig(node: any) {
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor };
+  }
 
   getEmptyConfig(node: any) {
     return { text: node.text, icon: node.icon, link: node.link, btnText: node.btnText, color: node.color, content: node.content };
@@ -452,17 +455,17 @@ export class BuilderClickButtonService {
     debugger
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
+      defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
       required: node.formly[0].fieldGroup[0].templateOptions?.required,
-      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
+      titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].templateOptions?.rows,
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
-      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
-      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
+      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft.text,
+      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight.text,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
       hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
-
     }
   }
   getMaskingFormlyConfig(node: any) {
@@ -517,7 +520,13 @@ export class BuilderClickButtonService {
   }
   getAccordionButtonConfig(node: any) {
     return {
-      color: node.accordionConfig[0].color,
+      title: node.title,
+      nzBordered: node.nzBordered,
+      nzGhost: node.nzGhost,
+      nzExpandIconPosition: node.nzExpandIconPosition,
+      nzDisabled: node.nzDisabled,
+      nzExpandedIcon: node.nzExpandedIcon,
+      nzShowArrow: node.nzShowArrow,
     }
   }
   getLinkButtonConfig(node: any) {

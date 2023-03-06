@@ -273,7 +273,7 @@
         <ng-template #thirtyTwo>
             <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-accordion-button [accordionData]="item.accordionConfig"></app-accordion-button>
+                    <app-accordion-button [accordionData]="item"></app-accordion-button>
                 </div>
             </ng-container>
         </ng-template>
@@ -465,9 +465,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-badge [nzCount]='item.numberOfBadges'>
-                        <a class="head-example"></a>
-                    </nz-badge>
+                   <app-badge [badgeData]="item"></app-badge>
                 </ng-container>
             </ng-container>
         </ng-template>
