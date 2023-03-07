@@ -487,35 +487,23 @@ export class BuilderClickButtonService {
   }
   getButtonConfig(node: any) {
     return {
-      // key: node.btnConfig[0]?.key,
-      color: node.btnConfig[0].color,
+      color: node.color,
       title: node.title,
       hideExpression: node.hideExpression,
-      // fontSize: node.btnConfig[0].fontSize,
-      // fontStyle: node.btnConfig[0].fontStyle,
-      // textColor: node.btnConfig[0].textColor,
-      // bgColor: node.btnConfig[0].bgColor,
-      // border: node.btnConfig[0].border,
-      // margin: node.btnConfig[0].margin,
-      // padding: node.btnConfig[0].padding,
-      // className: node.btnConfig[0].className,
       btnGroupFormat: node.btnGroupFormat,
-      disabled: node.btnConfig[0].disabled,
-      btnIcon: node.btnConfig[0].btnIcon,
-      tooltip: node.btnConfig[0].tooltip,
-      // repeat: this.addPropertieInOldScreens(node.repeat, "repeat"),
+      disabled: node.disabled,
+      btnIcon: node.btnIcon,
+      tooltip: node.tooltip,
     }
   }
   getDropdownButtonConfig(node: any) {
     return {
-      color: node.btnConfig[0].color,
+      color: node.color,
       hideExpression: node.hideExpression,
-      // btnIcon: node.btnConfig[0].btnIcon,
-      // className: node.btnConfig[0].className,
-      options: node.btnConfig[0].dropdownOptions,
+      options: node.dropdownOptions,
       btnGroupFormat: node.btnGroupFormat,
-      tooltip: node.btnConfig[0]['tooltip'],
-      btnIcon: node.btnConfig[0].btnIcon,
+      tooltip: node.tooltip,
+      btnIcon: node.btnIcon,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -531,16 +519,14 @@ export class BuilderClickButtonService {
   }
   getLinkButtonConfig(node: any) {
     return {
-      color: node.btnConfig[0].color,
+      color: node.color,
       hideExpression: node.hideExpression,
-      tooltip: node.btnConfig[0]['tooltip'],
-      // btnIcon: node.btnConfig[0].btnIcon,
-      // className: node.btnConfig[0].className,
-      href: node.btnConfig[0].href,
-      target: node.btnConfig[0].target,
-      format: node.btnConfig[0].format,
-      btnType: node.btnConfig[0].btnType,
-      btnIcon: node.btnConfig[0].btnIcon,
+      tooltip: node.tooltip,
+      href: node.href,
+      target: node.target,
+      format: node.format,
+      btnType: node.btnType,
+      btnIcon: node.btnIcon,
     }
   }
   getBtnGroupConfig(node: any) {

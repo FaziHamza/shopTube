@@ -11,7 +11,6 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
   styleUrls: ['./block-buttons-card.component.scss']
 })
 export class BlockButtonsCardComponent {
-
   @Input() softIconList: any;
   dataSrc: any;
   isShow: Boolean = false;

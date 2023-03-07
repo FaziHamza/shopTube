@@ -26,6 +26,7 @@ export interface TreeNode {
   padding?: any;
   hideExpression?: boolean;
   nzCount?: any;
+  dropdownOptions?: any;
   nzText?: any;
   nzColor?: any;
   visibleafter?: any;
@@ -203,6 +204,9 @@ export interface TreeNode {
   repeat?: any,
   color?: string,
   icon?: any,
+  btnIcon?: any,
+  href?: any,
+  btnType?: any,
   link?: string,
   forCommomComponentCondition?: string,
   pagination?: any,

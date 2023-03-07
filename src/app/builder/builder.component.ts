@@ -19,7 +19,7 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
-  
+
   public editorOptions: JsonEditorOptions;
 
   makeOptions = () => new JsonEditorOptions();
@@ -78,7 +78,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-    
+
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -918,7 +918,7 @@ export class BuilderComponent implements OnInit {
         title: data?.label,
         expanded: true,
         type: data?.configType,
-        className: 'w-1/4 pl-1',
+        className: 'w-1/3',
         // type: data?.type,
         formlyType: data?.parameter,
         formly: [
@@ -987,8 +987,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         hideExpression: false,
-        className: "w-1/4",
-        position: "text-center",
+        className: "w-1/3",
         key: "buttongroup_" + Guid.newGuid(),
         btnGroupPosition: "header-button",
         btngroupformat: "text-left",
@@ -1007,20 +1006,12 @@ export class BuilderComponent implements OnInit {
         actionType: "insert",
         highLight: false,
         isNextChild: false,
-        className: "w-1/4",
-        btnConfig: [
-          {
-            color: "bg-blue-600",
-            type: "insert",
-            btnIcon: "upload",
-            tooltip: "",
-            btntitle: 'insert_1',
-
-            // format: "text-left",
-            disabled: false,
-           
-          },
-        ],
+        className: "w-1/3",
+        color: "bg-blue-600",
+        btnIcon: "upload",
+        tooltip: "",
+        format: "text-left",
+        disabled: false,
         children: [
         ],
 
@@ -1037,34 +1028,27 @@ export class BuilderComponent implements OnInit {
         type: "dropdownButton",
         highLight: false,
         isNextChild: false,
-        className: "w-1/4",
-        
-        btnConfig: [
+        className: "w-1/3",
+        color: "bg-green-600",
+        btnIcon: "down",
+        format: "text-left",
+        btnDisables: false,
+        dropdownOptions: [
           {
-            color: "bg-green-600",
-            type: "dropdown",
-            btnIcon: "down",
-            // format: "text-left",
-            btnDisables: false,
-            btnTitle: 'update_1',
-            dropdownOptions: [
-              {
-                label: "Option 1",
-                link: "1",
-              },
-              {
-                label: "Option 2",
-                link: "2",
-              },
-              {
-                label: "Option 3",
-                link: "3",
-              },
-              {
-                label: "Option 4",
-                link: "4",
-              },
-            ],
+            label: "Option 1",
+            link: "1",
+          },
+          {
+            label: "Option 2",
+            link: "2",
+          },
+          {
+            label: "Option 3",
+            link: "3",
+          },
+          {
+            label: "Option 4",
+            link: "4",
           },
         ],
         children: [
@@ -1084,18 +1068,11 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         actionType: "update",
-        className: "w-1/4",
-        btnConfig: [
-          {
-            color: "btn btn-primary",
-            btnIcon: "redo",
-            type: "update",
-            // format: "text-left",
-            btnDisables: false,
-            btnTitle: 'update_1',
-          
-          },
-        ],
+        className: "w-1/3",
+        color: "btn btn-primary",
+        btnIcon: "redo",
+        format: "text-left",
+        btnDisables: false,
         children: [
         ],
 
@@ -1113,17 +1090,11 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         actionType: "delete",
-        className: "w-1/4",
-        btnConfig: [
-          {
-            color: "btn btn-danger",
-            btnIcon: "delete",
-            type: "delete",
-            // format: "text-left",
-            btnDisables: false,
-            btnTitle: 'delete_1',
-          },
-        ],
+        className: "w-1/3",
+        color: "btn btn-danger",
+        btnIcon: "delete",
+        format: "text-left",
+        btnDisables: false,
         children: [
         ],
 
@@ -1359,11 +1330,11 @@ export class BuilderComponent implements OnInit {
             icon: "",
             type: "",
             key: "alert_" + Guid.newGuid(),
-            alertType:'success',
-            banner:false,
-            showIcon:false,
-            closeable:false,
-            description:'',
+            alertType: 'success',
+            banner: false,
+            showIcon: false,
+            closeable: false,
+            description: '',
           }
         ],
 
@@ -1542,7 +1513,7 @@ export class BuilderComponent implements OnInit {
             href: "fazi",
             // format: "text-left",
             btnIcon: "",
-            btnTitle:"linkbutton_1",
+            btnTitle: "linkbutton_1",
           },
         ],
         children: [
@@ -2679,12 +2650,12 @@ export class BuilderComponent implements OnInit {
         className: "w-full",
         hideExpression: false,
         tooltip: "",
-        nzBordered:true,
-        nzGhost:false,
-        nzExpandIconPosition:"left",
-        nzDisabled:false,
-        nzExpandedIcon:'',
-        nzShowArrow:true,
+        nzBordered: true,
+        nzGhost: false,
+        nzExpandIconPosition: "left",
+        nzDisabled: false,
+        nzExpandedIcon: '',
+        nzShowArrow: true,
         children: [
         ],
       } as TreeNode;
@@ -2865,9 +2836,9 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         description: "Scroll down to see the bottom-right",
-        visibleafter:'',
-        target:'',
-        duration:'',
+        visibleafter: '',
+        target: '',
+        duration: '',
         children: [
         ],
       } as TreeNode;
@@ -2982,10 +2953,10 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        nzCount:5,
-        nzText:"Success",
-        nzColor:"#2db7f5",
-        nzStatus:"success",
+        nzCount: 5,
+        nzText: "Success",
+        nzColor: "#2db7f5",
+        nzStatus: "success",
         children: [
         ],
       } as TreeNode;
@@ -5103,18 +5074,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fixHeader = event.form.fixHeader;
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
-          if(event.form.api){
+          if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
-            this.selectedNode.tableData = res.tableData;
-            this.selectedNode.tableHeaders = res.tableHeaders;
+              this.selectedNode.tableData = res.tableData;
+              this.selectedNode.tableHeaders = res.tableHeaders;
             }))
           }
-          if(this.selectedNode.noResult){
-            if(this.selectedNode.tableData.length >0){
-            this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
+          if (this.selectedNode.noResult) {
+            if (this.selectedNode.tableData.length > 0) {
+              this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
             }
             this.selectedNode.tableData = []
-          }else{
+          } else {
             this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
           }
           // this.selectedNode.sort = event.form.sort;
@@ -5158,18 +5129,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
-
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-
-            // this.selectedNode.btnConfig[0].format = event.form.format;
-            this.selectedNode.btnConfig[0].disabled = event.form.disabled;
-            
-          }
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.disabled = event.form.disabled;
+          this.updateNodes();
         }
         break;
 
@@ -5177,27 +5142,11 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          // this.selectedNode.btnConfig[0].key = event.form.key
+          this.selectedNode.btngroupformat = event.form.btngroupformat;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.key = event.form.key
           this.selectedNode.label = event.form.title
-          if (this.selectedNode && this.selectedNode.children) {
-            this.selectedNode.btnGroupPosition = event.form.btnGroupPosition;
-            for (let i = 0; i < this.selectedNode.children.length; i++) {
-              const node = this.selectedNode.children ?? [];
-              const btnGroup = node[i] ?? {};
-              this.selectedNode.children[i].className = event.form.className
-              // this.selectedNode.children.forEach(elementV1 => elementV1.btnGroupFormat = event.form.btnGroupFormat);
-              if (event.form.btnGroupPosition == 'header') {
-                this.selectdParentNode.header = true;
-              }
-              else if (event.form.btnGroupPosition == 'default') {
-                this.selectdParentNode.header = false;
-              }
-              if (event.form.btnGroupPosition == 'footer') {
-                this.selectdParentNode.footer = true;
-              }
-            }
-
-          }
+          this.updateNodes();
         }
         break;
       case "linkButton":
@@ -5207,19 +5156,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].key = event.form.key;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].href = event.form.href;
-            this.selectedNode.btnConfig[0].format = event.form.format;
-            this.selectedNode.btnConfig[0].target = event.form.target;
-            this.selectedNode.btnConfig[0].btnType = event.form.target;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-              this.selectedNode.btnConfig[0].btnType = "modal";
-            }
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.href = event.form.href;
+          this.selectedNode.target = event.form.target;
+          this.selectedNode.tooltip = event.form.tooltip;
+          if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
+            this.selectedNode.btnType = "modal";
           }
+          this.updateNodes();
 
         }
         break;
@@ -5227,17 +5172,12 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-
           this.selectedNode.title = event.form.title;
-          if (this.selectedNode && this.selectedNode && this.selectedNode && this.selectedNode.btnConfig) {
-            this.selectedNode.btnConfig[0].title = event.form.title;
-            this.selectedNode.btnConfig[0].tooltip = event.form.tooltip;
-            this.selectedNode.btnConfig[0].color = event.form.color;
-            this.selectedNode.btnConfig[0].btnIcon = event.form.btnIcon;
-            this.selectedNode.btnConfig[0].className = event.form.className;
-            this.selectedNode.btnConfig[0].dropdownOptions = event.form.tableDta;
-          }
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.dropdownOptions = event.form.event.tableDta;
         }
         break;
       case "accordionButton":

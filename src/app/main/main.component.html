@@ -95,7 +95,8 @@
         </ng-template>
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                {{item | json}}
+                <div [ngClass]="{'highLight': item.highLight == true}">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -103,7 +104,7 @@
         </ng-template>
         <ng-template #thirteenth>
             <ng-container *ngIf="item.type =='linkButton'; else forteenth">
-                <div [ngClass]="{'highLight': item.highLight == true}"*ngIf="!item.hideExpression" >
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -111,7 +112,7 @@
         </ng-template>
         <ng-template #forteenth>
             <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -465,7 +466,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                   <app-badge [badgeData]="item"></app-badge>
+                    <app-badge [badgeData]="item"></app-badge>
                 </ng-container>
             </ng-container>
         </ng-template>
