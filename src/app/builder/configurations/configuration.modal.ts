@@ -6851,7 +6851,7 @@ export class formFeildData {
   ];
   popOverFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: "row",
+      fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "w-1/4 px-1",
