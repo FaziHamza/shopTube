@@ -649,7 +649,7 @@ export class BuilderComponent implements OnInit {
         //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
         //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         //   }
-        // } 
+        // }
         else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "checkbox" || inputType[l].type == "color" ||
           inputType[l].type == "decimal" || inputType[l].type == "image" || inputType[l].type == "multiselect" ||
           inputType[l].type == "radiobutton" || inputType[l].type == "search" || inputType[l].type == "repeatSection" ||
@@ -690,7 +690,7 @@ export class BuilderComponent implements OnInit {
         //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && !currentValue)
         //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         //   }
-        // } 
+        // }
         else if (inputType[l].type == "gridList" || inputType[l].type == "gridListEditDelete") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
@@ -918,7 +918,7 @@ export class BuilderComponent implements OnInit {
         title: data?.label,
         expanded: true,
         type: data?.configType,
-        className: 'w-1/3',
+        className: 'w-1/3 px-1 py-1',
         // type: data?.type,
         formlyType: data?.parameter,
         formly: [
@@ -6110,7 +6110,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.showDots = event.form.showDots;
           this.selectedNode.enableSwipe = event.form.enableSwipe;
           this.selectedNode.tooltip = event.form.tooltip;
-          event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig; 
+          event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
           if (event.form.link != undefined || event.form.link != "") {
             this.builderService.genericApis(event.form.link).subscribe((res) => {
               this.selectedNode.carousalConfig = res;
@@ -6264,7 +6264,7 @@ export class BuilderComponent implements OnInit {
 
 
   searchControll() {
-    // 
+    //
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
