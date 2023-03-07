@@ -11,8 +11,7 @@ export class DividerComponent implements OnInit {
   dividerPosition : any;
   ngOnInit(): void {
     
-    this.dividerData;
-    this.dividerPosition = this.dividerData.dividerPosition;
+   
 
   }
 

@@ -1,61 +1,7 @@
-<div *ngIf="dividerData.dividerFormat == 'horizental'">
-    <div *ngIf="dividerData.text == ''">
-        <nz-divider></nz-divider>
-    </div>
-    <div *ngIf="dividerData.text != ''">
-        <nz-divider nzText={{dividerData.text}}></nz-divider>
-    </div>
-</div>
-<div style="text-align: center;" *ngIf="dividerData.dividerFormat == 'vertical'">
-    <div [style]="dividerData.verticalLineColorForCssBinding">
-        <div [style]="dividerData.verticalLinePositionForCssBinding">
-            <div [style]="dividerData.verticalLineHieghtForCssBinding" class="vertical"></div>
-        </div>
-    </div>
-</div>
-
-
-<style>
-    .strike {
-        display: block;
-        text-align: center;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .strike>span {
-        position: relative;
-        display: inline-block;
-    }
-
-    .strike>span:before,
-    .strike>span:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 9999px;
-        height: 1px;
-        background-color: var(--lineColor);
-    }
-
-    .strike>span:before {
-        right: 100%;
-        margin-right: 15px;
-    }
-
-    .strike>span:after {
-        left: 100%;
-        margin-left: 15px;
-    }
-
-    hr.simple-line {
-        border-top: var(--verticalLineColorForCssBinding);
-    }
-
-    .vertical {
-        border-left: var(--verticalLineColorForCssBinding);
-        height: var(--verticalLineHieghtForCssBinding);
-        position: absolute;
-        left: var(--verticalLinePositionForCssBinding);
-    }
-</style>
+<nz-divider *ngIf="dividerData.dividerText || dividerData.icon" [nzDashed]='dividerData.dashed' [nzType]='dividerData.dividerType' [nzText]="text">
+    <ng-template #text>
+        <span nz-icon [nzType]='dividerData.icon'></span>
+        {{dividerData.dividerText}}
+    </ng-template>
+</nz-divider>
+<nz-divider *ngIf="!dividerData.dividerText" [nzDashed]='dividerData.dashed' [nzType]='dividerData.dividerType'></nz-divider>

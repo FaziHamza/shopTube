@@ -1,32 +1,40 @@
 <div class="m-1" *ngIf="softIconList.type != 'buttonGroup'">
-  <div [class]='softIconList.format' *ngIf="!softIconList.hideExpression">
+  <div class={{softIconList.format}}>
     <!-- simple -->
-    <button [class]='softIconList.color' nz-radio-button disabled
-      *ngIf="softIconList.type != 'dropdownButton' && !softIconList.href" nz-button [nzType]="softIconList.type"
-      [disabled]="softIconList.disabled" (click)="getButtonType(softIconList?.type)">{{softIconList.title}}<span
+    <button [class]='softIconList.color' *ngIf="softIconList.type != 'dropdownButton' && !softIconList.href" nz-button
+      [nzSize]="softIconList.nzSize" [disabled]="softIconList.disabled" [nzShape]="softIconList.nzShape"
+      [nzGhost]='softIconList.nzGhost' [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+      [nzDanger]='softIconList.nzDanger' (click)="getButtonType(softIconList?.type)">{{softIconList.title}}<span
         *ngIf="softIconList.btnIcon" nz-icon [nzType]='softIconList.btnIcon'></span>
     </button>
     <!-- link  -->
-    <a nz-button routerLink="/pages/{{softIconList.href}}" nzType="link"
-      *ngIf="softIconList.href && softIconList.btnType ==''" [class]='softIconList.color' class="p-2">
+    <a nz-button routerLink="/pages/{{softIconList.href}}" nzType="link" [nzGhost]='softIconList.nzGhost'
+      [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+      [nzDanger]='softIconList.nzDanger' *ngIf="softIconList.href && softIconList.btnType ==''"
+      [class]='softIconList.color' class="p-2">
       {{softIconList.title}}
       <span class="mr-2" *ngIf="softIconList.btnIcon && softIconList.title" nz-icon
         [nzType]='softIconList.btnIcon'></span>
     </a>
-    <a nz-button href="{{url}}/pages/{{softIconList.href}}" nzType="link"
-      *ngIf="softIconList.href && softIconList.btnType =='_blank'" target="{{softIconList?.btnType}}"
-      [class]='softIconList.color' class="p-2">
+    <a nz-button href="{{url}}/pages/{{softIconList.href}}" nzType="link" [nzGhost]='softIconList.nzGhost'
+      [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+      [nzDanger]='softIconList.nzDanger' *ngIf="softIconList.href && softIconList.btnType =='_blank'"
+      target="{{softIconList?.btnType}}" [class]='softIconList.color' class="p-2">
       {{softIconList.title}}
       <span class="mr-2" *ngIf="softIconList.btnIcon && softIconList.title " nz-icon
         [nzType]='softIconList.btnIcon'></span>
     </a>
     <a nz-button nzType="link" *ngIf="softIconList.href && softIconList.btnType =='modal'" [class]='softIconList.color'
-      data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" (click)="showModal(softIconList.href)">
+      [nzSize]="softIconList.nzSize" [nzGhost]='softIconList.nzGhost' [nzLoading]='softIconList.nzLoading'
+      [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger' data-bs-toggle="modal"
+      data-bs-target=".bs-example-modal-center" (click)="showModal(softIconList.href)">
       {{softIconList.title}}<span class="mr-2" *ngIf="softIconList.btnIcon && softIconList.title"></span>
     </a>
     <!-- dropdown  -->
     <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
-      <button [class]='softIconList.color' nz-button nz-dropdown [nzDropdownMenu]="menu">
+      <button [class]='softIconList.color' nz-button nz-dropdown [nzDropdownMenu]="menu"
+        [nzGhost]='softIconList.nzGhost' [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading'
+        [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger' [nzShape]="softIconList.nzShape">
         <span *ngIf="softIconList.btnIcon" nz-icon [nzType]='softIconList.btnIcon'></span>{{softIconList.title}}
       </button>
       <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -38,50 +46,53 @@
       </nz-dropdown-menu>
     </div>
   </div>
-
   <span nz-tooltip *ngIf="softIconList.tooltip" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
       nzType="question-circle" nzTheme="twotone"></span></span>
 </div>
 <div *ngIf="softIconList.type == 'buttonGroup' && softIconList.children.length">
-  <div [class]='softIconList.btngroupformat'>
+  <div class={{softIconList.btngroupformat}}>
     <nz-button-group>
       <div class="m-1" *ngFor="let item of softIconList.children">
         <!-- simple -->
-        <button [class]='item.color' nz-button *ngIf="item.type != 'dropdownButton' && !item.href" nz-button
-          [nzSize]="size" [nzType]="item.type" [disabled]="item.disabled"
+        <button [class]='item.color' *ngIf="item.type != 'dropdownButton' && !item.href" nz-button
+          [nzSize]="item.nzSize" [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost'
+          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
           (click)="getButtonType(item?.type)">{{item.title}}<span *ngIf="item.btnIcon" nz-icon
             [nzType]='item.btnIcon'></span>
         </button>
         <!-- link  -->
-        <a nz-button routerLink="/pages/{{item.href}}" nzType="link" *ngIf="item.href && item.btnType ==''"
-          [class]='item.color' class="p-2">
+        <a nz-button routerLink="/pages/{{item.href}}" nzType="link" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
+          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
+          *ngIf="item.href && item.btnType ==''" [class]='item.color' class="p-2">
           {{item.title}}
           <span class="mr-2" *ngIf="item.btnIcon && item.title" nz-icon [nzType]='item.btnIcon'></span>
         </a>
-        <a nz-button href="{{url}}/pages/{{item.href}}" nzType="link" *ngIf="item.href && item.btnType =='_blank'"
-          target="{{item?.btnType}}" [class]='item.color' class="p-2">
+        <a nz-button href="{{url}}/pages/{{item.href}}" nzType="link" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
+          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
+          *ngIf="item.href && item.btnType =='_blank'" target="{{item?.btnType}}" [class]='item.color' class="p-2">
           {{item.title}}
-          <span class="mr-2" *ngIf="item.btnIcon && softIconList.title " nz-icon [nzType]='item.btnIcon'></span>
+          <span class="mr-2" *ngIf="item.btnIcon && item.title " nz-icon [nzType]='item.btnIcon'></span>
         </a>
         <a nz-button nzType="link" *ngIf="item.href && item.btnType =='modal'" [class]='item.color'
-          data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" (click)="showModal(item.href)">
+          [nzSize]="item.nzSize" [nzGhost]='item.nzGhost' [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock'
+          [nzDanger]='item.nzDanger' data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"
+          (click)="showModal(item.href)">
           {{item.title}}<span class="mr-2" *ngIf="item.btnIcon && item.title"></span>
         </a>
         <!-- dropdown  -->
         <div class="dropdown " *ngIf="item.type == 'dropdownButton'">
-          <button [class]='item.color' nz-button nz-dropdown [nzDropdownMenu]="menu">
-            <span *ngIf="item.btnIcon" nz-icon [nzType]='item.btnIcon'></span>{{softIconList.title}}
+          <button [class]='item.color' nz-button nz-dropdown [nzDropdownMenu]="menu" [nzGhost]='item.nzGhost'
+            [nzSize]="item.nzSize" [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'>
+            <span *ngIf="item.btnIcon" nz-icon [nzType]='item.btnIcon'></span>{{item.title}}
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu *ngFor="let options of item.dropdownOptions">
-              <li>
+              <li nz-menu-item>
                 <a href={{options.link}}>{{options.label}}</a>
               </li>
             </ul>
           </nz-dropdown-menu>
         </div>
-        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-            nzTheme="twotone"></span></span>
       </div>
     </nz-button-group>
   </div>

@@ -37,8 +37,14 @@ export interface TreeNode {
   paddingBottom?: any;
   showValue?: boolean;
   className?: string;
-  affixType?: any;
   margin?: any;
+  effect?: any;
+  dotPosition?: any;
+  autoPlay?: any;
+  autolPlaySpeed?: any;
+  enableSwipe?: any;
+  showDots?: any;
+  affixType?: any;
   target?: any;
   alt?: any;
   source?: any;
@@ -194,6 +200,10 @@ export interface TreeNode {
   sliderType?: any,
   disabled?: boolean,
   headingSize?: string,
+  nzBlock?: any,
+  nzType?: any,
+  nzShape?: any,
+  format?: any,
   buttonFormat?: string,
   btngroupformat?: string,
   btnGroupPosition?: string,
@@ -204,6 +214,10 @@ export interface TreeNode {
   repeat?: any,
   color?: string,
   icon?: any,
+  dividerText?: any,
+  dashed?: any,
+  dividerType?: any,
+  orientation?: any,
   btnIcon?: any,
   href?: any,
   btnType?: any,
@@ -227,8 +241,9 @@ export interface TreeNode {
   menuData?: any;
   key?: any;
   nzTitle?: any;
-  nzGhost?: any;
   nzExpandIconPosition?: any;
+  nzGhost?: any;
+  nzDanger?: any;
   nzDisabled?: any;
   nzExpandedIcon?: any;
   nzShowArrow?: any;

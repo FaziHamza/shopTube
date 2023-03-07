@@ -1,12 +1,12 @@
-<nz-empty [nzNotFoundImage]="this.emptyData.icon" [nzNotFoundContent]="this.emptyData.content"
+<nz-empty [nzNotFoundImage]="emptyData.icon" [nzNotFoundContent]="emptyData.content"
     [nzNotFoundFooter]="footerTpl" nzDefaultEmptyContent="sdfsdh">
     <ng-template #contentTpl>
         <span>
             Customize
-            <a [href]="this.emptyData.link">{{this.emptyData.text}}</a>
+            <a [href]="emptyData.link">{{emptyData.text}}</a>
         </span>
     </ng-template>
     <ng-template #footerTpl>
-        <button nz-button [nzType]="this.emptyData.color">{{this.emptyData.btnText}}</button>
+        <button nz-button  [class]='emptyData.color'>{{emptyData.btnText}}</button>
     </ng-template>
 </nz-empty>

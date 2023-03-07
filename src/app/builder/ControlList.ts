@@ -3,7 +3,136 @@ export const htmlTabsData = [
     label: "Heading here",
     children: [
       {
-        label: "Input Fields",
+        label: "General",
+        id: "static-4",
+        children: [
+          {
+            label: "Button",
+            id: "static-1",
+            icon: "fa fa-chevron-down",
+            children: [
+              {
+                parameter: "buttonGroup",
+                icon: "uil uil-bitcoin-sign",
+                label: "Actions Group",
+              },
+              {
+                parameter: "insertButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Insert Button"
+              },
+              {
+                parameter: "updateButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Update Button"
+              },
+              {
+                parameter: "deleteButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Delete Button"
+              },
+              {
+                parameter: "dropdownButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Dropdown Menu"
+              },
+              {
+                parameter: "linkbutton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Link Button"
+              },
+            ]
+          },
+          {
+            label: "Typography",
+            id: "static-1",
+            icon: "fa fa-chevron-down",
+            children: [
+              {
+                parameter: "heading",
+                icon: "uil uil-text",
+                label: "Heading"
+              },
+              {
+                parameter: "paragraph",
+                icon: "uil uil-paragraph",
+                label: "Paragraph"
+              },
+            ]
+          },
+        ]
+      },
+      {
+        label: "Layout",
+        icon: "fa fa-chevron-down",
+        children: [
+          {
+            label: "Basic",
+            id: "static-1",
+            children: [
+              // {
+              //   parameter: "container",
+              //   icon: "uil uil-file-alt",
+              //   label: "Container"
+              // },
+              {
+                parameter: "gridList",
+                icon: "uil uil-file-alt",
+                label: "List/Data Grid"
+              },
+              {
+                parameter: "divider",
+                icon: "uil uil-file-alt",
+                label: "Divider"
+              },
+              // {
+              //   parameter: "gridListEditDelete",
+              //   icon: "uil uil-file-alt",
+              //   label: "List/Data Grid Editable"
+              // },
+              // {
+              //   parameter: "invoiceGrid",
+              //   icon: "uil uil-file-alt",
+              //   label: "Invoice Grid"
+              // },
+              // {
+              //   parameter: "table",
+              //   icon: "uil uil-file-alt pr-1",
+              //   label: "Table"
+              // },
+            ]
+          },
+        ]
+      },
+      {
+        label: "Navigation",
+        icon: "fa fa-chevron-down",
+        children: [
+          {
+            label: "Basic",
+            id: "static-1",
+            children: [
+              {
+                parameter: "affix",
+                icon: "uil uil-file-alt",
+                label: "Affix"
+              },
+              {
+                parameter: "dropdownButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Dropdown Menu"
+              },
+              {
+                parameter: "stepperAddNew",
+                icon: "uil-list-ul",
+                label: "Stepper"
+              },
+            ]
+          },
+        ]
+      },
+      {
+        label: "Data Entry",
         children: [
           {
             label: "Basic",
@@ -21,6 +150,11 @@ export const htmlTabsData = [
                 label: "Alert"
               },
               {
+                parameter: "cascader",
+                icon: "uil-arrow-break",
+                label: "Cascader"
+              },
+              {
                 parameter: "input",
                 icon: "uil-check-square",
                 label: "Checkbox",
@@ -32,6 +166,11 @@ export const htmlTabsData = [
                 options:true,
               },
               {
+                parameter: "mentions",
+                icon: "uil-file-copy-alt",
+                label: "Mention"
+              },
+              {
                 parameter: "input",
                 icon: "uil uil-bullseye",
                 label: "Color",
@@ -39,6 +178,16 @@ export const htmlTabsData = [
                 configType:'color',fieldType: 'color',
                 // maskString: "",
                 // maskLabel: ""
+              },
+              {
+                parameter: "transfer",
+                icon: "uil-sliders-v-alt",
+                label: "Transfer"
+              },
+              {
+                parameter: "treeSelect",
+                icon: "uil-toggle-off",
+                label: "Tree Select"
               },
               {
                 parameter: "input",
@@ -63,11 +212,7 @@ export const htmlTabsData = [
                 icon: "uil-square-full",
                 label: "Fixed Div"
               },
-              {
-                parameter: "heading",
-                icon: "uil uil-text",
-                label: "Heading"
-              },
+            
               {
                 parameter: "input",
                 icon: "uil uil-images",
@@ -97,6 +242,11 @@ export const htmlTabsData = [
                 label: "Input Group Grid"
               },
               {
+                parameter: "switch",
+                icon: "uil-toggle-off",
+                label: "switch"
+              },
+              {
                 parameter: "input",
                 icon: "uil uil-list-ul",
                 label: "Multi Select",
@@ -114,11 +264,7 @@ export const htmlTabsData = [
                 configType:'input',fieldType: 'number',
                 // maskString: "",
               },
-              {
-                parameter: "paragraph",
-                icon: "uil uil-paragraph",
-                label: "Paragraph"
-              },
+            
               {
                 parameter: "input",
                 icon: "uil uil-key-skeleton-alt",
@@ -163,11 +309,7 @@ export const htmlTabsData = [
                  // maskLabel: "",
                  options:true,
               },
-              {
-                parameter: "stepperAddNew",
-                icon: "uil-list-ul",
-                label: "Stepper"
-              },
+             
               {
                 parameter: "input",
                 icon: "uil uil-location-point",
@@ -404,43 +546,128 @@ export const htmlTabsData = [
         ]
       },
       {
-        label: "Actions",
-        id: "static-4",
+        label: "Data Display",
+        icon: "fa fa-chevron-down",
         children: [
           {
             label: "Basic",
             id: "static-1",
+            children: [
+              {
+                parameter: "avatar",
+                icon: "uil uil-file-alt",
+                label: "Avatar"
+              },
+             
+              {
+                parameter: "badge",
+                icon: "uil-arrow-break",
+                label: "Badge"
+              },
+              {
+                parameter: "treeView",
+                icon: "uil uil-file-alt",
+                label: "Tree View"
+              },
+              {
+                parameter: "tuiCalender",
+                icon: "uil uil-file-alt",
+                label: "Calendar"
+              },
+              {
+                parameter: "carouselCrossfade",
+                icon: "uil-sliders-v-alt",
+                label: "Slider"
+              },
+            
+              {
+                parameter: "comment",
+                icon: "uil-arrow-break",
+                label: "Comment"
+              },
+              {
+                parameter: "description",
+                icon: "uil uil-file-alt",
+                label: "Description"
+              },
+             
+              {
+                parameter: "descriptionChild",
+                icon: "uil uil-file-alt",
+                label: "Description Child"
+              },
+              {
+                parameter: "statistic",
+                icon: "uil-sliders-v-alt",
+                label: "Statistic"
+              },
+              {
+                parameter: "empty",
+                icon: "uil-arrow-break",
+                label: "Empty Box"
+              },
+              {
+                parameter: "list",
+                icon: "uil uil-file-alt",
+                label: "New List"
+              },
+              {
+                parameter: "nzTag",
+                icon: "uil-file-copy-alt",
+                label: "NZ Tag"
+              },
+              {
+                parameter: "popConfirm",
+                icon: "uil-sliders-v-alt",
+                label: "PopConfirm"
+              },
+              {
+                parameter: "timeline",
+                icon: "uil-sliders-v-alt",
+                label: "Timeline"
+              },
+              {
+                parameter: "popOver",
+                icon: "uil-sliders-v-alt",
+                label: "Pop Over"
+              },
+              {
+                parameter: "imageUpload",
+                icon: "uil uil-file-alt",
+                label: "Image Upload"
+              },
+              {
+                parameter: "invoice",
+                icon: "uil uil-file-alt",
+                label: "Invoice"
+              },
+              {
+                parameter: "segmented",
+                icon: "uil-toggle-off",
+                label: "Segmented"
+              },
+
+            ]
+          },
+          {
+            label: "Card",
+            id: "static-1",
             icon: "fa fa-chevron-down",
             children: [
               {
-                parameter: "buttonGroup",
-                icon: "uil uil-bitcoin-sign",
-                label: "Actions Group",
+                parameter: "simplecard",
+                icon: "uil uil-file-alt",
+                label: "Card"
               },
               {
-                parameter: "insertButton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Insert Button"
+                parameter: "simpleCardWithHeaderBodyFooter",
+                icon: "uil uil-file-alt",
+                label: "Section Card"
               },
               {
-                parameter: "updateButton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Update Button"
-              },
-              {
-                parameter: "deleteButton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Delete Button"
-              },
-              {
-                parameter: "dropdownButton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Dropdown Menu"
-              },
-              {
-                parameter: "linkbutton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Link Button"
+                parameter: "sharedMessagesChart",
+                icon: "uil uil-file-alt",
+                label: "Task Widget"
               },
             ]
           },
@@ -626,8 +853,8 @@ export const htmlTabsData = [
           },
         ]
       },
-      {
-        label: "Widgets",
+   {
+        label: "Feedback",
         children: [
           {
             label: "Basic",
@@ -635,61 +862,58 @@ export const htmlTabsData = [
             icon: "fa fa-chevron-down",
             children: [
               {
-                parameter: "simplecard",
-                icon: "uil uil-file-alt",
-                label: "Card"
+                parameter: "alert",
+                icon: "uil-cloud-exclamation",
+                label: "Alert"
               },
               {
-                parameter: "simpleCardWithHeaderBodyFooter",
+                parameter: "drawer",
                 icon: "uil uil-file-alt",
-                label: "Section Card"
+                label: "Drawer"
               },
               {
-                parameter: "sharedMessagesChart",
-                icon: "uil uil-file-alt",
-                label: "Task Widget"
+                parameter: "message",
+                icon: "uil-file-copy-alt",
+                label: "Message"
+              },
+              {
+                parameter: "modal",
+                icon: "uil-file-copy-alt",
+                label: "Modal"
+              },
+              {
+                parameter: "notification",
+                icon: "uil-file-copy-alt",
+                label: "Notification"
+              },
+           
+              {
+                parameter: "progressBar",
+                icon: "uil-sliders-v-alt",
+                label: "Progress Bar"
+              },
+              {
+                parameter: "result",
+                icon: "uil-sliders-v-alt",
+                label: "Result"
+              },
+              
+              {
+                parameter: "skeleton",
+                icon: "uil-sliders-v-alt",
+                label: "Skeleton"
+              },
+              {
+                parameter: "spin",
+                icon: "uil-toggle-off",
+                label: "Spin"
               },
             ]
           },
         ]
       },
-      {
-        label: "Data Grid",
-        icon: "fa fa-chevron-down",
-        children: [
-          {
-            label: "Basic",
-            id: "static-1",
-            children: [
-              // {
-              //   parameter: "container",
-              //   icon: "uil uil-file-alt",
-              //   label: "Container"
-              // },
-              {
-                parameter: "gridList",
-                icon: "uil uil-file-alt",
-                label: "List/Data Grid"
-              },
-              {
-                parameter: "gridListEditDelete",
-                icon: "uil uil-file-alt",
-                label: "List/Data Grid Editable"
-              },
-              {
-                parameter: "invoiceGrid",
-                icon: "uil uil-file-alt",
-                label: "Invoice Grid"
-              },
-              // {
-              //   parameter: "table",
-              //   icon: "uil uil-file-alt pr-1",
-              //   label: "Table"
-              // },
-            ]
-          },
-        ]
-      },
+   
+      
       {
         label: "Components",
         icon: "fa fa-chevron-down",
@@ -703,11 +927,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Accordion Button"
               },
-              {
-                parameter: "affix",
-                icon: "uil uil-file-alt",
-                label: "Affix"
-              },
+              
               {
                 parameter: "anchor",
                 icon: "uil uil-file-alt",
@@ -718,81 +938,32 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Play Audio"
               },
-              {
-                parameter: "avatar",
-                icon: "uil uil-file-alt",
-                label: "Avatar"
-              },
+             
               {
                 parameter: "backTop",
                 icon: "uil uil-file-alt",
                 label: "Back Top"
               },
               {
-                parameter: "badge",
-                icon: "uil-arrow-break",
-                label: "Badge"
-              },
-              {
                 parameter: "breakTag",
                 icon: "uil-arrow-break",
                 label: "Break Tag"
               },
-              {
-                parameter: "carouselCrossfade",
-                icon: "uil-sliders-v-alt",
-                label: "Slider"
-              },
-              // {
+            
+                // {
               //   parameter: "carouselCrossfade",
               //   icon: "uil-sliders-v-alt",
               //   label: "Slider"
               // },
-              {
-                parameter: "cascader",
-                icon: "uil-arrow-break",
-                label: "Cascader"
-              },
-              {
-                parameter: "comment",
-                icon: "uil-arrow-break",
-                label: "Comment"
-              },
-              {
-                parameter: "description",
-                icon: "uil uil-file-alt",
-                label: "Description"
-              },
-              {
-                parameter: "descriptionChild",
-                icon: "uil uil-file-alt",
-                label: "Description Child"
-              },
-              {
-                parameter: "drawer",
-                icon: "uil uil-file-alt",
-                label: "Drawer"
-              },
-              {
-                parameter: "empty",
-                icon: "uil-arrow-break",
-                label: "Empty Box"
-              },
+              
+            
+              
               // {
               //   parameter: "fileupload",
               //   icon: "uil uil-file-alt",
               //   label: "File Manager"
               // },
-              {
-                parameter: "imageUpload",
-                icon: "uil uil-file-alt",
-                label: "Image Upload"
-              },
-              {
-                parameter: "invoice",
-                icon: "uil uil-file-alt",
-                label: "Invoice"
-              },
+             
               {
                 parameter: "kanabnAddNew",
                 icon: "uil uil-file-alt",
@@ -803,76 +974,14 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Kanban Task"
               },
-              {
-                parameter: "list",
-                icon: "uil uil-file-alt",
-                label: "New List"
-              },
-              {
-                parameter: "mentions",
-                icon: "uil-file-copy-alt",
-                label: "Mention"
-              },
-              {
-                parameter: "message",
-                icon: "uil-file-copy-alt",
-                label: "Message"
-              },
-              {
-                parameter: "modal",
-                icon: "uil-file-copy-alt",
-                label: "Modal"
-              },
+             
+           
               {
                 parameter: "multiFileUpload",
                 icon: "uil-file-copy-alt",
                 label: "Multi File Upload"
               },
-              {
-                parameter: "notification",
-                icon: "uil-file-copy-alt",
-                label: "Notification"
-              },
-              {
-                parameter: "nzTag",
-                icon: "uil-file-copy-alt",
-                label: "NZ Tag"
-              },
-              {
-                parameter: "popConfirm",
-                icon: "uil-sliders-v-alt",
-                label: "PopConfirm"
-              },
-              {
-                parameter: "popOver",
-                icon: "uil-sliders-v-alt",
-                label: "Pop Over"
-              },
-              {
-                parameter: "progressBar",
-                icon: "uil-sliders-v-alt",
-                label: "Progress Bar"
-              },
-              {
-                parameter: "result",
-                icon: "uil-sliders-v-alt",
-                label: "Result"
-              },
-              {
-                parameter: "segmented",
-                icon: "uil-toggle-off",
-                label: "Segmented"
-              },
-              {
-                parameter: "skeleton",
-                icon: "uil-sliders-v-alt",
-                label: "Skeleton"
-              },
-              {
-                parameter: "spin",
-                icon: "uil-toggle-off",
-                label: "Spin"
-              },
+            
               {
                 parameter: "starrate",
                 icon: "uil-sliders-v-alt",
@@ -883,51 +992,21 @@ export const htmlTabsData = [
                 icon: "uil-sliders-v-alt",
                 label: "starrate"
               },
-              {
-                parameter: "statistic",
-                icon: "uil-sliders-v-alt",
-                label: "Statistic"
-              },
-              {
-                parameter: "switch",
-                icon: "uil-toggle-off",
-                label: "switch"
-              },
+            
+             
               {
                 parameter: "textEditor",
                 icon: "uil uil-file-alt",
                 label: "Editor"
               },
-              {
-                parameter: "timeline",
-                icon: "uil-sliders-v-alt",
-                label: "Timeline"
-              },
+            
               {
                 parameter: "toastr",
                 icon: "uil-sliders-v-alt",
                 label: "Toastr"
               },
-              {
-                parameter: "transfer",
-                icon: "uil-sliders-v-alt",
-                label: "Transfer"
-              },
-              {
-                parameter: "treeSelect",
-                icon: "uil-toggle-off",
-                label: "Tree Select"
-              },
-              {
-                parameter: "treeView",
-                icon: "uil uil-file-alt",
-                label: "Tree View"
-              },
-              {
-                parameter: "tuiCalender",
-                icon: "uil uil-file-alt",
-                label: "Calendar"
-              },
+              
+              
               {
                 parameter: "video",
                 icon: "uil uil-file-alt",

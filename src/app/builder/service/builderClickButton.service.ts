@@ -12,12 +12,16 @@ export class BuilderClickButtonService {
     debugger
     return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable , tableScroll: node.tableScroll , fixHeader: node.fixHeader , fixedColumn: node.fixedColumn };
   }
+  getCommentConfig(node: any) {
+    debugger
+    return { avatar:node.avatar , author:node.author};
+  }
 
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
   getBadgeConfig(node: any) {
-    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor };
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor , nzStatus:node.nzStatus };
   }
 
   getEmptyConfig(node: any) {
@@ -276,14 +280,11 @@ export class BuilderClickButtonService {
 
   getDividerConfig(node: any) {
     return {
-      textColor: node.textColor,
-      lineColor: node.lineColor,
-      className: node.dividerClassName,
-      classNameForPosition: node.classNameForPosition,
-      dividerPosition: node.dividerPosition,
-      dividerFormat: node.dividerFormat,
-      verticalLineHieght: node.verticalLineHieght,
-      verticalLinePosition: node.verticalLinePosition,
+      dividerText: node.dividerText,
+      icon: node.icon,
+      dashed: node.dashed,
+      dividerType: node.dividerType,
+      orientation: node.orientation,
     }
   }
 
@@ -303,8 +304,13 @@ export class BuilderClickButtonService {
 
   getcarouselCrossfadeConfig(node: any) {
     return {
-      carousalType: node?.carousalType,
+      effect: node.effect,
+      dotPosition: node.dotPosition,
       options: node.carousalConfig,
+      autoPlay: node.autoPlay,
+      autolPlaySpeed: node.autolPlaySpeed,
+      showDots: node.showDots,
+      enableSwipe: node.enableSwipe,
     }
   }
 
@@ -486,14 +492,21 @@ export class BuilderClickButtonService {
     }
   }
   getButtonConfig(node: any) {
+    debugger
     return {
       color: node.color,
       title: node.title,
       hideExpression: node.hideExpression,
-      btnGroupFormat: node.btnGroupFormat,
+      format: node.format,
       disabled: node.disabled,
       btnIcon: node.btnIcon,
       tooltip: node.tooltip,
+      nzBlock: node.nzBlock,
+      nzSize: node.nzSize,
+      nzShape: node.nzShape,
+      nzLoading: node.nzLoading,
+      nzGhost: node.nzGhost,
+      nzDanger: node.nzDanger,
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -501,9 +514,16 @@ export class BuilderClickButtonService {
       color: node.color,
       hideExpression: node.hideExpression,
       options: node.dropdownOptions,
-      btnGroupFormat: node.btnGroupFormat,
+      format: node.format,
       tooltip: node.tooltip,
       btnIcon: node.btnIcon,
+      disabled: node.disabled,
+      nzGhost: node.nzGhost,
+      nzLoading: node.nzLoading,
+      nzShape: node.nzShape,
+      nzSize: node.nzSize,
+      nzBlock: node.nzBlock,
+      nzDanger: node.nzDanger,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -527,11 +547,18 @@ export class BuilderClickButtonService {
       format: node.format,
       btnType: node.btnType,
       btnIcon: node.btnIcon,
+      disabled: node.disabled,
+      nzGhost: node.nzGhost,
+      nzLoading: node.nzLoading,
+      nzShape: node.nzShape,
+      nzSize: node.nzSize,
+      nzBlock: node.nzBlock,
+      nzDanger: node.nzDanger,
     }
   }
   getBtnGroupConfig(node: any) {
     return {
-      btnGroupFormat: node.btngroupformat,
+      btngroupformat: node.btngroupformat,
     }
   }
   getPagesConfig(node: any) {
