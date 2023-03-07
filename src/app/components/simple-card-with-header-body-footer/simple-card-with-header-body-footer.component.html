@@ -3,5 +3,8 @@
         <nz-card nzTitle={{item.headerText}}>
             <div [innerHTML]="item.bodyText | sanitize: 'html'"></div>
         </nz-card>
+        <div class="border">
+            {{item.footerText}}
+        </div>
     </div>
 </div>

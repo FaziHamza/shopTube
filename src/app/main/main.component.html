@@ -96,7 +96,7 @@
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
                 {{item | json}}
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
                 </div>
@@ -159,7 +159,7 @@
         <ng-template #ninteen>
             <ng-container *ngIf="item.type == 'divider' ; else twenty">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                    <span class="text-right" nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <app-divider [dividerData]="item"></app-divider>
                 </div>
@@ -343,21 +343,18 @@
         </ng-template>
         <ng-template #thirtyEight>
             <ng-container *ngIf="item.type == 'breakTag' ; else thirtyNine">
-                <div style="height: 0;">
-                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                            nzType="question-circle" nzTheme="twotone"></span></span>
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <br>
-                    </div>
+                <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                        nzType="question-circle" nzTheme="twotone"></span></span>
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                    <br>
                 </div>
-
             </ng-container>
         </ng-template>
         <ng-template #thirtyNine>
             <ng-container *ngIf="item.type == 'carouselCrossfade' ; else fourty">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div class="p-2">
-                        <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                         <app-carousel-crossfade-card [carouselslides]="item"></app-carousel-crossfade-card>
                     </div>

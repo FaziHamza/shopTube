@@ -987,9 +987,8 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         hideExpression: false,
-        className: "w-1/3",
+        className: "w-11/12",
         key: "buttongroup_" + Guid.newGuid(),
-        btnGroupPosition: "header-button",
         btngroupformat: "text-left",
         children: [
         ],
@@ -1012,6 +1011,13 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         format: "text-left",
         disabled: false,
+        nzDanger: false,
+        nzBlock: false,
+        nzType: "Primary",
+        nzSize: "large",
+        nzShape: 'default',
+        nzLoading: false,
+        nzGhost: false,
         children: [
         ],
 
@@ -1033,6 +1039,12 @@ export class BuilderComponent implements OnInit {
         btnIcon: "down",
         format: "text-left",
         btnDisables: false,
+        nzDanger: false,
+        nzBlock: false,
+        nzSize: "default",
+        nzShape: 'default',
+        nzLoading: false,
+        nzGhost: false,
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1073,6 +1085,13 @@ export class BuilderComponent implements OnInit {
         btnIcon: "redo",
         format: "text-left",
         btnDisables: false,
+        nzDanger: false,
+        nzBlock: false,
+        nzType: "Primary",
+        nzSize: "default",
+        nzShape: 'circle',
+        nzLoading: false,
+        nzGhost: false,
         children: [
         ],
 
@@ -1095,6 +1114,13 @@ export class BuilderComponent implements OnInit {
         btnIcon: "delete",
         format: "text-left",
         btnDisables: false,
+        nzDanger: false,
+        nzBlock: false,
+        nzType: "primary",
+        nzSize: "large",
+        nzShape: 'circle',
+        nzLoading: false,
+        nzGhost: false,
         children: [
         ],
 
@@ -1213,8 +1239,12 @@ export class BuilderComponent implements OnInit {
         className: "w-1/2",
         hideExpression: false,
         tooltip: "",
-
-        carousalType: "carousel-fade",
+        effect: "scrollx",
+        dotPosition: "bottom",
+        autoPlay: true,
+        autolPlaySpeed: 3000,
+        showDots: true,
+        enableSwipe: true,
         carousalConfig: [
           {
             img: "assets/images/small/img-1.jpg",
@@ -1232,7 +1262,6 @@ export class BuilderComponent implements OnInit {
             caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           }
         ],
-
 
         children: [
         ],
@@ -1504,18 +1533,15 @@ export class BuilderComponent implements OnInit {
         className: "w-1/4",
         key: "button_" + Guid.newGuid(),
         hideExpression: false,
-        btnConfig: [
-          {
-            tooltip: "",
-            color: "bg-blue-200",
-            target: "_blank",
-            btnType: "_blank",
-            href: "fazi",
-            // format: "text-left",
-            btnIcon: "",
-            btnTitle: "linkbutton_1",
-          },
-        ],
+        tooltip: "",
+        color: "bg-blue-200",
+        target: "_blank",
+        btnType: "_blank",
+        href: "",
+        format: "text-left",
+        btnIcon: "",
+        nzSize: "default",
+        nzShape: 'default',
         children: [
         ],
 
@@ -2663,6 +2689,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'divider') {
       const newNode = {
+        className: "w-1/4",
         id: 'common_' + Guid.newGuid(),
         title: 'Divider_1',
         type: "divider",
@@ -2672,19 +2699,12 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         text: "Divider",
         key: "divider" + Guid.newGuid(),
-        dividerClassName: "w-1/2",
-        textColor: "#000000",
-        textcolorForStyle: "",
-        lineColorForStyle: "--lineColor:#000000",
-        verticalLineColorForCssBinding: "--verticalLineColorForCssBinding:1px solid black",
-        lineColor: "#000000",
-        dividerPosition: "",
-        classNameForPosition: "",
-        dividerFormat: "horizental",
-        verticalLineHieght: "200",
-        verticalLineHieghtForCssBinding: "--verticalLineHieghtForCssBinding:200px",
-        verticalLinePosition: "50",
-        verticalLinePositionForCssBinding: "--verticalLinePositionForCssBinding:50px",
+        dividerClassName: "w-1/4",
+        dividerText: "Divider",
+        icon: "plus",
+        dashed: false,
+        dividerType: "horizontal",
+        orientation: "center",
         children: [
         ],
 
@@ -3342,13 +3362,12 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         isNextChild: false,
         hideExpression: false,
-
         icon: "https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg",
         content: "contentTpl",
         text: "Description",
         link: "#API",
         btnText: "Create Now",
-        color: "primary",
+        color: "bg-blue-600",
         children: [
         ],
       } as TreeNode;
@@ -3783,6 +3802,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.gridFields;
         break;
+      case "comment":
+        configObj = { ...configObj, ...this.clickButtonService.getCommentConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.commentFields;
+        break;
 
       case "skeleton":
         configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectedNode) };
@@ -3934,7 +3957,7 @@ export class BuilderComponent implements OnInit {
 
       case "carouselCrossfade":
         configObj = { ...configObj, ...this.clickButtonService.getcarouselCrossfadeConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.carousalFeilds;
+        this.fieldData.formData = _formFieldData.carouselCrossfadeFeilds;
         break;
 
       case "alert":
@@ -4678,6 +4701,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzCount = event.form.nzCount;
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
+          this.selectedNode.nzStatus = event.form.nzStatus;
         }
         break;
       case "empty":
@@ -4776,7 +4800,9 @@ export class BuilderComponent implements OnInit {
             templateOptions['hideExpression'] = event.form.hideExpression;
             templateOptions.placeholder = event.form.placeholder;
             // templateOptions['className'] = event.form.className;
-            templateOptions['options'] = event.tableDta;
+            if (event.tableDta) {
+              templateOptions['options'] = event.tableDta;
+            }
             templateOptions['required'] = event.form.required;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
@@ -4798,7 +4824,9 @@ export class BuilderComponent implements OnInit {
                 templateOptions.options = res;
               })
             } else {
-              templateOptions.options = event.form.tableDta;
+              if (event.tableDta) {
+                templateOptions.options = event.tableDta;
+              }
             }
           });
           if (event.form.multiselect) {
@@ -5131,21 +5159,28 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.color = event.form.color;
           this.selectedNode.btnIcon = event.form.btnIcon;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.disabled = event.form.disabled;
-          this.updateNodes();
+          this.selectedNode.nzBlock = event.form.nzBlock;
+          this.selectedNode.nzSize = event.form.nzSize;
+          this.selectedNode.nzShape = event.form.nzShape;
+          this.selectedNode.nzLoading = event.form.nzLoading;
+          this.selectedNode.nzGhost = event.form.nzGhost;
+          this.selectedNode.nzDanger = event.form.nzDanger;
+          this.selectedNode.nzShape = event.form.nzShape;
+          this.selectedNode.format = event.form.format;
         }
         break;
 
-      case "groupButton":
+      case "buttonGroup":
         if (this.selectedNode) {
+          debugger
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.btngroupformat = event.form.btngroupformat;
           this.selectedNode.className = event.form.className;
           this.selectedNode.key = event.form.key
-          this.selectedNode.label = event.form.title
+          this.selectedNode.title = event.form.title
           this.updateNodes();
         }
         break;
@@ -5161,6 +5196,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.href = event.form.href;
           this.selectedNode.target = event.form.target;
           this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.nzBlock = event.form.nzBlock;
+          this.selectedNode.nzSize = event.form.nzSize;
+          this.selectedNode.nzShape = event.form.nzShape;
+          this.selectedNode.nzLoading = event.form.nzLoading;
+          this.selectedNode.nzDanger = event.form.nzDanger;
+          this.selectedNode.format = event.form.format;
+          this.selectedNode.nzGhost = event.form.nzGhost;
+          this.selectedNode.btnType = event.form.target;
           if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
             this.selectedNode.btnType = "modal";
           }
@@ -5177,7 +5221,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.color = event.form.color;
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.dropdownOptions = event.form.event.tableDta;
+          this.selectedNode.nzBlock = event.form.nzBlock;
+          this.selectedNode.nzSize = event.form.nzSize;
+          this.selectedNode.nzShape = event.form.nzShape;
+          this.selectedNode.nzLoading = event.form.nzLoading;
+          this.selectedNode.nzGhost = event.form.nzGhost;
+          this.selectedNode.format = event.form.format;
+          if (event.tableDta) {
+            this.selectedNode.dropdownOptions = event.tableDta;
+          }
         }
         break;
       case "accordionButton":
@@ -5986,27 +6038,15 @@ export class BuilderComponent implements OnInit {
       case "divider":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip;
-          if (event.form.title == '') {
-            this.selectedNode.label = this.selectedNode.label;
-          } else if (event.form.title != '') {
-            this.selectedNode.title = event.form.title;
-          }
-          this.selectedNode.dividerClassName = event.form.className;
-          this.selectedNode.classNameForPosition = event.form.classNameForPosition;
-          this.selectedNode.dividerPosition = event.form.dividerPosition;
-          this.selectedNode.text = event.form.title;
-          this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode.lineColor = event.form.lineColor;
-          this.selectedNode.textcolorForStyle = "color:" + event.form.textColor;
-          this.selectedNode.lineColorForStyle = "--lineColor:" + event.form.lineColor;
-          this.selectedNode.dividerFormat = event.form.dividerFormat;
-          this.selectedNode.verticalLineHieght = event.form.verticalLineHieght;
-          this.selectedNode.verticalLineHieghtForCssBinding = "--verticalLineHieghtForCssBinding:" + event.form.verticalLineHieght + "px";
-          this.selectedNode.verticalLinePosition = event.form.verticalLinePosition;
-          this.selectedNode.verticalLinePositionForCssBinding = "--verticalLinePositionForCssBinding:" + event.form.verticalLinePosition + "%";
-          this.selectedNode.verticalLineColorForCssBinding = "--verticalLineColorForCssBinding:1px solid" + event.form.lineColor;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.dividerText = event.form.dividerText;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.dashed = event.form.dashed;
+          this.selectedNode.dividerType = event.form.dividerType;
+          this.selectedNode.orientation = event.form.orientation;
           this.updateNodes()
         }
         break;
@@ -6056,24 +6096,24 @@ export class BuilderComponent implements OnInit {
           this.updateNodes()
         }
         break;
-      case "carousal":
+      case "carouselCrossfade":
         if (this.selectedNode.id) {
+          debugger
           this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.carousalType = event.form.carousalType;
-          // this.selectedNode.carousalConfig[0].captionTitle = event.form.captionTitle;
-          // this.selectedNode.carousalConfig[0].caption = event.form.caption;
-          // this.selectedNode.carousalConfig[0].img = event.form.imgSrc;
-          this.selectedNode.carousalConfig = event.form.options;
+          this.selectedNode.effect = event.form.effect;
+          this.selectedNode.dotPosition = event.form.dotPosition;
+          this.selectedNode.autoPlay = event.form.autoPlay;
+          this.selectedNode.autolPlaySpeed = event.form.autolPlaySpeed;
+          this.selectedNode.showDots = event.form.showDots;
+          this.selectedNode.enableSwipe = event.form.enableSwipe;
           this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.link = event.form.link;
-
+          event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig; 
           if (event.form.link != undefined || event.form.link != "") {
             this.builderService.genericApis(event.form.link).subscribe((res) => {
-
-              this.selectedNode.carousalType = res[0].carousalType;
-              this.selectedNode.carousalConfig = res[0].options;
+              this.selectedNode.carousalConfig = res;
               this.updateNodes();
             })
           }

@@ -764,6 +764,11 @@ export const htmlTabsData = [
                 label: "Description"
               },
               {
+                parameter: "divider",
+                icon: "uil uil-file-alt",
+                label: "Divider"
+              },
+              {
                 parameter: "descriptionChild",
                 icon: "uil uil-file-alt",
                 label: "Description Child"

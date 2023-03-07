@@ -99,6 +99,7 @@ export class DynamicTableComponent implements OnInit {
 
   save() {
     this._dataSharedService.setData(this.tableData);
+    alert("Data save");
   }
 
   checkAll(value: boolean): void {
