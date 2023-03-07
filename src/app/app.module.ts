@@ -85,6 +85,7 @@ import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component
 import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 import { BadgeComponent } from './components/badge/badge.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -180,6 +181,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     NgxDropzoneModule,
+    DragDropModule
+    
     
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
