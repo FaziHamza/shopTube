@@ -9,21 +9,16 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./site-layout.component.scss']
 })
 export class SiteLayoutComponent implements OnInit {
-  visible = false;
   topHeaderMenu = 'w-1/6'
   topHeader = 'w-10/12'
   menuMode: any = 'inline';
   menuColumn: any = 'w-2/12';
-  contentColumn: any = 'w-full';
   rowClass: any = 'w-10/12';
   horizontalRow = 'flex flex-wrap'
   menuItems: MenuItem[] = [];
   allMenuItems: MenuItem[] = [];
-  selected: any = 'vertical'
   theme = false;
   checked = false;
-  ulIcon: "down"
-  isModalOpen: any = false;
   newMenuArray: any = false;
   tabs: any = [];
   dropdown: any = [];
@@ -45,7 +40,6 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMenu();
-    this.ulIcon = "down";
     this.makeMenuData();
   }
   toggleCollapsed(): void {
@@ -54,10 +48,8 @@ export class SiteLayoutComponent implements OnInit {
       this.isTwoColumnCollapsed = !this.isTwoColumnCollapsed;
       if (this.isTwoColumnCollapsed) {
         this.menuColumn = 'w-1/6';
-        this.contentColumn = 'w-10/12';
       } else if (!this.isTwoColumnCollapsed) {
         this.menuColumn = 'w-1/5';
-        this.contentColumn = 'w-4/5';
       }
     }
     else {
@@ -65,11 +57,9 @@ export class SiteLayoutComponent implements OnInit {
     }
     if (this.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
       this.menuColumn = '';
-      this.contentColumn = 'w-full';
     }
     else if (!this.isCollapsed) {
       this.menuColumn = 'w-2/12';
-      this.contentColumn = 'w-10/12';
     }
   }
   getMenu() {
@@ -95,7 +85,6 @@ export class SiteLayoutComponent implements OnInit {
     // this.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
       this.menuMode = "inline",
-        this.contentColumn = 'w-full';
       this.isCollapsed = false;
       this.topHeaderMenu = 'w-1/6'
       this.topHeader = 'w-10/12';
@@ -116,7 +105,6 @@ export class SiteLayoutComponent implements OnInit {
         this.isCollapsed = true;
         this.isTwoColumnCollapsed = false;
         this.menuColumn = '-w-1/12';
-        this.contentColumn = '';
         this.topHeaderMenu = '';
         this.topHeader = '';
         this.selectedTheme.layoutWidth = '';
@@ -147,7 +135,6 @@ export class SiteLayoutComponent implements OnInit {
         this.rowClass = 'w-full',
           this.menuMode = "horizontal",
           this.menuColumn = 'w-full',
-          this.contentColumn = 'w-full',
           this.isCollapsed = false;
       } else {
         this.isCollapsed = true;
@@ -296,7 +283,6 @@ export class SiteLayoutComponent implements OnInit {
     this.rowClass = 'w-10/12',
       this.menuMode = "horizontal",
       this.menuColumn = 'w-full',
-      this.contentColumn = 'w-full',
       this.isCollapsed = false;
   }
 }
