@@ -16,6 +16,6 @@ export class MessageComponent implements OnInit {
   }
   createBasicMessage(data: any): void {
     debugger
-    this.message.create(data.type, data.content, { nzDuration: data.duration, nzPauseOnHover: data.pauseOnHover, nzAnimate: data.animate });
+    this.message.create(data.messageType, data.content, { nzDuration: data.duration, nzPauseOnHover: data.pauseOnHover, nzAnimate: data.animate });
   }
 }

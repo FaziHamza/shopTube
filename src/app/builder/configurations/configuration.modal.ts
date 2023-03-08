@@ -4732,7 +4732,7 @@ export class formFeildData {
         // },
         
         {
-          className: "w-1/3 px-1",
+          className: "w-1/4 px-1",
           key: 'description',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4742,7 +4742,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/3 px-1",
+          className: "w-1/4 px-1",
           key: 'action',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4752,7 +4752,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/3 px-1",
+          className: "w-1/4 px-1",
           key: 'closeText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4762,7 +4762,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/3 px-1",
+          className: "w-1/4 px-1",
           key: 'iconType',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -8698,15 +8698,15 @@ export class formFeildData {
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Content',
+            label: 'Progress Bar Type',
             options: [
               {
                 label: 'line ',
-                value: 'line '
+                value: 'line'
               },
               {
                 label: 'circle ',
-                value: 'circle '
+                value: 'circle'
               },
               {
                 label: 'dashboard',
@@ -8725,11 +8725,11 @@ export class formFeildData {
             options: [
               {
                 label: 'success ',
-                value: 'success '
+                value: 'success'
               },
               {
                 label: 'exception ',
-                value: 'exception '
+                value: 'exception'
               },
               {
                 label: 'active',
@@ -8752,11 +8752,11 @@ export class formFeildData {
             options: [
               {
                 label: 'round ',
-                value: 'round '
+                value: 'round'
               },
               {
                 label: 'square ',
-                value: 'square '
+                value: 'square'
               },
             ]
           }

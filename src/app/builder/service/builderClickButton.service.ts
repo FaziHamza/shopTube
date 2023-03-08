@@ -37,7 +37,7 @@ export class BuilderClickButtonService {
     return { color: node.color, mode: node.mode, checked: node.checked };
   }
   getMessageConfig(node: any) {
-    return { duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
+    return {  content:node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
     return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate };
@@ -293,13 +293,14 @@ export class BuilderClickButtonService {
   }
 
   getProgressBarConfig(node: any) {
+    debugger
     return {
-      value: node.progressBArConfig[0]?.value,
-      color: node.progressBArConfig[0]?.color,
-      showValue: node.progressBArConfig[0]?.showValue,
-      stripped: node.progressBArConfig[0]?.stripped,
-      height: node.progressBArConfig[0]?.height,
-      animated: node.progressBArConfig[0]?.animated,
+      progressBarType: node.progressBarType,
+      percent: node.percent,
+      showInfo: node.showInfo,
+      status: node.status,
+      strokeLineCap: node.strokeLineCap,
+      success: node.success,
     }
   }
 
@@ -343,7 +344,6 @@ export class BuilderClickButtonService {
     debugger
     return {
       icon: node.icon,
-      type: node.type,
       text: node.text,
       alertColor: node.alertColor,
       alertType: node.alertType,
