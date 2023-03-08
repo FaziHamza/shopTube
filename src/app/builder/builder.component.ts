@@ -188,23 +188,11 @@ export class BuilderComponent implements OnInit {
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
           this.builderService.jsonSaveBuilder(data).subscribe((res => {
             alert("Data Save");
-            this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
-              if (getRes.length == 0) {
-                this.screenData = [];
-                this.screenData = getRes;
-              }
-            }));
           }))
         }))
       } else {
         this.builderService.jsonSaveBuilder(data).subscribe((res => {
           alert("Data Save");
-          this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
-            if (getRes.length == 0) {
-              this.screenData = [];
-              this.screenData = getRes;
-            }
-          }));
         }))
       }
     }))
@@ -504,7 +492,16 @@ export class BuilderComponent implements OnInit {
     return query;
   }
   checkConditionUIRule(model: any, currentValue: any) {
-
+    this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+      if (getRes.length >0) {
+        this.screenData = [];
+        this.screenData = getRes[0];
+        this.getUIRule(model, currentValue);
+      }else{}
+    }));
+  }
+  getUIRule(model: any, currentValue: any) {
+    debugger
     if (this.screenData != undefined) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children
       for (let j = 0; j < inputType.length; j++) {
@@ -595,9 +592,11 @@ export class BuilderComponent implements OnInit {
             }
             if (eval(query)) {
               inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+              this.updateNodes();
             }
             else {
               inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              this.updateNodes();
             }
           }
         }
@@ -657,10 +656,10 @@ export class BuilderComponent implements OnInit {
           || inputType[l].type == "date" || inputType[l].type == "datetime" || inputType[l].type == "month"
           || inputType[l].type == "time" || inputType[l].type == "week") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
-            // inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
             // this.lastFormlyModelValue = inputType[l].formly[0].fieldGroup[0].defaultValue;
             // this.formlyModel[inputType[l].key.toString()] = inputType[l].formly[0].fieldGroup[0].defaultValue;
-            this.formlyModel[inputType[l].key.toString()] = "Value Changed";
+            // this.formlyModel[inputType[l].key.toString()] = "Value Changed";
           }
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
