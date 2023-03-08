@@ -183,8 +183,10 @@ export class BuilderComponent implements OnInit {
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
+
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
-      if (res) {
+      if (res.length > 0) {
+        debugger
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
           this.builderService.jsonSaveBuilder(data).subscribe((res => {
             alert("Data Save");
@@ -850,7 +852,7 @@ export class BuilderComponent implements OnInit {
         footer: false,
         headingSize: "",
         header: true,
-        expanded: true,
+        expanded: false,
         highLight: false,
         labelPosition: "text-left",
         isNextChild: true,
@@ -5770,10 +5772,11 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.selectedNode.id) {
-
+          debugger
           // this.selectedNode.id = event.form.accordingText;
-          this.selectedNode.label = event.form.accordingText;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.sectionDisabled = event.form.disabled;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
@@ -5841,7 +5844,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
           this.selectedNode.header = event.form.header;
-          this.selectedNode.isExpanded = event.form.isExpanded;
+          this.selectedNode.expanded = event.form.expanded;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.updateNodes();
         }
@@ -6282,7 +6285,9 @@ export class BuilderComponent implements OnInit {
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
 
     if (fieldGroup) {
+
       if (fieldGroup[0].templateOptions) {
+        debugger
         if (fieldGroup[0].templateOptions.labelPosition == undefined && fieldGroup[0].templateOptions.labelPosition == '') {
           fieldGroup[0].templateOptions["labelPosition"];
         }

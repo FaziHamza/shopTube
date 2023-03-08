@@ -582,17 +582,17 @@ export class BuilderClickButtonService {
   getSectionConfig(node: any) {
     if (node.children?.at(1)?.children[0].formly) {
       return {
-        accordingText: node.title,
+        title: node.title,
         disabled: node.sectionDisabled,
         className: node.className,
-        titlePosition: node.labelPosition,
+        labelPosition: node.labelPosition,
         repeatable: node.repeatable,
         wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
       }
     }
     else {
       return {
-        accordingText: node.title,
+        title: node.title,
         disabled: node.sectionDisabled,
         className: node.className,
         titlePosition: node.labelPosition,
