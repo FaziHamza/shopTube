@@ -46,7 +46,7 @@ export class BuilderService {
     }
     jsonUIRuleGetData(moduleId: any): Observable<any[]> {
       return this.http.get<any[]>(
-        this.baseUrl + "jsonUIRuleData?moduleId=" + moduleId
+        this.baseUrl + "jsonUIRuleData?moduleName=" + moduleId
       );
     }
     jsonUIRuleDataSave(modal: any): Observable<any[]> {
