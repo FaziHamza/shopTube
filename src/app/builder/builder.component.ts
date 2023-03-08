@@ -594,19 +594,13 @@ export class BuilderComponent implements OnInit {
             }
             if (eval(query)) {
               inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-              this.updateNodes();
             }
             else {
               inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-              this.updateNodes();
             }
           }
         }
       }
-      this.nodes[0].children[1].children[0].children[1].children = [];
-      this.nodes[0].children[1].children[0].children[1].children = inputType;
-      this.updateNodes();
-      // this.clickBack(model, currentValue);
     }
   }
   lastFormlyModelValue: string;
@@ -659,19 +653,13 @@ export class BuilderComponent implements OnInit {
           || inputType[l].type == "time" || inputType[l].type == "week") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-            // this.lastFormlyModelValue = inputType[l].formly[0].fieldGroup[0].defaultValue;
-            // this.formlyModel[inputType[l].key.toString()] = inputType[l].formly[0].fieldGroup[0].defaultValue;
-            // this.formlyModel[inputType[l].key.toString()] = "Value Changed";
-          }
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
+          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            // if (this.formlyModel[inputType[l].key.toString()] == this.lastFormlyModelValue)
-            //   this.formlyModel[inputType[l].key.toString()] = inputType[l].formly[0].fieldGroup[0].defaultValue;
           }
         } else if (inputType[l].type == "alert") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].alertConfig[0].key && currentValue)
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
             inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].alertConfig[0].key && !currentValue)
+          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
             inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         } else if (inputType[l].type == "card") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)

@@ -29,13 +29,7 @@ export class UIRuleComponent implements OnInit {
   ifMenuList: any = [];
   ngOnInit(): void {
     this.uiRule();
-    // this.editorOptions['modes'] = ['code', 'text', 'tree', 'view'];
   }
-  // ngOnDestroy(): void {
-  //   if (this.editor) {
-  //     this.editor.destroy();
-  //   }
-  // }
   changeIf() {
     // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
     this.targetList = [];
@@ -48,6 +42,19 @@ export class UIRuleComponent implements OnInit {
         objTargetList.key = (inputType.key).toString()
         objTargetList.value = inputType.title ? (inputType.title).toString() : '';
         this.targetList.push(objTargetList);
+      }
+      else if (inputType.type == "alert") {
+        objTargetList.key = (inputType.key).toString()
+        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
+        this.targetList.push(objTargetList);
+      } else if (inputType.type == "buttonGroup") {
+        objTargetList.key = (inputType.key).toString()
+        objTargetList.value = (inputType.title).toString()
+        this.targetList.push(objTargetList)
+      } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
+        objTargetList.key = (inputType.key).toString()
+        objTargetList.value = (inputType.title).toString()
+        this.targetList.push(objTargetList)
       }
 
       // else if (inputType.type == "stepperMain") {
@@ -109,12 +116,11 @@ export class UIRuleComponent implements OnInit {
   getConditionList(uiIndex?: number, ifIndex?: number) {
     let nodeList: any;
     let menuName: any;
-    // if (ifIndex != undefined && uiIndex != undefined) {
-    //   menuName = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("ifMenuName")?.value;
-    //   nodeList = this.findElementNode(this.nodes, menuName);
-    // }
-    // else {
-    if (uiIndex != undefined) {
+    if (ifIndex != undefined && uiIndex != undefined) {
+      menuName = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("ifMenuName")?.value;
+      nodeList = this.findElementNode(this.nodes, menuName);
+    }
+    else if (uiIndex != undefined) {
       menuName = this.getUiRule().at(uiIndex).get('ifMenuName')?.value;
       nodeList = this.findElementNode(this.nodes, menuName);
     }
@@ -208,11 +214,11 @@ export class UIRuleComponent implements OnInit {
         }
         // }
       } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
-        const element = inputType.buttonGroup[0].btnConfig[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.buttonGroup[0],
-            inputOldJsonData: inputType.buttonGroup[0]
+            inputJsonData: inputType,
+            inputOldJsonData: inputType
           });
         }
       } else if (inputType.type == "stepperMain") {
@@ -240,7 +246,7 @@ export class UIRuleComponent implements OnInit {
           });
         }
       } else if (inputType.type == "alert") {
-        const element = inputType.alertConfig[0].key;
+        const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
             inputJsonData: inputType.alertConfig[0],
@@ -330,6 +336,7 @@ export class UIRuleComponent implements OnInit {
     });
   }
   updateRule() {
+    debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -384,39 +391,39 @@ export class UIRuleComponent implements OnInit {
     }
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
-    // this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes: Array<any>) => {
-    //   this.uiRuleForm = this.formBuilder.group({
-    //     uiRules: this.formBuilder.array(
-    //       getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
-    //         this.formBuilder.group({
-    //           ifMenuName: [getUIRes.ifMenuName],
-    //           condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
-    //           condationName: [getUIRes.condationName],
-    //           targetValue: [getUIRes.targetValue],
-    //           conditonType: [getUIRes.conditonType],
-    //           targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
-    //             this.formBuilder.group({
-    //               ifMenuName: [getIFRes.ifMenuName],
-    //               condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
-    //               condationName: [getIFRes.condationName],
-    //               targetValue: [getIFRes.targetValue],
-    //               conditonType: [getIFRes.conditonType]
-    //             }))),
-    //           targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
-    //             this.formBuilder.group({
-    //               targetValue: [getTargetRes.targetValue],
-    //               targetName: [getTargetRes.targetName],
-    //               formattingName: [getTargetRes.formattingName],
-    //               inputJsonData: [getTargetRes.inputJsonData],
-    //               inputOldJsonData: [getTargetRes.inputOldJsonData],
-    //               changeData: getTargetRes.changeData
-    //             })
-    //           )),
-    //         })
-    //       )
-    //     )
-    //   });
-    // });
+    this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes: Array<any>) => {
+      this.uiRuleForm = this.formBuilder.group({
+        uiRules: this.formBuilder.array(
+          getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
+            this.formBuilder.group({
+              ifMenuName: [getUIRes.ifMenuName],
+              condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
+              condationName: [getUIRes.condationName],
+              targetValue: [getUIRes.targetValue],
+              conditonType: [getUIRes.conditonType],
+              targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+                this.formBuilder.group({
+                  ifMenuName: [getIFRes.ifMenuName],
+                  condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
+                  condationName: [getIFRes.condationName],
+                  targetValue: [getIFRes.targetValue],
+                  conditonType: [getIFRes.conditonType]
+                }))),
+              targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
+                this.formBuilder.group({
+                  targetValue: [getTargetRes.targetValue],
+                  targetName: [getTargetRes.targetName],
+                  formattingName: [getTargetRes.formattingName],
+                  inputJsonData: [getTargetRes.inputJsonData],
+                  inputOldJsonData: [getTargetRes.inputOldJsonData],
+                  changeData: getTargetRes.changeData
+                })
+              )),
+            })
+          )
+        )
+      });
+    });
   }
   getConditionListOnLoad(menuName: string) {
     debugger

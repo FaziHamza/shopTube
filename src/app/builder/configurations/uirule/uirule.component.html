@@ -55,7 +55,7 @@
                             <div class="w-1/4  mb-4 px-2">
                               <label class="pt-1">If</label>
                               <div>
-                                <nz-select nzShowSearch nzAllowClear formControlName="condationName"
+                                <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                                   (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
                                   <nz-option [nzLabel]="uiData.title" [nzValue]="uiData.key"
                                     *ngFor="let uiData of ifMenuName"></nz-option>
@@ -116,12 +116,6 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                  <label class="mx-2 mt-2 mb-1">Value</label>
-                                  <div>
-                                    <input nz-input type="text" placeholder="Enter value" id="inputJsonData{{uiIndex}}"
-                                      formControlName="inputJsonData" required class="form-control"
-                                      name="inputJsonData{{uiIndex}}" />
-                                  </div>
                                   <json-editor formControlName="inputJsonData"
                                     id="inputJsonDataa{{uiIndex}}" [options]="editorOptions"
                                     style="max-height: 150px !important;"
