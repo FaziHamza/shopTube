@@ -1,3 +1,4 @@
+{{mainData | json}}
 <div class="card-content  flex flex-wrap">
     <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">

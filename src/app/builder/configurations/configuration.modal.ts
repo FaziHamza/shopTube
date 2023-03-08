@@ -3822,16 +3822,16 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'accordingText',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-            pattern: '^\\S*$',
-          }
-        },
+        // {
+        //   key: 'accordingText',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Label',
+        //     pattern: '^\\S*$',
+        //   }
+        // },
         {
           key: 'wrappers',
           type: 'select',
@@ -4066,12 +4066,13 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          key: 'isExpanded',
+          key: 'expanded',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
           templateOptions: {
-            label: 'Is Collepse'
+            label: 'Is Collapse'
           },
+          defaultValue:false,
         },
         // {
         //   key: 'repeat',

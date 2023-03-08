@@ -4,6 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-vertical-wrapper',
   template: `
+  
   <div class={{class}}>
    <label [attr.for]="id" class="col-form-label" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']"
    [style.color]="to['labelColor']">
@@ -23,6 +24,8 @@ import { FieldWrapper } from '@ngx-formly/core';
 export class FormlyVerticalWrapper extends FieldWrapper {
   class : any;
   ngOnInit(): void {
+    debugger
+    this.to
     if(''){
       this.class = "row " + '';
     }else {
