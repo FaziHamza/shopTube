@@ -1184,7 +1184,7 @@ export class BuilderComponent implements OnInit {
         showInfo:true,
         status:'success',
         strokeLineCap:'round',
-        success:30,
+        success:0,
         children: [
         ],
 
@@ -3814,10 +3814,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
-      case "drawer":
-        configObj = { ...configObj, ...this.clickButtonService.progressBarConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.progressBarFields;
-        break;
+      
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.gridFields;
@@ -3856,7 +3853,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.messageFields;
         break;
       case "notification":
-        configObj = { ...configObj, ...this.clickButtonService.getMessageConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.  getnotificationConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.notificationFields;
         break;
       case "list":
@@ -3977,7 +3974,7 @@ export class BuilderComponent implements OnInit {
 
       case "progressBar":
         configObj = { ...configObj, ...this.clickButtonService.getProgressBarConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.progressBarFeilds;
+        this.fieldData.formData = _formFieldData.progressBarFields;
         break;
 
       case "divider":
@@ -4808,6 +4805,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.content = event.form.content;
           this.selectedNode.icon = event.form.icon;
+          this.selectedNode.className = event.form.className;
+         
           this.selectedNode.color = event.form.color;
           this.selectedNode.duration = event.form.duration;
           this.selectedNode.pauseOnHover = event.form.pauseOnHover;
@@ -6123,11 +6122,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.key = event.form.key;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.title = event.form.title;
           this.selectedNode.progressBarType = event.form.progressBarType;
           this.selectedNode.percent = event.form.percent;
           this.selectedNode.showInfo = event.form.showInfo;
           this.selectedNode.status = event.form.status;
+          this.selectedNode.strokeLineCap = event.form.strokeLineCap;
           this.selectedNode.success = event.form.success;
           this.updateNodes()
         }

@@ -130,6 +130,7 @@ export interface TreeNode {
   viewType?: string,
   tooltip?: any,
   status?: any,
+  strokeLineCap?: any,
   resultTitle?: any,
   subTitle?: any,
   delayTime?: any,
