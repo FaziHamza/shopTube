@@ -139,16 +139,7 @@ export const htmlTabsData = [
             id: "static-1",
             icon: "fa fa-chevron-down",
             children: [
-              {
-                parameter: "addSection",
-                icon: "uil uil-bitcoin-sign",
-                label: "Add Section"
-              },
-              {
-                parameter: "alert",
-                icon: "uil-cloud-exclamation",
-                label: "Alert"
-              },
+             
               {
                 parameter: "cascader",
                 icon: "uil-arrow-break",
@@ -170,15 +161,7 @@ export const htmlTabsData = [
                 icon: "uil-file-copy-alt",
                 label: "Mention"
               },
-              {
-                parameter: "input",
-                icon: "uil uil-bullseye",
-                label: "Color",
-                type: 'input',
-                configType:'color',fieldType: 'color',
-                // maskString: "",
-                // maskLabel: ""
-              },
+           
               {
                 parameter: "transfer",
                 icon: "uil-sliders-v-alt",
@@ -207,21 +190,7 @@ export const htmlTabsData = [
                 // maskString: "",
                 // maskLabel: ""
               },
-              {
-                parameter: "fixedDiv",
-                icon: "uil-square-full",
-                label: "Fixed Div"
-              },
-            
-              {
-                parameter: "input",
-                icon: "uil uil-images",
-                label: "image",
-                type: 'input',
-                configType:'image',fieldType: 'file',
-                // maskString: "",
-                // maskLabel: ""
-              },
+             
               {
                 parameter: "input",
                 icon: "uil uil-text",
@@ -259,7 +228,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-file-alt",
-                label: "Number",
+                label: "Input number",
                 type: 'input',
                 configType:'input',fieldType: 'number',
                 // maskString: "",
@@ -284,21 +253,7 @@ export const htmlTabsData = [
                  // maskLabel: "",
                  options:true,
               },
-              {
-                parameter: "input",
-                icon: "uil uil-search-plus",
-                label: "Search",
-                type: 'ng-search',
-                configType:'search',fieldType: 'ng-search',
-                // maskString: "",
-                 // maskLabel: "",
-                 options:true,
-              },
-              {
-                parameter: "dashonictabsAddNew",
-                icon: "uil uil-search-plus",
-                label: "Tabs"
-              },
+             
               {
                 parameter: "input",
                 icon: "uil uil-dice-one pr-1",
@@ -310,16 +265,6 @@ export const htmlTabsData = [
                  options:true,
               },
              
-              {
-                parameter: "input",
-                icon: "uil uil-location-point",
-                label: "Tags",
-                type: 'ng-select',
-                configType:'multiselect',fieldType: 'ng-select',
-                // maskString: "",
-                 // maskLabel: "",
-                 options:true,
-              },
               {
                 parameter: "input",
                 icon: "uil uil-phone-alt",
@@ -338,15 +283,7 @@ export const htmlTabsData = [
                 // maskString: "",
                  // maskLabel: "",
               },
-              {
-                parameter: "input",
-                icon: "uil uil-calender",
-                label: "URL",
-                type: 'input',
-                configType:'checkbox',fieldType: 'url',
-                // maskString: "",
-                 // maskLabel: "",
-              },
+           
             ]
           },
           {
@@ -928,22 +865,14 @@ export const htmlTabsData = [
                 label: "Accordion Button"
               },
               
-              {
-                parameter: "anchor",
-                icon: "uil uil-file-alt",
-                label: "Anchor"
-              },
+             
               {
                 parameter: "audio",
                 icon: "uil uil-file-alt",
                 label: "Play Audio"
               },
              
-              {
-                parameter: "backTop",
-                icon: "uil uil-file-alt",
-                label: "Back Top"
-              },
+           
               {
                 parameter: "breakTag",
                 icon: "uil-arrow-break",
@@ -982,11 +911,7 @@ export const htmlTabsData = [
                 label: "Multi File Upload"
               },
             
-              {
-                parameter: "starrate",
-                icon: "uil-sliders-v-alt",
-                label: "starrate"
-              },
+            
               {
                 parameter: "starrate",
                 icon: "uil-sliders-v-alt",
@@ -1015,7 +940,94 @@ export const htmlTabsData = [
             ]
           },
         ]
-      }
+      },
+      {
+        label: "Other",
+        children: [
+          {
+            label: "Basic",
+            id: "static-1",
+            icon: "fa fa-chevron-down",
+            children: [
+              {
+                parameter: "addSection",
+                icon: "uil uil-bitcoin-sign",
+                label: "Add Section"
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "URL",
+                type: 'input',
+                configType:'checkbox',fieldType: 'url',
+                // maskString: "",
+                 // maskLabel: "",
+              },
+              {
+                parameter: "dashonictabsAddNew",
+                icon: "uil uil-search-plus",
+                label: "Tabs"
+              },
+            
+             
+              {
+                parameter: "input",
+                icon: "uil uil-location-point",
+                label: "Tags",
+                type: 'ng-select',
+                configType:'multiselect',fieldType: 'ng-select',
+                // maskString: "",
+                 // maskLabel: "",
+                 options:true,
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-search-plus",
+                label: "Search",
+                type: 'ng-search',
+                configType:'search',fieldType: 'ng-search',
+                // maskString: "",
+                 // maskLabel: "",
+                 options:true,
+              },
+              {
+                parameter: "fixedDiv",
+                icon: "uil-square-full",
+                label: "Fixed Div"
+              },
+            
+              {
+                parameter: "input",
+                icon: "uil uil-images",
+                label: "image",
+                type: 'input',
+                configType:'image',fieldType: 'file',
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-bullseye",
+                label: "Color",
+                type: 'input',
+                configType:'color',fieldType: 'color',
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "backTop",
+                icon: "uil uil-file-alt",
+                label: "Back Top"
+              },
+              {
+                parameter: "anchor",
+                icon: "uil uil-file-alt",
+                label: "Anchor"
+              },
+            ]
+          },
+        ]
+      },
     ]
   }
 ]

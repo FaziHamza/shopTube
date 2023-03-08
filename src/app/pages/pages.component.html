@@ -15,16 +15,16 @@
     </div>
     <!-- SECTION -->
     <div class="p-6">
-        <div *ngFor="let j of dbRes[0].children[1].children ; index as i">
+        <div *ngFor="let j of dbRes[0].children[1].children ; index as i" class="my-5">
             <!-- INCOLAPSSABLE CASE -->
-            <div class="border" *ngIf="!j.children[0].isExpanded">
+            <div class="border" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
                     <nz-page-header [nzGhost]="false">
                         <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
-                                <div *ngFor="let item of dbRes[0].children[1].children">
+                                <div *ngFor="let item of j.children[0].children">
                                     <app-block-buttons-card [softIconList]="item">
                                     </app-block-buttons-card>
                                 </div>
@@ -51,22 +51,22 @@
                 </div>
             </div>
             <!-- COLLAPSABLE CASE -->
-            <div *ngIf="j.children[0].isExpanded">
+            <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header">
                     <nz-collapse-panel [nzHeader]="j.children[0].title" [nzExtra]="extraTpl">
                         <div class="px-3" *ngIf="resData.length > 0">
-                            <app-main [mainData]="resData"></app-main>
+                          <app-main [mainData]="j.children[1].children"></app-main>
                         </div>
                         <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
                             {{j.children[2].title}}
-                            <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
-                                <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
-                            </div>
+                            <div *ngFor="let item of j.children[0].children">
+                              <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                          </div>
                         </div>
                         <br />
                     </nz-collapse-panel>
                     <ng-template #extraTpl>
-                        <div *ngFor="let item of dbRes[0].children[1].children[i]">
+                        <div *ngFor="let item of j.children[0].children">
                             <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
@@ -81,7 +81,7 @@
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
                     <div class="px-3" *ngIf="resData.length > 0">
-                        <app-main [mainData]="resData"></app-main>
+                      <app-main [mainData]="j.children[1].children"></app-main>
                     </div>
                     <br />
                     <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
