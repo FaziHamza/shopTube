@@ -22,7 +22,7 @@
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
-                                <div *ngFor="let item of dbRes[0].children[1].children">
+                                <div *ngFor="let item of j.children[0].children">
                                     <app-block-buttons-card [softIconList]="item">
                                     </app-block-buttons-card>
                                 </div>
@@ -49,11 +49,11 @@
                 </div>
             </div>
             <!-- COLLAPSABLE CASE -->
-            <div *ngIf="j.children[0].isExpanded">
+            <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header">
                     <nz-collapse-panel class="text-black font-semibold text-lg" [nzHeader]="j.children[0].title" [nzExtra]="extraTpl">
                         <div class="px-3" *ngIf="resData.length > 0">
-                            <app-main [mainData]="resData"></app-main>
+                          <app-main [mainData]="j.children[1].children"></app-main>
                         </div>
                       
                         <br />
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <ng-template #extraTpl>
-                        <div *ngFor="let item of dbRes[0].children[1].children[i]">
+                        <div *ngFor="let item of j.children[0].children">
                             <app-block-buttons-card [softIconList]="item">
                             </app-block-buttons-card>
                         </div>
@@ -80,7 +80,7 @@
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
                     <div class="px-3" *ngIf="resData.length > 0">
-                        <app-main [mainData]="resData"></app-main>
+                      <app-main [mainData]="j.children[1].children"></app-main>
                     </div>
                     <br />
                     <div class="py-3 px-6 border-t  text-black font-semibold text-lg" *ngIf="j.children[2].footer">
