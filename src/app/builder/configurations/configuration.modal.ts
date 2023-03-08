@@ -4648,37 +4648,42 @@ export class formFeildData {
             label: 'Alert Color',
             options: [
               {
+                label: 'White',
+                value: 'bg-white-600'
+              },
+              {
                 label: 'Blue',
-                value: ''
+                value: 'bg-blue-600'
               },
               {
-                label: 'Gray',
-                value: ''
-              },
-              {
-                label: 'Green',
-                value: ''
+                label: 'Grey',
+                value: 'bg-gray-600'
               },
               {
                 label: 'Red',
-                value: ''
+                value: 'bg-red-600'
               },
               {
-                label: 'Yellow',
-                value: ''
+                label: 'Green',
+                value: 'bg-green-600'
               },
               {
                 label: 'Light Blue',
-                value: ''
+                value: 'bg-blue-200'
               },
               {
-                label: 'White',
-                value: ''
+                label: 'Yellow',
+                value: 'bg-yellow-600'
+              },
+              {
+                label: 'Purple',
+                value: 'bg-purple-600'
               },
               {
                 label: 'Black',
-                value: ''
-              }
+                value: 'bg-black-600'
+              },
+
             ]
           },
 
@@ -4701,6 +4706,10 @@ export class formFeildData {
           templateOptions: {
             label: 'Alert Type',
             options: [
+              {
+                label: 'Default',
+                value: ''
+              },
               {
                 label: 'success',
                 value: 'success'
@@ -8532,7 +8541,7 @@ export class formFeildData {
             label: 'Mode',
             options: [
               {
-                label: 'Closeable ',
+                label: 'closeable ',
                 value: 'closeable '
               },
               {

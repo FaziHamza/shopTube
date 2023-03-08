@@ -1,7 +1,7 @@
 <ng-container class="mt-1">
     <span *ngIf="alertData.tooltip" nz-tooltip nzTooltipTitle={{alertData.tooltip}}><span nz-icon
             [nzType]='alertData.icon' nzTheme="outline"></span></span>
-    <nz-alert [nzType]='alertData.alertType' nzMessage={{alertData.text}} [nzBanner]="alertData.banner"
+    <nz-alert [nzType]='alertData.alertType' [class]="alertData.alertColor" nzMessage={{alertData.text}} [nzBanner]="alertData.banner"
         [nzShowIcon]="alertData.showIcon" [nzIconType]="alertData.iconType" [nzCloseable]="alertData.closeable"
         [nzCloseText]="alertData.closeText" [nzDescription]="alertData.description" [nzAction]="alertData.action">
     </nz-alert>
