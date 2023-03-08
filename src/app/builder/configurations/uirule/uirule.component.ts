@@ -233,10 +233,10 @@ export class UIRuleComponent implements OnInit {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: "new Data",
-            inputOldJsonData: "new Data"
-            // inputJsonData: inputType.formly[0].fieldGroup[0],
-            // inputOldJsonData: inputType.formly[0].fieldGroup[0]
+            // inputJsonData: "new Data",
+            // inputOldJsonData: "new Data"
+            inputJsonData: inputType.formly[0].fieldGroup[0],
+            inputOldJsonData: inputType.formly[0].fieldGroup[0]
           });
         }
       } else if (inputType.type == "alert") {
@@ -342,17 +342,9 @@ export class UIRuleComponent implements OnInit {
     if (jsonUIResult != null) {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
-        this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes => {
-          if (getRes.length == 0) {
-            this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
-              alert("Data Save");
-              this.screenData = [];
-              this.screenData = jsonUIResult;
-              // this.makeFaker();
-              this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-            }));
-          }
-          else {
+        this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+          debugger
+          if (getRes.length > 0) {
             this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
               this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
                 alert("Data Save");
@@ -361,6 +353,15 @@ export class UIRuleComponent implements OnInit {
                 // this.makeFaker();
                 this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
               }));
+            }));
+          }
+          else {
+            this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
+              alert("Data Save");
+              this.screenData = [];
+              this.screenData = jsonUIResult;
+              // this.makeFaker();
+              this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
             }));
           }
         }));
