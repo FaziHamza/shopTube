@@ -8373,13 +8373,13 @@ export class formFeildData {
       ]
     },
   ]
-  segmentedFields: FormlyFieldConfig[] = [
+  statisticFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
           className: "w-1/4 ",
-          key: 'prefix',
+          key: 'prefixIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
@@ -8387,9 +8387,9 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
-          key: 'suffix',
-          type: 'select',
+          className: "w-1/4 px-2",
+          key: 'suffixIcon',
+          type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Suffix',
@@ -8398,6 +8398,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
+          className: "w-full",
           templateOptions: {
             style: "margin-top: 6%;",
             canAdd: true,
@@ -8414,7 +8415,7 @@ export class formFeildData {
                 }
               },
               {
-                key: 'Value',
+                key: 'value',
                 type: 'input',
                 className: "w-1/4 px-1",
                 templateOptions: {
@@ -8427,10 +8428,11 @@ export class formFeildData {
       ]
     },
   ];
-  statisticFields: FormlyFieldConfig[] = [
+  segmentedFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        
         {
           className: "w-1/4 ",
           key: 'defaultSelectedIndex',
@@ -8454,33 +8456,12 @@ export class formFeildData {
                 value: 'large '
               },
               {
-                label: 'Default ',
-                value: 'default '
+                label: 'Default',
+                value: 'default'
               },
               {
                 label: 'Small',
                 value: 'small'
-              },
-            ]
-          }
-        },
-        {
-          key: 'options',
-          type: 'repeatSection',
-          templateOptions: {
-            style: "margin-top: 6%;",
-            canAdd: true,
-            canRemove: true
-          },
-          fieldArray: {
-            fieldGroup: [
-              {
-                key: 'label',
-                type: 'input',
-                className: "w-1/4 px-1",
-                templateOptions: {
-                  label: 'label'
-                }
               },
             ]
           }
@@ -8503,6 +8484,28 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          templateOptions: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                className: "w-1/4 px-1",
+                templateOptions: {
+                  label: 'label'
+                }
+              },
+            ]
+          }
+        },
+        
       ]
     },
   ];
@@ -8510,16 +8513,16 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-1/4 ",
-          key: 'Color',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: 'color',
-            label: 'Default Selected Index',
-          }
-        },
+        // {
+        //   className: "w-1/4 ",
+        //   key: 'Color',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     type: 'color',
+        //     label: 'color',
+        //   }
+        // },
         {
           className: "w-1/4 px-2 d-none",
           key: 'mode',

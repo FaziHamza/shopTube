@@ -1,20 +1,18 @@
-<!-- <nz-skeleton></nz-skeleton> -->
-
 <nz-space nzSize="middle">
-    <nz-skeleton-element *nzSpaceItem nzType="button" [nzActive]="this.skeltonData.isActive" [nzSize]="this.skeltonData.size"
-        [nzShape]="this.skeltonData.buttonShape"></nz-skeleton-element>
-    <nz-skeleton-element *nzSpaceItem nzType="avatar" [nzActive]="this.skeltonData.isActive" [nzSize]="this.skeltonData.size"
-        [nzShape]="this.skeltonData.avatarShape"></nz-skeleton-element>
-    <nz-skeleton-element *nzSpaceItem nzType="input" [nzActive]="this.skeltonData.isActive" [nzSize]="this.skeltonData.size"
+    <nz-skeleton-element *nzSpaceItem nzType="button" [nzActive]="skeltonData.isActive" [nzSize]="skeltonData.size"
+        [nzShape]="skeltonData.buttonShape"></nz-skeleton-element>
+    <nz-skeleton-element *nzSpaceItem nzType="avatar" [nzActive]="skeltonData.isActive" [nzSize]="skeltonData.size"
+        [nzShape]="skeltonData.avatarShape"></nz-skeleton-element>
+    <nz-skeleton-element *nzSpaceItem nzType="input" [nzActive]="skeltonData.isActive" [nzSize]="skeltonData.size"
         style="width:200px"></nz-skeleton-element>
 </nz-space>
 <br />
 <br />
-<nz-skeleton-element nzType="image" [nzActive]="this.skeltonData.isActive"></nz-skeleton-element>
+<nz-skeleton-element nzType="image" [nzActive]="skeltonData.isActive"></nz-skeleton-element>
 <nz-divider></nz-divider>
 <div nz-row nzAlign="middle" [nzGutter]="8">
     <div nz-col nzSpan="5">
         Active:
-        <nz-switch [(ngModel)]="this.skeltonData.isActive"></nz-switch>
+        <nz-switch [(ngModel)]="skeltonData.isActive"></nz-switch>
     </div>
 </div>

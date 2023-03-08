@@ -495,11 +495,11 @@ export class BuilderComponent implements OnInit {
   }
   checkConditionUIRule(model: any, currentValue: any) {
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
-      if (getRes.length >0) {
+      if (getRes.length > 0) {
         this.screenData = [];
         this.screenData = getRes[0];
         this.getUIRule(model, currentValue);
-      }else{}
+      } else { }
     }));
   }
   getUIRule(model: any, currentValue: any) {
@@ -942,7 +942,7 @@ export class BuilderComponent implements OnInit {
                     text: '$1',
                   },
                   type: data?.fieldType,
-                  labelPosition: "text-right",
+                  labelPosition: "text-left",
                   titleIcon: "",
                   label: data?.label,
                   placeholder: data?.label,
@@ -1179,12 +1179,12 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         key: "progressBar" + Guid.newGuid(),
-        progressBarType:'line',
+        progressBarType: 'line',
         percent: 30,
-        showInfo:true,
-        status:'success',
-        strokeLineCap:'round',
-        success:30,
+        showInfo: true,
+        status: 'success',
+        strokeLineCap: 'round',
+        success: 30,
         children: [
         ],
 
@@ -2828,7 +2828,7 @@ export class BuilderComponent implements OnInit {
         statisticArray: [
           {
             title: "Active Users",
-            Value: 1949101,
+            value: 1949101,
           },
           {
             title: "Account Balance (CNY)",
@@ -3575,8 +3575,8 @@ export class BuilderComponent implements OnInit {
         icon: "smile",
         color: "#108ee9",
         duration: 3000,
-        pauseOnHover:true,
-        animate:true,
+        pauseOnHover: true,
+        animate: true,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3840,11 +3840,11 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.emptyFields;
         break;
       case "segmented":
-        configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getSegmentedConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.segmentedFields;
         break;
       case "statistic":
-        configObj = { ...configObj, ...this.clickButtonService.getSegmentedConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
       case "nzTag":
@@ -4742,7 +4742,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.prefixIcon = event.form.prefixIcon;
           this.selectedNode.suffixIcon = event.form.suffixIcon;
-          event.tableDta = !undefined ? this.selectedNode.statisticArray = event.tableDta : this.selectedNode.statisticArray = this.selectedNode.statisticArray;
+          if(event.tableDta){
+            this.selectedNode.statisticArray = event.tableDta 
+          }else{
+            this.selectedNode.statisticArray = this.selectedNode.statisticArray
+          }
         }
         break;
       case "nzTag":
@@ -4760,13 +4764,18 @@ export class BuilderComponent implements OnInit {
         break;
       case "segmented":
         if (this.selectedNode) {
+          debugger
           this.selectedNode.id = event.form.id;
           this.selectedNode.key = event.form.key;
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip;
-          event.tableDta = !undefined ? this.selectedNode.options = event.tableDta : this.selectedNode.options = this.selectedNode.options;
+          if(event.tableDta){
+            this.selectedNode.options = event.tableDta
+          }else{
+            this.selectedNode.options = this.selectedNode.options
+          }
           this.selectedNode.block = event.form.block;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.size = event.form.size;
