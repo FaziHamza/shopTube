@@ -8,24 +8,42 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
+  progressBarConfig(node: any) {
+    return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success};
+  }
   getGridConfig(node: any) {
     debugger
-    return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable , tableScroll: node.tableScroll , fixHeader: node.fixHeader , fixedColumn: node.fixedColumn };
+    return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable, tableScroll: node.tableScroll, fixHeader: node.fixHeader, fixedColumn: node.fixedColumn };
   }
   getCommentConfig(node: any) {
     debugger
-    return { avatar:node.avatar , author:node.author};
+    return { avatar: node.avatar, author: node.author };
   }
 
   getSkeletonConfig(node: any) {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
   getBadgeConfig(node: any) {
-    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor , nzStatus:node.nzStatus };
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus };
   }
 
   getEmptyConfig(node: any) {
     return { text: node.text, icon: node.icon, link: node.link, btnText: node.btnText, color: node.color, content: node.content };
+  }
+  getSegmentedConfig(node: any) {
+    return { options: node.options, block: node.block, disabled: node.disabled, size: node.size, defaultSelectedIndex: node.defaultSelectedIndex };
+  }
+  getnzTagConfig(node: any) {
+    return { color: node.color, mode: node.mode, checked: node.checked };
+  }
+  getMessageConfig(node: any) {
+    return { duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
+  }
+  getnotificationConfig(node: any) {
+    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate };
+  }
+  getStatisticConfig(node: any) {
+    return { prefixIcon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray };
   }
 
   getlistConfig(node: any) {
@@ -97,6 +115,13 @@ export class BuilderClickButtonService {
       btnLabel: node.btnLabel,
       nzPopoverContent: node.nzPopoverContent,
       nzPopoverTitle: node.nzPopoverTitle,
+      arrowPointAtCenter: node.arrowPointAtCenter,
+      trigger: node.trigger,
+      placement: node.placement,
+      visible: node.visible,
+      mouseEnterDelay: node.mouseEnterDelay,
+      mouseLeaveDelay: node.mouseLeaveDelay,
+      backdrop: node.backdrop,
     }
   }
 
@@ -315,19 +340,20 @@ export class BuilderClickButtonService {
   }
 
   getAlertConfig(node: any) {
+    debugger
     return {
-      icon: node.alertConfig[0]?.icon,
-      type: node.alertConfig[0]?.type,
-      text: node.alertConfig[0]?.text,
-      alertColor: node.alertConfig[0]?.alertColor,
-      alertType:node.alertConfig[0]?.alertType,
-      banner:node.alertConfig[0]?.banner,
-      showIcon:node.alertConfig[0]?.showIcon,
-      closeable:node.alertConfig[0]?.closeable,
-      description:node.alertConfig[0]?.description,
-      closeText:node.alertConfig[0]?.closeText,
-      iconType:node.alertConfig[0]?.iconType,
-      action:node.alertConfig[0]?.action,
+      icon: node.icon,
+      type: node.type,
+      text: node.text,
+      alertColor: node.alertColor,
+      alertType: node.alertType,
+      banner: node.banner,
+      showIcon: node.showIcon,
+      closeable: node.closeable,
+      description: node.description,
+      closeText: node.closeText,
+      iconType: node.iconType,
+      action: node.action,
     }
   }
 
@@ -488,7 +514,7 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['labelIcon'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
-  
+
     }
   }
   getButtonConfig(node: any) {

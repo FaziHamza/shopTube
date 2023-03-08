@@ -1178,13 +1178,12 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         key: "progressBar" + Guid.newGuid(),
-        value: "25",
-        color: "primary",
-        showValue: false,
-        stripped: false,
-        height: '9',
-        animated: false,
-        hieghtWithPx: "9px",
+        progressBarType:'line',
+        percent: 30,
+        showInfo:true,
+        status:'success',
+        strokeLineCap:'round',
+        success:30,
         children: [
         ],
 
@@ -1351,22 +1350,15 @@ export class BuilderComponent implements OnInit {
         key: "alert_" + Guid.newGuid(),
         highLight: false,
         isNextChild: false,
-        alertConfig: [
-          {
-            tooltip: "",
-            alertColor: "alert alert-primary",
-            text: "This is an alert—check it out!",
-            icon: "",
-            type: "",
-            key: "alert_" + Guid.newGuid(),
-            alertType: 'success',
-            banner: false,
-            showIcon: false,
-            closeable: false,
-            description: '',
-          }
-        ],
-
+        tooltip: "",
+        alertColor: "alert alert-primary",
+        text: "This is an alert—check it out!",
+        icon: "",
+        alertType: 'success',
+        banner: false,
+        showIcon: false,
+        closeable: false,
+        description: '',
         children: [
         ],
 
@@ -2616,7 +2608,6 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-
         timelineConfig: [
           {
             tooltip: "",
@@ -2831,14 +2822,16 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
+        prefixIcon: "like",
+        suffixIcon: "like",
         statisticArray: [
           {
-            nzTitle: "Active Users",
-            nzValue: 1949101,
+            title: "Active Users",
+            Value: 1949101,
           },
           {
-            nzTitle: "Account Balance (CNY)",
-            nzValue: 2019.111,
+            title: "Account Balance (CNY)",
+            value: 2019.111,
           },
         ],
         children: [],
@@ -3012,6 +3005,13 @@ export class BuilderComponent implements OnInit {
         btnLabel: "Hover me",
         nzPopoverContent: "Content",
         nzPopoverTitle: "Title",
+        arrowPointAtCenter: false,
+        trigger: 'hover',
+        placement: 'top',
+        visible: false,
+        mouseEnterDelay: 0,
+        mouseLeaveDelay: 0,
+        backdrop: false,
         children: [
         ],
       } as TreeNode;
@@ -3065,7 +3065,17 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        options: ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly'],
+        options: [
+          { label: 'Daily' },
+          { label: 'Weekly' },
+          { label: 'Monthly' },
+          { label: 'Quarterly' },
+          { label: 'Yearly' },
+        ],
+        block: true,
+        disabled: false,
+        size: 'default',
+        defaultSelectedIndex: 1,
         children: [
         ],
       } as TreeNode;
@@ -3101,6 +3111,8 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         color: "red",
+        mode: "closeable",
+        checked: false,
         children: [
         ],
       } as TreeNode;
@@ -3319,7 +3331,7 @@ export class BuilderComponent implements OnInit {
         footerText: "",
         isVisible: false,
         placement: "right",
-        size: "right",
+        size: "default",
         width: "",
         height: "", //number and string
         offsetX: 0,
@@ -3537,10 +3549,11 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        // title: "show Message",
         content: "this message is disappeard after 10 seconds",
         duration: 10000,
         messageType: "success",
+        pauseOnHover: true,
+        animate: true,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3561,6 +3574,8 @@ export class BuilderComponent implements OnInit {
         icon: "smile",
         color: "#108ee9",
         duration: 3000,
+        pauseOnHover:true,
+        animate:true,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3798,6 +3813,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
+      case "drawer":
+        configObj = { ...configObj, ...this.clickButtonService.progressBarConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.progressBarFields;
+        break;
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.gridFields;
@@ -3818,6 +3837,26 @@ export class BuilderComponent implements OnInit {
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
+        break;
+      case "segmented":
+        configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.segmentedFields;
+        break;
+      case "statistic":
+        configObj = { ...configObj, ...this.clickButtonService.getSegmentedConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.statisticFields;
+        break;
+      case "nzTag":
+        configObj = { ...configObj, ...this.clickButtonService.getnzTagConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.nzTagFields;
+        break;
+      case "message":
+        configObj = { ...configObj, ...this.clickButtonService.getMessageConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.messageFields;
+        break;
+      case "notification":
+        configObj = { ...configObj, ...this.clickButtonService.getMessageConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.notificationFields;
         break;
       case "list":
         configObj = { ...configObj, ...this.clickButtonService.getlistConfig(selectedNode) };
@@ -4692,6 +4731,47 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.avatarShape = event.form.avatarShape;
         }
         break;
+      case "statistic":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.prefixIcon = event.form.prefixIcon;
+          this.selectedNode.suffixIcon = event.form.suffixIcon;
+          event.tableDta = !undefined ? this.selectedNode.statisticArray = event.tableDta : this.selectedNode.statisticArray = this.selectedNode.statisticArray;
+        }
+        break;
+      case "nzTag":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.mode = event.form.mode;
+          this.selectedNode.checked = event.form.checked;
+        }
+        break;
+      case "segmented":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          event.tableDta = !undefined ? this.selectedNode.options = event.tableDta : this.selectedNode.options = this.selectedNode.options;
+          this.selectedNode.block = event.form.block;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.defaultSelectedIndex = event.form.defaultSelectedIndex;
+        }
+        break;
       case "badge":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -4716,6 +4796,21 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.link = event.form.link;
           this.selectedNode.btnText = event.form.btnText;
           this.selectedNode.color = event.form.color;
+        }
+        break;
+      case "notification":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.content = event.form.content;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.duration = event.form.duration;
+          this.selectedNode.pauseOnHover = event.form.pauseOnHover;
+          this.selectedNode.animate = event.form.animate;
         }
         break;
       case "list":
@@ -4749,6 +4844,20 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.formatter = event.form.formatter;
           this.selectedNode.size = event.form.size;
           this.selectedNode.isBordered = event.form.isBordered;
+          this.selectedNode.isColon = event.form.isColon;
+        }
+        break;
+      case "message":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.content = event.form.content;
+          this.selectedNode.duration = event.form.duration;
+          this.selectedNode.messageType = event.form.messageType;
+          this.selectedNode.animate = event.form.animate;
           this.selectedNode.isColon = event.form.isColon;
         }
         break;
@@ -4910,6 +5019,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.nzPopoverContent = event.form.nzPopoverContent;
           this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
+          this.selectedNode.arrowPointAtCenter = event.form.arrowPointAtCenter;
+          this.selectedNode.trigger = event.form.trigger;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.visible = event.form.visible;
+          this.selectedNode.mouseEnterDelay = event.form.mouseEnterDelay;
+          this.selectedNode.mouseLeaveDelay = event.form.mouseLeaveDelay;
+          this.selectedNode.backdrop = event.form.backdrop;
         }
         break;
       case "spin":
@@ -6002,34 +6118,15 @@ export class BuilderComponent implements OnInit {
       case "progressBar":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.progressBArConfig[0].title = event.form.title;
-          this.selectedNode.progressBArConfig[0].tooltip = event.form.tooltip;
-          this.selectedNode.progressBArConfig[0].value = event.form.value;
-          this.selectedNode.progressBArConfig[0].color = event.form.color;
-          this.selectedNode.progressBArConfig[0].showValue = event.form.showValue;
-          this.selectedNode.progressBArConfig[0].stripped = event.form.stripped;
-          this.selectedNode.progressBArConfig[0].height = event.form.height;
-          this.selectedNode.progressBArConfig[0].hieghtWithPx = event.form.height + "px";
-          this.selectedNode.progressBArConfig[0].animated = event.form.animated;
-          this.selectedNode.link = event.form.link;
-          if (this.selectedNode.link != undefined) {
-            this.selectedNode.link = event.form.link;
-            this.builderService.genericApis(event.form.link).subscribe((res => {
-              this.selectedNode.progressBArConfig[0].value = res.value;
-              this.selectedNode.progressBArConfig[0].color = res.color;
-              this.selectedNode.progressBArConfig[0].showValue = res.showValue;
-              this.selectedNode.progressBArConfig[0].stripped = res.stripped;
-              this.selectedNode.progressBArConfig[0].height = res.height;
-              this.selectedNode.progressBArConfig[0].hieghtWithPx = res.height + "px";
-              this.selectedNode.progressBArConfig[0].animated = res.animated;
-              this.updateNodes()
-            }));
-            event.form.link = "";
-          }
+          this.selectedNode.progressBarType = event.form.progressBarType;
+          this.selectedNode.percent = event.form.percent;
+          this.selectedNode.showInfo = event.form.showInfo;
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.success = event.form.success;
           this.updateNodes()
         }
         break;
@@ -6133,25 +6230,24 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "alert":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.alertConfig[0].icon = event.form.icon;
-          this.selectedNode.alertConfig[0].tooltip = event.form.tooltip;
-          this.selectedNode.alertConfig[0].type = event.form.type;
-          this.selectedNode.alertConfig[0].text = event.form.text;
-          this.selectedNode.alertConfig[0].alertColor = event.form.alertColor;
-          this.selectedNode.alertConfig[0].alertType = event.form.alertType;
-          this.selectedNode.alertConfig[0].banner = event.form.banner;
-          this.selectedNode.alertConfig[0].showIcon = event.form.showIcon;
-          this.selectedNode.alertConfig[0].closeable = event.form.closeable;
-          this.selectedNode.alertConfig[0].description = event.form.description;
-          this.selectedNode.alertConfig[0].closeText = event.form.closeText;
-          this.selectedNode.alertConfig[0].iconType = event.form.iconType;
-          this.selectedNode.alertConfig[0].action = event.form.action;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.text = event.form.text;
+          this.selectedNode.alertColor = event.form.alertColor;
+          this.selectedNode.alertType = event.form.alertType;
+          this.selectedNode.banner = event.form.banner;
+          this.selectedNode.showIcon = event.form.showIcon;
+          this.selectedNode.closeable = event.form.closeable;
+          this.selectedNode.description = event.form.description;
+          this.selectedNode.closeText = event.form.closeText;
+          this.selectedNode.iconType = event.form.iconType;
+          this.selectedNode.action = event.form.action;
           this.updateNodes()
         }
         break;

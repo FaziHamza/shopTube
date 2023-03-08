@@ -13,6 +13,11 @@ export class NotificationComponent implements OnInit {
   ngOnInit(): void {
   }
   createBasicNotification(template: TemplateRef<{}>): void {
-    this.notification.template(template,{ nzDuration: this.notificationData.duration });
+    this.notification.template(template, {
+      nzDuration: this.notificationData.duration, 
+      nzKey: this.notificationData.key,
+      nzPauseOnHover: this.notificationData.pauseOnHover,
+      nzAnimate: this.notificationData.animate,
+    });
   }
 }

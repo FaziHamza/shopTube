@@ -159,8 +159,8 @@
         <ng-template #ninteen>
             <ng-container *ngIf="item.type == 'divider' ; else twenty">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <span class="text-right" nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                            nzType="question-circle" nzTheme="twotone"></span></span>
+                    <span class="text-right" nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span
+                            nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
                     <app-divider [dividerData]="item"></app-divider>
                 </div>
             </ng-container>
@@ -354,8 +354,8 @@
             <ng-container *ngIf="item.type == 'carouselCrossfade' ; else fourty">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div class="p-2">
-                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                nzTheme="twotone"></span></span>
+                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
+                                nzType="question-circle" nzTheme="twotone"></span></span>
                         <app-carousel-crossfade-card [carouselslides]="item"></app-carousel-crossfade-card>
                     </div>
                 </div>
@@ -478,22 +478,24 @@
         </ng-template>
         <ng-template #fiftyTwo>
             <ng-container *ngIf="item.type == 'popOver' ; else fiftyThree">
-                <ng-container *ngIf="item.hideExpression == false">
+                <ng-container *ngIf="!item.hideExpression">
                     <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <button nz-button nz-popover nzType="primary" nzPopoverTitle={{item.nzPopoverTitle}}
-                        nzPopoverContent={{item.nzPopoverContent}}>{{item.btnLabel}}</button>
+                    <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter" [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement"
+                        [nzPopoverVisible]="item.visible" [nzPopoverMouseEnterDelay]="item.mouseEnterDelay" [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay" nz-button
+                        nz-popover nzType="primary" [nzPopoverTitle]="item.nzPopoverTitle"
+                        [nzPopoverContent]="item.nzPopoverContent">{{item.btnLabel}}</button>
                 </ng-container>
             </ng-container>
         </ng-template>
         <ng-template #fiftyThree>
-            <ng-container *ngIf="item.type == 'segmented' ; else fiftyFour">
+            <ng-container *ngIf="item.type == 'segmented'; else fiftyFour">
                 <ng-container *ngIf="!item.hideExpression">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-segmented [nzOptions]="item.options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+                    <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size" [ngModel]="item.defaultSelectedIndex" [nzOptions]="item.options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -504,7 +506,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-tag [nzColor]='item.color' (nzOnClose)="onClose()">{{item.label}}</nz-tag>
+                    <nz-tag [nzColor]='item.color' [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose()">{{item.title}}</nz-tag>
                 </ng-container>
             </ng-container>
         </ng-template>

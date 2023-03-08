@@ -61,6 +61,14 @@ export interface TreeNode {
   dividerClassName?: any;
   dividerPosition?: any;
   options?: any;
+  alertColor?: any;
+  alertType?: any;
+  banner?: any;
+  showIcon?: any;
+  closeable?: any;
+  closeText?: any;
+  action?: any;
+  iconType?: any;
   text?: any;
   src?: any;
   bgColor?: any;
@@ -130,6 +138,12 @@ export interface TreeNode {
   btnLabel?: any,
   nzPopoverContent?: any,
   nzPopoverTitle?: any,
+  arrowPointAtCenter?: any,
+  trigger?: any,
+  visible?: any,
+  mouseEnterDelay?: any,
+  mouseLeaveDelay?: any,
+  backdrop?: any,
   avatar?: any,
   author?: any,
   node?: any,
@@ -146,7 +160,12 @@ export interface TreeNode {
   animate?: any,
   pauseOnHover?: any,
   duration?: any,
+  messageType?: any,
   title?: any,
+  progressBarType?: any,
+  percent?: any,
+  showInfo?: any,
+  success?: any,
   content?: any,
   sortable?: any,
   headingConfig?: headerConfig[],
@@ -201,6 +220,8 @@ export interface TreeNode {
   disabled?: boolean,
   headingSize?: string,
   nzBlock?: any,
+  block?: any,
+  defaultSelectedIndex?: any,
   nzType?: any,
   nzShape?: any,
   format?: any,
@@ -214,6 +235,8 @@ export interface TreeNode {
   repeat?: any,
   color?: string,
   icon?: any,
+  mode?: any,
+  checked?: any,
   dividerText?: any,
   dashed?: any,
   dividerType?: any,
@@ -332,4 +355,7 @@ export interface TreeNode {
   subHeading?: string,
   subHeadingIcon?: string,
   subheadingColor?: string,
+  prefixIcon?: any,
+  suffixIcon?: any,
+  statisticArray?: any,
 }

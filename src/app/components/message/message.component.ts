@@ -11,8 +11,11 @@ export class MessageComponent implements OnInit {
   constructor(private message: NzMessageService) { }
 
   ngOnInit(): void {
+    debugger
+    this.messageData;
   }
-  createBasicMessage(type: string): void {
-    this.message.create(type, this.messageData.content, { nzDuration: this.messageData.duration });
+  createBasicMessage(data: any): void {
+    debugger
+    this.message.create(data.type, data.content, { nzDuration: data.duration, nzPauseOnHover: data.pauseOnHover, nzAnimate: data.animate });
   }
 }

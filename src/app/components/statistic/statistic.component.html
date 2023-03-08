@@ -1,8 +1,10 @@
-
 <nz-row [nzGutter]="16">
     <ng-container *ngFor="let item of statisticData.statisticArray">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]='item.nzValue' [nzTitle]='item.nzTitle'></nz-statistic>
+            <nz-statistic [nzPrefix]="prefixTpl" [nzSuffix]="suffixTpl" [nzValue]='item.nzValue'
+                [nzTitle]='item.nzTitle'></nz-statistic>
+            <ng-template #prefixTpl><span nz-icon [nzType]="statisticData.prefixIcon"></span></ng-template>
+            <ng-template #suffixTpl><span nz-icon [nzType]="statisticData.suffixIcon"></span></ng-template>
             <!-- <nz-statistic [nzValue]='item.nzValue | number' [nzTitle]='item.nzTitle'></nz-statistic> -->
         </nz-col>
     </ng-container>
