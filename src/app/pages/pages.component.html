@@ -12,12 +12,21 @@
         </nz-page-header>
     </div>
     <!-- SECTION -->
+<<<<<<< HEAD
     <div class=" w-full" >
         <div *ngFor="let j of dbRes[0].children[1].children ; index as i" [ngClass]="i > 0 ? 'border-t border-blue-500': ''"> 
             <!-- INCOLAPSSABLE CASE -->
             <div class="" *ngIf="!j.children[0].isExpanded">
                 <div class="border" *ngIf="j.children[0].header">
                     <nz-page-header class="pl-6 pt-1 pb-1 font-semibold text-lg" [nzGhost]="false">
+=======
+    <div class="p-6">
+        <div *ngFor="let j of dbRes[0].children[1].children ; index as i" class="my-5">
+            <!-- INCOLAPSSABLE CASE -->
+            <div class="border" *ngIf="!j.children[0].expanded">
+                <div class="site-page-header-ghost-wrapper border-gray-300" *ngIf="j.children[0].header">
+                    <nz-page-header [nzGhost]="false">
+>>>>>>> de72c54fae017f787241a569599b6c881d6b216e
                         <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
@@ -55,7 +64,16 @@
                         <div class="px-3" *ngIf="resData.length > 0">
                           <app-main [mainData]="j.children[1].children"></app-main>
                         </div>
+<<<<<<< HEAD
                       
+=======
+                        <div class="py-3 px-6 border-t border-gray-300 text-gray-600" *ngIf="j.children[2].footer">
+                            {{j.children[2].title}}
+                            <div *ngFor="let item of j.children[0].children">
+                              <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                          </div>
+                        </div>
+>>>>>>> de72c54fae017f787241a569599b6c881d6b216e
                         <br />
                     </nz-collapse-panel>
                     <div class="py-3 px-10 border-t  text-black font-semibold text-lg" *ngIf="j.children[2].footer">
