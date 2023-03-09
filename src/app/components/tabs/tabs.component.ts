@@ -10,6 +10,7 @@ export class TabsComponent implements OnInit {
   @Input() tabs: any;
   @Input() dataModel !: any;
   form = new FormGroup({});
+  selectedIndex=0;
   constructor() { }
 
   ngOnInit(): void {

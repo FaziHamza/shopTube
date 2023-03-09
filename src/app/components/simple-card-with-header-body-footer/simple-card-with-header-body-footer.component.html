@@ -1,10 +1,10 @@
-<div class="m-2" *ngFor="let item of SimpleCardWithHeaderBodyFooterData">
-    <div (click)="loadURLData(item.link)">
-        <nz-card nzTitle={{item.headerText}}>
-            <div [innerHTML]="item.bodyText | sanitize: 'html'"></div>
+<div class="m-2">
+    <div (click)="loadURLData(SimpleCardWithHeaderBodyFooterData.link)">
+        <nz-card nzTitle={{SimpleCardWithHeaderBodyFooterData.headerText}}>
+            <div [innerHTML]="SimpleCardWithHeaderBodyFooterData.bodyText | sanitize: 'html'"></div>
         </nz-card>
         <div class="border">
-            {{item.footerText}}
+            {{SimpleCardWithHeaderBodyFooterData.footerText}}
         </div>
     </div>
 </div>

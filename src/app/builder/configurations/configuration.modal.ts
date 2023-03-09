@@ -13,31 +13,30 @@ export class formFeildData {
       {
         fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
-          {
-            key: 'formCheck',
-            type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
-              label: 'Format',
-              options: [
-                {
-                  label: 'Horizental',
-                  value: 'inline'
-                },
-                {
-                  label: 'Vertical',
-                  value: 'vertical'
-                },
+          // {
+          //   key: 'formCheck',
+          //   type: 'select',
+          //   className: "w-1/4 px-1",
+          //   wrappers: ["formly-vertical-wrapper"],
+          //   templateOptions: {
+          //     label: 'Format',
+          //     options: [
+          //       {
+          //         label: 'Horizental',
+          //         value: 'inline'
+          //       },
+          //       {
+          //         label: 'Vertical',
+          //         value: 'vertical'
+          //       },
 
-              ]
-            },
-            // defaultValue: 'Vertical'
-          },
+          //     ]
+          //   },
+          //   // defaultValue: 'Vertical'
+          // },
           {
-            key: 'multiselect',
+            key: 'api',
             type: 'select',
-
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
             templateOptions: {
@@ -88,14 +87,6 @@ export class formFeildData {
           ]
         }
       },
-      // {
-      //   key: 'repeat',
-      //   type: 'checkbox',
-      //   className: "w-1/6 px-1 mt-5",
-      //   templateOptions: {
-      //     label: 'Repeat'
-      //   },
-      // },
     ]
   selectFields: FormlyFieldConfig[] =
     [
@@ -103,7 +94,7 @@ export class formFeildData {
         fieldGroupClassName: "flex flex-wrap",
         fieldGroup: [
           {
-            key: 'multiselect',
+            key: 'api',
             type: 'select',
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
@@ -155,14 +146,6 @@ export class formFeildData {
           ]
         }
       }
-      // {
-      //   key: 'repeat',
-      //   type: 'checkbox',
-      //   className: "w-1/6 px-1 mt-5",
-      //   templateOptions: {
-      //     label: 'Repeat'
-      //   },
-      // },
     ]
   //used in formly form
   methodUrl: FormlyFieldConfig[] = [{
@@ -5381,36 +5364,20 @@ export class formFeildData {
           },
         },
         {
-          template: '<div class="bold-label mt-3">options</div>',
+          template: '<div class="w-full bold-label mt-3">options</div>',
         },
         {
           key: 'options',
           type: 'repeatSection',
+          className: 'w-full',
           templateOptions: {
             style: "margin-top: 4%;",
             canAdd: true,
             canRemove: true
           },
           fieldArray: {
-            className: 'ml-3 me-2',
+           
             fieldGroup: [
-              {
-                key: 'captionTitle',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'Caption Title'
-                }
-              },
-              {
-                className: "ml-2",
-                key: 'caption',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
-                  label: 'Caption Text'
-                }
-              },
               {
                 className: "ml-2",
                 key: 'img',
@@ -8796,6 +8763,220 @@ export class formFeildData {
           type: 'checkbox',
           templateOptions: {
             label: 'ShowInfo',
+          },
+          defaultValue: false
+        },
+      ]
+    },
+  ];
+  rateFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+       
+        {
+          className: "w-1/4 ",
+          key: 'icon',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Icon',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'showCount',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type: 'number',
+            label: 'Show number ',
+          }
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'clear',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Click clear',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'allowHalf',
+          type: 'input',
+          templateOptions: {
+            label: 'Allow Half',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'focus',
+          type: 'input',
+          templateOptions: {
+            label: 'Focus',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'disabled',
+          type: 'input',
+          templateOptions: {
+            label: 'Disabled',
+          },
+          defaultValue: false
+        },
+      ]
+    },
+  ];
+  transferFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 ",
+          key: 'firstBoxTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'First box title',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'secondBoxTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Second box title',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'leftButtonLabel',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Left button label',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'rightButtonLabel',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Right button label',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'searchPlaceHolder',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Search placeHolder',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'notFoundContentLabel',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Not found content label',
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'status',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Status',
+            options: [
+              {
+                label: 'error',
+                value: 'error'
+              },
+              {
+                label: 'warning',
+                value: 'warning'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 ",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'api',
+            options: [
+              {
+                label: 'api',
+                value: 'transferApi'
+              },
+             
+            ]
+          }
+        },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full",
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'key',
+                type: 'input',
+                templateOptions: {
+                  label: 'key'
+                }
+              },
+              {
+                key: 'title',
+                type: 'input',
+                templateOptions: {
+                  label: 'title'
+                }
+              },
+              {
+                key: 'description',
+                type: 'input',
+                templateOptions: {
+                  label: 'description'
+                }
+              },
+              {
+                key: 'direction',
+                type: 'input',
+                templateOptions: {
+                  label: 'direction'
+                }
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'disabled',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Disabled',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'showSearch',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'ShowSearch',
           },
           defaultValue: false
         },

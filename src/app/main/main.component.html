@@ -218,7 +218,7 @@
             <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <app-simple-card-with-header-body-footer
-                        [SimpleCardWithHeaderBodyFooterData]="item.simpleCardWithHeaderBodyFooterConfig">
+                        [SimpleCardWithHeaderBodyFooterData]="item">
                     </app-simple-card-with-header-body-footer>
                 </div>
             </ng-container>
@@ -525,13 +525,13 @@
             </ng-container>
         </ng-template>
         <ng-template #fiftySix>
-            <ng-container *ngIf="item.type == 'starrate' ; else fiftySeven">
+            <ng-container *ngIf="item.type == 'rate' ; else fiftySeven">
                 <ng-container *ngIf="!item.hideExpression">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-rate></app-rate>
+                    <app-rate [rateData]="item"></app-rate>
                 </ng-container>
             </ng-container>
         </ng-template>

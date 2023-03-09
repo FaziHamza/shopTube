@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-simple-card-with-header-body-footer',
@@ -8,16 +9,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SimpleCardWithHeaderBodyFooterComponent implements OnInit {
 
   @Input() SimpleCardWithHeaderBodyFooterData: any;
-  link:any;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.link = this.SimpleCardWithHeaderBodyFooterData[0].link;
   }
 
   loadURLData(link : any){
-    if(this.link){
-       location.replace('http://localhost:4200/pages/' + this.link);
+    if(link){
+      let routerLink = "/pages/" + link;
+      this.router.navigate([routerLink]);
     }
   }
 }

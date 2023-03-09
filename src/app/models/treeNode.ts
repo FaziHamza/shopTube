@@ -25,6 +25,10 @@ export interface TreeNode {
   isNextChild?: boolean;
   padding?: any;
   hideExpression?: boolean;
+  clear?: boolean;
+  allowHalf?: boolean;
+  focus?: boolean;
+  showCount?: any;
   nzCount?: any;
   dropdownOptions?: any;
   nzText?: any;
@@ -130,6 +134,14 @@ export interface TreeNode {
   viewType?: string,
   tooltip?: any,
   status?: any,
+  showSearch?: any,
+  firstBoxTitle?: any,
+  secondBoxTitle?: any,
+  leftButtonLabel?: any,
+  rightButtonLabel?: any,
+  searchPlaceHolder?: any,
+  list?: any,
+  notFoundContentLabel?: any,
   strokeLineCap?: any,
   resultTitle?: any,
   subTitle?: any,
@@ -298,6 +310,7 @@ export interface TreeNode {
   bodyStyle?: {};
   headerText?: string;
   footerText?: string;
+  bodyText?: string;
   isVisible?: boolean;
   placement?: string;
   size?: string;

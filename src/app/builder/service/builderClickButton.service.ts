@@ -8,16 +8,23 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
+  getTransferConfig(node: any) {
+    return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, list: node.list };
+  }
   progressBarConfig(node: any) {
-    return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success};
+    debugger
+    return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success };
   }
   getGridConfig(node: any) {
-    debugger
     return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable, tableScroll: node.tableScroll, fixHeader: node.fixHeader, fixedColumn: node.fixedColumn };
   }
   getCommentConfig(node: any) {
-    debugger
     return { avatar: node.avatar, author: node.author };
+  }
+  getRateFieldsConfig(node: any) {
+    return {
+      clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
+    };
   }
 
   getSkeletonConfig(node: any) {
@@ -37,7 +44,7 @@ export class BuilderClickButtonService {
     return { color: node.color, mode: node.mode, checked: node.checked };
   }
   getMessageConfig(node: any) {
-    return {  content:node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
+    return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
     return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate };
@@ -369,12 +376,12 @@ export class BuilderClickButtonService {
 
   getSimpleCardWithHeaderBodyFooterConfig(node: any) {
     return {
-      headerText: node.simpleCardWithHeaderBodyFooterConfig[0]?.headerText,
-      bodyText: node.simpleCardWithHeaderBodyFooterConfig[0]?.bodyText,
-      footerText: node.simpleCardWithHeaderBodyFooterConfig[0]?.footerText,
-      textAlign: node.simpleCardWithHeaderBodyFooterConfig[0]?.textAlign,
+      headerText: node.headerText,
+      bodyText: node.bodyText,
+      footerText: node.footerText,
+      textAlign: node.textAlign,
       link: "",
-      height: node.simpleCardWithHeaderBodyFooterConfig[0]?.height,
+      height: node.height,
     }
   }
 
@@ -465,8 +472,8 @@ export class BuilderClickButtonService {
   getHeadingConfig(node: any) {
     return {
       padding: '',
-      level: node.data.level,
-      text: node.data.text,
+      level: node.level,
+      text: node.text,
       style: node.style,
       textAlignment: node.textAlign,
       headingColor: node.headingColor,
@@ -476,7 +483,7 @@ export class BuilderClickButtonService {
   getParagraphConfig(node: any) {
     return {
       padding: '',
-      text: node.data.text,
+      text: node.text,
       style: node.style,
       textAlignment: node.textAlign,
       color: node.color,
@@ -490,6 +497,7 @@ export class BuilderClickButtonService {
       defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
       required: node.formly[0].fieldGroup[0].templateOptions?.required,
+      tooltip: node.formly[0].fieldGroup[0].templateOptions?.tooltip,
       titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].templateOptions?.rows,
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],

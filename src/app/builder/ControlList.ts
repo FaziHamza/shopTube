@@ -913,9 +913,9 @@ export const htmlTabsData = [
             
             
               {
-                parameter: "starrate",
+                parameter: "rate",
                 icon: "uil-sliders-v-alt",
-                label: "starrate"
+                label: "Rating"
               },
             
              

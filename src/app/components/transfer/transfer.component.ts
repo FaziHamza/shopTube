@@ -8,10 +8,15 @@ import { TransferItem } from 'ng-zorro-antd/transfer';
 })
 export class TransferComponent implements OnInit {
   @Input() transferData : any;
+  newTransferData : any;
   list: TransferItem[] = [];
   constructor() { }
 
   ngOnInit(): void {
+    this.makeData();
+  }
+  makeData(){
+    this.newTransferData = JSON.parse(JSON.stringify(this.transferData.list)) ;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +35,19 @@ export class TransferComponent implements OnInit {
   change(ret: {}): void {
     console.log('nzChange', ret);
   }
+
+  handleChange(event : any){
+    debugger
+    console.log("change");
+  }
+  
+  reload(direction: string): void {
+    debugger
+    this.transferData.list = this.newTransferData;
+    this.makeData();
+    alert(`your clicked ${direction}!`);
+  }
+
 }
 
 

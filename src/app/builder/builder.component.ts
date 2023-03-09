@@ -6,6 +6,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { GenaricFeild } from '../models/genaricFeild.modal';
+import { Guid } from '../models/guid';
 import { TreeNode } from '../models/treeNode';
 import { BuilderService } from '../services/builder.service';
 import { actionTypeFeild, formFeildData } from './configurations/configuration.modal';
@@ -1182,6 +1183,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'video') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "video" + Guid.newGuid(),
         title: 'Play Video Online',
         type: "video",
         highLight: false,
@@ -1189,8 +1191,6 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         isNextChild: false,
         tooltip: "",
-        key: "video" + Guid.newGuid(),
-
         videoRatio: "ratio ratio-1x1",
         videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
         children: [
@@ -1236,24 +1236,16 @@ export class BuilderComponent implements OnInit {
         carousalConfig: [
           {
             img: "assets/images/small/img-1.jpg",
-            captionTitle: "First slide label",
-            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           },
           {
             img: "assets/images/small/img-2.jpg",
-            captionTitle: "Second slide label",
-            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           },
           {
             img: "assets/images/small/img-3.jpg",
-            captionTitle: "Third slide label",
-            caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           }
         ],
-
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -1358,25 +1350,21 @@ export class BuilderComponent implements OnInit {
     else if (value == 'simpleCardWithHeaderBodyFooter') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
+        key: "simpleCard_" + Guid.newGuid(),
         title: 'simpleCard_1',
         type: "simpleCardWithHeaderBodyFooter",
         hideExpression: false,
         className: "w-1/2",
         highLight: false,
         isNextChild: false,
-        key: "simpleCard_" + Guid.newGuid(),
-        simpleCardWithHeaderBodyFooterConfig: [
-          {
-            tooltip: "",
-            textAlign: "text-left",
-            textSize: "h1",
-            headerText: "Card header",
-            bodyText: "card body",
-            footerText: "card footer",
-            link: '',
-            height: '100p',
-          }
-        ],
+        tooltip: "",
+        textAlign: "text-left",
+        textSize: "h1",
+        headerText: "Card header",
+        bodyText: "card body",
+        footerText: "card footer",
+        link: '',
+        height: '100p',
 
         children: [
         ],
@@ -2207,10 +2195,8 @@ export class BuilderComponent implements OnInit {
         paddingTop: 0,
         paddingRight: 0,
         paddingLeft: 0,
-        data: {
-          text: "Editor.js",
-          level: 1
-        },
+        text: "Editor.js",
+        level: 1,
         children: [
         ],
       } as TreeNode;
@@ -2237,9 +2223,7 @@ export class BuilderComponent implements OnInit {
         // paddingTop: 0,
         // paddingRight: 0,
         // paddingLeft: 0,
-        data: {
-          text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
-        },
+        text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati",
         children: [
         ],
       } as TreeNode;
@@ -2715,18 +2699,23 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'starrate') {
+    else if (value == 'rate') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
-        title: 'starrate_1',
-        type: "starrate",
+        key: 'rate_' + Guid.newGuid(),
+        title: 'rate_1',
+        type: "rate",
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
+        clear: true,
+        allowHalf: true,
+        focus: true,
+        icon: 'star',
+        showCount: 5,
+        disabled: false,
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -3137,6 +3126,14 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         disabled: false,
+        showSearch:true,
+        firstBoxTitle:'Source',
+        secondBoxTitle:'Target',
+        leftButtonLabel:'to left',
+        rightButtonLabel:'to right',
+        searchPlaceHolder:'Search here...',
+        status:'error',
+        notFoundContentLabel:'The list is empty',
         list: [
           {
             key: '1',
@@ -3803,13 +3800,21 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
-      
+      case "transfer":
+        configObj = { ...configObj, ...this.clickButtonService.getTransferConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.transferFields;
+        break;
+
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.gridFields;
         break;
       case "comment":
         configObj = { ...configObj, ...this.clickButtonService.getCommentConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.rateFields;
+        break;
+      case "rate":
+        configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.commentFields;
         break;
 
@@ -3842,7 +3847,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.messageFields;
         break;
       case "notification":
-        configObj = { ...configObj, ...this.clickButtonService.  getnotificationConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getnotificationConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.notificationFields;
         break;
       case "list":
@@ -4089,6 +4094,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "tags":
+      case "repeatSection":
       case "multiselect":
       case "search":
       case "radiobutton":
@@ -4108,7 +4114,7 @@ export class BuilderComponent implements OnInit {
         debugger
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search")
+        if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
           this.fieldData.formData = _formFieldData.selectFields;
         else if (type == "radiobutton" || type == "checkbox")
           this.fieldData.formData = _formFieldData.radioFields;
@@ -4706,6 +4712,35 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
+      case "transfer":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.showSearch = event.form.showSearch;
+          this.selectedNode.firstBoxTitle = event.form.firstBoxTitle;
+          this.selectedNode.secondBoxTitle = event.form.secondBoxTitle;
+          this.selectedNode.leftButtonLabel = event.form.leftButtonLabel;
+          this.selectedNode.rightButtonLabel = event.form.rightButtonLabel;
+          this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
+          this.assigOptionsData(this.selectedNode.list , event.tableDta, event.form.api)
+          if (event.tableDta) {
+            this.selectedNode.list = event.tableDta
+          } else {
+            this.selectedNode.list = this.selectedNode.list
+          }
+          if(event.form.api){
+            this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
+              this.selectedNode.list = res;
+            })
+          }
+        }
+        break;
       case "skeleton":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -4718,6 +4753,22 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.avatarShape = event.form.avatarShape;
         }
         break;
+      case "rate":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.clear = event.form.clear;
+          this.selectedNode.allowHalf = event.form.allowHalf;
+          this.selectedNode.focus = event.form.focus;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.showCount = event.form.showCount;
+          this.selectedNode.disabled = event.form.disabled;
+        }
+        break;
       case "statistic":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
@@ -4728,9 +4779,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.prefixIcon = event.form.prefixIcon;
           this.selectedNode.suffixIcon = event.form.suffixIcon;
-          if(event.tableDta){
-            this.selectedNode.statisticArray = event.tableDta 
-          }else{
+          if (event.tableDta) {
+            this.selectedNode.statisticArray = event.tableDta
+          } else {
             this.selectedNode.statisticArray = this.selectedNode.statisticArray
           }
         }
@@ -4757,9 +4808,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip;
-          if(event.tableDta){
+          if (event.tableDta) {
             this.selectedNode.options = event.tableDta
-          }else{
+          } else {
             this.selectedNode.options = this.selectedNode.options
           }
           this.selectedNode.block = event.form.block;
@@ -4804,7 +4855,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.content = event.form.content;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.className = event.form.className;
-         
           this.selectedNode.color = event.form.color;
           this.selectedNode.duration = event.form.duration;
           this.selectedNode.pauseOnHover = event.form.pauseOnHover;
@@ -4873,9 +4923,10 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'select':
+      case 'repeatSection':
       case 'tag':
       case 'search':
-      case 'radio':
+      case 'radiobutton':
       case 'checkbox':
       case 'decimal':
       case 'input':
@@ -4917,28 +4968,22 @@ export class BuilderComponent implements OnInit {
             templateOptions['addonLeft'].text = event.form.addonLeft;
             templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['readonly'] = event.form.readonly;
-            templateOptions['options'] = event.form.tableDta;
-
+            if (event.tableDta) {
+              templateOptions['options'] = event.tableDta;
+            } else {
+              templateOptions['options'] = event.form.options;
+            }
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
             //   templateOptions['defaultValue'] = arr;
             // } else {
             // }
-            if (event.form.apiData) {
-              this.selectedNode.link = event.form.apiData;
-              this.builderService.jsonTagsDataGet(event.form.apiData).subscribe((res) => {
-
+            if (event.form.api) {
+              this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
                 templateOptions.options = res;
               })
-            } else {
-              if (event.tableDta) {
-                templateOptions.options = event.tableDta;
-              }
             }
           });
-          if (event.form.multiselect) {
-            this.EnumView();
-          }
         }
         break;
 
@@ -6286,23 +6331,23 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = event.form.headerText;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].tooltip = event.form.tooltip;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = event.form.bodyText;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = event.form.footerText;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = event.form.height;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].link = event.form.link;
-          this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].textAlign = event.form.textAlign;
-          if (event.form.link != undefined || event.form.link != "") {
-            this.builderService.genericApis(event.form.link).subscribe((res => {
+          this.selectedNode.headerText = event.form.headerText;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.bodyText = event.form.bodyText;
+          this.selectedNode.footerText = event.form.footerText;
+          this.selectedNode.height = event.form.height;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.textAlign = event.form.textAlign;
+          // if (event.form.link != undefined || event.form.link != "") {
+          //   this.builderService.genericApis(event.form.link).subscribe((res => {
 
-              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
-              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
-              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
-              this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
-              this.updateNodes();
-            }))
-          }
+          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
+          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
+          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
+          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
+          //     this.updateNodes();
+          //   }))
+          // }
           this.updateNodes()
         }
         break;
@@ -6323,7 +6368,6 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   adddynamicDashonictab(abc: any) {
-
     if (this.selectedNode.children) {
       let tabsLength = this.selectedNode.children?.length;
       if (tabsLength < abc) {
@@ -6361,7 +6405,6 @@ export class BuilderComponent implements OnInit {
 
 
   searchControll() {
-    //
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
@@ -6377,11 +6420,8 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-
     if (fieldGroup) {
-
       if (fieldGroup[0].templateOptions) {
-        debugger
         if (fieldGroup[0].templateOptions.labelPosition == undefined && fieldGroup[0].templateOptions.labelPosition == '') {
           fieldGroup[0].templateOptions["labelPosition"];
         }
@@ -6448,16 +6488,19 @@ export class BuilderComponent implements OnInit {
         return value;
       });
   }
-}
 
-class Guid {
-  static newGuid() {
-    let data = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0,
-        v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-
-    return data.split("-")[0];
+  assigOptionsData(selectNode:any , tableDta : any , api : any){
+    if (tableDta) {
+      this.selectedNode.list = tableDta
+    } else {
+      this.selectedNode.list = this.selectedNode.list
+    }
+    if(api){
+      this.builderService.jsonTagsDataGet(api).subscribe((res) => {
+        selectNode = res;
+      })
+    }
   }
 }
+
+

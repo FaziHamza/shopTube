@@ -2,8 +2,6 @@
 <button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
 <br />
 <br />
-
-{{data | json}}  
 <nz-table #editRowTable [nzBordered]='data.nzBordered' [nzData]="tableData" [nzFooter]="data?.nzFooter"
   [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
   [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='data?.nzFrontPagination'
