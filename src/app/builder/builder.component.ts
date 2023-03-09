@@ -611,24 +611,6 @@ export class BuilderComponent implements OnInit {
         if (inputType[l].type == "button" || inputType[l].type == "linkButton" || inputType[l].type == "dropdownButton") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-            // const element = this.screenData.uiData[index].targetCondition[k].changeData;
-            // var arr = JSON.parse(JSON.stringify(this.screenData.uiData[index].targetCondition[k].inputOldJsonData));
-            // arr = arr.btnConfig[0];
-            // for (let objIndex = 0; objIndex < element.length; objIndex++) {
-            //   for (const key of Object.keys(arr)) {
-            //     if (element[objIndex].key === key) {
-            //       arr[key] = element[objIndex].value;
-            //     }
-            //     //  else if (typeof arr[key] === 'object') {
-            //     //   for (const childKey of Object.keys(arr[key][0])) {
-            //     //     if (element[objIndex].key === childKey) {
-            //     //       arr[key][0][childKey] = element[objIndex].value;
-            //     //     }
-            //     //   }
-            //     // }
-            //   }
-            //   inputType[1].btnConfig[0] = JSON.parse(JSON.stringify(arr));
-            // }
           } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         } else if (inputType[l].type == "buttonGroup") {
@@ -636,58 +618,40 @@ export class BuilderComponent implements OnInit {
             inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
             inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-          // }
         }
-        // else if (inputType[l].type == "stepperMain") {
-        //   for (let m = 0; m < inputType[l].children.length; m++) {
-        //     if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && currentValue)
-        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-        //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
-        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        //   }
-        // }
-        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "checkbox" || inputType[l].type == "color" ||
-          inputType[l].type == "decimal" || inputType[l].type == "image" || inputType[l].type == "multiselect" ||
-          inputType[l].type == "radiobutton" || inputType[l].type == "search" || inputType[l].type == "repeatSection" ||
-          inputType[l].type == "tags" || inputType[l].type == "telephone" || inputType[l].type == "textarea"
-          || inputType[l].type == "date" || inputType[l].type == "datetime" || inputType[l].type == "month"
-          || inputType[l].type == "time" || inputType[l].type == "week") {
+        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "checkbox" ||
+          inputType[l].type == "color" || inputType[l].type == "decimal" || inputType[l].type == "image" ||
+          inputType[l].type == "multiselect" || inputType[l].type == "radiobutton" || inputType[l].type == "search" ||
+          inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
+          inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
+          inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
           }
-        } else if (inputType[l].type == "alert") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l].alertConfig[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        } else if (inputType[l].type == "card") {
+        } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
+          inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        } else if (inputType[l].type == "simpleCardWithHeaderBodyFooter") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l].simpleCardWithHeaderBodyFooterConfig = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l].simpleCardWithHeaderBodyFooterConfig = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == "mainDashonicTabs") {
+          for (let m = 0; m < inputType[l].children.length; m++) {
+            if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && currentValue)
+              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && !currentValue)
+              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+          }
+        } else if (inputType[l].type == "stepperMain") {
+          for (let m = 0; m < inputType[l].children.length; m++) {
+            if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && currentValue)
+              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
+              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+          }
         }
-        // else if (inputType[l].type == "mainDashonicTabs") {
-        //   for (let m = 0; m < inputType[l].children.length; m++) {
-        //     if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && currentValue)
-        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-        //     else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && !currentValue)
-        //       inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        //   }
-        // }
         else if (inputType[l].type == "gridList" || inputType[l].type == "gridListEditDelete") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        } else if (inputType[l].type == "header" || inputType[l].type == "paragraph") {
-
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
