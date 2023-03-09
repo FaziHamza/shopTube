@@ -968,8 +968,6 @@ export const htmlTabsData = [
                 icon: "uil uil-search-plus",
                 label: "Tabs"
               },
-            
-             
               {
                 parameter: "input",
                 icon: "uil uil-location-point",

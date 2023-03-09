@@ -19,13 +19,4 @@ export class PopconfirmComponent implements OnInit {
   confirm(): void {
     this.nzMessageService.info('click confirm');
   }
-
-  // beforeConfirm(): Promise<boolean> {
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve(true);
-  //     }, 3000);
-  //   });
-  // }
-
 }

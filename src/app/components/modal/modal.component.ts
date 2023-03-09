@@ -25,5 +25,11 @@ export class ModalComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
+  doSomethingAfterModalOpens() {
+    console.log("Modal is open!");
+  }
+  doSomethingAfterModalClose() {
+    console.log("Modal is close!");
+  }
 
 }
