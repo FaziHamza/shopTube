@@ -86,6 +86,7 @@ import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.com
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 import { BadgeComponent } from './components/badge/badge.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { StepperComponent } from './components/stepper/stepper.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -165,7 +166,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutTabsComponent,
     LayoutDrawerComponent,
     DynamicTableComponent,
-    BadgeComponent
+    BadgeComponent,
+    StepperComponent
   ],
   imports: [
     FormsModule,

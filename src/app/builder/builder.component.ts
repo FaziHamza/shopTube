@@ -700,8 +700,6 @@ export class BuilderComponent implements OnInit {
 
   addControlToJson(value: string, data?: any) {
 
-
-
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
@@ -921,6 +919,7 @@ export class BuilderComponent implements OnInit {
                 focus: false,
                 wrappers: this.getLastNodeWrapper("wrappers"),
                 templateOptions: {
+                  multiple: true,
                   attributes: {
                     autocomplete: 'off',
                   },
@@ -1372,71 +1371,86 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'dashonicTabs') {
+    else if (value == 'tabs') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        title: 'SubTab_1',
-        type: "dashonicTabs",
+        id: 'tabs_' + Guid.newGuid(),
+        key: 'tabs_' + Guid.newGuid(),
+        title: 'Tabs',
+        type: "tabs",
         className: "w-full",
         isNextChild: true,
         highLight: false,
-        key: 'SubTab_' + Guid.newGuid(),
-
-        dashonicTabsConfig: [
-          {
-            hideExpression: false,
-            tabLabel: 'Tab',
-            tooltip: '',
-            tabsPosition: 'nav-tabs justify-content-start',
-            selectTabColor: "",
-            tabsDisplayType: "--tabsDisplayType:None",
-            buttonText: "Submit",
-            buttonIcon: "",
-            buttonColor: "btn btn-primary mt-2",
-            underLineColor: "--underLineColor:none",
-            color: "none",
-            tabFormat: "horizental",
-            tabIcon: "uil-star",
-            dashonicTabsChild: []
-          }
-        ],
+        hideExpression: false,
+        tooltip: '',
+        icon: 'star',
         children: [
         ],
-
       } as TreeNode;
       this.tabsChild = newNode
       this.addNode(node, newNode);
     }
-    else if (value == 'mainDashonicTabs') {
+    else if (value == 'mainTab') {
       const newNode = {
-        id: 'mainDashonicTabs_' + Guid.newGuid(),
-        key: 'mainDashonicTabs_' + Guid.newGuid(),
-        title: 'MainTab_1',
-        type: "mainDashonicTabs",
+        id: 'mainTab_' + Guid.newGuid(),
+        key: 'mainTab_' + Guid.newGuid(),
+        title: 'Main Tab',
+        type: "mainTab",
         isNextChild: true,
         highLight: false,
         className: "w-full",
         tooltip: "",
         hideExpression: false,
-        mainDashonicTabsConfig: [
-          {
-            tabLabel: 'Tab 1',
-            tabsPosition: 'nav-tabs justify-content-start',
-            selectTabColor: "#038EDC",
-            tabsDisplayType: "None",
-            buttonText: "Submit",
-            buttonIcon: "",
-            buttonColor: "btn btn-primary",
-            tabFormat: "horizental",
-            nodes: "3",
-            mainDashonicTabsChild: []
-          }
-
-        ],
-
+        selectedIndex: 0,
+        animated: true,
+        size: 'default',
+        tabPosition: 'top',
+        tabType: 'line',
+        hideTabs: false,
+        nodes: "3",
+        centerd: false,
         children: [
         ],
-
+      } as TreeNode;
+      this.tabsAdd = newNode
+      this.addNode(node, newNode);
+    }
+    else if (value == 'mainStep') {
+      const newNode = {
+        id: 'mainStep_' + Guid.newGuid(),
+        key: 'mainStep_' + Guid.newGuid(),
+        title: 'Main Step',
+        type: "mainStep",
+        isNextChild: true,
+        highLight: false,
+        className: "w-full",
+        tooltip: "",
+        hideExpression: false,
+        selectedIndex: 0,
+        direction: 'horizontal',
+        placement: 'horizontal',
+        size: 'default',
+        status: 'process',
+        disabled: false,
+        nodes: "3",
+        children: [
+        ],
+      } as TreeNode;
+      this.tabsAdd = newNode
+      this.addNode(node, newNode);
+    }
+    else if (value == 'step') {
+      const newNode = {
+        id: 'step_' + Guid.newGuid(),
+        key: 'step_' + Guid.newGuid(),
+        title: 'Step',
+        type: "step",
+        isNextChild: true,
+        highLight: false,
+        icon: 'star',
+        disabled: false,
+        description: "description",
+        children: [
+        ],
       } as TreeNode;
       this.tabsAdd = newNode
       this.addNode(node, newNode);
@@ -2879,8 +2893,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'modal') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'modal_' + Guid.newGuid(),
+        key: 'modal_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Modal',
         type: "modal",
@@ -2889,7 +2903,19 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         btnLabel: "Show Modal",
         modalContent: "Content",
-        modalTitle: "The first Modal",
+        modalTitle: "The is modal title",
+        cancalButtontext: 'Cancel',
+        centered: false,
+        okBtnLoading: false,
+        cancelBtnLoading: false,
+        okBtnDisabled: false,
+        cancelDisabled: false,
+        ecsModalCancel: true,
+        okBtnText: 'Ok',
+        closeIcon: 'close',
+        width: 250,
+        showCloseIcon: true,
+        zIndex: 1000,
         children: [
         ],
       } as TreeNode;
@@ -2897,8 +2923,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'popConfirm') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'popConfirm_' + Guid.newGuid(),
+        key: 'popConfirm_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Pop Confirm',
         type: "popConfirm",
@@ -2906,8 +2932,13 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         btnLabel: "Open Popconfirm with Promise",
-        // modalContent:"Content",
-        // modalTitle:"The first Modal",
+        arrowPointAtCenter: false,
+        content: 'Pop Confirm',
+        trigger: 'hover',
+        placement: 'top',
+        visible: false,
+        mouseEnterDelay: 0,
+        mouseLeaveDelay: 0,
         children: [
         ],
       } as TreeNode;
@@ -2982,8 +3013,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         btnLabel: "Hover me",
-        nzPopoverContent: "Content",
-        nzPopoverTitle: "Title",
+        content: "Content",
         arrowPointAtCenter: false,
         trigger: 'hover',
         placement: 'top',
@@ -3126,73 +3156,64 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         disabled: false,
-        showSearch:true,
-        firstBoxTitle:'Source',
-        secondBoxTitle:'Target',
-        leftButtonLabel:'to left',
-        rightButtonLabel:'to right',
-        searchPlaceHolder:'Search here...',
-        status:'error',
-        notFoundContentLabel:'The list is empty',
+        showSearch: true,
+        firstBoxTitle: 'Source',
+        secondBoxTitle: 'Target',
+        leftButtonLabel: 'to left',
+        rightButtonLabel: 'to right',
+        searchPlaceHolder: 'Search here...',
+        status: 'error',
+        notFoundContentLabel: 'The list is empty',
         list: [
           {
             key: '1',
             title: 'content 1',
-            description: 'description of content 1',
             direction: 'right',
           },
           {
             key: '2',
             title: 'content 2',
-            description: 'description of content 1',
             direction: undefined,
           },
           {
             key: '3',
             title: 'content 3',
-            description: 'description of content 3',
+            description: 'description',
             direction: 'right',
           },
           {
             key: '4',
             title: 'content 4',
-            description: 'description of content 4',
             direction: undefined,
           },
           {
             key: '5',
             title: 'content 5',
-            description: 'description of content 5',
             direction: 'right',
           },
           {
             key: '6',
             title: 'content 6',
-            description: 'description of content 6',
             direction: undefined,
           },
           {
             key: '7',
             title: 'content 7',
-            description: 'description of content 8',
             direction: 'right',
           },
           {
             key: '8',
             title: 'content 8',
-            description: 'description of content 8',
             direction: 'undefined',
           },
           {
             key: '9',
             title: 'content 9',
-            description: 'description of content 9',
             direction: 'right',
           },
           {
             key: '10',
             title: 'content 10',
-            description: 'description of content 10',
             direction: undefined,
           },
         ],
@@ -3800,6 +3821,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
+      case "modal":
+        configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.modalFields;
+        break;
       case "transfer":
         configObj = { ...configObj, ...this.clickButtonService.getTransferConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.transferFields;
@@ -3884,6 +3909,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getPopOverConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.popOverFields;
         break;
+      case "popConfirm":
+        configObj = { ...configObj, ...this.clickButtonService.getPopOverConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.popOverFields;
+        break;
 
       case "result":
         configObj = { ...configObj, ...this.clickButtonService.getResultConfig(selectedNode) };
@@ -3946,9 +3975,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.switchFeilds;
         break;
 
-      case "dashonicTabs":
-        configObj = { ...configObj, ...this.clickButtonService.getdashonicTabsConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.dashonicTabFields;
+      case "tabs":
+        configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.tabsFields;
         break;
 
       case "kanban":
@@ -3961,9 +3990,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
         break;
 
-      case "mainDashonicTabs":
+      case "mainTab":
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.dashoniMainTabFields;
+        this.fieldData.formData = _formFieldData.mainTabFields;
         break;
 
       case "progressBar":
@@ -4191,7 +4220,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.mainStepperFields;
         break;
       case "tabsMain":
-        configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
       default:
@@ -4572,17 +4601,17 @@ export class BuilderComponent implements OnInit {
   }
   stepperAddNew() {
 
-    this.addControlToJson('stepperMain');
+    this.addControlToJson('mainStep');
     this.selectedNode = this.stepperAdd;
-    this.addControlToJson('stepper');
+    this.addControlToJson('step');
     this.selectedNode = this.stepperChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.stepperAdd;
-    this.addControlToJson('stepper');
+    this.addControlToJson('step');
     this.selectedNode = this.stepperChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.stepperAdd;
-    this.addControlToJson('stepper');
+    this.addControlToJson('step');
     this.selectedNode = this.stepperChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
@@ -4610,17 +4639,17 @@ export class BuilderComponent implements OnInit {
   }
   dashonictabsAddNew() {
 
-    this.addControlToJson('mainDashonicTabs');
+    this.addControlToJson('mainTab');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
@@ -4712,6 +4741,30 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
+      case "modal":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnLabel = event.form.btnLabel;
+          this.selectedNode.modalContent = event.form.modalContent;
+          this.selectedNode.modalTitle = event.form.modalTitle;
+          this.selectedNode.cancalButtontext = event.form.cancalButtontext;
+          this.selectedNode.centered = event.form.centered;
+          this.selectedNode.okBtnLoading = event.form.okBtnLoading;
+          this.selectedNode.cancelBtnLoading = event.form.cancelBtnLoading;
+          this.selectedNode.okBtnDisabled = event.form.okBtnDisabled;
+          this.selectedNode.cancelDisabled = event.form.cancelDisabled;
+          this.selectedNode.ecsModalCancel = event.form.ecsModalCancel;
+          this.selectedNode.okBtnText = event.form.okBtnText;
+          this.selectedNode.closeIcon = event.form.closeIcon;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.showCloseIcon = event.form.showCloseIcon;
+          this.selectedNode.zIndex = event.form.zIndex;
+        }
+        break;
       case "transfer":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
@@ -4728,13 +4781,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
           this.selectedNode.status = event.form.status;
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
-          this.assigOptionsData(this.selectedNode.list , event.tableDta, event.form.api)
+          this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
           if (event.tableDta) {
             this.selectedNode.list = event.tableDta
           } else {
             this.selectedNode.list = this.selectedNode.list
           }
-          if(event.form.api){
+          if (event.form.api) {
             this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
               this.selectedNode.list = res;
             })
@@ -5060,7 +5113,27 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.btnLabel = event.form.btnLabel;
-          this.selectedNode.nzPopoverContent = event.form.nzPopoverContent;
+          this.selectedNode.content = event.form.content;
+          this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
+          this.selectedNode.arrowPointAtCenter = event.form.arrowPointAtCenter;
+          this.selectedNode.trigger = event.form.trigger;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.visible = event.form.visible;
+          this.selectedNode.mouseEnterDelay = event.form.mouseEnterDelay;
+          this.selectedNode.mouseLeaveDelay = event.form.mouseLeaveDelay;
+          this.selectedNode.backdrop = event.form.backdrop;
+        }
+        break;
+      case "popConfirm":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.btnLabel = event.form.btnLabel;
+          this.selectedNode.content = event.form.content;
           this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
           this.selectedNode.arrowPointAtCenter = event.form.arrowPointAtCenter;
           this.selectedNode.trigger = event.form.trigger;
@@ -6052,15 +6125,14 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "dashonicTab":
+      case "tabs":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
-          this.selectedNode.label = event.form.tabLabel;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.dashonicTabsConfig[0].tabLabel = event.form.tabLabel;
-          this.selectedNode.dashonicTabsConfig[0].tabIcon = event.form.tabIcon;
-          this.selectedNode.dashonicTabsConfig[0].tooltip = event.form.tooltip;
-          this.selectedNode.dashonicTabsConfig[0].hideExpression = event.form.hideExpression;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.icon = event.form.icon;
           this.updateNodes();
         }
         break;
@@ -6114,47 +6186,21 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "mainDashonicTabs":
+      case "mainTab":
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.label = event.form.tabLabel;
+            this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.mainDashonicTabsConfig[0].tabsDisplayType = event.form.tabsDisplayType;
-          this.selectedNode.mainDashonicTabsConfig[0].selectTabColor = event.form.selectTabColor;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonText = event.form.buttonText;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonIcon = event.form.buttonIcon;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
-          this.selectedNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
-          this.selectedNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-          this.selectedNode.mainDashonicTabsConfig[0].nodes = event.form.nodes;
-          if (this.selectedNode.children) {
-            for (let index = 0; index < this.selectedNode.children.length; index++) {
-              this.selectedNode.children.forEach(elementV1 => {
-                elementV1.dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition,
-                  elementV1.dashonicTabsConfig[0].buttonText = event.form.buttonText,
-                  elementV1.dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1",
-                  elementV1.dashonicTabsConfig[0].buttonColor = event.form.buttonColor + " mt-2",
-                  elementV1.dashonicTabsConfig[0].tabFormat = event.form.tabFormat
-              });
-
-              if (event.form.tabsDisplayType == "buttonType") {
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor);
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:#fff");
-              } else if (event.form.tabsDisplayType == "None") {
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:none");
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
-              } else if (event.form.tabsDisplayType == "underLine") {
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor);
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none");
-                this.selectedNode.children.forEach(elementV1 => elementV1.dashonicTabsConfig[0].color = "--color:none");
-              }
-            }
-          }
-
+          this.selectedNode.selectedIndex = event.form.selectedIndex;
+          this.selectedNode.animated = event.form.animated;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.tabPosition = event.form.tabPosition;
+          this.selectedNode.tabType = event.form.tabType;
+          this.selectedNode.hideTabs = event.form.hideTabs;
+          this.selectedNode.nodes = event.form.nodes;
+          this.selectedNode.centerd = event.form.centerd;
           this.adddynamicDashonictab(event.form.nodes);
           this.updateNodes();
         }
@@ -6373,7 +6419,7 @@ export class BuilderComponent implements OnInit {
       if (tabsLength < abc) {
         for (let k = 0; k < abc; k++) {
           if (tabsLength < abc) {
-            this.addControlToJson('dashonicTabs');
+            this.addControlToJson('tabs');
             this.selectedNode = this.tabsChild;
             this.addControlToJson('text', this.textJsonObj);
             this.selectedNode = this.tabsAdd;
@@ -6489,13 +6535,13 @@ export class BuilderComponent implements OnInit {
       });
   }
 
-  assigOptionsData(selectNode:any , tableDta : any , api : any){
+  assigOptionsData(selectNode: any, tableDta: any, api: any) {
     if (tableDta) {
       this.selectedNode.list = tableDta
     } else {
       this.selectedNode.list = this.selectedNode.list
     }
-    if(api){
+    if (api) {
       this.builderService.jsonTagsDataGet(api).subscribe((res) => {
         selectNode = res;
       })

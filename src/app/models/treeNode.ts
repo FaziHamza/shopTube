@@ -42,6 +42,11 @@ export interface TreeNode {
   showValue?: boolean;
   className?: string;
   margin?: any;
+  selectedIndex?: any;
+  animated?: any;
+  tabPosition?: any;
+  tabType?: any;
+  hideTabs?: any;
   effect?: any;
   dotPosition?: any;
   autoPlay?: any;
@@ -149,7 +154,17 @@ export interface TreeNode {
   loaderText?: any,
   loaderIcon?: any,
   btnLabel?: any,
-  nzPopoverContent?: any,
+  modalContent?: any,
+  modalTitle?: any,
+  cancalButtontext?: any,
+  centered?: any,
+  okBtnLoading?: any,
+  cancelBtnLoading?: any,
+  okBtnDisabled?: any,
+  cancelDisabled?: any,
+  ecsModalCancel?: any,
+  okBtnText?: any,
+  showCloseIcon?: any,
   nzPopoverTitle?: any,
   arrowPointAtCenter?: any,
   trigger?: any,
@@ -202,6 +217,7 @@ export interface TreeNode {
   audioSrc?: any,
   dataOnly?: any,
   nodes?: any,
+  centerd?: any,
   widgetSecondCard?: builderConfig[],
   widgetSectionCard?: builderConfig[],
   browserdata?: builderConfig[],
@@ -314,7 +330,7 @@ export interface TreeNode {
   isVisible?: boolean;
   placement?: string;
   size?: string;
-  width?: string;
+  width?: any;
   height?: string;
   offsetX?: number;
   offsetY?: number;

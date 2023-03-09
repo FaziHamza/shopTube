@@ -1,13 +1,15 @@
-<!-- <nz-tabset>
-    <nz-tab *ngFor="let items of tabs; let i = index ; let last = last" [nzAnimated]="true"
-        [(nzSelectedIndex)]="selectedIndex" [nzTabBarExtraContent]="" [nzSize]="'default'" [nzTitle]="titleTemplate">
+<nz-tabset [(nzSelectedIndex)]="tabs.selectedIndex" [nzAnimated]="tabs.animated" [nzSize]="tabs.size"
+    [nzTabPosition]="tabs.tabPosition" [nzType]="tabs.tabType" [nzHideAll]="tabs.hideTabs" nzHideAdd
+    (nzClose)="closeTab($event)" [nzCentered]="tabs.centerd">
+    <nz-tab *ngFor="let items of tabs.children; let i = index ; let last = last" [nzClosable]="i > 1"
+        [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
+        [nzDisabled]="false">
         <ng-template #titleTemplate>
-            <span nz-icon nzType="star" nzTheme="outline"></span>
-            {{items.dashonicTabsConfig[0].tabLabel}}
+            <span nz-icon [nzType]='items.icon' nzTheme="outline"></span>
+            {{items.title}}
+            <span nz-tooltip *ngIf='items.tooltip' [nzTooltipTitle]='items.tooltip'><span nz-icon
+                    nzType="question-circle" nzTheme="twotone"></span></span>
         </ng-template>
+        <app-main [mainData]="items.children"></app-main>
     </nz-tab>
-</nz-tabset> -->
-
-<ng-template #characterIcon>
-    <p>Extra content</p>
-</ng-template>
+</nz-tabset>

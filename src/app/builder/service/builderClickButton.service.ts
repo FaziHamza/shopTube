@@ -9,7 +9,8 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
   getTransferConfig(node: any) {
-    return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, list: node.list };
+    debugger
+    return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
   progressBarConfig(node: any) {
     debugger
@@ -69,6 +70,25 @@ export class BuilderClickButtonService {
       options: node.options,
     };
   }
+  getModalConfig(node: any) {
+    return {
+      btnLabel: node.btnLabel,
+      modalContent: node.modalContent,
+      modalTitle: node.modalTitle,
+      cancalButtontext: node.cancalButtontext,
+      centered: node.centered,
+      okBtnLoading: node.okBtnLoading,
+      cancelBtnLoading: node.cancelBtnLoading,
+      okBtnDisabled: node.okBtnDisabled,
+      cancelDisabled: node.cancelDisabled,
+      ecsModalCancel: node.ecsModalCancel,
+      okBtnText: node.okBtnText,
+      closeIcon: node.closeIcon,
+      width: node.width,
+      showCloseIcon: node.showCloseIcon,
+      zIndex: node.zIndex,
+    };
+  }
 
   getDescriptionConfig(node: any) {
     return {
@@ -120,7 +140,7 @@ export class BuilderClickButtonService {
   getPopOverConfig(node: any) {
     return {
       btnLabel: node.btnLabel,
-      nzPopoverContent: node.nzPopoverContent,
+      content: node.content,
       nzPopoverTitle: node.nzPopoverTitle,
       arrowPointAtCenter: node.arrowPointAtCenter,
       trigger: node.trigger,
@@ -242,11 +262,10 @@ export class BuilderClickButtonService {
     }
   }
 
-  getdashonicTabsConfig(node: any) {
+  getTabsConfig(node: any) {
     return {
-      tabtitle: node.dashonicTabsConfig[0]?.tabtitle,
-      tabIcon: node.dashonicTabsConfig[0]?.tabIcon,
-      tooltip: node.dashonicTabsConfig[0]?.tooltip,
+      icon: node.icon,
+      tooltip: node.tooltip,
     }
   }
 
@@ -287,15 +306,14 @@ export class BuilderClickButtonService {
   getMainDashonicTabsConfig(node: any) {
     return {
       tabtitle: node.title,
-      tabsPosition: node.mainDashonicTabsConfig[0]?.tabsPosition,
-      selectTabColor: node.mainDashonicTabsConfig[0]?.selectTabColor,
-      tabsDisplayType: node.mainDashonicTabsConfig[0]?.tabsDisplayType,
-      buttonText: node.mainDashonicTabsConfig[0]?.buttonText,
-      buttonIcon: node.mainDashonicTabsConfig[0]?.buttonIcon,
-      buttonColor: node.mainDashonicTabsConfig[0]?.buttonColor,
-      tabFormat: node.mainDashonicTabsConfig[0]?.tabFormat,
-      nodes: node.mainDashonicTabsConfig[0]?.nodes,
-      tooltip: node?.tooltip,
+      selectedIndex: node.selectedIndex,
+      animated: node.animated,
+      size: node.size,
+      tabPosition: node.tabPosition,
+      tabType: node.tabType,
+      hideTabs: node.hideTabs,
+      nodes: node.nodes,
+      centerd: node.centerd,
     }
   }
 
@@ -676,7 +694,7 @@ export class BuilderClickButtonService {
       nodes: node.formly[0].fieldGroup[0].templateOptions?.['nodes'],
     }
   }
-  getTabsConfig(node: any) {
+  getMainTabsConfig(node: any) {
     return {
       className: node.className,
       steppertitle: node.formly[0].fieldGroup[0].templateOptions?.label,

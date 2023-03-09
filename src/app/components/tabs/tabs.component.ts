@@ -8,33 +8,22 @@ import { FormGroup } from '@angular/forms';
 })
 export class TabsComponent implements OnInit {
   @Input() tabs: any;
-  @Input() dataModel !: any;
-  form = new FormGroup({});
-  selectedIndex=0;
   constructor() { }
 
   ngOnInit(): void {
-
-    this.tabs;
-    this.tabs.forEach((i: any) => {
-      i.dashonicTabsConfig[0].dashonicTabsChild.forEach((j: any) => {
-        j.formly[0].fieldGroup.forEach((b: any) => {
-          if (b.wrappers.length > 1) {
-            b.wrappers.splice(1, 1);
-          }
-        });
-      })
-    });
-
   }
-  submit() {
-    // this.commonChartService.submit();
-    // this.cd.detectChanges();
+  handleTabChange(index: number) {
+    console.log('Selected tab index: ', index);
+    // add your code here to handle the tab change
   }
   handleIndexChange(e: number): void {
     console.log(e);
   }
-  onClose(): void {
-    console.log('tag was closed.');
+  handleTabSelect(index: any) {
+    console.log('Selected tab index: ', index);
+    // add your code here to handle the tab select event
+  }
+  closeTab({ index }: { index: number }): void {
+    this.tabs.splice(index, 1);
   }
 }

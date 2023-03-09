@@ -95,7 +95,7 @@
         </ng-template>
         <ng-template #twelth>
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
-              
+
                 <div *ngIf="!item.hideExpression">
                     <app-block-buttons-card [softIconList]="item">
                     </app-block-buttons-card>
@@ -217,18 +217,17 @@
         <ng-template #twentysix>
             <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-simple-card-with-header-body-footer
-                        [SimpleCardWithHeaderBodyFooterData]="item">
+                    <app-simple-card-with-header-body-footer [SimpleCardWithHeaderBodyFooterData]="item">
                     </app-simple-card-with-header-body-footer>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #twentyseven>
-            <ng-container *ngIf="item.type == 'mainDashonicTabs' else twentyeight">
+            <ng-container *ngIf="item.type == 'mainTab' else twentyeight">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-tabs [tabs]="item.children"></app-tabs>
+                    <app-tabs [tabs]="item"></app-tabs>
                 </div>
             </ng-container>
         </ng-template>
@@ -258,16 +257,14 @@
             </ng-container>
         </ng-template>
         <ng-template #thirtyOne>
-            <ng-container *ngIf="item.formlyType == 'stepper'; else thirtyTwo">
-                <div [ngClass]="{'highLight': item.highLight == true}"
-                    *ngIf="item.formly[0].fieldGroup[0].templateOptions.hideExpression == false">
-                    <div *ngIf="item.formly[0].fieldGroup[0].templateOptions.tooltip && item.formly[0].fieldGroup[0].templateOptions.tooltip!=''"
-                        style="text-align: right;">
-                        <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+            <ng-container *ngIf="item.type == 'mainStep'; else thirtyTwo">
+                <div [ngClass]="{'highLight': item.highLight == true}">
+                    <div style="text-align: right;">
+                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
-                    </formly-form>
+                    <app-stepper [step]="item">
+                    </app-stepper>
                 </div>
             </ng-container>
         </ng-template>
@@ -481,10 +478,11 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter" [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement"
-                        [nzPopoverVisible]="item.visible" [nzPopoverMouseEnterDelay]="item.mouseEnterDelay" [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay" nz-button
-                        nz-popover nzType="primary" [nzPopoverTitle]="item.nzPopoverTitle"
-                        [nzPopoverContent]="item.nzPopoverContent">{{item.btnLabel}}</button>
+                    <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter" [nzPopoverTrigger]="item.trigger"
+                        [nzPopoverPlacement]="item.placement" [nzPopoverVisible]="item.visible"
+                        [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
+                        [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay" nz-button nz-popover nzType="primary"
+                        [nzPopoverTitle]="item.title" [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -495,7 +493,9 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size" [ngModel]="item.defaultSelectedIndex" [nzOptions]="item.options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+                    <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size"
+                        [ngModel]="item.defaultSelectedIndex" [nzOptions]="item.options"
+                        (nzValueChange)="handleIndexChange($event)"></nz-segmented>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -506,7 +506,8 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-tag [nzColor]='item.color' [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose()">{{item.title}}</nz-tag>
+                    <nz-tag [nzColor]='item.color' [nzMode]="item.mode" [nzChecked]="item.checked"
+                        (nzOnClose)="onClose()">{{item.title}}</nz-tag>
                 </ng-container>
             </ng-container>
         </ng-template>
