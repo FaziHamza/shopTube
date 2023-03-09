@@ -38,23 +38,24 @@ export class UIRuleComponent implements OnInit {
       objTargetList = { key: '', value: '' };
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j];
 
-      if (inputType.type == "input") {
+      if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
         objTargetList.key = (inputType.key).toString()
-        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
-        this.targetList.push(objTargetList);
-      }
-      else if (inputType.type == "alert") {
-        objTargetList.key = (inputType.key).toString()
-        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
-        this.targetList.push(objTargetList);
+        objTargetList.value = (inputType.title).toString()
+        this.targetList.push(objTargetList)
       } else if (inputType.type == "buttonGroup") {
         objTargetList.key = (inputType.key).toString()
         objTargetList.value = (inputType.title).toString()
         this.targetList.push(objTargetList)
-      } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
+      } else if (inputType.formlyType != undefined) {
         objTargetList.key = (inputType.key).toString()
-        objTargetList.value = (inputType.title).toString()
-        this.targetList.push(objTargetList)
+        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
+        this.targetList.push(objTargetList);
+      }
+      else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
+        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter") {
+        objTargetList.key = (inputType.key).toString()
+        objTargetList.value = inputType.title ? (inputType.title).toString() : '';
+        this.targetList.push(objTargetList);
       }
 
       // else if (inputType.type == "stepperMain") {
@@ -72,26 +73,6 @@ export class UIRuleComponent implements OnInit {
       //     objTargetList.value = (inputType.children[k].dashonicTabsConfig[0].tabtitle).toString()
       //     this.targetList.push(objTargetList)
       //   }
-      // } else if (inputType.type == "buttonGroup") {
-      //   // for (let k = 0; k < inputType.children.length; k++) {
-      //   // objTargetList = { key: '', value: '' };
-      //   objTargetList.key = (inputType.key).toString()
-      //   objTargetList.value = (inputType.title).toString()
-      //   this.targetList.push(objTargetList)
-      //   // }
-      // } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
-      //   objTargetList.key = (inputType.buttonGroup[0].btnConfig[0].key).toString()
-      //   objTargetList.value = (inputType.buttonGroup[0].btnConfig[0].title).toString()
-      //   this.targetList.push(objTargetList)
-      // } else if (inputType.type == "card" ||
-      //   inputType.type == "simpleCardWithHeaderBodyFooter") {
-      //   objTargetList.key = (inputType.key).toString()
-      //   objTargetList.value = (inputType.title).toString()
-      //   this.targetList.push(objTargetList)
-      // } else if (inputType.type == "alert") {
-      //   objTargetList.key = (inputType.alertConfig[0].key).toString()
-      //   objTargetList.value = (inputType.title).toString()
-      //   this.targetList.push(objTargetList)
       // } else if (inputType.type == "mainDashonicTabs") {
       //   for (let k = 0; k < inputType.children.length; k++) {
       //     objTargetList = { key: '', value: '' };
@@ -100,11 +81,6 @@ export class UIRuleComponent implements OnInit {
       //     this.targetList.push(objTargetList)
       //   }
       // } else if (inputType.type == "gridList" || inputType.type == "gridListEditDelete") {
-      //   objTargetList = { key: '', value: '' };
-      //   objTargetList.key = (inputType.key).toString()
-      //   objTargetList.value = (inputType.title).toString()
-      //   this.targetList.push(objTargetList)
-      // } else if (inputType.type == "header" || inputType.type == "paragraph") {
       //   objTargetList = { key: '', value: '' };
       //   objTargetList.key = (inputType.key).toString()
       //   objTargetList.value = (inputType.title).toString()
@@ -203,8 +179,15 @@ export class UIRuleComponent implements OnInit {
     debugger
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
-      if (inputType.type == "buttonGroup") {
-        // for (let k = 0; k < inputType.children.length; k++) {
+      if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
+        const element = inputType.key;
+        if (element == event) {
+          this.addTargetCondition(uiIndex).at(index).patchValue({
+            inputJsonData: inputType,
+            inputOldJsonData: inputType
+          });
+        }
+      } else if (inputType.type == "buttonGroup") {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
@@ -212,8 +195,20 @@ export class UIRuleComponent implements OnInit {
             inputOldJsonData: inputType.children
           });
         }
-        // }
-      } else if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
+      } else if (inputType.type == "input" || inputType.type == "inputGroup" || inputType.type == "checkbox" || inputType.type == "color" ||
+        inputType.type == "decimal" || inputType.type == "image" || inputType.type == "multiselect" || inputType.type == "radiobutton" ||
+        inputType.type == "search" || inputType.type == "repeatSection" || inputType.type == "tags" || inputType.type == "telephone"
+        || inputType.type == "textarea" || inputType.type == "date" || inputType.type == "datetime" || inputType.type == "month"
+        || inputType.type == "time" || inputType.type == "week") {
+        const element = inputType.key;
+        if (element == event) {
+          this.addTargetCondition(uiIndex).at(index).patchValue({
+            inputJsonData: inputType.formly[0].fieldGroup[0],
+            inputOldJsonData: inputType.formly[0].fieldGroup[0]
+          });
+        }
+      } else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
+        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter") {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
@@ -231,46 +226,7 @@ export class UIRuleComponent implements OnInit {
             });
           }
         }
-      } else if (inputType.type == "input" || inputType.type == "inputGroup" || inputType.type == "checkbox" || inputType.type == "color" ||
-        inputType.type == "decimal" || inputType.type == "image" || inputType.type == "multiselect" || inputType.type == "radiobutton" ||
-        inputType.type == "search" || inputType.type == "repeatSection" || inputType.type == "tags" || inputType.type == "telephone"
-        || inputType.type == "textarea" || inputType.type == "date" || inputType.type == "datetime" || inputType.type == "month"
-        || inputType.type == "time" || inputType.type == "week") {
-        const element = inputType.key;
-        if (element == event) {
-          this.addTargetCondition(uiIndex).at(index).patchValue({
-            // inputJsonData: "new Data",
-            // inputOldJsonData: "new Data"
-            inputJsonData: inputType.formly[0].fieldGroup[0],
-            inputOldJsonData: inputType.formly[0].fieldGroup[0]
-          });
-        }
-      } else if (inputType.type == "alert") {
-        const element = inputType.key;
-        if (element == event) {
-          this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.alertConfig[0],
-            inputOldJsonData: inputType.alertConfig[0]
-          });
-        }
-      } else if (inputType.type == "card") {
-        const element = inputType.key;
-        if (element == event) {
-          this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType,
-            inputOldJsonData: inputType
-          });
-        }
-      } else if (inputType.type == "simpleCardWithHeaderBodyFooter") {
-        const element = inputType.key;
-        if (element == event) {
-          this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.simpleCardWithHeaderBodyFooterConfig,
-            inputOldJsonData: inputType.simpleCardWithHeaderBodyFooterConfig
-          });
-        }
-      }
-      else if (inputType.type == "mainDashonicTabs") {
+      } else if (inputType.type == "mainDashonicTabs") {
         for (let k = 0; k < inputType.children.length; k++) {
           const element = inputType.children[k].key;
           if (element == event) {
@@ -281,14 +237,6 @@ export class UIRuleComponent implements OnInit {
           }
         }
       } else if (inputType.type == "gridList" || inputType.type == "gridListEditDelete") {
-        const element = inputType.key;
-        if (element == event) {
-          this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType,
-            inputOldJsonData: inputType
-          });
-        }
-      } else if (inputType.type == "header" || inputType.type == "paragraph") {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
