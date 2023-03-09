@@ -52,7 +52,19 @@ export class UIRuleComponent implements OnInit {
         this.targetList.push(objTargetList);
       }
       else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
-        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter") {
+        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
+        inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
+        inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
+        inputType.type == "badge" || inputType.type == "treeView" || inputType.type == "carouselCrossfade" ||
+        inputType.type == "comment" || inputType.type == "description" || inputType.type == "statistic" ||
+        inputType.type == "empty" || inputType.type == "list" || inputType.type == "popConfirm" ||
+        inputType.type == "timeline" || inputType.type == "popOver" || inputType.type == "imageUpload" ||
+        inputType.type == "invoice" || inputType.type == "segmented" || inputType.type == "drawer" ||
+        inputType.type == "message" || inputType.type == "notification" || inputType.type == "modal" ||
+        inputType.type == "progressBar" || inputType.type == "result" || inputType.type == "skeleton" ||
+        inputType.type == "spin" || inputType.type == "accordionButton" || inputType.type == "audio" ||
+        inputType.type == "multiFileUpload" || inputType.type == "rate" || inputType.type == "toastr" ||
+        inputType.type == "video") {
         objTargetList.key = (inputType.key).toString()
         objTargetList.value = inputType.title ? (inputType.title).toString() : '';
         this.targetList.push(objTargetList);
@@ -208,7 +220,19 @@ export class UIRuleComponent implements OnInit {
           });
         }
       } else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
-        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter") {
+        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
+        inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
+        inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
+        inputType.type == "badge" || inputType.type == "treeView" || inputType.type == "carouselCrossfade" ||
+        inputType.type == "comment" || inputType.type == "description" || inputType.type == "statistic" ||
+        inputType.type == "empty" || inputType.type == "list" || inputType.type == "popConfirm" ||
+        inputType.type == "timeline" || inputType.type == "popOver" || inputType.type == "imageUpload" ||
+        inputType.type == "invoice" || inputType.type == "segmented" || inputType.type == "drawer" ||
+        inputType.type == "message" || inputType.type == "notification" || inputType.type == "modal" ||
+        inputType.type == "progressBar" || inputType.type == "result" || inputType.type == "skeleton" ||
+        inputType.type == "spin" || inputType.type == "accordionButton" || inputType.type == "audio" ||
+        inputType.type == "multiFileUpload" || inputType.type == "rate" || inputType.type == "toastr" ||
+        inputType.type == "video") {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({

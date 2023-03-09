@@ -631,7 +631,19 @@ export class BuilderComponent implements OnInit {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
           }
         } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
-          inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter") {
+          inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
+          inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||
+          inputType[l].type == "treeSelect" || inputType[l].type == "switch" || inputType[l].type == "avatar" ||
+          inputType[l].type == "badge" || inputType[l].type == "treeView" || inputType[l].type == "carouselCrossfade" ||
+          inputType[l].type == "comment" || inputType[l].type == "description" || inputType[l].type == "statistic" ||
+          inputType[l].type == "empty" || inputType[l].type == "list" || inputType[l].type == "popConfirm" ||
+          inputType[l].type == "timeline" || inputType[l].type == "popOver" || inputType[l].type == "imageUpload" ||
+          inputType[l].type == "invoice" || inputType[l].type == "segmented" || inputType[l].type == "drawer" ||
+          inputType[l].type == "message" || inputType[l].type == "notification" || inputType[l].type == "modal" ||
+          inputType[l].type == "progressBar" || inputType[l].type == "result" || inputType[l].type == "skeleton" ||
+          inputType[l].type == "spin" || inputType[l].type == "accordionButton" || inputType[l].type == "audio" ||
+          inputType[l].type == "multiFileUpload" || inputType[l].type == "rate" || inputType[l].type == "toastr" ||
+          inputType[l].type == "video") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
@@ -3090,14 +3102,14 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         disabled: false,
-        showSearch:true,
-        firstBoxTitle:'Source',
-        secondBoxTitle:'Target',
-        leftButtonLabel:'to left',
-        rightButtonLabel:'to right',
-        searchPlaceHolder:'Search here...',
-        status:'error',
-        notFoundContentLabel:'The list is empty',
+        showSearch: true,
+        firstBoxTitle: 'Source',
+        secondBoxTitle: 'Target',
+        leftButtonLabel: 'to left',
+        rightButtonLabel: 'to right',
+        searchPlaceHolder: 'Search here...',
+        status: 'error',
+        notFoundContentLabel: 'The list is empty',
         list: [
           {
             key: '1',
@@ -4692,13 +4704,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
           this.selectedNode.status = event.form.status;
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
-          this.assigOptionsData(this.selectedNode.list , event.tableDta, event.form.api)
+          this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
           if (event.tableDta) {
             this.selectedNode.list = event.tableDta
           } else {
             this.selectedNode.list = this.selectedNode.list
           }
-          if(event.form.api){
+          if (event.form.api) {
             this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
               this.selectedNode.list = res;
             })
@@ -6453,13 +6465,13 @@ export class BuilderComponent implements OnInit {
       });
   }
 
-  assigOptionsData(selectNode:any , tableDta : any , api : any){
+  assigOptionsData(selectNode: any, tableDta: any, api: any) {
     if (tableDta) {
       this.selectedNode.list = tableDta
     } else {
       this.selectedNode.list = this.selectedNode.list
     }
-    if(api){
+    if (api) {
       this.builderService.jsonTagsDataGet(api).subscribe((res) => {
         selectNode = res;
       })
