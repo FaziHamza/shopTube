@@ -1,17 +1,31 @@
 <div class="bg-white  shadow-md border" *ngIf="dbRes.length">
-
-
     <!-- PAGE HEADER -->
     <div class="site-page-header-ghost-wrapper " *ngIf="dbRes[0].children[0].header">
-        <nz-page-header class="site-page-header font-semibold text-lg  pl-6 pt-1 pb-1" [nzGhost]="false">
-            <nz-page-header-title>{{dbRes[0].children[0].title}}
+        <div *ngFor="let item of dbRes[0]?.children[0].children">
+            <ng-container *ngIf="item.type == 'alert' && dbRes[0]?.children[0].alertPosition == 'topHeader'">
+                <app-new-alerts [alertData]="item"></app-new-alerts>
+            </ng-container>
+        </div>
+        <nz-page-header class="site-page-header font-semibold pl-6 pt-1 pb-1" [nzGhost]="false">
+            <nz-page-header-title [class]="dbRes[0].children[0].headingSize">
+                {{dbRes[0].children[0].title}}
             </nz-page-header-title>
             <nz-page-header-extra>
                 <div *ngFor="let item of dbRes[0]?.children[0].children">
-                    <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                    <ng-container *ngIf="item.type != 'alert'">
+                    <app-block-buttons-card  [softIconList]=" item"></app-block-buttons-card>
+                    </ng-container>
+                    <ng-container *ngIf="item.type == 'alert' &&  dbRes[0]?.children[0].alertPosition == 'inside'">
+                        <app-new-alerts [alertData]="item"></app-new-alerts>
+                    </ng-container>
                 </div>
             </nz-page-header-extra>
         </nz-page-header>
+        <div *ngFor="let item of dbRes[0]?.children[0].children">
+            <ng-container *ngIf="item.type == 'alert' && dbRes[0]?.children[0].alertPosition == 'bottomHeader'">
+                <app-new-alerts [alertData]="item"></app-new-alerts>
+            </ng-container>
+        </div>
     </div>
     <!-- SECTION -->
     <div class="">
@@ -54,19 +68,20 @@
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header">
-                    <nz-collapse-panel class="text-black font-semibold text-lg" [nzHeader]="j.children[0].title" [nzExtra]="extraTpl">
+                    <nz-collapse-panel class="text-black font-semibold text-lg" [nzHeader]="j.children[0].title"
+                        [nzExtra]="extraTpl">
                         <div class="px-3 font-normal text-base" *ngIf="resData.length > 0">
-                            
-                          <app-main [mainData]="j.children[1].children"></app-main>
+
+                            <app-main [mainData]="j.children[1].children"></app-main>
                         </div>
-                       
+
                         <br />
                     </nz-collapse-panel>
-                    <div  class="py-3 px-10 border-t  text-black font-semibold text-lg"    *ngIf="j.children[2].footer">
+                    <div class="py-3 px-10 border-t  text-black font-semibold text-lg" *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
                         <div *ngFor="let item of j.children[0].children">
-                          <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
-                      </div>
+                            <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
+                        </div>
                     </div>
                     <ng-template #extraTpl>
                         <div *ngFor="let item of j.children[0].children">
@@ -84,10 +99,10 @@
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
                     <div class="px-3" *ngIf="resData.length > 0">
-                      <app-main [mainData]="j.children[1].children"></app-main>
+                        <app-main [mainData]="j.children[1].children"></app-main>
                     </div>
                     <br />
-                    <div class="py-3 px-6 border-t text-black font-semibold text-lg"  *ngIf="j.children[2].footer">
+                    <div class="py-3 px-6 border-t text-black font-semibold text-lg" *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
                         <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
@@ -101,7 +116,7 @@
         </div>
     </div>
     <!-- PAGE FOOTER -->
-    <div class="py-3 px-6 border-t text-black font-semibold text-lg"  *ngIf="dbRes[0].children[2].footer">
+    <div class="py-3 px-6 border-t text-black font-semibold text-lg" *ngIf="dbRes[0].children[2].footer">
         {{dbRes[0].children[2].title}}
         <div *ngFor="let item of dbRes[0]?.children[2]?.children">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>

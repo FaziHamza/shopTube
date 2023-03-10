@@ -2597,13 +2597,30 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'stepperLabel',
+          key: 'icon',
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Label',
+            label: 'icon',
           }
+        },
+        {
+          key: 'description',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'description',
+          }
+        },
+        {
+          key: 'disabled',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-3",
+          templateOptions: {
+            label: 'disabled'
+          },
         },
       ]
     },
@@ -2613,21 +2630,116 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'stepperLabel',
+          key: 'selectedIndex',
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Label',
+            type:'number',
+            label: 'Selected Index',
           }
         },
         {
-          key: 'icon',
-          type: 'input',
+          key: 'direction',
+          type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Stepper Icon',
+            label: 'Direction',
+            options:[
+              {
+                label:'vertical',
+                value:'vertical'
+              },
+              {
+                label:'horizontal',
+                value:'horizontal'
+              },
+            ]
+          }
+        },
+        {
+          key: 'stepperType',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Stepper Type',
+            options:[
+              {
+                label:'default',
+                value:'default'
+              },
+              {
+                label:'navigation',
+                value:'navigation'
+              },
+            ]
+          }
+        },
+        {
+          key: 'placement',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Label placement',
+            options:[
+              {
+                label:'vertical',
+                value:'vertical'
+              },
+              {
+                label:'horizontal',
+                value:'horizontal'
+              },
+            ]
+          }
+        },
+        {
+          key: 'size',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options:[
+              {
+                label:'small',
+                value:'small'
+              },
+              {
+                label:'default',
+                value:'default'
+              },
+            ]
+          }
+        },
+        {
+          key: 'status',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Status',
+            options:[
+              {
+                label:'wait',
+                value:'wait'
+              },
+              {
+                label:'process',
+                value:'process'
+              },
+              {
+                label:'finish',
+                value:'finish'
+              },
+              {
+                label:'error',
+                value:'error'
+              },
+            ]
           }
         },
         {
@@ -2640,240 +2752,240 @@ export class formFeildData {
             label: 'Number of Steppers',
           }
         },
-        {
-          key: 'stepperFormat',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Stepper Format',
-            options: [
-              {
-                label: 'Vertical',
-                value: 'vertical'
-              },
-              {
-                label: 'Horizental',
-                value: 'horizental'
-              },
-            ],
-          },
-        },
-        {
-          key: 'selectColor',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: 'color',
-            label: 'Select Color',
-          }
-        },
-        {
-          key: 'defaultColor',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: 'color',
-            label: 'Default Color',
-          }
-        },
-
-
-        {
-          key: 'nextButtonText',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Next Button Text',
-          }
-        },
-        {
-          key: 'nextButtonIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Next Button Icon',
-          }
-        },
-        {
-          key: 'nextButtonColor',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Next Button Color',
-            options: [
-              {
-                label: 'Blue',
-                value: 'btn btn-primary'
-              },
-              {
-                label: 'Gray',
-                value: 'btn btn-secondary'
-              },
-              {
-                label: 'Green',
-                value: 'btn btn-success'
-              },
-              {
-                label: 'Red',
-                value: 'btn btn-danger'
-              },
-              {
-                label: 'Yellow',
-                value: 'btn btn-warning'
-              },
-              {
-                label: 'Light blue',
-                value: 'btn btn-info'
-              },
-              {
-                label: 'White',
-                value: 'btn btn-light'
-              },
-              {
-                label: 'Black',
-                value: 'btn btn-dark'
-              },
-
-
-            ],
-          },
-        },
-        {
-          key: 'backButtonText',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Back Button Text',
-          }
-        },
-        {
-          key: 'backButtonIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Back Button Icon',
-          }
-        },
-        {
-          key: 'backButtonColor',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Back Button Color',
-            options: [
-              {
-                label: 'Blue',
-                value: 'btn btn-primary mr-2'
-              },
-              {
-                label: 'Gray',
-                value: 'btn btn-secondary mr-2'
-              },
-              {
-                label: 'Green',
-                value: 'btn btn-success mr-2'
-              },
-              {
-                label: 'Red',
-                value: 'btn btn-danger mr-2'
-              },
-              {
-                label: 'Yellow',
-                value: 'btn btn-warning mr-2'
-              },
-              {
-                label: 'Light blue',
-                value: 'btn btn-info mr-2'
-              },
-              {
-                label: 'White',
-                value: 'btn btn-light mr-2'
-              },
-              {
-                label: 'Black',
-                value: 'btn btn-dark mr-2'
-              },
-            ],
-          },
-        },
-        {
-          key: 'submitButtonText',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Submit Button Text',
-          }
-        },
-        {
-          key: 'submitButtonIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Submit Button Icon',
-          }
-        },
-        {
-          key: 'submitButtonColor',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Submit Button Color',
-            options: [
-              {
-                label: 'Blue',
-                value: 'btn btn-primary'
-              },
-              {
-                label: 'Gray',
-                value: 'btn btn-secondary'
-              },
-              {
-                label: 'Green',
-                value: 'btn btn-success'
-              },
-              {
-                label: 'Red',
-                value: 'btn btn-danger'
-              },
-              {
-                label: 'Yellow',
-                value: 'btn btn-warning'
-              },
-              {
-                label: 'Light blue',
-                value: 'btn btn-info'
-              },
-              {
-                label: 'White',
-                value: 'btn btn-light'
-              },
-              {
-                label: 'Black',
-                value: 'btn btn-dark'
-              },
-
-
-            ],
-          },
-        },
         // {
-        //   key: 'repeat',
+        //   key: 'stepperFormat',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Stepper Format',
+        //     options: [
+        //       {
+        //         label: 'Vertical',
+        //         value: 'vertical'
+        //       },
+        //       {
+        //         label: 'Horizental',
+        //         value: 'horizental'
+        //       },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: 'selectColor',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     type: 'color',
+        //     label: 'Select Color',
+        //   }
+        // },
+        // {
+        //   key: 'defaultColor',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     type: 'color',
+        //     label: 'Default Color',
+        //   }
+        // },
+
+
+        // {
+        //   key: 'nextButtonText',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Next Button Text',
+        //   }
+        // },
+        // {
+        //   key: 'nextButtonIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Next Button Icon',
+        //   }
+        // },
+        // {
+        //   key: 'nextButtonColor',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Next Button Color',
+        //     options: [
+        //       {
+        //         label: 'Blue',
+        //         value: 'btn btn-primary'
+        //       },
+        //       {
+        //         label: 'Gray',
+        //         value: 'btn btn-secondary'
+        //       },
+        //       {
+        //         label: 'Green',
+        //         value: 'btn btn-success'
+        //       },
+        //       {
+        //         label: 'Red',
+        //         value: 'btn btn-danger'
+        //       },
+        //       {
+        //         label: 'Yellow',
+        //         value: 'btn btn-warning'
+        //       },
+        //       {
+        //         label: 'Light blue',
+        //         value: 'btn btn-info'
+        //       },
+        //       {
+        //         label: 'White',
+        //         value: 'btn btn-light'
+        //       },
+        //       {
+        //         label: 'Black',
+        //         value: 'btn btn-dark'
+        //       },
+
+
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: 'backButtonText',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Back Button Text',
+        //   }
+        // },
+        // {
+        //   key: 'backButtonIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Back Button Icon',
+        //   }
+        // },
+        // {
+        //   key: 'backButtonColor',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Back Button Color',
+        //     options: [
+        //       {
+        //         label: 'Blue',
+        //         value: 'btn btn-primary mr-2'
+        //       },
+        //       {
+        //         label: 'Gray',
+        //         value: 'btn btn-secondary mr-2'
+        //       },
+        //       {
+        //         label: 'Green',
+        //         value: 'btn btn-success mr-2'
+        //       },
+        //       {
+        //         label: 'Red',
+        //         value: 'btn btn-danger mr-2'
+        //       },
+        //       {
+        //         label: 'Yellow',
+        //         value: 'btn btn-warning mr-2'
+        //       },
+        //       {
+        //         label: 'Light blue',
+        //         value: 'btn btn-info mr-2'
+        //       },
+        //       {
+        //         label: 'White',
+        //         value: 'btn btn-light mr-2'
+        //       },
+        //       {
+        //         label: 'Black',
+        //         value: 'btn btn-dark mr-2'
+        //       },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: 'submitButtonText',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Submit Button Text',
+        //   }
+        // },
+        // {
+        //   key: 'submitButtonIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Submit Button Icon',
+        //   }
+        // },
+        // {
+        //   key: 'submitButtonColor',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Submit Button Color',
+        //     options: [
+        //       {
+        //         label: 'Blue',
+        //         value: 'btn btn-primary'
+        //       },
+        //       {
+        //         label: 'Gray',
+        //         value: 'btn btn-secondary'
+        //       },
+        //       {
+        //         label: 'Green',
+        //         value: 'btn btn-success'
+        //       },
+        //       {
+        //         label: 'Red',
+        //         value: 'btn btn-danger'
+        //       },
+        //       {
+        //         label: 'Yellow',
+        //         value: 'btn btn-warning'
+        //       },
+        //       {
+        //         label: 'Light blue',
+        //         value: 'btn btn-info'
+        //       },
+        //       {
+        //         label: 'White',
+        //         value: 'btn btn-light'
+        //       },
+        //       {
+        //         label: 'Black',
+        //         value: 'btn btn-dark'
+        //       },
+
+
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: 'disabled',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
         //   templateOptions: {
-        //     label: 'Repeat'
+        //     label: 'Disabled'
         //   },
         // },
       ]
@@ -3395,8 +3507,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-
         {
           key: 'labelPosition',
           type: 'select',
@@ -3429,32 +3539,28 @@ export class formFeildData {
             label: 'Heading Size',
             options: [
               {
-                label: 'Default',
-                value: ''
-              },
-              {
                 label: 'h1',
-                value: 'h1'
+                value: 'text-xl'
               },
               {
                 label: 'h2',
-                value: 'h2'
+                value: 'text-lg'
               },
               {
                 label: 'h3',
-                value: 'h3'
+                value: 'text-base'
               },
               {
                 label: 'h4',
-                value: 'h4'
+                value: 'text-md'
               },
               {
                 label: 'h5',
-                value: 'h5'
+                value: 'text-sm'
               },
               {
                 label: 'h6',
-                value: 'h6'
+                value: 'text-xs'
               },
             ],
           },

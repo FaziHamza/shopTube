@@ -622,7 +622,7 @@ export class BuilderClickButtonService {
     return {
       headingSize: node.headingSize,
       header: node.header,
-      titlePosition: node.labelPosition,
+      labelPosition: node.labelPosition,
       alertPosition: node.alertPosition,
     }
   }
@@ -673,25 +673,21 @@ export class BuilderClickButtonService {
   }
   getStepperConfig(node: any) {
     return {
-      steppertitle: node.formly[0].fieldGroup[0].templateOptions?.label,
+      icon: node.icon,
+      disabled: node.disabled,
+      description: node.description,
     }
   }
   getStepperMainConfig(node: any) {
     return {
-      nextButtonText: node.formly[0].fieldGroup[0].templateOptions?.['nextButtonText'],
-      nextButtonIcon: node.formly[0].fieldGroup[0].templateOptions?.['nextButtonIcon'],
-      nextButtonColor: node.formly[0].fieldGroup[0].templateOptions?.['nextButtonColor'],
-      backButtonText: node.formly[0].fieldGroup[0].templateOptions?.['backButtonText'],
-      backButtonIcon: node.formly[0].fieldGroup[0].templateOptions?.['backButtonIcon'],
-      backButtonColor: node.formly[0].fieldGroup[0].templateOptions?.['backButtonColor'],
-      submitButtonText: node.formly[0].fieldGroup[0].templateOptions?.['submitButtonText'],
-      submitButtonIcon: node.formly[0].fieldGroup[0].templateOptions?.['submitButtonIcon'],
-      submitButtonColor: node.formly[0].fieldGroup[0].templateOptions?.['submitButtonColor'],
-      selectColor: node.formly[0].fieldGroup[0].templateOptions?.['selectColor'],
-      defaultColor: node.formly[0].fieldGroup[0].templateOptions?.['defaultColor'],
-      icon: node.formly[0].fieldGroup[0].templateOptions?.['icon'],
-      steppertitle: node.formly[0].fieldGroup[0].templateOptions?.label,
-      nodes: node.formly[0].fieldGroup[0].templateOptions?.['nodes'],
+      selectedIndex: node.selectedIndex,
+      direction: node.direction,
+      placement: node.placement,
+      size: node.size,
+      status: node.status,
+      disabled: node.disabled,
+      nodes: node.nodes,
+      stepperType: node.stepperType,
     }
   }
   getMainTabsConfig(node: any) {

@@ -43,6 +43,7 @@ export interface TreeNode {
   className?: string;
   margin?: any;
   selectedIndex?: any;
+  direction?: any;
   animated?: any;
   tabPosition?: any;
   tabType?: any;
@@ -249,6 +250,7 @@ export interface TreeNode {
   disabled?: boolean,
   headingSize?: string,
   nzBlock?: any,
+  stepperType?: any,
   block?: any,
   defaultSelectedIndex?: any,
   nzType?: any,

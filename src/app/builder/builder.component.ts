@@ -713,10 +713,9 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'pageHeader_' + Guid.newGuid(),
         key: "pageHeader_" + Guid.newGuid(),
-
         title: 'Page Header',
         type: "pageHeader",
-        headingSize: "",
+        headingSize: "text-xl",
         footer: false,
         header: true,
         expanded: true,
@@ -1401,6 +1400,7 @@ export class BuilderComponent implements OnInit {
         className: "w-full",
         tooltip: "",
         hideExpression: false,
+        stepperType: 'default',
         selectedIndex: 0,
         direction: 'horizontal',
         placement: 'horizontal',
@@ -1428,7 +1428,7 @@ export class BuilderComponent implements OnInit {
         children: [
         ],
       } as TreeNode;
-      this.tabsAdd = newNode
+      this.tabsChild = newNode
       this.addNode(node, newNode);
     }
     else if (value == 'kanban') {
@@ -2563,8 +2563,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'timeline') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'timeline_' + Guid.newGuid(),
+        key: 'timeline_' + Guid.newGuid(),
         title: 'timeline_1',
         type: "timeline",
         tooltip: "",
@@ -2572,25 +2572,32 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-        timelineConfig: [
+        pendingText:"Recording...",
+        pendingIcon:"loading",
+        reverse:false,
+        mode:'left',
+        data: [
           {
-            tooltip: "",
-            timelineHeading: '2021',
-            headingColor: 'btn btn-danger',
-            headingShape: 'btn-rounded',
-            timelineType: 'verti-timeline',
-            data: [
-              {
-                title: "Timeline Event One",
-                content: "It will be as simple as occidental in fact. To an english person, it will seem like simplified English, as a skeptical friend",
-                date: '11/7/2022',
-                align: "",
-                createdBy: "Zubair",
-                image: ["assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg", "assets/images/small/img-2.jpg"],
-                company: "",
-              }
-            ]
-          }
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
+          {
+            title: "Timeline Event One",
+          },
         ],
         children: [
         ],
@@ -4187,11 +4194,11 @@ export class BuilderComponent implements OnInit {
         // configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingBodyFields;
         break;
-      case "stepper":
+      case "step":
         configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
-      case "stepperMain":
+      case "mainStep":
         configObj = { ...configObj, ...this.clickButtonService.getStepperMainConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mainStepperFields;
         break;
@@ -4578,24 +4585,23 @@ export class BuilderComponent implements OnInit {
   stepperAddNew() {
 
     this.addControlToJson('mainStep');
-    this.selectedNode = this.stepperAdd;
+    this.selectedNode = this.tabsAdd;
     this.addControlToJson('step');
-    this.selectedNode = this.stepperChild;
+    this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.stepperAdd;
+    this.selectedNode = this.tabsAdd;
     this.addControlToJson('step');
-    this.selectedNode = this.stepperChild;
+    this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.stepperAdd;
+    this.selectedNode = this.tabsAdd;
     this.addControlToJson('step');
-    this.selectedNode = this.stepperChild;
+    this.selectedNode = this.tabsChild;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     // this.stepperNewlength = 3;
     this.updateNodes();
   }
   tabsAddNew() {
-
     this.addControlToJson('tabsMain');
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
@@ -4614,7 +4620,6 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   dashonictabsAddNew() {
-
     this.addControlToJson('mainTab');
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
@@ -4646,12 +4651,15 @@ export class BuilderComponent implements OnInit {
     }));
   }
   remove(parent: any, node: any) {
-    parent = parent?.parentNode?.origin;
-    node = node.origin;
+    debugger
+    if (parent?.parentNode && node.origin) {
+      parent = parent?.parentNode?.origin;
+      node = node.origin;
+    }
     if (parent != undefined) {
       console.log(parent, node);
       const idx = parent.children.indexOf(node);
-      this.columnData = this.columnData.filter((a: any) => a.name != parent.children[idx].id);
+      // this.columnData = this.columnData.filter((a: any) => a.name != parent.children[idx].id);
       parent.children.splice(idx as number, 1);
       // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
       // this.prepareDragDrop(this.templateNode, this.selectedNode);
@@ -4758,16 +4766,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.status = event.form.status;
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
           this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
-          if (event.tableDta) {
-            this.selectedNode.list = event.tableDta
-          } else {
-            this.selectedNode.list = this.selectedNode.list
-          }
-          if (event.form.api) {
-            this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
-              this.selectedNode.list = res;
-            })
-          }
         }
         break;
       case "skeleton":
@@ -5150,7 +5148,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "imageUpload":
         if (this.selectedNode) {
-
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -5225,7 +5222,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "inputGroupGrid":
-
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -5720,7 +5716,6 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "widgetSectionChart":
-
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5879,67 +5874,35 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "stepper":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
-          this.selectedNode.className = event.form.className;
-          if (this.selectedNode && this.selectedNode.formly && this.selectedNode.formly[0].fieldGroup && this.selectedNode.formly[0].fieldGroup[0].templateOptions) {
-            this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-            this.selectedNode.formly[0].fieldGroup[0].templateOptions['tooltip'] = event.form.tooltip;
-          }
-
-          // this.selectedNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.stepperIcon;
+      case "step":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.description = event.form.description;
           this.updateNodes()
         }
         break;
 
-      case "mainStepper":
-        if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.stepperText;
-          this.selectedNode.label = event.form.stepperLabel;
+      case "mainStep":
+        if (this.selectedNode) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.className = event.form.className;
-          // if(this.selectedNode && this.selectedNode.formly && this.selectedNode.formly[0].fieldGroup && this.selectedNode.formly[0].fieldGroup[0].templateOptions){
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.label = event.form.stepperLabel;
-          //   this.selectedNode.formly[0].[stepperFormat] = event.form.stepperFormat;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.selectColor = event.form.selectColor;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.defaultColor = event.form.defaultColor;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.className = event.form.className;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.nodes = event.form.nodes;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip;
-          //   this.selectedNode.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression;
-          // }
-
-          // for (let index = 0; index < this.selectedNode.children.length; index++) {
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].stepperFormat = event.form.stepperFormat);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonText = event.form.nextButtonText);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonIcon = event.form.nextButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.nextButtonColor = event.form.nextButtonColor + " mt-2");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonColor = event.form.backButtonColor + " mt-2");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonIcon = event.form.backButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.backButtonText = event.form.backButtonText);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonColor = event.form.submitButtonColor + " mt-2");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonIcon = event.form.submitButtonIcon + " mr-1");
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.submitButtonText = event.form.submitButtonText);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.selectColor = "--selectColor:" + event.form.selectColor);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.defaultColor = "--defaultColor:" + event.form.defaultColor);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.icon = event.form.icon);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.className = event.form.className);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.tooltip = event.form.tooltip);
-          //   this.selectedNode.children[index].forEach(elementV1 => elementV1.formly[0].fieldGroup[0].templateOptions.hideExpression = event.form.hideExpression);
-          //   this.selectedNode.children[index].className = event.form.className;
-          // }
-          // this.adddynamicStepper(event.form.nodes);
+          this.selectedNode.selectedIndex = event.form.selectedIndex;
+          this.selectedNode.direction = event.form.direction;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.stepperType = event.form.stepperType;
+          this.selectedNode.nodes = event.form.nodes;
+          this.addDynamic(event.form.nodes, 'step', 'mainStep')
         }
         break;
       case "page":
@@ -5951,7 +5914,6 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "pageHeader":
-
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6177,7 +6139,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideTabs = event.form.hideTabs;
           this.selectedNode.nodes = event.form.nodes;
           this.selectedNode.centerd = event.form.centerd;
-          this.adddynamicDashonictab(event.form.nodes);
+          this.addDynamic(event.form.nodes, 'tabs', 'mainTab')
           this.updateNodes();
         }
         break;
@@ -6389,13 +6351,14 @@ export class BuilderComponent implements OnInit {
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
-  adddynamicDashonictab(abc: any) {
+  addDynamic(abc: any, subType: any, mainType: any,) {
+    debugger
     if (this.selectedNode.children) {
       let tabsLength = this.selectedNode.children?.length;
       if (tabsLength < abc) {
         for (let k = 0; k < abc; k++) {
           if (tabsLength < abc) {
-            this.addControlToJson('tabs');
+            this.addControlToJson(subType);
             this.selectedNode = this.tabsChild;
             this.addControlToJson('text', this.textJsonObj);
             this.selectedNode = this.tabsAdd;
@@ -6410,7 +6373,7 @@ export class BuilderComponent implements OnInit {
           for (let a = 0; a < removeTabsLength; a++) {
             for (let i = 0; i < checkParentLength; i++) {
               for (let j = 0; j < removeTabsLength; j++) {
-                if (this.selectdParentNode.children[i].type == "mainDashonicTabs") {
+                if (this.selectdParentNode.children[i].type == mainType) {
                   if (abc < tabsLength) {
                     this.remove(this.selectdParentNode.children[i], this.selectedNode.children[tabsLength - 1]);
                     tabsLength = tabsLength - 1;

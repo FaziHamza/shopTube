@@ -51,6 +51,7 @@ export class StepperComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.current = 0;
   }
 
 }
