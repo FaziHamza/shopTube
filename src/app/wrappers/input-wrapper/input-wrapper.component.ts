@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
@@ -10,17 +9,4 @@ import { FieldType } from '@ngx-formly/core';
 export class InputWrapperComponent extends FieldType {
   @Input() value = '';
   @Input() placeholder = '';
-  myForm: FormGroup;
-  ngOnInit(): void {
-    debugger
-    this.to;
-    this.myForm = this.formBuilder.group({
-      input1: ['',new FormControl('',Validators.required)],
-      input2: ['',new FormControl('',Validators.required)],
-    });
-
-  }
-  constructor(private formBuilder: FormBuilder){
-    super();
-  }
 }

@@ -87,6 +87,7 @@ import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.
 import { BadgeComponent } from './components/badge/badge.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { CommonModule } from '@angular/common';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -171,6 +172,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   ],
   imports: [
     FormsModule,
+    CommonModule,
     AngularSplitModule,
     NgJsonEditorModule,
     BrowserModule,
@@ -184,8 +186,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     NgxDropzoneModule,
     DragDropModule
-    
-    
+
+
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

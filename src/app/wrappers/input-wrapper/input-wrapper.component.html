@@ -1,17 +1,18 @@
-<form [formGroup]="myForm">
-    <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
-        <input nz-input [placeholder]="to.placeholder" [formControlName]="'input1'" nzStatus="error" />
-    </nz-input-group>
-    <nz-input-group [nzSuffix]="to.config.addonLeft" [nzPrefix]="to.config.addonRight">
-    <input nz-input [placeholder]="to.placeholder" [nzStatus]="to.config.status" [(ngModel)]="value"
-        [nzSize]="to.config.size" [nzBorderless]="to.config.border" />
-</nz-input-group>
-</form>
+  <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
+    <!-- <input nz-input [formControl]="formControl" [placeholder]="to.placeholder"  nzStatus="error" /> -->
+  </nz-input-group>
+  <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight">
+    <input nz-input [placeholder]="to.placeholder" [nzStatus]="to.config?.status" [(ngModel)]="value"
+      [nzSize]="to.config.size" [nzBorderless]="to.config.border" />
+  </nz-input-group>
 
 
-<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config.addonLeftIcon"></span></ng-template>
+<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.addonLeftIcon"></span></ng-template>
 <ng-template #suffixTemplateInfo>
-    <span nz-icon [nzType]="to.config.addonrightIcon"></span>
+  <span nz-icon [nzType]="to.config?.addonrightIcon"></span>
 </ng-template>
 
-<input *nzSpaceItem nz-input placeholder="Error"  [formControlName]="'input1'" nzStatus="error" />
+<!-- <input *nzSpaceItem nz-input placeholder="Error" [formControlName]="'input1'" nzStatus="error" /> -->
+
+<!-- <nz-switch [formlyAttributes]="field" nzSize="small" [formControl]="formControl"></nz-switch> -->
+
