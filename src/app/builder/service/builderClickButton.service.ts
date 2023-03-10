@@ -34,6 +34,9 @@ export class BuilderClickButtonService {
   getBadgeConfig(node: any) {
     return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus };
   }
+  getMentionConfig(node: any) {
+    return { loading: node.loading, status: node.status, options: node.options, position: node.position, disabled: node.disabled, };
+  }
 
   getEmptyConfig(node: any) {
     return { text: node.text, icon: node.icon, link: node.link, btnText: node.btnText, color: node.color, content: node.content };
