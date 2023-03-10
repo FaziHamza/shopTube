@@ -8301,6 +8301,117 @@ export class formFeildData {
       ]
     },
   ];
+  mentionsFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'status',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Status',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Warning ',
+                value: 'warning'
+              },
+             
+              {
+                label: 'Error',
+                value: 'error'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'position',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Position',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Top ',
+                value: 'top'
+              },
+             
+              {
+                label: 'Bottom',
+                value: 'bottom'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'transferApi'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'loading',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Loading',
+          },
+          defaultValue: false
+        },
+       
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'disabled',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Disabled',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          templateOptions: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                className: "w-1/4 px-1",
+                templateOptions: {
+                  label: 'label'
+                }
+              },
+            ]
+          }
+        },
+        
+      ]
+    },
+  ];
   nzTagFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

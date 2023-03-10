@@ -1,4 +1,6 @@
-<nz-mention [nzSuggestions]="mentionData.options" (nzOnSelect)="onSelect($event)">
+<nz-mention [nzSuggestions]="suggestion" (nzOnSearchChange)="onSearchChange($event)"
+    [nzLoading]="mentionData.loading" [nzNotFoundContent]="mentionData.noneData" [nzStatus]="mentionData.status"
+    [nzPlacement]="mentionData.position">
     <textarea [rows]="mentionData.rows" [placeholder]="mentionData.placeholder" nzMentionTrigger nz-input
         [(ngModel)]="mentionData.title" (ngModelChange)="onChange($event)"></textarea>
-</nz-mention>
+</nz-mention>   

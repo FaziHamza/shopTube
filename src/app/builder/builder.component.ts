@@ -3522,10 +3522,33 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        options: ['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご'],
-        title: "@afc163",
+        options: [
+          {
+            label: 'afc163'
+          },
+          {
+            label: 'benjycui'
+          },
+          {
+            label: 'yiminghe'
+          },
+          {
+            label: 'RaoHai'
+          },
+          {
+            label: '中文'
+          },
+        ],
+        title: "mention",
         placeholder: "enter sugestion",
         rows: "1",
+        loading: false,
+        disabled: false,
+        noneData: '',
+        status: 'error',
+        prefix: '',
+        position: 'top',
+
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3833,6 +3856,10 @@ export class BuilderComponent implements OnInit {
       case "badge":
         configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.badgeFields;
+        break;
+      case "mentions":
+        configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mentionsFields;
         break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
@@ -4765,7 +4792,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
           this.selectedNode.status = event.form.status;
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
-          this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
+          this.selectedNode.list = this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
+
         }
         break;
       case "skeleton":
@@ -4856,6 +4884,21 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
+        }
+        break;
+      case "mentions":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.loading = event.form.loading;
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.options = this.assigOptionsData(this.selectedNode.options, event.tableDta, event.form.api);
+          // this.selectedNode.options = event.form.options;
+          this.selectedNode.position = event.form.position;
+
         }
         break;
       case "empty":
@@ -6475,16 +6518,20 @@ export class BuilderComponent implements OnInit {
   }
 
   assigOptionsData(selectNode: any, tableDta: any, api: any) {
+    debugger
     if (tableDta) {
-      this.selectedNode.list = tableDta
+      selectNode = tableDta
     } else {
-      this.selectedNode.list = this.selectedNode.list
+      selectNode = this.selectedNode.list
     }
     if (api) {
-      this.builderService.jsonTagsDataGet(api).subscribe((res) => {
-        selectNode = res;
-      })
+      this.builderService.genericApis(api).subscribe((res => {
+        if (!res) {
+          selectNode = res;
+        }
+      }))
     }
+    return selectNode;
   }
 }
 
