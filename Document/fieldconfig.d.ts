@@ -169,6 +169,7 @@ export interface FormlyFieldProps {
     label?: string;
     placeholder?: string;
     tooltip?: any;
+    config?: any;
     titleIcon?: any;
     multiple?:any;
     labelIcon?: any;
