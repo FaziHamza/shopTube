@@ -195,8 +195,8 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-text",
                 label: "Input",
-                type: 'input',
-                configType:'input',fieldType: 'input',
+                type: 'inputWrapper',
+                configType:'inputWrapper',fieldType: 'inputWrapper',
                 // maskString: "",
                 // maskLabel: ""
               },

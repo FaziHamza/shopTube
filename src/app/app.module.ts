@@ -167,7 +167,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutDrawerComponent,
     DynamicTableComponent,
     BadgeComponent,
-    StepperComponent
+    StepperComponent,
   ],
   imports: [
     FormsModule,

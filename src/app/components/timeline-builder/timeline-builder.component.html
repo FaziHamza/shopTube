@@ -1,5 +1,8 @@
-<nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="characterIcon" [nzReverse]="timelineData.reverse"
-    [nzMode]="timelineData.mode">
+<nz-timeline 
+[nzPending]="timelineData.pendingText" 
+[nzPendingDot]="characterIcon" 
+[nzReverse]="timelineData.reverse"
+[nzMode]="timelineData.mode">
 
     <nz-timeline-item *ngFor="let item of timelineData.data">{{item.title}}</nz-timeline-item>
 </nz-timeline>
