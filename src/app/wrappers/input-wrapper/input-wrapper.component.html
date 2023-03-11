@@ -1,10 +1,10 @@
 <!-- <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
   <input nz-input [formControl]="formControl" [placeholder]="to.placeholder"  nzStatus="error" />
 </nz-input-group> -->
-
+<!-- <label *ngIf="!to.config?.floatingInput">{{to.label}}</label> -->
 <ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
   <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
-    [nzSize]="to.config?.size" class="float-left">
+    [nzSize]="to.config?.size" >
     <input nz-input [type]="to.type" [placeholder]="to.placeholder" [nzBorderless]="to.config?.border"
       [disabled]="false" [maxLength]="to.config?.maxLength" />
   </nz-input-group>
@@ -12,7 +12,6 @@
 <ng-container *ngIf="to.type == 'textarea'">
   <textarea placeholder="Autosize height based on content lines" nzAutosize></textarea>
 </ng-container>
-
 <div class="relative" *ngIf="to.config?.floatingInput">
   <input nz-input id="floating_outlined"
     class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
