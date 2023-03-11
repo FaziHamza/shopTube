@@ -25,6 +25,11 @@ export interface TreeNode {
   isNextChild?: boolean;
   padding?: any;
   hideExpression?: boolean;
+  checkable?: any;
+  expand?: any;
+  expandIcon?: any;
+  closingexpandicon?: any;
+  treeApi?: any;
   loading?: boolean;
   clear?: boolean;
   allowHalf?: boolean;

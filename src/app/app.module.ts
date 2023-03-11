@@ -88,6 +88,7 @@ import { BadgeComponent } from './components/badge/badge.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
+import { TreeComponent } from './components/tree/tree.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -169,6 +170,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     DynamicTableComponent,
     BadgeComponent,
     StepperComponent,
+    TreeComponent,
   ],
   imports: [
     FormsModule,

@@ -173,6 +173,11 @@ export const htmlTabsData = [
                 label: "Tree Select"
               },
               {
+                parameter: "tree",
+                icon: "uil-toggle-off",
+                label: "Tree"
+              },
+              {
                 parameter: "input",
                 icon: "uil uil-file-alt",
                 label: "Decimal",

@@ -1,4 +1,8 @@
+<ng-container class="text-right">
+
 <nz-avatar [nzIcon]='avatarData.icon' [nzText]='avatarData.text' [nzSrc]='avatarData.src' [nzGap]='avatarData.gap'
     [nzAlt]='avatarData.alt' (nzError)="handleAvatarError($event)"
     [ngStyle]="{'background-color':avatarData.bgColor , 'color':avatarData.color}"
     style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
+    <p class="font-semibold">{{avatarData.title}}</p>
+</ng-container>
