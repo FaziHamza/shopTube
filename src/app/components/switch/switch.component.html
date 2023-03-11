@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
 
         <div class="form-check form-switch form-switch-md mb-2" [ngStyle]="{'text-align': switchData.switchPosition}"
                 *ngIf="switchData.switchType == 'defaultSwitch'">
@@ -71,4 +71,10 @@
                         </div>
                 </label>
         </div>
-</div>
+</div> -->
+
+<nz-switch [formlyAttributes]="field" nzSize="small"></nz-switch>
+<span class="switch-label">{{field.templateOptions?.label}}</span>
+
+
+

@@ -9,4 +9,5 @@ import { FieldType } from '@ngx-formly/core';
 export class InputWrapperComponent extends FieldType {
   @Input() value = '';
   @Input() placeholder = '';
+  
 }

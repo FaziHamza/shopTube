@@ -112,6 +112,15 @@ export class BuilderClickButtonService {
       nzSpan: node.nzSpan,
     }
   }
+  getTreeConfig(node: any) {
+    return {
+      
+        checkable:node.checkable,
+        expandIcon:node.expandIcon,
+        closingexpandicon:node.closingexpandicon,
+        expand:node.expand
+    }
+  }
 
   getAffixConfig(node: any) {
     return {
@@ -495,9 +504,11 @@ export class BuilderClickButtonService {
     }
   }
 
+
   getHeadingConfig(node: any) {
+    debugger
     return {
-      padding: '',
+      // padding: '',
       level: node.level,
       text: node.text,
       style: node.style,

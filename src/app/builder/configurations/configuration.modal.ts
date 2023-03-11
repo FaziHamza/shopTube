@@ -3660,6 +3660,10 @@ export class formFeildData {
                 label: 'Vertical Theme',
                 value: 'formly-vertical-theme-wrapper'
               },
+              {
+                label: 'Floating Input',
+                value: 'floatingInput'
+              },
               // {
               //   label: 'Grid Theme',
               //   value: 'formly-grid-wrapper'
@@ -8921,6 +8925,7 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+       
         {
           className: "w-1/4 px-1",
           key: 'api',
@@ -8932,6 +8937,86 @@ export class formFeildData {
               {
                 label: 'Api',
                 value: 'treeSelectApi'
+              },
+            ]
+          }
+        },
+      ]
+    },
+  ];
+  treeFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'expandIcon',
+          type: 'input',
+          templateOptions: {
+            label: 'Icon',
+          },
+         
+        },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'closingexpandicon',
+        //   type: 'input',
+        //   templateOptions: {
+        //     label: 'Close Icon',
+        //   },
+         
+        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'treeApi'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'checkable',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Checkable',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'expand',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Expand',
+          },
+          defaultValue: true
+        },
+      ]
+    },
+  ];
+  cascaderFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'cascaderApi'
               },
             ]
           }

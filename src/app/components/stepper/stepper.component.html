@@ -4,9 +4,14 @@
     <ng-container *ngFor="let item of step.children">
         <nz-step [nzDescription]="item.description" [nzIcon]="characterIcon" [nzDisabled]="item.disabled"
             [nzTitle]="item.title"></nz-step>
+        <div style="text-align: right;">
+            <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                    nzTheme="twotone"></span></span>
+        </div>
         <ng-template #characterIcon>
             <span nz-icon [nzType]="item.icon"></span>
         </ng-template>
+
     </ng-container>
 
 </nz-steps>

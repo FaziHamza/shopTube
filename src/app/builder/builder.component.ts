@@ -807,7 +807,6 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'accordingHeader_' + Guid.newGuid(),
         key: "accordingHeader_" + Guid.newGuid(),
-
         title: 'Header',
         type: "accordingHeader",
         footer: false,
@@ -857,7 +856,6 @@ export class BuilderComponent implements OnInit {
         title: 'Footer',
         type: "accordingFooter",
         key: "accordingFooter_" + Guid.newGuid(),
-
         footer: false,
         header: false,
         expanded: true,
@@ -878,7 +876,6 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: data?.label + Guid.newGuid(),
-
         title: data?.label,
         expanded: true,
         type: data?.configType,
@@ -893,20 +890,22 @@ export class BuilderComponent implements OnInit {
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
-                wrappers: this.getLastNodeWrapper("wrappers"),
+                // wrappers: ["formly-vertical-wrapper"],
                 templateOptions: {
                   multiple: true,
                   attributes: {
                     autocomplete: 'off',
                   },
-                  config:{
+                  config: {
                     addonLeft: 'left',
                     addonRight: 'right',
                     addonLeftIcon: 'user',
                     addonrightIcon: 'star',
                     status: 'warning',
-                    size:'small',
-                    border:false,
+                    size: 'large',
+                    border: false,
+                    maxLength:10,
+                    disabled:false,
                   },
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -1049,7 +1048,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "update",
         className: "w-1/3",
-        color: "btn btn-primary",
+        color: "bg-blue-200",
         btnIcon: "redo",
         format: "text-left",
         btnDisables: false,
@@ -1057,7 +1056,7 @@ export class BuilderComponent implements OnInit {
         nzBlock: false,
         nzType: "Primary",
         nzSize: "default",
-        nzShape: 'circle',
+        nzShape: 'default',
         nzLoading: false,
         nzGhost: false,
         children: [
@@ -1078,7 +1077,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "delete",
         className: "w-1/3",
-        color: "btn btn-danger",
+        color: "bg-yellow-600",
         btnIcon: "delete",
         format: "text-left",
         btnDisables: false,
@@ -1086,7 +1085,7 @@ export class BuilderComponent implements OnInit {
         nzBlock: false,
         nzType: "primary",
         nzSize: "large",
-        nzShape: 'circle',
+        nzShape: 'default',
         nzLoading: false,
         nzGhost: false,
         children: [
@@ -1096,6 +1095,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
+      debugger
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -1424,9 +1424,11 @@ export class BuilderComponent implements OnInit {
         key: 'step_' + Guid.newGuid(),
         title: 'Step',
         type: "step",
+        tooltip: "",
         isNextChild: true,
         highLight: false,
         icon: 'star',
+        className: "w-full",
         disabled: false,
         description: "description",
         children: [
@@ -2173,7 +2175,7 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: "common_" + Guid.newGuid(),
         title: "Heading" + '_1',
-        type: "header",
+        type: "heading",
         className: "w-full",
         highLight: false,
         isNextChild: false,
@@ -2576,46 +2578,46 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         hideExpression: false,
-        pendingText:"Recording...",
-        mainIcon:"loading",
-        reverse:false,
-        labelText:'',
-        mode:'left',
+        pendingText: "Recording...",
+        mainIcon: "loading",
+        reverse: false,
+        labelText: '',
+        mode: 'left',
         data: [
           {
             title: "Timeline Event One",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
           {
             title: "Timeline Event two",
-            dotIcon:'down',
-            color:'green',
+            dotIcon: 'down',
+            color: 'green',
           },
           {
             title: "Timeline Event three",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
           {
             title: "Timeline Event One",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
           {
             title: "Timeline Event One",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
           {
             title: "Timeline Event One",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
           {
             title: "Timeline Event One",
-            dotIcon:'loading',
-            color:'green',
+            dotIcon: 'loading',
+            color: 'green',
           },
         ],
         children: [
@@ -3262,6 +3264,72 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
+    else if (value == 'tree') {
+      const newNode = {
+        id: 'common_' + Guid.newGuid(),
+        className: "w-1/2",
+        title: 'tree',
+        type: "tree",
+        isNextChild: false,
+        hideExpression: false,
+        tooltip: "",
+        checkable:'',
+        expandIcon:'folder',
+        closingexpandicon:'file',
+        expand:"",
+        expandKeys: ['100', '1001'],
+        // title: 'parent 1',
+        key: '100',
+        nodes : [
+          {
+            title: '0-0',
+            key: '0-0',
+            expanded: true,
+            children: [
+              {
+                title: '0-0-0',
+                key: '0-0-0',
+                children: [
+                  { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
+                  { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
+                  { title: '0-0-0-2', key: '0-0-0-2', isLeaf: true }
+                ]
+              },
+              {
+                title: '0-0-1',
+                key: '0-0-1',
+                children: [
+                  { title: '0-0-1-0', key: '0-0-1-0', isLeaf: true },
+                  { title: '0-0-1-1', key: '0-0-1-1', isLeaf: true },
+                  { title: '0-0-1-2', key: '0-0-1-2', isLeaf: true }
+                ]
+              },
+              {
+                title: '0-0-2',
+                key: '0-0-2',
+                isLeaf: true
+              }
+            ]
+          },
+          {
+            title: '0-1',
+            key: '0-1',
+            children: [
+              { title: '0-1-0-0', key: '0-1-0-0', isLeaf: true },
+              { title: '0-1-0-1', key: '0-1-0-1', isLeaf: true },
+              { title: '0-1-0-2', key: '0-1-0-2', isLeaf: true }
+            ]
+          },
+          {
+            title: '0-2',
+            key: '0-2',
+            isLeaf: true
+          }
+        ],
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
     else if (value == 'cascader') {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
@@ -3271,7 +3339,7 @@ export class BuilderComponent implements OnInit {
         type: "cascader",
         isNextChild: false,
         hideExpression: false,
-        options: [
+        nodes: [
           {
             value: 'zhejiang',
             label: 'Zhejiang',
@@ -3495,7 +3563,7 @@ export class BuilderComponent implements OnInit {
         isCheckable: false,
         isMultiple: false,
         isExpandAll: false,
-        treeNode: [
+        nodes: [
           {
             title: 'parent 1',
             key: '100',
@@ -3848,8 +3916,17 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case "treeSelect":
+      case "treeView":
         // configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeSelectFields;
+        break;
+      case "cascader":
+        // configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.cascaderFields;
+        break;
+      case "tree":
+        configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.treeFields;
         break;
       case "modal":
         configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
@@ -4145,8 +4222,9 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "heading":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
-        configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
+        // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
           this.fieldData.formData = _formFieldData.headingFields;
         break;
 
@@ -4776,13 +4854,89 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
-      case "treeSelect":
+        case "treeSelect":
+          case "treeView":
+            debugger
+            if (this.selectedNode) {
+              this.selectedNode.title = event.form.title;
+              this.selectedNode.className = event.form.className;
+              this.selectedNode.tooltip = event.form.tooltip;
+              this.selectedNode.hideExpression = event.form.hideExpression;
+              if (event.tableDta) {
+                this.selectedNode.nodes = event.tableDta;
+              }
+              if (event.form.api) {
+                this.builderService.genericApis(event.form.api).subscribe((res => {
+                  if (res) {
+                    this.selectedNode.nodes = res;
+                    this.updateNodes();
+                  }
+                }))
+              }
+              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+    
+            }
+            break;
+          case "cascader":
+            debugger
+            if (this.selectedNode) {
+              this.selectedNode.title = event.form.title;
+              this.selectedNode.className = event.form.className;
+              this.selectedNode.tooltip = event.form.tooltip;
+              this.selectedNode.hideExpression = event.form.hideExpression;
+              if (event.tableDta) {
+                this.selectedNode.nodes = event.tableDta;
+              }
+              if (event.form.api) {
+                this.builderService.genericApis(event.form.api).subscribe((res => {
+                  if (res) {
+                    this.selectedNode.nodes = res;
+                    this.updateNodes();
+                  }
+                }))
+              }
+              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+    
+            }
+            break;
+      case "tree":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta , event.form.api)
+          this.selectedNode.checkable = event.form.checkable;
+          this.selectedNode.expand = event.form.expand;
+          this.selectedNode.expandIcon = event.form.expandIcon;
+          this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.nodes = res;
+              }
+            }))
+          }
+        }
+        break;
+      case "tree":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.checkable = event.form.checkable;
+          this.selectedNode.expand = event.form.expand;
+          this.selectedNode.expandIcon = event.form.expandIcon;
+          this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.nodes = res;
+              }
+            }))
+          }
         }
         break;
       case "modal":
@@ -5083,8 +5237,8 @@ export class BuilderComponent implements OnInit {
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['titleIcon'] = event.form.titleIcon;
-            templateOptions['addonLeft'].text = event.form.addonLeft;
-            templateOptions['addonRight'].text = event.form.addonRight;
+            // templateOptions['addonLeft'].text = event.form.addonLeft;
+            // templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               templateOptions['options'] = event.tableDta;
@@ -5474,7 +5628,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.btngroupformat = event.form.btngroupformat;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.key = event.form.key
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.title = event.form.title
           this.updateNodes();
         }
@@ -5491,6 +5646,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.href = event.form.href;
           this.selectedNode.target = event.form.target;
           this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.color = event.form.color;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
@@ -5519,6 +5675,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
           this.selectedNode.nzShape = event.form.nzShape;
+          this.selectedNode.nzDanger = event.form.nzDanger;
           this.selectedNode.nzLoading = event.form.nzLoading;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.format = event.form.format;
@@ -5945,6 +6102,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.key = event.form.key;
+          // this.selectedNode.hideExpression = event.form.hideExpression;
+          // this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
@@ -5959,6 +6118,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.title = event.form.title;
           this.selectedNode.key = event.form.key;
           this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
           this.selectedNode.selectedIndex = event.form.selectedIndex;
           this.selectedNode.direction = event.form.direction;
@@ -6018,7 +6178,8 @@ export class BuilderComponent implements OnInit {
             if (res) {
               if (res.formly != undefined) {
                 if (res.type != "stepperMain" && res.type != "tabsMain") {
-                  res['wrapper'] = event.form.wrappers;
+                  res['wrapper'] = [];
+                  res.wrapper.push(event.form.wrappers) ;
                   res['dataOnly'] = event.form.disabled;
                   // if (event.form.className) {
                   //   res.className = event.form.className;
@@ -6068,6 +6229,7 @@ export class BuilderComponent implements OnInit {
               // }
             }
           })
+          this.clickBack();
         }
         break;
       case "accordingHeader":
@@ -6354,18 +6516,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
-          this.selectedNode.className = event.form.className,
-          this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
+            this.selectedNode.className = event.form.className,
+            this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
           this.selectedNode.labelText = event.form.labelText,
-          this.selectedNode.dotIcon = event.form.dotIcon,
-          this.selectedNode.mainIcon = event.form.mainIcon,
-          this.selectedNode.color = event.form.color,
-          this.selectedNode.position = event.form.position,
-          this.selectedNode.pendingText = event.form.pendingText,
-          this.selectedNode.reverse = event.form.reverse,
-          this.selectedNode.mode = event.form.mode
+            this.selectedNode.dotIcon = event.form.dotIcon,
+            this.selectedNode.mainIcon = event.form.mainIcon,
+            this.selectedNode.color = event.form.color,
+            this.selectedNode.position = event.form.position,
+            this.selectedNode.pendingText = event.form.pendingText,
+            this.selectedNode.reverse = event.form.reverse,
+            this.selectedNode.mode = event.form.mode
         }
-       break;
+        break;
 
       case "simpleCardWithHeaderBodyFooter":
         if (this.selectedNode.id) {
@@ -6485,8 +6647,13 @@ export class BuilderComponent implements OnInit {
         else if (formValues.labelPosition == "text-left") {
           fieldGroup[0].templateOptions.labelPosition = "text-left";
         }
-        if (formValues.wrappers) {
+        if (formValues.wrappers != 'floatingInput') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+        }
+        if(formValues.wrappers == 'floatingInput'){
+          fieldGroup[0].templateOptions.config['floatingInput'] = true;
+        }else{
+          fieldGroup[0].templateOptions.config['floatingInput'] = false;
         }
         if (formValues.className) {
           fieldGroup[0].templateOptions.className = formValues.className;
@@ -6534,16 +6701,18 @@ export class BuilderComponent implements OnInit {
   assigOptionsData(selectNode: any, tableDta: any, api: any) {
     debugger
     if (tableDta) {
-      selectNode = tableDta
-    } 
+      selectNode = tableDta;
+      return selectNode;
+    }
     if (api) {
       this.builderService.genericApis(api).subscribe((res => {
-        if (!res) {
+        if (res) {
           selectNode = res;
+          this.updateNodes();
+          return selectNode;
         }
       }))
     }
-    return selectNode;
   }
 }
 
