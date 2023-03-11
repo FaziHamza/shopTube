@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-input-wrapper',
   templateUrl: './input-wrapper.component.html',
   styleUrls: ['./input-wrapper.component.scss']
 })
-export class InputWrapperComponent extends FieldType {
+export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() value = '';
   @Input() placeholder = '';
   

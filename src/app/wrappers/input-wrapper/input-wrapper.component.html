@@ -5,8 +5,8 @@
 <ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
   <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
     [nzSize]="to.config?.size" >
-    <input nz-input [type]="to.type" [placeholder]="to.placeholder" [nzBorderless]="to.config?.border"
-      [disabled]="false" [maxLength]="to.config?.maxLength" />
+    <input [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder" [formControl]="formControl" [nzBorderless]="to.config?.border"
+      [disabled]="false"  />
   </nz-input-group>
 </ng-container>
 <ng-container *ngIf="to.type == 'textarea'">
