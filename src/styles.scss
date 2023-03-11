@@ -74,3 +74,10 @@ html {
 ::-webkit-scrollbar-thumb {
   background: $white;
 }
+
+.ant-tabs-tab .anticon {
+  margin-right: 4px !important;
+}
+img, svg, video, canvas, audio, iframe, embed, object{
+  vertical-align: baseline !important;
+}
