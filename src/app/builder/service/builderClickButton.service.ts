@@ -38,6 +38,7 @@ export class BuilderClickButtonService {
     return { loading: node.loading, status: node.status, options: node.options, position: node.position, disabled: node.disabled, };
   }
 
+
   getEmptyConfig(node: any) {
     return { text: node.text, icon: node.icon, link: node.link, btnText: node.btnText, color: node.color, content: node.content };
   }
@@ -387,11 +388,15 @@ export class BuilderClickButtonService {
 
   getTimelineConfig(node: any) {
     return {
-      timelineData: node.timelineConfig[0].data,
-      timelineHeading: node.timelineConfig[0]?.timelineHeading,
-      headingColor: node.timelineConfig[0]?.headingColor,
-      headingShape: node.timelineConfig[0]?.headingShape,
-      timelineType: node.timelineConfig[0]?.timelineType,
+      dotIcon: node.dotIcon,
+      labelText: node.labelText,
+      color: node.color,
+      position: node.position,
+      mode: node.mode,
+      mainIcon: node.mainIcon,
+      reverse: node.reverse,
+      options: node.data,
+      
     }
   }
 
