@@ -874,6 +874,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (data?.parameter == 'input') {
+      debugger
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: data?.label + Guid.newGuid(),
@@ -898,11 +899,14 @@ export class BuilderComponent implements OnInit {
                   attributes: {
                     autocomplete: 'off',
                   },
-                  addonLeft: {
-                    text: ''
-                  },
-                  addonRight: {
-                    text: '$1',
+                  config:{
+                    addonLeft: 'left',
+                    addonRight: 'right',
+                    addonLeftIcon: 'user',
+                    addonrightIcon: 'star',
+                    status: 'warning',
+                    size:'small',
+                    border:false,
                   },
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -6518,9 +6522,7 @@ export class BuilderComponent implements OnInit {
     debugger
     if (tableDta) {
       selectNode = tableDta
-    } else {
-      selectNode = this.selectedNode.list
-    }
+    } 
     if (api) {
       this.builderService.genericApis(api).subscribe((res => {
         if (!res) {

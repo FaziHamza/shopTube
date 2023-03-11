@@ -11,6 +11,7 @@ import { FormlyFieldMultiCheckbox } from "./wrappers/FormlyMultiCheckbox";
 import { formlyRepeatSectionComponent } from "./wrappers/formlyRepeatSection";
 import { FormlyVerticalThemeWrapper } from "./wrappers/FormlyVerticalThemeWrapper";
 import { FormlyVerticalWrapper } from "./wrappers/FormlyVerticalWrapper";
+import { InputWrapperComponent } from "./wrappers/input-wrapper/input-wrapper.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -25,6 +26,7 @@ export const fieldComponents = [
     FormlyFieldTimePicker,
     FormlyFieldRepeatSectionComponent,
     formlyRepeatSectionComponent,
+    InputWrapperComponent,
 ];
 
 
@@ -41,6 +43,7 @@ export const formlyCustomeConfig: ConfigOption = {
         { name: 'custom', component: FormlyFieldCustomInputComponent },
         { name: 'rangedatetime', component: FormlyFieldRangeDate },
         { name: 'timepicker', component: FormlyFieldTimePicker },
+        { name: 'inputWrapper', component: InputWrapperComponent },
         // { name: 'tabs', component: FormlyFieldTabs },
         // { name: 'tab', component: FormlyVerticalFieldTabs },
         // { name: 'repeatInput', component: FormlyGridWrapper },
