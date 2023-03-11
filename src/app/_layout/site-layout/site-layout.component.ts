@@ -181,8 +181,8 @@ export class SiteLayoutComponent implements OnInit {
     this.makeMenuData();
   }
 
-  setHovered(value: any, data?: any) {
-
+  setHovered(value: any, data?: any,item?:any) {
+    debugger
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.isCollapsed = value;
@@ -201,6 +201,7 @@ export class SiteLayoutComponent implements OnInit {
     }
     else if (value == 'down' || value == 'up') {
       data = value;
+      item.menuIcon = value;
     }
 
   }

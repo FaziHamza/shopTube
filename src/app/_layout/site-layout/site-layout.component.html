@@ -46,12 +46,12 @@
                     <ng-template #subMenu>
                       <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
                         <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
-                          (mouseover)="setHovered('up', item.menuIcon)" (mouseout)="setHovered('down',item.menuIcon)"
+                          (mouseover)="setHovered('up', item.menuIcon,item)" (mouseout)="setHovered('down',item.menuIcon,item)"
                           (click)="loadTabsAndButtons($event,item)">
                           <ul *ngFor="let sub of item.subItems">
                             <ng-container *ngIf="sub.type !='mainDashonicTabs' && sub.type !='dropdown'">
                               <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
-                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start')"
+                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
                                 (mouseout)="setHovered(true,'start')">{{sub.label}}</li>
                             </ng-container>
                           </ul>
