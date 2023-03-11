@@ -3831,6 +3831,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
+      case "treeSelect":
+        // configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.treeSelectFields;
+        break;
       case "modal":
         configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.modalFields;
@@ -4754,6 +4758,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.wrapClassName = event.form.wrapClassName;
           this.selectedNode.zIndex = event.form.zIndex;
           this.selectedNode.onClose = event.form.onClose;
+        }
+        break;
+      case "treeSelect":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta , event.form.api)
         }
         break;
       case "modal":

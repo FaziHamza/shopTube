@@ -9037,6 +9037,28 @@ export class formFeildData {
       ]
     },
   ];
+  treeSelectFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'treeSelectApi'
+              },
+            ]
+          }
+        },
+      ]
+    },
+  ];
 }
 
 
