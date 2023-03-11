@@ -1,18 +1,35 @@
-  <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
-    <!-- <input nz-input [formControl]="formControl" [placeholder]="to.placeholder"  nzStatus="error" /> -->
+<!-- <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser">
+  <input nz-input [formControl]="formControl" [placeholder]="to.placeholder"  nzStatus="error" />
+</nz-input-group> -->
+
+<ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
+  <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
+    [nzSize]="to.config?.size" class="float-left">
+    <input nz-input [type]="to.type" [placeholder]="to.placeholder" [nzBorderless]="to.config?.border"
+      [disabled]="false" [maxLength]="to.config?.maxLength" />
   </nz-input-group>
-  <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight">
-    <input nz-input [placeholder]="to.placeholder" [nzStatus]="to.config?.status" [(ngModel)]="value"
-      [nzSize]="to.config.size" [nzBorderless]="to.config.border" />
-  </nz-input-group>
+</ng-container>
+<ng-container *ngIf="to.type == 'textarea'">
+  <textarea placeholder="Autosize height based on content lines" nzAutosize></textarea>
+</ng-container>
+
+<div class="relative" *ngIf="to.config?.floatingInput">
+  <input nz-input id="floating_outlined"
+    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+    placeholder=" " [type]="to.type" [nzBorderless]="to.config?.border" [disabled]="false"
+    [maxLength]="to.config?.maxLength" />
+  <label for="floating_outlined"
+    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{to.label}}</label>
+</div>
 
 
-<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.addonLeftIcon"></span></ng-template>
+
+
+<!-- <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.addonLeftIcon"></span></ng-template>
 <ng-template #suffixTemplateInfo>
   <span nz-icon [nzType]="to.config?.addonrightIcon"></span>
-</ng-template>
+</ng-template> -->
 
 <!-- <input *nzSpaceItem nz-input placeholder="Error" [formControlName]="'input1'" nzStatus="error" /> -->
 
 <!-- <nz-switch [formlyAttributes]="field" nzSize="small" [formControl]="formControl"></nz-switch> -->
-

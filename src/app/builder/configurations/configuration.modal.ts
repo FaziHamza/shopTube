@@ -3660,6 +3660,10 @@ export class formFeildData {
                 label: 'Vertical Theme',
                 value: 'formly-vertical-theme-wrapper'
               },
+              {
+                label: 'Floating Input',
+                value: 'floatingInput'
+              },
               // {
               //   label: 'Grid Theme',
               //   value: 'formly-grid-wrapper'
@@ -8932,6 +8936,28 @@ export class formFeildData {
               {
                 label: 'Api',
                 value: 'treeSelectApi'
+              },
+            ]
+          }
+        },
+      ]
+    },
+  ];
+  cascaderFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'cascaderApi'
               },
             ]
           }

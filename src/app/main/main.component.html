@@ -1,4 +1,4 @@
-<div class="card-content  flex flex-wrap">
+<div class="card-content  flex flex-wrap w-1/">
     <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
@@ -278,7 +278,7 @@
         <ng-template #thirtyThree>
             <ng-container *ngIf="item.type == 'switch'; else thirtyforth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-switch [switchData]="item"></app-switch>
+                    <!-- <app-switch [switchData]="item"></app-switch> -->
                 </div>
             </ng-container>
         </ng-template>

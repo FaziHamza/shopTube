@@ -195,7 +195,16 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-text",
                 label: "Input",
-                type: 'inputWrapper',
+                type: 'input',
+                configType:'input',fieldType: 'input',
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-text",
+                label: "switch",
+                type: 'switch',
                 configType:'inputWrapper',fieldType: 'inputWrapper',
                 // maskString: "",
                 // maskLabel: ""
@@ -210,11 +219,11 @@ export const htmlTabsData = [
                 icon: "uil uil-text",
                 label: "Input Group Grid"
               },
-              {
-                parameter: "switch",
-                icon: "uil-toggle-off",
-                label: "switch"
-              },
+              // {
+              //   parameter: "switch",
+              //   icon: "uil-toggle-off",
+              //   label: "switch"
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-list-ul",
@@ -295,7 +304,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Date Picker",
-                type: 'input',
+                type: 'date',
                 configType:'date',fieldType: 'date',
                 // maskString: "",
                  // maskLabel: "",
@@ -1007,7 +1016,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-bullseye",
                 label: "Color",
-                type: 'input',
+                type: 'color',
                 configType:'color',fieldType: 'color',
                 // maskString: "",
                 // maskLabel: ""

@@ -1,5 +1,5 @@
-<nz-tree [nzData]="this.treeListData.treeNode" [nzBlockNode]="this.treeListData.isBlockNode" 
-[nzDraggable]="this.treeListData.isDraggable" [nzShowLine]="this.treeListData.isShowLine" 
-[nzCheckable]="this.treeListData.isCheckable" [nzMultiple]="this.treeListData.isMultiple"
-[nzExpandAll]="this.treeListData.isExpandAll"
+<nz-tree [nzData]="treeListData.nodes" [nzBlockNode]="treeListData.isBlockNode" 
+[nzDraggable]="treeListData.isDraggable" [nzShowLine]="treeListData.isShowLine" 
+[nzCheckable]="treeListData.isCheckable" [nzMultiple]="treeListData.isMultiple"
+[nzExpandAll]="treeListData.isExpandAll"
 (nzClick)="nzEvent($event)"></nz-tree>
