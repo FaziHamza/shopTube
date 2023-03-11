@@ -2,8 +2,10 @@
     <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                        nzTheme="twotone"></span></span>
+                <div *ngIf="item.tooltip" style="text-align: right;">
+                    <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                            nzTheme="twotone"></span></span>
+                </div>
                 <app-multi-file-upload [multiFileUploadData]="item.uploadBtnLabel"></app-multi-file-upload>
             </div>
         </ng-container>
@@ -258,10 +260,10 @@
         </ng-template>
         <ng-template #thirtyOne>
             <ng-container *ngIf="item.type == 'mainStep'; else thirtyTwo">
-                <div [ngClass]="{'highLight': item.highLight == true}">
+                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div style="text-align: right;">
-                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                nzTheme="twotone"></span></span>
+                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
+                                nzType="question-circle" nzTheme="twotone"></span></span>
                     </div>
                     <app-stepper [step]="item">
                     </app-stepper>
@@ -675,7 +677,7 @@
             </ng-container>
         </ng-template>
         <ng-template #seventyOne>
-            <ng-container *ngIf="item.type == 'notification'">
+            <ng-container *ngIf="item.type == 'notification' else seventyTwo">
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
@@ -683,5 +685,16 @@
                 </ng-container>
             </ng-container>
         </ng-template>
+       
+        <ng-template #seventyTwo>
+            <ng-container *ngIf="item.type == 'tree'" >
+                <ng-container *ngIf="!item.hideExpression">
+                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                            nzType="question-circle" nzTheme="twotone"></span></span>
+                    <app-tree [treeData]="item"></app-tree>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+        
     </div>
 </div>

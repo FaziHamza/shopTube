@@ -1,0 +1,13 @@
+<nz-tree [nzData]="treeData.nodes" [nzCheckable]="treeData.checkable" [nzShowExpand]="treeData.expand"
+    [nzExpandedIcon]="multiExpandedIconTpl" nzMultiple>
+
+    <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+        <span
+          *ngIf="!origin.isLeaf"
+          nz-icon
+          [nzType]="treeData.expandIcon"
+          class="ant-tree-switcher-line-icon"
+        ></span>
+        <span *ngIf="origin.isLeaf" nz-icon [nzType]="treeData.closingexpandicon" class="ant-tree-switcher-line-icon"></span>
+      </ng-template>
+</nz-tree>
