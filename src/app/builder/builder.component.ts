@@ -2577,30 +2577,45 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         pendingText:"Recording...",
-        pendingIcon:"loading",
+        mainIcon:"loading",
         reverse:false,
+        labelText:'',
         mode:'left',
         data: [
           {
             title: "Timeline Event One",
+            dotIcon:'loading',
+            color:'green',
+          },
+          {
+            title: "Timeline Event two",
+            dotIcon:'down',
+            color:'green',
+          },
+          {
+            title: "Timeline Event three",
+            dotIcon:'loading',
+            color:'green',
           },
           {
             title: "Timeline Event One",
+            dotIcon:'loading',
+            color:'green',
           },
           {
             title: "Timeline Event One",
+            dotIcon:'loading',
+            color:'green',
           },
           {
             title: "Timeline Event One",
+            dotIcon:'loading',
+            color:'green',
           },
           {
             title: "Timeline Event One",
-          },
-          {
-            title: "Timeline Event One",
-          },
-          {
-            title: "Timeline Event One",
+            dotIcon:'loading',
+            color:'green',
           },
         ],
         children: [
@@ -3141,6 +3156,7 @@ export class BuilderComponent implements OnInit {
         title: 'transfer',
         type: "transfer",
         isNextChild: false,
+        tooltip: "",
         hideExpression: false,
         disabled: false,
         showSearch: true,
@@ -3854,7 +3870,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "rate":
         configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.commentFields;
+        this.fieldData.formData = _formFieldData.rateFields;
         break;
 
       case "skeleton":
@@ -4799,6 +4815,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.key = event.form.key;
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.showSearch = event.form.showSearch;
@@ -4809,8 +4826,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
           this.selectedNode.status = event.form.status;
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
-          this.selectedNode.list = this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
-
+          // this.selectedNode.list = this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.list = res;
+              }
+            }))
+          }
         }
         break;
       case "skeleton":
@@ -4905,6 +4928,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "mentions":
         if (this.selectedNode) {
+          debugger
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -4912,8 +4936,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.status = event.form.status;
-          this.selectedNode.options = this.assigOptionsData(this.selectedNode.options, event.tableDta, event.form.api);
+          // this.selectedNode.options = this.assigOptionsData(this.selectedNode.options, event.tableDta, event.form.api);
           // this.selectedNode.options = event.form.options;
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.options = res;
+              }
+            }))
+          }
           this.selectedNode.position = event.form.position;
 
         }
@@ -5891,42 +5922,17 @@ export class BuilderComponent implements OnInit {
       case "paragraph":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
-          // this.selectedNode.paddingLeft = event.form.paddingLeft;
-          // this.selectedNode.paddingRight = event.form.paddingRight;
-          // this.selectedNode.paddingTop = event.form.paddingTop;
-          // this.selectedNode.paddingBottom = event.form.paddingBottom;
           this.selectedNode.padding = event.form.padding;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.className = event.form.className;
-          this.selectedNode.data.text = event.form.text;
+          this.selectedNode.text = event.form.text;
           this.selectedNode.style = event.form.style;
           this.selectedNode.fontSize = event.form.style + event.form.textAlignment + "color:" + event.form.color;
           this.selectedNode.textAlign = event.form.textAlignment;
           this.selectedNode.color = event.form.color;
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
-              // this.selectedNode.data.text = this.fillTemplate(this.selectedNode.data.text, res)//this.selectedNode.data.text;
-              // let response = JSON.stringify(res);
-              // let arrayData = response.split(',');
-              // this.selectedNode.headingConfig[0].data.text = res;
-              // var seriesList = [];
-              // var arrayData = res[0].split(" ");
-              // for (let index = 0; index < arrayData.length; index++) {
-              //   let columnValue = arrayData[index].toString();
-              //   let assignValue = columnValue.split(':');
-              //   for (let j = 0; j < assignValue.length; j++) {
-              //     assignValue[0] = assignValue[0].replace('{', '');
-              //     assignValue[1] = assignValue[1].replace('{', '');
-              //     assignValue[0] = assignValue[0].replace('}', '');
-              //     assignValue[1] = assignValue[1].replace('}', '');
-              //     let parseValue = JSON.parse(assignValue[0]);
-              //     let parseData = JSON.parse(assignValue[1]);
-              //     this.selectedNode.data.text = JSON.stringify(this.selectedNode.data.text).replace(parseValue, parseData);
-              //     this.selectedNode.data.text = this.selectedNode.data.text.replace('"\\\"', '');
-              //     this.selectedNode.data.text = this.selectedNode.data.text.replace('\\\"', '');
-              //   }
-              // }
               this.updateNodes()
             }));
           }
@@ -6348,27 +6354,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.className = event.form.className;
-          this.selectedNode.timelineConfig[0].timelineHeading = event.form.timelineHeading;
-          this.selectedNode.timelineConfig[0].headingColor = event.form.headingColor;
-          this.selectedNode.timelineConfig[0].headingShape = event.form.headingShape;
-          this.selectedNode.timelineConfig[0].timelineType = event.form.timelineType;
-          this.selectedNode.timelineConfig[0].data = event.form.timelineData;
-
-          for (let index = 0; index < event.form.timelineData.length; index++) {
-            event.form.timelineData[index].image = event.form.timelineData[index].image.toString();
-            this.selectedNode.timelineConfig[0].data[index].image = event.form.timelineData[index].image.split(",");
-          }
-          if (event.form.timelineExample != undefined) {
-            this.selectedNode.timelineConfig[0].timelineExample = event.form.timelineExample;
-            this.builderService.genericApis(event.form.timelineExample).subscribe((res) => {
-
-              this.selectedNode.timelineConfig[0].data = res[0].data;
-              this.updateNodes();
-            })
-          }
+          this.selectedNode.className = event.form.className,
+          this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
+          this.selectedNode.labelText = event.form.labelText,
+          this.selectedNode.dotIcon = event.form.dotIcon,
+          this.selectedNode.mainIcon = event.form.mainIcon,
+          this.selectedNode.color = event.form.color,
+          this.selectedNode.position = event.form.position,
+          this.selectedNode.pendingText = event.form.pendingText,
+          this.selectedNode.reverse = event.form.reverse,
+          this.selectedNode.mode = event.form.mode
         }
-        break;
+       break;
 
       case "simpleCardWithHeaderBodyFooter":
         if (this.selectedNode.id) {
