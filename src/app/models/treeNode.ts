@@ -23,6 +23,7 @@ export interface TreeNode {
   wrapper?: any;
   highLight?: boolean;
   isNextChild?: boolean;
+  level?: any;
   padding?: any;
   hideExpression?: boolean;
   checkable?: any;

@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-formly-field-ng-search',
   template: `
+    
    <div class="example-input">
       <input
         [placeholder]="to.placeholder"
         nz-input
-        [(ngModel)]="inputValue"
+        [formControl]="formControl"
         (ngModelChange)="onChange($event)"
         [nzAutocomplete]="auto" />
       <nz-autocomplete [nzDataSource]="list" #auto></nz-autocomplete>
     </div>
   `,
 })
-export class FormlyFieldNgSearchComponent extends FieldType {
+export class FormlyFieldNgSearchComponent extends FieldType<FieldTypeConfig> {
   inputValue?: string;
   get list(): any {
     return this.to.options;
@@ -27,7 +28,7 @@ export class FormlyFieldNgSearchComponent extends FieldType {
   filteredOptions: string[] = [];
 
   onChange(value: string): void {
-    if(this.list)
-      this.filteredOptions = this.list.filter((option:any) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    if (this.list)
+      this.filteredOptions = this.list.filter((option: any) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 }

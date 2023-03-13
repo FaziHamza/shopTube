@@ -156,11 +156,11 @@ export const htmlTabsData = [
                 // maskLabel: ""
                 options:true,
               },
-              {
-                parameter: "mentions",
-                icon: "uil-file-copy-alt",
-                label: "Mention"
-              },
+              // {
+              //   parameter: "mentions",
+              //   icon: "uil-file-copy-alt",
+              //   label: "Mention"
+              // },
            
               {
                 parameter: "transfer",
@@ -241,10 +241,30 @@ export const htmlTabsData = [
               },
               {
                 parameter: "input",
+                icon: "uil uil-list-ul",
+                label: "Autocomplete",
+                type: 'autoComplete',
+                configType:'autoComplete',fieldType: 'autoComplete',
+                options:true,
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-list-ul",
+                label: "Mention",
+                type: 'mention',
+                configType:'mention',fieldType: 'mention',
+                options:true,
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "input",
                 icon: "uil uil-file-alt",
                 label: "Input number",
-                type: 'input',
-                configType:'input',fieldType: 'number',
+                type: 'number',
+                configType:'input',fieldType: 'input',
                 // maskString: "",
               },
             
@@ -609,6 +629,11 @@ export const htmlTabsData = [
                 parameter: "simplecard",
                 icon: "uil uil-file-alt",
                 label: "Card"
+              },
+              {
+                parameter: "cardWithComponents",
+                icon: "uil uil-file-alt",
+                label: "Card With Components"
               },
               {
                 parameter: "simpleCardWithHeaderBodyFooter",

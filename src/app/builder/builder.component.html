@@ -382,7 +382,7 @@
             &nbsp;
             <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
           </ng-template>
-          <app-pages [dbRes]="nodes" [resData]="nodes" *ngIf="nodes.length  > 0"></app-pages>
+          <app-pages [dbRes]="nodes" [resData]="nodes" [model]="formlyModel"  *ngIf="nodes.length  > 0"></app-pages>
         </div>
       </as-split-area>
     </as-split>

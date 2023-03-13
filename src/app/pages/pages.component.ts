@@ -12,6 +12,7 @@ import { EmployeeService } from '../services/employee.service';
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute) { }
   @Input() resData: any = [];
+  @Input() model : any;
   fields: any = [];
   @Input() dbRes: any = [];
   ngOnInit(): void {
@@ -42,5 +43,6 @@ export class PagesComponent implements OnInit {
       }
     });
   }
+
 
 }

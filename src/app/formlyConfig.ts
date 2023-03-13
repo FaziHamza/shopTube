@@ -1,7 +1,9 @@
 import { ConfigOption } from "@ngx-formly/core";
+import { MentionComponent } from "./components/mention/mention.component";
 import { SwitchComponent } from "./components/switch/switch.component";
-import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
-import { DatepickerComponent } from "./wrappers/datepicker/datepicker.component";
+import { AutocompleteComponent } from "./wrappers/autocomplete/autocomplete.component";
+// import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
+// import { DatepickerComponent } from "./wrappers/datepicker/datepicker.component";
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
 import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.component";
 import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
@@ -15,6 +17,9 @@ import { formlyRepeatSectionComponent } from "./wrappers/formlyRepeatSection";
 import { FormlyVerticalThemeWrapper } from "./wrappers/FormlyVerticalThemeWrapper";
 import { FormlyVerticalWrapper } from "./wrappers/FormlyVerticalWrapper";
 import { InputWrapperComponent } from "./wrappers/input-wrapper/input-wrapper.component";
+import { NumberInputComponent } from "./wrappers/number-input/number-input.component";
+import { RadioButtonComponent } from "./wrappers/radio-button/radio-button.component";
+import { SelectComponent } from "./wrappers/select/select.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -30,9 +35,14 @@ export const fieldComponents = [
     FormlyFieldRepeatSectionComponent,
     formlyRepeatSectionComponent,
     InputWrapperComponent,
-    DatepickerComponent,
+    // DatepickerComponent,
     SwitchComponent,
-    ColorPickerComponent
+    // ColorPickerComponent,
+    NumberInputComponent,
+    SelectComponent,
+    AutocompleteComponent,
+    MentionComponent,
+    RadioButtonComponent
 ];
 
 
@@ -50,9 +60,14 @@ export const formlyCustomeConfig: ConfigOption = {
         { name: 'rangedatetime', component: FormlyFieldRangeDate },
         { name: 'timepicker', component: FormlyFieldTimePicker },
         { name: 'input', component: InputWrapperComponent },
-        { name: 'date', component: DatepickerComponent },
-        { name: 'color', component: ColorPickerComponent },
+        // { name: 'date', component: DatepickerComponent },
+        // { name: 'color', component: ColorPickerComponent },
         { name: 'switch', component: SwitchComponent },
+        { name: 'number', component: NumberInputComponent },
+        { name: 'select', component: SelectComponent },
+        { name: 'autoComplete', component: AutocompleteComponent },
+        { name: 'mention', component: MentionComponent },
+        { name: 'radio', component: RadioButtonComponent },
         // { name: 'tabs', component: FormlyFieldTabs },
         // { name: 'tab', component: FormlyVerticalFieldTabs },
         // { name: 'repeatInput', component: FormlyGridWrapper },
