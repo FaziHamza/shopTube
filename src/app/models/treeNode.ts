@@ -394,6 +394,7 @@ export interface TreeNode {
   mainDashonicTabsChild?: any
   switchConfig?: any,
   uploadBtnLabel?: any,
+  multiple?: any,
   progressBArConfig?: any,
   calenderConfig?: any,
   sharedMessagesConfig?: any,

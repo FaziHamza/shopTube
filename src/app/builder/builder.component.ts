@@ -904,8 +904,8 @@ export class BuilderComponent implements OnInit {
                     status: 'warning',
                     size: 'large',
                     border: false,
-                    maxLength:10,
-                    disabled:false,
+                    maxLength: 10,
+                    disabled: false,
                   },
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -1453,9 +1453,9 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         description: "description",
         status: '',
-        label:'',
-        subtitle:'' ,
-        percentage:'' ,
+        label: '',
+        subtitle: '',
+        percentage: '',
         children: [
         ],
       } as TreeNode;
@@ -2324,7 +2324,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'multiFileUpload') {
       const newNode = {
         id: "common_" + Guid.newGuid(),
-        title: "Multi File Upload" + '_1',
+        title: "File Uploader" + '_1',
         type: "multiFileUpload",
         className: "w-1/2",
         highLight: false,
@@ -2333,6 +2333,8 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         key: "multiFileUpload_" + Guid.newGuid(),
         uploadBtnLabel: "Click here to upload",
+        multiple: false,
+        disabled: false,
         children: [
         ],
       } as TreeNode;
@@ -4880,51 +4882,51 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
-        case "treeSelect":
-          case "treeView":
-            debugger
-            if (this.selectedNode) {
-              this.selectedNode.title = event.form.title;
-              this.selectedNode.className = event.form.className;
-              this.selectedNode.tooltip = event.form.tooltip;
-              this.selectedNode.hideExpression = event.form.hideExpression;
-              if (event.tableDta) {
-                this.selectedNode.nodes = event.tableDta;
+      case "treeSelect":
+      case "treeView":
+        debugger
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          if (event.tableDta) {
+            this.selectedNode.nodes = event.tableDta;
+          }
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.nodes = res;
+                this.updateNodes();
               }
-              if (event.form.api) {
-                this.builderService.genericApis(event.form.api).subscribe((res => {
-                  if (res) {
-                    this.selectedNode.nodes = res;
-                    this.updateNodes();
-                  }
-                }))
+            }))
+          }
+          // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+
+        }
+        break;
+      case "cascader":
+        debugger
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          if (event.tableDta) {
+            this.selectedNode.nodes = event.tableDta;
+          }
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.nodes = res;
+                this.updateNodes();
               }
-              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-    
-            }
-            break;
-          case "cascader":
-            debugger
-            if (this.selectedNode) {
-              this.selectedNode.title = event.form.title;
-              this.selectedNode.className = event.form.className;
-              this.selectedNode.tooltip = event.form.tooltip;
-              this.selectedNode.hideExpression = event.form.hideExpression;
-              if (event.tableDta) {
-                this.selectedNode.nodes = event.tableDta;
-              }
-              if (event.form.api) {
-                this.builderService.genericApis(event.form.api).subscribe((res => {
-                  if (res) {
-                    this.selectedNode.nodes = res;
-                    this.updateNodes();
-                  }
-                }))
-              }
-              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-    
-            }
-            break;
+            }))
+          }
+          // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+
+        }
+        break;
       case "tree":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -6143,8 +6145,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.label = event.form.label;
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.percentage = event.form.percentage;
-         
-                  this.updateNodes()
+
+          this.updateNodes()
         }
         break;
 
@@ -6215,7 +6217,7 @@ export class BuilderComponent implements OnInit {
               if (res.formly != undefined) {
                 if (res.type != "stepperMain" && res.type != "tabsMain") {
                   res['wrapper'] = [];
-                  res.wrapper.push(event.form.wrappers) ;
+                  res.wrapper.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
                   // if (event.form.className) {
                   //   res.className = event.form.className;
@@ -6316,6 +6318,8 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.uploadBtnLabel = event.form.title;
+          this.selectedNode.multiple = event.form.multiple;
+          this.selectedNode.disabled = event.form.disabled;
         }
         break;
       case "textEditor":
@@ -6687,9 +6691,9 @@ export class BuilderComponent implements OnInit {
         if (formValues.wrappers != 'floatingInput') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
         }
-        if(formValues.wrappers == 'floatingInput'){
+        if (formValues.wrappers == 'floatingInput') {
           fieldGroup[0].templateOptions.config['floatingInput'] = true;
-        }else{
+        } else {
           fieldGroup[0].templateOptions.config['floatingInput'] = false;
         }
         if (formValues.className) {
