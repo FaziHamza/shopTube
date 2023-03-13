@@ -148,13 +148,13 @@ export class formFeildData {
       }
     ]
   //used in formly form
-  methodUrl: FormlyFieldConfig[] = [{
-    key: 'method',
-    type: 'input',
-    templateOptions: {
-      label: 'Api Url'
-    }
-  }]
+  // methodUrl: FormlyFieldConfig[] = [{
+  //   key: 'method',
+  //   type: 'input',
+  //   templateOptions: {
+  //     label: 'Api Url'
+  //   }
+  // }]
   //Button Json
   buttonFields: FormlyFieldConfig[] = [
     {
@@ -759,14 +759,14 @@ export class formFeildData {
       ]
     },
   ]
-  //used in formly form
-  btnTextField: FormlyFieldConfig[] = [{
-    key: 'title',
-    type: 'input',
-    templateOptions: {
-      label: 'Button Text'
-    }
-  }]
+  // //used in formly form
+  // btnTextField: FormlyFieldConfig[] = [{
+  //   key: 'title',
+  //   type: 'input',
+  //   templateOptions: {
+  //     label: 'Button Text'
+  //   }
+  // }]
   //color Json
   colorFields: FormlyFieldConfig[] = [
     {
@@ -9035,6 +9035,7 @@ export class formFeildData {
       ]
     },
   ];
+ 
 }
 
 

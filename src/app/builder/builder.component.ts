@@ -4514,10 +4514,10 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  add(node: TreeNode) {
-    this.applySize();
-    this.selectedNode = node;
-  }
+  // add(node: TreeNode) {
+  //   this.applySize();
+  //   this.selectedNode = node;
+  // }
   newChild: any = [];
   insertAt(parent: any, node: any) {
 
@@ -4802,7 +4802,7 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   nzEvent(event: NzFormatEmitEvent): void {
-    console.log(event);
+    // console.log(event);
   }
   updateNodes() {
     this.nodes = [...this.nodes];
