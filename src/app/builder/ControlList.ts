@@ -922,7 +922,7 @@ export const htmlTabsData = [
               {
                 parameter: "multiFileUpload",
                 icon: "uil-file-copy-alt",
-                label: "Multi File Upload"
+                label: "File Uploader"
               },
             
             

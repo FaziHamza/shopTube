@@ -260,6 +260,8 @@ export class BuilderClickButtonService {
 
   getMultiFileUploadConfig(node: any) {
     return {
+      multiple:node.multiple,
+      disabled:node.disabled,
     }
   }
 

@@ -5273,6 +5273,24 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        
+        {
+          key: 'multiple',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-3",
+          templateOptions: {
+            label: 'Multiple File'
+          },
+        },
+        {
+          className: "w-1/6 px-1 mt-3",
+          key: 'disabled',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Disable',
+          },
+          defaultValue: false
+        },
       ]
     },
   ]

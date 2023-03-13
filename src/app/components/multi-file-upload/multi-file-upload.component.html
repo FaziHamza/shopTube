@@ -1,5 +1,8 @@
-<nz-upload nzType="drag" [nzMultiple]="true" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-  (nzChange)="onFileSelected($event)">
+<nz-upload nzType="drag" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" 
+[nzMultiple]="multiFileUploadData.multiple"  
+[nzDisabled]="multiFileUploadData.disabled" 
+  
+(nzChange)="onFileSelected($event)">
   <p class="ant-upload-drag-icon">
     <span nz-icon nzType="inbox"></span>
   </p>
