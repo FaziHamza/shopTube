@@ -348,7 +348,8 @@ export class BuilderClickButtonService {
       icon: node.icon,
       dashed: node.dashed,
       dividerType: node.dividerType,
-      orientation: node.orientation,
+      plain: node.plain,
+      orientation:node.orientation,
     }
   }
 
@@ -538,8 +539,8 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].templateOptions?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].templateOptions?.rows,
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
-      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft.text,
-      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight.text,
+      addonLeft: node.formly[0].fieldGroup[0].templateOptions.addonLeft,
+      addonRight: node.formly[0].fieldGroup[0].templateOptions.addonRight,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
       hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
@@ -595,6 +596,10 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
+      trigger:node.trigger,
+        placement:node.placement,
+        visible:node.visible,
+        clickHide:node.clickHide,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -695,6 +700,10 @@ export class BuilderClickButtonService {
       icon: node.icon,
       disabled: node.disabled,
       description: node.description,
+      status: node.status,
+      label: node.label,
+      subtitle: node.subtitle,
+      percentage: node.percentage,
     }
   }
   getStepperMainConfig(node: any) {
