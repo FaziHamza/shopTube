@@ -807,7 +807,6 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'accordingHeader_' + Guid.newGuid(),
         key: "accordingHeader_" + Guid.newGuid(),
-
         title: 'Header',
         type: "accordingHeader",
         footer: false,
@@ -857,7 +856,6 @@ export class BuilderComponent implements OnInit {
         title: 'Footer',
         type: "accordingFooter",
         key: "accordingFooter_" + Guid.newGuid(),
-
         footer: false,
         header: false,
         expanded: true,
@@ -878,7 +876,6 @@ export class BuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: data?.label + Guid.newGuid(),
-
         title: data?.label,
         expanded: true,
         type: data?.configType,
@@ -893,7 +890,7 @@ export class BuilderComponent implements OnInit {
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
-                wrappers: this.getLastNodeWrapper("wrappers"),
+                // wrappers: ["formly-vertical-wrapper"],
                 templateOptions: {
                   multiple: true,
                   attributes: {
@@ -905,8 +902,10 @@ export class BuilderComponent implements OnInit {
                     addonLeftIcon: 'user',
                     addonrightIcon: 'star',
                     status: 'warning',
-                    size: 'small',
+                    size: 'large',
                     border: false,
+                    maxLength:10,
+                    disabled:false,
                   },
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -1100,6 +1099,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
+      debugger
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -3348,7 +3348,7 @@ export class BuilderComponent implements OnInit {
         type: "cascader",
         isNextChild: false,
         hideExpression: false,
-        options: [
+        nodes: [
           {
             value: 'zhejiang',
             label: 'Zhejiang',
@@ -3572,7 +3572,7 @@ export class BuilderComponent implements OnInit {
         isCheckable: false,
         isMultiple: false,
         isExpandAll: false,
-        treeNode: [
+        nodes: [
           {
             title: 'parent 1',
             key: '100',
@@ -3925,8 +3925,13 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case "treeSelect":
+      case "treeView":
         // configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeSelectFields;
+        break;
+      case "cascader":
+        // configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.cascaderFields;
         break;
       case "tree":
         configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
@@ -4858,13 +4863,69 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
-      case "treeSelect":
+        case "treeSelect":
+          case "treeView":
+            debugger
+            if (this.selectedNode) {
+              this.selectedNode.title = event.form.title;
+              this.selectedNode.className = event.form.className;
+              this.selectedNode.tooltip = event.form.tooltip;
+              this.selectedNode.hideExpression = event.form.hideExpression;
+              if (event.tableDta) {
+                this.selectedNode.nodes = event.tableDta;
+              }
+              if (event.form.api) {
+                this.builderService.genericApis(event.form.api).subscribe((res => {
+                  if (res) {
+                    this.selectedNode.nodes = res;
+                    this.updateNodes();
+                  }
+                }))
+              }
+              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+    
+            }
+            break;
+          case "cascader":
+            debugger
+            if (this.selectedNode) {
+              this.selectedNode.title = event.form.title;
+              this.selectedNode.className = event.form.className;
+              this.selectedNode.tooltip = event.form.tooltip;
+              this.selectedNode.hideExpression = event.form.hideExpression;
+              if (event.tableDta) {
+                this.selectedNode.nodes = event.tableDta;
+              }
+              if (event.form.api) {
+                this.builderService.genericApis(event.form.api).subscribe((res => {
+                  if (res) {
+                    this.selectedNode.nodes = res;
+                    this.updateNodes();
+                  }
+                }))
+              }
+              // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
+    
+            }
+            break;
+      case "tree":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api)
+          this.selectedNode.checkable = event.form.checkable;
+          this.selectedNode.expand = event.form.expand;
+          this.selectedNode.expandIcon = event.form.expandIcon;
+          this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.nodes = res;
+              }
+            }))
+          }
         }
         break;
       case "tree":
@@ -5185,8 +5246,8 @@ export class BuilderComponent implements OnInit {
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['titleIcon'] = event.form.titleIcon;
-            templateOptions['addonLeft'].text = event.form.addonLeft;
-            templateOptions['addonRight'].text = event.form.addonRight;
+            // templateOptions['addonLeft'].text = event.form.addonLeft;
+            // templateOptions['addonRight'].text = event.form.addonRight;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               templateOptions['options'] = event.tableDta;
@@ -6136,7 +6197,8 @@ export class BuilderComponent implements OnInit {
             if (res) {
               if (res.formly != undefined) {
                 if (res.type != "stepperMain" && res.type != "tabsMain") {
-                  res['wrapper'] = event.form.wrappers;
+                  res['wrapper'] = [];
+                  res.wrapper.push(event.form.wrappers) ;
                   res['dataOnly'] = event.form.disabled;
                   // if (event.form.className) {
                   //   res.className = event.form.className;
@@ -6186,6 +6248,7 @@ export class BuilderComponent implements OnInit {
               // }
             }
           })
+          this.clickBack();
         }
         break;
       case "accordingHeader":
@@ -6604,8 +6667,13 @@ export class BuilderComponent implements OnInit {
         else if (formValues.labelPosition == "text-left") {
           fieldGroup[0].templateOptions.labelPosition = "text-left";
         }
-        if (formValues.wrappers) {
+        if (formValues.wrappers != 'floatingInput') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+        }
+        if(formValues.wrappers == 'floatingInput'){
+          fieldGroup[0].templateOptions.config['floatingInput'] = true;
+        }else{
+          fieldGroup[0].templateOptions.config['floatingInput'] = false;
         }
         if (formValues.className) {
           fieldGroup[0].templateOptions.className = formValues.className;
@@ -6653,16 +6721,18 @@ export class BuilderComponent implements OnInit {
   assigOptionsData(selectNode: any, tableDta: any, api: any) {
     debugger
     if (tableDta) {
-      selectNode = tableDta
+      selectNode = tableDta;
+      return selectNode;
     }
     if (api) {
       this.builderService.genericApis(api).subscribe((res => {
-        if (!res) {
+        if (res) {
           selectNode = res;
+          this.updateNodes();
+          return selectNode;
         }
       }))
     }
-    return selectNode;
   }
 }
 

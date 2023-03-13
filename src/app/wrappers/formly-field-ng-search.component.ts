@@ -27,6 +27,7 @@ export class FormlyFieldNgSearchComponent extends FieldType {
   filteredOptions: string[] = [];
 
   onChange(value: string): void {
-    this.filteredOptions = this.list.filter((option:any) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    if(this.list)
+      this.filteredOptions = this.list.filter((option:any) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 }

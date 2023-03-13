@@ -5,7 +5,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'formly-vertical-theme-wrapper',
   template: `
   <div class=" row mt-1 mb-1"  >
-
+ 
   <label [attr.for]="id" class="col-sm-4 col-form-label column-form-label"  *ngIf="to.label">
    <span style="color: #0B0B0B;
     font-size: 17px;"><i *ngIf="to['labelIcon']" [class]="to['labelIcon']"></i>{{ to.label }}</span>

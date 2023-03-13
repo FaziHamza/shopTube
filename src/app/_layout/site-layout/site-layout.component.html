@@ -1,3 +1,4 @@
+
 <nz-layout>
   <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' ? 'dark' : 'light'" >
     <div class="flex flex-wrap">
@@ -38,29 +39,29 @@
                 </ng-container>
 
                 <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
-                  <ng-container *ngFor="let item of allMenuItems">
+                  <ng-container *ngFor="let item of allMenuItems" >
                     <ng-container *ngIf="item.isTitle;else subMenu">
                       <span nz-icon nzType="appstore"></span>
                     </ng-container>
                     <ng-template #subMenu>
                       <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
                         <li nz-submenu [nzTitle]="item.label" nzIcon="appstore"
-                          (mouseover)="setHovered('up', item.menuIcon)" (mouseout)="setHovered('down',item.menuIcon)"
+                          (mouseover)="setHovered('up', item.menuIcon,item)" (mouseout)="setHovered('down',item.menuIcon,item)"
                           (click)="loadTabsAndButtons($event,item)">
                           <ul *ngFor="let sub of item.subItems">
-                            <ng-container>
+                            <ng-container *ngIf="sub.type !='mainDashonicTabs' && sub.type !='dropdown'">
                               <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
-                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start')"
+                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
                                 (mouseout)="setHovered(true,'start')">{{sub.label}}</li>
                             </ng-container>
                           </ul>
                         </li>
-                        <span nz-icon [nzType]="item.menuIcon" nzTheme="outline"
+                        <span class="!-ml-4" nz-icon [nzType]="item.menuIcon" nzTheme="outline"
                           *ngIf="menuMode === 'horizontal'"></span>
                       </ng-container>
                     </ng-template>
                     <ng-template #menu>
-                      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
+                      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" class="!-mx-2" (click)="loadTabsAndButtons($event,item)">
                         <span nz-icon nzType="appstore"></span>
                         <span>{{item.label}}</span>
                       </li>
@@ -131,8 +132,8 @@
                         </ng-template>
                       </ul>
                     </li>
-                    <span class="new-menu-icon" nz-icon style="flex-grow: 1 ; text-align: left" [nzType]="mainMenu.icon"
-                      class="mt-4" *ngIf="menuMode === 'horizontal'"></span>
+                    <span class="new-menu-icon"  nz-icon style="flex-grow: 1 ; text-align: left" [nzType]="mainMenu.icon"
+                      class="!-ml-4" *ngIf="menuMode === 'horizontal'"></span>
                   </ng-container>
                 </ng-container>
                 <!--------------------------------------->
@@ -166,43 +167,20 @@
 
     </div>
     <div *ngIf="menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
-    <div [ngClass]='rowClass'>
-      <!-- {{menuColumn | json}} -->
-      <!-- {{rowClass | json}} -->
-
-
-      <div>
-        <!-- <nz-header *ngIf="menuMode == 'inline'">
-          <div class="flex flex-nowrap">
-            <div class="text-center">
-              <span nz-icon *ngIf="selectedTheme.layoutWidth != 'boxed'" class="hover:cursor-pointer"
-                [nzType]="isCollapsed ? 'arrow-right' : 'menu-fold' " (click)="toggleCollapsed()"></span>
-            </div>
-            <ng-container>
-              <app-menu (notify)="notifyEmit($event)"></app-menu>
-            </ng-container>
-          </div>
-        </nz-header> -->
-        <nz-content>
-          <ng-container *ngIf="dropdown.length">
-            <app-layout-button (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></app-layout-button>
-          </ng-container>
-          <ng-container *ngIf="tabs.length">
-            <ng-container *ngFor="let item of tabs">
-              <app-layout-tabs *ngIf="item.type == 'mainDashonicTabs'" [tabsData]="item"></app-layout-tabs>
-            </ng-container>
-          </ng-container>
-          <br>
-          <router-outlet></router-outlet>
-        </nz-content>
-        <!-- CUSTOMIZE THEME -->
-        <app-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></app-layout-drawer>
-        <!--------------------->
-      </div>
+    <div [ngClass]='rowClass' >
+      <ng-container *ngIf="dropdown.length" class="">
+        <app-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></app-layout-button>
+      </ng-container>
+      <ng-container *ngIf="tabs.length" >
+        <ng-container *ngFor="let item of tabs" >
+          <app-layout-tabs *ngIf="item.type == 'mainDashonicTabs'" [tabsData]="item"></app-layout-tabs>
+        </ng-container>
+      </ng-container>
+      <router-outlet></router-outlet>
+      <!-- CUSTOMIZE THEME -->
+      <app-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></app-layout-drawer>
     </div>
     <div *ngIf="menuMode == 'horizontal'" class="w-1/12"></div>
   </div>
-
-
   <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer>
 </nz-layout>

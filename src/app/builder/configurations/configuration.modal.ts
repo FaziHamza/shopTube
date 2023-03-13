@@ -3792,6 +3792,10 @@ export class formFeildData {
                 label: 'Vertical Theme',
                 value: 'formly-vertical-theme-wrapper'
               },
+              {
+                label: 'Floating Input',
+                value: 'floatingInput'
+              },
               // {
               //   label: 'Grid Theme',
               //   value: 'formly-grid-wrapper'
@@ -7971,6 +7975,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'Key',
             required: true,
             pattern: /^[a-z0-9_]+$/,
@@ -7982,6 +7987,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'ID',
             pattern: '^\\S*$',
           }
@@ -7992,6 +7998,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'label'
           }
         },
@@ -8001,6 +8008,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'Tooltip',
           }
         },
@@ -8010,6 +8018,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'column',
           }
         },
@@ -8019,6 +8028,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'Label Icon',
           }
         },
@@ -8038,6 +8048,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'Default Value'
           },
         },
@@ -8047,6 +8058,7 @@ export class formFeildData {
           key: 'addonLeft',
           type: 'input',
           templateOptions: {
+            config:{},
             label: 'Add On Left Text'
           }
         },
@@ -8056,6 +8068,7 @@ export class formFeildData {
           key: 'addonRight',
           type: 'input',
           templateOptions: {
+            config:{},
             label: 'Add On Right Text'
           }
         },
@@ -8065,6 +8078,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            config:{},
             label: 'Rows'
           }
         },
@@ -9089,6 +9103,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           key: 'expandIcon',
           type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Icon',
           },
@@ -9135,6 +9150,28 @@ export class formFeildData {
             label: 'Expand',
           },
           defaultValue: true
+        },
+      ]
+    },
+  ];
+  cascaderFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'cascaderApi'
+              },
+            ]
+          }
         },
       ]
     },

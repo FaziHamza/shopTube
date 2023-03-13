@@ -34,7 +34,7 @@ import { ProgressbarsComponent } from './components/progressbars/progressbars.co
 import { DividerComponent } from './components/divider/divider.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
-import { SwitchComponent } from './components/switch/switch.component';
+// import { SwitchComponent } from './components/switch/switch.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
 import { LoginComponent } from './user/login/login.component';
@@ -89,6 +89,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
+import { InputWrapperComponent } from './wrappers/input-wrapper/input-wrapper.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -120,7 +121,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     DividerComponent,
     VideosComponent,
     NewAlertsComponent,
-    SwitchComponent,
+    // SwitchComponent,
     SimpleCardWithHeaderBodyFooterComponent,
     AccordionButtonComponent,
     BuilderToaterComponent,
@@ -171,6 +172,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BadgeComponent,
     StepperComponent,
     TreeComponent,
+    // InputWrapperComponent,
   ],
   imports: [
     FormsModule,
