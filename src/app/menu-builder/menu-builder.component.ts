@@ -306,6 +306,7 @@ export class MenuBuilderComponent implements OnInit {
     this.formModalData = configObj;
   }
   addControlToJson(value: string, nodeType?: boolean) {
+    debugger
     if (this.selectedNode.isTitle && !nodeType) {
       return
     }

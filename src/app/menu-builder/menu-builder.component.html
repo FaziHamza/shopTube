@@ -79,6 +79,10 @@
           </json-editor>
         </as-split-area>
         <as-split-area [size]="sizes[1]" style="height:500px">
+          <div>
+            {{nodes | json}}
+            <app-app-side-menu [menuBuilderData]="nodes" *ngIf="nodes.length"></app-app-side-menu>
+          </div>
           <div class="col-border col-body-conter" style="position: relative ;">
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
               nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="config" (nzOnClose)="closeConfigurationList()">
@@ -115,44 +119,32 @@
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="controlListvisible" [nzVisible]="controlListvisible"
               nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
               <ng-container *nzDrawerContent>
-                <div id="mySidenav" class="sidenav">
-                  <div *ngFor="let item of htmlTabsData">
-                    <div class="nav-header">
-                      <h3>{{item.label}}</h3>
-                    </div>
-                    <div class="nav-body">
-                      <div>
-                        <nz-tab [nzTitle]="item1.label" *ngFor="let item1 of item.children let i= index">
-                          <nz-collapse>
-                            <nz-collapse-panel *ngFor="let item2 of item1.children let i = index"
-                              [nzHeader]="item2.label">
-                              <div class="flex flex-wrap">
-                                <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
-                                  <button nz-button nzType="default" nzBlock class="rounded"
-                                    *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown' && item3.show"
-                                    (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
-                                      class={{item3.icon}}></i>{{item3.label}}
-                                  </button>
-
-                                  <ng-container
-                                    *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show">
-                                    <button nz-button nzType="default" nzBlock class="rounded"
-                                      *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show"
-                                      (click)="addFunctionsInHtml(item3.parameter)">
-                                      <i class={{item3.icon}}></i>
-                                      {{item3.label}}
-                                    </button>
-                                  </ng-container>
-                                </div>
-                              </div>
-                            </nz-collapse-panel>
-                          </nz-collapse>
-                        </nz-tab>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <nz-tabset *ngFor="let item of htmlTabsData">
+                  <nz-tab [nzTitle]="item1.title" *ngFor="let item1 of item.children let i= index">
+                    <nz-collapse>
+                      <nz-collapse-panel *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.title">
+                        <div class="flex flex-wrap">
+                          <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
+                            <button nz-button nzType="default" nzBlock class="rounded"
+                              *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown' && item3.show"
+                              (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
+                                class={{item3.icon}}></i>{{item3.title}}
+                            </button>
+                            <ng-container
+                              *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show">
+                              <button nz-button nzType="default" nzBlock class="rounded"
+                                *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show"
+                                (click)="addFunctionsInHtml(item3.parameter)">
+                                <i class={{item3.icon}}></i>
+                                {{item3.title}}
+                              </button>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </nz-collapse-panel>
+                    </nz-collapse>
+                  </nz-tab>
+                </nz-tabset>
               </ng-container>
             </nz-drawer>
 
@@ -161,9 +153,7 @@
               &nbsp;
               <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
             </ng-template>
-            <div>
-              <!-- <app-side-bar-viewer [menuData]="nodes" *ngIf="nodes"> </app-side-bar-viewer> -->
-            </div>
+
           </div>
         </as-split-area>
       </as-split>
