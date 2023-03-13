@@ -348,7 +348,8 @@ export class BuilderClickButtonService {
       icon: node.icon,
       dashed: node.dashed,
       dividerType: node.dividerType,
-      orientation: node.orientation,
+      plain: node.plain,
+      orientation:node.orientation,
     }
   }
 
@@ -595,6 +596,10 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
+      trigger:node.trigger,
+        placement:node.placement,
+        visible:node.visible,
+        clickHide:node.clickHide,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -695,6 +700,10 @@ export class BuilderClickButtonService {
       icon: node.icon,
       disabled: node.disabled,
       description: node.description,
+      status: node.status,
+      label: node.label,
+      subtitle: node.subtitle,
+      percentage: node.percentage,
     }
   }
   getStepperMainConfig(node: any) {
