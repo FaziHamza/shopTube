@@ -32,9 +32,10 @@
     </a>
     <!-- dropdown  -->
     <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
-      <button [class]='softIconList.color' nz-button nz-dropdown [nzDropdownMenu]="menu"
+      <button [class]='softIconList.color' nz-button nz-dropdown [nzDropdownMenu]="menu"  (nzVisibleChange)="change($event)"
         [nzGhost]='softIconList.nzGhost' [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading'
-        [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger' [nzShape]="softIconList.nzShape">
+        [nzBlock]='softIconList.nzBlock' [nzTrigger]="softIconList.trigger"	 [nzPlacement]="softIconList.placement" 
+        [nzClickHide]="softIconList.clickHide" [nzVisible]="softIconList.visible" [nzDanger]='softIconList.nzDanger' [nzShape]="softIconList.nzShape">
         <span *ngIf="softIconList.btnIcon" nz-icon [nzType]='softIconList.btnIcon'></span>{{softIconList.title}}
       </button>
       <nz-dropdown-menu #menu="nzDropdownMenu">

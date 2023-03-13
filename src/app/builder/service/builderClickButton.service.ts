@@ -114,11 +114,11 @@ export class BuilderClickButtonService {
   }
   getTreeConfig(node: any) {
     return {
-      
-        checkable:node.checkable,
-        expandIcon:node.expandIcon,
-        closingexpandicon:node.closingexpandicon,
-        expand:node.expand
+
+      checkable: node.checkable,
+      expandIcon: node.expandIcon,
+      closingexpandicon: node.closingexpandicon,
+      expand: node.expand
     }
   }
 
@@ -348,7 +348,8 @@ export class BuilderClickButtonService {
       icon: node.icon,
       dashed: node.dashed,
       dividerType: node.dividerType,
-      orientation: node.orientation,
+      plain: node.plain,
+      orientation:node.orientation,
     }
   }
 
@@ -405,7 +406,7 @@ export class BuilderClickButtonService {
       mainIcon: node.mainIcon,
       reverse: node.reverse,
       options: node.data,
-      
+
     }
   }
 
@@ -595,6 +596,10 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
+      trigger:node.trigger,
+        placement:node.placement,
+        visible:node.visible,
+        clickHide:node.clickHide,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -695,6 +700,10 @@ export class BuilderClickButtonService {
       icon: node.icon,
       disabled: node.disabled,
       description: node.description,
+      status: node.status,
+      label: node.label,
+      subtitle: node.subtitle,
+      percentage: node.percentage,
     }
   }
   getStepperMainConfig(node: any) {
@@ -720,6 +729,68 @@ export class BuilderClickButtonService {
       tabsPosition: node.formly[0].fieldGroup[0].templateOptions?.['tabsPosition'],
       selectTabColor: node.formly[0].fieldGroup[0].templateOptions?.['selectTabColor'],
       tabsDisplayType: node.formly[0].fieldGroup[0].templateOptions?.['tabsDisplayType'],
+    }
+  }
+  // Menu builder Click Button
+
+  getMenuAttributeConfig(node: any) {
+    return {
+      menuID: node.id,
+      menuLabel: node.title,
+      menuIcon: node.icon,
+      menuLink: node.link,
+      menuRequired: node.isTitle,
+      textColor: node.textColor,
+    }
+  }
+  getTabAttributeConfig(node: any) {
+    return {
+      id: node.id,
+      className: node.className,
+      tabLabel: node.dashonicTabsConfig[0]?.tabLabel,
+      tabIcon: node.dashonicTabsConfig[0]?.tabIcon,
+      link: node.dashonicTabsConfig[0]?.link,
+    }
+  }
+  getMainTabAttributeConfig(node: any) {
+    return {
+      id: node.id as string,
+      className: node.className,
+      tabLabel: node.title,
+      tabsPosition: node.mainDashonicTabsConfig[0]?.tabsPosition,
+      selectTabColor: node.mainDashonicTabsConfig[0]?.selectTabColor,
+      tabsDisplayType: node.mainDashonicTabsConfig[0]?.tabsDisplayType,
+      buttonText: node.mainDashonicTabsConfig[0]?.buttonText,
+      buttonIcon: node.mainDashonicTabsConfig[0]?.buttonIcon,
+      buttonColor: node.mainDashonicTabsConfig[0]?.buttonColor,
+      tabFormat: node.mainDashonicTabsConfig[0]?.tabFormat,
+      nodes: node.mainDashonicTabsConfig[0]?.nodesLength,
+    }
+  }
+  getDropDownAttributeConfig(node: any) {
+    return {
+      id: node.id as string,
+      // className: node.className,
+      title: node.dropdownConfig[0]?.title,
+      nodes: node.dropdownConfig[0]?.nodes,
+      dropdownIcon: node.dropdownConfig[0]?.dropdownIcon,
+    }
+  }
+  getPagesAttributeConfig(node: any) {
+    return {
+      id: node.id as string,
+        // className: node.className,
+        title: node.pageConfig[0]?.title,
+        Link: node.pageConfig[0]?.link,
+    }
+  }
+  getButtonAttributeConfig(node: any) {
+    return {
+      id: node.id as string,
+      // className: node.className,
+      title: node.buttonsConfig[0]?.title,
+      link: node.buttonsConfig[0]?.link,
+      ButtonIcon: node.buttonsConfig[0]?.ButtonIcon,
     }
   }
 }

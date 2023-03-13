@@ -90,6 +90,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
 import { InputWrapperComponent } from './wrappers/input-wrapper/input-wrapper.component';
+import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -172,6 +173,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BadgeComponent,
     StepperComponent,
     TreeComponent,
+    MenuBuilderComponent,
     // InputWrapperComponent,
   ],
   imports: [

@@ -1,3 +1,4 @@
+import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 import { BuilderComponent } from './builder/builder.component';
 import { RegisterComponent } from './user/register/register.component';
 import { NgModule } from '@angular/core';
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'builder',
     component: BuilderComponent
+  },
+  {
+    path: 'menu-builder',
+    component: MenuBuilderComponent
   },
 ];
 

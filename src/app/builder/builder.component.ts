@@ -1010,6 +1010,10 @@ export class BuilderComponent implements OnInit {
         nzBlock: false,
         nzSize: "default",
         nzShape: 'default',
+        trigger: 'hover',
+        placement: 'bottomLeft',
+        visible: true,
+        clickHide: false,
         nzLoading: false,
         nzGhost: false,
         dropdownOptions: [
@@ -1448,6 +1452,10 @@ export class BuilderComponent implements OnInit {
         className: "w-full",
         disabled: false,
         description: "description",
+        status: '',
+        label:'',
+        subtitle:'' ,
+        percentage:'' ,
         children: [
         ],
       } as TreeNode;
@@ -2705,6 +2713,7 @@ export class BuilderComponent implements OnInit {
         dashed: false,
         dividerType: "horizontal",
         orientation: "center",
+        plain: false,
         children: [
         ],
 
@@ -3290,14 +3299,14 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        checkable:'',
-        expandIcon:'folder',
-        closingexpandicon:'file',
-        expand:"",
+        checkable: '',
+        expandIcon: 'folder',
+        closingexpandicon: 'file',
+        expand: "",
         expandKeys: ['100', '1001'],
         // title: 'parent 1',
         key: '100',
-        nodes : [
+        nodes: [
           {
             title: '0-0',
             key: '0-0',
@@ -4242,7 +4251,7 @@ export class BuilderComponent implements OnInit {
         debugger
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
         // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
-          this.fieldData.formData = _formFieldData.headingFields;
+        this.fieldData.formData = _formFieldData.headingFields;
         break;
 
       case "paragraph":
@@ -4531,10 +4540,10 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  add(node: TreeNode) {
-    this.applySize();
-    this.selectedNode = node;
-  }
+  // add(node: TreeNode) {
+  //   this.applySize();
+  //   this.selectedNode = node;
+  // }
   newChild: any = [];
   insertAt(parent: any, node: any) {
 
@@ -4819,7 +4828,7 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   nzEvent(event: NzFormatEmitEvent): void {
-    console.log(event);
+    // console.log(event);
   }
   updateNodes() {
     this.nodes = [...this.nodes];
@@ -5696,6 +5705,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzLoading = event.form.nzLoading;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.format = event.form.format;
+          this.selectedNode.trigger = event.form.trigger;
+          this.selectedNode.placement = event.form.placement;
+          this.selectedNode.visible = event.form.visible;
+          this.selectedNode.clickHide = event.form.clickHide;
+
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -6125,7 +6139,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.description = event.form.description;
-          this.updateNodes()
+          this.selectedNode.status = event.form.status;
+          this.selectedNode.label = event.form.label;
+          this.selectedNode.subtitle = event.form.subtitle;
+          this.selectedNode.percentage = event.form.percentage;
+         
+                  this.updateNodes()
         }
         break;
 
@@ -6419,6 +6438,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.dashed = event.form.dashed;
           this.selectedNode.dividerType = event.form.dividerType;
           this.selectedNode.orientation = event.form.orientation;
+          this.selectedNode.plain = event.form.plain;
           this.updateNodes()
         }
         break;
