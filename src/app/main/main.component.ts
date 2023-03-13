@@ -22,8 +22,11 @@ debugger
   }
 
   submit() {
+    debugger
     // this.commonChartService.submit();
-    this.cd.detectChanges();
+    // this.cd.detectChanges();
+    this.form.value;
+    this.dataModel
   }
   handleIndexChange(e: number): void {
     console.log(e);

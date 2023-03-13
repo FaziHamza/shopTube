@@ -45,14 +45,7 @@ export class LayoutButtonComponent implements OnInit {
   }
 
   tabsLoad(data: any) {
-    
-    this.newTabArray = [];
-    data.subItems.forEach((k: any) => {
-      if (k.type == "mainDashonicTabs") {
-        this.newTabArray.push(k)
-      }
-    });
-    this.notify.emit(this.newTabArray);
+    this.notify.emit(data);
   }
 
   apiCall(link: any) {

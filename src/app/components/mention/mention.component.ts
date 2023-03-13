@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 
 @Component({
@@ -6,11 +7,13 @@ import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
   templateUrl: './mention.component.html',
   styleUrls: ['./mention.component.scss']
 })
-export class MentionComponent implements OnInit {
-  @Input() mentionData: any;
+export class MentionComponent extends FieldType<FieldTypeConfig> {
+  // @Input() mentionData: any;
   suggestion : any;
-  constructor() { }
-
+  // constructor() { }
+  get list(): any {
+    return this.to.options;
+  }
   ngOnInit(): void {
   }
 
@@ -24,16 +27,16 @@ export class MentionComponent implements OnInit {
   onSearchChange({ value }: MentionOnSearchTypes): void {
     debugger
     console.log(`search: ${value}`);
-    this.mentionData.loading = true;
+    // this.mentionData.loading = true;
     this.fetchSuggestions(value, suggestions => {
       console.log(suggestions);
       this.suggestion = suggestions.map((suggestions : any) => suggestions.label); ;
-      this.mentionData.loading = true;
+      // this.mentionData.loading = true;
     });
   }
 
   fetchSuggestions(value: string, callback: (suggestions: string[]) => void): void {
-    const users = this.mentionData.options;
+    const users = this.list;
     setTimeout(() => callback(users.filter((item: any) => item.label.indexOf(value) !== -1)), 500);
 
   }

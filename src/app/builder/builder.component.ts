@@ -1098,6 +1098,23 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
+    else if (value == 'cardWithComponents') {
+      const newNode = {
+        id: 'cardWithComponents_' + Guid.newGuid(),
+        className: 'w-full',
+        hideExpression: false,
+        tooltip: "",
+        key: "cardWithComponents" + Guid.newGuid(),
+        title: 'Card With Components',
+        type: "cardWithComponents",
+        highLight: false,
+        isNextChild: true,
+        children: [
+        ],
+
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
     else if (value == 'switch') {
       debugger
       const newNode = {
@@ -4525,10 +4542,10 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  add(node: TreeNode) {
-    this.applySize();
-    this.selectedNode = node;
-  }
+  // add(node: TreeNode) {
+  //   this.applySize();
+  //   this.selectedNode = node;
+  // }
   newChild: any = [];
   insertAt(parent: any, node: any) {
 
@@ -4813,7 +4830,7 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   nzEvent(event: NzFormatEmitEvent): void {
-    console.log(event);
+    // console.log(event);
   }
   updateNodes() {
     this.nodes = [...this.nodes];
@@ -6076,8 +6093,8 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.paddingRight = event.form.paddingRight;
           // this.selectedNode.paddingTop = event.form.paddingTop;
           // this.selectedNode.paddingBottom = event.form.paddingBottom;
-          this.selectedNode.data.level = event.form.level;
-          this.selectedNode.data.text = event.form.text;
+          this.selectedNode.level = event.form.level;
+          this.selectedNode.text = event.form.text;
           this.selectedNode.style = event.form.style;
           this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
           this.selectedNode.textAlign = event.form.textAlignment;

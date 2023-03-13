@@ -77,7 +77,7 @@ import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { EmptyComponent } from './components/empty/empty.component';
 import { ListComponent } from './components/list/list.component';
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
-import { MentionComponent } from './components/mention/mention.component';
+// import { MentionComponent } from './components/mention/mention.component';
 import { MessageComponent } from './components/message/message.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
@@ -90,6 +90,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
 import { InputWrapperComponent } from './wrappers/input-wrapper/input-wrapper.component';
+import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -162,7 +163,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     EmptyComponent,
     ListComponent,
     TreeViewComponent,
-    MentionComponent,
+    // MentionComponent,
     MessageComponent,
     NotificationComponent,
     LayoutButtonComponent,
@@ -172,6 +173,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BadgeComponent,
     StepperComponent,
     TreeComponent,
+    MenuBuilderComponent,
     // InputWrapperComponent,
   ],
   imports: [

@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-formly-field-ng-search',
   template: `
-    <nz-range-picker nzMode="date" style="width:100%" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
+  <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
+  [nzSize]="to.config?.size">
+  <nz-range-picker nzMode="date" style="width:100%" [formControl]="formControl" ></nz-range-picker>
+</nz-input-group>
   `,
 })
-export class FormlyFieldRangeDate extends FieldType {
+export class FormlyFieldRangeDate extends FieldType<FieldTypeConfig> {
   date = null;
   onChange(result: Date[]): void {
     // console.log('onChange: ', result);

@@ -2,67 +2,71 @@
     height: 32px;
     margin: 16px;
     background: rgba(255, 255, 255, 0.3);
-}
-
-.logo-sm {
+  }
+  
+  .logo-sm {
     height: 32px;
     margin: 24px;
     background: rgba(255, 255, 255, 0.3);
-
-}
-
-nz-header {
+  
+  }
+  
+  nz-header {
     background: #fff;
     padding: 0;
-}
-
-nz-content {
+  }
+  
+  nz-content {
     margin: 0 16px;
-}
-
-nz-breadcrumb {
+  }
+  
+  nz-breadcrumb {
     margin: 16px 0;
-}
-
-.inner-content {
+  }
+  
+  .inner-content {
     padding: 24px;
     background: #fff;
     min-height: 360px;
-}
-
-nz-footer {
+  }
+  
+  nz-footer {
     text-align: center;
     background: #fff;
-}
-
-.inner-content {
+  }
+  
+  .inner-content {
     padding: 0px !important;
     background: #fff;
     min-height: 360px;
-}
-
-.ant-drawer-header {
+  }
+  
+  .ant-drawer-header {
     background: blue !important;
-}
-
-.menuColumn {
+  }
+  
+  .menuColumn {
     overflow-y: auto;
-}
-
-.scroll {
-    height: calc(100vh - 0px);
+  }
+  .scroll {
+    height: 100vh;
+    width: 34.5vh;
+    // height: calc(100vh - 0px);
     /* 50px is the height of the header or any other element that takes up space above the menu */
     overflow-y: auto;
     /* add vertical scroll if necessary */
-}
-
-.selected {
+    position: fixed;
+    top: 64px;
+    left: 0;
+  }
+  
+  .selected {
     background-color: rgba(80, 195, 230, .2);
     ;
     color: #50c3e6;
-}
-
-#main-menu {
+  }
+  
+  #main-menu {
     position: fixed;
     top: -100%;
     left: 0;
@@ -71,24 +75,47 @@ nz-footer {
     background-color: #333;
     color: #fff;
     transition: top 0.3s ease-out;
-}
-
-/* Show the menu when it is open */
-#main-menu.open {
+  }
+  
+  /* Show the menu when it is open */
+  #main-menu.open {
     top: 0;
-}
-
-/* Style the toggle button */
-#menu-toggle {
+  }
+  
+  /* Style the toggle button */
+  #menu-toggle {
     display: block;
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 9999;
-}
-
-#router-container {
+  }
+  
+  #router-container {
     height: 100vh;
     width: 100vw;
-}
-
+  }
+  
+  .box {
+    display: block;
+    text-align: center;
+  
+    // padding: 0.45rem 0.525rem;
+    li {
+      display: block;
+      text-align: center;
+  
+      p {
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+  
+  // .ant-layout-content{
+  //   margin: 0 5px !important
+  // }
+  ::ng-deep .ant-menu-submenu.ant-menu-submenu-inline>.ant-menu {
+    background-color: inherit;
+  }
+  

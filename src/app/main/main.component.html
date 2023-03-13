@@ -1,5 +1,5 @@
 <div class="card-content  flex flex-wrap w-1/">
-    <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData">
+    <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData ; index as i; last as isLast">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <div *ngIf="item.tooltip" style="text-align: right;">
@@ -72,7 +72,7 @@
             </ng-container>
         </ng-template>
         <ng-template #tenth>
-            <ng-container *ngIf="item.type == 'header'; else eleventh">
+            <ng-container *ngIf="item.type == 'heading'; else eleventh">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <div *ngIf="item.tooltip" style="text-align: right;">
                         <div *ngIf="item.tooltip" style="text-align: right;">
@@ -253,10 +253,14 @@
         <ng-template #thirty>
             <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
                 <div *ngFor="let items of item.children">
-                    <formly-form [fields]="items.formly" [model]="dataModel" [form]="form">
-                    </formly-form>
+                    <form [formGroup]="form" (ngSubmit)="submit()">
+                        <formly-form [fields]="items.formly" [model]="dataModel" [form]="form">
+                        </formly-form>
+                        <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button>
+                    </form>
                 </div>
             </ng-container>
+
         </ng-template>
         <ng-template #thirtyOne>
             <ng-container *ngIf="item.type == 'mainStep'; else thirtyTwo">
@@ -325,9 +329,9 @@
                 <form [formGroup]="form" (ngSubmit)="submit()">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
+                        <formly-form [fields]="item.formly"  [(model)]="dataModel" [form]="form">
                         </formly-form>
-                        <!-- <button type="submit" class="btn btn-primary submit-button mt-2">Submit</button> -->
+                        <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button>
                     </div>
                 </form>
             </ng-container>
@@ -663,7 +667,7 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-mention [mentionData]="item"></app-mention>
+                    <!-- <app-mention [mentionData]="item"></app-mention> -->
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -685,9 +689,8 @@
                 </ng-container>
             </ng-container>
         </ng-template>
-       
         <ng-template #seventyTwo>
-            <ng-container *ngIf="item.type == 'tree'" >
+            <ng-container *ngIf="item.type == 'tree' else seventyThree">
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
@@ -695,6 +698,16 @@
                 </ng-container>
             </ng-container>
         </ng-template>
-        
+        <ng-template #seventyThree>
+            <ng-container *ngIf="item.type == 'cardWithComponents'">
+                <ng-container *ngIf="!item.hideExpression">
+                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                            nzType="question-circle" nzTheme="twotone"></span></span>
+                </ng-container>
+                <nz-card>
+                    <app-main [mainData]="item.children"></app-main>
+                  </nz-card>
+            </ng-container>
+        </ng-template>
     </div>
 </div>

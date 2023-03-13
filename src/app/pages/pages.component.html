@@ -55,8 +55,7 @@
                     </nz-page-header>
                 </div>
                 <div class="p-6">
-                    <app-main [mainData]="j.children[1].children"></app-main>
-
+                    <app-main [mainData]="j.children[1].children" [dataModel]="model"></app-main>
                 </div>
                 <div class="py-3 px-10 border-t  text-black font-semibold text-lg" *ngIf="j.children[2].footer">
                     {{j.children[2].title}}
@@ -72,7 +71,7 @@
                         [nzExtra]="extraTpl">
                         <div class="px-3 font-normal text-base" *ngIf="resData.length > 0">
 
-                            <app-main [mainData]="j.children[1].children"></app-main>
+                            <app-main [mainData]="j.children[1].children" [dataModel]="model"></app-main>
                         </div>
 
                         <br />
