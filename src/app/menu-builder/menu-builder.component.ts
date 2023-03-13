@@ -114,7 +114,7 @@ export class MenuBuilderComponent implements OnInit {
       icon: "Menu",
       type: "input",
       isTitle: false,
-      subItems: [
+      children: [
       ],
 
     } as any];
@@ -161,7 +161,7 @@ export class MenuBuilderComponent implements OnInit {
           icon: "Menu",
           type: "input",
           isTitle: false,
-          subItems: [
+          children: [
           ],
 
         } as any];
@@ -241,6 +241,7 @@ export class MenuBuilderComponent implements OnInit {
     // console.log(event);
   }
   hoverIn(data: any) {
+    debugger
     this.isVisible = data.id;
   }
   hoverOut(data: any) {
@@ -252,10 +253,10 @@ export class MenuBuilderComponent implements OnInit {
     this.isActiveShow = id;
     this.controlListvisible = true;
     // this.IsShowConfig = true;
-    if (node.type == 'dropdown' && node.subItems.length == 0) {
+    if (node.type == 'dropdown' && node.children.length == 0) {
       this.whenDropdownSelectedOnlyTabsControllShow();
-    } else if (node.type == 'dropdown' && node.subItems.length > 0) {
-      if (node.subItems[0].type == 'mainDashonicTabs') {
+    } else if (node.type == 'dropdown' && node.children.length > 0) {
+      if (node.children[0].type == 'mainDashonicTabs') {
         this.whenDropdownSelectedOnlyTabsControllShow();
       }
     }
@@ -325,9 +326,10 @@ export class MenuBuilderComponent implements OnInit {
         icon: "circle",
         type: "input",
         isTitle: false,
+        expanded: true,
         textColor: "#0000",
         color: "",
-        subItems: [
+        children: [
         ],
       } as any;
       if (nodeType == false) {
@@ -342,15 +344,17 @@ export class MenuBuilderComponent implements OnInit {
         title: 'Menu' + '_1',
         link: '/pages/tabsanddropdown',
         icon: "Menu",
+        expanded: true,
         type: "input",
         isTitle: true,
-        subItems: [
+        children: [
         ],
       } as any;
       this.addNode(node, newNode);
     }
     else if (value == 'card') {
       const newNode = {
+        expanded: true,
         id: node.id + '_1',
         children: [
         ],
@@ -361,6 +365,7 @@ export class MenuBuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         title: 'dashonicTabs_1',
+        expanded: true,
         type: "mainDashonicTabs",
         className: "col-12",
         chartCardConfig: [{
@@ -379,7 +384,7 @@ export class MenuBuilderComponent implements OnInit {
           ],
         }
         ],
-        subItems: [
+        children: [
         ],
 
       } as any;
@@ -390,6 +395,7 @@ export class MenuBuilderComponent implements OnInit {
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         title: 'dashonicTabs_1',
+        expanded: true,
         type: "dashonicTabs",
         className: "col-12",
         chartCardConfig: [{
@@ -411,7 +417,7 @@ export class MenuBuilderComponent implements OnInit {
           ],
         }
         ],
-        subItems: [
+        children: [
         ],
       } as any;
       this.tabsChild = newNode
@@ -421,6 +427,7 @@ export class MenuBuilderComponent implements OnInit {
       const newNode = {
         id: 'dropdown_' + Guid.newGuid(),
         title: 'Dropdown_1',
+        expanded: true,
         type: "dropdown",
         className: "col-12",
         chartCardConfig: [{
@@ -435,11 +442,11 @@ export class MenuBuilderComponent implements OnInit {
               dropdownIcon: "uil-star"
             }
           ],
-          subItems: [
+          children: [
           ],
         }
         ],
-        subItems: [
+        children: [
         ],
 
       } as any;
@@ -450,6 +457,7 @@ export class MenuBuilderComponent implements OnInit {
       const newNode = {
         id: 'pages_' + Guid.newGuid(),
         title: 'Pages_1',
+        expanded: true,
         type: "pages",
         className: "col-12",
         chartCardConfig: [{
@@ -461,7 +469,7 @@ export class MenuBuilderComponent implements OnInit {
           ],
         }
         ],
-        subItems: [
+        children: [
         ],
 
       } as any;
@@ -474,6 +482,7 @@ export class MenuBuilderComponent implements OnInit {
         id: 'buttons_' + Guid.newGuid(),
         title: 'Buttons_1',
         type: "buttons",
+        expanded: true,
         className: "col-12",
         chartCardConfig: [{
           buttonsConfig: [
@@ -485,7 +494,7 @@ export class MenuBuilderComponent implements OnInit {
           ],
         }
         ],
-        subItems: [
+        children: [
         ],
 
       } as any;
@@ -496,11 +505,11 @@ export class MenuBuilderComponent implements OnInit {
   addNode(node: any, newNode: any) {
 
     if (node) {
-      let checkNode = node.subItems;
+      let checkNode = node.children;
       if (checkNode) {
-        node.subItems.push(newNode);
+        node.children.push(newNode);
       } else {
-        node.subItems.push(newNode);
+        node.children.push(newNode);
       }
       this.clickBack();
     }
@@ -515,24 +524,24 @@ export class MenuBuilderComponent implements OnInit {
     if (parent != undefined) {
       const newNode = JSON.parse(JSON.stringify(node));
       newNode.id = newNode.id + Guid.newGuid();
-      const idx = parent.subItems.indexOf(node as TreeNode);
-      parent.subItems.splice(idx as number + 1, 0, newNode);
+      const idx = parent.children.indexOf(node as TreeNode);
+      parent.children.splice(idx as number + 1, 0, newNode);
     }
     else {
       const newNode = JSON.parse(JSON.stringify(node));
       newNode.id = newNode.id + Guid.newGuid();
       const idx = this.nodes.indexOf(node as any);
-      node.subItems.forEach((a: any) => {
+      node.children.forEach((a: any) => {
         a.id = a.id + Guid.newGuid();
-        a.subItems.forEach((j: any) => {
+        a.children.forEach((j: any) => {
           j.id = j.id + Guid.newGuid();
-          j.subItems.forEach((k: any) => {
+          j.children.forEach((k: any) => {
             k.id = k.id + Guid.newGuid();
-            k.subItems.forEach((l: any) => {
+            k.children.forEach((l: any) => {
               l.id = l.id + Guid.newGuid();
-              l.subItems.forEach((m: any) => {
+              l.children.forEach((m: any) => {
                 m.id = m.id + Guid.newGuid();
-                m.subItems.forEach((n: any) => {
+                m.children.forEach((n: any) => {
                   n.id = n.id + Guid.newGuid();
                 });
               });
@@ -548,8 +557,8 @@ export class MenuBuilderComponent implements OnInit {
 
     if (parent != undefined) {
       console.log(parent, node);
-      const idx = parent.subItems.indexOf(node);
-      parent.subItems.splice(idx as number, 1);
+      const idx = parent.children.indexOf(node);
+      parent.children.splice(idx as number, 1);
     } else {
       console.log(parent, node);
       const idx = this.nodes.indexOf(node);
@@ -565,23 +574,23 @@ export class MenuBuilderComponent implements OnInit {
         if (element.title.toUpperCase().includes(input)) {
           this.filterMenuData.push(element);
         }
-        else if (element.subItems.length > 0) {
-          element.subItems.forEach((element1: any) => {
+        else if (element.children.length > 0) {
+          element.children.forEach((element1: any) => {
             if (element1.title.toUpperCase().includes(input)) {
               this.filterMenuData.push(element1);
             }
-            else if (element1.subItems.length > 0) {
-              element1.subItems.forEach((element2: any) => {
+            else if (element1.children.length > 0) {
+              element1.children.forEach((element2: any) => {
                 if (element2.title.toUpperCase().includes(input)) {
                   this.filterMenuData.push(element2);
                 }
-                else if (element2.subItems.length > 0) {
-                  element2.subItems.forEach((element3: any) => {
+                else if (element2.children.length > 0) {
+                  element2.children.forEach((element3: any) => {
                     if (element3.title.toUpperCase().includes(input)) {
                       this.filterMenuData.push(element3);
                     }
-                    else if (element3.subItems.length > 0) {
-                      element3.subItems.forEach((element4: any) => {
+                    else if (element3.children.length > 0) {
+                      element3.children.forEach((element4: any) => {
                         if (element4.title.toUpperCase().includes(input)) {
                           this.filterMenuData.push(element4);
                         }
@@ -651,23 +660,23 @@ export class MenuBuilderComponent implements OnInit {
     arr.jsonModuleSetting.push(data);
     data.menuData.forEach((element: any) => {
       this.callApiData(element, arr);
-      element.subItems.forEach((element1: any) => {
+      element.children.forEach((element1: any) => {
         this.callApiData(element1, arr);
-        element1.subItems.forEach((element2: any) => {
+        element1.children.forEach((element2: any) => {
           this.callApiData(element2, arr);
-          element2.subItems.forEach((element3: any) => {
+          element2.children.forEach((element3: any) => {
             this.callApiData(element3, arr);
-            element3.subItems.forEach((element4: any) => {
+            element3.children.forEach((element4: any) => {
               this.callApiData(element4, arr);
-              element4.subItems.forEach((element5: any) => {
+              element4.children.forEach((element5: any) => {
                 this.callApiData(element5, arr);
-                element5.subItems.forEach((element6: any) => {
+                element5.children.forEach((element6: any) => {
                   this.callApiData(element6, arr);
-                  element6.subItems.forEach((element7: any) => {
+                  element6.children.forEach((element7: any) => {
                     this.callApiData(element7, arr);
-                    element7.subItems.forEach((element8: any) => {
+                    element7.children.forEach((element8: any) => {
                       this.callApiData(element8, arr);
-                      element8.subItems.forEach((element9: any) => {
+                      element8.children.forEach((element9: any) => {
                         this.callApiData(element9, arr);
                       });
                     });
@@ -920,26 +929,27 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
           this.selectedNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
           this.selectedNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-          for (let index = 0; index < this.selectedNode.subItems.length; index++) {
-            this.selectedNode.subItems[index].dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-            this.selectedNode.subItems[index].dashonicTabsConfig[0].buttonText = event.form.buttonText;
-            this.selectedNode.subItems[index].dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1";
-            this.selectedNode.subItems[index].dashonicTabsConfig[0].buttonColor = event.form.buttonColor + " mt-2";
-            this.selectedNode.subItems[index].dashonicTabsConfig[0].tabFormat = event.form.tabFormat;
-            if (event.form.tabsDisplayType == "buttonType") {
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor;
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].color = "--color:#fff";
-            } else if (event.form.tabsDisplayType == "None") {
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].color = "--color:none";
-            } else if (event.form.tabsDisplayType == "underLine") {
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor;
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
-              this.selectedNode.subItems[index].dashonicTabsConfig[0].color = "--color:none";
+          if (this.selectedNode.children)
+            for (let index = 0; index < this.selectedNode.children.length; index++) {
+              this.selectedNode.children[index].dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
+              this.selectedNode.children[index].dashonicTabsConfig[0].buttonText = event.form.buttonText;
+              this.selectedNode.children[index].dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1";
+              this.selectedNode.children[index].dashonicTabsConfig[0].buttonColor = event.form.buttonColor + " mt-2";
+              this.selectedNode.children[index].dashonicTabsConfig[0].tabFormat = event.form.tabFormat;
+              if (event.form.tabsDisplayType == "buttonType") {
+                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor;
+                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
+                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:#fff";
+              } else if (event.form.tabsDisplayType == "None") {
+                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
+                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
+                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:none";
+              } else if (event.form.tabsDisplayType == "underLine") {
+                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor;
+                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
+                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:none";
+              }
             }
-          }
           this.adddynamicDashonictab(event.form.nodes);
           this.selectedNode.mainDashonicTabsConfig[0].nodesLength = event.form.nodes;
 
@@ -1033,52 +1043,56 @@ export class MenuBuilderComponent implements OnInit {
   adddynamicDashonictab(abc: any) {
 
     // this.selectdParentNode = parent;
-    let tabslength = this.selectedNode.subItems.length;
-    if (tabslength < abc) {
-      for (let k = 0; k < abc; k++) {
-        if (tabslength < abc) {
-          this.addControlToJson('dashonicTabs');
-          // this.selectedNode = this.tabsChild;
-          // this.addControlToJson('text');
-          this.selectedNode = this.tabsAdd;
-          tabslength = tabslength + 1;
+    if (this.selectedNode.children) {
+      let tabslength = this.selectedNode.children.length;
+      if (tabslength < abc) {
+        for (let k = 0; k < abc; k++) {
+          if (tabslength < abc) {
+            this.addControlToJson('dashonicTabs');
+            // this.selectedNode = this.tabsChild;
+            // this.addControlToJson('text');
+            this.selectedNode = this.tabsAdd;
+            tabslength = tabslength + 1;
+          }
         }
       }
-    }
-    else {
-      let tabLength = this.selectedNode.subItems.length;
-      for (let a = 0; a < tabLength; a++) {
-        if (this.selectedNode.type == "mainDashonicTabs") {
-          if (abc < tabslength) {
-            this.remove(this.selectedNode, this.selectedNode.subItems[tabslength]);
-            tabslength = tabslength - 1;
+      else {
+        let tabLength = this.selectedNode.children.length;
+        for (let a = 0; a < tabLength; a++) {
+          if (this.selectedNode.type == "mainDashonicTabs") {
+            if (abc < tabslength) {
+              this.remove(this.selectedNode, this.selectedNode.children[tabslength]);
+              tabslength = tabslength - 1;
+            }
           }
         }
       }
     }
+
   }
   adddynamicPages(abc: any) {
-
-    let pageLength = this.selectedNode.subItems.length;
-    if (pageLength < abc) {
-      for (let k = 0; k < abc; k++) {
-        if (pageLength < abc) {
-          this.selectedNode = this.dropdownAdd;
-          this.addControlToJson('pages');
-          this.selectedNode = this.pagesAdd;
-          this.addControlToJson('buttons');
-          // this.selectedNode = this.dropdownAdd;
-          pageLength = pageLength + 1;
+    if (this.selectedNode.children) {
+      let pageLength = this.selectedNode.children.length;
+      if (pageLength < abc) {
+        for (let k = 0; k < abc; k++) {
+          if (pageLength < abc) {
+            this.selectedNode = this.dropdownAdd;
+            this.addControlToJson('pages');
+            this.selectedNode = this.pagesAdd;
+            this.addControlToJson('buttons');
+            // this.selectedNode = this.dropdownAdd;
+            pageLength = pageLength + 1;
+          }
         }
       }
-    }
-    else {
-      let removePage = this.selectedNode.subItems.length;
-      for (let a = 0; a < removePage; a++) {
-        if (this.selectedNode.type == "dropdown") {
-          if (abc < pageLength) {
-            this.remove(this.selectedNode, this.selectedNode.subItems[pageLength - 1]);
-            pageLength = pageLength - 1;
+      else {
+        let removePage = this.selectedNode.children.length;
+        for (let a = 0; a < removePage; a++) {
+          if (this.selectedNode.type == "dropdown") {
+            if (abc < pageLength) {
+              this.remove(this.selectedNode, this.selectedNode.children[pageLength - 1]);
+              pageLength = pageLength - 1;
+            }
           }
         }
       }
