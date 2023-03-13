@@ -61,7 +61,9 @@ export class BlockButtonsCardComponent {
       }
     }));
   }
-
+  change(value: boolean): void {
+    console.log(value);
+  }
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisible = false;
