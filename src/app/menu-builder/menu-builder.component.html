@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-2">
   <div class="">
     <div class="flex header-tab">
       <div class="w-1/5 jsonEdiotTab">
@@ -13,7 +13,7 @@
           <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
       </div>
       <div class="w-2/5">
-        <nz-select [(ngModel)]="moduleName" nzPlaceHolder="Select Menu" (ngModelChange)="getFormLayers($event)">
+        <nz-select class="" [(ngModel)]="moduleName" nzPlaceHolder="Select Menu" (ngModelChange)="getFormLayers($event)">
           <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of menuModule"></nz-option>
         </nz-select>
       </div>
@@ -29,12 +29,12 @@
     <div class="flex body-tab">
       <as-split style="width: 100%;" [gutterSize]="3">
         <div class="side-btn" (click)="LayerShow()">
-          <i class="uil uil-angle-right"></i>
+           <span nz-icon nzType="right" nzTheme="outline"></span>
         </div>
         <as-split-area [size]="sizes[0]">
           <div class="carwd" *ngIf="IslayerVisible">
-            <div class="card-wheader">
-              <h1> Menus</h1>
+            <div class="card-header bg-blue-400">
+              <p class="font-semibold text-white p-2" > Menus</p>
             </div>
             <div class="card-bwody">
               <nz-input-group nzSearch nz-col nzSpan="24" [nzAddOnAfter]="suffixIconButton">
