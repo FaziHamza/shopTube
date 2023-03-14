@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output 
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -17,6 +17,7 @@ export class DynamicTableComponent implements OnInit {
   editId: string | null = null;
   @Output() notifyTable: EventEmitter<any> = new EventEmitter();
   key: any;
+  childKey: any;
   allChecked = false;
   indeterminate = false;
   scrollX: string | null = null;
@@ -58,11 +59,13 @@ export class DynamicTableComponent implements OnInit {
   loadTableData() {
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
+    this.childKey = this.getChildrenData();
+    let checkcount = this.getParentChildrenKeys(this.tableData);
     debugger
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
-    if(!this.data){
+    if (!this.data) {
       const newNode = {
         nzFooter: "",
         nzTitle: "",
@@ -88,15 +91,28 @@ export class DynamicTableComponent implements OnInit {
       this.data = newNode;
     }
     let newId = 0;
-    if(!this.tableData[0].id){
-      this.tableData.forEach((j :any) => {
+    if (!this.tableData[0].id) {
+      this.tableData.forEach((j: any) => {
         newId = newId + 1
-        j['id'] = newId; 
+        j['id'] = newId;
       });
     }
 
   }
-
+  getChildrenData() {
+    const childKeys = this.tableData.reduce((acc: any, obj: any) => {
+      obj.children.forEach((child: any) => {
+        Object.keys(child).forEach(key => {
+          if (!acc.includes(key)) {
+            acc.push(key);
+          }
+        });
+      });
+      return acc;
+    }, []);
+    console.log(childKeys); // This will output an array of unique keys for all the child objects in the tableData array.
+    return childKeys;
+  }
   save() {
     this._dataSharedService.setData(this.tableData);
     alert("Data save");
@@ -118,6 +134,42 @@ export class DynamicTableComponent implements OnInit {
     this.allChecked = allChecked;
     this.indeterminate = !allChecked && !allUnChecked;
   }
+  // getNestedChildrenCount(obj: any): number {
+  //   if (!obj.children) {
+  //     return 0;
+  //   }
+  //   let maxLevel = 0;
+  //   obj.children.forEach((child:any) => {
+  //     const childLevel = this.getNestedChildrenCount(child);
+  //     maxLevel = Math.max(maxLevel, childLevel);
+  //   });
+  //   return 1 + maxLevel;
+  // }
+  getChildKeys(obj: any): any {
+    const keys: any = {};
+    // keys.parent = Object.keys(obj);
+    const firstObjectKeys = Object.keys(obj);
+    keys.parent = firstObjectKeys.map(key => ({ name: key }));
+    if (obj.children) {
+      keys.children = obj.children.map((child: any) => {
+        const childKeys = this.getChildKeys(child);
+        return childKeys;
+      });
+    }
+    return keys;
+  }
+
+  getParentChildrenKeys(data: any[]): any[] {
+    const result: any[] = [];
+    data.forEach(obj => {
+      const keys = this.getChildKeys(obj);
+      result.push(keys);
+    });
+    return result;
+  }
+
+
+
 
   // addThousanRows(){
   //     for (let index = 0; index < 1000; index++) {
