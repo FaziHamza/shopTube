@@ -10,7 +10,7 @@ export class BadgeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
   }
 
 }

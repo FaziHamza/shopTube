@@ -24,11 +24,10 @@
         <input type="file" class="ml-2" id="fileInput" style="display:none" (change)="jsonUpload($event)">
         <button nz-button nzType="primary" class="ml-2" onclick="document.getElementById('fileInput').click()">Upload
           Json</button>
-
       </div>
     </div>
     <div class="flex body-tab">
-      <as-split style="width: 100%; height: 500px;" [gutterSize]="3">
+      <as-split style="width: 100%;" [gutterSize]="3">
         <div class="side-btn" (click)="LayerShow()">
           <i class="uil uil-angle-right"></i>
         </div>
@@ -38,36 +37,50 @@
               <h1> Menus</h1>
             </div>
             <div class="card-bwody">
-              <input type="text" class="form-control" id="mySearch" (keyup)="menuSearch()" placeholder="Search..">
+              <nz-input-group nzSearch nz-col nzSpan="24" [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input id="mySearch" (keyup)="menuSearch()" placeholder="Search..">
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+              </ng-template>
               <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
                 <div *ngFor="let item of filterMenuData">
-                  <li class="menu-labels d-flex justify-content-between">{{item.label | uppercase}}
-                    <label (click)="openConfig(item,item)">
+                  <li class="menu-labels d-flex justify-content-between">{{item.title | uppercase}}
+                    <label *ngIf="item?.type=='input'" (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                    <label *ngIf=" item?.type=='dashonicTabs'" (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                    <label *ngIf=" item?.type=='mainDashonicTabs'" (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                    <label *ngIf="item?.type=='dropdown'" (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                    <label *ngIf="item?.type=='buttons'" (click)="openConfig(item,item)">
+                      <i class="uil uil-sliders-v"></i>
+                    </label>
+                    <label *ngIf="item?.type=='pages'" (click)="openConfig(item,item)">
                       <i class="uil uil-sliders-v"></i>
                     </label>
                   </li>
                 </div>
-
               </ul>
               <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
                 (nzOnDrop)="nzEvent($event)">
                 <ng-template #nzTreeTemplate let-node>
                   <div class="flex">
-
-
                     <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="openField(node)">
-                      <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
-                              <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
                       {{node.title}}
-
                     </div>
-                    <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node,node)">
+                    <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
                       <span nz-icon nzType="copy" nzTheme="outline"></span>
                     </span>
                     <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
                       <span nz-icon nzType="sliders" nzTheme="outline"></span>
                     </label>
-                    <label *ngIf="isVisible === node.origin.id" (click)="remove(node, node)">
+                    <label *ngIf="isVisible === node.origin.id" (click)="remove(node)">
                       <span nz-icon nzType="delete" nzTheme="outline"></span>
                     </label>
                   </div>
@@ -78,9 +91,21 @@
           <json-editor *ngIf="IsjsonEditorVisible" [(ngModel)]="nodes" [options]="editorOptions" [data]="nodes">
           </json-editor>
         </as-split-area>
-        <as-split-area [size]="sizes[1]" style="height:500px">
-          <div>
-            <app-side-menu-build [menuBuilderData]="nodes" *ngIf="nodes.length"></app-side-menu-build>
+        <as-split-area [size]="sizes[1]">
+          <div class="flex">
+            <div class="w-1/5 pr-2">
+              <app-side-menu-build [menuBuilderData]="nodes" (notify)="loadTabsAndDropdownFromMenuChild($event)" *ngIf="nodes.length"></app-side-menu-build>
+            </div>
+            <div class="w-4/5">
+              <ng-container *ngIf="tabsAndDropDownFromMenu">
+                <ng-container *ngIf="tabsAndDropDownFromMenu.length">
+                  <ng-container *ngFor="let child1 of tabsAndDropDownFromMenu; let i = index ; let last = last">
+                    <app-layout-tabs *ngIf="child1.type === 'mainTab'" [tabsData]="child1"></app-layout-tabs>
+                    <app-layout-button *ngIf="last" [dropdownData]="tabsAndDropDownFromMenu"></app-layout-button>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
           </div>
           <div class="col-border col-body-conter" style="position: relative ;">
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
@@ -146,13 +171,11 @@
                 </nz-tabset>
               </ng-container>
             </nz-drawer>
-
             <ng-template #extra>
               <button nz-button nzType="default" (click)="controlListClose()">Cancel</button>
               &nbsp;
               <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
             </ng-template>
-
           </div>
         </as-split-area>
       </as-split>

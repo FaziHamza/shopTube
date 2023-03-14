@@ -9,11 +9,11 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
   getTransferConfig(node: any) {
-    debugger
+    
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
   progressBarConfig(node: any) {
-    debugger
+    
     return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success };
   }
   getGridConfig(node: any) {
@@ -32,7 +32,15 @@ export class BuilderClickButtonService {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
   getBadgeConfig(node: any) {
-    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus };
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus ,
+      standAlone: node.standAlone,
+      dot: node.dot,
+      title: node.title,
+      showDot: node.showDot,
+      overflowCount: node.overflowCount,
+      showZero: node.showZero,
+      size: node.size,
+      offset: node.offset,};
   }
   getMentionConfig(node: any) {
     return { loading: node.loading, status: node.status, options: node.options, position: node.position, disabled: node.disabled, };
@@ -147,6 +155,8 @@ export class BuilderClickButtonService {
       color: node.color,
       gap: node.gap,
       alt: node.alt,
+      size: node.size,
+      shape: node.shape,
     }
   }
 
@@ -260,8 +270,8 @@ export class BuilderClickButtonService {
 
   getMultiFileUploadConfig(node: any) {
     return {
-      multiple:node.multiple,
-      disabled:node.disabled,
+      multiple: node.multiple,
+      disabled: node.disabled,
     }
   }
 
@@ -281,6 +291,12 @@ export class BuilderClickButtonService {
     return {
       icon: node.icon,
       tooltip: node.tooltip,
+    }
+  }
+  getMenutab(node: any) {
+    return {
+      icon: node.icon,
+      link: node.link,
     }
   }
 
@@ -333,7 +349,7 @@ export class BuilderClickButtonService {
   }
 
   getProgressBarConfig(node: any) {
-    debugger
+    
     return {
       progressBarType: node.progressBarType,
       percent: node.percent,
@@ -351,7 +367,7 @@ export class BuilderClickButtonService {
       dashed: node.dashed,
       dividerType: node.dividerType,
       plain: node.plain,
-      orientation:node.orientation,
+      orientation: node.orientation,
     }
   }
 
@@ -382,7 +398,7 @@ export class BuilderClickButtonService {
   }
 
   getAlertConfig(node: any) {
-    debugger
+    
     return {
       icon: node.icon,
       text: node.text,
@@ -509,7 +525,7 @@ export class BuilderClickButtonService {
 
 
   getHeadingConfig(node: any) {
-    debugger
+    
     return {
       // padding: '',
       level: node.level,
@@ -531,7 +547,7 @@ export class BuilderClickButtonService {
   }
 
   getFormlyConfig(node: any) {
-    debugger
+    
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
       defaultValue: node.formly[0].fieldGroup[0].defaultValue,
@@ -566,7 +582,7 @@ export class BuilderClickButtonService {
     }
   }
   getButtonConfig(node: any) {
-    debugger
+    
     return {
       color: node.color,
       title: node.title,
@@ -598,10 +614,10 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
-      trigger:node.trigger,
-        placement:node.placement,
-        visible:node.visible,
-        clickHide:node.clickHide,
+      trigger: node.trigger,
+      placement: node.placement,
+      visible: node.visible,
+      clickHide: node.clickHide,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -737,12 +753,9 @@ export class BuilderClickButtonService {
 
   getMenuAttributeConfig(node: any) {
     return {
-      menuID: node.id,
-      menuLabel: node.title,
       menuIcon: node.icon,
       menuLink: node.link,
       menuRequired: node.isTitle,
-      textColor: node.textColor,
     }
   }
   getTabAttributeConfig(node: any) {
@@ -781,9 +794,9 @@ export class BuilderClickButtonService {
   getPagesAttributeConfig(node: any) {
     return {
       id: node.id as string,
-        // className: node.className,
-        title: node.pageConfig[0]?.title,
-        Link: node.pageConfig[0]?.link,
+      // className: node.className,
+      title: node.pageConfig[0]?.title,
+      Link: node.pageConfig[0]?.link,
     }
   }
   getButtonAttributeConfig(node: any) {

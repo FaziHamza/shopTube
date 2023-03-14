@@ -605,7 +605,7 @@ export const htmlTabsData = [
               {
                 parameter: "imageUpload",
                 icon: "uil uil-file-alt",
-                label: "Image Upload"
+                label: "Image"
               },
               {
                 parameter: "invoice",
@@ -1036,7 +1036,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
-                label: "image",
+                label: "image Uploader",
                 type: 'input',
                 configType:'image',fieldType: 'file',
                 // maskString: "",

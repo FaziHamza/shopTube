@@ -14,31 +14,13 @@ export class LayoutButtonComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    
-    let arrayIndex = 0;
-    let mainIndex = 0;
-    let mainAarayIndex = 0;
-    this.dropdownData;
+    debugger
     if (this.dropdownData) {
       if (this.dropdownData.length > 0) {
         for (let index = 0; index < this.dropdownData.length; index++) {
           if (this.dropdownData[index].type == "dropdown") {
-            if (arrayIndex == 0 && mainAarayIndex == 0) {
-              this.forPushData.push(this.dropdownData[index]);
-              this.forPushData[mainAarayIndex].chartCardConfig[mainIndex].subItems = this.dropdownData[index].subItems;
-            }
-            else if (mainAarayIndex != 0 || mainAarayIndex == 0) {
-              this.forPushData[mainAarayIndex].chartCardConfig[mainIndex] = this.dropdownData[index].chartCardConfig[0];
-              this.forPushData[mainAarayIndex].chartCardConfig[mainIndex].subItems = this.dropdownData[index].subItems;
-            }
-            else {
-              mainAarayIndex = arrayIndex;
-              this.forPushData.push(this.dropdownData[index]);
-              this.forPushData[mainAarayIndex].chartCardConfig[mainIndex].subItems = this.dropdownData[index].subItems;
-            }
-            mainIndex = mainIndex + 1;
+            this.forPushData.push(this.dropdownData[index]);
           }
-          arrayIndex = this.forPushData.length;
         }
       }
     }
@@ -49,7 +31,6 @@ export class LayoutButtonComponent implements OnInit {
   }
 
   apiCall(link: any) {
-    
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);

@@ -27,10 +27,10 @@ export class GenericFieldComponent implements OnInit {
   }
   actionform = new FormGroup({});
   onSubmitV1(e: any) {
-    debugger
+    
   }
   onSubmit() {
-    debugger
+    
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
     // this.publicList.push(newProduct);
