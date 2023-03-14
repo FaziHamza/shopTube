@@ -1,12 +1,21 @@
-
+<nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <label class="form-label ml-3 text-base font-bold w-3/12">Column Name</label>
+    <input nz-input type="text" class="form-control ml-1  w-4/12" placeholder="Enetr Column Name"
+      [(ngModel)]="columnName">
+  </ng-container>
+</nz-modal>
 <button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
+<button nz-button (click)="addColumn()" type="button" nzType="primary">Add Column</button>
 <br />
 <br />
 <nz-table #editRowTable [nzBordered]='data.nzBordered' [nzData]="tableData" [nzFooter]="data?.nzFooter"
   [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
   [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='data?.nzFrontPagination'
   [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize"
-  [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger" [nzScroll]="{ x: data.tableScroll, y: scrollY }">
+  [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger"
+  [nzScroll]="{ x: data.tableScroll, y: scrollY }">
   <thead>
     <tr *ngIf="data.showColumnHeader">
       <th nzWidth="40px" *ngIf="data.expandable"></th>

@@ -1,6 +1,7 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output 
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
+import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -21,22 +22,84 @@ export class DynamicTableComponent implements OnInit {
   indeterminate = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
-  constructor(private _dataSharedService: DataSharedService) { }
+  constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) { }
 
   ngOnInit(): void {
     debugger
-    this.loadTableData();
-    // this.addThousanRows();
-    // this.data.noResult == true ? this.tableData = [] : true;
-    // this.data.get('tableScroll')!.valueChanges.subscribe((scroll: any) => {
-    //   this.data.fixedColumn = scroll === 'fixed';
-    //   this.scrollX = scroll === 'scroll' || scroll === 'fixed' ? '100vw' : null;
-    // });
-    // this.data.get('fixHeader')!.valueChanges.subscribe((fixed: any) => {
-    //   this.scrollY = fixed ? '240px' : null;
-    // });
+    this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
+      if (getRes.length > 0) {
+        for (let index = 0; index < getRes[0].buisnessRulleData.length; index++) {
+          const elementv1 = getRes[0].buisnessRulleData[index];
+          for (let j = 0; j < this.data.tableData.length; j++) {
+            //query
+            let query: any;
+            query = elementv1.getValue + elementv1.oprator + this.tableData[j][elementv1.ifCondition]
+            if (eval(query)) {
+              for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                const elementv2 = elementv1.getRuleCondition[k];
+                // this.data.tableData[j][elementv1.target] = this.data.tableData[j][elementv2.ifCondition] * this.data.tableData[j][elementv2.target];
+                this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                if (elementv2.multiConditionList.length > 0) {
+                  for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                    const elementv3 = elementv2.multiConditionList[l];
+                    const value = this.data.tableData[j][elementv1.target];
+                    // this.data.tableData[j][elementv1.target] = value + this.data.tableData[j][elementv3.target]
+                    this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                  }
+                }
+              }
+              for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                const elementv2 = elementv1.thenCondition[k];
+                for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                  const elementv3 = elementv2.getRuleCondition[l];
+                  // this.data.tableData[j][elementv2.thenTarget] = this.data.tableData[j][elementv3.ifCondition] * this.data.tableData[j][elementv3.target];
+                  this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                  if (elementv3.multiConditionList.length > 0) {
+                    for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                      const elementv4 = elementv3.multiConditionList[m];
+                      const value = this.data.tableData[j][elementv2.thenTarget];
+                      // this.data.tableData[j][elementv2.thenTarget] = value + this.data.tableData[j][elementv4.target]
+                      this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      this.loadTableData();
+    }));
   }
-
+  columnName: any;
+  isVisible = false;
+  addColumn(): void {
+    this.isVisible = true;
+  };
+  handleOk(): void {
+    if (this.tableData.length > 0) {
+      this.tableHeaders.push(
+        {
+          name: this.columnName,
+          sortOrder: null,
+          // sortFn: "(a, b) => a.name.localeCompare(b.name)",
+          sortDirections: [
+            "ascend",
+            "descend",
+            null
+          ],
+          "filterMultiple": true
+        });
+      for (let j = 0; j < this.data.tableData.length; j++) {
+        this.data.tableData[j][this.columnName.charAt(0).toLowerCase() + this.columnName.slice(1)] = 0;
+      }
+      this.loadTableData();
+    }
+    this.isVisible = false;
+  }
+  handleCancel(): void {
+    this.isVisible = false;
+  }
   addRow(): void {
     debugger
     const id = this.tableData.length - 1;
@@ -56,13 +119,18 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
+    debugger
+    // for (let index = 0; index < this.data.tableData.length; index++) {
+    //   this.data.tableData[index]['total'] = 0;
+    //   this.data.tableData[index].total = this.data.tableData[index].id * this.data.tableData[index].age;
+    // }
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
-    debugger
+
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
-    if(!this.data){
+    if (!this.data) {
       const newNode = {
         nzFooter: "",
         nzTitle: "",
@@ -88,10 +156,10 @@ export class DynamicTableComponent implements OnInit {
       this.data = newNode;
     }
     let newId = 0;
-    if(!this.tableData[0].id){
-      this.tableData.forEach((j :any) => {
+    if (!this.tableData[0].id) {
+      this.tableData.forEach((j: any) => {
         newId = newId + 1
-        j['id'] = newId; 
+        j['id'] = newId;
       });
     }
 
