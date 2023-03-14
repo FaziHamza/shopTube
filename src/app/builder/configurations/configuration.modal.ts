@@ -3316,28 +3316,17 @@ export class formFeildData {
       ]
     },
   ]
-  menuBuilderdashonicTabFields: FormlyFieldConfig[] = [
+  menuBuilderTabFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-
         {
-          key: 'tabLabel',
+          key: 'icon',
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
-          key: 'tabIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tab Icon',
+            label: 'Icon',
           }
         },
         {
@@ -3352,173 +3341,7 @@ export class formFeildData {
       ]
     },
   ]
-  menuBuilderDashoniMainTabFields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: "flex flex-wrap",
-      fieldGroup: [
-
-        {
-          key: 'tabLabel',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          key: 'tabFormat',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tab Format',
-            options: [
-              {
-                label: 'Vertical',
-                value: 'vertical'
-              },
-              {
-                label: 'Horizental',
-                value: 'horizental'
-              },
-            ],
-          },
-        },
-        {
-          key: 'nodes',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: 'number',
-            label: 'Number of Nodes',
-          }
-        },
-
-        {
-          key: 'tabsPosition',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tabs Position',
-            options: [
-              {
-                label: 'Left',
-                value: 'nav-tabs justify-content-start'
-              },
-              {
-                label: 'Center',
-                value: 'nav-tabs justify-content-center'
-              },
-              {
-                label: 'Right',
-                value: 'nav-tabs justify-content-end'
-              },
-            ]
-          },
-        },
-        {
-          key: 'selectTabColor',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: 'color',
-            label: 'Select Tab Color',
-          }
-        },
-        {
-          key: 'tabsDisplayType',
-          type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Tabs Display Type',
-            options: [
-              {
-                label: 'Default',
-                value: 'None'
-              },
-              {
-                label: 'UnderLine',
-                value: 'underLine'
-              },
-              {
-                label: 'Button Type',
-                value: 'buttonType'
-              },
-            ],
-          },
-        },
-        // {
-        //   key: 'buttonText',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Button Text',
-        //   }
-        // },
-        // {
-        //   key: 'buttonIcon',
-        //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Button Icon',
-        //   }
-        // },
-        // {
-        //   key: 'buttonColor',
-        //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     label: 'Button Color',
-        //     options: [
-        //       {
-        //         label: 'Blue',
-        //         value: 'btn btn-primary'
-        //       },
-        //       {
-        //         label: 'Gray',
-        //         value: 'btn btn-secondary'
-        //       },
-        //       {
-        //         label: 'Green',
-        //         value: 'btn btn-success'
-        //       },
-        //       {
-        //         label: 'Red',
-        //         value: 'btn btn-danger'
-        //       },
-        //       {
-        //         label: 'Yellow',
-        //         value: 'btn btn-warning'
-        //       },
-        //       {
-        //         label: 'Light blue',
-        //         value: 'btn btn-info'
-        //       },
-        //       {
-        //         label: 'White',
-        //         value: 'btn btn-light'
-        //       },
-        //       {
-        //         label: 'Black',
-        //         value: 'btn btn-dark'
-        //       },
-
-        //     ],
-        //   },
-        // },
-
-      ]
-    },
-  ]
+  
   fixedDivFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -6464,6 +6287,80 @@ export class formFeildData {
             ]
           }
         },
+        {
+          key: 'size',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options: [
+              {
+                label: 'Default',
+                value: 'default '
+              },
+              {
+                label: 'Small',
+                value: 'small'
+              },
+            
+            ]
+          }
+        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'title',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Title',
+        //   }
+        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'overflowCount',
+          type: 'number',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'OverflowCount',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'standAlone',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'StandAlone',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'dot',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Dot',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'showDot',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ShowDot',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'showZero',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ShowZero',
+          }
+        },
       ]
     },
   ]
@@ -6598,6 +6495,52 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Imag alt',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'size',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Avatar Size',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Large',
+                value: 'large'
+              },
+              {
+                label: 'Small',
+                value: 'small'
+              },
+              // {
+              //   label: 'Number',
+              //   value: 'number'
+              // }
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'shape',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Avatar Shape',
+            options: [
+              {
+                label: 'Circle',
+                value: 'circle'
+              },
+              {
+                label: 'Square',
+                value: 'square'
+              }
+            ]
           }
         },
         {
@@ -7396,25 +7339,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1d-none",
-          key: 'menuID',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ID',
-            pattern: '^\\S*$',
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'menuLabel',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Label',
-          }
-        },
-        {
           className: "w-1/4 px-1",
           key: 'menuIcon',
           type: 'input',
@@ -7423,16 +7347,6 @@ export class formFeildData {
             label: 'Icon',
           }
         },
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'textColor',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     type: 'color',
-        //     label: 'Color',
-        //   }
-        // },
 
         {
           className: "w-1/4 px-1",
@@ -8212,6 +8126,43 @@ export class formFeildData {
             label: 'Hide',
           },
           defaultValue: false
+        },
+      ]
+    },
+  ]
+  commonMenuBuilderConfigurationFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'key',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Key',
+            required: true,
+            pattern: /^[a-z0-9_]+$/,
+          }
+        },
+        {
+          className: "w-1/4 px-2 d-none",
+          key: 'id',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ID',
+            pattern: '^\\S*$',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'title',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'label'
+          }
         },
       ]
     },

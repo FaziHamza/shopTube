@@ -33,7 +33,7 @@ export class AppSideMenuComponent implements OnInit {
   constructor(private employeeService:EmployeeService) { }
 
   ngOnInit(): void {
-    debugger
+    
     if(!this.selectedTheme){
       this.selectedTheme = this.newSelectedTheme
     }
@@ -44,7 +44,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   setHovered(value: any, data?: any, item?: any) {
-    debugger
+    
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.selectedTheme.isCollapsed = value;
@@ -69,10 +69,10 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-    debugger
+    
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
-        if(this.menuBuilderData.length > 0){
+        if(this.menuBuilderData){
           this.menuItems = this.menuBuilderData;
         }else{
         this.menuItems = res[0].menuData;
@@ -132,7 +132,7 @@ export class AppSideMenuComponent implements OnInit {
     this.newMenuArray = [];
   }
   makeMenuData() {
-    debugger
+    
     let arrayList = [];
     arrayList = this.menuItems;
     this.selectedTheme.allMenuItems = [];

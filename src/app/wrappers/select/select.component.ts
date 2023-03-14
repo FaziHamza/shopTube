@@ -16,7 +16,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> {
     return this.to.options;
   }
   ngOnInit(): void {
-    debugger
+    
     this.to
   }
 }

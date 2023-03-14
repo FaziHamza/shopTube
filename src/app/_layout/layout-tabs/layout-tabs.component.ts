@@ -19,9 +19,17 @@ export class LayoutTabsComponent implements OnInit {
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);
-    }else{
-      this.router.navigate(['/pages/notfound']);
     }
+    // else{
+    //   this.router.navigate(['/pages/notfound']);
+    // }
+  }
+  closeTab({ index }: { index: number }): void {
+    this.tabsData.splice(index, 1);
+  }
+  handleTabSelect(index: any) {
+    console.log('Selected tab index: ', index);
+    // add your code here to handle the tab select event
   }
 
 

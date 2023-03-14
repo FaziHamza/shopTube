@@ -17,12 +17,12 @@ export class MainComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-debugger
+
     this.mainData = this.mainData;
   }
 
   submit() {
-    debugger
+    
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     this.form.value;

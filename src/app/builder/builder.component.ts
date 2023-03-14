@@ -127,7 +127,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    debugger
+    
     //<---------------- This is used to unhighlight the highlight components------------------------->//
     this.nodes[0].children?.forEach((element: any) => {
       element = this.applyHighLight(false, element);
@@ -187,7 +187,7 @@ export class BuilderComponent implements OnInit {
 
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
-        debugger
+        
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
           this.builderService.jsonSaveBuilder(data).subscribe((res => {
             alert("Data Save");
@@ -200,7 +200,7 @@ export class BuilderComponent implements OnInit {
       }
     }))
     // this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
-    //   debugger
+    //   
     //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
     //     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
     //       if (res.length > 0) {
@@ -225,7 +225,7 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers() {
-    debugger
+    
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
 
       if (res.length > 0) {
@@ -504,7 +504,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   getUIRule(model: any, currentValue: any) {
-    debugger
+    
     if (this.screenData != undefined) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children
       for (let j = 0; j < inputType.length; j++) {
@@ -872,7 +872,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (data?.parameter == 'input') {
-      debugger
+      
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: data?.label + Guid.newGuid(),
@@ -921,7 +921,7 @@ export class BuilderComponent implements OnInit {
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
                   // keyup: (model:any, $event) => {
-                  //   debugger
+                  //   
                   //   let currentVal = model.form.value[model.key.toString()];
                   //   let value = currentVal.split(":");
                   //   currentVal = value[1].slice(1);
@@ -930,7 +930,7 @@ export class BuilderComponent implements OnInit {
                   // }
 
                   keyup: (model: any) => {
-                    debugger
+                    
                     let currentVal = model.formControl.value;
                     this.formlyModel[model.props.key] = model.formControl.value;
                     this.checkConditionUIRule(model, currentVal);
@@ -1116,7 +1116,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
-      debugger
+      
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -2993,6 +2993,8 @@ export class BuilderComponent implements OnInit {
         color: "#f56a00",
         alt: "",
         gap: 0,
+        size: 'default',
+        shape: 'circle',
         children: [
         ],
       } as TreeNode;
@@ -3012,6 +3014,13 @@ export class BuilderComponent implements OnInit {
         nzText: "Success",
         nzColor: "#2db7f5",
         nzStatus: "success",
+        standAlone: false,
+        dot: false,
+        showDot: true,
+        overflowCount: '',
+        showZero: false,
+        size: '',
+        offset: '',
         children: [
         ],
       } as TreeNode;
@@ -3919,7 +3928,7 @@ export class BuilderComponent implements OnInit {
 
   clickButton(type: any) {
 
-    debugger
+    
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -4034,7 +4043,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.affixFields;
         break;
       case "backTop":
-        debugger
+        
         configObj = { ...configObj, ...this.clickButtonService.getBacktopConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.backtopFields;
         break;
@@ -4180,7 +4189,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "browserCard":
-        debugger
+        
         configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.browserChartFields;
         break;
@@ -4250,7 +4259,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "heading":
-        debugger
+        
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
         // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
         this.fieldData.formData = _formFieldData.headingFields;
@@ -4280,7 +4289,7 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
-        debugger
+        
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
@@ -4317,7 +4326,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
       case "gridName":
-        debugger
+        
         break;
       case "page":
         configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
@@ -4808,7 +4817,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   remove(parent: any, node: any) {
-    debugger
+    
     if (parent?.parentNode && node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
@@ -4855,7 +4864,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-    debugger
+    
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -4884,7 +4893,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "treeSelect":
       case "treeView":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -4906,7 +4915,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "cascader":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -5078,7 +5087,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "segmented":
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.id = event.form.id;
           this.selectedNode.key = event.form.key;
           this.selectedNode.className = event.form.className;
@@ -5106,11 +5115,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
+          this.selectedNode.standAlone = event.form.standAlone;
+          this.selectedNode.dot = event.form.dot;
+          this.selectedNode.showDot = event.form.showDot;
+          this.selectedNode.overflowCount = event.form.overflowCount;
+          this.selectedNode.showZero = event.form.showZero;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.offset = event.form.offset;
+          
         }
         break;
       case "mentions":
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -5242,7 +5259,7 @@ export class BuilderComponent implements OnInit {
       case 'date':
       case 'color':
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5337,6 +5354,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.color = event.form.color;
           this.selectedNode.gap = event.form.gap;
           this.selectedNode.alt = event.form.alt;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.shape = event.form.shape;
+
         }
         break;
       case "comment":
@@ -5553,7 +5573,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        debugger
+        
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -5628,7 +5648,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "button":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
@@ -5651,7 +5671,7 @@ export class BuilderComponent implements OnInit {
 
       case "buttonGroup":
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.btngroupformat = event.form.btngroupformat;
@@ -5663,7 +5683,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5881,7 +5901,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "browserCard":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6204,7 +6224,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.selectedNode.id) {
-          debugger
+          
           // this.selectedNode.id = event.form.accordingText;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -6494,7 +6514,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "carouselCrossfade":
         if (this.selectedNode.id) {
-          debugger
+          
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6529,7 +6549,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "alert":
-        debugger
+        
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6551,14 +6571,14 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.className = event.form.className,
-            this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
+            // this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
           this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
@@ -6567,6 +6587,17 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
+            if (event.tableDta) {
+              this.selectedNode.data = event.tableDta;
+            }
+            if (event.form.api) {
+              this.builderService.genericApis(event.form.api).subscribe((res => {
+                if (res) {
+                  this.selectedNode.data = res;
+                  this.updateNodes();
+                }
+              }))
+            }
         }
         break;
 
@@ -6612,7 +6643,7 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   addDynamic(abc: any, subType: any, mainType: any,) {
-    debugger
+    
     if (this.selectedNode.children) {
       let tabsLength = this.selectedNode.children?.length;
       if (tabsLength < abc) {
@@ -6740,7 +6771,7 @@ export class BuilderComponent implements OnInit {
   }
 
   assigOptionsData(selectNode: any, tableDta: any, api: any) {
-    debugger
+    
     if (tableDta) {
       selectNode = tableDta;
       return selectNode;

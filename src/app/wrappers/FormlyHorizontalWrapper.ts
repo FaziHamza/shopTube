@@ -31,7 +31,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   secondColum1 = '';
   secondColum2 = '';
   ngOnInit(): void {
-    debugger
+    
     if (this.to.className.includes('w-full')) {
       if (this.to.labelPosition) {
         this.firstColum = "w-1/4 " + this.to.labelPosition;

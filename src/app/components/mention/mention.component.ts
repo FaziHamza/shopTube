@@ -25,7 +25,7 @@ export class MentionComponent extends FieldType<FieldTypeConfig> {
     console.log(`onSelect ${suggestion}`);
   }
   onSearchChange({ value }: MentionOnSearchTypes): void {
-    debugger
+    
     console.log(`search: ${value}`);
     // this.mentionData.loading = true;
     this.fetchSuggestions(value, suggestions => {

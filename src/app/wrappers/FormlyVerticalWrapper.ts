@@ -21,7 +21,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 })
 export class FormlyVerticalWrapper extends FieldWrapper {
   ngOnInit(): void {
-    debugger
+    
     this.to
   }
 }

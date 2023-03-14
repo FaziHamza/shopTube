@@ -7,6 +7,8 @@ import { MenuItem } from '../models/menu';
 import { BuilderService } from '../services/builder.service';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { JsonEditorOptions } from 'ang-jsoneditor';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Guid } from '../models/guid';
 
 @Component({
   selector: 'app-menu-builder',
@@ -41,10 +43,11 @@ export class MenuBuilderComponent implements OnInit {
   selectForDropdown: any;
   isActiveShow: string;
   htmlTabsData: any = [];
+  tabsAndDropDownFromMenu: any = [];
   public editorOptions: JsonEditorOptions;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
-    public builderService: BuilderService,) {
+    public builderService: BuilderService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
     this.htmlTabsData = [
@@ -107,16 +110,16 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
+    this.tabsAndDropDownFromMenu = [];
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
       title: 'Menu',
       link: '/pages/tabsanddropdown',
-      icon: "Menu",
+      icon: "appstore",
       type: "input",
       isTitle: false,
       children: [
       ],
-
     } as any];
     this.moduleId = 0;
     this.nodes = newNode;
@@ -147,7 +150,7 @@ export class MenuBuilderComponent implements OnInit {
     }));
   }
   getFormLayers(data: any) {
-    debugger
+
     this.builderService.getJsonModules(data).subscribe((res => {
       if (res.length > 0) {
         this.moduleId = res[0].id
@@ -190,13 +193,13 @@ export class MenuBuilderComponent implements OnInit {
     this.controlListvisible = false;
   }
   dashonictabsAddNew() {
-    this.addControlToJson('mainDashonicTabs');
+    this.addControlToJson('mainTab');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('dashonicTabs');
+    this.addControlToJson('tabs');
     this.selectedNode = this.selectForDropdown;
     this.clickBack();
   }
@@ -211,6 +214,7 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addFunctionsInHtml(type: any) {
+
     if (type == "Tabs") {
       this.dashonictabsAddNew();
     }
@@ -230,7 +234,7 @@ export class MenuBuilderComponent implements OnInit {
     // this.inputShow = false;
     // this.cardShow = false;
     // this.IsShowPanel = false;
-    // this.IsShowConfig = true;
+    this.IsShowConfig = true;
     // this.applySize();
     this.selectedNode = node;
 
@@ -241,13 +245,14 @@ export class MenuBuilderComponent implements OnInit {
     // console.log(event);
   }
   hoverIn(data: any) {
-    debugger
-    this.isVisible = data.id;
+
+    this.isVisible = data.origin.id;
   }
   hoverOut(data: any) {
-    this.isVisible = data.id;
+    this.isVisible = data.origin.id;
   }
   openField(event: any) {
+    this.tabsAndDropDownFromMenu = [];
     let id = event.origin.id;
     let node = event.origin;
     this.isActiveShow = id;
@@ -256,7 +261,7 @@ export class MenuBuilderComponent implements OnInit {
     if (node.type == 'dropdown' && node.children.length == 0) {
       this.whenDropdownSelectedOnlyTabsControllShow();
     } else if (node.type == 'dropdown' && node.children.length > 0) {
-      if (node.children[0].type == 'mainDashonicTabs') {
+      if (node.children[0].type == 'mainTab') {
         this.whenDropdownSelectedOnlyTabsControllShow();
       }
     }
@@ -270,49 +275,53 @@ export class MenuBuilderComponent implements OnInit {
   }
   clickButton(type: any) {
     // this.actionType = type;
-    let _formfieldData = new formFeildData();
+    let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
       title: "Change Attribute Values",
+      commonData: _formFieldData.commonMenuBuilderConfigurationFields,
     });
-    let configObj: any = {};
     const selectedNode = this.selectedNode;
+    let configObj: any = {
+      id: selectedNode.id as string,
+      key: selectedNode.key, title: selectedNode.title
+    };
     switch (type) {
       case "input":
         configObj = { ...configObj, ...this.clickButtonService.getMenuAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menufield;
+        this.fieldData.formData = _formFieldData.menufield;
         break;
-      case "dashonicTabs":
-        configObj = { ...configObj, ...this.clickButtonService.getTabAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menuBuilderdashonicTabFields;
-        break;
-      case "mainDashonicTabs":
-        configObj = { ...configObj, ...this.clickButtonService.getMenuAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menuBuilderDashoniMainTabFields;
-        break;
+        case "tabs":
+          configObj = { ...configObj, ...this.clickButtonService.getMenutab(selectedNode) };
+          this.fieldData.formData = _formFieldData.menuBuilderTabFields;
+          break;
+        case "mainTab":
+          configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
+          this.fieldData.formData = _formFieldData.mainTabFields;
+          break;
       case "dropdown":
         configObj = { ...configObj, ...this.clickButtonService.getDropDownAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menuBuilderDropdownFeilds;
+        this.fieldData.formData = _formFieldData.menuBuilderDropdownFeilds;
         break;
       case "pages":
         configObj = { ...configObj, ...this.clickButtonService.getPagesAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menuBuilderPagesFeilds;
+        this.fieldData.formData = _formFieldData.menuBuilderPagesFeilds;
         break;
       case "buttons":
         configObj = { ...configObj, ...this.clickButtonService.getButtonAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formfieldData.menuBuilderButtonFeilds;
+        this.fieldData.formData = _formFieldData.menuBuilderButtonFeilds;
         break;
     }
 
     this.formModalData = configObj;
   }
   addControlToJson(value: string, nodeType?: boolean) {
-    debugger
+
     if (this.selectedNode.isTitle && !nodeType) {
       return
     }
     var nodesLength = this.nodes.length + 1;
-    if (value == "dropdown" || value == "mainDashonicTabs") {
+    if (value == "dropdown" || value == "mainTab") {
       this.selectForDropdown = this.selectedNode;
     }
     this.controlListvisible = true;
@@ -323,11 +332,10 @@ export class MenuBuilderComponent implements OnInit {
         id: 'Menu_' + Guid.newGuid(),
         title: 'Menu_' + nodesLength,
         link: '/pages/tabsanddropdown',
-        icon: "circle",
+        icon: "appstore",
         type: "input",
         isTitle: false,
         expanded: true,
-        textColor: "#0000",
         color: "",
         children: [
         ],
@@ -343,7 +351,7 @@ export class MenuBuilderComponent implements OnInit {
         id: 'Menu' + '_1',
         title: 'Menu' + '_1',
         link: '/pages/tabsanddropdown',
-        icon: "Menu",
+        icon: "appstore",
         expanded: true,
         type: "input",
         isTitle: true,
@@ -361,91 +369,59 @@ export class MenuBuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'mainDashonicTabs') {
+    else if (value == 'mainTab') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        title: 'dashonicTabs_1',
-        expanded: true,
-        type: "mainDashonicTabs",
-        className: "col-12",
-        chartCardConfig: [{
-          mainDashonicTabsConfig: [
-            {
-              tabtitle: 'Tab 1',
-              tabsPosition: 'nav-tabs justify-content-start',
-              selectTabColor: "#038EDC",
-              tabsDisplayType: "None",
-              buttonText: "Submit",
-              buttonIcon: "",
-              buttonColor: "btn btn-primary",
-              tabFormat: "horizental",
-              nodesLength: 3,
-            }
-          ],
-        }
-        ],
+        id: 'mainTab_' + Guid.newGuid(),
+        key: 'mainTab_' + Guid.newGuid(),
+        title: 'Main Tab',
+        type: "mainTab",
+        isNextChild: true,
+        highLight: false,
+        className: "w-full",
+        tooltip: "",
+        hideExpression: false,
+        selectedIndex: 0,
+        animated: true,
+        size: 'default',
+        tabPosition: 'top',
+        tabType: 'line',
+        hideTabs: false,
+        nodes: "3",
+        centerd: false,
         children: [
         ],
-
-      } as any;
-      this.addNode(node, newNode);
+      } as TreeNode;
       this.tabsAdd = newNode
+      this.addNode(node, newNode);
     }
-    else if (value == 'dashonicTabs') {
+    else if (value == 'tabs') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        title: 'dashonicTabs_1',
-        expanded: true,
-        type: "dashonicTabs",
-        className: "col-12",
-        chartCardConfig: [{
-          dashonicTabsConfig: [
-            {
-              tabtitle: 'Tab',
-              tabsPosition: 'nav-tabs justify-content-start',
-              selectTabColor: "",
-              tabsDisplayType: "--tabsDisplayType:None",
-              buttonText: "Submit",
-              buttonIcon: "",
-              buttonColor: "btn btn-primary mt-2",
-              underLineColor: "--underLineColor:none",
-              color: "none",
-              tabFormat: "horizental",
-              tabIcon: "uil-star",
-              link: "",
-            }
-          ],
-        }
-        ],
+        id: 'tabs_' + Guid.newGuid(),
+        key: 'tabs_' + Guid.newGuid(),
+        title: 'Tabs',
+        type: "tabs",
+        link:"",
+        className: "w-full",
+        isNextChild: true,
+        highLight: false,
+        hideExpression: false,
+        tooltip: '',
+        icon: 'star',
         children: [
         ],
-      } as any;
+      } as TreeNode;
       this.tabsChild = newNode
       this.addNode(node, newNode);
     }
     else if (value == 'dropdown') {
       const newNode = {
         id: 'dropdown_' + Guid.newGuid(),
-        title: 'Dropdown_1',
+        title: 'Category',
         expanded: true,
         type: "dropdown",
         className: "col-12",
-        chartCardConfig: [{
-          id: 'dropdown_' + Guid.newGuid(),
-          title: 'Dropdown_1',
-          type: "dropdown",
-          className: "col-12",
-          dropdownConfig: [
-            {
-              title: "Category",
-              nodes: 1,
-              dropdownIcon: "uil-star"
-            }
-          ],
-          children: [
-          ],
-        }
-        ],
+        nodes: 1,
+        dropdownIcon: "uil-star",
         children: [
         ],
 
@@ -456,19 +432,11 @@ export class MenuBuilderComponent implements OnInit {
     else if (value == 'pages') {
       const newNode = {
         id: 'pages_' + Guid.newGuid(),
-        title: 'Pages_1',
+        title: 'Pages',
         expanded: true,
         type: "pages",
         className: "col-12",
-        chartCardConfig: [{
-          pageConfig: [
-            {
-              title: "Page",
-              link: "",
-            }
-          ],
-        }
-        ],
+        link: "",
         children: [
         ],
 
@@ -480,20 +448,12 @@ export class MenuBuilderComponent implements OnInit {
     else if (value == 'buttons') {
       const newNode = {
         id: 'buttons_' + Guid.newGuid(),
-        title: 'Buttons_1',
+        title: 'Buttons',
         type: "buttons",
         expanded: true,
         className: "col-12",
-        chartCardConfig: [{
-          buttonsConfig: [
-            {
-              title: "buttons",
-              link: "",
-              ButtonIcon: "uil-star"
-            }
-          ],
-        }
-        ],
+        link: "",
+        ButtonIcon: "uil-star",
         children: [
         ],
 
@@ -503,7 +463,6 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addNode(node: any, newNode: any) {
-
     if (node) {
       let checkNode = node.children;
       if (checkNode) {
@@ -512,6 +471,7 @@ export class MenuBuilderComponent implements OnInit {
         node.children.push(newNode);
       }
       this.clickBack();
+      this.toastr.success('Control Added', { nzDuration: 3000 });
     }
 
   }
@@ -519,8 +479,10 @@ export class MenuBuilderComponent implements OnInit {
     this.nodes.push(newNode);
     this.clickBack();
   }
-  insertAt(parent: any, node: any | undefined) {
+  insertAt(node: any) {
 
+    let parent = node?.parentNode?.origin;
+    node = node.origin;
     if (parent != undefined) {
       const newNode = JSON.parse(JSON.stringify(node));
       newNode.id = newNode.id + Guid.newGuid();
@@ -553,11 +515,12 @@ export class MenuBuilderComponent implements OnInit {
     }
     this.clickBack();
   }
-  remove(parent: any, node: any) {
-
-    if (parent != undefined) {
+  remove(node: any) {
+    let parent = node?.parentNode?.origin;
+    node = node.origin;
+    if (parent) {
       console.log(parent, node);
-      const idx = parent.children.indexOf(node);
+      const idx = node.children.indexOf(node);
       parent.children.splice(idx as number, 1);
     } else {
       console.log(parent, node);
@@ -885,12 +848,11 @@ export class MenuBuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
 
     switch (event.type) {
-      case "menuAttributes":
-
+      case "input":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.menuID;
-          this.selectedNode.title = event.form.menutitle;
-          this.selectedNode.icon = event.form.menuIcon;
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.icon = event.form.icon;
           if (!event.form.menuLink.includes("pages") && event.form.menuLink != '') {
             // this.selectedNode.link = event.form.menuLink != "/pages/tabsanddropdown" ? "/pages/" + event.form.menuLink : event.form.menuLink;
             this.selectedNode.link = "/pages/" + event.form.menuLink;
@@ -904,60 +866,36 @@ export class MenuBuilderComponent implements OnInit {
         }
         break;
 
-      case "dashonicTabAttributes":
-        if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.tabtitle;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.dashonicTabsConfig[0].tabtitle = event.form.tabtitle;
-          this.selectedNode.dashonicTabsConfig[0].tabIcon = event.form.tabIcon;
-          this.selectedNode.dashonicTabsConfig[0].link = event.form.link;
-          this.clickBack();
-        }
-        break;
+        case "tabs":
+          if (this.selectedNode.id) {
+            this.selectedNode.id = event.form.id;
+            this.selectedNode.key = event.form.key;
+            this.selectedNode.title = event.form.title;
+            this.selectedNode.icon = event.form.icon;
+            this.selectedNode.link = event.form.link;
+            this.clickBack();
+          }
+          break;
 
-      case "dashonicMainTabAttributes":
+        case "mainTab":
+          if (this.selectedNode.id) {
+            this.selectedNode.id = event.form.id;
+            this.selectedNode.tooltip = event.form.tooltip,
+              this.selectedNode.title = event.form.title;
+            this.selectedNode.selectedIndex = event.form.selectedIndex;
+            this.selectedNode.animated = event.form.animated;
+            this.selectedNode.size = event.form.size;
+            this.selectedNode.tabPosition = event.form.tabPosition;
+            this.selectedNode.tabType = event.form.tabType;
+            this.selectedNode.hideTabs = event.form.hideTabs;
+            this.selectedNode.nodes = event.form.nodes;
+            this.selectedNode.centerd = event.form.centerd;
+            // this.addDynamic(event.form.nodes, 'tabs', 'mainTab')
+            this.clickBack();
+          }
+          break;
 
-        if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.tabtitle;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.mainDashonicTabsConfig[0].tabsDisplayType = event.form.tabsDisplayType;
-          this.selectedNode.mainDashonicTabsConfig[0].selectTabColor = event.form.selectTabColor;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonText = event.form.buttonText;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonIcon = event.form.buttonIcon;
-          this.selectedNode.mainDashonicTabsConfig[0].buttonColor = event.form.buttonColor;
-          this.selectedNode.mainDashonicTabsConfig[0].tabFormat = event.form.tabFormat;
-          this.selectedNode.mainDashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-          if (this.selectedNode.children)
-            for (let index = 0; index < this.selectedNode.children.length; index++) {
-              this.selectedNode.children[index].dashonicTabsConfig[0].tabsPosition = event.form.tabsPosition;
-              this.selectedNode.children[index].dashonicTabsConfig[0].buttonText = event.form.buttonText;
-              this.selectedNode.children[index].dashonicTabsConfig[0].buttonIcon = event.form.buttonIcon + " mr-1";
-              this.selectedNode.children[index].dashonicTabsConfig[0].buttonColor = event.form.buttonColor + " mt-2";
-              this.selectedNode.children[index].dashonicTabsConfig[0].tabFormat = event.form.tabFormat;
-              if (event.form.tabsDisplayType == "buttonType") {
-                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:" + event.form.selectTabColor;
-                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
-                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:#fff";
-              } else if (event.form.tabsDisplayType == "None") {
-                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
-                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:none";
-                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:none";
-              } else if (event.form.tabsDisplayType == "underLine") {
-                this.selectedNode.children[index].dashonicTabsConfig[0].underLineColor = "--underLineColor:1px solid " + event.form.selectTabColor;
-                this.selectedNode.children[index].dashonicTabsConfig[0].selectTabColor = "--selectTabColor:none";
-                this.selectedNode.children[index].dashonicTabsConfig[0].color = "--color:none";
-              }
-            }
-          this.adddynamicDashonictab(event.form.nodes);
-          this.selectedNode.mainDashonicTabsConfig[0].nodesLength = event.form.nodes;
-
-          this.clickBack();
-        }
-        break;
-
-      case "DropdownAttribute":
+      case "dropdown":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -968,7 +906,7 @@ export class MenuBuilderComponent implements OnInit {
           this.clickBack();
         }
         break;
-      case "pagesAttribute":
+      case "pages":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -977,7 +915,7 @@ export class MenuBuilderComponent implements OnInit {
           this.clickBack();
         }
         break;
-      case "ButtonAttribute":
+      case "buttons":
 
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
@@ -989,68 +927,71 @@ export class MenuBuilderComponent implements OnInit {
         }
         break;
 
-      case "redirection":
-        if (this.selectedNode.actionConfig) {
-          this.selectedNode.actionConfig.redirection = event.form.redirection;
-        }
-        break;
+      // case "redirection":
+      //   if (this.selectedNode.actionConfig) {
+      //     this.selectedNode.actionConfig.redirection = event.form.redirection;
+      //   }
+      //   break;
 
-      case "method":
-        if (this.selectedNode.actionConfig) {
-          this.selectedNode.actionConfig.method = event.form.method;
-        }
-        break;
+      // case "method":
+      //   if (this.selectedNode.actionConfig) {
+      //     this.selectedNode.actionConfig.method = event.form.method;
+      //   }
+      //   break;
 
-      case "btnText":
-        if (this.selectedNode.btnConfig) {
-          this.selectedNode.id = event.form.title;
-          this.selectedNode.btnConfig[0].title = event.form.title;
-        }
-        break;
-      case "btnClass":
-        if (this.selectedNode.btnConfig) {
-          this.selectedNode.btnConfig[0].color = event.form.color;
-        }
-        break;
-      case "menuID":
-        if (this.selectedNode.id) {
+      // case "btnText":
+      //   if (this.selectedNode.btnConfig) {
+      //     this.selectedNode.id = event.form.title;
+      //     this.selectedNode.btnConfig[0].title = event.form.title;
+      //   }
+      //   break;
+      // case "btnClass":
+      //   if (this.selectedNode.btnConfig) {
+      //     this.selectedNode.btnConfig[0].color = event.form.color;
+      //   }
+      //   break;
+      // case "menuID":
+      //   if (this.selectedNode.id) {
 
-          this.selectedNode.id = event.form.menuID;
-        }
-        break;
-      case "menutitle":
-        if (this.selectedNode.title) {
-          this.selectedNode.title = event.form.menutitle;
-        }
-        break;
-      case "menuIcon":
-        if (this.selectedNode.icon) {
-          this.selectedNode.icon = event.form.menuIcon;
-        }
-        break;
-      case "menuLink":
-        if (this.selectedNode.link) {
-          this.selectedNode.link = event.form.menuLink;
-        }
-        break;
-      case "menuRequired":
-        this.selectedNode.isTitle = event.form.menuRequired;
-        break;
+      //     this.selectedNode.id = event.form.menuID;
+      //   }
+      //   break;
+      // case "menutitle":
+      //   if (this.selectedNode.title) {
+      //     this.selectedNode.title = event.form.menutitle;
+      //   }
+      //   break;
+      // case "menuIcon":
+      //   if (this.selectedNode.icon) {
+      //     this.selectedNode.icon = event.form.menuIcon;
+      //   }
+      //   break;
+      // case "menuLink":
+      //   if (this.selectedNode.link) {
+      //     this.selectedNode.link = event.form.menuLink;
+      //   }
+      //   break;
+      // case "menuRequired":
+      //   this.selectedNode.isTitle = event.form.menuRequired;
+      //   break;
       default:
         break;
     }
+    this.showSuccess();
+    this.clickBack();
+    this.closeConfigurationList();
+  }
+  showSuccess() {
+    this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   adddynamicDashonictab(abc: any) {
-
     // this.selectdParentNode = parent;
     if (this.selectedNode.children) {
       let tabslength = this.selectedNode.children.length;
       if (tabslength < abc) {
         for (let k = 0; k < abc; k++) {
           if (tabslength < abc) {
-            this.addControlToJson('dashonicTabs');
-            // this.selectedNode = this.tabsChild;
-            // this.addControlToJson('text');
+            this.addControlToJson('tabs');
             this.selectedNode = this.tabsAdd;
             tabslength = tabslength + 1;
           }
@@ -1059,9 +1000,9 @@ export class MenuBuilderComponent implements OnInit {
       else {
         let tabLength = this.selectedNode.children.length;
         for (let a = 0; a < tabLength; a++) {
-          if (this.selectedNode.type == "mainDashonicTabs") {
+          if (this.selectedNode.type == "mainTab") {
             if (abc < tabslength) {
-              this.remove(this.selectedNode, this.selectedNode.children[tabslength]);
+              this.remove(this.selectedNode);
               tabslength = tabslength - 1;
             }
           }
@@ -1090,7 +1031,7 @@ export class MenuBuilderComponent implements OnInit {
         for (let a = 0; a < removePage; a++) {
           if (this.selectedNode.type == "dropdown") {
             if (abc < pageLength) {
-              this.remove(this.selectedNode, this.selectedNode.children[pageLength - 1]);
+              this.remove(this.selectedNode);
               pageLength = pageLength - 1;
             }
           }
@@ -1116,16 +1057,15 @@ export class MenuBuilderComponent implements OnInit {
       this.sizes = [1, 99, 0]
     }
   }
-}
-
-class Guid {
-  static newGuid() {
-    let data = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0,
-        v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-
-    return data.split("-")[0];
+  loadTabsAndDropdownFromMenuChild(data : any){
+    debugger
+    if(!data.arrayEmpty){
+    this.tabsAndDropDownFromMenu = data.menuData.children;
+    }else{
+      this.tabsAndDropDownFromMenu = [];
+    }
   }
+  
 }
+
+
