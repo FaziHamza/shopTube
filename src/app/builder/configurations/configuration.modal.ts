@@ -5377,10 +5377,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-
-
-
         {
           className: "w-1/4 px-1",
           key: 'nodes',
@@ -5393,11 +5389,11 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
-          key: 'dropdownIcon',
+          key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'dropdown Icon',
+            label: 'Icon',
           }
         },
 
@@ -5435,11 +5431,11 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
-          key: 'ButtonIcon',
+          key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Button Icon',
+            label: 'icon',
           }
         },
       ]

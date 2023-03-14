@@ -784,28 +784,20 @@ export class BuilderClickButtonService {
   }
   getDropDownAttributeConfig(node: any) {
     return {
-      id: node.id as string,
-      // className: node.className,
-      title: node.dropdownConfig[0]?.title,
-      nodes: node.dropdownConfig[0]?.nodes,
-      dropdownIcon: node.dropdownConfig[0]?.dropdownIcon,
+      nodes: node.nodes,
+      icon: node.icon,
     }
   }
   getPagesAttributeConfig(node: any) {
     return {
-      id: node.id as string,
-      // className: node.className,
-      title: node.pageConfig[0]?.title,
-      Link: node.pageConfig[0]?.link,
+      title: node.title,
+      link: node.link,
     }
   }
   getButtonAttributeConfig(node: any) {
     return {
-      id: node.id as string,
-      // className: node.className,
-      title: node.buttonsConfig[0]?.title,
-      link: node.buttonsConfig[0]?.link,
-      ButtonIcon: node.buttonsConfig[0]?.ButtonIcon,
+      link: node.link,
+      icon: node.icon,
     }
   }
 }

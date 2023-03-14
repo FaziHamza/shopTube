@@ -291,14 +291,14 @@ export class MenuBuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getMenuAttributeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.menufield;
         break;
-        case "tabs":
-          configObj = { ...configObj, ...this.clickButtonService.getMenutab(selectedNode) };
-          this.fieldData.formData = _formFieldData.menuBuilderTabFields;
-          break;
-        case "mainTab":
-          configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
-          this.fieldData.formData = _formFieldData.mainTabFields;
-          break;
+      case "tabs":
+        configObj = { ...configObj, ...this.clickButtonService.getMenutab(selectedNode) };
+        this.fieldData.formData = _formFieldData.menuBuilderTabFields;
+        break;
+      case "mainTab":
+        configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mainTabFields;
+        break;
       case "dropdown":
         configObj = { ...configObj, ...this.clickButtonService.getDropDownAttributeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.menuBuilderDropdownFeilds;
@@ -400,7 +400,7 @@ export class MenuBuilderComponent implements OnInit {
         key: 'tabs_' + Guid.newGuid(),
         title: 'Tabs',
         type: "tabs",
-        link:"",
+        link: "",
         className: "w-full",
         isNextChild: true,
         highLight: false,
@@ -415,13 +415,14 @@ export class MenuBuilderComponent implements OnInit {
     }
     else if (value == 'dropdown') {
       const newNode = {
+        key: 'dropdown_' + Guid.newGuid(),
         id: 'dropdown_' + Guid.newGuid(),
         title: 'Category',
         expanded: true,
         type: "dropdown",
         className: "col-12",
         nodes: 1,
-        dropdownIcon: "uil-star",
+        icon: "star",
         children: [
         ],
 
@@ -453,7 +454,7 @@ export class MenuBuilderComponent implements OnInit {
         expanded: true,
         className: "col-12",
         link: "",
-        ButtonIcon: "uil-star",
+        icon: "star",
         children: [
         ],
 
@@ -463,6 +464,7 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addNode(node: any, newNode: any) {
+    debugger
     if (node) {
       let checkNode = node.children;
       if (checkNode) {
@@ -473,7 +475,6 @@ export class MenuBuilderComponent implements OnInit {
       this.clickBack();
       this.toastr.success('Control Added', { nzDuration: 3000 });
     }
-
   }
   ParentNode(newNode: any) {
     this.nodes.push(newNode);
@@ -515,9 +516,15 @@ export class MenuBuilderComponent implements OnInit {
     }
     this.clickBack();
   }
-  remove(node: any) {
-    let parent = node?.parentNode?.origin;
-    node = node.origin;
+  remove(node: any, parentNode?: any) {
+    debugger
+    let parent;
+    if(parentNode){
+      parent = parentNode;
+    }else{
+      parent = node?.parentNode?.origin;
+      node = node.origin;
+    }
     if (parent) {
       console.log(parent, node);
       const idx = node.children.indexOf(node);
@@ -830,10 +837,11 @@ export class MenuBuilderComponent implements OnInit {
           }))
         }
       };
-      // reader.readAsText(event.target.files[0]);
+      // reader.readAsText(event.target.files[0]);`
     }
   }
   closeConfigurationList() {
+    debugger
     this.IsShowConfig = false;
   }
   whenDropdownSelectedOnlyTabsControllShow() {
@@ -866,42 +874,45 @@ export class MenuBuilderComponent implements OnInit {
         }
         break;
 
-        case "tabs":
-          if (this.selectedNode.id) {
-            this.selectedNode.id = event.form.id;
-            this.selectedNode.key = event.form.key;
-            this.selectedNode.title = event.form.title;
-            this.selectedNode.icon = event.form.icon;
-            this.selectedNode.link = event.form.link;
-            this.clickBack();
-          }
-          break;
+      case "tabs":
+        if (this.selectedNode.id) {
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.link = event.form.link;
+          this.clickBack();
+        }
+        break;
 
-        case "mainTab":
-          if (this.selectedNode.id) {
-            this.selectedNode.id = event.form.id;
-            this.selectedNode.tooltip = event.form.tooltip,
-              this.selectedNode.title = event.form.title;
-            this.selectedNode.selectedIndex = event.form.selectedIndex;
-            this.selectedNode.animated = event.form.animated;
-            this.selectedNode.size = event.form.size;
-            this.selectedNode.tabPosition = event.form.tabPosition;
-            this.selectedNode.tabType = event.form.tabType;
-            this.selectedNode.hideTabs = event.form.hideTabs;
-            this.selectedNode.nodes = event.form.nodes;
-            this.selectedNode.centerd = event.form.centerd;
-            // this.addDynamic(event.form.nodes, 'tabs', 'mainTab')
-            this.clickBack();
-          }
-          break;
+      case "mainTab":
+        if (this.selectedNode.id) {
+          this.selectedNode.key = event.form.key;
+          this.selectedNode.id = event.form.id;
+          this.selectedNode.tooltip = event.form.tooltip,
+            this.selectedNode.title = event.form.title;
+          this.selectedNode.selectedIndex = event.form.selectedIndex;
+          this.selectedNode.animated = event.form.animated;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.tabPosition = event.form.tabPosition;
+          this.selectedNode.tabType = event.form.tabType;
+          this.selectedNode.hideTabs = event.form.hideTabs;
+          this.selectedNode.nodes = event.form.nodes;
+          this.selectedNode.centerd = event.form.centerd;
+          // this.adddynamicDashonictab(this.selectedNode.nodes);
+          this.addDynamic(event.form.nodes, 'tabs', 'mainTab')
+          this.clickBack();
+        }
+        break;
 
       case "dropdown":
         if (this.selectedNode) {
+          this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
-          this.selectedNode.dropdownConfig[0].title = event.form.title;
-          this.selectedNode.dropdownConfig[0].nodes = event.form.nodes;
-          this.selectedNode.dropdownConfig[0].dropdownIcon = event.form.dropdownIcon;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.nodes = event.form.nodes;
+          this.selectedNode.icon = event.form.icon;
           this.adddynamicPages(event.form.nodes);
           this.clickBack();
         }
@@ -909,20 +920,20 @@ export class MenuBuilderComponent implements OnInit {
       case "pages":
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
+          this.selectedNode.key = event.form.key;
           this.selectedNode.title = event.form.title;
-          this.selectedNode.pageConfig[0].title = event.form.title;
-          this.selectedNode.pageConfig[0].link = event.form.link;
+          this.selectedNode.link = event.form.link;
           this.clickBack();
         }
         break;
       case "buttons":
 
         if (this.selectedNode) {
+          this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
-          this.selectedNode.buttonsConfig[0].title = event.form.title;
-          this.selectedNode.buttonsConfig[0].link = event.form.link;
-          this.selectedNode.buttonsConfig[0].ButtonIcon = event.form.ButtonIcon;
+          this.selectedNode.link = event.form.link;
+          this.selectedNode.icon = event.form.icon;
           this.clickBack();
         }
         break;
@@ -984,13 +995,14 @@ export class MenuBuilderComponent implements OnInit {
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
-  adddynamicDashonictab(abc: any) {
+  adddynamicDashonictab(nodes: any) {
+    debugger
     // this.selectdParentNode = parent;
     if (this.selectedNode.children) {
       let tabslength = this.selectedNode.children.length;
-      if (tabslength < abc) {
-        for (let k = 0; k < abc; k++) {
-          if (tabslength < abc) {
+      if (tabslength < nodes) {
+        for (let k = 0; k < nodes; k++) {
+          if (tabslength < nodes) {
             this.addControlToJson('tabs');
             this.selectedNode = this.tabsAdd;
             tabslength = tabslength + 1;
@@ -1001,7 +1013,7 @@ export class MenuBuilderComponent implements OnInit {
         let tabLength = this.selectedNode.children.length;
         for (let a = 0; a < tabLength; a++) {
           if (this.selectedNode.type == "mainTab") {
-            if (abc < tabslength) {
+            if (nodes < tabslength) {
               this.remove(this.selectedNode);
               tabslength = tabslength - 1;
             }
@@ -1009,7 +1021,39 @@ export class MenuBuilderComponent implements OnInit {
         }
       }
     }
-
+  }
+  addDynamic(nodes: any, subType: any, mainType: any,) {
+    debugger
+    if (this.selectedNode.children) {
+      let tabsLength = this.selectedNode.children?.length;
+      if (tabsLength < nodes) {
+        for (let k = 0; k < nodes; k++) {
+          if (tabsLength < nodes) {
+            this.addControlToJson(subType);
+            this.selectedNode = this.tabsAdd;
+            tabsLength = tabsLength + 1;
+          }
+        }
+      }
+      else {
+        if (this.selectedParentNode.children) {
+          let removeTabsLength = this.selectedNode.children.length;
+          let checkParentLength = this.selectedParentNode.children.length;
+          for (let a = 0; a < removeTabsLength; a++) {
+            for (let i = 0; i < checkParentLength; i++) {
+              for (let j = 0; j < removeTabsLength; j++) {
+                if (this.selectedParentNode.children[i].type == mainType) {
+                  if (nodes < tabsLength) {
+                    this.remove(this.selectedNode.children[tabsLength - 1] , this.selectedParentNode.children[i]);
+                    tabsLength = tabsLength - 1;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
   adddynamicPages(abc: any) {
     if (this.selectedNode.children) {
@@ -1057,15 +1101,15 @@ export class MenuBuilderComponent implements OnInit {
       this.sizes = [1, 99, 0]
     }
   }
-  loadTabsAndDropdownFromMenuChild(data : any){
+  loadTabsAndDropdownFromMenuChild(data: any) {
     debugger
-    if(!data.arrayEmpty){
-    this.tabsAndDropDownFromMenu = data.menuData.children;
-    }else{
+    if (!data.arrayEmpty) {
+      this.tabsAndDropDownFromMenu = data.menuData.children;
+    } else {
       this.tabsAndDropDownFromMenu = [];
     }
   }
-  
+
 }
 
 
