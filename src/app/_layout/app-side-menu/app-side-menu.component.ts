@@ -72,7 +72,7 @@ export class AppSideMenuComponent implements OnInit {
     debugger
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
-        if(this.menuBuilderData.length > 0){
+        if(this.menuBuilderData){
           this.menuItems = this.menuBuilderData;
         }else{
         this.menuItems = res[0].menuData;

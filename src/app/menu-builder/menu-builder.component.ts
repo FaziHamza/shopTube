@@ -111,7 +111,7 @@ export class MenuBuilderComponent implements OnInit {
       id: 'menu_' + Guid.newGuid(),
       title: 'Menu',
       link: '/pages/tabsanddropdown',
-      icon: "Menu",
+      icon: "appstore",
       type: "input",
       isTitle: false,
       children: [
@@ -242,10 +242,10 @@ export class MenuBuilderComponent implements OnInit {
   }
   hoverIn(data: any) {
     debugger
-    this.isVisible = data.id;
+    this.isVisible = data.origin.id;
   }
   hoverOut(data: any) {
-    this.isVisible = data.id;
+    this.isVisible = data.origin.id;
   }
   openField(event: any) {
     let id = event.origin.id;
@@ -323,7 +323,7 @@ export class MenuBuilderComponent implements OnInit {
         id: 'Menu_' + Guid.newGuid(),
         title: 'Menu_' + nodesLength,
         link: '/pages/tabsanddropdown',
-        icon: "circle",
+        icon: "appstore",
         type: "input",
         isTitle: false,
         expanded: true,
@@ -343,7 +343,7 @@ export class MenuBuilderComponent implements OnInit {
         id: 'Menu' + '_1',
         title: 'Menu' + '_1',
         link: '/pages/tabsanddropdown',
-        icon: "Menu",
+        icon: "appstore",
         expanded: true,
         type: "input",
         isTitle: true,
@@ -503,7 +503,6 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addNode(node: any, newNode: any) {
-
     if (node) {
       let checkNode = node.children;
       if (checkNode) {
@@ -567,6 +566,7 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   menuSearch() {
+    debugger
     this.filterMenuData = [];
     var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
     if (input) {
