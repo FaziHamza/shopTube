@@ -1,10 +1,14 @@
 <div class="bg-white pl-4 border-neutral-300 rounded border">
-    <nz-tabset >
-        <nz-tab *ngFor="let tab of tabsData.subItems" [nzTitle]="titleTemplate" class="!-ml-2">
-            <ng-template #titleTemplate >
-                <div (click)="screenLoad(tab.chartCardConfig[0].dashonicTabsConfig[0].link)">
-                    <span nz-icon nzType="android"></span>
-                    <span >{{ tab.chartCardConfig[0].dashonicTabsConfig[0].tabLabel }}</span>
+    <nz-tabset [(nzSelectedIndex)]="tabsData.selectedIndex" [nzAnimated]="tabsData.animated" [nzSize]="tabsData.size"
+        [nzTabPosition]="tabsData.tabPosition" [nzType]="tabsData.tabType" [nzHideAll]="tabsData.hidetabsData" nzHideAdd
+        (nzClose)="closeTab($event)" [nzCentered]="tabsData.centerd">
+        <nz-tab *ngFor="let tab of tabsData.children ; let i = index" [nzClosable]="i > 1"
+            [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
+            [nzDisabled]="false">
+            <ng-template #titleTemplate>
+                <div (click)="screenLoad(tab.link)">
+                    <span nz-icon [nzType]='tab.icon'></span>
+                    <span>{{ tab.title}}</span>
                 </div>
             </ng-template>
         </nz-tab>

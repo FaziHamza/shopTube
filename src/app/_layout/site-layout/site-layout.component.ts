@@ -45,7 +45,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   toggleCollapsed(): void {
-    debugger
+    
     if (this.selectedTheme.layout == 'twoColumn') {
       this.isTwoColumnCollapsed = !this.isTwoColumnCollapsed;
       if (this.isTwoColumnCollapsed) {
@@ -67,7 +67,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   changeLayout(layoutType: any) {
-    debugger
+    
     // this.horizontalRow = '';
     // this.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
@@ -169,7 +169,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   setHovered(value: any, data?: any, item?: any) {
-    debugger
+    
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.selectedTheme.isCollapsed = value;

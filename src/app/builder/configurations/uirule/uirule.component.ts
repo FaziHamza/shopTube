@@ -188,7 +188,7 @@ export class UIRuleComponent implements OnInit {
       .get('targetCondition') as FormArray;
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
-    debugger
+    
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
       if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
@@ -308,7 +308,7 @@ export class UIRuleComponent implements OnInit {
     });
   }
   updateRule() {
-    debugger
+    
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -322,7 +322,7 @@ export class UIRuleComponent implements OnInit {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
         this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
-          debugger
+          
           if (getRes.length > 0) {
             this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
               this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
@@ -350,7 +350,7 @@ export class UIRuleComponent implements OnInit {
     // this.clickBack();
   }
   uiRule() {
-    debugger
+    
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
@@ -398,7 +398,7 @@ export class UIRuleComponent implements OnInit {
     });
   }
   getConditionListOnLoad(menuName: string) {
-    debugger
+    
     let nodeList: any;
     nodeList = this.findElementNode(this.nodes, menuName);
     if (nodeList) {
@@ -411,7 +411,7 @@ export class UIRuleComponent implements OnInit {
   }
   checkConditionUIRule(model: any, currentValue: any) { }
   conditioList(inputType: string) {
-    debugger
+    
     if (inputType == 'number' || inputType == 'decimal') {
       this.condationList = [
         { name: "Null OR Empty", key: "null" },

@@ -1,21 +1,27 @@
-{{menuBuilderData | json}}
 <nz-switch [(ngModel)]="theme">
   <span checked>Dark</span>
   <span unchecked>Light</span>
 </nz-switch>
-<div class="flex flex-wrap">
-  <div class="w-full p-3">
-    <ul nz-menu nzMode="inline" style="width: 240px;" [nzTheme]="theme ? 'dark' : 'light'">
-      <li nz-submenu [nzTitle]="item.title" nzIcon="appstore" *ngFor="let item of menuBuilderData">
-        <ul>
-          <li nz-menu-item>{{item.title}}</li>
-          <li nz-submenu [nzTitle]="item.title" *ngFor="let item of item.children">
-            <ul>
-              <li nz-menu-item>{{item.title}}</li>
+<div class="wrapper">
+  <ul nz-menu nzMode="inline" [nzTheme]="theme ? 'dark' : 'light'">
+    <ng-container *ngFor="let item of menuBuilderData">
+      <ng-container *ngIf="item.isTitle">
+        <span nz-icon [nzType]="item.icon"></span>
+      </ng-container>
+      <li nz-menu-item nz-tooltip (click)="loadTabsAndButtons($event,item)" *ngIf="item.children.length == 0" nzTooltipPlacement="right">
+        <span nz-icon [nzType]="item.icon"></span>
+        <span>{{item.title}}</span>
+      </li>
+      <li *ngIf="item.children.length > 0" (click)="loadTabsAndButtons($event,item)" nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon">
+        <ul *ngFor="let sub of item.children">
+          <li nz-menu-item *ngIf="sub.children.length == 0" (click)="loadTabsAndButtons($event,sub)">{{sub.title}}</li>
+          <li nz-submenu (click)="loadTabsAndButtons($event,sub)" [nzTitle]="sub.title" *ngIf="sub.children.length > 0">
+            <ul *ngFor="let subSub of sub.children">
+              <li nz-menu-item>{{subSub.title}}</li>
             </ul>
           </li>
         </ul>
       </li>
-    </ul>
-  </div>
+    </ng-container>
+  </ul>
 </div>

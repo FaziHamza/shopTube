@@ -20,7 +20,7 @@ export class PagesComponent implements OnInit {
       if(params["schema"]){
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
           if (res.length > 0) {
-            // debugger
+            // 
             this.dbRes = res[0].menuData;
             this.resData = res[0].menuData;
           }

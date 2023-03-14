@@ -20,7 +20,7 @@ export class BlockButtonsCardComponent {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService,
   ) { }
   ngOnInit(): void {
-    debugger
+    
     this.softIconList
     this.url = window.location.origin;
   }
@@ -54,7 +54,7 @@ export class BlockButtonsCardComponent {
 
   showModal(href: string): void {
     this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
-      debugger
+      
       if (res.length > 0) {
         this.nodes = res[0].menuData;
         this.isVisible = true;

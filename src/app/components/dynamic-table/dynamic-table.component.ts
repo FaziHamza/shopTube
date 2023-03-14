@@ -24,7 +24,7 @@ export class DynamicTableComponent implements OnInit {
   constructor(private _dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.loadTableData();
     // this.addThousanRows();
     // this.data.noResult == true ? this.tableData = [] : true;
@@ -38,7 +38,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
-    debugger
+    
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
@@ -48,7 +48,7 @@ export class DynamicTableComponent implements OnInit {
     this.tableData = this.tableData.filter((d: any) => d.id !== id);
   };
   startEdit(id: string): void {
-    debugger
+    
     this.editId = id;
   }
 
@@ -58,7 +58,7 @@ export class DynamicTableComponent implements OnInit {
   loadTableData() {
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
-    debugger
+    
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }

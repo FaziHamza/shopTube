@@ -37,12 +37,12 @@ export class TransferComponent implements OnInit {
   }
 
   handleChange(event : any){
-    debugger
+    
     console.log("change");
   }
   
   reload(direction: string): void {
-    debugger
+    
     this.transferData.list = this.newTransferData;
     this.makeData();
     alert(`your clicked ${direction}!`);

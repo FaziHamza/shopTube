@@ -10,7 +10,7 @@ export class SwitchComponent extends FieldType {
   // @Input() switchData: any;
   // constructor() { }
   ngOnInit(): void {
-    debugger
+    
    this.to;
     // this.switchData
   }
