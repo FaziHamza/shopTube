@@ -2993,6 +2993,8 @@ export class BuilderComponent implements OnInit {
         color: "#f56a00",
         alt: "",
         gap: 0,
+        size: 'default',
+        shape: 'circle',
         children: [
         ],
       } as TreeNode;
@@ -3012,6 +3014,13 @@ export class BuilderComponent implements OnInit {
         nzText: "Success",
         nzColor: "#2db7f5",
         nzStatus: "success",
+        standAlone: false,
+        dot: false,
+        showDot: true,
+        overflowCount: '',
+        showZero: false,
+        size: '',
+        offset: '',
         children: [
         ],
       } as TreeNode;
@@ -5106,6 +5115,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
+          this.selectedNode.standAlone = event.form.standAlone;
+          this.selectedNode.dot = event.form.dot;
+          this.selectedNode.showDot = event.form.showDot;
+          this.selectedNode.overflowCount = event.form.overflowCount;
+          this.selectedNode.showZero = event.form.showZero;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.offset = event.form.offset;
+          
         }
         break;
       case "mentions":
@@ -5337,6 +5354,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.color = event.form.color;
           this.selectedNode.gap = event.form.gap;
           this.selectedNode.alt = event.form.alt;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.shape = event.form.shape;
+
         }
         break;
       case "comment":
@@ -6551,14 +6571,14 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.className = event.form.className,
-            this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
+            // this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
           this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
@@ -6567,6 +6587,17 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
+            if (event.tableDta) {
+              this.selectedNode.data = event.tableDta;
+            }
+            if (event.form.api) {
+              this.builderService.genericApis(event.form.api).subscribe((res => {
+                if (res) {
+                  this.selectedNode.data = res;
+                  this.updateNodes();
+                }
+              }))
+            }
         }
         break;
 

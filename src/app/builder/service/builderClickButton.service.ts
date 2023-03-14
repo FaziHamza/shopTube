@@ -32,7 +32,15 @@ export class BuilderClickButtonService {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
   getBadgeConfig(node: any) {
-    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus };
+    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus ,
+      standAlone: node.standAlone,
+      dot: node.dot,
+      title: node.title,
+      showDot: node.showDot,
+      overflowCount: node.overflowCount,
+      showZero: node.showZero,
+      size: node.size,
+      offset: node.offset,};
   }
   getMentionConfig(node: any) {
     return { loading: node.loading, status: node.status, options: node.options, position: node.position, disabled: node.disabled, };
@@ -147,6 +155,8 @@ export class BuilderClickButtonService {
       color: node.color,
       gap: node.gap,
       alt: node.alt,
+      size: node.size,
+      shape: node.shape,
     }
   }
 
@@ -260,8 +270,8 @@ export class BuilderClickButtonService {
 
   getMultiFileUploadConfig(node: any) {
     return {
-      multiple:node.multiple,
-      disabled:node.disabled,
+      multiple: node.multiple,
+      disabled: node.disabled,
     }
   }
 
@@ -357,7 +367,7 @@ export class BuilderClickButtonService {
       dashed: node.dashed,
       dividerType: node.dividerType,
       plain: node.plain,
-      orientation:node.orientation,
+      orientation: node.orientation,
     }
   }
 
@@ -604,10 +614,10 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
-      trigger:node.trigger,
-        placement:node.placement,
-        visible:node.visible,
-        clickHide:node.clickHide,
+      trigger: node.trigger,
+      placement: node.placement,
+      visible: node.visible,
+      clickHide: node.clickHide,
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -784,9 +794,9 @@ export class BuilderClickButtonService {
   getPagesAttributeConfig(node: any) {
     return {
       id: node.id as string,
-        // className: node.className,
-        title: node.pageConfig[0]?.title,
-        Link: node.pageConfig[0]?.link,
+      // className: node.className,
+      title: node.pageConfig[0]?.title,
+      Link: node.pageConfig[0]?.link,
     }
   }
   getButtonAttributeConfig(node: any) {
