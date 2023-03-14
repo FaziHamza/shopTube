@@ -6464,6 +6464,80 @@ export class formFeildData {
             ]
           }
         },
+        {
+          key: 'size',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options: [
+              {
+                label: 'Default',
+                value: 'default '
+              },
+              {
+                label: 'Small',
+                value: 'small'
+              },
+            
+            ]
+          }
+        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'title',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Title',
+        //   }
+        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'overflowCount',
+          type: 'number',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'OverflowCount',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'standAlone',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'StandAlone',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'dot',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Dot',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'showDot',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ShowDot',
+          }
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'showZero',
+          type: 'checkbox',
+          // wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'ShowZero',
+          }
+        },
       ]
     },
   ]
@@ -6598,6 +6672,52 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Imag alt',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'size',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Avatar Size',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Large',
+                value: 'large'
+              },
+              {
+                label: 'Small',
+                value: 'small'
+              },
+              // {
+              //   label: 'Number',
+              //   value: 'number'
+              // }
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'shape',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Avatar Shape',
+            options: [
+              {
+                label: 'Circle',
+                value: 'circle'
+              },
+              {
+                label: 'Square',
+                value: 'square'
+              }
+            ]
           }
         },
         {

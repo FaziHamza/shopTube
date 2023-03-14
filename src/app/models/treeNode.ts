@@ -327,6 +327,8 @@ export interface TreeNode {
   showColumnHeader?: any;
   pattern?: any;
   emailTypeAllow?: any;
+  
+  shape?: any;
   refrance?: string;
   minlength?: number;
   maxlength?: number;
@@ -372,6 +374,12 @@ export interface TreeNode {
   loadText?: string;
   nzExtra?: string;
   nzStatus?: string;
+  standAlone?: any;
+  dot?: any;
+  showDot?: any;
+  overflowCount?: any;
+  showZero?: any;
+  offset?: any;
   nzSpan?: number;
   mainDashonicTabsConfig?: any,
   dashonicTabsConfig?: any,
