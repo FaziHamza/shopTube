@@ -34,7 +34,7 @@
         <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
         <ng-container *ngFor="let header of key">
           <td [nzEllipsis]="true"
-            *ngIf="header.name != 'description' && header.name != 'checked' && header.name != 'expand'">
+            *ngIf="header.name != 'description' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
             <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
               {{item[header.name]}}
             </div>
@@ -48,8 +48,20 @@
         </td>
       </tr>
       <tr *ngIf="data.expandable" [nzExpand]="item.expand">
-        <span>{{ item.description }}</span>
+        <th *ngFor="let child of childKey" nzWidth="80px">{{child}}</th>
       </tr>
+      <ng-container *ngFor="let child of item.children">
+        <tr *ngIf="data.expandable" [nzExpand]="item.expand">
+          <ng-container *ngFor="let key of childKey">
+            <td [nzEllipsis]="true" *ngIf="key != 'description' && key != 'checked' && key != 'expand'">
+              <div class="editable-cell" [hidden]="editId === child.id" (click)="startEdit(child.id)">
+                {{child[key]}}
+              </div>
+              <input [hidden]="editId !== child.id" type="text" nz-input [(ngModel)]="child[key]" />
+            </td>
+          </ng-container>
+        </tr>
+      </ng-container>
     </ng-container>
   </tbody>
 </nz-table>
