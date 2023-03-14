@@ -17,3 +17,21 @@
     right: 0;
     z-index: 1000;
   }
+  .side-btn {
+    padding: 0px;
+    position: absolute;
+    height: 80px;
+    width: 7px !important;
+    top: 36%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    z-index: 9 !important;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    // border-radius: 100px;
+    cursor: pointer;
+    left: 10px;
+    background-color: #038edcb8 !important;
+}
