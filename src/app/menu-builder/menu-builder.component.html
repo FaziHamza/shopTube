@@ -80,8 +80,7 @@
         </as-split-area>
         <as-split-area [size]="sizes[1]" style="height:500px">
           <div>
-            {{nodes | json}}
-            <app-app-side-menu [menuBuilderData]="nodes" *ngIf="nodes.length"></app-app-side-menu>
+            <app-side-menu-build [menuBuilderData]="nodes" *ngIf="nodes.length"></app-side-menu-build>
           </div>
           <div class="col-border col-body-conter" style="position: relative ;">
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
