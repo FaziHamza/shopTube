@@ -1,4 +1,4 @@
-<div class="card mt-2">
+<div class="card m-2">
   <div class="">
     <!-- <i class="material-icons">face</i> -->
     <!-- <i class="fa fa-car" ></i> -->
@@ -28,8 +28,8 @@
           Json</button>
       </div>
     </div>
-    <div class="flex body-tab">
-      <as-split style="width: 100%;" [gutterSize]="3">
+    <div class="flex body-tab border ml-2">
+      <as-split style="width: 100%; height: 500px;" [gutterSize]="3">
         <div class="side-btn" (click)="LayerShow()">
            <span nz-icon nzType="right" nzTheme="outline"></span>
         </div>
@@ -93,7 +93,7 @@
           <json-editor *ngIf="IsjsonEditorVisible" [(ngModel)]="nodes" [options]="editorOptions" [data]="nodes">
           </json-editor>
         </as-split-area>
-        <as-split-area [size]="sizes[1]">
+        <as-split-area [size]="sizes[1] " >
           <div class="flex">
             <div class="w-1/5 pr-2">
               <app-side-menu-build [menuBuilderData]="nodes" (notify)="loadTabsAndDropdownFromMenuChild($event,true)" *ngIf="nodes.length"></app-side-menu-build>

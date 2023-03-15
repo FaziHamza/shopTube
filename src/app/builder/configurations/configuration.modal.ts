@@ -4649,6 +4649,46 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
+          key: 'nztype',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Type',
+            options: [
+            
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Inner',
+                value: 'inner'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'size',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options: [
+            
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Small',
+                value: 'small'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
@@ -4656,14 +4696,41 @@ export class formFeildData {
             label: 'Height',
           }
         },
-        // {
-        //   key: 'repeat',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
-        //     label: 'Repeat'
-        //   },
-        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'extra',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Extra',
+          }
+        },
+        {
+          key: 'borderless',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Borderless'
+          },
+        },
+        
+        {
+          key: 'hover',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Hover'
+          },
+        },
+        
+        {
+          key: 'loading',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'Loading'
+          },
+        },
         {
           className: "w-full",
           key: 'headerText',

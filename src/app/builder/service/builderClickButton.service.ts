@@ -436,6 +436,18 @@ export class BuilderClickButtonService {
       textAlign: node.textAlign,
       link: "",
       height: node.height,
+      borderless: node.borderless,
+      extra: node.extra,
+      hover: node.hover,
+      loading: node.loading,
+      nztype: node.nztype,
+      size: node.size,
+      
+
+
+
+
+
     }
   }
 
@@ -600,6 +612,7 @@ export class BuilderClickButtonService {
     }
   }
   getDropdownButtonConfig(node: any) {
+    debugger
     return {
       color: node.color,
       hideExpression: node.hideExpression,
