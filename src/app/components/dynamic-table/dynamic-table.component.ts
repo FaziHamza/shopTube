@@ -26,6 +26,9 @@ export class DynamicTableComponent implements OnInit {
   constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) { }
 
   ngOnInit(): void {
+    this.gridInitilize();
+  }
+  gridInitilize() {
     debugger
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
@@ -38,13 +41,19 @@ export class DynamicTableComponent implements OnInit {
             if (eval(query)) {
               for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                 const elementv2 = elementv1.getRuleCondition[k];
-                // this.data.tableData[j][elementv1.target] = this.data.tableData[j][elementv2.ifCondition] * this.data.tableData[j][elementv2.target];
-                this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                if (elementv1.getRuleCondition[k].refranceOperator != '') {
+                  this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                } else {
+                  if (k > 0) {
+                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                  }
+                  else
+                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                }
                 if (elementv2.multiConditionList.length > 0) {
                   for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                     const elementv3 = elementv2.multiConditionList[l];
                     const value = this.data.tableData[j][elementv1.target];
-                    // this.data.tableData[j][elementv1.target] = value + this.data.tableData[j][elementv3.target]
                     this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
                   }
                 }
@@ -53,13 +62,11 @@ export class DynamicTableComponent implements OnInit {
                 const elementv2 = elementv1.thenCondition[k];
                 for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                   const elementv3 = elementv2.getRuleCondition[l];
-                  // this.data.tableData[j][elementv2.thenTarget] = this.data.tableData[j][elementv3.ifCondition] * this.data.tableData[j][elementv3.target];
                   this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
                   if (elementv3.multiConditionList.length > 0) {
                     for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                       const elementv4 = elementv3.multiConditionList[m];
                       const value = this.data.tableData[j][elementv2.thenTarget];
-                      // this.data.tableData[j][elementv2.thenTarget] = value + this.data.tableData[j][elementv4.target]
                       this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
                     }
                   }
@@ -78,7 +85,6 @@ export class DynamicTableComponent implements OnInit {
     this.isVisible = true;
   };
   handleOk(): void {
-    debugger
     if (this.tableData.length > 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       for (let index = 0; index < firstObjectKeys.length; index++) {
@@ -110,7 +116,6 @@ export class DynamicTableComponent implements OnInit {
     this.isVisible = false;
   }
   addRow(): void {
-
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
@@ -120,24 +125,16 @@ export class DynamicTableComponent implements OnInit {
     this.tableData = this.tableData.filter((d: any) => d.id !== id);
   };
   startEdit(id: string): void {
-
     this.editId = id;
   }
-
   stopEdit(): void {
     this.editId = null;
   }
   loadTableData() {
-    debugger
-    // for (let index = 0; index < this.data.tableData.length; index++) {
-    //   this.data.tableData[index]['total'] = 0;
-    //   this.data.tableData[index].total = this.data.tableData[index].id * this.data.tableData[index].age;
-    // }
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.childKey = this.getChildrenData();
     let checkcount = this.getParentChildrenKeys(this.tableData);
-    debugger
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
@@ -245,9 +242,6 @@ export class DynamicTableComponent implements OnInit {
     });
     return result;
   }
-
-
-
 
   // addThousanRows(){
   //     for (let index = 0; index < 1000; index++) {
