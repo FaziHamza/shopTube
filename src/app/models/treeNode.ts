@@ -73,6 +73,9 @@ export interface TreeNode {
   style?: any;
   fontSize?: any;
   textAlign?: any;
+  borderless?: any;
+  hover?: any;
+  nztype?: any;
   headingColor?: any;
   classNameForPosition?: any;
   dividerClassName?: any;

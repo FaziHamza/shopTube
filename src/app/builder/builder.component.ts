@@ -127,7 +127,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    
+
     //<---------------- This is used to unhighlight the highlight components------------------------->//
     this.nodes[0].children?.forEach((element: any) => {
       element = this.applyHighLight(false, element);
@@ -187,7 +187,7 @@ export class BuilderComponent implements OnInit {
 
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
-        
+
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
           this.builderService.jsonSaveBuilder(data).subscribe((res => {
             alert("Data Save");
@@ -225,7 +225,7 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers() {
-    
+
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
 
       if (res.length > 0) {
@@ -504,7 +504,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   getUIRule(model: any, currentValue: any) {
-    
+
     if (this.screenData != undefined) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children
       for (let j = 0; j < inputType.length; j++) {
@@ -872,7 +872,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (data?.parameter == 'input') {
-      
+
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: data?.label + Guid.newGuid(),
@@ -930,7 +930,7 @@ export class BuilderComponent implements OnInit {
                   // }
 
                   keyup: (model: any) => {
-                    
+
                     let currentVal = model.formControl.value;
                     this.formlyModel[model.props.key] = model.formControl.value;
                     this.checkConditionUIRule(model, currentVal);
@@ -1116,7 +1116,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
-      
+
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -1364,6 +1364,12 @@ export class BuilderComponent implements OnInit {
         footerText: "card footer",
         link: '',
         height: '100p',
+        borderless:false,
+        extra: '',
+        hover: false,
+        loading: false,
+        nztype: 'default',
+        size: 'default',
 
         children: [
         ],
@@ -3928,7 +3934,7 @@ export class BuilderComponent implements OnInit {
 
   clickButton(type: any) {
 
-    
+
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -3995,10 +4001,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
-      case "mentions":
-        configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.mentionsFields;
-        break;
+      // case "mentions":
+      //   configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
+      //   this.fieldData.formData = _formFieldData.mentionsFields;
+      //   break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
@@ -4043,7 +4049,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.affixFields;
         break;
       case "backTop":
-        
+
         configObj = { ...configObj, ...this.clickButtonService.getBacktopConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.backtopFields;
         break;
@@ -4189,7 +4195,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "browserCard":
-        
+
         configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.browserChartFields;
         break;
@@ -4259,7 +4265,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "heading":
-        
+
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
         // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
         this.fieldData.formData = _formFieldData.headingFields;
@@ -4289,7 +4295,9 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
-        
+      case "mentions":
+
+
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
@@ -4326,7 +4334,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
       case "gridName":
-        
+
         break;
       case "page":
         configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
@@ -4817,7 +4825,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   remove(parent: any, node: any) {
-    
+
     if (parent?.parentNode && node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
@@ -4864,7 +4872,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-    
+
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -4893,7 +4901,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "treeSelect":
       case "treeView":
-        
+
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -4915,7 +4923,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "cascader":
-        
+
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -5087,7 +5095,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "segmented":
         if (this.selectedNode) {
-          
+
           this.selectedNode.id = event.form.id;
           this.selectedNode.key = event.form.key;
           this.selectedNode.className = event.form.className;
@@ -5122,12 +5130,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.showZero = event.form.showZero;
           this.selectedNode.size = event.form.size;
           this.selectedNode.offset = event.form.offset;
-          
+
         }
         break;
       case "mentions":
         if (this.selectedNode) {
-          
+
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -5259,7 +5267,7 @@ export class BuilderComponent implements OnInit {
       case 'date':
       case 'color':
         if (this.selectedNode) {
-          
+
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5573,7 +5581,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        
+
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -5648,7 +5656,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "button":
-        
+
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.className = event.form.className;
@@ -5671,7 +5679,7 @@ export class BuilderComponent implements OnInit {
 
       case "buttonGroup":
         if (this.selectedNode) {
-          
+
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.btngroupformat = event.form.btngroupformat;
@@ -5683,7 +5691,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-        
+
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -5901,7 +5909,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "browserCard":
-        
+
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6224,7 +6232,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.selectedNode.id) {
-          
+
           // this.selectedNode.id = event.form.accordingText;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -6514,7 +6522,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "carouselCrossfade":
         if (this.selectedNode.id) {
-          
+
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6549,7 +6557,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "alert":
-        
+
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6579,7 +6587,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.className = event.form.className,
             // this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
-          this.selectedNode.labelText = event.form.labelText,
+            this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
             this.selectedNode.color = event.form.color,
@@ -6587,17 +6595,17 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
-            if (event.tableDta) {
-              this.selectedNode.data = event.tableDta;
-            }
-            if (event.form.api) {
-              this.builderService.genericApis(event.form.api).subscribe((res => {
-                if (res) {
-                  this.selectedNode.data = res;
-                  this.updateNodes();
-                }
-              }))
-            }
+          if (event.tableDta) {
+            this.selectedNode.data = event.tableDta;
+          }
+          if (event.form.api) {
+            this.builderService.genericApis(event.form.api).subscribe((res => {
+              if (res) {
+                this.selectedNode.data = res;
+                this.updateNodes();
+              }
+            }))
+          }
         }
         break;
 
@@ -6613,6 +6621,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           this.selectedNode.link = event.form.link;
           this.selectedNode.textAlign = event.form.textAlign;
+          this.selectedNode.borderless = event.form.borderless;
+          this.selectedNode.extra = event.form.extra;
+          this.selectedNode.hover = event.form.hover;
+          this.selectedNode.loading = event.form.loading;
+          this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode.size = event.form.size;
+          
           // if (event.form.link != undefined || event.form.link != "") {
           //   this.builderService.genericApis(event.form.link).subscribe((res => {
 
@@ -6643,7 +6658,7 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   addDynamic(abc: any, subType: any, mainType: any,) {
-    
+
     if (this.selectedNode.children) {
       let tabsLength = this.selectedNode.children?.length;
       if (tabsLength < abc) {
@@ -6771,7 +6786,7 @@ export class BuilderComponent implements OnInit {
   }
 
   assigOptionsData(selectNode: any, tableDta: any, api: any) {
-    
+
     if (tableDta) {
       selectNode = tableDta;
       return selectNode;
