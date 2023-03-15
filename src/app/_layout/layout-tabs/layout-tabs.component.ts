@@ -11,7 +11,8 @@ export class LayoutTabsComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-
+    debugger
+    this.tabsData;
   }
 
   screenLoad(link: any) {

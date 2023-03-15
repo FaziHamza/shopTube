@@ -15,22 +15,30 @@ export class LayoutButtonComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    if (this.dropdownData) {
-      if (this.dropdownData.length > 0) {
-        for (let index = 0; index < this.dropdownData.length; index++) {
-          if (this.dropdownData[index].type == "dropdown") {
-            this.forPushData.push(this.dropdownData[index]);
-          }
-        }
-      }
-    }
+    // if (this.dropdownData) {
+    //   if (this.dropdownData.length > 0) {
+    //     for (let index = 0; index < this.dropdownData.length; index++) {
+    //       if (this.dropdownData[index].type == "dropdown") {
+    //         this.forPushData.push(this.dropdownData[index]);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   tabsLoad(data: any) {
-    this.notify.emit(data);
+    debugger
+    const tabs : any = []
+    data.children.forEach((element : any) => {
+      if(element.type == 'mainTab'){
+        tabs.push(element);
+      }
+    });
+    this.notify.emit(tabs);
   }
 
   apiCall(link: any) {
+    debugger
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);

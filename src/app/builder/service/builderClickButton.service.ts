@@ -436,6 +436,18 @@ export class BuilderClickButtonService {
       textAlign: node.textAlign,
       link: "",
       height: node.height,
+      borderless: node.borderless,
+      extra: node.extra,
+      hover: node.hover,
+      loading: node.loading,
+      nztype: node.nztype,
+      size: node.size,
+      
+
+
+
+
+
     }
   }
 
@@ -600,6 +612,7 @@ export class BuilderClickButtonService {
     }
   }
   getDropdownButtonConfig(node: any) {
+    debugger
     return {
       color: node.color,
       hideExpression: node.hideExpression,
@@ -753,9 +766,9 @@ export class BuilderClickButtonService {
 
   getMenuAttributeConfig(node: any) {
     return {
-      menuIcon: node.icon,
-      menuLink: node.link,
-      menuRequired: node.isTitle,
+      icon: node.icon,
+      link: node.link,
+      isTitle: node.isTitle,
     }
   }
   getTabAttributeConfig(node: any) {

@@ -14,12 +14,12 @@
           </ng-container>
           <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
             <ng-container *ngFor="let item of selectedTheme.allMenuItems" >
-              <ng-container *ngIf="item.isTitle;else subMenu">
-                <span nz-icon nzType="appstore"></span>
+              <ng-container *ngIf="item.isTitle && shouldExecute(item);else subMenu">
+                <li class="menu-title" *ngIf="item.isTitle ">{{item.title}}</li>
               </ng-container>
               <ng-template #subMenu>
-                <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
-                  <li nz-submenu [nzTitle]="item.title" nzIcon="appstore"
+                <ng-container *ngIf="item.subItems && item.subItems.length && shouldExecute(item);else menu">
+                  <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.title"
                     (mouseover)="setHovered('up', item.menuIcon,item)" (mouseout)="setHovered('down',item.menuIcon,item)"
                     (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.subItems">
@@ -30,13 +30,13 @@
                       </ng-container>
                     </ul>
                   </li>
-                  <span class="!-ml-4" nz-icon [nzType]="item.menuIcon" nzTheme="outline"
+                  <span class="!-ml-4" nz-icon [nzType]="item.icon" nzTheme="outline"
                     *ngIf="selectedTheme.menuMode === 'horizontal'"></span>
                 </ng-container>
               </ng-template>
               <ng-template #menu>
-                <li nz-menu-item nz-tooltip nzTooltipPlacement="right" class="!-mx-2" (click)="loadTabsAndButtons($event,item)">
-                  <span nz-icon nzType="appstore"></span>
+                <li *ngIf="shouldExecute(item)" nz-menu-item nz-tooltip nzTooltipPlacement="right" class="!-mx-2" (click)="loadTabsAndButtons($event,item)">
+                  <span nz-icon [nzType]="item.icon"></span>
                   <span>{{item.title}}</span>
                 </li>
               </ng-template>
@@ -45,11 +45,11 @@
           <ng-container *ngIf="selectedTheme.sideBarSize == 'compact' && selectedTheme.layout == 'vertical'">
             <ng-container *ngFor="let item of selectedTheme.allMenuItems">
               <ng-container>
-                <ng-container *ngIf="item.isTitle;else subMenu">
-                  <span nz-icon nzType="appstore"></span>
+                <ng-container *ngIf="item.isTitle && shouldExecute(item);else subMenu">
+                  <span nz-icon [nzType]="item.icon"></span>
                 </ng-container>
                 <ng-template #subMenu>
-                  <ng-container *ngIf="item.subItems && item.subItems.length > 0;else menu">
+                  <ng-container *ngIf="item.subItems && item.subItems.length && shouldExecute(item);else menu">
                     <div class="box block">
                       <span nz-icon nzType="appstore" nzTheme="outline"></span>
                       <!-- <p>{{item.label}}</p> -->
@@ -68,8 +68,8 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #menu>
-                  <div class="box block">
-                    <span nz-icon nzType="appstore"></span>
+                  <div class="box block" *ngIf="shouldExecute(item)">
+                    <span nz-icon [nzType]="item.icon"></span>
                     <li nz-menu-item nz-tooltip nzTooltipPlacement="right"
                       (click)="loadTabsAndButtons($event,item)">
                       <span>{{item.title}}</span>

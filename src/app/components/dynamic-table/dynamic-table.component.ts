@@ -30,6 +30,7 @@ export class DynamicTableComponent implements OnInit {
   }
   gridInitilize() {
     debugger
+    this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
         for (let index = 0; index < getRes[0].buisnessRulleData.length; index++) {

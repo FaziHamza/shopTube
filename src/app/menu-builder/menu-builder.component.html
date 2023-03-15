@@ -1,5 +1,7 @@
-<div class="card mt-2">
+<div class="card m-2">
   <div class="">
+    <!-- <i class="material-icons">face</i> -->
+    <!-- <i class="fa fa-car" ></i> -->
     <div class="flex header-tab">
       <div class="w-1/5 jsonEdiotTab">
         <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()">
@@ -26,8 +28,8 @@
           Json</button>
       </div>
     </div>
-    <div class="flex body-tab">
-      <as-split style="width: 100%;" [gutterSize]="3">
+    <div class="flex body-tab border ml-2">
+      <as-split style="width: 100%; height: 500px;" [gutterSize]="3">
         <div class="side-btn" (click)="LayerShow()">
            <span nz-icon nzType="right" nzTheme="outline"></span>
         </div>
@@ -91,17 +93,17 @@
           <json-editor *ngIf="IsjsonEditorVisible" [(ngModel)]="nodes" [options]="editorOptions" [data]="nodes">
           </json-editor>
         </as-split-area>
-        <as-split-area [size]="sizes[1]">
+        <as-split-area [size]="sizes[1] " >
           <div class="flex">
             <div class="w-1/5 pr-2">
-              <app-side-menu-build [menuBuilderData]="nodes" (notify)="loadTabsAndDropdownFromMenuChild($event)" *ngIf="nodes.length"></app-side-menu-build>
+              <app-side-menu-build [menuBuilderData]="nodes" (notify)="loadTabsAndDropdownFromMenuChild($event,true)" *ngIf="nodes.length"></app-side-menu-build>
             </div>
             <div class="w-4/5">
-              <ng-container *ngIf="tabsAndDropDownFromMenu">
-                <ng-container *ngIf="tabsAndDropDownFromMenu.length">
-                  <ng-container *ngFor="let child1 of tabsAndDropDownFromMenu; let i = index ; let last = last">
-                    <app-layout-tabs *ngIf="child1.type === 'mainTab'" [tabsData]="child1"></app-layout-tabs>
-                    <app-layout-button *ngIf="last" [dropdownData]="tabsAndDropDownFromMenu"></app-layout-button>
+              <ng-container *ngIf="tabsArray || dropdownButtonArray">
+                <app-layout-button *ngIf="dropdownButtonArray.length  > 0" (notify)="loadTabsAndDropdownFromMenuChild($event,false)" [dropdownData]="dropdownButtonArray"></app-layout-button>
+                <ng-container *ngIf="tabsArray.length">
+                  <ng-container *ngFor="let tab of tabsArray">
+                    <app-layout-tabs *ngIf="tab.type === 'mainTab'" [tabsData]="tab"></app-layout-tabs>
                   </ng-container>
                 </ng-container>
               </ng-container>
@@ -146,24 +148,26 @@
                 <nz-tabset *ngFor="let item of htmlTabsData">
                   <nz-tab [nzTitle]="item1.title" *ngFor="let item1 of item.children let i= index">
                     <nz-collapse>
-                      <nz-collapse-panel *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.title">
+                      <nz-collapse-panel [nzActive]="true" *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.title">
                         <div class="flex flex-wrap">
-                          <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
-                            <button nz-button nzType="default" nzBlock class="rounded"
-                              *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown' && item3.show"
-                              (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
-                                class={{item3.icon}}></i>{{item3.title}}
-                            </button>
-                            <ng-container
-                              *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show">
+                          <ng-container *ngFor="let item3 of item2.children">
+                            <div class="p-1 w-1/6"*ngIf="item3.show">
                               <button nz-button nzType="default" nzBlock class="rounded"
-                                *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown' && item3.show"
-                                (click)="addFunctionsInHtml(item3.parameter)">
-                                <i class={{item3.icon}}></i>
-                                {{item3.title}}
+                                *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown'"
+                                (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
+                                  class={{item3.icon}}></i>{{item3.title}}
                               </button>
-                            </ng-container>
-                          </div>
+                              <ng-container
+                                *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'">
+                                <button nz-button nzType="default" nzBlock class="rounded"
+                                  *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'"
+                                  (click)="addFunctionsInHtml(item3.parameter)">
+                                  <i class={{item3.icon}}></i>
+                                  {{item3.title}}
+                                </button>
+                              </ng-container>
+                            </div>
+                          </ng-container>
                         </div>
                       </nz-collapse-panel>
                     </nz-collapse>

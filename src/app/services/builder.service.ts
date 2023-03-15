@@ -154,6 +154,11 @@ export class BuilderService {
       this.baseUrl + "jsonModuleSetting/" + id, modal
     );
   }
+  jsonDeleteModule(id: number): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.baseUrl + "jsonModuleSetting/" + id
+    );
+  }
   jsonSaveModule(modal: any): Observable<any[]> {
     return this.http.post<any[]>(
       this.baseUrl + "jsonModuleSetting", modal
