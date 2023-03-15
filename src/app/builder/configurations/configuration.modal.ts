@@ -7336,7 +7336,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-1/4 px-1",
-          key: 'menuIcon',
+          key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
@@ -7346,7 +7346,7 @@ export class formFeildData {
 
         {
           className: "w-1/4 px-1",
-          key: 'menuLink',
+          key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
@@ -7354,7 +7354,7 @@ export class formFeildData {
           }
         },
         {
-          key: 'menuRequired',
+          key: 'isTitle',
           type: 'checkbox',
           className: "w-1/3 mt-2",
           templateOptions: {

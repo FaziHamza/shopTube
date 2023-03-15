@@ -26,6 +26,7 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+    this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
         for (let index = 0; index < getRes[0].buisnessRulleData.length; index++) {
@@ -124,10 +125,13 @@ export class DynamicTableComponent implements OnInit {
     //   this.data.tableData[index]['total'] = 0;
     //   this.data.tableData[index].total = this.data.tableData[index].id * this.data.tableData[index].age;
     // }
-    const firstObjectKeys = Object.keys(this.tableData[0]);
-    this.key = firstObjectKeys.map(key => ({ name: key }));
-    this.childKey = this.getChildrenData();
-    let checkcount = this.getParentChildrenKeys(this.tableData);
+    if(this.tableData){
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.key = firstObjectKeys.map(key => ({ name: key }));
+      this.childKey = this.getChildrenData();
+      let checkcount = this.getParentChildrenKeys(this.tableData);
+    }
+   
     debugger
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;

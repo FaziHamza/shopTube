@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MenuItem } from 'src/app/models/menu';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -8,8 +8,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./app-side-menu.component.scss']
 })
 export class AppSideMenuComponent implements OnInit {
-  @Input() menuBuilderData : any
-  @Input() selectedTheme : any;
+  @Input() menuBuilderData: any
+  @Input() selectedTheme: any;
+  @Output() notify: EventEmitter<any> = new EventEmitter();
   menuItems: MenuItem[] = [];
   newMenuArray: any = false;
   menuChildArrayTwoColumn: any = [];
@@ -30,11 +31,11 @@ export class AppSideMenuComponent implements OnInit {
     isCollapsed: false,
     allMenuItems: [],
   }
-  constructor(private employeeService:EmployeeService) { }
+  constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
-    
-    if(!this.selectedTheme){
+
+    if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme
     }
     this.getMenu();
@@ -44,7 +45,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   setHovered(value: any, data?: any, item?: any) {
-    
+
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.selectedTheme.isCollapsed = value;
@@ -69,13 +70,13 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-    
+
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
-        if(this.menuBuilderData){
+        if (this.menuBuilderData) {
           this.menuItems = this.menuBuilderData;
-        }else{
-        this.menuItems = res[0].menuData;
+        } else {
+          this.menuItems = res[0].menuData;
         }
         this.makeMenuData();
         this.menuItems.forEach((e: any) => {
@@ -97,10 +98,12 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
+    debugger
     event.stopPropagation();
+    this.notify.emit(data);
     this.menuChildArrayTwoColumn = [];
-    if (data.subItems.length > 0) {
-      data.subItems.forEach((i: any) => {
+    if (data.children.length > 0) {
+      data.children.forEach((i: any) => {
         if (this.selectedTheme.layout == 'twoColumn') {
           this.menuChildArrayTwoColumn.push(i);
         }
@@ -132,7 +135,7 @@ export class AppSideMenuComponent implements OnInit {
     this.newMenuArray = [];
   }
   makeMenuData() {
-    
+
     let arrayList = [];
     arrayList = this.menuItems;
     this.selectedTheme.allMenuItems = [];
@@ -150,5 +153,14 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
+  shouldExecute(data: any): boolean {
+    if (data.type === 'mainTab' || data.type === 'dropdown') {
+      return false;
+    }
+    return true;
+  }
+
   
 }
+
+

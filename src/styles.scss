@@ -84,3 +84,6 @@ img, svg, video, canvas, audio, iframe, embed, object{
 .ant-switch-checked{
   background-color: #1890ff;
 }
+.ant-btn>span+.anticon {
+  margin-left: 0px !important;
+}

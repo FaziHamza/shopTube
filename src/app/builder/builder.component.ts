@@ -85,7 +85,7 @@ export class BuilderComponent implements OnInit {
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.screenName = "CRMAPP"
     if (this.screenName) {
-      this.getFormLayers();
+      this.getFormLayers(this.screenName);
     }
     this.htmlTabsData = htmlTabsData;
   }
@@ -184,10 +184,9 @@ export class BuilderComponent implements OnInit {
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
-
+    debugger
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
-        
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
           this.builderService.jsonSaveBuilder(data).subscribe((res => {
             alert("Data Save");
@@ -224,10 +223,10 @@ export class BuilderComponent implements OnInit {
     // }
   }
   expandedKeys: any;
-  getFormLayers() {
-    
-    this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
-
+  getFormLayers(data: any) {
+    debugger
+    this.screenName = data;
+    this.builderService.jsonBuilderSettingV1(data).subscribe((res => {
       if (res.length > 0) {
         if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
