@@ -1,4 +1,5 @@
-import {  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
+import {
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -33,7 +34,7 @@ export class DynamicTableComponent implements OnInit {
           for (let j = 0; j < this.data.tableData.length; j++) {
             //query
             let query: any;
-            query = elementv1.getValue + elementv1.oprator + this.tableData[j][elementv1.ifCondition]
+            query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
             if (eval(query)) {
               for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                 const elementv2 = elementv1.getRuleCondition[k];
@@ -77,7 +78,14 @@ export class DynamicTableComponent implements OnInit {
     this.isVisible = true;
   };
   handleOk(): void {
+    debugger
     if (this.tableData.length > 0) {
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      for (let index = 0; index < firstObjectKeys.length; index++) {
+        const element = firstObjectKeys[index];
+        if (element.toLocaleLowerCase() == this.columnName.toLocaleLowerCase())
+          return alert('this Column is already Exsist')
+      }
       this.tableHeaders.push(
         {
           name: this.columnName,
@@ -94,6 +102,7 @@ export class DynamicTableComponent implements OnInit {
         this.data.tableData[j][this.columnName.charAt(0).toLowerCase() + this.columnName.slice(1)] = 0;
       }
       this.loadTableData();
+      this.columnName = null;
     }
     this.isVisible = false;
   }
@@ -168,13 +177,15 @@ export class DynamicTableComponent implements OnInit {
   }
   getChildrenData() {
     const childKeys = this.tableData.reduce((acc: any, obj: any) => {
-      obj.children.forEach((child: any) => {
-        Object.keys(child).forEach(key => {
-          if (!acc.includes(key)) {
-            acc.push(key);
-          }
+      if (obj.children) {
+        obj.children.forEach((child: any) => {
+          Object.keys(child).forEach(key => {
+            if (!acc.includes(key)) {
+              acc.push(key);
+            }
+          });
         });
-      });
+      }
       return acc;
     }, []);
     console.log(childKeys); // This will output an array of unique keys for all the child objects in the tableData array.
