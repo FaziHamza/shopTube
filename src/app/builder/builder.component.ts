@@ -2707,6 +2707,7 @@ export class BuilderComponent implements OnInit {
         nzDisabled: false,
         nzExpandedIcon: '',
         nzShowArrow: true,
+        extra:'',
         children: [
         ],
       } as TreeNode;
@@ -5454,6 +5455,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.resultTitle = event.form.resultTitle;
           this.selectedNode.subTitle = event.form.subTitle;
           this.selectedNode.btnLabel = event.form.btnLabel;
+          this.selectedNode.extra = event.form.extra;
+          this.selectedNode.icon = event.form.icon;
+          
         }
         break;
       case "imageUpload":
@@ -5766,6 +5770,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzDisabled = event.form.nzDisabled;
           this.selectedNode.nzExpandedIcon = event.form.nzExpandedIcon;
           this.selectedNode.nzShowArrow = event.form.nzShowArrow;
+          this.selectedNode.extra = event.form.extra;
         }
         break;
       //Card Case

@@ -28,13 +28,8 @@ export class LayoutButtonComponent implements OnInit {
 
   tabsLoad(data: any) {
     debugger
-    const tabs : any = []
-    data.children.forEach((element : any) => {
-      if(element.type == 'mainTab'){
-        tabs.push(element);
-      }
-    });
-    this.notify.emit(tabs);
+    this.notify.emit(data);
+
   }
 
   apiCall(link: any) {

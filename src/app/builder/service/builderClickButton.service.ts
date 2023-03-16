@@ -181,6 +181,9 @@ export class BuilderClickButtonService {
       resultTitle: node.resultTitle,
       subTitle: node.subTitle,
       btnLabel: node.btnLabel,
+      icon: node.icon,
+      extra: node.extra,
+ 
     }
   }
 
@@ -642,6 +645,7 @@ export class BuilderClickButtonService {
       nzDisabled: node.nzDisabled,
       nzExpandedIcon: node.nzExpandedIcon,
       nzShowArrow: node.nzShowArrow,
+      extra: node.extra,
     }
   }
   getLinkButtonConfig(node: any) {
