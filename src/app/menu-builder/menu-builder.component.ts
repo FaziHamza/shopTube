@@ -178,7 +178,7 @@ export class MenuBuilderComponent implements OnInit {
     }));
   }
   getFormLayers(data: any) {
-    
+
     this.builderService.getJsonModules(data).subscribe((res => {
       if (res.length > 0) {
         this.moduleId = res[0].id
@@ -499,7 +499,7 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addNode(node: any, newNode: any) {
-    
+
     if (node) {
       let checkNode = node.children;
       if (checkNode) {
@@ -624,7 +624,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   saveJsonMenu() {
-    
+
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -632,7 +632,7 @@ export class MenuBuilderComponent implements OnInit {
     {
       "moduleName": this.moduleName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].moduleId : "",
+      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].id : "",
       "selectedTheme": temporaryData
     };
     data.selectedTheme.allMenuItems = [];
@@ -888,7 +888,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   closeConfigurationList() {
-    
+
     this.IsShowConfig = false;
   }
   specificControllShow(selected: any, node: any) {
@@ -999,7 +999,7 @@ export class MenuBuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   addDynamic(nodes: any, subType: any, mainType: any,) {
-    
+
     if (this.selectedNode.children) {
       let tabsLength = this.selectedNode.children?.length;
       if (tabsLength < nodes) {
@@ -1078,7 +1078,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   loadTabsAndDropdownFromMenuChild(data: any, arrayEmpty: boolean) {
-    
+
     if (arrayEmpty) {
       this.arrayEmpty();
     }
@@ -1102,7 +1102,7 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    
+
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
@@ -1203,7 +1203,7 @@ export class MenuBuilderComponent implements OnInit {
     this.makeMenuData();
   }
   makeMenuData() {
-    
+
     let arrayList = [];
     arrayList = this.nodes;
     this.selectedTheme.allMenuItems = [];
@@ -1223,7 +1223,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
-    
+
     this.makeMenuData();
     this.selectedTheme.horizontalRow = 'flex flex-wrap';
     this.selectedTheme.rowClass = 'w-10/12',

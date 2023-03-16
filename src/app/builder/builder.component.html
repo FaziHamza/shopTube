@@ -84,7 +84,7 @@
         <div class="side-btn " (click)="LayerShow()">
           <span nz-icon nzType="right" nzTheme="outline"></span>
         </div>
-      
+
       <!-- <div class="right-side-btn" (click)="controlLayerShow()">
         <i class="uil uil-angle-left"></i>
       </div> -->
@@ -93,7 +93,7 @@
           <div class="card " *ngIf="IslayerVisible">
             <div class="card-header d-flex justify-content-between bg-blue-500 p-2">
               <p class="text-white text-md ">Builder Layers</p>
-              
+
               <!-- <span (click)="clearChildNode()">
                 <i class="uil uil-file-plus icon-style" title="Add Section"></i>
               </span> -->
@@ -105,7 +105,7 @@
               <ng-template #suffixIconButton>
                 <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
               </ng-template>
-              
+
               <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
                 <div *ngFor="let item of filterMenuData">
                   <li class="menu-labels d-flex justify-content-between">{{item.title | uppercase}}
@@ -151,9 +151,9 @@
               <!-- <json-editor [(ngModel)]="this.nodes" (change)="clickBack()" [options]="editorOptions">
               </json-editor> -->
 
-              <json-editor 
+              <json-editor
               id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
-             
+
               [options]="editorOptions" >
             </json-editor>
 
@@ -190,7 +190,7 @@
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
                           <app-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-uirule>
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule>
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
                           <app-validation-rule></app-validation-rule>
@@ -238,7 +238,7 @@
                       <ng-template #suffixIconButton>
                         <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
                       </ng-template>
-                      
+
                       <ng-template #content role="document" let-modal>
                         <form>
                           <div class="modal-body">
@@ -277,7 +277,7 @@
                             </button>
                           </div>
                         </div>
-                      </ul> 
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -388,3 +388,4 @@
   </div>
 </nz-card>
 
+{{this.nodes | json}}
