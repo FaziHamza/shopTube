@@ -29,46 +29,55 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   gridInitilize() {
-    debugger
+    
     this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
-        for (let index = 0; index < getRes[0].buisnessRulleData.length; index++) {
-          const elementv1 = getRes[0].buisnessRulleData[index];
-          for (let j = 0; j < this.data.tableData.length; j++) {
-            //query
-            let query: any;
-            query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
-            if (eval(query)) {
-              for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
-                const elementv2 = elementv1.getRuleCondition[k];
-                if (elementv1.getRuleCondition[k].refranceOperator != '') {
-                  this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                } else {
-                  if (k > 0) {
-                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+        for (let m = 0; m < getRes.length; m++) {
+          if (getRes[m].gridKey == this.data.key) {
+            for (let index = 0; index < getRes[m].buisnessRulleData.length; index++) {
+              const elementv1 = getRes[m].buisnessRulleData[index];
+              for (let j = 0; j < this.data.tableData.length; j++) {
+                //query
+                let query: any;
+                query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
+                if (eval(query)) {
+                  for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                    const elementv2 = elementv1.getRuleCondition[k];
+                    if (elementv1.getRuleCondition[k].refranceOperator != '') {
+                      this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                      this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                    } else {
+                      if (k > 0) {
+                        this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                        this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                      }
+                      else
+                        this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                      this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                    }
+                    if (elementv2.multiConditionList.length > 0) {
+                      for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                        const elementv3 = elementv2.multiConditionList[l];
+                        const value = this.data.tableData[j][elementv1.target];
+                        this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                        // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                      }
+                    }
                   }
-                  else
-                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                }
-                if (elementv2.multiConditionList.length > 0) {
-                  for (let l = 0; l < elementv2.multiConditionList.length; l++) {
-                    const elementv3 = elementv2.multiConditionList[l];
-                    const value = this.data.tableData[j][elementv1.target];
-                    this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
-                  }
-                }
-              }
-              for (let k = 0; k < elementv1.thenCondition.length; k++) {
-                const elementv2 = elementv1.thenCondition[k];
-                for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
-                  const elementv3 = elementv2.getRuleCondition[l];
-                  this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
-                  if (elementv3.multiConditionList.length > 0) {
-                    for (let m = 0; m < elementv3.multiConditionList.length; m++) {
-                      const elementv4 = elementv3.multiConditionList[m];
-                      const value = this.data.tableData[j][elementv2.thenTarget];
-                      this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                  for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                    const elementv2 = elementv1.thenCondition[k];
+                    for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                      const elementv3 = elementv2.getRuleCondition[l];
+                      this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                      if (elementv3.multiConditionList.length > 0) {
+                        for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                          const elementv4 = elementv3.multiConditionList[m];
+                          const value = this.data.tableData[j][elementv2.thenTarget];
+                          this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                          // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                        }
+                      }
                     }
                   }
                 }
@@ -76,6 +85,8 @@ export class DynamicTableComponent implements OnInit {
             }
           }
         }
+
+
       }
       this.loadTableData();
     }));
@@ -132,12 +143,13 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    debugger
+    
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
+    this.key = this.key.filter((header: any) => header.name !== 'color');
     this.childKey = this.getChildrenData();
     let checkcount = this.getParentChildrenKeys(this.tableData);
-    console.log(JSON.stringify(checkcount));
+    // console.log(JSON.stringify(checkcount));
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
@@ -235,8 +247,7 @@ export class DynamicTableComponent implements OnInit {
 
   getParentChildrenKeys(data: any[]): any[] {
     const result: any[] = [];
-    if(data.length  > 0)
-    {
+    if (data.length > 0) {
       const keys = this.getChildKeys(data[0]);
       result.push(keys);
     };

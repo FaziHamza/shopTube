@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { JsonEditorOptions } from 'ang-jsoneditor';
@@ -62,6 +62,7 @@ export class BuilderComponent implements OnInit {
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
+    private cdr:ChangeDetectorRef,
     private clickButtonService: BuilderClickButtonService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
@@ -184,7 +185,7 @@ export class BuilderComponent implements OnInit {
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
-    debugger
+    
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
@@ -199,7 +200,7 @@ export class BuilderComponent implements OnInit {
       }
     }))
     // this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
-    //   
+    //
     //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
     //     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
     //       if (res.length > 0) {
@@ -224,14 +225,16 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-    debugger
+    
     this.screenName = data;
     this.builderService.jsonBuilderSettingV1(data).subscribe((res => {
       if (res.length > 0) {
         if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
+          this.getUIRuleData(true);
           // this.nodes = res[0].menuData;
           this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+
           // this.uiRuleGetData(res[0].moduleId);
           // this.uiGridRuleGetData(res[0].moduleId);
         }
@@ -453,12 +456,9 @@ export class BuilderComponent implements OnInit {
     }
   }
   uiRuleGetData(moduleId: any) {
-    this.builderService.jsonUIRuleGetData(moduleId).subscribe((getRes => {
-      this.screenData = [];
-      this.screenData = getRes[0];
-      this.makeFaker();
-      this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-    }));
+    this.makeFaker();
+    this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+    // this.getUIRuleData();
   }
   evalConditionRule(query: any, dataTargetIfValue: any) {
     dataTargetIfValue.forEach((e: any) => {
@@ -494,18 +494,20 @@ export class BuilderComponent implements OnInit {
     return query;
   }
   checkConditionUIRule(model: any, currentValue: any) {
+    this.getUIRule(model, currentValue);
+  }
+  getUIRuleData(data:any){
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];
         this.screenData = getRes[0];
-        this.getUIRule(model, currentValue);
       } else { }
     }));
   }
   getUIRule(model: any, currentValue: any) {
 
     if (this.screenData != undefined) {
-      var inputType = this.nodes[0].children[1].children[0].children[1].children
+      var inputType = this.nodes[0].children[1].children[0].children[1].children;
       for (let j = 0; j < inputType.length; j++) {
         for (let index = 0; index < this.screenData.uiData.length; index++) {
           if (inputType[j] == undefined) {
@@ -601,6 +603,8 @@ export class BuilderComponent implements OnInit {
           }
         }
       }
+      // this.clickBack();
+      // this.cdr.detectChanges();
     }
   }
   lastFormlyModelValue: string;
@@ -920,7 +924,7 @@ export class BuilderComponent implements OnInit {
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
                   // keyup: (model:any, $event) => {
-                  //   
+                  //
                   //   let currentVal = model.form.value[model.key.toString()];
                   //   let value = currentVal.split(":");
                   //   currentVal = value[1].slice(1);
@@ -2405,8 +2409,8 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
             listOfFilter: [
-              { text: 'Joe', value: 'Joe' },
-              { text: 'Jim', value: 'Jim', byDefault: true }
+              // { text: 'Joe', value: 'Joe' },
+              // { text: 'Jim', value: 'Jim', byDefault: true }
             ],
             filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
@@ -2417,7 +2421,7 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['descend', null],
             listOfFilter: [],
             filterFn: null,
-            filterMultiple: true
+            filterMultiple: false
           },
           {
             name: 'Address',
@@ -2440,7 +2444,17 @@ export class BuilderComponent implements OnInit {
             address: 'New York No. 1 Lake Park',
             description: 'My name is John Brown, I am 2 years old, living in New York No',
             checked: false,
-            expand: false
+            expand: false ,
+            children:[
+              {
+                id:1,
+                name:'test',
+              },
+              {
+                id:2,
+                name:'test2'
+              },
+            ]
           },
           {
             id: 2,
@@ -6678,7 +6692,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-        debugger
+        
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6901,5 +6915,4 @@ export class BuilderComponent implements OnInit {
     }
   }
 }
-
 

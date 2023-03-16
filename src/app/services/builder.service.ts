@@ -99,6 +99,11 @@ export class BuilderService {
       this.baseUrl + "jsonGridBusinessRule?moduleId=" + moduleId
     );
   }
+  jsonGridBusinessRuleGridKey(gridKey: any): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.baseUrl + "jsonGridBusinessRule?gridKey=" + gridKey
+    );
+  }
   jsonGridConditionRemove(moduleId: any): Observable<any[]> {
     return this.http.delete<any[]>(
       this.baseUrl + "jsonGridCondition/" + moduleId

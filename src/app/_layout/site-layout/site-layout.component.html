@@ -2,30 +2,29 @@
 <nz-layout>
   <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' ? 'dark' : 'light'" >
     <div class="flex flex-wrap">
-      <div [ngClass]='topHeaderMenu'>
+      <div [ngClass]='selectedTheme.topHeaderMenu'>
         <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
         <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png">
       </div>
-      <div [ngClass]='topHeader'
+      <div [ngClass]='selectedTheme.topHeader'
       [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
        || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
         *ngIf="selectedTheme.layout == 'vertical'" nz-menu
         [nzTheme]="selectedTheme.layout === 'vertical' ? 'dark' : 'light'">
         <app-menu (notify)="notifyEmit($event)"></app-menu>
       </div>
-      <div [ngClass]='topHeader' *ngIf="selectedTheme.layout != 'vertical'">
+      <div [ngClass]='selectedTheme.topHeader' *ngIf="selectedTheme.layout != 'vertical'">
         <app-menu (notify)="notifyEmit($event)"></app-menu>
       </div>
     </div>
   </nz-header>
 
-  <!-- <div [ngClass]='rowClass'> -->
-  <div [ngClass]='horizontalRow'>
-    <div [ngClass]='menuColumn'>
+  <div [ngClass]='selectedTheme.horizontalRow'>
+    <div [ngClass]='selectedTheme.menuColumn'>
       <app-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></app-app-side-menu>
     </div>
-    <div *ngIf="menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
-    <div [ngClass]='rowClass' >
+    <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
+    <div [ngClass]='selectedTheme.rowClass' >
       <ng-container *ngIf="dropdown.length" class="">
         <app-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></app-layout-button>
       </ng-container>
@@ -35,10 +34,8 @@
         </ng-container>
       </ng-container>
       <router-outlet></router-outlet>
-      <!-- CUSTOMIZE THEME -->
-      <app-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></app-layout-drawer>
     </div>
-    <div *ngIf="menuMode == 'horizontal'" class="w-1/12"></div>
+    <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
   </div>
   <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer>
 </nz-layout>

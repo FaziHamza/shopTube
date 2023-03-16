@@ -1,37 +1,54 @@
 .card-bwody {
-    position: relative;
-    #search-menu {
-      padding: 5px 0px 0px !important;
-    }
-    #search-menu li {
-      font-size: 12px !important;
-      padding: 5px 10px !important;
-    }
-  }
+  position: relative;
+
   #search-menu {
-    background-color: #f8f8f8;
-    border: 1px solid rgb(197 187 187);
-    border-radius: 5px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    padding: 5px 0px 0px !important;
   }
-  .side-btn {
-    padding: 0px;
-    position: absolute;
-    height: 80px;
-    width: 7px !important;
-    top: 36%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white !important;
-    z-index: 9 !important;
-    border-top-right-radius: 100px;
-    border-bottom-right-radius: 100px;
-    // border-radius: 100px;
-    cursor: pointer;
-    left: 10px;
-    background-color: #038edcb8 !important;
+
+  #search-menu li {
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+  }
+}
+
+#search-menu {
+  background-color: #f8f8f8;
+  border: 1px solid rgb(197 187 187);
+  border-radius: 5px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.side-btn {
+  padding: 0px;
+  position: absolute;
+  height: 80px;
+  width: 7px !important;
+  top: 36%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  z-index: 9 !important;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  // border-radius: 100px;
+  cursor: pointer;
+  left: 10px;
+  background-color: #038edcb8 !important;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.logo-sm {
+  height: 32px;
+  margin: 24px;
+  background: rgba(255, 255, 255, 0.3);
+
 }

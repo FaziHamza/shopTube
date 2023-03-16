@@ -25,10 +25,10 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
-    debugger
+    
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
-        this.notify.emit(res[0].menuData);
+        this.notify.emit(res[0]);
       } 
       else {
         this.notification.create(

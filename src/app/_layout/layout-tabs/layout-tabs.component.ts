@@ -12,7 +12,7 @@ export class LayoutTabsComponent implements OnInit {
   constructor(private router: Router , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.tabsData;
   }
 

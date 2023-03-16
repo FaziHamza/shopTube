@@ -117,11 +117,11 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Affix"
               },
-              {
-                parameter: "dropdownButton",
-                icon: "uil uil-bitcoin-sign",
-                label: "Dropdown Menu"
-              },
+              // {
+              //   parameter: "dropdownButton",
+              //   icon: "uil uil-bitcoin-sign",
+              //   label: "Dropdown Menu"
+              // },
               {
                 parameter: "stepperAddNew",
                 icon: "uil-list-ul",

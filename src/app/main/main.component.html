@@ -1,4 +1,4 @@
-<div class="card-content  flex flex-wrap w-1/">
+<div class="card-content  flex flex-wrap">
     <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData ; index as i; last as isLast">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
