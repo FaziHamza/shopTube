@@ -1,7 +1,7 @@
 <button nz-button [nzType]="drawerData.color" (click)="open()">{{drawerData.btnText}}</button>
 <nz-drawer [nzClosable]="drawerData.isClosable" [nzVisible]="visible" [nzPlacement]="drawerData.placement"
     [nzTitle]="drawerData.title" (nzOnClose)="close()" [nzCloseIcon]="drawerData.icon" [nzExtra]="extra"
-    [nzKeyboard]="drawerData.isKeyboard" [nzFooter]="drawerData.footerText"
+    [nzKeyboard]="drawerData.isKeyboard" [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size"
     [nzVisible]="drawerData.isVisible" [nzWidth]="'default'" >
     <ng-container *nzDrawerContent>
         

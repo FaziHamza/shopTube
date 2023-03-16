@@ -3363,6 +3363,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'extra',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Extra',
+          }
+        },
+        {
           key: 'nzExpandIconPosition',
           type: 'select',
           className: "w-1/4 px-1",
@@ -6956,6 +6965,26 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             label: 'Sub Title',
+          }
+        },
+        
+        
+        {
+          className: "w-1/4 px-1",
+          key: 'icon',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Icon',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'extra',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Extra',
           }
         },
         {
