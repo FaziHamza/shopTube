@@ -206,7 +206,13 @@ export class SiteLayoutComponent implements OnInit {
     this.makeMenuData();
   }
   notifyEmitForDropdown(data: any) {
-    this.tabs = data;
+    debugger
+    this.tabs = [];
+    data.children.forEach((i:any) => {
+      if(i.type == 'mainTab'){
+        this.tabs.push(i);
+      }
+    });
   }
 
   loadTabsAndButtons(data: any) {

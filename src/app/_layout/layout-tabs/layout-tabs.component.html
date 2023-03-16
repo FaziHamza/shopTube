@@ -2,9 +2,8 @@
     <nz-tabset [(nzSelectedIndex)]="tabsData.selectedIndex" [nzAnimated]="tabsData.animated" [nzSize]="tabsData.size"
         [nzTabPosition]="tabsData.tabPosition" [nzType]="tabsData.tabType" [nzHideAll]="tabsData.hidetabsData" nzHideAdd
         (nzClose)="closeTab($event)" [nzCentered]="tabsData.centerd">
-        <nz-tab *ngFor="let tab of tabsData.children ; let i = index" [nzClosable]="i > 1"
-            [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
-            [nzDisabled]="false">
+        <nz-tab *ngFor="let tab of tabsData.children ; let i = index" [nzClosable]="i > 1" [nzTitle]="titleTemplate"
+            (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true" [nzDisabled]="false">
             <ng-template #titleTemplate>
                 <div (click)="screenLoad(tab.link)">
                     <span nz-icon [nzType]='tab.icon'></span>

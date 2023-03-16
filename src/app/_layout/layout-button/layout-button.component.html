@@ -1,7 +1,7 @@
 <div class="auto-width border-gray-300 rounded border" >
     <div class="bg-white flex">
-        <div class="ml-8" *ngFor="let item of dropdownData">
-            <button class="hover:bg-blue-200 ;hover:text-blue cursor-pointer ; text-center ; rounded-md ; m-4" nz-button
+        <div *ngFor="let item of dropdownData">
+            <button class="hover:bg-blue-200 hover:text-blue cursor-pointer text-center rounded-md my-4" nz-button
                     nz-dropdown nzType="link" [nzDropdownMenu]="menu" (click)="tabsLoad(item)">
                     <h2 class="font-bold font-sans"><span nz-icon [nzType]="item.icon" nzTheme="outline" class="mr-1"></span>{{item.title}}</h2>
                 </button>

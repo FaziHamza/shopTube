@@ -1029,7 +1029,8 @@ export class MenuBuilderComponent implements OnInit {
     debugger
     if (arrayEmpty) {
       this.arrayEmpty();
-    } else if (!arrayEmpty) {
+    } 
+    else if (!arrayEmpty) {
       this.tabsArray = [];
     }
     if (data) {
