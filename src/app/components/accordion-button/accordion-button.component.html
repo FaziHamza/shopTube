@@ -1,7 +1,7 @@
 <nz-collapse class="p" [nzAccordion]="true" [nzBordered]='accordionData.nzBordered' [nzGhost]='accordionData.nzGhost'
     [nzExpandIconPosition]='accordionData.nzExpandIconPosition'>
     <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled' [nzHeader]="accordionData.title" [nzActive]='true'
-        [nzExpandedIcon]='accordionData.nzExpandedIcon' [nzShowArrow]='accordionData.nzShowArrow'>
+    [nzExtra]="accordionData.extra"  [nzExpandedIcon]='accordionData.nzExpandedIcon' [nzShowArrow]='accordionData.nzShowArrow'>
         <app-main [mainData]="accordionData.children"></app-main>
     </nz-collapse-panel>
 </nz-collapse>

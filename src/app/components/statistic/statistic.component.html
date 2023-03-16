@@ -2,7 +2,7 @@
     <ng-container *ngFor="let item of statisticData.statisticArray">
         <nz-col [nzSpan]="12">
             <nz-card>
-                <nz-statistic [nzPrefix]="prefixTpl" [nzSuffix]="suffixTpl" [nzValue]='item.title'
+                <nz-statistic [nzPrefix]="prefixTpl" [nzSuffix]="suffixTpl" [nzValue]='item.value'
                     [nzTitle]='item.title'></nz-statistic>
                 <ng-template #prefixTpl><span nz-icon [nzType]="statisticData.prefixIcon"></span></ng-template>
                 <ng-template #suffixTpl><span nz-icon [nzType]="statisticData.suffixIcon"></span></ng-template>
