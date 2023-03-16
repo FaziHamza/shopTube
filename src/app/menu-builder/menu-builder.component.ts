@@ -246,7 +246,7 @@ export class MenuBuilderComponent implements OnInit {
     this.specificControllShow(node.type, node);
     // if (node.type == 'dropdown' && node.children.length == 0) {
     //   this.specificControllShow(node.type , node.children);
-    // } 
+    // }
     // else if (node.type == 'dropdown' && node.children.length > 0) {
     //   if (node.children[0].type == 'mainTab') {
     //     this.specificControllShow();
@@ -578,10 +578,10 @@ export class MenuBuilderComponent implements OnInit {
     {
       "moduleName": this.moduleName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].moduleId : "",
+      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].id : "",
     };
     if (this.moduleId > 0) {
-      
+
       this.builderService.jsonDeleteModule(this.moduleId).subscribe((res => {
           this.builderService.jsonSaveModule(data).subscribe((res => {
           alert("Data Save");
@@ -1029,7 +1029,7 @@ export class MenuBuilderComponent implements OnInit {
     debugger
     if (arrayEmpty) {
       this.arrayEmpty();
-    } 
+    }
     else if (!arrayEmpty) {
       this.tabsArray = [];
     }

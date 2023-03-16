@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { JsonEditorOptions } from 'ang-jsoneditor';
@@ -62,6 +62,7 @@ export class BuilderComponent implements OnInit {
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
+    private cdr:ChangeDetectorRef,
     private clickButtonService: BuilderClickButtonService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
@@ -230,8 +231,10 @@ export class BuilderComponent implements OnInit {
       if (res.length > 0) {
         if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
+          this.getUIRuleData(true);
           // this.nodes = res[0].menuData;
           this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+
           // this.uiRuleGetData(res[0].moduleId);
           // this.uiGridRuleGetData(res[0].moduleId);
         }
@@ -453,12 +456,9 @@ export class BuilderComponent implements OnInit {
     }
   }
   uiRuleGetData(moduleId: any) {
-    this.builderService.jsonUIRuleGetData(moduleId).subscribe((getRes => {
-      this.screenData = [];
-      this.screenData = getRes[0];
-      this.makeFaker();
-      this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-    }));
+    this.makeFaker();
+    this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+    // this.getUIRuleData();
   }
   evalConditionRule(query: any, dataTargetIfValue: any) {
     dataTargetIfValue.forEach((e: any) => {
@@ -494,18 +494,20 @@ export class BuilderComponent implements OnInit {
     return query;
   }
   checkConditionUIRule(model: any, currentValue: any) {
+    this.getUIRule(model, currentValue);
+  }
+  getUIRuleData(data:any){
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];
         this.screenData = getRes[0];
-        this.getUIRule(model, currentValue);
       } else { }
     }));
   }
   getUIRule(model: any, currentValue: any) {
 
     if (this.screenData != undefined) {
-      var inputType = this.nodes[0].children[1].children[0].children[1].children
+      var inputType = this.nodes[0].children[1].children[0].children[1].children;
       for (let j = 0; j < inputType.length; j++) {
         for (let index = 0; index < this.screenData.uiData.length; index++) {
           if (inputType[j] == undefined) {
@@ -601,6 +603,8 @@ export class BuilderComponent implements OnInit {
           }
         }
       }
+      // this.clickBack();
+      // this.cdr.detectChanges();
     }
   }
   lastFormlyModelValue: string;
@@ -5457,7 +5461,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.extra = event.form.extra;
           this.selectedNode.icon = event.form.icon;
-          
+
         }
         break;
       case "imageUpload":
@@ -6816,5 +6820,4 @@ export class BuilderComponent implements OnInit {
     }
   }
 }
-
 
