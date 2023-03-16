@@ -770,9 +770,9 @@ export class BuilderClickButtonService {
 
   getMenuAttributeConfig(node: any) {
     return {
-      menuIcon: node.icon,
-      menuLink: node.link,
-      menuRequired: node.isTitle,
+      icon: node.icon,
+      link: node.link,
+      isTitle: node.isTitle,
     }
   }
   getTabAttributeConfig(node: any) {

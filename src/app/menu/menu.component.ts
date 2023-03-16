@@ -25,6 +25,7 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
+    debugger
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
         this.notify.emit(res[0].menuData);
@@ -33,7 +34,7 @@ export class MenuComponent implements OnInit {
         this.notification.create(
           'error',
           'Error',
-          'No menu agisnst this module'
+          'No menu against this module'
         );
       }
     }));

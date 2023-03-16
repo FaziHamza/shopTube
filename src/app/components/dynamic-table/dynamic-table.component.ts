@@ -30,6 +30,7 @@ export class DynamicTableComponent implements OnInit {
   }
   gridInitilize() {
     debugger
+    this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
         for (let index = 0; index < getRes[0].buisnessRulleData.length; index++) {
@@ -131,10 +132,12 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
+    debugger
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.childKey = this.getChildrenData();
     let checkcount = this.getParentChildrenKeys(this.tableData);
+    console.log(JSON.stringify(checkcount));
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
     }
@@ -222,24 +225,21 @@ export class DynamicTableComponent implements OnInit {
   // }
   getChildKeys(obj: any): any {
     const keys: any = {};
-    // keys.parent = Object.keys(obj);
     const firstObjectKeys = Object.keys(obj);
     keys.parent = firstObjectKeys.map(key => ({ name: key }));
     if (obj.children) {
-      keys.children = obj.children.map((child: any) => {
-        const childKeys = this.getChildKeys(child);
-        return childKeys;
-      });
+      keys.children = this.getChildKeys(obj.children[0])
     }
     return keys;
   }
 
   getParentChildrenKeys(data: any[]): any[] {
     const result: any[] = [];
-    data.forEach(obj => {
-      const keys = this.getChildKeys(obj);
+    if(data.length  > 0)
+    {
+      const keys = this.getChildKeys(data[0]);
       result.push(keys);
-    });
+    };
     return result;
   }
 

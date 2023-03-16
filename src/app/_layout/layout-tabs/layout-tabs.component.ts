@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-layout-tabs',
@@ -8,21 +9,22 @@ import { Router } from '@angular/router';
 })
 export class LayoutTabsComponent implements OnInit {
   @Input() tabsData: any;
-  constructor(private router: Router) { }
+  constructor(private router: Router , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-
+    debugger
+    this.tabsData;
   }
 
   screenLoad(link: any) {
-    
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);
     }
-    // else{
-    //   this.router.navigate(['/pages/notfound']);
-    // }
+    else{
+      this.toastr.error('No screen against this tab', { nzDuration: 3000 });
+      // this.router.navigate(['/pages/notfound']);
+    }
   }
   closeTab({ index }: { index: number }): void {
     this.tabsData.splice(index, 1);

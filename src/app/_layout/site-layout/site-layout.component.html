@@ -31,7 +31,7 @@
       </ng-container>
       <ng-container *ngIf="tabs.length" >
         <ng-container *ngFor="let item of tabs" >
-          <app-layout-tabs *ngIf="item.type == 'mainDashonicTabs'" [tabsData]="item"></app-layout-tabs>
+          <app-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></app-layout-tabs>
         </ng-container>
       </ng-container>
       <router-outlet></router-outlet>

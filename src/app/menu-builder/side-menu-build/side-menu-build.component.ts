@@ -23,13 +23,16 @@ export class SideMenuBuildComponent implements OnInit {
         arrayEmpty = false;
       }
     });
-    const myData = { menuData: data, arrayEmpty: arrayEmpty };
-    if(!arrayEmpty){
-    this.notify.emit(myData);
-    }else{
-      this.notify.emit(myData);
+    if(arrayEmpty){
+      data = {};
     }
+    this.notify.emit(data);
   }
 
-
+  shouldExecute(data: any): boolean {
+    if (data.type === 'mainTab' || data.type === 'dropdown') {
+      return false;
+    }
+    return true;
+  }
 }

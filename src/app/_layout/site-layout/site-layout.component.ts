@@ -199,30 +199,37 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   notifyEmit(data: any) {
+    debugger
     this.menuItems = [];
     this.menuItems = data;
     // this.newMenuArrayFunc();
     this.makeMenuData();
   }
   notifyEmitForDropdown(data: any) {
-    this.tabs = data;
+    debugger
+    this.tabs = [];
+    data.children.forEach((i:any) => {
+      if(i.type == 'mainTab'){
+        this.tabs.push(i);
+      }
+    });
   }
 
   loadTabsAndButtons(data: any) {
+    debugger
     // event.preventDefault();
     data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];
     this.menuChildArrayTwoColumn = [];
-    if (data.subItems.length > 0) {
-
-      data.subItems.forEach((i: any) => {
+    if (data.children.length > 0) {
+      data.children.forEach((i: any) => {
         if (this.selectedTheme.layout == 'twoColumn') {
           this.rowClass = 'w-10/12';
           this.menuColumn = 'w-2/12';
           this.menuChildArrayTwoColumn.push(i);
         }
-        if (i.type == 'mainDashonicTabs') {
+        if (i.type == 'mainTab') {
           this.tabs.push(i);
         }
         else if (i.type == 'dropdown') {
