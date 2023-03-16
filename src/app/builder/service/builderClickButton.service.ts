@@ -12,6 +12,49 @@ export class BuilderClickButtonService {
     
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
+  getCascaderConfig(node: any) {
+    
+    return { 
+      expandTrigger: node.expandTrigger,
+      labelProperty: node.labelProperty,
+      placeHolder: node.placeHolder ,
+      size: node.size,
+      status: node.status ,
+      expandIcon: node.expandIcon,
+      suffixIcon: node.suffixIcon,
+      allowClear: node.allowClear,
+      autoFocus: node.autoFocus,
+      backdrop: node.backdrop ,
+      showArrow: node.showArrow,
+      showInput: node.showInput,
+      showSearch: node.showSearch,
+      disabled: node.disabled,
+     };
+  }
+  getTreeselectviewConfig(node: any) {
+    
+    return { 
+      expandKeys: node.expandKeys,
+      showSearch:node.showSearch ,
+      placeHolder: node.placeHolder,
+      disabled: node.disabled,
+      icon:node.icon ,
+      width:node.width ,
+      hideUnMatched:node.hideUnMatched ,
+      status: node.status,
+      checkable:node.checkable ,
+      showExpand:node.showExpand ,
+      showLine:node.showLine ,
+      defaultExpandAll: node.defaultExpandAll,
+      size: node.size,
+     };
+  }
+  getTreeViewConfig(node: any) {
+    
+    return { 
+     
+     };
+  }
   progressBarConfig(node: any) {
     
     return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success };
@@ -187,6 +230,16 @@ export class BuilderClickButtonService {
     }
   }
 
+  getSpinConfig(node: any) {
+    return {
+      simple: node.simple,
+      spinning: node.spinning,
+      size: node.size,
+      delayTime: node.delayTime,
+      loaderText: node.loaderText,
+    }
+  }
+
   getImageUploadConfig(node: any) {
     return {
       imageClass: node.imageClass,
@@ -287,6 +340,13 @@ export class BuilderClickButtonService {
     return {
       switchType: node.switchType,
       switchPosition: node.switchPosition,
+      size: node.size,
+      checkedChildren: node.checkedChildren,
+      unCheckedChildren: node.unCheckedChildren,
+      disabled: node.disabled,
+      loading: node.loading,
+      control: node.control,
+    
     }
   }
 
@@ -547,7 +607,9 @@ export class BuilderClickButtonService {
       text: node.text,
       style: node.style,
       textAlignment: node.textAlign,
-      headingColor: node.headingColor,
+      fontstyle: node.fontstyle,
+      color: node.color,
+      heading: node.heading,
     }
   }
 
@@ -600,6 +662,7 @@ export class BuilderClickButtonService {
     
     return {
       color: node.color,
+      onhover: node.onhover,
       title: node.title,
       hideExpression: node.hideExpression,
       format: node.format,
@@ -618,6 +681,7 @@ export class BuilderClickButtonService {
     
     return {
       color: node.color,
+      onhover: node.onhover,
       hideExpression: node.hideExpression,
       options: node.dropdownOptions,
       format: node.format,
@@ -651,6 +715,7 @@ export class BuilderClickButtonService {
   getLinkButtonConfig(node: any) {
     return {
       color: node.color,
+      onhover: node.onhover,
       hideExpression: node.hideExpression,
       tooltip: node.tooltip,
       href: node.href,

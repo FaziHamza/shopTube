@@ -522,11 +522,8 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <nz-spin *ngIf="!item.loaderIcon" nzSimple [nzSize]="item.size" [nzDelay]="item.delayTime"
-                        [nzTip]='item.loaderText'></nz-spin>
-                    <ng-template #indicatorTemplate><span nz-icon [nzType]='item.loaderIcon'></span></ng-template>
-                    <nz-spin *ngIf="item.loaderIcon" nzSimple [nzIndicator]="indicatorTemplate" nzSimple
-                        [nzSpinning]="true" [nzSize]='item.size' [nzDelay]="item.delayTime"
+                    <nz-spin [nzSimple]="item.simple" 
+                        [nzSpinning]="item.spinning" [nzSize]='item.size' [nzDelay]="item.delayTime"
                         [nzTip]='item.loaderText'></nz-spin>
                 </ng-container>
             </ng-container>
