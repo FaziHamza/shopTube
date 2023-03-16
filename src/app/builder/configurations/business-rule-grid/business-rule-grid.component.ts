@@ -22,7 +22,7 @@ export class BusinessRuleGridComponent implements OnInit {
   isModalVisible = false;
   isReadOnly: boolean = true;
   ngOnInit(): void {
-    debugger
+    
     this.dynamicBuisnessRule();
     this.conditionForm = this.formBuilder.group({
       getRuleCondition: this.formBuilder.array([
@@ -153,16 +153,16 @@ export class BusinessRuleGridComponent implements OnInit {
       .get('multiConditionList') as FormArray;
   }
   addMathmaticRule() {
-    debugger
+    
     this.getRuleCondition().push(this.mathmaticRule());
   }
   addgetRuleMultiCondition(index: number) {
-    debugger
+    
     this.getRuleMultiCondition(index).push(this.multiCondition());
     this.cd.detectChanges();
   }
   removeMathmaticRule(mathIndex: number) {
-    debugger
+    
     this.getRuleCondition().removeAt(mathIndex);
     this.getGridRuleCondition();
   }
@@ -171,7 +171,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getGridRuleCondition();
   }
   saveMathmaticRule() {
-    debugger
+    
     if (this.thenIndexForConditionForm != undefined) {
       this.buisnessRuleThen(this.indexForConditionForm).at(this.thenIndexForConditionForm).patchValue({
         thenResultValue: this.getGridRuleCondition()
@@ -229,7 +229,7 @@ export class BusinessRuleGridComponent implements OnInit {
   indexForConditionForm: any;
   thenIndexForConditionForm: any;
   addConditionRule(index: number, thenIndex?: number) {
-    debugger
+    
     this.isVisible = true;
     this.indexForConditionForm = index;
     this.thenIndexForConditionForm = thenIndex;
@@ -340,7 +340,7 @@ export class BusinessRuleGridComponent implements OnInit {
     });
   }
   newThen(): FormGroup {
-    debugger
+    
     return this.formBuilder.group({
       thenTarget: '',
       thenOpratorForTraget: '',
@@ -349,7 +349,7 @@ export class BusinessRuleGridComponent implements OnInit {
     });
   }
   buisnessGetThenRuleCondition(): FormGroup {
-    debugger
+    
     return this.formBuilder.group({
       ifCondition: '',
       oprator: '',
@@ -421,7 +421,7 @@ export class BusinessRuleGridComponent implements OnInit {
       .get('multiConditionList') as FormArray;
   }
   addBuisnessRule() {
-    debugger
+    
     this.buisnessRule().push(this.newBuisnessRule());
   }
   addBuisnessRuleSkill(empIndex: number) {
@@ -465,7 +465,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-    debugger
+    
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;

@@ -15,7 +15,7 @@ export class SideMenuBuildComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent,data: any) {
-    debugger
+    
     event.stopPropagation();
     let arrayEmpty = true;
     data.children.forEach((j: any) => {

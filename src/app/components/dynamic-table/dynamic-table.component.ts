@@ -29,7 +29,7 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   gridInitilize() {
-    debugger
+    
     this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
@@ -132,7 +132,7 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    debugger
+    
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.childKey = this.getChildrenData();

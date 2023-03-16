@@ -14,7 +14,7 @@ export class LayoutButtonComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    debugger
+    
     // if (this.dropdownData) {
     //   if (this.dropdownData.length > 0) {
     //     for (let index = 0; index < this.dropdownData.length; index++) {
@@ -27,13 +27,13 @@ export class LayoutButtonComponent implements OnInit {
   }
 
   tabsLoad(data: any) {
-    debugger
+    
     this.notify.emit(data);
 
   }
 
   apiCall(link: any) {
-    debugger
+    
     if (link) {
       let routerLink = "/pages/" + link;
       this.router.navigate([routerLink]);

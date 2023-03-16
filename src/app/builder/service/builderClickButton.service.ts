@@ -612,7 +612,7 @@ export class BuilderClickButtonService {
     }
   }
   getDropdownButtonConfig(node: any) {
-    debugger
+    
     return {
       color: node.color,
       hideExpression: node.hideExpression,

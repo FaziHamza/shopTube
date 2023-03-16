@@ -8,10 +8,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./app-side-menu.component.scss']
 })
 export class AppSideMenuComponent implements OnInit {
-  @Input() menuBuilderData: any
   @Input() selectedTheme: any;
+  @Input() menuItems: any = [];
   @Output() notify: EventEmitter<any> = new EventEmitter();
-  menuItems: MenuItem[] = [];
+  // menuItems: MenuItem[] = [];
   newMenuArray: any = false;
   menuChildArrayTwoColumn: any = [];
   isTwoColumnCollapsed = false;
@@ -34,11 +34,8 @@ export class AppSideMenuComponent implements OnInit {
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
-
-    if (!this.selectedTheme) {
-      this.selectedTheme = this.newSelectedTheme
-    }
-    this.getMenu();
+    
+    this.makeMenuData();
   }
 
   toggleCollapsed(): void {
@@ -73,32 +70,43 @@ export class AppSideMenuComponent implements OnInit {
 
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
-        if (this.menuBuilderData) {
-          this.menuItems = this.menuBuilderData;
-        } else {
-          this.menuItems = res[0].menuData;
-        }
+        this.selectedTheme.allMenuItems = res[0].menuData;
         this.makeMenuData();
-        this.menuItems.forEach((e: any) => {
+        this.selectedTheme.allMenuItems.forEach((e: any) => {
           e["menuIcon"] = "up"
         });
       }
       else
         this.menuItems = [];
     })
-    // this.employeeService.getMenuData(1).subscribe((res)=>{
-    //
-    //   this.menuItems = res;
-    // })
+  }
+  makeMenuData() {
+    
+    let arrayList = [];
+    this.menuItems = this.selectedTheme.allMenuItems;
+    arrayList = this.menuItems;
+    this.selectedTheme.allMenuItems = [];
+    this.selectedTheme.newMenuArray = [];
+    if (this.menuItems.length > 7 && this.selectedTheme.layout == 'horizental') {
+      this.selectedTheme.newMenuArray = [{
+        label: "More",
+        icon: "down",
+        subMenu: []
+      }]
+      this.selectedTheme.newMenuArray[0].subMenu = this.menuItems.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.slice(0, 7);
+    }
+    else {
+      this.selectedTheme.allMenuItems = arrayList;
+    }
   }
 
   changeIcon() {
-
     this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    debugger
+    
     event.stopPropagation();
     this.notify.emit(data);
     this.menuChildArrayTwoColumn = [];
@@ -134,33 +142,17 @@ export class AppSideMenuComponent implements OnInit {
     }
     this.newMenuArray = [];
   }
-  makeMenuData() {
 
-    let arrayList = [];
-    arrayList = this.menuItems;
-    this.selectedTheme.allMenuItems = [];
-    this.newMenuArray = [];
-    if (this.menuItems.length > 7 && this.selectedTheme.layout == 'horizental') {
-      this.newMenuArray = [{
-        label: "More",
-        icon: "down",
-        subMenu: []
-      }]
-      this.newMenuArray[0].subMenu = this.menuItems.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.slice(7);
-    }
-    else {
-      this.selectedTheme.allMenuItems = arrayList;
-    }
-  }
   shouldExecute(data: any): boolean {
+    
     if (data.type === 'mainTab' || data.type === 'dropdown') {
       return false;
     }
     return true;
   }
 
-  
+
+
 }
 
 
