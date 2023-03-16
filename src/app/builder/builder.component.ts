@@ -185,7 +185,7 @@ export class BuilderComponent implements OnInit {
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
-    debugger
+    
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
@@ -225,7 +225,7 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-    debugger
+    
     this.screenName = data;
     this.builderService.jsonBuilderSettingV1(data).subscribe((res => {
       if (res.length > 0) {
@@ -6597,7 +6597,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-        debugger
+        
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;

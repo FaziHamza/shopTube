@@ -12,6 +12,7 @@ export interface MenuItem {
   parentId?: number;
   isLayout?: boolean;
   menuData?:any;
+  selectedTheme?:any;
   color?:any;
   isShowChild?:any;
   isOpen?: boolean;
