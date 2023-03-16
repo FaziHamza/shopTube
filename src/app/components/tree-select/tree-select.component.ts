@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TreeSelectComponent implements OnInit {
   @Input() treeSelectData: any;
   value?: string;
+
   constructor() { }
 
   ngOnInit(): void {

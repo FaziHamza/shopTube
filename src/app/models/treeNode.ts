@@ -27,6 +27,18 @@ export interface TreeNode {
   padding?: any;
   hideExpression?: boolean;
   checkable?: any;
+  expandKeys?: any;
+  hideUnMatched?: any;
+  showExpand?: any;
+  showLine?: any;
+  defaultExpandAll?: any;
+  expandTrigger?: any;
+  labelProperty?: any;
+  placeHolder?: any;
+  allowClear?: any;
+  autoFocus?: any;
+  showArrow?: any;
+  showInput?: any;
   expand?: any;
   expandIcon?: any;
   closingexpandicon?: any;
@@ -169,6 +181,8 @@ export interface TreeNode {
   delayTime?: any,
   loaderText?: any,
   loaderIcon?: any,
+  simple?: any,
+  spinning?: any,
   btnLabel?: any,
   modalContent?: any,
   modalTitle?: any,
@@ -283,6 +297,7 @@ export interface TreeNode {
   textColor?: string,
   repeat?: any,
   color?: string,
+  onhover?: string,
   icon?: any,
   mode?: any,
   checked?: any,
@@ -354,6 +369,9 @@ export interface TreeNode {
   placement?: string;
   size?: string;
   width?: any;
+  checkedChildren?: any;
+  unCheckedChildren?: any;
+  control?: any;
   height?: string;
   offsetX?: number;
   offsetY?: number;
@@ -408,6 +426,7 @@ export interface TreeNode {
   multiple?: any,
   progressBArConfig?: any,
   calenderConfig?: any,
+  fontstyle?: any,
   sharedMessagesConfig?: any,
   heading?: string,
   labelIcon?: string,

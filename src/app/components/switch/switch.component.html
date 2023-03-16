@@ -73,7 +73,18 @@
         </div>
 </div> -->
 
-<nz-switch [formlyAttributes]="field" nzSize="small"></nz-switch>
+<nz-switch [formlyAttributes]="field"
+
+></nz-switch>
+<!-- <nz-switch [formlyAttributes]="field"
+ [nzSize]="field.size"
+[nzCheckedChildren]="field.checkedChildren"
+[nzUnCheckedChildren]="field.unCheckedChildren"
+[nzDisabled]="field.disabled"
+
+[nzLoading]="field.loading"
+[nzControl]="field.control"
+></nz-switch> -->
 <span class="switch-label">{{field.templateOptions?.label}}</span>
 
 

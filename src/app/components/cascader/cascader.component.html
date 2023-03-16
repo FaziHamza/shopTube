@@ -1,3 +1,21 @@
-<nz-cascader [nzOptions]="cascaderData.nodes" [(ngModel)]="values" (ngModelChange)="onChanges($event)"></nz-cascader>
+<nz-cascader [nzOptions]="cascaderData.nodes" [(ngModel)]="values"
+
+
+
+[nzDisabled]="cascaderData.disabled"
+[nzExpandIcon]="expandIcon"
+[nzExpandTrigger]="cascaderData.expandTrigger"
+[nzPlaceHolder]="cascaderData.placeHolder"
+[nzShowInput]="cascaderData.showInput"
+[nzSize]="cascaderData.size"
+[nzStatus]="cascaderData.status"
+
+ (ngModelChange)="onChanges($event)">
+
+</nz-cascader>
 &nbsp;
+<ng-template #expandIcon>
+    <span nz-icon [nzType]="cascaderData.expandIcon"></span>
+</ng-template>
+
 <!-- <a href="javascript:;" (click)="changeNzOptions()" class="change-options">Change Options</a> -->

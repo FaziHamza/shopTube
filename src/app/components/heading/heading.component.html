@@ -1,5 +1,3 @@
-<div [style.padding]="headingData.padding">
-    <div
-        [innerHtml]="data(headingData.level,headingData.text,headingData.type,headingData.fontSize) | sanitize: 'html'">
-    </div>
-</div>
+
+<p [class]="[headingData.heading, headingData.fontstyle]"  
+[style.color]="headingData.color">{{headingData.text}}</p>
