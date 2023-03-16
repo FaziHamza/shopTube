@@ -474,11 +474,9 @@ export class BusinessRuleGridComponent implements OnInit {
       buisnessRule: this.formBuilder.array([])
     });
 
-    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      if (this.nodes[0].children[1].children[0].children[1].children[j].type == "gridList") {
-        for (let index = 0; index < this.nodes[0].children[1].children[0].children[1].children[j].tableHeaders.length; index++) {
-          this.buisnessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].tableHeaders[index]);
-        }
+    if (this.selectedNode.type == "gridList") {
+      for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
+        this.buisnessRuleIfList.push(this.selectedNode.tableHeaders[index]);
       }
     }
     this.buisnessRuleData = this.buisnessRuleIfList;
@@ -496,29 +494,51 @@ export class BusinessRuleGridComponent implements OnInit {
   const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
   if (mainModuleId.length > 0) {
       this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
+        debugger
         if (getRes.length > 0) {
-          this.buisnessForm = this.formBuilder.group({
-            buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
-              this.formBuilder.group({
-                ifCondition: [getBuisnessRuleRes.ifCondition],
-                oprator: [getBuisnessRuleRes.oprator],
-                getValue: [getBuisnessRuleRes.getValue],
-                target: [getBuisnessRuleRes.target],
-                opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                resultValue: [getBuisnessRuleRes.resultValue],
-                conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+          for (let k = 0; k < getRes.length; k++) {
+            if(getRes[k].gridKey == this.selectedNode.key){
+              this.buisnessForm = this.formBuilder.group({
+                buisnessRule: this.formBuilder.array(getRes[k].buisnessRulleData.map((getBuisnessRuleRes: any) =>
                   this.formBuilder.group({
-                    condifCodition: getConditionalRes.condifCodition,
-                    condOperator: getConditionalRes.condOperator,
-                    condValue: getConditionalRes.condValue,
-                    condType: getConditionalRes.condType
-                  }))),
-                thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                  this.formBuilder.group({
-                    thenTarget: getthenCodRes.thenTarget,
-                    thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
-                    thenResultValue: getthenCodRes.thenResultValue,
-                    getRuleCondition: this.formBuilder.array(getthenCodRes.getRuleCondition.map((objGetRuleCondition: any) =>
+                    ifCondition: [getBuisnessRuleRes.ifCondition],
+                    oprator: [getBuisnessRuleRes.oprator],
+                    getValue: [getBuisnessRuleRes.getValue],
+                    target: [getBuisnessRuleRes.target],
+                    opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
+                    resultValue: [getBuisnessRuleRes.resultValue],
+                    conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                      this.formBuilder.group({
+                        condifCodition: getConditionalRes.condifCodition,
+                        condOperator: getConditionalRes.condOperator,
+                        condValue: getConditionalRes.condValue,
+                        condType: getConditionalRes.condType
+                      }))),
+                    thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                      this.formBuilder.group({
+                        thenTarget: getthenCodRes.thenTarget,
+                        thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                        thenResultValue: getthenCodRes.thenResultValue,
+                        getRuleCondition: this.formBuilder.array(getthenCodRes.getRuleCondition.map((objGetRuleCondition: any) =>
+                          this.formBuilder.group({
+                            ifCondition: objGetRuleCondition.ifCondition,
+                            oprator: objGetRuleCondition.oprator,
+                            target: objGetRuleCondition.target,
+                            refranceId: objGetRuleCondition.refranceId,
+                            refranceOperator: objGetRuleCondition.refranceOperator,
+                            refranceColor: objGetRuleCondition.refranceColor,
+                            condition: objGetRuleCondition.condition,
+                            multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
+                              this.formBuilder.group({
+                                oprator: objGetMultiConditionList.oprator,
+                                target: objGetMultiConditionList.target,
+                                condType: objGetMultiConditionList.condType
+                              })
+                            ))
+                          })
+                        ))
+                      }))),
+                    getRuleCondition: this.formBuilder.array(getBuisnessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
                       this.formBuilder.group({
                         ifCondition: objGetRuleCondition.ifCondition,
                         oprator: objGetRuleCondition.oprator,
@@ -536,39 +556,22 @@ export class BusinessRuleGridComponent implements OnInit {
                         ))
                       })
                     ))
-                  }))),
-                getRuleCondition: this.formBuilder.array(getBuisnessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
-                  this.formBuilder.group({
-                    ifCondition: objGetRuleCondition.ifCondition,
-                    oprator: objGetRuleCondition.oprator,
-                    target: objGetRuleCondition.target,
-                    refranceId: objGetRuleCondition.refranceId,
-                    refranceOperator: objGetRuleCondition.refranceOperator,
-                    refranceColor: objGetRuleCondition.refranceColor,
-                    condition: objGetRuleCondition.condition,
-                    multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
-                      this.formBuilder.group({
-                        oprator: objGetMultiConditionList.oprator,
-                        target: objGetMultiConditionList.target,
-                        condType: objGetMultiConditionList.condType
-                      })
-                    ))
                   })
                 ))
-              })
-            ))
-          });
+              });
+            }
+
+          }
+
         }
       }))
     }
   }
   changeDynamicBuisnessRuleIf() {
     this.buisnessRuleTargetList = [];
-    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      if (this.nodes[0].children[1].children[0].children[1].children[j].type == "gridList") {
-        for (let index = 0; index < this.nodes[0].children[1].children[0].children[1].children[j].tableHeaders.length; index++) {
-          this.buisnessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].tableHeaders[index]);
-        }
+    if (this.selectedNode.type == "gridList") {
+      for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
+        this.buisnessRuleTargetList.push(this.selectedNode.tableHeaders[index]);
       }
     }
   }
@@ -608,11 +611,12 @@ export class BusinessRuleGridComponent implements OnInit {
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       "buisnessRulleData": this.buisnessForm.value.buisnessRule,
-      "buisnessRule": this.GridBusinessRuleData
+      "buisnessRule": this.GridBusinessRuleData,
+      "gridKey": this.selectedNode.key,
     }
     if (jsonRuleValidation != null) {
       if (mainModuleId[0].screenId != null) {
-        this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
+        this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe((getRes => {
           if (getRes.length == 0) {
             this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe((saveRes => {
               alert("Data Save");
@@ -632,38 +636,36 @@ export class BusinessRuleGridComponent implements OnInit {
     // const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
     // console.log(fishRhyme1({ text_675d95bf: "abc" }));
     // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
-    this.nodes[0].children[1].children[0].children[1].children.forEach((element: any) => {
-      if (element.type == 'gridList') {
-        for (let index = 0; index < this.buisnessForm?.value?.buisnessRule.length; index++) {
-          let query: any;
-          let color = this.buisnessForm?.value?.buisnessRule[index]?.getRuleCondition[0]?.refranceColor;
-          let dataval = this.buisnessForm?.value?.buisnessRule[index]?.getValue.toString();
-          var conditionKey: any = this.buisnessForm.value.buisnessRule[index].ifCondition;
-          var conditionOperator: any = this.buisnessForm.value.buisnessRule[index].oprator;
-          let _attributes = {
-            className: {
-              row: [color]
-            }
+    if (this.selectedNode.type == 'gridList') {
+      for (let index = 0; index < this.buisnessForm?.value?.buisnessRule.length; index++) {
+        let query: any;
+        let color = this.buisnessForm?.value?.buisnessRule[index]?.getRuleCondition[0]?.refranceColor;
+        let dataval = this.buisnessForm?.value?.buisnessRule[index]?.getValue.toString();
+        var conditionKey: any = this.buisnessForm.value.buisnessRule[index].ifCondition;
+        var conditionOperator: any = this.buisnessForm.value.buisnessRule[index].oprator;
+        let _attributes = {
+          className: {
+            row: [color]
           }
-          let _attributesRevert = {
-          }
-          element.rowData.forEach((elementV1: any) => {
-
-            query = elementV1[conditionKey] + " " + conditionOperator + " " + dataval;
-            if (eval(query)) {
-              elementV1["_attributes"] = _attributes;
-              // var data = fishRhyme(elementV1);
-              // if (data) {
-              //   elementV1 = data;
-              // }
-              // else {
-              //   elementV1 = _attributesRevert;
-              // }
-            }
-          });
         }
+        let _attributesRevert = {
+        }
+        this.selectedNode.rowData.forEach((elementV1: any) => {
+
+          query = elementV1[conditionKey] + " " + conditionOperator + " " + dataval;
+          if (eval(query)) {
+            elementV1["_attributes"] = _attributes;
+            // var data = fishRhyme(elementV1);
+            // if (data) {
+            //   elementV1 = data;
+            // }
+            // else {
+            //   elementV1 = _attributesRevert;
+            // }
+          }
+        });
       }
-    });
+    }
     // console.log(fishRhyme(this.formlyModel));
   }
   handleOk(): void {

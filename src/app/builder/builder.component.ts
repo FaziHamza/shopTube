@@ -199,7 +199,7 @@ export class BuilderComponent implements OnInit {
       }
     }))
     // this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
-    //   
+    //
     //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
     //     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
     //       if (res.length > 0) {
@@ -920,7 +920,7 @@ export class BuilderComponent implements OnInit {
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
                   // keyup: (model:any, $event) => {
-                  //   
+                  //
                   //   let currentVal = model.form.value[model.key.toString()];
                   //   let value = currentVal.split(":");
                   //   currentVal = value[1].slice(1);
@@ -2397,8 +2397,8 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
             listOfFilter: [
-              { text: 'Joe', value: 'Joe' },
-              { text: 'Jim', value: 'Jim', byDefault: true }
+              // { text: 'Joe', value: 'Joe' },
+              // { text: 'Jim', value: 'Jim', byDefault: true }
             ],
             filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
           },
@@ -2409,7 +2409,7 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['descend', null],
             listOfFilter: [],
             filterFn: null,
-            filterMultiple: true
+            filterMultiple: false
           },
           {
             name: 'Address',
@@ -2432,7 +2432,17 @@ export class BuilderComponent implements OnInit {
             address: 'New York No. 1 Lake Park',
             description: 'My name is John Brown, I am 2 years old, living in New York No',
             checked: false,
-            expand: false
+            expand: false ,
+            children:[
+              {
+                id:1,
+                name:'test',
+              },
+              {
+                id:2,
+                name:'test2'
+              },
+            ]
           },
           {
             id: 2,
@@ -6626,7 +6636,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.nztype = event.form.nztype;
           this.selectedNode.size = event.form.size;
-          
+
           // if (event.form.link != undefined || event.form.link != "") {
           //   this.builderService.genericApis(event.form.link).subscribe((res => {
 
