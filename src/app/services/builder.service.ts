@@ -190,6 +190,42 @@ export class BuilderService {
       this.baseUrl + "jsonModule/" + id, modal
     );
   }
+  jsonModuleModuleList(): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "jsonModule"
+    );
+  }
+  checkScreenAlreadyExistOrNot(id: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "jsonScreenModule?screenId=" + id
+    );
+  }
+  checkScreenAlreadyExistOrNotWithName(screenName: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "jsonScreenModule?applicationName=" + screenName
+    );
+  }
+  addScreenModule(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "jsonScreenModule", modal
+    );
+  }
+  updateScreenModule(id: any, modal: any): Observable<any[]> {
+    return this.http.put<any[]>(
+      this.baseUrl + "jsonScreenModule/" + id, modal
+    );
+  }
+  screenSettingForm(): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "screenSetting"
+    );
+  }
+  deletejsonScreenModule(id: number): Observable<any[]> {
+
+    return this.http.delete<any[]>(
+      this.baseUrl + "jsonScreenModule/" + id
+    );
+  }
 }
 
 

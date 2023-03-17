@@ -9,6 +9,7 @@ import { GenaricFeild } from '../models/genaricFeild.modal';
 import { Guid } from '../models/guid';
 import { TreeNode } from '../models/treeNode';
 import { BuilderService } from '../services/builder.service';
+import { DataSharedService } from '../services/data-shared.service';
 import { actionTypeFeild, formFeildData } from './configurations/configuration.modal';
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
@@ -62,8 +63,8 @@ export class BuilderComponent implements OnInit {
   constructor(public builderService: BuilderService,
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
-    private cdr:ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService) {
+    private cdr: ChangeDetectorRef,
+    private clickButtonService: BuilderClickButtonService , public dataSharedService : DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -85,8 +86,8 @@ export class BuilderComponent implements OnInit {
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     this.screenName = "CRMAPP"
-    if (this.screenName) {
-      this.getFormLayers(this.screenName);
+    if (this.dataSharedService.screenName) {
+      this.getFormLayers(this.dataSharedService.screenName);
     }
     this.htmlTabsData = htmlTabsData;
   }
@@ -185,7 +186,7 @@ export class BuilderComponent implements OnInit {
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
-    
+
     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
       if (res.length > 0) {
         this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
@@ -225,7 +226,7 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-    
+
     this.screenName = data;
     this.builderService.jsonBuilderSettingV1(data).subscribe((res => {
       if (res.length > 0) {
@@ -496,7 +497,7 @@ export class BuilderComponent implements OnInit {
   checkConditionUIRule(model: any, currentValue: any) {
     this.getUIRule(model, currentValue);
   }
-  getUIRuleData(data:any){
+  getUIRuleData(data: any) {
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];
@@ -977,7 +978,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "bg-blue-600",
-        onhover:"hover:bg-blue-400",
+        onhover: "hover:bg-blue-400",
         btnIcon: "upload",
         tooltip: "",
         format: "text-left",
@@ -1007,7 +1008,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "bg-green-600",
-        onhover:"hover:bg-green-400",
+        onhover: "hover:bg-green-400",
         btnIcon: "down",
         format: "text-left",
         btnDisables: false,
@@ -1058,7 +1059,7 @@ export class BuilderComponent implements OnInit {
         actionType: "update",
         className: "w-1/3",
         color: "bg-blue-200",
-        onhover:"hover:bg-blue-200",
+        onhover: "hover:bg-blue-200",
         btnIcon: "redo",
         format: "text-left",
         btnDisables: false,
@@ -1088,7 +1089,7 @@ export class BuilderComponent implements OnInit {
         actionType: "delete",
         className: "w-1/3",
         color: "bg-yellow-600",
-        onhover:"hover:bg-yellow-400",
+        onhover: "hover:bg-yellow-400",
         btnIcon: "delete",
         format: "text-left",
         btnDisables: false,
@@ -1546,7 +1547,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         color: "bg-blue-200",
-        onhover:"hover:bg-blue-200",
+        onhover: "hover:bg-blue-200",
         target: "_blank",
         btnType: "_blank",
         href: "",
@@ -2444,15 +2445,15 @@ export class BuilderComponent implements OnInit {
             address: 'New York No. 1 Lake Park',
             description: 'My name is John Brown, I am 2 years old, living in New York No',
             checked: false,
-            expand: false ,
-            children:[
+            expand: false,
+            children: [
               {
-                id:1,
-                name:'test',
+                id: 1,
+                name: 'test',
               },
               {
-                id:2,
-                name:'test2'
+                id: 2,
+                name: 'test2'
               },
             ]
           },
@@ -6220,7 +6221,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.title = event.form.title;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
-          this.selectedNode.heading = event.form.heading,
+            this.selectedNode.heading = event.form.heading,
             this.selectedNode.className = event.form.className;
           this.selectedNode.color = event.form.color;
           // this.selectedNode.paddingLeft = event.form.paddingLeft;
@@ -6692,7 +6693,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-        
+
         if (this.selectedNode.id) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6912,6 +6913,50 @@ export class BuilderComponent implements OnInit {
           return selectNode;
         }
       }))
+    }
+  }
+
+  jsonUpload(event: any) {
+    debugger
+    let contents
+    event;
+    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        contents = reader.result as string;
+        var makeData = JSON.parse(contents);
+        var currentData = JSON.parse(
+          JSON.stringify(makeData.menuData, function (key, value) {
+            if (typeof value == 'function') {
+              return value.toString();
+            } else {
+              return value;
+            }
+          }) || '{}');
+
+        var data =
+        {
+          "moduleName": makeData.moduleName,
+          "menuData": currentData,
+          "moduleId": makeData.moduleId,
+        };
+        this.nodes = makeData.menuData;
+        // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
+        //   if (res.length > 0) {
+        //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
+        //       this.employeeService.jsonSaveBuilder(data).subscribe((res => {
+        //         alert("Data Save");
+        //       }))
+        //     }))
+        //   }
+        //   else {
+        //     this.employeeService.jsonSaveBuilder(data).subscribe((res => {
+        //       alert("Data Save");
+        //     }))
+        //   }
+        // }))
+      };
+      reader.readAsText(event.target.files[0]);
     }
   }
 }

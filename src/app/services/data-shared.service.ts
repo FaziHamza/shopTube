@@ -16,4 +16,7 @@ export class DataSharedService {
   getData() {
     return this.data;
   }
+
+  // This variable is used for goTo build page through screen builder
+  screenName : any
 }

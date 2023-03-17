@@ -92,6 +92,7 @@ import { TreeComponent } from './components/tree/tree.component';
 import { InputWrapperComponent } from './wrappers/input-wrapper/input-wrapper.component';
 import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
+import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -176,6 +177,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     TreeComponent,
     MenuBuilderComponent,
     SideMenuBuildComponent,
+    ScreenBuilderComponent,
     // InputWrapperComponent,
   ],
   imports: [

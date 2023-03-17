@@ -7,6 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
+import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'menu-builder',
     component: MenuBuilderComponent
+  },
+  {
+    path: 'screen-builder',
+    component: ScreenBuilderComponent
   },
 ];
 

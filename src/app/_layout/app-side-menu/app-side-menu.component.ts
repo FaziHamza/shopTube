@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { MenuItem } from 'src/app/models/menu';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -31,10 +33,10 @@ export class AppSideMenuComponent implements OnInit {
     isCollapsed: false,
     allMenuItems: [],
   }
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService , private toastr: NzMessageService, private router: Router ,) { }
 
   ngOnInit(): void {
-    
+
     this.makeMenuData();
   }
 
@@ -81,7 +83,7 @@ export class AppSideMenuComponent implements OnInit {
     })
   }
   makeMenuData() {
-    
+
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;
     arrayList = this.menuItems;
@@ -106,16 +108,24 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    
+    debugger
     event.stopPropagation();
     this.notify.emit(data);
     this.menuChildArrayTwoColumn = [];
-    if (data.children.length > 0) {
+    if (data.link) {
+      let routerLink = "/pages/" + data.link;
+      this.router.navigate([routerLink]);
+    }
+    else if (data.children.length > 0) {
       data.children.forEach((i: any) => {
         if (this.selectedTheme.layout == 'twoColumn') {
           this.menuChildArrayTwoColumn.push(i);
         }
       });
+    } 
+    else {
+      this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
+      // this.router.navigate(['/pages/notfound']);
     }
   }
 
@@ -144,7 +154,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   shouldExecute(data: any): boolean {
-    
+
     if (data.type === 'mainTab' || data.type === 'dropdown') {
       return false;
     }
