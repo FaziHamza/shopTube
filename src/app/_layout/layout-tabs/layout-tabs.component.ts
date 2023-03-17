@@ -12,13 +12,13 @@ export class LayoutTabsComponent implements OnInit {
   constructor(private router: Router , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-    
+
     this.tabsData;
   }
 
   screenLoad(link: any) {
     if (link) {
-      let routerLink = "/pages/" + link;
+      let routerLink = link;
       this.router.navigate([routerLink]);
     }
     else{
