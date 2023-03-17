@@ -1214,8 +1214,10 @@ export class MenuBuilderComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      this.selectedTheme.newMenuArray[0].subMenu = this.nodes.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.slice(0, 7);
+      debugger
+      const withOutTitle = this.nodes.filter((a:any)=>a.isTitle != true);
+      this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;

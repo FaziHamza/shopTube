@@ -1,5 +1,5 @@
 <div [ngClass]="selectedTheme.layout === 'twoColumn' ? 'flex flex-wrap' : ''">
-  <div 
+  <div
     (mouseover)="setHovered(false,'start')" (mouseout)="setHovered(true,'start')">
     <div [ngClass]="{'flex flex-wrap': selectedTheme.menuMode === 'horizontal'}"
       [ngStyle]="{'background': selectedTheme.menuMode === 'horizontal'?'#fff' :''}"
@@ -14,7 +14,7 @@
           </ng-container>
           <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
             <ng-container *ngFor="let item of selectedTheme.allMenuItems" >
-              <!-- <li  *ngIf="item.isTitle && shouldExecute(item);else subMenu">{{item.title}}</li> -->
+              <li class="menu-title"  *ngIf="item.isTitle && shouldExecute(item);">{{item.title}}</li>
               <ng-container *ngIf="item.children && item.children.length && shouldExecute(item);else menu">
                 <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon"
                   (mouseover)="setHovered('up', item.menuIcon,item)" (mouseout)="setHovered('down',item.menuIcon,item)"
@@ -31,7 +31,7 @@
                   *ngIf="selectedTheme.menuMode === 'horizontal'"></span> -->
               </ng-container>
               <ng-template #menu>
-                <li *ngIf="shouldExecute(item)" nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
+                <li *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
                   <span nz-icon [nzType]="item.icon"></span>
                   <span>{{item.title}}</span>
                 </li>

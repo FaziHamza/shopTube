@@ -46,7 +46,7 @@ export class SiteLayoutComponent implements OnInit {
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
-    
+
     if (!this.selectedTheme) {
       this.getMenu();
       this.selectedTheme = this.newSelectedTheme;
@@ -76,7 +76,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   // changeLayout(layoutType: any) {
-  //   
+  //
   //   // this.selectedTheme.horizontalRow = '';
   //   // this.selectedTheme.rowClass = 'flex flex-wrap';
   //   if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
@@ -207,18 +207,18 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   notifyEmit(data: any) {
-    
+
     if(data.selectedTheme){
     this.selectedTheme = data.selectedTheme
     }else{
-      this.selectedTheme = this.newSelectedTheme; 
+      this.selectedTheme = this.newSelectedTheme;
     }
     this.selectedTheme.allMenuItems = data.menuData;
     // this.newMenuArrayFunc();
     this.makeMenuData();
   }
   notifyEmitForDropdown(data: any) {
-    
+
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -228,7 +228,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-    
+
     // event.preventDefault();
     data.isOpen = !data.isOpen;
     this.tabs = [];
@@ -264,7 +264,7 @@ export class SiteLayoutComponent implements OnInit {
   //   }
   // }
   makeMenuData() {
-    
+
     let arrayList = [];
     arrayList = this.selectedTheme.allMenuItems;
     // this.selectedTheme.allMenuItems = [];
@@ -275,8 +275,9 @@ export class SiteLayoutComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      this.selectedTheme.newMenuArray[0].subMenu = this.selectedTheme.allMenuItems.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.slice(0, 7);
+      const withOutTitle = this.selectedTheme.allMenuItems.filter((a:any)=>a.isTitle != true);
+      this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;
@@ -284,7 +285,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   // horizentalLayout() {
-  //   
+  //
   //   this.makeMenuData();
   //   this.selectedTheme.horizontalRow = 'flex flex-wrap';
   //   this.selectedTheme.rowClass = 'w-10/12',
