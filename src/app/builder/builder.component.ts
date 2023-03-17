@@ -3044,7 +3044,7 @@ export class BuilderComponent implements OnInit {
         nzStatus: "success",
         standAlone: false,
         dot: false,
-        showDot: true,
+        showDot: false,
         overflowCount: '',
         showZero: false,
         size: '',
@@ -4001,12 +4001,12 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case "treeSelect":
-        configObj = { ...configObj, ...this.clickButtonService.getTreeViewConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.treeviewFields;
-        break;
-      case "treeView":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeSelectFields;
+        break;
+      case "treeView":
+        configObj = { ...configObj, ...this.clickButtonService.getTreeViewConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.treeviewFields;
         break;
       case "cascader":
         debugger
@@ -4032,7 +4032,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "comment":
         configObj = { ...configObj, ...this.clickButtonService.getCommentConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.rateFields;
+        this.fieldData.formData = _formFieldData.commentFields;
         break;
       case "rate":
         configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
