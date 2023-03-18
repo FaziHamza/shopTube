@@ -369,6 +369,8 @@ export interface TreeNode {
   placement?: string;
   size?: string;
   width?: any;
+  imageAlt?: any;
+  imageSrc?: any;
   checkedChildren?: any;
   unCheckedChildren?: any;
   control?: any;

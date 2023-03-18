@@ -4770,6 +4770,24 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
+          key: 'imageAlt',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'image Alt',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'imageSrc',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Image Src',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],

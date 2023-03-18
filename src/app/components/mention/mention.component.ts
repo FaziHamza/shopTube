@@ -7,13 +7,13 @@ import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
   templateUrl: './mention.component.html',
   styleUrls: ['./mention.component.scss']
 })
-export class MentionComponent extends FieldType<FieldTypeConfig> {
-  // @Input() mentionData: any;
+export class MentionComponent implements OnInit {
+  @Input() mentionData: any;
   suggestion : any;
   // constructor() { }
-  get list(): any {
-    return this.to.options;
-  }
+  // get list(): any {
+  //   return this.to.options;
+  // }
   ngOnInit(): void {
   }
 
@@ -36,7 +36,7 @@ export class MentionComponent extends FieldType<FieldTypeConfig> {
   }
 
   fetchSuggestions(value: string, callback: (suggestions: string[]) => void): void {
-    const users = this.list;
+    const users = this.mentionData.options;
     setTimeout(() => callback(users.filter((item: any) => item.label.indexOf(value) !== -1)), 500);
 
   }

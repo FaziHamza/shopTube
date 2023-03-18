@@ -1385,7 +1385,8 @@ export class BuilderComponent implements OnInit {
         loading: false,
         nztype: 'default',
         size: 'default',
-
+        imageSrc:'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
+        imageAlt:'image',
         children: [
         ],
 
@@ -4048,10 +4049,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
-      // case "mentions":
-      //   configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
-      //   this.fieldData.formData = _formFieldData.mentionsFields;
-      //   break;
+      case "mentions":
+        configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mentionsFields;
+        break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
@@ -4347,7 +4348,6 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
-      case "mentions":
 
 
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
@@ -6741,7 +6741,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.nztype = event.form.nztype;
           this.selectedNode.size = event.form.size;
-
+          this.selectedNode.imageAlt = event.form.imageAlt;
+          this.selectedNode.imageSrc = event.form.imageSrc;
           // if (event.form.link != undefined || event.form.link != "") {
           //   this.builderService.genericApis(event.form.link).subscribe((res => {
 

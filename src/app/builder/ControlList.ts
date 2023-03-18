@@ -156,11 +156,11 @@ export const htmlTabsData = [
                 // maskLabel: ""
                 options:true,
               },
-              // {
-              //   parameter: "mentions",
-              //   icon: "uil-file-copy-alt",
-              //   label: "Mention"
-              // },
+              {
+                parameter: "mentions",
+                icon: "uil-file-copy-alt",
+                label: "Mention"
+              },
            
               {
                 parameter: "transfer",
@@ -249,16 +249,16 @@ export const htmlTabsData = [
                 // maskString: "",
                 // maskLabel: ""
               },
-              {
-                parameter: "input",
-                icon: "uil uil-list-ul",
-                label: "Mention",
-                type: 'mention',
-                configType:'mention',fieldType: 'mention',
-                options:true,
-                // maskString: "",
-                // maskLabel: ""
-              },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-list-ul",
+              //   label: "Mention",
+              //   type: 'mention',
+              //   configType:'mention',fieldType: 'mention',
+              //   options:true,
+              //   // maskString: "",
+              //   // maskLabel: ""
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-file-alt",
