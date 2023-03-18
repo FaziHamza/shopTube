@@ -1,0 +1,85 @@
+<!-- <app-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
+<nz-card nzTitle="Application Builder List" [nzExtra]="extraTemplate">
+    <div class="flex flex-wrap justify-between">
+        <div>
+            <label>Pagination</label>
+            <nz-select [(ngModel)]="pageSize">
+                <nz-option [nzValue]='10' nzLabel="10"></nz-option>
+                <nz-option [nzValue]='25' nzLabel="25"></nz-option>
+                <nz-option [nzValue]='50' nzLabel="50"></nz-option>
+                <nz-option [nzValue]='100' nzLabel="100"></nz-option>
+            </nz-select>
+        </div>
+        <div class="search-box pt-2">
+            <input type="text" nz-input placeholder="Search Application" [(ngModel)]="searchValue" />
+            <br>
+            <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                class="search-button mr-2">Search</button>
+            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+    </div>
+
+    <nz-table #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                    </th>
+                    <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
+                        {{column.name}}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of filterTable.data">
+                <td>{{ data.applicationName }}</td>
+                <td>{{ data.name }}</td>
+                <td>
+                    <button nz-button nz-dropdown [nzDropdownMenu]="menu"><span nz-icon nzType="dash"
+                            nzTheme="outline"></span></button>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="[openModal(),editItem(data)]">Edit</li>
+                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                                (nzOnConfirm)="deleteRow(data.id)">Delete</li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-dropdown-menu #searchMenu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+
+        </div>
+    </nz-dropdown-menu>
+</nz-card>
+<ng-template #extraTemplate>
+    <button nz-button nzType="primary" (click)="openModal()"><span nz-icon nzType="plus" nzTheme="outline"></span>Add
+        New</button>
+    <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span nz-icon nzType="download"
+            nzTheme="outline"></span>Download Json</button>
+</ng-template>
+<!-- Modal -->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+    
+    <ng-container *nzModalContent>
+        <label class="mx-3 ">Select Application</label>
+        <nz-select [(ngModel)]="applicationName" >
+            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
+                *ngFor="let item of applicationBuilder"></nz-option>
+        </nz-select>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <div class="row">
+                    <formly-form [form]="form" [model]="model" [fields]="fields">
+                    </formly-form>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+    <ng-template #modalFooter>
+        <button nz-button nzType="primary" nzDanger (click)="handleCancel()">Close</button>
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()">Submit</button>
+        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()">Update</button>

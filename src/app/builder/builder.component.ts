@@ -5770,12 +5770,12 @@ export class BuilderComponent implements OnInit {
             }))
           }
           if (this.selectedNode.noResult) {
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
+            this.selectedNode.tableData = []
+          } else {
             if (this.selectedNode.tableData.length > 0) {
               this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
             }
-            this.selectedNode.tableData = []
-          } else {
-            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
           }
           // this.selectedNode.sort = event.form.sort;
           // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
