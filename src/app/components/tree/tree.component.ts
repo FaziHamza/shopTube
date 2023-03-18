@@ -11,5 +11,8 @@ export class TreeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  common(data : any){
+    console.log(data);
+  }
   
 }

@@ -1,5 +1,28 @@
-<nz-tree [nzData]="treeData.nodes" [nzCheckable]="treeData.checkable" [nzShowExpand]="treeData.expand"
-    [nzExpandedIcon]="multiExpandedIconTpl" nzMultiple>
+<nz-tree [nzData]="treeData.nodes" 
+[nzCheckable]="treeData.checkable" 
+[nzShowExpand]="treeData.expand"
+    [nzExpandedIcon]="multiExpandedIconTpl" 
+    [nzBlockNode]="treeData.blockNode"
+    [nzShowLine]="treeData.showLine"
+    [nzShowIcon]="treeData.showIcon"
+    [nzAsyncData]="treeData.asyncData"
+    [nzDraggable]="treeData.draggable"
+    [nzMultiple]="treeData.multiple"
+    [nzHideUnMatched]="treeData.expandAll"
+    [nzCheckStrictly]="treeData.checkStricktly"
+    [nzExpandAll]="treeData.expandAll"
+    (nzClick)="common('nzClick')"
+    (nzDblClick)="common('nzDblClick')"
+    (nzContextMenu)="common('nzContextMenu')"
+    (nzCheckBoxChange)="common('nzCheckBoxChange')"
+    (nzExpandChange)="common('nzExpandChange')"
+    (nzSearchValueChange)="common('nzSearchValueChange')"
+    (nzOnDragEnter)="common('nzOnDragEnter')"
+    (nzOnDragOver)="common('nzOnDragOver')"
+    (nzOnDragLeave)="common('nzOnDragLeave')"
+    (nzOnDrop)="common('nzOnDrop')"
+    (nzOnDragEnd)="common('nzOnDragEnd')"
+    >
 
     <ng-template #multiExpandedIconTpl let-node let-origin="origin">
         <span

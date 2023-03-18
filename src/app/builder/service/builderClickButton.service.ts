@@ -8,6 +8,9 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
+  getIconConfig(node: any) {
+    return { icon: node.icon };
+  }
   getTransferConfig(node: any) {
     
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
@@ -165,11 +168,17 @@ export class BuilderClickButtonService {
   }
   getTreeConfig(node: any) {
     return {
-
       checkable: node.checkable,
       expandIcon: node.expandIcon,
       closingexpandicon: node.closingexpandicon,
-      expand: node.expand
+      expand: node.expand,
+      showLine: node.showLine,
+      blockNode: node.blockNode,
+      showIcon: node.showIcon,
+      asyncData: node.asyncData,
+      draggable: node.draggable,
+      multiple: node.multiple,
+      checkStricktly: node.checkStricktly,
     }
   }
 
@@ -249,6 +258,11 @@ export class BuilderClickButtonService {
       imageWidth: node.imageWidth,
       repeat: '',
       image: node.base64Image,
+      keyboardKey: node.keyboardKey,
+      zoom: node.zoom,
+      rotate: node.rotate,
+      zIndex: node.zIndex,
+      imagePreview: node.imagePreview,
     }
   }
 

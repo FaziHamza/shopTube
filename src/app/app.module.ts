@@ -89,7 +89,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
-import { InputWrapperComponent } from './wrappers/input-wrapper/input-wrapper.component';
 import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
 import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
@@ -178,7 +177,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MenuBuilderComponent,
     SideMenuBuildComponent,
     ScreenBuilderComponent,
-    // InputWrapperComponent,
   ],
   imports: [
     FormsModule,
