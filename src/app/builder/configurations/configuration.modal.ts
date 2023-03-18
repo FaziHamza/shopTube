@@ -8662,11 +8662,11 @@ export class formFeildData {
             options: [
               {
                 label: 'success ',
-                value: 'success '
+                value: 'success'
               },
               {
                 label: 'error ',
-                value: 'error '
+                value: 'error'
               },
               {
                 label: 'info',
