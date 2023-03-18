@@ -19,7 +19,7 @@
       "  *ngIf="softIconList.btnIcon && softIconList.title" nz-icon
       [nzType]='softIconList.btnIcon'></span>
       {{softIconList.title}}
-     
+
     </a>
     <a nz-button href="{{url}}/pages/{{softIconList.href}}" nzType="link" [nzGhost]='softIconList.nzGhost'
       [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
@@ -29,7 +29,7 @@
       "  *ngIf="softIconList.btnIcon && softIconList.title " nz-icon
       [nzType]='softIconList.btnIcon'></span>
       {{softIconList.title}}
-     
+
     </a>
     <a nz-button nzType="link" *ngIf="softIconList.href && softIconList.btnType =='modal'" [class]='softIconList.color'
       class="text-white" [nzSize]="softIconList.nzSize" [nzGhost]='softIconList.nzGhost'
@@ -80,7 +80,7 @@
           <span [ngClass]="softIconList.title ? 'mr-2' : ''
           "  *ngIf="item.btnIcon && item.title" nz-icon [nzType]='item.btnIcon'></span>
           {{item.title}}
-          
+
         </a>
         <a nz-button href="{{url}}/pages/{{item.href}}" nzType="link" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
           [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
@@ -89,7 +89,7 @@
           <span [ngClass]="softIconList.title ? 'mr-2' : ''
           "  *ngIf="item.btnIcon && item.title " nz-icon [nzType]='item.btnIcon'></span>
           {{item.title}}
-          
+
         </a>
         <a nz-button nzType="link" *ngIf="item.href && item.btnType =='modal'" class="text-white" [class]='item.color'
           [nzSize]="item.nzSize" [nzGhost]='item.nzGhost' [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock'
@@ -125,6 +125,6 @@
 <!-- Modal -->
 <nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <app-pages [dbRes]="nodes" [resData]="nodes" *ngIf="nodes.length"></app-pages>
+    <app-pages [resData]="nodes" *ngIf="nodes.length"></app-pages>
   </ng-container>
 </nz-modal>

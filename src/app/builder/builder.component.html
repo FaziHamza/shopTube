@@ -190,7 +190,8 @@
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
                           <app-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule>
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" ></app-uirule>
+                            <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
                           <app-validation-rule></app-validation-rule>
@@ -381,7 +382,7 @@
             &nbsp;
             <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
           </ng-template>
-          <app-pages [dbRes]="nodes" [resData]="nodes" [model]="formlyModel"  *ngIf="nodes.length  > 0"></app-pages>
+          <app-pages [resData]="nodes" [screenName]="screenName" [formlyModel]="formlyModel"  *ngIf="nodes.length  > 0"></app-pages>
         </div>
       </as-split-area>
     </as-split>

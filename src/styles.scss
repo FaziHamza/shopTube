@@ -8,6 +8,9 @@
 @import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
 @import "~jsoneditor/dist/jsoneditor.min.css";
 
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 $white: #F0F2F5;
 nz-input-number{
   width: 100% !important;

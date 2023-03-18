@@ -1,35 +1,35 @@
-<div class="bg-white  shadow-md border" *ngIf="dbRes.length">
+<div class="bg-white  shadow-md border" *ngIf="resData.length">
     <!-- PAGE HEADER -->
-    <div class="site-page-header-ghost-wrapper " *ngIf="dbRes[0].children[0].header">
-        <div *ngFor="let item of dbRes[0]?.children[0].children">
-            <ng-container *ngIf="item.type == 'alert' && dbRes[0]?.children[0].alertPosition == 'topHeader'">
+    <div class="site-page-header-ghost-wrapper " *ngIf="resData[0].children[0].header">
+        <div *ngFor="let item of resData[0]?.children[0].children">
+            <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'topHeader'">
                 <app-new-alerts [alertData]="item"></app-new-alerts>
             </ng-container>
         </div>
         <nz-page-header class="site-page-header font-semibold pl-6 pt-1 pb-1" [nzGhost]="false" >
-            <nz-page-header-title [class]="dbRes[0].children[0].headingSize" >
-                {{dbRes[0].children[0].title}}
+            <nz-page-header-title [class]="resData[0].children[0].headingSize" >
+                {{resData[0].children[0].title}}
             </nz-page-header-title>
             <nz-page-header-extra>
-                <div *ngFor="let item of dbRes[0]?.children[0].children">
+                <div *ngFor="let item of resData[0]?.children[0].children">
                     <ng-container *ngIf="item.type != 'alert'">
                     <app-block-buttons-card  [softIconList]=" item"></app-block-buttons-card>
                     </ng-container>
-                    <ng-container *ngIf="item.type == 'alert' &&  dbRes[0]?.children[0].alertPosition == 'inside'">
+                    <ng-container *ngIf="item.type == 'alert' &&  resData[0]?.children[0].alertPosition == 'inside'">
                         <app-new-alerts [alertData]="item"></app-new-alerts>
                     </ng-container>
                 </div>
             </nz-page-header-extra>
         </nz-page-header>
-        <div *ngFor="let item of dbRes[0]?.children[0].children">
-            <ng-container *ngIf="item.type == 'alert' && dbRes[0]?.children[0].alertPosition == 'bottomHeader'">
+        <div *ngFor="let item of resData[0]?.children[0].children">
+            <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'bottomHeader'">
                 <app-new-alerts [alertData]="item"></app-new-alerts>
             </ng-container>
         </div>
     </div>
     <!-- SECTION -->
     <div class="">
-        <div *ngFor="let j of dbRes[0].children[1].children ; index as i" [ngClass]="i > 0 ? ' py-3': ''">
+        <div *ngFor="let j of resData[0].children[1].children ; index as i" [ngClass]="i > 0 ? ' py-3': ''">
             <!-- INCOLAPSSABLE CASE -->
             <div class="border" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper border-b" *ngIf="j.children[0].header">
@@ -55,11 +55,11 @@
                     </nz-page-header>
                 </div>
                 <div class="p-6">
-                    <app-main [mainData]="j.children[1].children" [dataModel]="model"></app-main>
+                    <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                 </div>
                 <div class="py-3 px-10 border-t  text-black font-semibold text-lg" *ngIf="j.children[2].footer">
                     {{j.children[2].title}}
-                    <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
+                    <div *ngFor="let item of resData[0]?.children[1].children[i]">
                         <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         [nzExtra]="extraTpl">
                         <div class="px-3 font-normal text-base" *ngIf="resData.length > 0">
 
-                            <app-main [mainData]="j.children[1].children" [dataModel]="model"></app-main>
+                            <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                         </div>
 
                         <br />
@@ -103,7 +103,7 @@
                     <br />
                     <div class="py-3 px-6 border-t text-black font-semibold text-lg" *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
-                        <div *ngFor="let item of dbRes[0]?.children[1].children[i]">
+                        <div *ngFor="let item of resData[0]?.children[1].children[i]">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
                         </div>
                     </div>
@@ -115,9 +115,9 @@
         </div>
     </div>
     <!-- PAGE FOOTER -->
-    <div class="py-3 px-6 border-t text-black font-semibold text-lg" *ngIf="dbRes[0].children[2].footer">
-        {{dbRes[0].children[2].title}}
-        <div *ngFor="let item of dbRes[0]?.children[2]?.children">
+    <div class="py-3 px-6 border-t text-black font-semibold text-lg" *ngIf="resData[0].children[2].footer">
+        {{resData[0].children[2].title}}
+        <div *ngFor="let item of resData[0]?.children[2]?.children">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
         </div>
     </div>

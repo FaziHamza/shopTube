@@ -31,7 +31,7 @@
                   *ngIf="selectedTheme.menuMode === 'horizontal'"></span> -->
               </ng-container>
               <ng-template #menu>
-                <li style="font-size: .925rem;font-family: Rubik,sans-serif;color: gray;"
+                <li class="nav-item"
                   *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip nzTooltipPlacement="right"
                   (click)="loadTabsAndButtons($event,item)">
                   <span nz-icon [nzType]="item.icon"></span>
