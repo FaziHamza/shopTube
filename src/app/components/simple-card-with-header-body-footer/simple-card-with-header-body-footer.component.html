@@ -1,9 +1,11 @@
 <div class="m-2">
     <div (click)="loadURLData(SimpleCardWithHeaderBodyFooterData.link)">
-        <nz-card nzTitle={{SimpleCardWithHeaderBodyFooterData.headerText}} 
-        [nzBorderless]="SimpleCardWithHeaderBodyFooterData.borderless"  [nzExtra]="SimpleCardWithHeaderBodyFooterData.extra" [nzHoverable]="SimpleCardWithHeaderBodyFooterData.hover" 
-        [nzLoading]="SimpleCardWithHeaderBodyFooterData.loading" [nzType]="SimpleCardWithHeaderBodyFooterData.nztype" [nzSize]="SimpleCardWithHeaderBodyFooterData.size"
-        >
+        <nz-card nzTitle={{SimpleCardWithHeaderBodyFooterData.headerText}}
+            [nzBorderless]="SimpleCardWithHeaderBodyFooterData.borderless"
+            [nzExtra]="SimpleCardWithHeaderBodyFooterData.extra"
+            [nzHoverable]="SimpleCardWithHeaderBodyFooterData.hover"
+            [nzLoading]="SimpleCardWithHeaderBodyFooterData.loading" [nzCover]="coverTemplate"
+            [nzType]="SimpleCardWithHeaderBodyFooterData.nztype" [nzSize]="SimpleCardWithHeaderBodyFooterData.size">
             <div [innerHTML]="SimpleCardWithHeaderBodyFooterData.bodyText | sanitize: 'html'"></div>
         </nz-card>
         <div class="border">
@@ -11,3 +13,7 @@
         </div>
     </div>
 </div>
+<ng-template #coverTemplate>
+    <img *ngIf="SimpleCardWithHeaderBodyFooterData.imageSrc || SimpleCardWithHeaderBodyFooterData.imageAlt"
+        [alt]="SimpleCardWithHeaderBodyFooterData.imageAlt" [src]="SimpleCardWithHeaderBodyFooterData.imageSrc" />
+</ng-template>

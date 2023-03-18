@@ -505,12 +505,8 @@ export class BuilderClickButtonService {
       loading: node.loading,
       nztype: node.nztype,
       size: node.size,
-      
-
-
-
-
-
+      imageAlt: node.imageAlt,
+      imageSrc: node.imageSrc,
     }
   }
 

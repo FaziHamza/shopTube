@@ -1,5 +1,5 @@
 import { ConfigOption } from "@ngx-formly/core";
-import { MentionComponent } from "./components/mention/mention.component";
+// import { MentionComponent } from "./components/mention/mention.component";
 import { SwitchComponent } from "./components/switch/switch.component";
 import { AutocompleteComponent } from "./wrappers/autocomplete/autocomplete.component";
 // import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
@@ -41,7 +41,7 @@ export const fieldComponents = [
     NumberInputComponent,
     SelectComponent,
     AutocompleteComponent,
-    MentionComponent,
+    // MentionComponent,
     RadioButtonComponent
 ];
 
@@ -66,7 +66,7 @@ export const formlyCustomeConfig: ConfigOption = {
         { name: 'number', component: NumberInputComponent },
         { name: 'select', component: SelectComponent },
         { name: 'autoComplete', component: AutocompleteComponent },
-        { name: 'mention', component: MentionComponent },
+        // { name: 'mention', component: MentionComponent },
         { name: 'radio', component: RadioButtonComponent },
         // { name: 'tabs', component: FormlyFieldTabs },
         // { name: 'tab', component: FormlyVerticalFieldTabs },

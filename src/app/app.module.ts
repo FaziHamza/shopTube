@@ -77,7 +77,7 @@ import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { EmptyComponent } from './components/empty/empty.component';
 import { ListComponent } from './components/list/list.component';
 import { TreeViewComponent } from './components/tree-view/tree-view.component';
-// import { MentionComponent } from './components/mention/mention.component';
+import { MentionComponent } from './components/mention/mention.component';
 import { MessageComponent } from './components/message/message.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
@@ -165,7 +165,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     EmptyComponent,
     ListComponent,
     TreeViewComponent,
-    // MentionComponent,
+    MentionComponent,
     MessageComponent,
     NotificationComponent,
     LayoutButtonComponent,

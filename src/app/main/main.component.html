@@ -1,5 +1,6 @@
 <div class="card-content  flex flex-wrap">
-    <div class="{{!item.hideExpression   ? item.className : ''}}" *ngFor="let item of mainData ; index as i; last as isLast">
+    <div class="{{!item.hideExpression   ? item.className : ''}}"
+        *ngFor="let item of mainData ; index as i; last as isLast">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <div *ngIf="item.tooltip" style="text-align: right;">
@@ -329,7 +330,7 @@
                 <form [formGroup]="form" (ngSubmit)="submit()">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <formly-form [fields]="item.formly"  [(model)]="dataModel" [form]="form">
+                        <formly-form [fields]="item.formly" [(model)]="dataModel" [form]="form">
                         </formly-form>
                         <!-- <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button> -->
                     </div>
@@ -391,11 +392,11 @@
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
-                        [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
-                        alt={{item.alt}} />
+                        [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
+                        [alt]='item.alt'  [nzDisablePreview]="false" />
                     <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                        [style.width.px]="item.imageWidth" class={{item.imageClass}} nzSrc={{item.source}}
-                        alt={{item.alt}} />
+                        [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
+                        [alt]='item.alt' />
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -522,9 +523,8 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <nz-spin [nzSimple]="item.simple" 
-                        [nzSpinning]="item.spinning" [nzSize]='item.size' [nzDelay]="item.delayTime"
-                        [nzTip]='item.loaderText'></nz-spin>
+                    <nz-spin [nzSimple]="item.simple" [nzSpinning]="item.spinning" [nzSize]='item.size'
+                        [nzDelay]="item.delayTime" [nzTip]='item.loaderText'></nz-spin>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -664,7 +664,7 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <!-- <app-mention [mentionData]="item"></app-mention> -->
+                    <app-mention [mentionData]="item"></app-mention>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -703,7 +703,7 @@
                 </ng-container>
                 <nz-card>
                     <app-main [mainData]="item.children"></app-main>
-                  </nz-card>
+                </nz-card>
             </ng-container>
         </ng-template>
     </div>
