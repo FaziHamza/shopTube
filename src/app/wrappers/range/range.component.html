@@ -1,0 +1,10 @@
+<div style="margin-top: 4%;">
+    <label>{{to.label}}</label>
+    <nz-input-group style="height:38px" [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight"
+        [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
+        <nz-range-picker *ngIf="to.type == 'date'" [disabled]="to.config?.disabled" style="width:100%"
+            [formControl]="formControl"></nz-range-picker>
+        <nz-range-picker *ngIf="to.type != 'date'" [disabled]="to.config?.disabled" style="width:100%"
+            [nzMode]="to.type" [formControl]="formControl"></nz-range-picker>
+    </nz-input-group>
+</div>

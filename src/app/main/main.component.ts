@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-main',
@@ -14,7 +15,7 @@ export class MainComponent implements OnInit {
   model: any = {};
   options: FormlyFormOptions = {};
   selectedTags: any[] = [];
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService) { }
 
   ngOnInit(): void {
 
@@ -22,7 +23,7 @@ export class MainComponent implements OnInit {
   }
 
   submit() {
-    
+
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     this.form.value;
@@ -41,6 +42,23 @@ export class MainComponent implements OnInit {
       this.selectedTags = this.selectedTags.filter(t => t !== tag);
     }
     console.log('You are interested in: ', this.selectedTags);
+  }
+  imagePreview(data: any) {
+    let image = '';
+    if (data.source) {
+      image = data.source
+    } else if (data.base64Image) {
+      image = data.base64Image
+    }
+    const images = [
+      {
+        src: image,
+        width: data.imageWidth + 'px',
+        height: data.imagHieght + 'px',
+        alt: data.alt,
+      }
+    ];
+    this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
 
 

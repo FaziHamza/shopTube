@@ -8,6 +8,8 @@ import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
+import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
+import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -37,6 +39,14 @@ const routes: Routes = [
   {
     path: 'screen-builder',
     component: ScreenBuilderComponent
+  },
+  {
+    path: 'application-builder',
+    component: ApplicationBuilderComponent
+  },
+  {
+    path: 'module-list',
+    component: ModuleListComponent
   },
 ];
 

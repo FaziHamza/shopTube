@@ -2,6 +2,7 @@ import { ConfigOption } from "@ngx-formly/core";
 // import { MentionComponent } from "./components/mention/mention.component";
 import { SwitchComponent } from "./components/switch/switch.component";
 import { AutocompleteComponent } from "./wrappers/autocomplete/autocomplete.component";
+import { DatePickerComponent } from "./wrappers/date-picker/date-picker.component";
 // import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
 // import { DatepickerComponent } from "./wrappers/datepicker/datepicker.component";
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
@@ -16,10 +17,13 @@ import { FormlyFieldMultiCheckbox } from "./wrappers/FormlyMultiCheckbox";
 import { formlyRepeatSectionComponent } from "./wrappers/formlyRepeatSection";
 import { FormlyVerticalThemeWrapper } from "./wrappers/FormlyVerticalThemeWrapper";
 import { FormlyVerticalWrapper } from "./wrappers/FormlyVerticalWrapper";
+import { FormlyFieldImageUploadComponent } from "./wrappers/Image-Uploadwrapper";
 import { InputWrapperComponent } from "./wrappers/input-wrapper/input-wrapper.component";
 import { NumberInputComponent } from "./wrappers/number-input/number-input.component";
 import { RadioButtonComponent } from "./wrappers/radio-button/radio-button.component";
+import { RangeComponent } from "./wrappers/range/range.component";
 import { SelectComponent } from "./wrappers/select/select.component";
+import { TimePickerComponent } from "./wrappers/time-picker/time-picker.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -42,7 +46,11 @@ export const fieldComponents = [
     SelectComponent,
     AutocompleteComponent,
     // MentionComponent,
-    RadioButtonComponent
+    RadioButtonComponent,
+    FormlyFieldImageUploadComponent,
+    TimePickerComponent,
+    DatePickerComponent,
+    RangeComponent
 ];
 
 
@@ -73,6 +81,10 @@ export const formlyCustomeConfig: ConfigOption = {
         // { name: 'repeatInput', component: FormlyGridWrapper },
         // { name: 'image-upload', component: FormlyFieldImageUploadComponent },
         // { name: 'gridrepeatsection', component: gridrepeatsection },
+        { name: 'image-upload', component: FormlyFieldImageUploadComponent },
+        { name: 'zorro-timePicker', component: TimePickerComponent },
+        { name: 'zorro-datePicker', component: DatePickerComponent },
+        { name: 'rangePicker', component: RangeComponent },
 
           {
             name: 'multicheckbox', component: FormlyFieldMultiCheckbox,

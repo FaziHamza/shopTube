@@ -797,7 +797,6 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
-
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -824,7 +823,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'imageUpload') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'imageUpload_' + Guid.newGuid(),
+        key: "imageUpload_" + Guid.newGuid(),
         type: "imageUpload",
         highLight: false,
         isNextChild: false,
@@ -838,7 +838,11 @@ export class BuilderComponent implements OnInit {
         base64Image: "",
         hideExpression: false,
         tooltip: "",
-        key: "imageUpload" + Guid.newGuid(),
+        imagePreview:true,
+        keyboardKey:true,
+        zoom:1.5,
+        rotate:0,
+        zIndex:1000,
         children: [
         ],
       } as TreeNode;
@@ -3029,6 +3033,14 @@ export class BuilderComponent implements OnInit {
         closingexpandicon: 'file',
         expand: "",
         expandKeys: ['100', '1001'],
+        showLine:true,
+        blockNode:true,
+        showIcon:true,
+        asyncData:true,
+        draggable:true,
+        multiple:true,
+        expandAll:true,
+        checkStricktly:true,
         // title: 'parent 1',
         key: '100',
         nodes: [
@@ -3441,6 +3453,21 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
+    else if (value == 'icon') {
+      const newNode = {
+        id: 'icon_' + Guid.newGuid(),
+        key: 'icon' + Guid.newGuid(),
+        title: 'Icon',
+        type: "icon",
+        className: "w-1/2",
+        tooltip: "",
+        hideExpression: false,
+        isNextChild: false,
+        icon:'star',
+        children: [],
+      } as TreeNode;
+      this.addNode(node, newNode);
+    }
     this.updateNodes();
 
     // this.controlListClose();
@@ -3673,6 +3700,10 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
+        break;
+      case "icon":
+        configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.iconFields;
         break;
       case "treeSelect":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
@@ -4624,6 +4655,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
+      case "icon":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.icon = event.form.icon;
+        }
+        break;
       case "treeSelect":
 
         if (this.selectedNode) {
@@ -4724,6 +4764,14 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.expand = event.form.expand;
           this.selectedNode.expandIcon = event.form.expandIcon;
           this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          this.selectedNode.showLine = event.form.showLine;
+          this.selectedNode.blockNode = event.form.blockNode;
+          this.selectedNode.showIcon = event.form.showIcon;
+          this.selectedNode.asyncData = event.form.asyncData;
+          this.selectedNode.draggable = event.form.draggable;
+          this.selectedNode.multiple = event.form.multiple;
+          this.selectedNode.expandAll = event.form.expandAll;
+          this.selectedNode.checkStricktly = event.form.checkStricktly;
           // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
@@ -5223,6 +5271,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "imageUpload":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -5234,13 +5283,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.imagHieght = event.form.imagHieght;
           this.selectedNode.imageWidth = event.form.imageWidth;
           this.selectedNode.imageClass = event.form.imageClass;
+          this.selectedNode.keyboardKey = event.form.keyboardKey;
+          this.selectedNode.zoom = event.form.zoom;
+          this.selectedNode.rotate = event.form.rotate;
+          this.selectedNode.zIndex = event.form.zIndex;
+          this.selectedNode.imagePreview = event.form.imagePreview;
           if (event.form.source) {
-            // this.formlyService.imageUrl = '';
+            this.dataSharedService.imageUrl = '';
             this.selectedNode.base64Image = '';
           }
-          // else if (this.formlyService.imageUrl) {
-          //   this.selectedNode.base64Image = this.formlyService.imageUrl;
-          // }
+          else if (this.dataSharedService.imageUrl) {
+            this.selectedNode.base64Image = this.dataSharedService.imageUrl;
+          }
         }
         break;
       case "toastr":
@@ -5389,12 +5443,12 @@ export class BuilderComponent implements OnInit {
             }))
           }
           if (this.selectedNode.noResult) {
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
+            this.selectedNode.tableData = []
+          } else {
             if (this.selectedNode.tableData.length > 0) {
               this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
             }
-            this.selectedNode.tableData = []
-          } else {
-            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
           }
           // this.selectedNode.sort = event.form.sort;
           // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);

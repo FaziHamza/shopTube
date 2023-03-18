@@ -31,6 +31,11 @@ export interface TreeNode {
   hideUnMatched?: any;
   showExpand?: any;
   showLine?: any;
+  blockNode?: any;
+  asyncData?: any;
+  draggable?: any;
+  expandAll?: any;
+  checkStricktly?: any;
   defaultExpandAll?: any;
   expandTrigger?: any;
   labelProperty?: any;
@@ -81,6 +86,9 @@ export interface TreeNode {
   imageWidth?: any;
   base64Image?: any;
   imageClass?: any;
+  keyboardKey?: any;
+  zoom?: any;
+  rotate?: any;
   data?: any;
   style?: any;
   fontSize?: any;
@@ -373,6 +381,7 @@ export interface TreeNode {
   imageSrc?: any;
   checkedChildren?: any;
   unCheckedChildren?: any;
+  imagePreview?: any;
   control?: any;
   height?: string;
   offsetX?: number;

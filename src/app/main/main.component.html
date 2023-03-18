@@ -391,12 +391,14 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
+                    <button nz-button nzType="primary" *ngIf="item.imagePreview"
+                        (click)="imagePreview(item)">Preview</button>
                     <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
                         [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
-                        [alt]='item.alt'  [nzDisablePreview]="false" />
+                        [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
                     <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                        [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
-                        [alt]='item.alt' />
+                        [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
+                        [alt]='item.alt' [nzFallback]="item.fallback" />
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -696,7 +698,7 @@
             </ng-container>
         </ng-template>
         <ng-template #seventyThree>
-            <ng-container *ngIf="item.type == 'cardWithComponents'">
+            <ng-container *ngIf="item.type == 'cardWithComponents' else seventyFour">
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
@@ -704,6 +706,15 @@
                 <nz-card>
                     <app-main [mainData]="item.children"></app-main>
                 </nz-card>
+            </ng-container>
+        </ng-template>
+        <ng-template #seventyFour>
+            <ng-container *ngIf="item.type == 'icon'">
+                <ng-container *ngIf="!item.hideExpression">
+                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                            nzType="question-circle" nzTheme="twotone"></span></span>
+                    <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+                </ng-container>
             </ng-container>
         </ng-template>
     </div>

@@ -365,38 +365,44 @@ export class UIRuleComponent implements OnInit {
     }
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
+    
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes: Array<any>) => {
-      this.uiRuleForm = this.formBuilder.group({
-        uiRules: this.formBuilder.array(
-          getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
-            this.formBuilder.group({
-              ifMenuName: [getUIRes.ifMenuName],
-              condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
-              condationName: [getUIRes.condationName],
-              targetValue: [getUIRes.targetValue],
-              conditonType: [getUIRes.conditonType],
-              targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
-                this.formBuilder.group({
-                  ifMenuName: [getIFRes.ifMenuName],
-                  condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
-                  condationName: [getIFRes.condationName],
-                  targetValue: [getIFRes.targetValue],
-                  conditonType: [getIFRes.conditonType]
-                }))),
-              targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
-                this.formBuilder.group({
-                  targetValue: [getTargetRes.targetValue],
-                  targetName: [getTargetRes.targetName],
-                  formattingName: [getTargetRes.formattingName],
-                  inputJsonData: [getTargetRes.inputJsonData],
-                  inputOldJsonData: [getTargetRes.inputOldJsonData],
-                  changeData: getTargetRes.changeData
-                })
-              )),
-            })
+      if(getRes[0]){
+        this.uiRuleForm = this.formBuilder.group({
+
+          uiRules: this.formBuilder.array(
+  
+            getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
+              this.formBuilder.group({
+                ifMenuName: [getUIRes.ifMenuName],
+                condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
+                condationName: [getUIRes.condationName],
+                targetValue: [getUIRes.targetValue],
+                conditonType: [getUIRes.conditonType],
+                targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+                  this.formBuilder.group({
+                    ifMenuName: [getIFRes.ifMenuName],
+                    condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
+                    condationName: [getIFRes.condationName],
+                    targetValue: [getIFRes.targetValue],
+                    conditonType: [getIFRes.conditonType]
+                  }))),
+                targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
+                  this.formBuilder.group({
+                    targetValue: [getTargetRes.targetValue],
+                    targetName: [getTargetRes.targetName],
+                    formattingName: [getTargetRes.formattingName],
+                    inputJsonData: [getTargetRes.inputJsonData],
+                    inputOldJsonData: [getTargetRes.inputOldJsonData],
+                    changeData: getTargetRes.changeData
+                  })
+                )),
+              })
+            )
           )
-        )
-      });
+        });
+      }
+      
     });
   }
   getConditionListOnLoad(menuName: string) {

@@ -18,5 +18,7 @@ export class DataSharedService {
   }
 
   // This variable is used for goTo build page through screen builder
-  screenName : any
+  screenName: any
+  //make wrapper of image upload insput used in configuration of image upload
+  imageUrl: any;
 }

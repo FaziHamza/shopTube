@@ -60,6 +60,18 @@ export const htmlTabsData = [
               },
             ]
           },
+          {
+            label: "Icon",
+            id: "static-1",
+            icon: "fa fa-chevron-down",
+            children: [
+              {
+                parameter: "icon",
+                icon: "uil uil-text",
+                label: "Icon"
+              },
+            ]
+          },
         ]
       },
       {
@@ -329,7 +341,42 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Date Picker",
-                type: 'date',
+                type: 'input',
+                configType:'date',fieldType: 'date',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "Date Range",
+                type: 'rangePicker',
+                configType:'date',fieldType: 'date',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "Week Range",
+                type: 'rangePicker',
+                configType:'week',fieldType: 'week',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "Month Range",
+                type: 'rangePicker',
+                configType:'month',fieldType: 'month',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "year Range",
+                type: 'rangePicker',
+                configType:'year',fieldType: 'year',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "Zorro Date Picker",
+                type: 'zorro-datePicker',
                 configType:'date',fieldType: 'date',
                 // maskString: "",
                  // maskLabel: "",
@@ -370,20 +417,29 @@ export const htmlTabsData = [
                 // maskString: "",
                  // maskLabel: "",
               },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-calender",
+              //   label: "Range",
+              //   type: 'rangedatetime',
+              //   configType:'rangedatetime',fieldType: 'rangedatetime',
+              //   // maskString: "",
+              //    // maskLabel: "",
+              // },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-calender",
+              //   label: "Time Picker",
+              //   type: 'timepicker',
+              //   configType:'timepicker',fieldType: 'timepicker',
+              //   // maskString: "",
+              //    // maskLabel: "",
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
-                label: "Range",
-                type: 'rangedatetime',
-                configType:'rangedatetime',fieldType: 'rangedatetime',
-                // maskString: "",
-                 // maskLabel: "",
-              },
-              {
-                parameter: "input",
-                icon: "uil uil-calender",
-                label: "Time Picker",
-                type: 'timepicker',
+                label: "Zorro Time Picker",
+                type: 'zorro-timePicker',
                 configType:'timepicker',fieldType: 'timepicker',
                 // maskString: "",
                  // maskLabel: "",
@@ -416,7 +472,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-calendar-alt",
-                label: "Date",
+                label: "Date Masking",
                 type: 'custom',
                 configType:'customMasking',fieldType: 'custom',
                 maskString: "00/00/0000",
@@ -488,7 +544,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-clock",
-                label: "Time",
+                label: "Time Masking",
                 type: 'custom',
                 configType:'customMasking',fieldType: 'custom',
                 maskString: "00:00:00",

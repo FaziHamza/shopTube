@@ -226,6 +226,47 @@ export class BuilderService {
       this.baseUrl + "jsonScreenModule/" + id
     );
   }
+  applicationBuilderForm(): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "applicationBuilder"
+    );
+  }
+  addApplicationBuilder(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "jsonApplication", modal
+    );
+  }
+  updateApplicationBuilder(id: any, modal: any): Observable<any[]> {
+    return this.http.put<any[]>(
+      this.baseUrl + "jsonApplication/" + id, modal
+    );
+  }
+  deleteApplicationBuilder(id: number): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.baseUrl + "jsonApplication/" + id
+    );
+  }
+  moduleSettingForm(): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "moduleSetting"
+    );
+  }
+  jsonModuleHeader(): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.baseUrl + "jsonModuleHeader"
+    )
+  }
+  addModule(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "jsonModule", modal
+    );
+  }
+  deletejsonModule(id: number): Observable<any[]> {
+
+    return this.http.delete<any[]>(
+      this.baseUrl + "jsonModule/" + id
+    );
+  }
 }
 
 
