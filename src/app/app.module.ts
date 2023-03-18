@@ -126,6 +126,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     VideosComponent,
     NewAlertsComponent,
     // SwitchComponent,
+    ModuleListComponent,
+    ApplicationBuilderComponent,
     SimpleCardWithHeaderBodyFooterComponent,
     AccordionButtonComponent,
     BuilderToaterComponent,
