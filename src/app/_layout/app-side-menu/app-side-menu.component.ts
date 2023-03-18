@@ -113,7 +113,7 @@ export class AppSideMenuComponent implements OnInit {
     this.notify.emit(data);
     this.menuChildArrayTwoColumn = [];
     if (data.link) {
-      let routerLink = "/pages/" + data.link;
+      let routerLink = data.link;
       this.router.navigate([routerLink]);
     }
     else if (data.children.length > 0) {
@@ -122,7 +122,7 @@ export class AppSideMenuComponent implements OnInit {
           this.menuChildArrayTwoColumn.push(i);
         }
       });
-    } 
+    }
     else {
       this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
       // this.router.navigate(['/pages/notfound']);
