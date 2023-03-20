@@ -64,7 +64,7 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService) {
+    private clickButtonService: BuilderClickButtonService , public dataSharedService : DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -178,7 +178,6 @@ export class BuilderComponent implements OnInit {
 
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
-
     var data =
     {
       "moduleName": this.screenName,
@@ -236,11 +235,18 @@ export class BuilderComponent implements OnInit {
           this.getUIRuleData(true);
           // this.nodes = res[0].menuData;
           this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+
+          // this.uiRuleGetData(res[0].moduleId);
+          // this.uiGridRuleGetData(res[0].moduleId);
         }
         else {
           this.screenId = res[0].id;
           this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+          // this.uiRuleGetData(res[0].moduleId);
+          // this.uiGridRuleGetData(res[0].moduleId);
+          // this.updateNodes();
         }
+
       }
       else {
         this.screenId = 0;
@@ -455,6 +461,39 @@ export class BuilderComponent implements OnInit {
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
     // this.getUIRuleData();
   }
+  evalConditionRule(query: any, dataTargetIfValue: any) {
+    dataTargetIfValue.forEach((e: any) => {
+      let type = e.conditonType == "AND" ? "&&" : "||";
+      type = query == '' ? "" : type;
+      let getModelValue = this.formlyModel[e.ifMenuName] == "" ? "''" : this.formlyModel[e.ifMenuName];
+      if (getModelValue == undefined)
+        getModelValue = "";
+
+      if (e.condationName == 'contains') {
+        if (this.formlyModel[e.ifMenuName] != undefined && this.formlyModel[e.ifMenuName].includes(e.targetValue))
+          query = query + " " + type + " " + '1 == 1';
+        else
+          query = query + " " + type + " " + '1 == 2';
+      } else if (e.condationName == 'null') {
+        if (typeof (this.formlyModel[e.ifMenuName]) != "number") {
+          if (this.formlyModel[e.ifMenuName] == '' || this.formlyModel[e.ifMenuName] == null)
+            query = query + " " + type + " " + '1 == 1';
+          else
+            query = query + " " + type + " " + '1 == 2';
+        }
+        else
+          query = query + " " + type + " " + '1 == 2';
+      } else {
+        if (e.ifMenuName.includes('number') || e.ifMenuName.includes('decimal')) {
+          query = query + " " + type + " " + Number(getModelValue) + " " + e.condationName + " " + e.targetValue;
+        }
+        else {
+          query = query + " " + type + " '" + getModelValue + "' " + e.condationName + " '" + e.targetValue + "'";
+        }
+      }
+    });
+    return query;
+  }
   checkConditionUIRule(model: any, currentValue: any) {
     this.getUIRule(model, currentValue);
   }
@@ -569,6 +608,7 @@ export class BuilderComponent implements OnInit {
       // this.cdr.detectChanges();
     }
   }
+  lastFormlyModelValue: string;
   makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
     for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
       for (let l = 0; l < inputType.length; l++) {
@@ -637,39 +677,7 @@ export class BuilderComponent implements OnInit {
     }
     return inputType;
   }
-  evalConditionRule(query: any, dataTargetIfValue: any) {
-    dataTargetIfValue.forEach((e: any) => {
-      let type = e.conditonType == "AND" ? "&&" : "||";
-      type = query == '' ? "" : type;
-      let getModelValue = this.formlyModel[e.ifMenuName] == "" ? "''" : this.formlyModel[e.ifMenuName];
-      if (getModelValue == undefined)
-        getModelValue = "";
 
-      if (e.condationName == 'contains') {
-        if (this.formlyModel[e.ifMenuName] != undefined && this.formlyModel[e.ifMenuName].includes(e.targetValue))
-          query = query + " " + type + " " + '1 == 1';
-        else
-          query = query + " " + type + " " + '1 == 2';
-      } else if (e.condationName == 'null') {
-        if (typeof (this.formlyModel[e.ifMenuName]) != "number") {
-          if (this.formlyModel[e.ifMenuName] == '' || this.formlyModel[e.ifMenuName] == null)
-            query = query + " " + type + " " + '1 == 1';
-          else
-            query = query + " " + type + " " + '1 == 2';
-        }
-        else
-          query = query + " " + type + " " + '1 == 2';
-      } else {
-        if (e.ifMenuName.includes('number') || e.ifMenuName.includes('decimal')) {
-          query = query + " " + type + " " + Number(getModelValue) + " " + e.condationName + " " + e.targetValue;
-        }
-        else {
-          query = query + " " + type + " '" + getModelValue + "' " + e.condationName + " '" + e.targetValue + "'";
-        }
-      }
-    });
-    return query;
-  }
   addControlToJson(value: string, data?: any) {
 
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
@@ -1116,6 +1124,7 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (value == 'switch') {
+
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         type: "switch",
@@ -1157,11 +1166,11 @@ export class BuilderComponent implements OnInit {
         base64Image: "",
         hideExpression: false,
         tooltip: "",
-        imagePreview: true,
-        keyboardKey: true,
-        zoom: 1.5,
-        rotate: 0,
-        zIndex: 1000,
+        imagePreview:true,
+        keyboardKey:true,
+        zoom:1.5,
+        rotate:0,
+        zIndex:1000,
         children: [
         ],
       } as TreeNode;
@@ -1381,6 +1390,8 @@ export class BuilderComponent implements OnInit {
         loading: false,
         nztype: 'default',
         size: 'default',
+        imageSrc:'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
+        imageAlt:'image',
 
         children: [
         ],
@@ -3352,14 +3363,7 @@ export class BuilderComponent implements OnInit {
         closingexpandicon: 'file',
         expand: "",
         expandKeys: ['100', '1001'],
-        showLine: true,
-        blockNode: true,
-        showIcon: true,
-        asyncData: true,
-        draggable: true,
-        multiple: true,
-        expandAll: true,
-        checkStricktly: true,
+
         // title: 'parent 1',
         key: '100',
         nodes: [
@@ -3782,7 +3786,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        icon: 'star',
+        icon:'star',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3995,7 +3999,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+
 
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -4019,10 +4023,6 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
-        break;
-      case "icon":
-        configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.iconFields;
         break;
       case "treeSelect":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
@@ -4071,10 +4071,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
-      // case "mentions":
-      //   configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
-      //   this.fieldData.formData = _formFieldData.mentionsFields;
-      //   break;
+      case "mentions":
+        configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.mentionsFields;
+        break;
       case "empty":
         configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
@@ -4370,9 +4370,6 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
-      case "mentions":
-
-
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
@@ -4974,15 +4971,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
-      case "icon":
-        if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.icon = event.form.icon;
-        }
-        break;
       case "treeSelect":
 
         if (this.selectedNode) {
@@ -5083,14 +5071,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.expand = event.form.expand;
           this.selectedNode.expandIcon = event.form.expandIcon;
           this.selectedNode.closingexpandicon = event.form.closingexpandicon;
-          this.selectedNode.showLine = event.form.showLine;
-          this.selectedNode.blockNode = event.form.blockNode;
-          this.selectedNode.showIcon = event.form.showIcon;
-          this.selectedNode.asyncData = event.form.asyncData;
-          this.selectedNode.draggable = event.form.draggable;
-          this.selectedNode.multiple = event.form.multiple;
-          this.selectedNode.expandAll = event.form.expandAll;
-          this.selectedNode.checkStricktly = event.form.checkStricktly;
           // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
@@ -5590,7 +5570,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "imageUpload":
-        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -5602,18 +5581,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.imagHieght = event.form.imagHieght;
           this.selectedNode.imageWidth = event.form.imageWidth;
           this.selectedNode.imageClass = event.form.imageClass;
-          this.selectedNode.keyboardKey = event.form.keyboardKey;
-          this.selectedNode.zoom = event.form.zoom;
-          this.selectedNode.rotate = event.form.rotate;
-          this.selectedNode.zIndex = event.form.zIndex;
-          this.selectedNode.imagePreview = event.form.imagePreview;
           if (event.form.source) {
-            this.dataSharedService.imageUrl = '';
+            // this.formlyService.imageUrl = '';
             this.selectedNode.base64Image = '';
           }
-          else if (this.dataSharedService.imageUrl) {
-            this.selectedNode.base64Image = this.dataSharedService.imageUrl;
-          }
+          // else if (this.formlyService.imageUrl) {
+          //   this.selectedNode.base64Image = this.formlyService.imageUrl;
+          // }
         }
         break;
       case "toastr":
@@ -5761,18 +5735,14 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableHeaders = res.tableHeaders;
             }))
           }
-          if (event.tableDta) {
-            this.selectedNode['tableHeaders'] = event.tableDta;
-          } else {
-            this.selectedNode['tableHeaders'] = event.form.options;
-          }
+
           if (this.selectedNode.noResult) {
-            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
-            this.selectedNode.tableData = []
-          } else {
             if (this.selectedNode.tableData.length > 0) {
               this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
             }
+            this.selectedNode.tableData = []
+          } else {
+            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
           }
           // this.selectedNode.sort = event.form.sort;
           // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
@@ -6792,7 +6762,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.nztype = event.form.nztype;
           this.selectedNode.size = event.form.size;
-
+          this.selectedNode.imageAlt = event.form.imageAlt;
+          this.selectedNode.imageSrc = event.form.imageSrc;
           // if (event.form.link != undefined || event.form.link != "") {
           //   this.builderService.genericApis(event.form.link).subscribe((res => {
 
@@ -6940,7 +6911,6 @@ export class BuilderComponent implements OnInit {
   jsonParse(data: any) {
     return JSON.parse(data)
   }
-
   jsonParseWithObject(data: any) {
     return JSON.parse(
       data, (key, value) => {
