@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BuilderService } from 'src/app/services/builder.service';
+import { ruleFactory } from '@elite-libs/rules-machine';
 
 @Component({
   selector: 'app-business-rule',
@@ -13,6 +14,7 @@ export class BusinessRuleComponent implements OnInit {
   @Input() screenName:any;
   @Input() selectedNode:any;
   @Input() nodes:any;
+  @Input() formlyModel:any;
   constructor(private formBuilder: FormBuilder,private builderService:BuilderService) { }
 
   ngOnInit(): void {
@@ -163,6 +165,7 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
+    debugger
     this.bussinessRuleObj = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = '"';
@@ -211,10 +214,10 @@ export class BusinessRuleComponent implements OnInit {
         }));
       }
     }
-    // const fishRhyme = ruleFactory(this.bussinessRuleObj);
+    const fishRhyme = ruleFactory(this.bussinessRuleObj);
     // const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
     // console.log(fishRhyme1({ text_675d95bf: "abc" }));
     // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
-    // console.log(fishRhyme(this.formlyService.formlyModel));
+    console.log(fishRhyme(this.formlyModel));
   }
 }

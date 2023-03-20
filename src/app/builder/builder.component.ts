@@ -13,6 +13,7 @@ import { DataSharedService } from '../services/data-shared.service';
 import { actionTypeFeild, formFeildData } from './configurations/configuration.modal';
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
+import { ruleFactory } from '@elite-libs/rules-machine';
 
 
 @Component({
@@ -495,6 +496,9 @@ export class BuilderComponent implements OnInit {
     return query;
   }
   checkConditionUIRule(model: any, currentValue: any) {
+    
+    // let stringData = "[ { \"id\": \"page\", \"title\": \"page\", \"type\": \"page\", \"footer\": false, \"header\": false, \"expanded\": true, \"isNextChild\": true, \"children\": [ { \"id\": \"pageHeader_bf144496\", \"key\": \"pageHeader_9b346e30\", \"title\": \"Page Header\", \"type\": \"pageHeader\", \"headingSize\": \"text-xl\", \"footer\": false, \"header\": true, \"expanded\": true, \"highLight\": false, \"labelPosition\": \"text-left\", \"alertPosition\": \"topHeader\", \"isNextChild\": true, \"formly\": [ { \"key\": \"pageHeader_3328a22c\" } ], \"children\": [] }, { \"id\": \"pageBody_317b5364\", \"key\": \"pageBody_946c4863\", \"title\": \"Page Body\", \"type\": \"pageBody\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"pageBody_a4c6c5ac\" } ], \"children\": [ { \"id\": \"according_7e44ea6c\", \"key\": \"according_3df6a7dc\", \"title\": \"Section_1\", \"type\": \"according\", \"className\": \"\", \"footer\": false, \"header\": false, \"expanded\": true, \"sectionDisabled\": \"editable\", \"labelPosition\": \"text-right\", \"highLight\": false, \"isNextChild\": true, \"repeatable\": false, \"formly\": [ { \"key\": \"according_0c56fdf3\" } ], \"children\": [ { \"id\": \"accordingHeader_a9dc4740\", \"key\": \"accordingHeader_71b82cd7\", \"title\": \"Header\", \"type\": \"accordingHeader\", \"footer\": false, \"headingSize\": \"\", \"header\": true, \"expanded\": false, \"highLight\": false, \"labelPosition\": \"text-left\", \"isNextChild\": true, \"backGroundColor\": \"#FFFFFF\", \"textColor\": \"#000000\", \"formly\": [ { \"key\": \"accordingHeader_c8d3d02b\" } ], \"children\": [] }, { \"id\": \"accordingBody_fcd6aebf\", \"key\": \"accordingBody_3dc9372e\", \"title\": \"Body\", \"type\": \"accordingBody\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"accordingBody_1e2edbc2\" } ], \"children\": [ { \"id\": \"common_a1ac064b\", \"title\": \"First Name\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Inputeceba700\", \"type\": \"input\", \"defaultValue\": \"12345\", \"focus\": false, \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"First Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"First Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_30_input_Inputeceba700_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"wrappers\": [ \"form-field\" ], \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_29___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"selected\": false }, { \"id\": \"common_1f1faaf4\", \"title\": \"Last Name v2\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Input8c56c07e\", \"type\": \"input\", \"defaultValue\": \"xxxas\", \"focus\": false, \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Last Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Last Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_32_input_Input8c56c07e_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"wrappers\": [ \"form-field\" ], \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_31___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"selected\": true }, { \"id\": \"common_c377168b\", \"title\": \"Age\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Input number8ff5cd4b\", \"type\": \"number\", \"defaultValue\": \"\", \"focus\": false, \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Age\", \"placeholder\": \"Input number\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Age\", \"placeholder\": \"Input number\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_34_number_Input number8ff5cd4b_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"wrappers\": [ \"form-field\" ], \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_33___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"selected\": true }, { \"id\": \"common_3af2d130\", \"title\": \"Email ID\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Email377643af\", \"type\": \"input\", \"defaultValue\": \"\", \"focus\": false, \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Email ID\", \"placeholder\": \"Email\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"left\", \"addonRight\": \"right\", \"addonLeftIcon\": \"user\", \"addonrightIcon\": \"star\", \"status\": \"warning\", \"size\": \"large\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Email ID\", \"placeholder\": \"Email\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_36_input_Email377643af_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"wrappers\": [ \"form-field\" ], \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_35___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"selected\": true } ], \"selected\": true }, { \"id\": \"accordingFooter_1fd1e957\", \"title\": \"Footer\", \"type\": \"accordingFooter\", \"key\": \"accordingFooter_0139fc8a\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"accordingFooter_7fd26dae\" } ], \"children\": [] } ] } ] }, { \"id\": \"pageFooter_129287f3\", \"key\": \"pageFooter_da16a31c\", \"title\": \"Page Footer\", \"type\": \"pageFooter\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"pageFooter_2d338d95\" } ], \"children\": [] } ] } ]"
+    // this.nodes = this.jsonParse(stringData);
     this.getUIRule(model, currentValue);
   }
   getUIRuleData(data: any) {
@@ -506,27 +510,17 @@ export class BuilderComponent implements OnInit {
     }));
   }
   getUIRule(model: any, currentValue: any) {
-
-    if (this.screenData != undefined) {
-      var inputType = this.nodes[0].children[1].children[0].children[1].children;
-      for (let j = 0; j < inputType.length; j++) {
-        for (let index = 0; index < this.screenData.uiData.length; index++) {
-          if (inputType[j] == undefined) {
-            let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-              else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+    try {
+      if (this.screenData != undefined) {
+        var inputType = this.nodes[0].children[1].children[0].children[1].children;
+        for (let j = 0; j < inputType.length; j++) {
+          for (let index = 0; index < this.screenData.uiData.length; index++) {
+            if (inputType[j] == undefined) {
+              let query: any;
+              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+              if (this.screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -534,44 +528,44 @@ export class BuilderComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
+              } else if (this.screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                    query = '1 == 1';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                  else {
+                    query = '1 == 2';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                } else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+
               } else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                } else {
+                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
               }
-
-            } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-            }
-            if (eval(query)) {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-            }
-            else {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-            }
-          } else if (inputType[j].formly != undefined) {
-            let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              if (eval(query)) {
+                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
               }
               else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
               }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+            } else if (inputType[j].formly != undefined) {
+              let query: any;
+              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+              if (this.screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -579,33 +573,58 @@ export class BuilderComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
+              } else if (this.screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                    query = '1 == 1';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                  else {
+                    query = '1 == 2';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                } else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+
               } else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                } else {
+                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
               }
-
-            } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              if (eval(query)) {
+                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
               }
-            }
-            if (eval(query)) {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-            }
-            else {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              else {
+                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              }
             }
           }
         }
+        // this.clickBack();
+        // this.cdr.detectChanges();
       }
-      // this.clickBack();
-      // this.cdr.detectChanges();
+    } catch (error) {
+      console.log(error)
+    } finally {
+      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+      if (mainModuleId[0].screenId != null) {
+        this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
+          debugger
+          if (getRes.length > 0) {
+            const fishRhyme = ruleFactory(getRes[0].buisnessRule);
+            console.log(fishRhyme(this.formlyModel));
+            this.cdr.detectChanges();
+          }
+        }))
+      }
     }
   }
   lastFormlyModelValue: string;

@@ -198,7 +198,7 @@
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
                           <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes"></app-business-rule>
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" [formlyModel]="this.formlyModel"></app-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
                           <app-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
