@@ -7764,37 +7764,65 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        // {
-        //   key: 'fixHeader',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
-        //     label: 'Fix header',
-        //   },
-        //   defaultValue: false
-        // },
-        // {
-        //   key: 'tableScroll',
-        //   type: 'select',
-        //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
-        //     label: 'tableScroll',
-        //     options: [
-        //       { value: 'unset', label: 'Unset' },
-        //       { value: 'scroll', label: 'Scroll' },
-        //       { value: 'fixed', label: 'Fixed' }
-        //     ]
-        //   },
-        // },
-        // {
-        //   key: 'fixedColumn',
-        //   type: 'checkbox',
-        //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
-        //     label: 'Fixed Column',
-        //   },
-        //   defaultValue: false
-        // },
+        {
+          template: '<div class="bold-label mt-3">Columns</div>',
+        },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          templateOptions: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'name',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'Column Name'
+                }
+              },
+              {
+                key: 'sortOrder',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'Column Name'
+                }
+              },
+              {
+                key: 'sortDirections',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'sortDirections'
+                }
+              },
+              {
+                key: 'filterMultiple',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'filterMultiple'
+                }
+              }
+              // {
+              //   className: "ml-2",
+              //   key: 'showColumn',
+              //   type: 'checkbox',
+              //   wrappers: ["formly-vertical-wrapper"],
+              //   templateOptions: {
+              //     label: 'Is Show'
+              //   }
+              // }
+            ]
+          }
+        }
       ]
     }
   ]

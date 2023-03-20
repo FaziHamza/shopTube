@@ -3676,7 +3676,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-
+debugger
 
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -5441,6 +5441,11 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData = res.tableData;
               this.selectedNode.tableHeaders = res.tableHeaders;
             }))
+          }
+          if (event.tableDta) {
+            this.selectedNode['tableHeaders'] = event.tableDta;
+          } else {
+            this.selectedNode['tableHeaders'] = event.form.options;
           }
           if (this.selectedNode.noResult) {
             this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
