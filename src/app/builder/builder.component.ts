@@ -65,7 +65,7 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService , public dataSharedService : DataSharedService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -86,7 +86,6 @@ export class BuilderComponent implements OnInit {
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
-    this.screenName = "CRMAPP"
     if (this.dataSharedService.screenName) {
       this.getFormLayers(this.dataSharedService.screenName);
     }
@@ -469,6 +468,8 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         repeatable: false,
+        size:'default',
+        status:'',
         formly: [
           {
             key: "according_" + Guid.newGuid(),
@@ -538,6 +539,7 @@ export class BuilderComponent implements OnInit {
         expanded: true,
         highLight: false,
         isNextChild: true,
+        
         formly: [
           {
             key: "accordingFooter_" + Guid.newGuid(),
@@ -567,19 +569,19 @@ export class BuilderComponent implements OnInit {
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
-                // wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-wrapper"],
                 templateOptions: {
                   multiple: true,
                   attributes: {
                     autocomplete: 'off',
                   },
                   config: {
-                    addonLeft: 'left',
-                    addonRight: 'right',
-                    addonLeftIcon: 'user',
-                    addonrightIcon: 'star',
-                    status: 'warning',
-                    size: 'large',
+                    addonLeft: '',
+                    addonRight: '',
+                    addonLeftIcon: '',
+                    addonrightIcon: '',
+                    status: '',
+                    size: 'default',
                     border: false,
                     maxLength: 10,
                     disabled: false,
@@ -607,10 +609,10 @@ export class BuilderComponent implements OnInit {
                   // }
 
                   keyup: (model: any) => {
-                    debugger
+
                     let currentVal = model.formControl.value;
                     PagesComponent.prototype.formlyModel[model.key] = model.formControl.value;
-                    PagesComponent.prototype.checkConditionUIRule(model,currentVal);
+                    PagesComponent.prototype.checkConditionUIRule(model, currentVal);
                   }
                 },
                 hideExpression: false,
@@ -815,7 +817,6 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         loading: false,
         control: false,
-
         children: [
         ],
       } as TreeNode;
@@ -838,11 +839,11 @@ export class BuilderComponent implements OnInit {
         base64Image: "",
         hideExpression: false,
         tooltip: "",
-        imagePreview:true,
-        keyboardKey:true,
-        zoom:1.5,
-        rotate:0,
-        zIndex:1000,
+        imagePreview: true,
+        keyboardKey: true,
+        zoom: 1.5,
+        rotate: 0,
+        zIndex: 1000,
         children: [
         ],
       } as TreeNode;
@@ -2590,15 +2591,18 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'anchor') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'anchor_' + Guid.newGuid(),
+        key: 'anchor_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Anchor',
         type: "anchor",
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        anchor: [
+        affix:true,
+        offSetTop:5,
+        showInkInFixed:true,
+        options: [
           {
             nzTitle: "Basic demo",
             nzHref: "#components-anchor-demo-basic",
@@ -2858,8 +2862,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'nzTag') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'nzTag_' + Guid.newGuid(),
+        key: 'nzTag_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Tag',
         type: "nzTag",
@@ -2869,6 +2873,28 @@ export class BuilderComponent implements OnInit {
         color: "red",
         mode: "closeable",
         checked: false,
+        options: [
+          {
+            title: 'Twitter',
+            icon: 'twitter',
+            tagColor: 'blue',
+          },
+          {
+            title: 'Youtube',
+            icon: 'youtube',
+            tagColor: 'red',
+          },
+          {
+            title: 'Facebook',
+            icon: 'facebook',
+            tagColor: 'blue',
+          },
+          {
+            title: 'LinkedIn',
+            icon: 'linkedin',
+            tagColor: 'blue',
+          }
+        ],
         children: [
         ],
       } as TreeNode;
@@ -3033,14 +3059,14 @@ export class BuilderComponent implements OnInit {
         closingexpandicon: 'file',
         expand: "",
         expandKeys: ['100', '1001'],
-        showLine:true,
-        blockNode:true,
-        showIcon:true,
-        asyncData:true,
-        draggable:true,
-        multiple:true,
-        expandAll:true,
-        checkStricktly:true,
+        showLine: true,
+        blockNode: true,
+        showIcon: true,
+        asyncData: true,
+        draggable: true,
+        multiple: true,
+        expandAll: true,
+        checkStricktly: true,
         // title: 'parent 1',
         key: '100',
         nodes: [
@@ -3463,7 +3489,8 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        icon:'star',
+        icon: 'star',
+        theme: 'outline',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -3676,7 +3703,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-debugger
+
 
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -3705,6 +3732,10 @@ debugger
         configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.iconFields;
         break;
+      case "anchor":
+        configObj = { ...configObj, ...this.clickButtonService.getAnchorConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.anchorFields;
+        break;
       case "treeSelect":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeSelectFields;
@@ -3714,7 +3745,7 @@ debugger
         this.fieldData.formData = _formFieldData.treeviewFields;
         break;
       case "cascader":
-        debugger
+
         configObj = { ...configObj, ...this.clickButtonService.getCascaderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.cascaderFields;
         break;
@@ -4628,7 +4659,7 @@ debugger
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-
+    debugger
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -4662,6 +4693,23 @@ debugger
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.icon = event.form.icon;
+          this.selectedNode.theme = event.form.theme;
+        }
+        break;
+      case "anchor":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.affix = event.form.affix;
+          this.selectedNode.offSetTop = event.form.offSetTop;
+          this.selectedNode.showInkInFixed = event.form.showInkInFixed;
+          if(event.form.api){
+            this.builderService.genericApis(event.form.api).subscribe((res =>{
+              this.selectedNode.options = res;
+            }))
+          }
         }
         break;
       case "treeSelect":
@@ -4722,7 +4770,6 @@ debugger
         }
         break;
       case "cascader":
-
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -4732,7 +4779,6 @@ debugger
           this.selectedNode.labelProperty = event.form.labelProperty;
           this.selectedNode.placeHolder = event.form.placeHolder;
           this.selectedNode.size = event.form.size;
-
           this.selectedNode.status = event.form.status;
           this.selectedNode.expandIcon = event.form.expandIcon;
           this.selectedNode.suffixIcon = event.form.suffixIcon;
@@ -4909,11 +4955,13 @@ debugger
           this.selectedNode.color = event.form.color;
           this.selectedNode.mode = event.form.mode;
           this.selectedNode.checked = event.form.checked;
+          if (event.tableDta) {
+            this.selectedNode.options = event.tableDta
+          }
         }
         break;
       case "segmented":
         if (this.selectedNode) {
-
           this.selectedNode.id = event.form.id;
           this.selectedNode.key = event.form.key;
           this.selectedNode.className = event.form.className;
@@ -5085,7 +5133,7 @@ debugger
       case 'date':
       case 'color':
         if (this.selectedNode) {
-
+          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5108,8 +5156,8 @@ debugger
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['titleIcon'] = event.form.titleIcon;
-            // templateOptions['addonLeft'].text = event.form.addonLeft;
-            // templateOptions['addonRight'].text = event.form.addonRight;
+            templateOptions.config['addonLeft'] = event.form.addonLeft;
+            templateOptions.config['addonRight'] = event.form.addonRight;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               templateOptions['options'] = event.tableDta;
@@ -5127,6 +5175,7 @@ debugger
               })
             }
           });
+          this.clickBack();
         }
         break;
 
@@ -5271,7 +5320,7 @@ debugger
         }
         break;
       case "imageUpload":
-        debugger
+
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.title = event.form.title;
@@ -6079,6 +6128,8 @@ debugger
           this.selectedNode.sectionDisabled = event.form.disabled;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.status = event.form.status;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
               if (res.formly != undefined) {
@@ -6166,14 +6217,14 @@ debugger
         }
         break;
       case "switch":
-        if (this.selectedNode.id) {
+        if (this.selectedNode) {
+          debugger
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.switchType = event.form.switchType;
-          this.selectedNode.switchPosition = event.form.switchPosition;
+          // this.selectedNode.switchType = event.form.switchType;
+          // this.selectedNode.switchPosition = event.form.switchPosition;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.size = event.form.size;
           this.selectedNode.checkedChildren = event.form.checkedChildren;
@@ -6181,7 +6232,6 @@ debugger
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.control = event.form.control;
-
         }
         break;
       case "multiFileUpload":
@@ -6592,6 +6642,13 @@ debugger
           fieldGroup[0].templateOptions.className = formValues.className;
           fieldGroup[0].className = formValues.className;
         }
+        if (formValues.size) {
+          fieldGroup[0].templateOptions.config.size = formValues.size;
+        }
+        if (formValues.status) {
+          debugger
+          fieldGroup[0].templateOptions.config.status = formValues.status;
+        }
       }
     }
     return fieldGroup;
@@ -6612,9 +6669,9 @@ debugger
   jsonStringifyWithObject(data: any) {
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
-        debugger
-         let data = value.toString().replace('_pages_pages_component__WEBPACK_IMPORTED_MODULE_0__.','');
-        let abc =  data.replace('_pages_pages_component__WEBPACK_IMPORTED_MODULE_0__.','');
+
+        let data = value.toString().replace('_pages_pages_component__WEBPACK_IMPORTED_MODULE_0__.', '');
+        let abc = data.replace('_pages_pages_component__WEBPACK_IMPORTED_MODULE_0__.', '');
         return abc
       } else {
         return value;
@@ -6653,7 +6710,7 @@ debugger
   }
 
   jsonUpload(event: any) {
-    debugger
+
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {

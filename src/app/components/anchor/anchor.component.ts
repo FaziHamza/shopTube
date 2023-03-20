@@ -11,5 +11,7 @@ export class AnchorComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  common(data : any){
+    console.log(data)
+  }
 }

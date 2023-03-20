@@ -2835,6 +2835,10 @@ export class formFeildData {
                 label: 'error',
                 value: 'error'
               },
+              {
+                label: 'error',
+                value: 'error'
+              },
             ]
           }
         },
@@ -3729,6 +3733,52 @@ export class formFeildData {
           },
         },
         {
+          key: 'size',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options: [
+              {
+                label: 'small',
+                value: 'small'
+              },
+              {
+                label: 'large',
+                value: 'large'
+              },
+              {
+                label: 'default',
+                value: 'default'
+              },
+            ]
+          },
+        },
+        {
+          key: 'status',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Status',
+            options: [
+              {
+                label: 'Error',
+                value: 'error'
+              },
+              {
+                label: 'Warning',
+                value: 'warning'
+              },
+              {
+                label: 'NO',
+                value: ''
+              },
+            ]
+          },
+        },
+        {
           key: 'disabled',
           type: 'select',
           className: "w-1/4 px-1",
@@ -3975,7 +4025,68 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
+        // {
+        //   key: 'switchType',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Switch Type',
+        //     options: [
+        //       {
+        //         label: 'Default switch',
+        //         value: 'defaultSwitch'
+        //       },
+        //       {
+        //         label: 'Checked switch',
+        //         value: 'checkedSwitch'
+        //       },
+        //       {
+        //         label: 'Disabled switch',
+        //         value: 'disabledSwitch'
+        //       },
+        //       {
+        //         label: 'Disabled checked switch',
+        //         value: 'disabledCheckedSwitch'
+        //       },
+        //       {
+        //         label: 'Small Size Switch',
+        //         value: 'smallSizeSwitch'
+        //       },
+        //       {
+        //         label: 'Medium Size Switch',
+        //         value: 'mediumSizeSwitch'
+        //       },
+        //       {
+        //         label: 'Large Size Switch',
+        //         value: 'largeSizeSwitch'
+        //       },
+        //     ]
+        //   },
+        // },
+        // {
+        //   key: 'switchPosition',
+        //   type: 'select',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Switch Position',
+        //     options: [
+        //       {
+        //         label: 'Left',
+        //         value: 'left'
+        //       },
+        //       {
+        //         label: 'Center',
+        //         value: 'center'
+        //       },
+        //       {
+        //         label: 'Right',
+        //         value: 'right'
+        //       },
+        //     ]
+        //   },
+        // },
         {
           key: 'size',
           type: 'select',
@@ -8685,18 +8796,8 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   className: "w-1/4 px-1",
-        //   key: 'Color',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
-        //     type: 'color',
-        //     label: 'color',
-        //   }
-        // },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/4 px-2",
           key: 'mode',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
@@ -8705,11 +8806,11 @@ export class formFeildData {
             options: [
               {
                 label: 'closeable ',
-                value: 'closeable '
+                value: 'closeable'
               },
               {
                 label: 'Default ',
-                value: 'default '
+                value: 'default'
               },
               {
                 label: 'Checkable',
@@ -8718,7 +8819,40 @@ export class formFeildData {
             ]
           }
         },
-
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-1/4",
+          templateOptions: {
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'title',
+                type: 'input',
+                templateOptions: {
+                  label: 'Label'
+                }
+              },
+              {
+                key: 'tagColor',
+                type: 'input',
+                templateOptions: {
+                  label: 'Color'
+                }
+              },
+              {
+                key: 'icon',
+                type: 'input',
+                templateOptions: {
+                  label: 'Icon'
+                }
+              },
+            ]
+          }
+        },
       ]
     },
   ];
@@ -9747,6 +9881,78 @@ export class formFeildData {
           templateOptions: {
             label: 'Icon',
           },
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'theme',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Icon type',
+            options: [
+              {
+                label: 'Outlined',
+                value: 'outline'
+              },
+              {
+                label: 'Fill',
+                value: 'fill'
+              },
+              {
+                label: 'Twotone',
+                value: 'twotone'
+              },
+            ]
+          },
+        },
+      ]
+    },
+  ];
+  anchorFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-1/4 px-1",
+          key: 'offSetTop',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'number',
+            label: 'Padding From top',
+          },
+        },
+        {
+          key: 'api',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Select API',
+            options: [
+              {
+                label: "Api",
+                value: "anchor"
+              },
+            ]
+          },
+        },
+        {
+          key: 'affix',
+          className: "w-1/4 mt-5 px-2",
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Fixed',
+          },
+        },
+        {
+          className: "w-1/4 mt-5 px-2",
+          key: 'showInkInFixed',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Show balls',
+          },
+          defaultValue: true
         },
       ]
     },

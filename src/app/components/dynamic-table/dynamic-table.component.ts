@@ -26,7 +26,7 @@ export class DynamicTableComponent implements OnInit {
   constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.gridInitilize();
   }
   gridInitilize() {

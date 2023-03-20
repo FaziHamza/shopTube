@@ -26,6 +26,9 @@ export interface TreeNode {
   level?: any;
   padding?: any;
   hideExpression?: boolean;
+  affix?: any;
+  offSetTop?: any;
+  showInkInFixed?: any;
   checkable?: any;
   expandKeys?: any;
   hideUnMatched?: any;
@@ -307,6 +310,7 @@ export interface TreeNode {
   color?: string,
   onhover?: string,
   icon?: any,
+  theme?: any,
   mode?: any,
   checked?: any,
   dividerText?: any,

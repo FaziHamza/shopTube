@@ -62,7 +62,7 @@ export class ModuleListComponent implements OnInit {
   }
   jsonModuleSetting() {
     this.builderService.jsonModuleSetting().subscribe((res => {
-      debugger
+      
       this.moduleList = res;
       this.listOfDisplayData = res;
       this.listOfData = res;
@@ -119,13 +119,13 @@ export class ModuleListComponent implements OnInit {
     this.handleCancel();
   }
   editItem(item: any) {
-    debugger
+    
     this.model = item;
     this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    debugger
+    
     this.builderService.deletejsonModule(id).subscribe((res => {
       this.jsonModuleSetting();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -137,7 +137,7 @@ export class ModuleListComponent implements OnInit {
   }
 
   search(): void {
-    debugger
+    
     this.isShow = false;
     this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
     console.log(this.listOfDisplayData);

@@ -285,7 +285,7 @@
         <ng-template #thirtyThree>
             <ng-container *ngIf="item.type == 'switch'; else thirtyforth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-switch [switchData]="item"></app-switch> -->
+                    <app-switch [switchData]="item"></app-switch>
                 </div>
             </ng-container>
         </ng-template>
@@ -515,8 +515,9 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <nz-tag [nzColor]='item.color' [nzMode]="item.mode" [nzChecked]="item.checked"
-                        (nzOnClose)="onClose()">{{item.title}}</nz-tag>
+                    <nz-tag *ngFor="let child of item.options" [nzColor]='child.tagColor' [nzMode]="item.mode"
+                        [nzChecked]="item.checked" (nzOnClose)="onClose()"><span nz-icon [nzType]='child.icon'></span>
+                        <span>{{child.title}}</span></nz-tag>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -713,7 +714,7 @@
                 <ng-container *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+                    <span nz-icon [nzType]="item.icon" [nzTheme]='item.theme'></span>
                 </ng-container>
             </ng-container>
         </ng-template>

@@ -494,7 +494,7 @@ export class BusinessRuleGridComponent implements OnInit {
   const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
   if (mainModuleId.length > 0) {
       this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-        debugger
+        
         if (getRes.length > 0) {
           for (let k = 0; k < getRes.length; k++) {
             if(getRes[k].gridKey == this.selectedNode.key){

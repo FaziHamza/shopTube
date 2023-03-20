@@ -3,7 +3,8 @@
     [nzStartIndex]="step.selectedIndex" (nzIndexChange)="handleIndexChange($event)">
     <ng-container *ngFor="let item of step.children">
         <nz-step [nzDescription]="item.description" [nzIcon]="characterIcon" [nzDisabled]="item.disabled"
-            [nzTitle]="item.label" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"  [nzStatus]="item.status">
+            [nzTitle]="item.label" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
+            [nzStatus]="item.status">
         </nz-step>
         <div style="text-align: right;">
             <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"

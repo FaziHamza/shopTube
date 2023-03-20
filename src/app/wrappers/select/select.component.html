@@ -1,8 +1,8 @@
 <!-- <nz-select [nzCustomTemplate]="valueTemplate" [nzOptionHeightPx]="23" [formlyAttributes]="field"> -->
-      <nz-select [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field" [formControl]="formControl">
-    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzCustomContent]="true"
-      [nzLabel]="item.label">{{item.label}}</nz-option>
-  </nz-select>
+<nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field" [formControl]="formControl">
+  <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzCustomContent]="true"
+    [nzLabel]="item.label">{{item.label}}</nz-option>
+</nz-select>
 <ng-template #valueTemplate let-item>
   <div class="d-flex align-items-center">
     <i *ngIf="getIcon(item.nzValue)" class="{{getIcon(item.nzValue)}} option-icon"></i> {{item.nzLabel}}

@@ -33,7 +33,7 @@ export class AppSideMenuComponent implements OnInit {
     isCollapsed: false,
     allMenuItems: [],
   }
-  constructor(private employeeService: EmployeeService , private toastr: NzMessageService, private router: Router ,) { }
+  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
 
@@ -108,11 +108,19 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    debugger
+    
+    let checkTabsAndDropdown = false;
     event.stopPropagation();
+    data.children.forEach((element: any) => {
+      if (!checkTabsAndDropdown) {
+        if (element.type == 'mainTab' || element.type == 'dropdown') {
+          checkTabsAndDropdown =  true;
+        }
+      }
+    });
     this.notify.emit(data);
     this.menuChildArrayTwoColumn = [];
-    if (data.link) {
+    if (data.link && !checkTabsAndDropdown) {
       let routerLink = data.link;
       this.router.navigate([routerLink]);
     }
