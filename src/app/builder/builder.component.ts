@@ -1911,7 +1911,7 @@ export class BuilderComponent implements OnInit {
         color: '#000000',
         headingApi: "",
         text: "Editor.js",
-        heading: 'text-2xl',
+        heading: 3,
         fontstyle: 'font-normal',
         children: [
         ],
@@ -1929,17 +1929,22 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         key: "paragraph_" + Guid.newGuid(),
-        style: "font-weight:normal;",
-        textAlign: "text-align:left;",
-        fontSize: "font-weight:normal;text-align:left;",
-        color: "#000000",
-        api: "",
-        padding: '',
-        // paddingBottom: 0,
-        // paddingTop: 0,
-        // paddingRight: 0,
-        // paddingLeft: 0,
-        text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati",
+        editable: false,
+        color: '',
+        fontstyle: 'font-normal',
+        text:'A random paragraph generate when add paragraph componenet',
+        editableTooltip:'',
+        copyable:false,
+        copyTooltips:'',
+        ellipsis:false,
+        suffix:'',
+        disabled:false,
+        expandable:false,
+        ellipsisRows:1,
+        nztype:'default',
+        beforecopyIcon:'',
+        aftercopyIcon:'',
+        editableIcon:'',
         children: [
         ],
       } as TreeNode;
@@ -4029,7 +4034,6 @@ export class BuilderComponent implements OnInit {
 
       case "paragraph":
         configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
-        configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
           this.fieldData.formData = _formFieldData.paragraphFields;
         break;
 
@@ -5974,20 +5978,30 @@ export class BuilderComponent implements OnInit {
       case "paragraph":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
-          this.selectedNode.padding = event.form.padding;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.className = event.form.className;
           this.selectedNode.text = event.form.text;
-          this.selectedNode.style = event.form.style;
-          this.selectedNode.fontSize = event.form.style + event.form.textAlignment + "color:" + event.form.color;
-          this.selectedNode.textAlign = event.form.textAlignment;
+          this.selectedNode.editable = event.form.editable;
+          this.selectedNode.editableTooltip = event.form.editableTooltip;
+          this.selectedNode.copyable = event.form.copyable;
+          this.selectedNode.copyTooltips = event.form.copyTooltips;
+          this.selectedNode.ellipsis = event.form.ellipsis;
+          this.selectedNode.suffix = event.form.suffix;
+          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.expandable = event.form.expandable;
+          this.selectedNode.ellipsisRows = event.form.ellipsisRows;
+          this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode.beforecopyIcon = event.form.beforecopyIcon;
+          this.selectedNode.aftercopyIcon = event.form.aftercopyIcon;
+          this.selectedNode.editableIcon = event.form.editableIcon;
           this.selectedNode.color = event.form.color;
-          if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              this.updateNodes()
-            }));
-          }
+          this.selectedNode.fontstyle = event.form.fontstyle;
+          // if (event.form.api) {
+          //   this.builderService.genericApis(event.form.api).subscribe((res => {
+          //     this.updateNodes()
+          //   }));
+          // }
 
         }
         break;

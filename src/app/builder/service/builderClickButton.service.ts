@@ -12,54 +12,54 @@ export class BuilderClickButtonService {
     return { icon: node.icon };
   }
   getTransferConfig(node: any) {
-    
+
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
   getCascaderConfig(node: any) {
-    
-    return { 
+
+    return {
       expandTrigger: node.expandTrigger,
       labelProperty: node.labelProperty,
-      placeHolder: node.placeHolder ,
+      placeHolder: node.placeHolder,
       size: node.size,
-      status: node.status ,
+      status: node.status,
       expandIcon: node.expandIcon,
       suffixIcon: node.suffixIcon,
       allowClear: node.allowClear,
       autoFocus: node.autoFocus,
-      backdrop: node.backdrop ,
+      backdrop: node.backdrop,
       showArrow: node.showArrow,
       showInput: node.showInput,
       showSearch: node.showSearch,
       disabled: node.disabled,
-     };
+    };
   }
   getTreeselectviewConfig(node: any) {
-    
-    return { 
+
+    return {
       expandKeys: node.expandKeys,
-      showSearch:node.showSearch ,
+      showSearch: node.showSearch,
       placeHolder: node.placeHolder,
       disabled: node.disabled,
-      icon:node.icon ,
-      width:node.width ,
-      hideUnMatched:node.hideUnMatched ,
+      icon: node.icon,
+      width: node.width,
+      hideUnMatched: node.hideUnMatched,
       status: node.status,
-      checkable:node.checkable ,
-      showExpand:node.showExpand ,
-      showLine:node.showLine ,
+      checkable: node.checkable,
+      showExpand: node.showExpand,
+      showLine: node.showLine,
       defaultExpandAll: node.defaultExpandAll,
       size: node.size,
-     };
+    };
   }
   getTreeViewConfig(node: any) {
-    
-    return { 
-     
-     };
+
+    return {
+
+    };
   }
   progressBarConfig(node: any) {
-    
+
     return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success };
   }
   getGridConfig(node: any) {
@@ -78,7 +78,8 @@ export class BuilderClickButtonService {
     return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
   }
   getBadgeConfig(node: any) {
-    return { nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus ,
+    return {
+      nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus,
       standAlone: node.standAlone,
       dot: node.dot,
       title: node.title,
@@ -86,7 +87,8 @@ export class BuilderClickButtonService {
       overflowCount: node.overflowCount,
       showZero: node.showZero,
       size: node.size,
-      offset: node.offset,};
+      offset: node.offset,
+    };
   }
   getMentionConfig(node: any) {
     return { loading: node.loading, status: node.status, options: node.options, position: node.position, disabled: node.disabled, };
@@ -235,7 +237,7 @@ export class BuilderClickButtonService {
       btnLabel: node.btnLabel,
       icon: node.icon,
       extra: node.extra,
- 
+
     }
   }
 
@@ -360,7 +362,7 @@ export class BuilderClickButtonService {
       disabled: node.disabled,
       loading: node.loading,
       control: node.control,
-    
+
     }
   }
 
@@ -426,7 +428,7 @@ export class BuilderClickButtonService {
   }
 
   getProgressBarConfig(node: any) {
-    
+
     return {
       progressBarType: node.progressBarType,
       percent: node.percent,
@@ -475,7 +477,7 @@ export class BuilderClickButtonService {
   }
 
   getAlertConfig(node: any) {
-    
+
     return {
       icon: node.icon,
       text: node.text,
@@ -610,7 +612,7 @@ export class BuilderClickButtonService {
 
 
   getHeadingConfig(node: any) {
-    
+
     return {
       // padding: '',
       level: node.level,
@@ -625,16 +627,27 @@ export class BuilderClickButtonService {
 
   getParagraphConfig(node: any) {
     return {
-      padding: '',
+      editable: node.editable,
       text: node.text,
-      style: node.style,
-      textAlignment: node.textAlign,
+      editableTooltip: node.editableTooltip,
+      copyable: node.copyable,
+      copyTooltips: node.copyTooltips,
+      ellipsis: node.ellipsis,
+      suffix: node.suffix,
+      disabled: node.disabled,
+      expandable: node.expandable,
+      ellipsisRows: node.ellipsisRows,
+      nztype: node.nztype,
+      beforecopyIcon: node.beforecopyIcon,
+      aftercopyIcon: node.aftercopyIcon,
+      editableIcon: node.editableIcon,
       color: node.color,
+      fontstyle:  node.fontstyle,
     }
   }
 
   getFormlyConfig(node: any) {
-    
+
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
       defaultValue: node.formly[0].fieldGroup[0].defaultValue,
@@ -669,7 +682,7 @@ export class BuilderClickButtonService {
     }
   }
   getButtonConfig(node: any) {
-    
+
     return {
       color: node.color,
       onhover: node.onhover,
@@ -688,7 +701,7 @@ export class BuilderClickButtonService {
     }
   }
   getDropdownButtonConfig(node: any) {
-    
+
     return {
       color: node.color,
       onhover: node.onhover,
