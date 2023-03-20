@@ -96,6 +96,7 @@ import { DynamicTableRepeatSectionComponent } from './components/dynamic-table-r
 import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
 import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
 import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
+import { ParagraphComponent } from './components/paragraph/paragraph.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -183,6 +184,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MenuBuilderComponent,
     SideMenuBuildComponent,
     ScreenBuilderComponent,
+    ParagraphComponent,
     DynamicTableRepeatSectionComponent,
     LayoutTabsDropdownComponent,
     // InputWrapperComponent,

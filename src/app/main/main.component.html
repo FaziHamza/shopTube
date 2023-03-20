@@ -92,7 +92,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-heading [headingData]="item"></app-heading>
+                    <app-paragraph [data]="item"></app-paragraph>
                 </div>
             </ng-container>
         </ng-template>
@@ -718,5 +718,16 @@
                 </ng-container>
             </ng-container>
         </ng-template>
+        <!-- <ng-template #seventyFive>
+            <ng-container *ngIf="item.type == 'paragraph'">
+                <ng-container *ngIf="!item.hideExpression">
+                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                            nzType="question-circle" nzTheme="twotone"></span></span>
+                    <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+                    <app-paragraph [data]="item"></app-paragraph>
+                </ng-container>
+
+            </ng-container>
+        </ng-template> -->
     </div>
 </div>

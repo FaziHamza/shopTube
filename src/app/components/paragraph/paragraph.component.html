@@ -1,0 +1,27 @@
+<p
+nz-typography
+[nzContent]="data.text"
+[nzEditable]="data.editable"
+[nzEditIcon]="editIcon"
+[nzEditTooltip]="data.editableTooltip"
+[nzCopyable]="data.copyable"
+[nzCopyIcons]="[beforecopiedIcon, aftercopiedIcon]"
+[nzCopyTooltips]="data.copyTooltips"
+[nzEllipsis]="data.ellipsis"
+[nzSuffix]="data.suffix"
+[nzDisabled]="data.disabled"
+[nzExpandable]="data.expandable"
+[nzEllipsisRows]="data.ellipsisRows"
+[nzType]="data.nztype"
+[class]="data.fontstyle"
+ [style.color]="data.color"
+></p>
+<ng-template #beforecopiedIcon>
+    <span nz-icon [nzType]="data.beforecopyIcon" nzTheme="fill"></span>
+  </ng-template>
+<ng-template #aftercopiedIcon>
+    <span nz-icon [nzType]="data.aftercopyIcon" nzTheme="fill"></span>
+  </ng-template>
+<ng-template #editIcon>
+    <span nz-icon [nzType]="data.editableIcon" nzTheme="fill"></span>
+  </ng-template>

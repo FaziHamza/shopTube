@@ -648,11 +648,22 @@ export class BuilderClickButtonService {
 
   getParagraphConfig(node: any) {
     return {
-      padding: '',
+      editable: node.editable,
       text: node.text,
-      style: node.style,
-      textAlignment: node.textAlign,
+      editableTooltip: node.editableTooltip,
+      copyable: node.copyable,
+      copyTooltips: node.copyTooltips,
+      ellipsis: node.ellipsis,
+      suffix: node.suffix,
+      disabled: node.disabled,
+      expandable: node.expandable,
+      ellipsisRows: node.ellipsisRows,
+      nztype: node.nztype,
+      beforecopyIcon: node.beforecopyIcon,
+      aftercopyIcon: node.aftercopyIcon,
+      editableIcon: node.editableIcon,
       color: node.color,
+      fontstyle:  node.fontstyle,
     }
   }
 
