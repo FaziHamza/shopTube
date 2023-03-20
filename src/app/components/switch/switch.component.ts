@@ -6,13 +6,13 @@ import { FieldType } from '@ngx-formly/core';
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss']
 })
-export class SwitchComponent extends FieldType {
-  // @Input() switchData: any;
-  // constructor() { }
+// export class SwitchComponent extends FieldType {
+export class SwitchComponent implements OnInit {
+  @Input() switchData: any;
+  constructor() { }
   ngOnInit(): void {
-    
-   this.to;
-    // this.switchData
+  //  this.to;
+    this.switchData
   }
 
 }

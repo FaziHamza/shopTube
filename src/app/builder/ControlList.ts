@@ -217,15 +217,15 @@ export const htmlTabsData = [
                 // maskString: "",
                 // maskLabel: ""
               },
-              {
-                parameter: "input",
-                icon: "uil uil-text",
-                label: "switch",
-                type: 'switch',
-                configType:'inputWrapper',fieldType: 'inputWrapper',
-                // maskString: "",
-                // maskLabel: ""
-              },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-text",
+              //   label: "switch",
+              //   type: 'switch',
+              //   configType:'inputWrapper',fieldType: 'inputWrapper',
+              //   // maskString: "",
+              //   // maskLabel: ""
+              // },
               {
                 parameter: "inputGroup",
                 icon: "uil uil-text",
@@ -236,11 +236,11 @@ export const htmlTabsData = [
                 icon: "uil uil-text",
                 label: "Input Group Grid"
               },
-              // {
-              //   parameter: "switch",
-              //   icon: "uil-toggle-off",
-              //   label: "switch"
-              // },
+              {
+                parameter: "switch",
+                icon: "uil-toggle-off",
+                label: "switch"
+              },
               {
                 parameter: "input",
                 icon: "uil uil-list-ul",

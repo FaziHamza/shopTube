@@ -1,3 +1,9 @@
+<!-- <p [class]="[headingData.heading, headingData.fontstyle]" [style.color]="headingData.color">{{headingData.text}}</p> -->
 
-<p [class]="[headingData.heading, headingData.fontstyle]"  
-[style.color]="headingData.color">{{headingData.text}}</p>
+
+
+<h1 nz-typography *ngIf="headingData.heading === 1" [class]="headingData.fontstyle" [style.color]="headingData.color" >{{headingData.text}}</h1>
+<h2 nz-typography *ngIf="headingData.heading === 2" [class]="headingData.fontstyle" [style.color]="headingData.color" >{{headingData.text}}</h2>
+<h3 nz-typography *ngIf="headingData.heading === 3" [class]="headingData.fontstyle" [style.color]="headingData.color" >{{headingData.text}}</h3>
+<h4 nz-typography *ngIf="headingData.heading === 4" [class]="headingData.fontstyle" [style.color]="headingData.color" >{{headingData.text}}</h4>
+<h5 nz-typography *ngIf="headingData.heading === 5" [class]="headingData.fontstyle" [style.color]="headingData.color" >{{headingData.text}}</h5>

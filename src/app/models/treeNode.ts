@@ -26,6 +26,9 @@ export interface TreeNode {
   level?: any;
   padding?: any;
   hideExpression?: boolean;
+  affix?: any;
+  offSetTop?: any;
+  showInkInFixed?: any;
   checkable?: any;
   expandKeys?: any;
   hideUnMatched?: any;
@@ -110,6 +113,16 @@ export interface TreeNode {
   action?: any;
   iconType?: any;
   text?: any;
+  editable?: any;
+  editableTooltip?: any;
+  copyable?: any;
+  copyTooltips?: any;
+  ellipsis?: any;
+  suffix?: any;
+  ellipsisRows?: any;
+  beforecopyIcon?: any;
+  aftercopyIcon?: any;
+  editableIcon?: any;
   src?: any;
   bgColor?: any;
   gap?: any;
@@ -288,7 +301,7 @@ export interface TreeNode {
   max?: any,
   sliderType?: any,
   disabled?: boolean,
-  headingSize?: string,
+  headingSize?: any,
   nzBlock?: any,
   stepperType?: any,
   block?: any,
@@ -307,6 +320,7 @@ export interface TreeNode {
   color?: string,
   onhover?: string,
   icon?: any,
+  theme?: any,
   mode?: any,
   checked?: any,
   dividerText?: any,
@@ -439,8 +453,8 @@ export interface TreeNode {
   calenderConfig?: any,
   fontstyle?: any,
   sharedMessagesConfig?: any,
-  heading?: string,
-  labelIcon?: string,
+  heading?: any,
+  labelIcon?: any,
   headingIcon?: string,
   subHeading?: string,
   subHeadingIcon?: string,

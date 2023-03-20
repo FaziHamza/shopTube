@@ -1,6 +1,7 @@
-<nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
-  <input [formlyAttributes]="field" nz-input [type]="'number'" [placeholder]="to.placeholder" [formControl]="formControl" [nzBorderless]="to.config?.border"
-      [disabled]="false"  />
+<nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
+  [nzSize]="to.config?.size">
+  <input [formlyAttributes]="field" nz-input [type]="'number'" [placeholder]="to.placeholder"
+    [formControl]="formControl" [nzBorderless]="to.config?.border" [nzStatus]="to.config?.status" [disabled]="false" />
   <!-- <nz-input-number data-toggle="tooltip" [title]="field.templateOptions?.tooltip" [nzSize]="'small'" [nzMin]="min"
     [disabled]="to.config.disabled" [nzMax]="max" [formControl]="formControl" [nzPrecision]="precision"
     nzPrecisionMode="cut" [nzPlaceHolder]="to.placeholder!" [formlyAttributes]="field"></nz-input-number> -->

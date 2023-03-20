@@ -66,7 +66,7 @@ export class ApplicationBuilderComponent implements OnInit {
   jsonApplicationBuilder() {
     this.loading = true
     this.builderService.jsonApplicationBuilder().subscribe((res => {
-      debugger
+      
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
@@ -98,7 +98,7 @@ export class ApplicationBuilderComponent implements OnInit {
       name: '',
     };
     // this.builderService.jsonApplicationBuilder().subscribe((res => {
-    //   debugger
+    //   
     // }));
     this.model = daata;
   }
@@ -124,13 +124,13 @@ export class ApplicationBuilderComponent implements OnInit {
     this.handleCancel();
   }
   editItem(item: any) {
-    debugger
+    
     this.model = item;
     this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    debugger
+    
     this.builderService.deleteApplicationBuilder(id).subscribe((res => {
       this.jsonApplicationBuilder();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -142,7 +142,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   search(): void {
-    debugger
+    
     this.isShow = false;
     this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
     console.log(this.listOfDisplayData);
@@ -159,7 +159,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   sort(property: string | number) {
-    debugger
+    
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;

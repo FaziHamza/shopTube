@@ -87,7 +87,7 @@ export class ScreenBuilderComponent implements OnInit {
   jsonScreenModuleList() {
     this.loading = true
     this.builderService.jsonScreenModuleList().subscribe((res => {
-      debugger
+      
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
@@ -129,7 +129,7 @@ export class ScreenBuilderComponent implements OnInit {
       moduleName: '',
     };
     this.builderService.jsonApplicationBuilder().subscribe((res => {
-      debugger
+      
       this.applicationBuilder = res;
 
 
@@ -137,14 +137,14 @@ export class ScreenBuilderComponent implements OnInit {
     this.model = daata;
   }
   getModulelist(applicationName: any) {
-    debugger
+    
     this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
-      debugger
+      
       this.moduleList = res;
     }))
   }
   onSubmit() {
-    debugger
+    
     if (this.form.valid && this.applicationName && this.moduleName) {
       const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName);
       var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
@@ -190,7 +190,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-    debugger
+    
     this.getModuleList();
     this.model = item;
     this.applicationName = item?.applicationName;
@@ -198,7 +198,7 @@ export class ScreenBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    debugger
+    
     this.builderService.deletejsonScreenModule(id).subscribe((res => {
       this.jsonScreenModuleList();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -214,7 +214,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(): void {
-    debugger
+    
     this.isShow = false;
     this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
     console.log(this.listOfDisplayData);
@@ -231,7 +231,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   sort(property: string | number) {
-    debugger
+    
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;

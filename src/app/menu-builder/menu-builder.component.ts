@@ -892,7 +892,7 @@ export class MenuBuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   specificControllShow(selected: any, node: any) {
-    debugger
+    
     this.htmlTabsData[0].children[0].children[0].children.forEach((a: any) => {
       if (selected == 'input') {
         if (a.parameter == 'input' || a.parameter == 'dropdown' || a.parameter == 'In Page Dropdown' || a.parameter == 'Tabs') {
@@ -914,7 +914,7 @@ export class MenuBuilderComponent implements OnInit {
         }
       }
       else if (selected == 'mainTab' || selected == 'tabs' || selected == 'buttons') {
-        a.show = false;
+        a.show = true;
       }
       else if (selected == 'pages') {
         if (a.parameter == 'buttons') {
@@ -1214,7 +1214,7 @@ export class MenuBuilderComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      debugger
+      
       const withOutTitle = this.nodes.filter((a:any)=>a.isTitle != true);
       this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);

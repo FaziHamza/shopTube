@@ -1,0 +1,18 @@
+<ul nz-menu nzMode="horizontal">
+    <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" *ngFor="let child of layoutTabsDropdownData.children">
+        <ng-container *ngIf="child.children.length">
+            <ul *ngFor="let child1 of child.children">
+                <ng-container *ngIf="child1.children.length">
+                    <li nz-submenu [nzTitle]="child1.title">
+                        <ul *ngFor="let child2 of child1.children">
+                            <li nz-menu-item>{{child2.title}}</li>
+                        </ul>
+                    </li>
+                </ng-container>
+                <li nz-menu-item *ngIf="child1.children.length == 0">
+                    {{child1.title}}
+                </li>
+            </ul>
+        </ng-container>
+    </li>
+</ul>

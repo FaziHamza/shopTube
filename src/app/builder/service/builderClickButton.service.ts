@@ -9,7 +9,10 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
   }
   getIconConfig(node: any) {
-    return { icon: node.icon };
+    return { icon: node.icon, theme: node.theme };
+  }
+  getAnchorConfig(node: any) {
+    return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed };
   }
   getTransferConfig(node: any) {
 
@@ -121,7 +124,7 @@ export class BuilderClickButtonService {
     return { options: node.options, block: node.block, disabled: node.disabled, size: node.size, defaultSelectedIndex: node.defaultSelectedIndex };
   }
   getnzTagConfig(node: any) {
-    return { color: node.color, mode: node.mode, checked: node.checked };
+    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options };
   }
   getMessageConfig(node: any) {
     return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
@@ -373,15 +376,14 @@ export class BuilderClickButtonService {
 
   getSwitchConfig(node: any) {
     return {
-      switchType: node.switchType,
-      switchPosition: node.switchPosition,
+      // switchType: node.switchType,
+      // switchPosition: node.switchPosition,
       size: node.size,
       checkedChildren: node.checkedChildren,
       unCheckedChildren: node.unCheckedChildren,
       disabled: node.disabled,
       loading: node.loading,
       control: node.control,
-
     }
   }
 
@@ -646,11 +648,22 @@ export class BuilderClickButtonService {
 
   getParagraphConfig(node: any) {
     return {
-      padding: '',
+      editable: node.editable,
       text: node.text,
-      style: node.style,
-      textAlignment: node.textAlign,
+      editableTooltip: node.editableTooltip,
+      copyable: node.copyable,
+      copyTooltips: node.copyTooltips,
+      ellipsis: node.ellipsis,
+      suffix: node.suffix,
+      disabled: node.disabled,
+      expandable: node.expandable,
+      ellipsisRows: node.ellipsisRows,
+      nztype: node.nztype,
+      beforecopyIcon: node.beforecopyIcon,
+      aftercopyIcon: node.aftercopyIcon,
+      editableIcon: node.editableIcon,
       color: node.color,
+      fontstyle:  node.fontstyle,
     }
   }
 
@@ -794,6 +807,8 @@ export class BuilderClickButtonService {
         className: node.className,
         labelPosition: node.labelPosition,
         repeatable: node.repeatable,
+        size: node.size,
+        status: node.status,
         wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
       }
     }

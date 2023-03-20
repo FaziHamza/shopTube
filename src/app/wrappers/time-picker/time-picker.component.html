@@ -1,8 +1,5 @@
-<div style="margin-top: 4%;">
-    <label>{{to.label}}</label>
-    <nz-input-group style="height:38px" [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
-        [nzSize]="to.config?.size">
-        <nz-time-picker [formControl]="formControl" [nzDisabled]="to.config?.disabled"
-            [nzBorderless]="to.config?.border"></nz-time-picker>
-    </nz-input-group>
-</div>
+<nz-input-group style="height:38px" [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
+[nzSize]="to.config?.size">
+<nz-time-picker [formControl]="formControl" [nzDisabled]="to.disabled" [nzStatus]="to.config?.status"
+    [nzBorderless]="to.config?.border"></nz-time-picker>
+</nz-input-group>

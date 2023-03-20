@@ -30,7 +30,8 @@
       </ng-container>
       <ng-container *ngIf="tabs.length" >
         <ng-container *ngFor="let item of tabs" >
-          <app-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></app-layout-tabs>
+          <!-- <app-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></app-layout-tabs> -->
+          <app-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"></app-layout-tabs-dropdown>
         </ng-container>
       </ng-container>
       <router-outlet></router-outlet>

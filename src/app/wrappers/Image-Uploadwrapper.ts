@@ -15,13 +15,13 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
    }
   imageUrl: string;
   ngOnInit(): void {
-    debugger
+    
     // this.imageUrl = '';
     this.dataSharedService.imageUrl = '';
   }
   
   change(event : any) {
-    debugger
+    
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (ev: any) => {

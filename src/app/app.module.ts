@@ -34,7 +34,7 @@ import { ProgressbarsComponent } from './components/progressbars/progressbars.co
 import { DividerComponent } from './components/divider/divider.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { NewAlertsComponent } from './components/new-alerts/new-alerts.component';
-// import { SwitchComponent } from './components/switch/switch.component';
+import { SwitchComponent } from './components/switch/switch.component';
 import { SimpleCardWithHeaderBodyFooterComponent } from './components/simple-card-with-header-body-footer/simple-card-with-header-body-footer.component';
 import { AccordionButtonComponent } from './components/accordion-button/accordion-button.component';
 import { LoginComponent } from './user/login/login.component';
@@ -95,6 +95,8 @@ import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-b
 import { DynamicTableRepeatSectionComponent } from './components/dynamic-table-repeat-section/dynamic-table-repeat-section.component';
 import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
 import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
+import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
+import { ParagraphComponent } from './components/paragraph/paragraph.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -126,7 +128,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     DividerComponent,
     VideosComponent,
     NewAlertsComponent,
-    // SwitchComponent,
+    SwitchComponent,
     ModuleListComponent,
     ApplicationBuilderComponent,
     SimpleCardWithHeaderBodyFooterComponent,
@@ -182,7 +184,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MenuBuilderComponent,
     SideMenuBuildComponent,
     ScreenBuilderComponent,
+    ParagraphComponent,
     DynamicTableRepeatSectionComponent,
+    LayoutTabsDropdownComponent,
     // InputWrapperComponent,
   ],
   imports: [

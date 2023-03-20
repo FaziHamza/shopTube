@@ -51,7 +51,6 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
   getUIRuleData(data: any) {
-    debugger
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];

@@ -6,7 +6,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   template: `
   <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
   [nzSize]="to.config?.size">
-  <nz-range-picker nzMode="date" style="width:100%" [formControl]="formControl" ></nz-range-picker>
+  <nz-range-picker nzMode="date" style="width:100%" [nzDisabled]="to.disabled" [formControl]="formControl" [nzStatus]="to.config?.status"></nz-range-picker>
 </nz-input-group>
   `,
 })

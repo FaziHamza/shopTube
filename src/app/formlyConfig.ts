@@ -28,91 +28,83 @@ import { TimePickerComponent } from "./wrappers/time-picker/time-picker.componen
 
 export const fieldComponents = [
   FormlyFieldCustomInputComponent,
-    FormlyFieldNgSearchComponent,
-    FormlyFieldNgSelectComponent,
-    FormlyFieldMultiCheckbox,
-    FormlyHorizontalWrapper,
-    FormlyVerticalWrapper,
-    FormlyVerticalThemeWrapper,
-    FormlyFieldRangeDate,
-    FormlyFieldTimePicker,
-    FormlyFieldRepeatSectionComponent,
-    formlyRepeatSectionComponent,
-    InputWrapperComponent,
-    // DatepickerComponent,
-    SwitchComponent,
-    // ColorPickerComponent,
-    NumberInputComponent,
-    SelectComponent,
-    AutocompleteComponent,
-    // MentionComponent,
-    RadioButtonComponent,
-    FormlyFieldImageUploadComponent,
-    TimePickerComponent,
-    DatePickerComponent,
-    RangeComponent
+  FormlyFieldNgSearchComponent,
+  FormlyFieldNgSelectComponent,
+  FormlyFieldMultiCheckbox,
+  FormlyHorizontalWrapper,
+  FormlyVerticalWrapper,
+  FormlyVerticalThemeWrapper,
+  FormlyFieldRangeDate,
+  FormlyFieldTimePicker,
+  FormlyFieldRepeatSectionComponent,
+  formlyRepeatSectionComponent,
+  InputWrapperComponent,
+  // DatepickerComponent,
+  // SwitchComponent,
+  // ColorPickerComponent,
+  NumberInputComponent,
+  SelectComponent,
+  AutocompleteComponent,
+  // MentionComponent,
+  RadioButtonComponent,
+  FormlyFieldImageUploadComponent,
+  TimePickerComponent,
+  DatePickerComponent,
+  RangeComponent
 ];
 
 
 export const formlyCustomeConfig: ConfigOption = {
-    types: [
-        { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
-        //   { name: 'extended-input', extends: 'input' },
-        // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },
-        { name: 'repeatSection', component: formlyRepeatSectionComponent },
-        // { name: 'repeatSection', component: FormlyFieldRepeatSectionComponent },
-        // { name: 'multiRepeatSection', component: MultiRepeatComponent },
-        { name: 'ng-select', component: FormlyFieldNgSelectComponent },
-        { name: 'ng-search', component: FormlyFieldNgSearchComponent },
-        { name: 'custom', component: FormlyFieldCustomInputComponent },
-        { name: 'rangedatetime', component: FormlyFieldRangeDate },
-        { name: 'timepicker', component: FormlyFieldTimePicker },
-        { name: 'input', component: InputWrapperComponent },
-        // { name: 'date', component: DatepickerComponent },
-        // { name: 'color', component: ColorPickerComponent },
-        { name: 'switch', component: SwitchComponent },
-        { name: 'number', component: NumberInputComponent },
-        { name: 'select', component: SelectComponent },
-        { name: 'autoComplete', component: AutocompleteComponent },
-        // { name: 'mention', component: MentionComponent },
-        { name: 'radio', component: RadioButtonComponent },
-        // { name: 'tabs', component: FormlyFieldTabs },
-        // { name: 'tab', component: FormlyVerticalFieldTabs },
-        // { name: 'repeatInput', component: FormlyGridWrapper },
-        // { name: 'image-upload', component: FormlyFieldImageUploadComponent },
-        // { name: 'gridrepeatsection', component: gridrepeatsection },
-        { name: 'image-upload', component: FormlyFieldImageUploadComponent },
-        { name: 'zorro-timePicker', component: TimePickerComponent },
-        { name: 'zorro-datePicker', component: DatePickerComponent },
-        { name: 'rangePicker', component: RangeComponent },
+  types: [
+    { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
+    //   { name: 'extended-input', extends: 'input' },
+    // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },
+    { name: 'repeatSection', component: formlyRepeatSectionComponent },
+    // { name: 'repeatSection', component: FormlyFieldRepeatSectionComponent },
+    // { name: 'multiRepeatSection', component: MultiRepeatComponent },
+    { name: 'ng-select', component: FormlyFieldNgSelectComponent },
+    { name: 'ng-search', component: FormlyFieldNgSearchComponent },
+    { name: 'custom', component: FormlyFieldCustomInputComponent },
+    { name: 'rangedatetime', component: FormlyFieldRangeDate },
+    { name: 'timepicker', component: FormlyFieldTimePicker },
+    { name: 'input', component: InputWrapperComponent },
+    // { name: 'date', component: DatepickerComponent },
+    // { name: 'color', component: ColorPickerComponent },
+    // { name: 'switch', component: SwitchComponent },
+    { name: 'number', component: NumberInputComponent },
+    { name: 'select', component: SelectComponent },
+    { name: 'autoComplete', component: AutocompleteComponent },
+    // { name: 'mention', component: MentionComponent },
+    { name: 'radio', component: RadioButtonComponent },
+    // { name: 'tabs', component: FormlyFieldTabs },
+    // { name: 'tab', component: FormlyVerticalFieldTabs },
+    // { name: 'repeatInput', component: FormlyGridWrapper },
+    // { name: 'image-upload', component: FormlyFieldImageUploadComponent },
+    // { name: 'gridrepeatsection', component: gridrepeatsection },
+    { name: 'image-upload', component: FormlyFieldImageUploadComponent },
+    { name: 'zorro-timePicker', component: TimePickerComponent },
+    { name: 'zorro-datePicker', component: DatePickerComponent },
+    { name: 'rangePicker', component: RangeComponent },
+    { name: 'checkbox', component: FormlyFieldMultiCheckbox }
 
-          {
-            name: 'multicheckbox', component: FormlyFieldMultiCheckbox,
-            defaultOptions: {
-              templateOptions: {
-                options: []
-              }
-            }
-          },
+    //   {
+    //     name: 'select', component: FormlyFieldSelect,
+    //     defaultOptions: {
+    //       templateOptions: {
+    //         options: []
+    //       }
+    //     }
+    //   },
 
-        //   {
-        //     name: 'select', component: FormlyFieldSelect,
-        //     defaultOptions: {
-        //       templateOptions: {
-        //         options: []
-        //       }
-        //     }
-        //   },
+  ],
+  validationMessages: [
+    { name: 'required', message: 'This field is required' },
+  ],
+  wrappers: [
+    { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
+    { name: 'formly-vertical-wrapper', component: FormlyVerticalWrapper },
+    { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
+    // { name: 'floating-label', component: FormlyFloatingLabelWrapper },
 
-    ],
-    validationMessages: [
-        { name: 'required', message: 'This field is required' },
-    ],
-    wrappers: [
-        { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
-        { name: 'formly-vertical-wrapper', component: FormlyVerticalWrapper },
-        { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
-        // { name: 'floating-label', component: FormlyFloatingLabelWrapper },
-
-    ]
+  ]
 };
