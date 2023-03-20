@@ -64,7 +64,7 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService , public dataSharedService : DataSharedService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -1166,11 +1166,11 @@ export class BuilderComponent implements OnInit {
         base64Image: "",
         hideExpression: false,
         tooltip: "",
-        imagePreview:true,
-        keyboardKey:true,
-        zoom:1.5,
-        rotate:0,
-        zIndex:1000,
+        imagePreview: true,
+        keyboardKey: true,
+        zoom: 1.5,
+        rotate: 0,
+        zIndex: 1000,
         children: [
         ],
       } as TreeNode;
@@ -1390,8 +1390,8 @@ export class BuilderComponent implements OnInit {
         loading: false,
         nztype: 'default',
         size: 'default',
-        imageSrc:'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
-        imageAlt:'image',
+        imageSrc: 'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
+        imageAlt: 'image',
 
         children: [
         ],
@@ -3786,7 +3786,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        icon:'star',
+        icon: 'star',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4023,6 +4023,10 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
+        break;
+      case "icon":
+        configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.iconFields;
         break;
       case "treeSelect":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
@@ -4971,6 +4975,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.onClose = event.form.onClose;
         }
         break;
+      case "icon":
+        if (this.selectedNode) {
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode.icon = event.form.icon;
+        }
+        break;
       case "treeSelect":
 
         if (this.selectedNode) {
@@ -5059,26 +5072,6 @@ export class BuilderComponent implements OnInit {
             }))
           }
           // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-        }
-        break;
-      case "tree":
-        if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.checkable = event.form.checkable;
-          this.selectedNode.expand = event.form.expand;
-          this.selectedNode.expandIcon = event.form.expandIcon;
-          this.selectedNode.closingexpandicon = event.form.closingexpandicon;
-          // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
-          if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.nodes = res;
-              }
-            }))
-          }
         }
         break;
       case "tree":
@@ -5581,13 +5574,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.imagHieght = event.form.imagHieght;
           this.selectedNode.imageWidth = event.form.imageWidth;
           this.selectedNode.imageClass = event.form.imageClass;
+          this.selectedNode.keyboardKey = event.form.keyboardKey;
+          this.selectedNode.zoom = event.form.zoom;
+          this.selectedNode.rotate = event.form.rotate;
+          this.selectedNode.zIndex = event.form.zIndex;
+          this.selectedNode.imagePreview = event.form.imagePreview;
           if (event.form.source) {
-            // this.formlyService.imageUrl = '';
+            this.dataSharedService.imageUrl = '';
             this.selectedNode.base64Image = '';
           }
-          // else if (this.formlyService.imageUrl) {
-          //   this.selectedNode.base64Image = this.formlyService.imageUrl;
-          // }
+          else if (this.dataSharedService.imageUrl) {
+            this.selectedNode.base64Image = this.dataSharedService.imageUrl;
+          }
         }
         break;
       case "toastr":
