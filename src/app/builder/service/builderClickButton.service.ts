@@ -63,7 +63,26 @@ export class BuilderClickButtonService {
     return { progressBarType: node.progressBarType, percent: node.percent, showInfo: node.showInfo, status: node.status, strokeLineCap: node.strokeLineCap, success: node.success };
   }
   getGridConfig(node: any) {
-    return { nzTitle: node.nzTitle, nzFooter: node.nzFooter, nzPaginationPosition: node.nzPaginationPosition, nzPaginationType: node.nzPaginationType, nzLoading: node.nzLoading, nzShowPagination: node.nzShowPagination, nzBordered: node.nzBordered, showColumnHeader: node.showColumnHeader, noResult: node.noResult, nzSimple: node.nzSimple, nzSize: node.nzSize, nzShowSizeChanger: node.nzShowSizeChanger, showCheckbox: node.showCheckbox, expandable: node.expandable, tableScroll: node.tableScroll, fixHeader: node.fixHeader, fixedColumn: node.fixedColumn };
+    return {
+      nzTitle: node.nzTitle,
+      nzFooter: node.nzFooter,
+      nzPaginationPosition: node.nzPaginationPosition,
+      nzPaginationType: node.nzPaginationType,
+      nzLoading: node.nzLoading,
+      nzShowPagination: node.nzShowPagination,
+      nzBordered: node.nzBordered,
+      showColumnHeader: node.showColumnHeader,
+      noResult: node.noResult,
+      nzSimple: node.nzSimple,
+      nzSize: node.nzSize,
+      nzShowSizeChanger: node.nzShowSizeChanger,
+      showCheckbox: node.showCheckbox,
+      expandable: node.expandable,
+      tableScroll: node.tableScroll,
+      fixHeader: node.fixHeader,
+      fixedColumn: node.fixedColumn,
+      options: node?.tableHeaders,
+    };
   }
   getCommentConfig(node: any) {
     return { avatar: node.avatar, author: node.author };

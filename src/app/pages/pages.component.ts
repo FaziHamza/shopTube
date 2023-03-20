@@ -25,7 +25,7 @@ export class PagesComponent implements OnInit {
         this.getUIRuleData(true);
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
           if (res.length > 0) {
-            this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));;
+            this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
             this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
           }
         }));
@@ -51,7 +51,6 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
   getUIRuleData(data: any) {
-    debugger
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];
