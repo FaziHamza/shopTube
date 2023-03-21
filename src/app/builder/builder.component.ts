@@ -1410,8 +1410,8 @@ export class BuilderComponent implements OnInit {
         loading: false,
         nztype: 'default',
         size: 'default',
-        imageSrc: 'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
-        imageAlt: 'image',
+        imageSrc: '',
+        imageAlt: '',
 
         children: [
         ],
@@ -3074,16 +3074,19 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        nzCount: 5,
-        nzText: "Success",
-        nzColor: "#2db7f5",
+        count: 0,
+        nzText: "",
+        nzColor: "",
         nzStatus: "success",
+        status: false,
         standAlone: false,
-        dot: false,
-        showDot: false,
+        dot: true,
+        showDot: true,
         overflowCount: '',
         showZero: false,
+        nztype:'count',
         size: '',
+        icon: 'clock-circle',
         offset: '',
         children: [
         ],
@@ -5300,17 +5303,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.nzCount = event.form.nzCount;
+          this.selectedNode.count = event.form.count;
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
+          this.selectedNode.status = event.form.status;
           this.selectedNode.standAlone = event.form.standAlone;
           this.selectedNode.dot = event.form.dot;
           this.selectedNode.showDot = event.form.showDot;
           this.selectedNode.overflowCount = event.form.overflowCount;
           this.selectedNode.showZero = event.form.showZero;
           this.selectedNode.size = event.form.size;
-          this.selectedNode.offset = event.form.offset;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.nztype = event.form.nztype;
 
         }
         break;

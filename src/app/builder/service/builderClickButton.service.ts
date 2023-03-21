@@ -101,7 +101,7 @@ export class BuilderClickButtonService {
   }
   getBadgeConfig(node: any) {
     return {
-      nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus,
+      count: node.count, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus,
       standAlone: node.standAlone,
       dot: node.dot,
       title: node.title,
@@ -109,6 +109,9 @@ export class BuilderClickButtonService {
       overflowCount: node.overflowCount,
       showZero: node.showZero,
       size: node.size,
+      nztype: node.nztype,
+      status: node.status,
+      icon: node.icon,
       offset: node.offset,
     };
   }
