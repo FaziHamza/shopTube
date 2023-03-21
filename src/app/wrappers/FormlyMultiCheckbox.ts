@@ -14,7 +14,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 })
 export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
   ngOnInit(): void {
-    debugger
+    
   }
   log(value: string[]): void {
     console.log(value);

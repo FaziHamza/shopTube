@@ -165,7 +165,7 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
-    debugger
+    
     this.bussinessRuleObj = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = '"';

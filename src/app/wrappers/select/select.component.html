@@ -1,5 +1,21 @@
 <!-- <nz-select [nzCustomTemplate]="valueTemplate" [nzOptionHeightPx]="23" [formlyAttributes]="field"> -->
-<nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field" [formControl]="formControl">
+<nz-select [nzStatus]="to.config?.status" 
+[nzSize]="to.config?.size" 
+[nzCustomTemplate]="valueTemplate" 
+[formlyAttributes]="field"
+[nzAllowClear]="false" 
+[nzBorderless]="false"
+[nzDropdownMatchSelectWidth]="true"
+[nzServerSearch]="false"
+nzPlaceHolder="sdfsdfsdf"
+[nzShowArrow]="true"
+[nzShowSearch]="false"
+[nzRemoveIcon]="characterIcon"
+[nzClearIcon]="characterIcon"
+[nzLoading]="false"
+[nzOptionHeightPx]="100"
+[nzOptionOverflowSize]="8"
+[formControl]="formControl">
   <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzCustomContent]="true"
     [nzLabel]="item.label">{{item.label}}</nz-option>
 </nz-select>
@@ -7,4 +23,9 @@
   <div class="d-flex align-items-center">
     <i *ngIf="getIcon(item.nzValue)" class="{{getIcon(item.nzValue)}} option-icon"></i> {{item.nzLabel}}
   </div>
+</ng-template>
+
+
+<ng-template #characterIcon>
+  <span nz-icon nzType="user"></span>
 </ng-template>
