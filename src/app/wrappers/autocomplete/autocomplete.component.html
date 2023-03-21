@@ -1,4 +1,5 @@
-<div class="example-input">
-    <input [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto" />
-    <nz-autocomplete [nzDataSource]="list" nzBackfill #auto></nz-autocomplete>
-</div>
+<nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+    <input [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto" [nzBorderless]="to.config?.border"/>
+    <nz-autocomplete [nzWidth]="to.config?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
+        [nzBackfill]="false" #auto></nz-autocomplete>
+</nz-input-group>

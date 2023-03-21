@@ -1,4 +1,4 @@
-import { Component, OnInit , Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-stepper',
@@ -7,9 +7,9 @@ import { Component, OnInit , Input } from '@angular/core';
 })
 export class StepperComponent implements OnInit {
   current = 0;
-  @Input() step : any;
+  tttt: any;
+  @Input() step: any;
 
-  index = 'First-content';
 
   pre(): void {
     this.current -= 1;
@@ -23,15 +23,17 @@ export class StepperComponent implements OnInit {
     console.log('done');
   }
 
-  
 
-  handleIndexChange(event:any){
+
+  handleIndexChange(event: any) {
     console.log("step click");
   }
   constructor() { }
 
   ngOnInit(): void {
     this.current = 0;
+    this.tttt = this.step.stepperType
+
   }
 
 }

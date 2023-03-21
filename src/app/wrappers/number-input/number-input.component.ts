@@ -7,7 +7,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./number-input.component.scss']
 })
 export class NumberInputComponent extends FieldType<FieldTypeConfig> {
-
+  precision = 1;
   get max() {
     return this.to?.max ?? Infinity;
   }
@@ -20,9 +20,9 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
     return this.formControl.value;
   }
 
-  get precision() {
-    return this.to?.['precision'] ?? 5;
-  }
+  // get precision() {
+  //   return this.to?.['precision'] ?? 5;
+  // }
 
 
   set value(value) {

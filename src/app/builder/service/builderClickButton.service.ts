@@ -101,7 +101,7 @@ export class BuilderClickButtonService {
   }
   getBadgeConfig(node: any) {
     return {
-      nzCount: node.nzCount, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus,
+      count: node.count, nzText: node.nzText, nzColor: node.nzColor, nzStatus: node.nzStatus,
       standAlone: node.standAlone,
       dot: node.dot,
       title: node.title,
@@ -109,6 +109,9 @@ export class BuilderClickButtonService {
       overflowCount: node.overflowCount,
       showZero: node.showZero,
       size: node.size,
+      nztype: node.nztype,
+      status: node.status,
+      icon: node.icon,
       offset: node.offset,
     };
   }
@@ -639,7 +642,7 @@ export class BuilderClickButtonService {
       level: node.level,
       text: node.text,
       style: node.style,
-      textAlignment: node.textAlign,
+      textAlign: node.textAlign,
       fontstyle: node.fontstyle,
       color: node.color,
       heading: node.heading,
@@ -668,9 +671,11 @@ export class BuilderClickButtonService {
   }
 
   getFormlyConfig(node: any) {
-
+    debugger
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
+      maxLength: node.formly[0].fieldGroup[0].templateOptions?.maxLength,
+      minLength: node.formly[0].fieldGroup[0].templateOptions?.minLength,
       defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       options: node.formly[0].fieldGroup[0].templateOptions?.options,
       required: node.formly[0].fieldGroup[0].templateOptions?.required,
@@ -680,6 +685,19 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.config.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.config.addonRight,
+      optionWidth: node.formly[0].fieldGroup[0].templateOptions.config?.['optionWidth'],
+      allowClear: node.formly[0].fieldGroup[0].templateOptions.config?.['allowClear'],
+      serveSearch: node.formly[0].fieldGroup[0].templateOptions.config?.['serveSearch'],
+      showArrow: node.formly[0].fieldGroup[0].templateOptions.config?.['showArrow'],
+      showSearch: node.formly[0].fieldGroup[0].templateOptions.config?.['showSearch'],
+      removeIcon: node.formly[0].fieldGroup[0].templateOptions.config?.['removeIcon'],
+      clearIcon: node.formly[0].fieldGroup[0].templateOptions.config?.['clearIcon'],
+      loading: node.formly[0].fieldGroup[0].templateOptions.config?.['loading'],
+      optionHieght: node.formly[0].fieldGroup[0].templateOptions.config?.['optionHieght'],
+      optionHoverSize: node.formly[0].fieldGroup[0].templateOptions.config?.['optionHoverSize'],
+      step: node.formly[0].fieldGroup[0].templateOptions.config?.['step'],
+      format: node.formly[0].fieldGroup[0].templateOptions.config?.['format'],
+      border: node.formly[0].fieldGroup[0].templateOptions.config.border,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,
       hideExpression: node.formly[0].fieldGroup[0].templateOptions?.hideExpression,
@@ -849,16 +867,16 @@ export class BuilderClickButtonService {
       status: node.status,
       label: node.label,
       subtitle: node.subtitle,
-      percentage: node.percentage,
+      // percentage: node.percentage,
     }
   }
   getStepperMainConfig(node: any) {
     return {
-      selectedIndex: node.selectedIndex,
+      // selectedIndex: node.selectedIndex,
       direction: node.direction,
       placement: node.placement,
       size: node.size,
-      status: node.status,
+      // status: node.status,
       disabled: node.disabled,
       nodes: node.nodes,
       stepperType: node.stepperType,

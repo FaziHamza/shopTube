@@ -625,7 +625,7 @@ export class BuilderComponent implements OnInit {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
         this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-          debugger
+          
           if (getRes.length > 0) {
             const fishRhyme = ruleFactory(getRes[0].buisnessRule);
             console.log(fishRhyme(this.formlyModel));
@@ -894,7 +894,6 @@ export class BuilderComponent implements OnInit {
         expanded: true,
         highLight: false,
         isNextChild: true,
-
         formly: [
           {
             key: "accordingFooter_" + Guid.newGuid(),
@@ -938,9 +937,10 @@ export class BuilderComponent implements OnInit {
                     status: '',
                     size: 'default',
                     border: false,
-                    maxLength: 10,
                     disabled: false,
                   },
+                  maxLength: 10,
+                  minLength: 1,
                   type: data?.fieldType,
                   labelPosition: "text-left",
                   titleIcon: "",
@@ -1419,8 +1419,8 @@ export class BuilderComponent implements OnInit {
         loading: false,
         nztype: 'default',
         size: 'default',
-        imageSrc: 'https://images.unsplash.com/photo-1679036238023-dfc747c1185c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
-        imageAlt: 'image',
+        imageSrc: '',
+        imageAlt: '',
 
         children: [
         ],
@@ -1510,7 +1510,6 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         description: "description",
         status: '',
-        label: '',
         subtitle: '',
         percentage: '',
         children: [
@@ -2256,7 +2255,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'heading') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "heading_" + Guid.newGuid(),
+        key: "heading_" + Guid.newGuid(),
         title: "Heading" + '_1',
         type: "heading",
         className: "w-full",
@@ -2264,9 +2264,8 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        key: "heading_" + Guid.newGuid(),
         style: "font-weight:bold;",
-        textAlign: "text-align:left;",
+        textAlign: "text-left",
         color: '#000000',
         headingApi: "",
         text: "Editor.js",
@@ -2279,7 +2278,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'paragraph') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "paragraph_" + Guid.newGuid(),
+        key: "paragraph_" + Guid.newGuid(),
         title: "Paragraph" + '_1',
         type: "paragraph",
         className: "w-full",
@@ -2287,7 +2287,6 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-        key: "paragraph_" + Guid.newGuid(),
         editable: false,
         color: '',
         fontstyle: 'font-normal',
@@ -3083,16 +3082,19 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        nzCount: 5,
-        nzText: "Success",
-        nzColor: "#2db7f5",
+        count: 0,
+        nzText: "",
+        nzColor: "",
         nzStatus: "success",
+        status: false,
         standAlone: false,
-        dot: false,
-        showDot: false,
+        dot: true,
+        showDot: true,
         overflowCount: '',
         showZero: false,
+        nztype:'count',
         size: '',
+        icon: 'clock-circle',
         offset: '',
         children: [
         ],
@@ -4059,8 +4061,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-
-
+    debugger
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -4437,6 +4438,8 @@ export class BuilderComponent implements OnInit {
       case "image":
       case "textarea":
       case "telephone":
+      case "autoComplete":
+        case "number":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
@@ -4445,6 +4448,12 @@ export class BuilderComponent implements OnInit {
           this.fieldData.formData = _formFieldData.radioFields;
         else if (type == 'color')
           this.fieldData.formData = _formFieldData.colorFields;
+        else if (type == 'autoComplete')
+          this.fieldData.formData = _formFieldData.autoCompleteFields;
+        else if (type == 'date')
+          this.fieldData.formData = _formFieldData.zorroDateFields;
+        else if (type == 'number')
+          this.fieldData.formData = _formFieldData.numberFields;
         break;
 
       case "customMasking":
@@ -5011,7 +5020,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-    debugger
+    
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -5309,17 +5318,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.nzCount = event.form.nzCount;
+          this.selectedNode.count = event.form.count;
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
+          this.selectedNode.status = event.form.status;
           this.selectedNode.standAlone = event.form.standAlone;
           this.selectedNode.dot = event.form.dot;
           this.selectedNode.showDot = event.form.showDot;
           this.selectedNode.overflowCount = event.form.overflowCount;
           this.selectedNode.showZero = event.form.showZero;
           this.selectedNode.size = event.form.size;
-          this.selectedNode.offset = event.form.offset;
+          this.selectedNode.icon = event.form.icon;
+          this.selectedNode.nztype = event.form.nztype;
 
         }
         break;
@@ -5437,27 +5448,28 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzSpan = event.form.nzSpan;
         }
         break;
-      case 'select':
-      case 'repeatSection':
-      case 'tag':
-      case 'search':
-      case 'radiobutton':
-      case 'checkbox':
-      case 'decimal':
-      case 'input':
-      case 'inputGroup':
-      case 'image':
-      case 'telephone':
-      case 'textarea':
-      case 'multiselect':
-      case 'time':
-      case 'month':
-      case 'week':
-      case 'datetime':
-      case 'date':
-      case 'color':
+      case "select":
+      case "repeatSection":
+      case "tag":
+      case "search":
+      case "radiobutton":
+      case "checkbox":
+      case "decimal":
+      case "input":
+      case "inputGroup":
+      case "image":
+      case "telephone":
+      case "textarea":
+      case "multiselect":
+      case "time":
+      case "month":
+      case "week":
+      case "datetime":
+      case "date":
+      case "color":
+      case "autoComplete":
+      case "number":
         if (this.selectedNode) {
-          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5477,11 +5489,26 @@ export class BuilderComponent implements OnInit {
               templateOptions['options'] = event.tableDta;
             }
             templateOptions['required'] = event.form.required;
+            templateOptions['maxLength'] = event.form.maxLength;
+            templateOptions['minLength'] = event.form.minLength;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['titleIcon'] = event.form.titleIcon;
-            templateOptions.config['addonLeft'] = event.form.addonLeft;
             templateOptions.config['addonRight'] = event.form.addonRight;
+            templateOptions.config['addonLeft'] = event.form.addonLeft;
+            templateOptions.config['optionWidth'] = event.form.optionWidth;
+            templateOptions.config['border'] = event.form.border;
+            templateOptions.config['step'] = event.form.step;
+            templateOptions.config['format'] = event.form.format;
+            templateOptions.config['allowClear'] = event.form.allowClear;
+            templateOptions.config['serveSearch'] = event.form.serveSearch;
+            templateOptions.config['showArrow'] = event.form.showArrow;
+            templateOptions.config['showSearch'] = event.form.showSearch;
+            templateOptions.config['removeIcon'] = event.form.removeIcon;
+            templateOptions.config['clearIcon'] = event.form.clearIcon;
+            templateOptions.config['loading'] = event.form.loading;
+            templateOptions.config['optionHieght'] = event.form.optionHieght;
+            templateOptions.config['optionHoverSize'] = event.form.optionHoverSize;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               templateOptions['options'] = event.tableDta;
@@ -6333,7 +6360,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.text = event.form.text;
           this.selectedNode.style = event.form.style;
           this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
-          this.selectedNode.textAlign = event.form.textAlignment;
+          this.selectedNode.textAlign = event.form.textAlign;
           this.selectedNode.headingColor = event.form.headingColor;
           if (event.form.headingApi) {
             this.builderService.genericApis(event.form.headingApi).subscribe((res => {
@@ -6390,7 +6417,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.status = event.form.status;
           this.selectedNode.label = event.form.label;
           this.selectedNode.subtitle = event.form.subtitle;
-          this.selectedNode.percentage = event.form.percentage;
+          // this.selectedNode.percentage = event.form.percentage;
 
           this.updateNodes()
         }
@@ -6404,11 +6431,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.className = event.form.className;
-          this.selectedNode.selectedIndex = event.form.selectedIndex;
+          // this.selectedNode.selectedIndex = event.form.selectedIndex;
           this.selectedNode.direction = event.form.direction;
           this.selectedNode.placement = event.form.placement;
           this.selectedNode.size = event.form.size;
-          this.selectedNode.status = event.form.status;
+          // this.selectedNode.status = event.form.status;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.stepperType = event.form.stepperType;
           this.selectedNode.nodes = event.form.nodes;
@@ -6548,7 +6575,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "switch":
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
@@ -6977,7 +7004,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].templateOptions.config.size = formValues.size;
         }
         if (formValues.status) {
-          debugger
+          
           fieldGroup[0].templateOptions.config.status = formValues.status;
         }
       }

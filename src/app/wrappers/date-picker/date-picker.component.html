@@ -1,8 +1,14 @@
-<div style="margin-top: 4%;">
-    <label>{{to.label}}</label>
-    <nz-input-group style="height:38px" [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
-        [nzSize]="to.config?.size">
-        <nz-date-picker [formControl]="formControl" [nzBorderless]="to.config?.border"
-            [nzDisabled]="to.disabled" [nzStatus]="to.config?.status"></nz-date-picker>
-    </nz-input-group>
-</div>
+<nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status">
+    <nz-date-picker style="width:100%" 
+    [nzFormat]="to.config?.format" 
+    [nzSize]="to.config?.size" 
+    [nzMode]="to.type"
+        [nzInputReadOnly]="true" 
+        [formControl]="formControl" 
+        [nzBorderless]="to.config?.border"
+        [nzStatus]="to.config?.status" 
+        [nzPlaceHolder]="to.placeholder || ''"
+        [nzDisabledDate]="disabledStartDate"
+        [nzDisabledDate]="disabledEndDate" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
+
+</nz-input-group>
