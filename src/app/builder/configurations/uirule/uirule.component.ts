@@ -47,7 +47,7 @@ export class UIRuleComponent implements OnInit {
         objTargetList.value = (inputType.title).toString()
         this.targetList.push(objTargetList)
       } else if (inputType.formlyType != undefined) {
-        objTargetList.key = (inputType.key).toString()
+        objTargetList.key = (inputType.formly[0].fieldGroup[0].key).toString()
         objTargetList.value = inputType.title ? (inputType.title).toString() : '';
         this.targetList.push(objTargetList);
       }
@@ -360,18 +360,22 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
+        if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
+          this.nodes[0].children[1].children[0].children[1].children[j]['key'] = this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0].key
+          this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
+        } else
+          this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
       }
     }
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
-    
+
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes: Array<any>) => {
-      if(getRes[0]){
+      if (getRes[0]) {
         this.uiRuleForm = this.formBuilder.group({
 
           uiRules: this.formBuilder.array(
-  
+
             getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
               this.formBuilder.group({
                 ifMenuName: [getUIRes.ifMenuName],
@@ -402,7 +406,7 @@ export class UIRuleComponent implements OnInit {
           )
         });
       }
-      
+
     });
   }
   getConditionListOnLoad(menuName: string) {
