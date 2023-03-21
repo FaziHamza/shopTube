@@ -6380,33 +6380,33 @@ export class formFeildData {
             label: 'Image link'
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'content',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Content Refrance ID'
-          }
-        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'content',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Content Refrance ID'
+        //   }
+        // },
         {
           className: "w-1/4 px-1",
           key: 'text',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Description'
+            label: 'Other Content'
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'link',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Description Link'
-          }
-        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'link',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Description Link'
+        //   }
+        // },
         {
           className: "w-1/4 px-1",
           key: 'btnText',
@@ -6767,7 +6767,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-1/4 px-1",
-          key: 'nzCount',
+          key: 'count',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
@@ -6786,12 +6786,48 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
+          key: 'icon',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Icon `if type icon`',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
           key: 'nzColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
             type: 'color',
             label: 'Color',
+          }
+        },
+        {
+          key: 'nztype',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Type',
+            options: [
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Icon',
+                value: 'icon'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+              {
+                label: 'Ribbon',
+                value: 'ribbon'
+              },
+            ]
           }
         },
         {
@@ -6860,6 +6896,7 @@ export class formFeildData {
           type: 'number',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+          
             label: 'OverflowCount',
           }
         },
@@ -6874,20 +6911,11 @@ export class formFeildData {
         },
         {
           className: "w-1/6 px-1 mt-5",
-          key: 'dot',
+          key: 'status',
           type: 'checkbox',
           // wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            label: 'Dot',
-          }
-        },
-        {
-          className: "w-1/6 px-1 mt-5",
-          key: 'showDot',
-          type: 'checkbox',
-          // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'ShowDot',
+            label: 'Status',
           }
         },
         {
@@ -7026,15 +7054,15 @@ export class formFeildData {
             label: 'Image src',
           }
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'alt',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Imag alt',
-          }
-        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'alt',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Imag alt',
+        //   }
+        // },
         {
           className: "w-1/4 px-1",
           key: 'size',
@@ -7101,16 +7129,16 @@ export class formFeildData {
             label: 'Color',
           },
         },
-        {
-          key: 'gap',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            type: "number",
-            label: 'Gap',
-          },
-        },
+        // {
+        //   key: 'gap',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     type: "number",
+        //     label: 'Gap',
+        //   },
+        // },
       ]
     },
   ];
@@ -9029,15 +9057,15 @@ export class formFeildData {
           defaultValue: false
         },
 
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'disabled',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Disabled',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'disabled',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Disabled',
+        //   },
+        //   defaultValue: false
+        // },
         {
           key: 'options',
           type: 'repeatSection',

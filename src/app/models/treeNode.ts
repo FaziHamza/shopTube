@@ -27,6 +27,7 @@ export interface TreeNode {
   padding?: any;
   hideExpression?: boolean;
   affix?: any;
+  count?: any;
   offSetTop?: any;
   showInkInFixed?: any;
   checkable?: any;

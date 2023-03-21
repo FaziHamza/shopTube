@@ -1,13 +1,52 @@
-<nz-badge [nzCount]='badgeData.nzCount' [nzText]='badgeData.nzText' [nzColor]='badgeData.nzColor' 
-[nzStatus]='badgeData.nzStatus'
+<!-- {{badgeData | json}} -->
+<nz-badge *ngIf="badgeData.nztype == 'count'"
+[nzCount]="badgeData.count"
+[nzColor]='badgeData.nzColor' 
+[nzStatus]='badgeData.status == true? badgeData.nzStatus:""'
 [nzStandalone]="badgeData.standAlone"
-[nzDot]="badgeData.dot"
-[nzShowDot]="badgeData.showDot"
+[nzShowZero]="badgeData.showZero"
+[nzSize]="badgeData.size"
+[nzText]="badgeData.nzText"
+[nzTitle]="badgeData.title"
+[nzOverflowCount]="badgeData.overflowCount"></nz-badge>
+<!-- <nz-badge *ngIf="badgeData.nztype == 'count'"
+    [nzCount]="5"
+    ><a class="head-example"></a>
+   
+    ><a class="head-example"></a></nz-badge> -->
+
+<nz-badge  *ngIf="badgeData.nztype == 'icon'"
+[nzCount]="iconTemplate"
+[nzColor]='badgeData.nzColor' 
+[nzStatus]='badgeData.status == true? badgeData.nzStatus:""'
+[nzStandalone]="badgeData.standAlone"
 [nzOverflowCount]="badgeData.overflowCount"
 [nzShowZero]="badgeData.showZero"
 [nzSize]="badgeData.size"
 [nzTitle]="badgeData.title"
-[nzOffset]="badgeData.offset"
->
-    <a class="head-example"></a>
-</nz-badge>
+[nzText]="badgeData.nzText"
+
+></nz-badge>
+
+  <ng-template #iconTemplate>
+    <span nz-icon [nzType]="badgeData.icon" class="ant-scroll-number-custom-component" ></span>
+  </ng-template>
+
+
+<nz-badge  *ngIf="badgeData.nztype == 'dot'"
+nzDot
+[nzColor]='badgeData.nzColor' 
+[nzText]="badgeData.nzText"
+[nzStatus]='badgeData.status == true? badgeData.nzStatus:""'
+[nzStandalone]="badgeData.standAlone"
+[nzOverflowCount]="badgeData.overflowCount"
+[nzShowZero]="badgeData.showZero"
+[nzSize]="badgeData.size"
+[nzTitle]="badgeData.title"
+nzShowDot
+></nz-badge>
+
+  <nz-ribbon  *ngIf="badgeData.nztype == 'ribbon'" 
+  [nzText]="badgeData.nzText" 
+  [nzColor]='badgeData.nzColor'>
+  </nz-ribbon>
