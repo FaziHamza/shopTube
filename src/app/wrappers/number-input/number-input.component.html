@@ -5,10 +5,15 @@
     <nz-input-number style="width:100%" 
 [nzMin]="to.minLength || 0" 
 [nzMax]="to.maxLength || 0" 
-[nzStep]="to.config?.step ? to.config?.step : 1" 
+[nzStep]="to.config?.step || 1" 
 [nzPrecision]="precision"
   nzPrecisionMode="cut" 
   nzInputMode="decimal" 
   [nzPlaceHolder]="to.placeholder || ''"
+  [nzBorderless]="to.config?.border" 
+  [nzDisabled]="to.disabled" 
+  [nzReadOnly]="to.readonly"
+  [nzSize]="to.config?.size"
+    [nzStatus]="to.config?.status"
   ></nz-input-number>
   </nz-input-group>

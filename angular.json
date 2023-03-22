@@ -38,6 +38,8 @@
           },
           "configurations": {
             "production": {
+              "sourceMap": false,
+              "aot": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -113,6 +115,9 @@
     }
   },
   "cli": {
+    "cache": {
+      "enabled": true
+    },
     "analytics": "b434e27d-6b49-415c-8333-1a49e33dbf3e"
   }
 }
