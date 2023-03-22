@@ -403,14 +403,12 @@ export class formFeildData {
           },
         },
         {
-          key: 'removeIcon',
+          key: 'icon',
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-            type:'number',
             label: 'Remove Icon',
-           
           },
         },
         {
@@ -455,6 +453,130 @@ export class formFeildData {
           type: 'checkbox',
           templateOptions: {
             label: 'Loading',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'optionDisabled',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'option Disabled',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'optionHide',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'option Hide',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          templateOptions: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'label'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'value',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                templateOptions: {
+                  label: 'value'
+                }
+              },
+            ]
+          }
+        }
+      ]
+    },
+  ];
+  zorroTimeFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'firstBtnText',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'First button text',
+           
+          },
+        },
+        {
+          key: 'secondBtnText',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Second button text',
+          },
+        },
+        {
+          key: 'minuteStep',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'number',
+            label: 'minuteStep',
+          },
+        },
+        {
+          key: 'secondStep',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'number',
+            label: 'secondStep',
+          },
+        },
+        {
+          key: 'hoursStep',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            type:'number',
+            label: 'hoursStep',
+          },
+        },
+        {
+          key: 'icon',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'icon',
+          },
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'allowClear',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'AllowClear',
           },
           defaultValue: false
         },

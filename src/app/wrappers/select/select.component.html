@@ -1,24 +1,31 @@
-<!-- <nz-select [nzCustomTemplate]="valueTemplate" [nzOptionHeightPx]="23" [formlyAttributes]="field"> -->
-<nz-select [nzStatus]="to.config?.status" 
+<nz-input-group [nzSuffix]="to.config?.addonLeft" 
+[nzPrefix]="to.config?.addonRight" 
+[nzSize]="to.config?.size"
+    [nzStatus]="to.config?.status">
+    <nz-select [nzStatus]="to.config?.status" 
 [nzSize]="to.config?.size" 
 [nzCustomTemplate]="valueTemplate" 
 [formlyAttributes]="field"
-[nzAllowClear]="false" 
-[nzBorderless]="false"
+[nzAllowClear]="to.config?.allowClear || false" 
+[nzBorderless]="to.config?.border"
 [nzDropdownMatchSelectWidth]="true"
-[nzServerSearch]="false"
-nzPlaceHolder="sdfsdfsdf"
-[nzShowArrow]="true"
-[nzShowSearch]="false"
+[nzServerSearch]="to.config?.serveSearch || false"
+[nzPlaceHolder]="to.placeholder || ''"
+[nzShowArrow]="to.config?.showArrow || false"
+[nzShowSearch]="to.config?.showSearch || false"
 [nzRemoveIcon]="characterIcon"
 [nzClearIcon]="characterIcon"
-[nzLoading]="false"
-[nzOptionHeightPx]="100"
-[nzOptionOverflowSize]="8"
+[nzLoading]="to.config?.loading"
+[nzOptionHeightPx]="to.config?.optionHieght || 30"
+[nzOptionOverflowSize]="to.config?.optionHieght || 10"
+[nzSize]="to.config?.size"
+    [nzStatus]="to.config?.status"
 [formControl]="formControl">
-  <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzCustomContent]="true"
+  <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false" [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
     [nzLabel]="item.label">{{item.label}}</nz-option>
 </nz-select>
+  </nz-input-group>
+
 <ng-template #valueTemplate let-item>
   <div class="d-flex align-items-center">
     <i *ngIf="getIcon(item.nzValue)" class="{{getIcon(item.nzValue)}} option-icon"></i> {{item.nzLabel}}
@@ -27,5 +34,5 @@ nzPlaceHolder="sdfsdfsdf"
 
 
 <ng-template #characterIcon>
-  <span nz-icon nzType="user"></span>
+  <span nz-icon [nzType]="to.config?.icon || 'close'" nzTheme="outline"></span>
 </ng-template>

@@ -896,7 +896,6 @@ export class BuilderComponent implements OnInit {
       this.addNode(node, newNode);
     }
     else if (data?.parameter == 'input') {
-
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         // key: data?.label + Guid.newGuid(),
@@ -927,8 +926,22 @@ export class BuilderComponent implements OnInit {
                     addonrightIcon: '',
                     status: '',
                     size: 'default',
-                    border: false,
-                    disabled: false,
+                    border: false,      
+                    firstBtnText: 'Now',      
+                    secondBtnText: 'ok',      
+                    minuteStep: 1,      
+                    secondStep: 1,      
+                    hoursStep: 1,      
+                    use12Hours: false,
+                    icon:'close',
+                    allowClear:false,
+                    step:1,
+                    serveSearch:false,
+                    showArrow:false,
+                    showSearch:false,    
+                    format:'dd-MM-yyyy',  
+                    optionHieght:30,
+                    optionHoverSize:10,
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -4218,7 +4231,6 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.toastrFeilds;
         break;
 
-
       case "invoice":
         configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.invoiceFeilds;
@@ -4419,6 +4431,7 @@ export class BuilderComponent implements OnInit {
       case "checkbox":
       case "datetime":
       case "time":
+      case "timepicker":
       case "date":
       case "month":
       case "decimal":
@@ -4433,7 +4446,7 @@ export class BuilderComponent implements OnInit {
         case "number":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search" || type == "repeatSection")
+        if (type == "tags" || type == "multiselect" || type == "search")
           this.fieldData.formData = _formFieldData.selectFields;
         else if (type == "radiobutton" || type == "checkbox")
           this.fieldData.formData = _formFieldData.radioFields;
@@ -4445,6 +4458,10 @@ export class BuilderComponent implements OnInit {
           this.fieldData.formData = _formFieldData.zorroDateFields;
         else if (type == 'number')
           this.fieldData.formData = _formFieldData.numberFields;
+        else if (type == 'repeatSection')
+          this.fieldData.formData = _formFieldData.zorroSelectFields;
+        else if (type == 'timepicker')
+          this.fieldData.formData = _formFieldData.zorroTimeFields;
         break;
 
       case "customMasking":
@@ -5453,6 +5470,7 @@ export class BuilderComponent implements OnInit {
       case "textarea":
       case "multiselect":
       case "time":
+      case "timepicker":
       case "month":
       case "week":
       case "datetime":
@@ -5460,6 +5478,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
@@ -5495,11 +5514,18 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['serveSearch'] = event.form.serveSearch;
             templateOptions.config['showArrow'] = event.form.showArrow;
             templateOptions.config['showSearch'] = event.form.showSearch;
-            templateOptions.config['removeIcon'] = event.form.removeIcon;
             templateOptions.config['clearIcon'] = event.form.clearIcon;
             templateOptions.config['loading'] = event.form.loading;
             templateOptions.config['optionHieght'] = event.form.optionHieght;
             templateOptions.config['optionHoverSize'] = event.form.optionHoverSize;
+            templateOptions.config['optionDisabled'] = event.form.optionDisabled;
+            templateOptions.config['optionHide'] = event.form.optionHide;
+            templateOptions.config['firstBtnText'] = event.form.firstBtnText;
+            templateOptions.config['secondBtnText'] = event.form.secondBtnText;
+            templateOptions.config['minuteStep'] = event.form.minuteStep;
+            templateOptions.config['secondStep'] = event.form.secondStep;
+            templateOptions.config['hoursStep'] = event.form.hoursStep;
+            templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               templateOptions['options'] = event.tableDta;
