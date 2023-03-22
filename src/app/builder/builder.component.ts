@@ -3087,15 +3087,15 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'badge') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'badge_' + Guid.newGuid(),
+        key: 'badge_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Badge',
         type: "badge",
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        count: 0,
+        count: 10,
         nzText: "",
         nzColor: "",
         nzStatus: "success",
@@ -5331,11 +5331,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         if (this.selectedNode) {
+          debugger
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.count = event.form.count;
+          this.selectedNode.count = parseInt(event.form.count);
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
           this.selectedNode.nzStatus = event.form.nzStatus;
