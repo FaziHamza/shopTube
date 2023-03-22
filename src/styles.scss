@@ -84,9 +84,25 @@ html {
 img, svg, video, canvas, audio, iframe, embed, object{
   vertical-align: baseline !important;
 }
-.ant-switch-checked{
-  background-color: #1890ff;
+
+// .ant-switch{
+//   background-color: #444a50;
+// }
+// .ant-switch ant-switch-checked{
+//   background-color: #1890ff;
+// }
+
+.ant-switch {
+  &.ant-switch-checked {
+    background-color: #1890ff;
+  }
+  
+  &:not(.ant-switch-checked) {
+    background-color: grey;
+  }
 }
+
 .ant-btn>span+.anticon {
   margin-left: 0px !important;
 }
+ 

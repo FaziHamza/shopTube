@@ -91,7 +91,9 @@
 [nzLoading]="field.loading"
 [nzControl]="field.control"
 ></nz-switch> -->
+<!-- {{switchData | json}} -->
 <nz-switch 
+[(ngModel)]="switchData.model"
  [nzSize]="switchData.size"
 [nzCheckedChildren]="switchData.checkedChildren"
 [nzUnCheckedChildren]="switchData.unCheckedChildren"

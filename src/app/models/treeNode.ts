@@ -186,6 +186,7 @@ export interface TreeNode {
   labelText?: any,
   pendingText?: any,
   mainIcon?: any,
+  timecolor?: any,
   reverse?: any,
   dotIcon?: any,
   status?: any,
@@ -398,6 +399,7 @@ export interface TreeNode {
   unCheckedChildren?: any;
   imagePreview?: any;
   control?: any;
+  model?: any;
   height?: string;
   offsetX?: number;
   offsetY?: number;

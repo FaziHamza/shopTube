@@ -387,6 +387,7 @@ export class BuilderClickButtonService {
       disabled: node.disabled,
       loading: node.loading,
       control: node.control,
+      model: node.model,
     }
   }
 
@@ -521,7 +522,7 @@ export class BuilderClickButtonService {
     return {
       dotIcon: node.dotIcon,
       labelText: node.labelText,
-      color: node.color,
+      timecolor: node.timecolor,
       position: node.position,
       mode: node.mode,
       mainIcon: node.mainIcon,
