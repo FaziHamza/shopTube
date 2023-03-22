@@ -1186,6 +1186,7 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         loading: false,
         control: false,
+        model: false,
         children: [
         ],
       } as TreeNode;
@@ -2695,37 +2696,37 @@ export class BuilderComponent implements OnInit {
           {
             title: "Timeline Event One",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event two",
             dotIcon: 'down',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event three",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event One",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event One",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event One",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
           {
             title: "Timeline Event One",
             dotIcon: 'loading',
-            color: 'green',
+            timecolor: 'green',
           },
         ],
         children: [
@@ -6616,6 +6617,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.control = event.form.control;
+          this.selectedNode.model = event.form.model;
         }
         break;
       case "multiFileUpload":
@@ -6870,7 +6872,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
-            this.selectedNode.color = event.form.color,
+            this.selectedNode.timecolor = event.form.timecolor,
             this.selectedNode.position = event.form.position,
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,

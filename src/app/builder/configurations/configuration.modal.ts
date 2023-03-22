@@ -4502,7 +4502,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/4 px-1 text-black",
           key: 'unCheckedChildren',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],

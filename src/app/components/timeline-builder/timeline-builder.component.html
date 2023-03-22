@@ -1,7 +1,7 @@
 <nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="pendingIcon" [nzReverse]="timelineData.reverse"
     [nzMode]="timelineData.mode">
 <ng-container *ngFor="let item of timelineData.data">
-    <nz-timeline-item    [nzColor]="item.color" [nzDot]="characterIcon" [nzPosition]="item.position"
+    <nz-timeline-item    [nzColor]="item.timecolor" [nzDot]="characterIcon" [nzPosition]="item.position"
     [nzLabel]="item.labelText"
     >{{item.title}}</nz-timeline-item>
     <ng-template #characterIcon>
