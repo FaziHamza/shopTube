@@ -952,15 +952,15 @@ export class BuilderComponent implements OnInit {
                     secondStep: 1,
                     hoursStep: 1,
                     use12Hours: false,
-                    icon:'close',
-                    allowClear:false,
-                    step:1,
-                    serveSearch:false,
-                    showArrow:false,
-                    showSearch:false,
-                    format:'dd-MM-yyyy',
-                    optionHieght:30,
-                    optionHoverSize:10,
+                    icon: 'close',
+                    allowClear: false,
+                    step: 1,
+                    serveSearch: false,
+                    showArrow: false,
+                    showSearch: false,
+                    format: 'dd-MM-yyyy',
+                    optionHieght: 30,
+                    optionHoverSize: 10,
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -2397,18 +2397,23 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'multiFileUpload') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
-        title: "File Uploader" + '_1',
+        id: "multiFileUpload_" + Guid.newGuid(),
+        key: "multiFileUpload_" + Guid.newGuid(),
+        title: "multiFileUpload",
         type: "multiFileUpload",
         className: "w-1/2",
         highLight: false,
         isNextChild: false,
         tooltip: "",
         hideExpression: false,
-        key: "multiFileUpload_" + Guid.newGuid(),
         uploadBtnLabel: "Click here to upload",
         multiple: false,
         disabled: false,
+        showDialogueBox:true,
+        showUploadlist:true,
+        onlyDirectoriesAllow:false,
+        uploadLimit:10,
+        size:30,
         children: [
         ],
       } as TreeNode;
@@ -2960,7 +2965,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         description: "Scroll down to see the bottom-right",
         visibleafter: '',
-        target: '',
+        target: false,
         duration: '',
         children: [
         ],
@@ -2980,6 +2985,8 @@ export class BuilderComponent implements OnInit {
         affix: true,
         offSetTop: 5,
         showInkInFixed: true,
+        bond:5,
+        target:false,
         options: [
           {
             nzTitle: "Basic demo",
@@ -3108,7 +3115,7 @@ export class BuilderComponent implements OnInit {
         showDot: true,
         overflowCount: '',
         showZero: false,
-        nztype:'count',
+        nztype: 'count',
         size: '',
         icon: 'clock-circle',
         offset: '',
@@ -3160,7 +3167,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'description') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'description_' + Guid.newGuid(),
         key: 'description_' + Guid.newGuid(),
         type: "description",
         title: 'Description',
@@ -3168,7 +3175,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: true,
-        nzExtra: "extraTpl",
+        btnText: "Edit",
         size: "default",
         isBordered: true,
         formatter: "horizontal",
@@ -3435,14 +3442,16 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        checkable: '',
+        checkable: false,
+        blockNode:false,
+        showLine:false,
+        showIcon:false,
+        draggable:false,
+        multiple:false,
+        expandAll:false,
+        expand: true,
         expandIcon: 'folder',
         closingexpandicon: 'file',
-        expand: "",
-        expandKeys: ['100', '1001'],
-
-        // title: 'parent 1',
-        key: '100',
         nodes: [
           {
             title: '0-0',
@@ -3558,7 +3567,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'drawer') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'drawer_' + Guid.newGuid(),
         key: 'drawer_' + Guid.newGuid(),
         type: "drawer",
         title: 'Drawer',
@@ -3566,7 +3575,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        color: "primary",
+        color: "bg-blue-500",
         btnText: "Open Drawer",
         isClosable: true,
         icon: "close",
@@ -3582,12 +3591,13 @@ export class BuilderComponent implements OnInit {
         isVisible: false,
         placement: "right",
         size: "default",
-        width: "",
-        height: "", //number and string
+        width: 500,
+        height: 500,
         offsetX: 0,
         offsetY: 0,
         wrapClassName: "",
         zIndex: 1,
+        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum blanditiis sunt unde quisquam architecto. Nesciunt eum consequatur suscipit obcaecati. Aliquam repudiandae neque ratione natus doloribus ab excepturi, a modi voluptate!',
         // onClose: "right",//function
         children: [
         ],
@@ -4455,7 +4465,7 @@ export class BuilderComponent implements OnInit {
       case "textarea":
       case "telephone":
       case "autoComplete":
-        case "number":
+      case "number":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search")
@@ -5066,6 +5076,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.wrapClassName = event.form.wrapClassName;
           this.selectedNode.zIndex = event.form.zIndex;
           this.selectedNode.onClose = event.form.onClose;
+          this.selectedNode.content = event.form.content;
         }
         break;
       case "icon":
@@ -5087,6 +5098,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.affix = event.form.affix;
           this.selectedNode.offSetTop = event.form.offSetTop;
           this.selectedNode.showInkInFixed = event.form.showInkInFixed;
+          this.selectedNode.target = event.form.target;
+          this.selectedNode.bond = event.form.bond;
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
               this.selectedNode.options = res;
@@ -5189,9 +5202,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.checkable = event.form.checkable;
+          this.selectedNode.blockNode = event.form.blockNode;
+          this.selectedNode.showLine = event.form.showLine;
+          // this.selectedNode.showIcon = event.form.showIcon;
+          this.selectedNode.draggable = event.form.draggable;
+          // this.selectedNode.multiple = event.form.multiple;
+          this.selectedNode.expandAll = event.form.expandAll;
           this.selectedNode.expand = event.form.expand;
           this.selectedNode.expandIcon = event.form.expandIcon;
           this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          // this.selectedNode.nodes = event.form.nodes;
           // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
@@ -5436,7 +5456,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
-          this.selectedNode.nzExtra = event.form.nzExtra;
+          this.selectedNode.btnText = event.form.btnText;
           this.selectedNode.formatter = event.form.formatter;
           this.selectedNode.size = event.form.size;
           this.selectedNode.isBordered = event.form.isBordered;
@@ -5842,7 +5862,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -5877,12 +5897,15 @@ export class BuilderComponent implements OnInit {
 
           if (this.selectedNode.noResult) {
             if (this.selectedNode.tableData.length > 0) {
-              this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData
+              this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData;
+              this.selectedNode.tableData = [];
             }
-            this.selectedNode.tableData = []
-          } else {
-            this.selectedNode.tableData = this.selectedNode.tableNoResultArray;
           }
+          else{
+            if(this.selectedNode['tableNoResultArray'])
+            this.selectedNode.tableData = this.selectedNode['tableNoResultArray'];
+          }
+
           // this.selectedNode.sort = event.form.sort;
           // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
           // const key = firstObjectKeys.map(key => ({ name: key }));
@@ -6015,6 +6038,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.className = event.form.className;
           this.selectedNode.nzBordered = event.form.nzBordered;
           this.selectedNode.nzGhost = event.form.nzGhost;
@@ -6634,6 +6658,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.uploadBtnLabel = event.form.title;
           this.selectedNode.multiple = event.form.multiple;
           this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.uploadBtnLabel = event.form.uploadBtnLabel;
+          this.selectedNode.uploadLimit = event.form.uploadLimit;
+          this.selectedNode.size = event.form.size;
+          this.selectedNode.showDialogueBox = event.form.showDialogueBox;
+          this.selectedNode.showUploadlist = event.form.showUploadlist;
+          this.selectedNode.onlyDirectoriesAllow = event.form.onlyDirectoriesAllow;
         }
         break;
       case "textEditor":

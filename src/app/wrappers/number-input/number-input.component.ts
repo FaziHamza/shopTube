@@ -8,34 +8,34 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 })
 export class NumberInputComponent extends FieldType<FieldTypeConfig> {
   precision = 1;
-  get max() {
-    return this.to?.max ?? Infinity;
-  }
+  // get max() {
+  //   return this.to?.max ?? Infinity;
+  // }
 
-  get min() {
-    return this.to?.min ?? -Infinity;
-  }
+  // get min() {
+  //   return this.to?.min ?? -Infinity;
+  // }
 
-  get value() {
-    return this.formControl.value;
-  }
+  // get value() {
+  //   return this.formControl.value;
+  // }
 
   // get precision() {
   //   return this.to?.['precision'] ?? 5;
   // }
 
 
-  set value(value) {
-    if (value != null)
-      this.formControl.patchValue(value);
-  }
+  // set value(value) {
+  //   if (value != null)
+  //     this.formControl.patchValue(value);
+  // }
 
 
-  isAboveMin(value: any): boolean {
-    return this.min == null || value >= this.min;
-  }
+  // isAboveMin(value: any): boolean {
+  //   return this.min == null || value >= this.min;
+  // }
 
-  isBelowMax(value: any): boolean {
-    return this.max == null || value <= this.max;
-  }
+  // isBelowMax(value: any): boolean {
+  //   return this.max == null || value <= this.max;
+  // }
 }

@@ -514,15 +514,15 @@ export const htmlTabsData = [
               //   maskString: "00/00/0000 00:00:00",
               //   maskLabel: "dd/mm/yyyy hh:mm:ss",
               // },
-              {
-                parameter: "input",
-                icon: "uil uil-text",
-                label: "Input",
-                type: 'custommasking',
-                configType:'customMasking',fieldType: 'custom',
-                maskString: "'A*",
-                maskLabel: "A_Z"
-              },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-text",
+              //   label: "Input",
+              //   type: 'custommasking',
+              //   configType:'customMasking',fieldType: 'custom',
+              //   maskString: "'A*",
+              //   maskLabel: "A_Z"
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-server",

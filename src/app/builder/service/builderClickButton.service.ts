@@ -6,13 +6,13 @@ import { Injectable } from "@angular/core";
 export class BuilderClickButtonService {
 
   getDrawerConfig(node: any) {
-    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose };
+    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose , content:node.content , };
   }
   getIconConfig(node: any) {
     return { icon: node.icon, theme: node.theme };
   }
   getAnchorConfig(node: any) {
-    return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed };
+    return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed , target:node.target , bond:node.bond};
   }
   getTransferConfig(node: any) {
 
@@ -177,7 +177,7 @@ export class BuilderClickButtonService {
 
   getDescriptionConfig(node: any) {
     return {
-      nzExtra: node.nzExtra,
+      btnText: node.btnText,
       formatter: node.formatter,
       size: node.size,
       isBordered: node.isBordered,
@@ -202,10 +202,10 @@ export class BuilderClickButtonService {
       showLine: node.showLine,
       blockNode: node.blockNode,
       showIcon: node.showIcon,
-      asyncData: node.asyncData,
+      nodes: node.nodes,
       draggable: node.draggable,
       multiple: node.multiple,
-      checkStricktly: node.checkStricktly,
+      expandAll: node.expandAll,
     }
   }
 
@@ -369,6 +369,12 @@ export class BuilderClickButtonService {
     return {
       multiple: node.multiple,
       disabled: node.disabled,
+      uploadBtnLabel: node.uploadBtnLabel,
+      uploadLimit: node.uploadLimit,
+      size: node.size,
+      showDialogueBox: node.showDialogueBox,
+      showUploadlist: node.showUploadlist,
+      onlyDirectoriesAllow: node.onlyDirectoriesAllow,
     }
   }
 

@@ -1,5 +1,8 @@
 <div class="m-2">
     <div (click)="loadURLData(SimpleCardWithHeaderBodyFooterData.link)">
+        <span *ngIf="SimpleCardWithHeaderBodyFooterData?.tooltip" nz-tooltip [nzTooltipTitle]="SimpleCardWithHeaderBodyFooterData.tooltip">
+            <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+          </span>
         <nz-card nzTitle={{SimpleCardWithHeaderBodyFooterData.headerText}}
             [nzBorderless]="SimpleCardWithHeaderBodyFooterData.borderless"
             [nzExtra]="SimpleCardWithHeaderBodyFooterData.extra"

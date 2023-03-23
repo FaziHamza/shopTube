@@ -6,3 +6,9 @@
       </nz-back-top>
 {{backTopData.description}}
 
+<ng-container *ngIf="backTopData.target == true">
+    <div class="long-div" #divTarget>
+        <div class="long-div-inner"></div>
+        <nz-back-top [nzTarget]="divTarget"></nz-back-top>
+    </div>
+</ng-container>

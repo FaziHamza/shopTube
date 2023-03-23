@@ -1,10 +1,11 @@
+
 <nz-input-group [nzSuffix]="to.config?.addonLeft" 
 [nzPrefix]="to.config?.addonRight" 
 [nzSize]="to.config?.size"
     [nzStatus]="to.config?.status">
     <nz-input-number style="width:100%" 
 [nzMin]="to.minLength || 0" 
-[nzMax]="to.maxLength || 0" 
+[nzMax]="to.maxLength || 1" 
 [nzStep]="to.config?.step || 1" 
 [nzPrecision]="precision"
   nzPrecisionMode="cut" 
@@ -15,5 +16,6 @@
   [nzReadOnly]="to.readonly"
   [nzSize]="to.config?.size"
     [nzStatus]="to.config?.status"
+    [formControl]="formControl"
   ></nz-input-number>
   </nz-input-group>

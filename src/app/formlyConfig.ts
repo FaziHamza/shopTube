@@ -9,6 +9,7 @@ import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-
 import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.component";
 import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
 import { FormlyFieldRepeatSectionComponent } from "./wrappers/formly-field-repeat-section.component";
+import { FormlyFloatComponent } from "./wrappers/formly-float/formly-float.component";
 import { FormlyFieldRangeDate } from "./wrappers/FormlyFieldRangeDate";
 import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
 import { FormlyFieldTimePicker } from "./wrappers/FormlyFieldTimePicker";
@@ -50,7 +51,8 @@ export const fieldComponents = [
   FormlyFieldImageUploadComponent,
   TimePickerComponent,
   DatePickerComponent,
-  RangeComponent
+  RangeComponent,
+  FormlyFloatComponent
 ];
 
 
@@ -104,7 +106,8 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
     { name: 'formly-vertical-wrapper', component: FormlyVerticalWrapper },
     { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
-    // { name: 'floating-label', component: FormlyFloatingLabelWrapper },
+    { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
+    { name: 'floating-label', component: FormlyFloatComponent },
 
   ]
 };
