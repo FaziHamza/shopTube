@@ -510,14 +510,16 @@
         </ng-template>
         <ng-template #fiftyFour>
             <ng-container *ngIf="item.type == 'nzTag' ; else fiftyFive">
-                <ng-container *ngIf="!item.hideExpression">
-                    <div *ngIf="item.tooltip" style="text-align: right;">
-                        <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                nzTheme="twotone"></span></span>
-                    </div>
-                    <nz-tag *ngFor="let child of item.options" [nzColor]='child.tagColor' [nzMode]="item.mode"
+                <ng-container *ngIf="!item.hideExpression" >
+                    <div style="padding-top: 7%;">
+                        <div *ngIf="item.tooltip" style="text-align: right;">
+                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+                                    nzTheme="twotone"></span></span>
+                        </div>
+                        <nz-tag *ngFor="let child of item.options" [nzColor]='child.tagColor' [nzMode]="item.mode"
                         [nzChecked]="item.checked" (nzOnClose)="onClose()"><span nz-icon [nzType]='child.icon'></span>
                         <span>{{child.title}}</span></nz-tag>
+                    </div>
                 </ng-container>
             </ng-container>
         </ng-template>
