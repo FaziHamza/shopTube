@@ -10,8 +10,23 @@
 <button nz-button (click)="addColumn()" type="button" nzType="primary">Add Column</button>
 <br />
 <br />
-<nz-table #editRowTable [nzData]="tableData" [nzPageSize]="10" >
-  <thead>
+<nz-table #editRowTable 
+[nzData]="tableData" 
+[nzPageSize]="10" 
+[nzBordered]='data.nzBordered' 
+[nzData]="tableData" 
+[nzFooter]="data?.nzFooter"
+[nzLoading]="data?.nzLoading" 
+[nzPaginationPosition]='data?.nzPaginationPosition'
+[nzPaginationType]='data?.nzPaginationType' 
+[nzFrontPagination]='data?.nzFrontPagination'
+[nzShowPagination]='data?.nzShowPagination' 
+[nzTitle]='data?.nzTitle' 
+[nzSize]="data.nzSize"
+[nzSimple]="data.nzSimple" 
+[nzShowSizeChanger]="data.nzShowSizeChanger"
+[nzScroll]="{ x: data.tableScroll, y: scrollY }">
+  <thead >
     <tr *ngIf="data.showColumnHeader">
       <th nzWidth="40px" *ngIf="data.expandable"></th>
       <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"

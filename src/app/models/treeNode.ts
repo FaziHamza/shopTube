@@ -84,6 +84,7 @@ export interface TreeNode {
   showDots?: any;
   affixType?: any;
   target?: any;
+  bond?: any;
   alt?: any;
   source?: any;
   imagHieght?: any;
@@ -391,7 +392,7 @@ export interface TreeNode {
   bodyText?: string;
   isVisible?: boolean;
   placement?: string;
-  size?: string;
+  size?: any;
   width?: any;
   imageAlt?: any;
   imageSrc?: any;
@@ -400,7 +401,7 @@ export interface TreeNode {
   imagePreview?: any;
   control?: any;
   model?: any;
-  height?: string;
+  height?: any;
   offsetX?: number;
   offsetY?: number;
   wrapClassName?: string;
@@ -451,6 +452,10 @@ export interface TreeNode {
   mainDashonicTabsChild?: any
   switchConfig?: any,
   uploadBtnLabel?: any,
+  uploadLimit?: any,
+  showDialogueBox?: any,
+  showUploadlist?: any,
+  onlyDirectoriesAllow?: any,
   multiple?: any,
   progressBArConfig?: any,
   calenderConfig?: any,

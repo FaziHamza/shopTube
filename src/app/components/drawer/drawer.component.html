@@ -1,10 +1,24 @@
+{{drawerData | json}}
 <button nz-button [nzType]="drawerData.color" (click)="open()">{{drawerData.btnText}}</button>
-<nz-drawer [nzClosable]="drawerData.isClosable" [nzVisible]="visible" [nzPlacement]="drawerData.placement"
-    [nzTitle]="drawerData.title" (nzOnClose)="close()" [nzCloseIcon]="drawerData.icon" [nzExtra]="extra"
-    [nzKeyboard]="drawerData.isKeyboard" [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size"
-    [nzVisible]="drawerData.isVisible" [nzWidth]="'default'" >
+<nz-drawer [nzClosable]="drawerData.isClosable" 
+[nzVisible]="visible" 
+[nzPlacement]="drawerData.placement"
+    [nzTitle]="drawerData.title" 
+    (nzOnClose)="close()" 
+    [nzClosable]="true"
+    [nzCloseIcon]="drawerData.icon" 
+    [nzExtra]="extra" 
+    [nzKeyboard]="drawerData.isKeyboard"
+    [nzFooter]="drawerData.footerText" 
+    [nzSize]="drawerData.size" 
+    [nzVisible]="drawerData.isVisible"
+    [nzSize]="drawerData.size"
+    [nzWidth]="drawerData.width"
+    [nzHeight]="drawerData.height"
+    [nzOffsetX]="drawerData.offsetX"
+    [nzOffsetY]="drawerData.offsetY">
     <ng-container *nzDrawerContent>
-        
+        <P>{{drawerData.content}}</P>
     </ng-container>
 </nz-drawer>
 
@@ -16,3 +30,4 @@
 <ng-template #extra2>
     <button nz-button nzType="primary" (click)="close()">OK</button>
 </ng-template>
+
