@@ -1,28 +1,16 @@
-<nz-upload nzType="drag" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" 
-[nzMultiple]="multiFileUploadData.multiple"  
-[nzDisabled]="multiFileUploadData.disabled" 
-  
-(nzChange)="onFileSelected($event)">
-  <p class="ant-upload-drag-icon">
-    <span nz-icon nzType="inbox"></span>
-  </p>
-  <p class="ant-upload-text">{{multiFileUploadData}}</p>
+<nz-upload
+nzType="drag"
+[nzMultiple]="multiFileUploadData.multiple" 
+nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+[nzDisabled]="multiFileUploadData.disabled"
+  [nzOpenFileDialogOnClick]="multiFileUploadData.showDialogueBox"
+  [nzShowUploadList]="multiFileUploadData.showUploadlist"
+  [nzDirectory]="multiFileUploadData.onlyDirectoriesAllow"
+  [nzLimit]="multiFileUploadData.uploadLimit"
+  [nzSize]="multiFileUploadData.size"
+>
+<p class="ant-upload-drag-icon">
+  <span nz-icon nzType="inbox"></span>
+</p>
+<p class="ant-upload-text">{{multiFileUploadData.uploadBtnLabel}}</p>
 </nz-upload>
-
-<!-- <ngx-dropzone [multiple]="true" class="border-dashed border-2 border-blue-400 p-4 rounded-md"
-    (change)="onFileSelected($event)">
-    <div class="flex flex-col items-center justify-center space-y-2 text-center">
-        <div>{{multiFileUploadData}}</div>
-    </div>
-</ngx-dropzone> -->
-
-
-<!-- <nz-upload
-  nzAction="https://www.example.com/upload"
-  nzName="file"
-  nzMultiple
-  (nzChange)="handleUpload($event)">
-  <button nz-button>
-    <i nz-icon nzType="upload"></i> Click to Upload
-  </button>
-</nz-upload> -->

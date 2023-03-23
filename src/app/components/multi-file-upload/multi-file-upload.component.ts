@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-multi-file-upload',
@@ -17,18 +18,12 @@ export class MultiFileUploadComponent implements OnInit {
 
     this.multiFileUploadData;
   }
-    // handleUpload(event: any): void {
-  //   // Handle uploaded files here
-  //   console.log(event.fileList);
-  // }
 
-  onFileSelected(event: any) {
 
-    console.log(event.addedFiles);
-  }
+  
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-
+    debugger
     const status = file.status;
     console.log(fileList)
     // if (status !== 'uploading') {
@@ -40,6 +35,8 @@ export class MultiFileUploadComponent implements OnInit {
     //   this.msg.error(`${file.name} file upload failed.`);
     // }
   }
+
+ 
 
 
 }
