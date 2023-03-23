@@ -6330,27 +6330,27 @@ export class formFeildData {
             options: [
               {
                 label: 'Blue',
-                value: 'blue-500'
+                value: 'bg-blue-500'
               },
               {
                 label: 'Red',
-                value: 'red-500'
+                value: 'bg-red-500'
               },
               {
                 label: 'Light Blue',
-                value: 'blue-300'
+                value: 'bg-blue-300'
               },
               {
                 label: 'Light Gray',
-                value: 'gray-300'
+                value: 'bg-gray-300'
               },
               {
                 label: 'yellow',
-                value: 'yellow-500'
+                value: 'bg-yellow-500'
               },
               {
                 label: 'gray',
-                value: 'gray-500'
+                value: 'bg-gray-500'
               }
             ]
           }

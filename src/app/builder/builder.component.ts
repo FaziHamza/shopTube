@@ -3568,7 +3568,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         hideExpression: false,
         isNextChild: false,
-        color: "primary",
+        color: "bg-blue-500",
         btnText: "Open Drawer",
         isClosable: true,
         icon: "close",
