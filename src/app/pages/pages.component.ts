@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ruleFactory } from '@elite-libs/rules-machine';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
@@ -12,19 +13,20 @@ import { EmployeeService } from '../services/employee.service';
 })
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
-    public builderService: BuilderService) { }
+    public builderService: BuilderService,
+    private cdr: ChangeDetectorRef,) { }
   @Input() resData: any = [];
   @Input() formlyModel: any;
   fields: any = [];
-  screenData: any = [];
+  screenData: any;
   @Input() screenName = '';
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
-        this.getUIRuleData(true);
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
           if (res.length > 0) {
+            this.getUIRuleData(res[0].moduleName);
             this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
             this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
           }
@@ -51,11 +53,10 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
   getUIRuleData(data: any) {
-    this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+    this.builderService.jsonUIRuleGetData(data).subscribe((getRes => {
       if (getRes.length > 0) {
         this.screenData = [];
         this.screenData = getRes[0];
-        this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
       } else { }
     }));
   }
@@ -78,31 +79,28 @@ export class PagesComponent implements OnInit {
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
     // this.getUIRuleData();
   }
+  updateNodes() {
+    this.resData = [...this.resData];
+  }
   checkConditionUIRule(model: any, currentValue: any) {
+    debugger
     this.getUIRule(model, currentValue);
+    this.updateNodes();
+    this.cdr.detectChanges();
+    this.cdr.detach();
   }
   getUIRule(model: any, currentValue: any) {
-
-    if (this.screenData.length  > 0) {
-      var inputType = this.resData[0].children[1].children[0].children[1].children;
-      for (let j = 0; j < inputType.length; j++) {
-        for (let index = 0; index < this.screenData.uiData.length; index++) {
-          if (inputType[j] == undefined) {
-            let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-              else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+    try {
+      if (this.screenData != undefined) {
+        var inputType = this.resData[0].children[1].children[0].children[1].children;
+        for (let j = 0; j < inputType.length; j++) {
+          for (let index = 0; index < this.screenData.uiData.length; index++) {
+            if (inputType[j] == undefined) {
+              let query: any;
+              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+              if (this.screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -110,44 +108,49 @@ export class PagesComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
+              } else if (this.screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                    query = '1 == 1';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                  else {
+                    query = '1 == 2';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                } else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+
               } else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                } else {
+                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
               }
-
-            } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-            }
-            if (eval(query)) {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-            }
-            else {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-            }
-          } else if (inputType[j].formly != undefined) {
-            let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              if (eval(query)) {
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                this.resData[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                this.resData[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+            }
+            else if (inputType[j].formly != undefined) {
+              let query: any;
+              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+              if (this.screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -155,35 +158,66 @@ export class PagesComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
+              } else if (this.screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                    query = '1 == 1';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                  else {
+                    query = '1 == 2';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                } else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+
               } else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                } else {
+                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
               }
-
-            } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              if (eval(query)) {
+                const check= this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                this.resData[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
-            }
-            if (eval(query)) {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-            }
-            else {
-              inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              else {
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                this.resData[0].children[1].children[0].children[1].children = check;
+                this.updateNodes();
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+              }
             }
           }
         }
+        // this.clickBack();
+        // this.cdr.detectChanges();
       }
-      // this.clickBack();
-      // this.cdr.detectChanges();
+    } catch (error) {
+      console.log(error)
+    } finally {
+      if (this.screenName) {
+        this.builderService.jsonBisnessRuleGet(this.screenName).subscribe((getRes => {
+
+          if (getRes.length > 0) {
+            const fishRhyme = ruleFactory(getRes[0].buisnessRule);
+            console.log(fishRhyme(this.formlyModel));
+            this.cdr.detectChanges();
+            this.cdr.detach();
+          }
+        }))
+      }
     }
   }
+
   makeFaker() {
 
     let dataModelFaker: any = [];

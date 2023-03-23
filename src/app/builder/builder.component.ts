@@ -496,10 +496,8 @@ export class BuilderComponent implements OnInit {
   }
   checkConditionUIRule(model: any, currentValue: any) {
     this.getUIRule(model, currentValue);
-    // if (currentValue == 'abc') {
-    //   let stringData = "[ { \"id\": \"page\", \"title\": \"page\", \"type\": \"page\", \"footer\": false, \"header\": false, \"expanded\": true, \"isNextChild\": true, \"children\": [ { \"id\": \"pageHeader_0d7819aa\", \"key\": \"pageHeader_469bdb71\", \"title\": \"Page Header\", \"type\": \"pageHeader\", \"headingSize\": \"text-xl\", \"footer\": false, \"header\": true, \"expanded\": true, \"highLight\": false, \"labelPosition\": \"text-left\", \"alertPosition\": \"topHeader\", \"isNextChild\": true, \"formly\": [ { \"key\": \"pageHeader_309a1250\" } ], \"children\": [] }, { \"id\": \"pageBody_2c27f14c\", \"key\": \"pageBody_b484d407\", \"title\": \"Page Body\", \"type\": \"pageBody\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"pageBody_bbf18a75\" } ], \"children\": [ { \"id\": \"according_a3399493\", \"key\": \"according_07897565\", \"title\": \"Section_1\", \"type\": \"according\", \"className\": \"\", \"footer\": false, \"header\": false, \"expanded\": true, \"sectionDisabled\": \"editable\", \"labelPosition\": \"text-right\", \"highLight\": false, \"isNextChild\": true, \"repeatable\": false, \"size\": \"default\", \"status\": \"\", \"formly\": [ { \"key\": \"according_f920b938\" } ], \"children\": [ { \"id\": \"accordingHeader_b861b5b6\", \"key\": \"accordingHeader_71296a70\", \"title\": \"Header\", \"type\": \"accordingHeader\", \"footer\": false, \"headingSize\": \"\", \"header\": true, \"expanded\": false, \"highLight\": false, \"labelPosition\": \"text-left\", \"isNextChild\": true, \"backGroundColor\": \"#FFFFFF\", \"textColor\": \"#000000\", \"formly\": [ { \"key\": \"accordingHeader_c0d1446d\" } ], \"children\": [] }, { \"id\": \"accordingBody_90b7a0bf\", \"key\": \"accordingBody_c83f9d89\", \"title\": \"Body\", \"type\": \"accordingBody\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"accordingBody_bffd0112\" } ], \"children\": [ { \"id\": \"common_daafca2d\", \"title\": \"First Name\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Input20b8987e\", \"type\": \"input\", \"defaultValue\": \"\", \"focus\": false, \"wrappers\": [ \"formly-vertical-wrapper\" ], \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"First Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"First Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_4_input_Input20b8987e_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_3___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"key\": \"Input20b8987e\", \"selected\": true }, { \"id\": \"common_52724386\", \"title\": \"Last Name\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Input74d385f0\", \"type\": \"input\", \"defaultValue\": \" last value\", \"focus\": false, \"wrappers\": [ \"formly-vertical-wrapper\" ], \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Last Name data\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Input74d385f0\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Last Name\", \"placeholder\": \"Input\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Input74d385f0\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_6_input_Input74d385f0_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_5___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"key\": \"Input74d385f0\", \"selected\": true }, { \"id\": \"common_b170ab8d\", \"title\": \"Age\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Input numberf0eb8286\", \"type\": \"number\", \"defaultValue\": \"\", \"focus\": false, \"wrappers\": [ \"formly-vertical-wrapper\" ], \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Age\", \"placeholder\": \"Input number\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Input numberf0eb8286\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Age\", \"placeholder\": \"Input number\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Input numberf0eb8286\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_8_number_Input numberf0eb8286_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_7___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"key\": \"Input numberf0eb8286\", \"selected\": true }, { \"id\": \"common_24a0771d\", \"title\": \"Email ID\", \"expanded\": true, \"type\": \"input\", \"className\": \"w-1/3 px-1 py-1\", \"formlyType\": \"input\", \"formly\": [ { \"fieldGroup\": [ { \"key\": \"Email6059d9dc\", \"type\": \"input\", \"defaultValue\": \"\", \"focus\": false, \"wrappers\": [ \"formly-vertical-wrapper\" ], \"templateOptions\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Email ID\", \"placeholder\": \"Email\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Email6059d9dc\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"hideExpression\": false, \"props\": { \"multiple\": true, \"attributes\": { \"autocomplete\": \"off\" }, \"config\": { \"addonLeft\": \"\", \"addonRight\": \"\", \"addonLeftIcon\": \"\", \"addonrightIcon\": \"\", \"status\": \"\", \"size\": \"default\", \"border\": false, \"maxLength\": 10, \"disabled\": false }, \"type\": \"input\", \"labelPosition\": \"text-left\", \"titleIcon\": \"\", \"label\": \"Email ID\", \"placeholder\": \"Email\", \"tooltip\": \"\", \"disabled\": false, \"readonly\": false, \"hidden\": false, \"required\": false, \"key\": \"Email6059d9dc\", \"className\": \"w-1/3 px-1 py-1\", \"hideExpression\": false }, \"id\": \"formly_10_input_Email6059d9dc_0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"expressions\": {}, \"expressionProperties\": {} } ], \"props\": {}, \"id\": \"formly_9___0\", \"hooks\": {}, \"modelOptions\": {}, \"validation\": { \"messages\": {} }, \"resetOnHide\": true, \"type\": \"formly-group\", \"wrappers\": [], \"expressions\": {}, \"expressionProperties\": {} } ], \"children\": [], \"key\": \"Email6059d9dc\", \"selected\": true } ], \"selected\": true }, { \"id\": \"accordingFooter_1ec998c7\", \"title\": \"Footer\", \"type\": \"accordingFooter\", \"key\": \"accordingFooter_00d173cf\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"accordingFooter_33bd48a1\" } ], \"children\": [] } ] } ] }, { \"id\": \"pageFooter_b8feefad\", \"key\": \"pageFooter_c4ccf169\", \"title\": \"Page Footer\", \"type\": \"pageFooter\", \"footer\": false, \"header\": false, \"expanded\": true, \"highLight\": false, \"isNextChild\": true, \"formly\": [ { \"key\": \"pageFooter_417c8a0e\" } ], \"children\": [] } ] } ]"
-    //   this.nodes = this.jsonParseWithObject(stringData);
-    // }
+    // this.cdr.detectChanges();
+    // this.cdr.detach();
   }
   getUIRuleData(data: any) {
     this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
@@ -555,16 +553,17 @@ export class BuilderComponent implements OnInit {
                 }
               }
               if (eval(query)) {
-                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.nodes[0].children[1].children[0].children[1].children = inputType;
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                this.nodes[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
-                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.nodes[0].children[1].children[0].children[1].children = inputType;
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                this.nodes[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
-            } else if (inputType[j].formly != undefined) {
+            }
+            else if (inputType[j].formly != undefined) {
               let query: any;
               let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
               if (this.screenData.uiData[index].condationName == 'contains') {
@@ -604,14 +603,15 @@ export class BuilderComponent implements OnInit {
                 }
               }
               if (eval(query)) {
-                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.nodes[0].children[1].children[0].children[1].children = inputType;
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                const check= this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                this.nodes[0].children[1].children[0].children[1].children = check;
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
-                inputType = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.nodes[0].children[1].children[0].children[1].children = inputType;
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                this.nodes[0].children[1].children[0].children[1].children = check;
+                this.updateNodes();
+                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
             }
           }
@@ -623,9 +623,9 @@ export class BuilderComponent implements OnInit {
       console.log(error)
     } finally {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-      if (mainModuleId[0].screenId != null) {
+      if (mainModuleId.length  > 0) {
         this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-          
+
           if (getRes.length > 0) {
             const fishRhyme = ruleFactory(getRes[0].buisnessRule);
             console.log(fishRhyme(this.formlyModel));
@@ -658,8 +658,10 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputJsonData.defaultValue;
           } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
           }
         } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
           inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
@@ -935,20 +937,20 @@ export class BuilderComponent implements OnInit {
                     addonrightIcon: '',
                     status: '',
                     size: 'default',
-                    border: false,      
-                    firstBtnText: 'Now',      
-                    secondBtnText: 'ok',      
-                    minuteStep: 1,      
-                    secondStep: 1,      
-                    hoursStep: 1,      
+                    border: false,
+                    firstBtnText: 'Now',
+                    secondBtnText: 'ok',
+                    minuteStep: 1,
+                    secondStep: 1,
+                    hoursStep: 1,
                     use12Hours: false,
                     icon:'close',
                     allowClear:false,
                     step:1,
                     serveSearch:false,
                     showArrow:false,
-                    showSearch:false,    
-                    format:'dd-MM-yyyy',  
+                    showSearch:false,
+                    format:'dd-MM-yyyy',
                     optionHieght:30,
                     optionHoverSize:10,
                   },
@@ -967,15 +969,6 @@ export class BuilderComponent implements OnInit {
                   readonly: false,
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
-                  // keyup: (model:any, $event) => {
-                  //
-                  //   let currentVal = model.form.value[model.key.toString()];
-                  //   let value = currentVal.split(":");
-                  //   currentVal = value[1].slice(1);
-                  //   // this.formlyModel[model.key.toString()] = currentVal;
-                  //   this.checkConditionUIRule(model, currentVal);
-                  // }
-
                   keyup: (model: any) => {
 
                     let currentVal = model.formControl.value;
@@ -5026,6 +5019,7 @@ export class BuilderComponent implements OnInit {
   }
   updateNodes() {
     this.nodes = [...this.nodes];
+
   }
   clickBack() {
 
@@ -5047,7 +5041,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-    
+
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -6619,7 +6613,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "switch":
         if (this.selectedNode) {
-          
+
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
@@ -7056,7 +7050,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].templateOptions.config.size = formValues.size;
         }
         if (formValues.status) {
-          
+
           fieldGroup[0].templateOptions.config.status = formValues.status;
         }
       }
