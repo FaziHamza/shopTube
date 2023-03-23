@@ -395,6 +395,7 @@ export class BuilderClickButtonService {
     return {
       icon: node.icon,
       tooltip: node.tooltip,
+      disabled:node.disabled,
     }
   }
   getMenutab(node: any) {
@@ -705,6 +706,7 @@ export class BuilderClickButtonService {
       secondStep: node.formly[0].fieldGroup[0].templateOptions.config?.['secondStep'],
       hoursStep: node.formly[0].fieldGroup[0].templateOptions.config?.['hoursStep'],
       icon: node.formly[0].fieldGroup[0].templateOptions.config?.['icon'],
+      use12Hours: node.formly[0].fieldGroup[0].templateOptions.config?.['use12Hours'],
       border: node.formly[0].fieldGroup[0].templateOptions.config.border,
       disabled: node.formly[0].fieldGroup[0].templateOptions?.disabled,
       readonly: node.formly[0].fieldGroup[0].templateOptions?.readonly,

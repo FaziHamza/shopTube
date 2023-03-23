@@ -1,9 +1,5 @@
-<nz-result [nzStatus]='resulData.status' nz-icon="icon" [nzTitle]="resulData.resultTitle" [nzExtra]="resulData.extra" [nzSubTitle]='resulData.subTitle'>
+<nz-result [nzStatus]='resulData.status'   [nzIcon]="resulData.icon" [nzTitle]="resulData.resultTitle" [nzExtra]="resulData.extra" [nzSubTitle]='resulData.subTitle'>
     <div nz-result-extra>
         <button nz-button nzType="primary">{{resulData.btnLabel}}</button>
     </div>
 </nz-result>
-
-<ng-template #icon>
-    <span nz-icon [nzType]="resulData.icon" nzTheme="outline"></span>
-</ng-template>

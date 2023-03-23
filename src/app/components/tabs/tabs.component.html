@@ -3,7 +3,7 @@
     (nzClose)="closeTab($event)" [nzCentered]="tabs.centerd">
     <nz-tab *ngFor="let items of tabs.children; let i = index ; let last = last" [nzClosable]="i > 1"
         [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
-        [nzDisabled]="false">
+        [nzDisabled]="tabs.disabled">
         <ng-template #titleTemplate>
             <span nz-icon [nzType]='items.icon' nzTheme="outline"></span>
             {{items.title}}

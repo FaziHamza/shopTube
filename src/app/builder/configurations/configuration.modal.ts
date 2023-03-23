@@ -580,6 +580,15 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          className: "w-1/6 px-1 mt-5",
+          key: 'use12Hours',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Use 12 Hours',
+          },
+          defaultValue: false
+        },
       ]
     },
   ]
@@ -3670,6 +3679,15 @@ export class formFeildData {
             label: 'Icon',
           }
         },
+        {
+          key: 'disabled',
+          type: 'checkbox',
+          className: "w-1/6 px-1 ",
+          templateOptions: {
+            label: 'Disabled'
+          },
+        },
+       
       ]
     },
   ]
@@ -3709,6 +3727,29 @@ export class formFeildData {
               {
                 label: 'left',
                 value: 'left'
+              },
+            ],
+          },
+        },
+        {
+          key: 'size',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Size',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Large',
+                value: 'large'
+              },
+              {
+                label: 'Small',
+                value: 'small'
               },
             ],
           },

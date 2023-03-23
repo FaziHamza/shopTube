@@ -1,26 +1,14 @@
 <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
-[nzSize]="to.config?.size" >
-<nz-time-picker [nzAddOn]="customAddon" 
-[nzAllowEmpty]="to.config?.allowClear" 
-[nzBackdrop]="true" 
-[formControl]="formControl"  
-[nzStatus]="to.config?.status"
-[nzNowText]="to.config?.firstBtnText"
-[nzOkText]="to.config?.secondBtnText"
-[nzMinuteStep]="to.config?.minuteStep"
-[nzSecondStep]="to.config?.secondStep"
-[nzHourStep]="to.config?.hoursStep"
-[nzDisabled]="to.disabled"
-[nzStatus]="to.config?.status"
-[nzSize]="to.config?.size"
-    [nzBorderless]="to.config?.border"
-    [nzOpen]="false"
-    [nzPlaceHolder]="to.placeholder || ''"
-    [nzUse12Hours]="to.config?.use12Hours" 
-    [nzSuffixIcon]="customAddon || ''"  
-    ></nz-time-picker>
+    [nzSize]="to.config?.size">
+    <nz-time-picker [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear" [nzBackdrop]="true"
+        [formControl]="formControl" [nzStatus]="to.config?.status" [nzNowText]="to.config?.firstBtnText"
+        [nzOkText]="to.config?.secondBtnText" [nzMinuteStep]="to.config?.minuteStep"
+        [nzSecondStep]="to.config?.secondStep" [nzHourStep]="to.config?.hoursStep" [nzDisabled]="to.disabled"
+        [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzBorderless]="to.config?.border" [nzOpen]="false"
+        [nzPlaceHolder]="to.placeholder || ''" [nzUse12Hours]="to.config?.use12Hours"
+        [nzSuffixIcon]="customAddon || ''"></nz-time-picker>
 </nz-input-group>
 
 <ng-template #customAddon>
     <span nz-icon [nzType]="to.config?.icon" nzTheme="outline"></span>
-  </ng-template>
+</ng-template>

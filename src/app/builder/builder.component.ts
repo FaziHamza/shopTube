@@ -1452,6 +1452,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: true,
         highLight: false,
         hideExpression: false,
+        disabled: false,
         tooltip: '',
         icon: 'star',
         children: [
@@ -5535,6 +5536,7 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['minuteStep'] = event.form.minuteStep;
             templateOptions.config['secondStep'] = event.form.secondStep;
             templateOptions.config['hoursStep'] = event.form.hoursStep;
+            templateOptions.config['use12Hours'] = event.form.use12Hours;
             templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
@@ -6648,6 +6650,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.icon = event.form.icon;
+          this.selectedNode.disabled = event.form.disabled;
           this.updateNodes();
         }
         break;
