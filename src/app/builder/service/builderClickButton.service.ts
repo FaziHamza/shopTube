@@ -202,10 +202,10 @@ export class BuilderClickButtonService {
       showLine: node.showLine,
       blockNode: node.blockNode,
       showIcon: node.showIcon,
-      asyncData: node.asyncData,
+      nodes: node.nodes,
       draggable: node.draggable,
       multiple: node.multiple,
-      checkStricktly: node.checkStricktly,
+      expandAll: node.expandAll,
     }
   }
 

@@ -8,7 +8,9 @@ import { FieldWrapper } from '@ngx-formly/core';
    <label [attr.for]="id" class="col-form-label" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']"
    [style.color]="to['labelColor']">
    <span ><i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 1%;"></i>{{ to.label }}</span>
-    <span  nz-tooltip nzTooltipTitle="prompt text" class="uil uil-question-circle"></span>
+   <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
+        <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+      </span>
   </label>
   <div class="mt-1">
     <ng-template #fieldComponent></ng-template>

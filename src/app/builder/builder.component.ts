@@ -625,7 +625,7 @@ export class BuilderComponent implements OnInit {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
         this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-          
+
           if (getRes.length > 0) {
             const fishRhyme = ruleFactory(getRes[0].buisnessRule);
             console.log(fishRhyme(this.formlyModel));
@@ -935,22 +935,22 @@ export class BuilderComponent implements OnInit {
                     addonrightIcon: '',
                     status: '',
                     size: 'default',
-                    border: false,      
-                    firstBtnText: 'Now',      
-                    secondBtnText: 'ok',      
-                    minuteStep: 1,      
-                    secondStep: 1,      
-                    hoursStep: 1,      
+                    border: false,
+                    firstBtnText: 'Now',
+                    secondBtnText: 'ok',
+                    minuteStep: 1,
+                    secondStep: 1,
+                    hoursStep: 1,
                     use12Hours: false,
-                    icon:'close',
-                    allowClear:false,
-                    step:1,
-                    serveSearch:false,
-                    showArrow:false,
-                    showSearch:false,    
-                    format:'dd-MM-yyyy',  
-                    optionHieght:30,
-                    optionHoverSize:10,
+                    icon: 'close',
+                    allowClear: false,
+                    step: 1,
+                    serveSearch: false,
+                    showArrow: false,
+                    showSearch: false,
+                    format: 'dd-MM-yyyy',
+                    optionHieght: 30,
+                    optionHoverSize: 10,
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -2959,7 +2959,7 @@ export class BuilderComponent implements OnInit {
         tooltip: "",
         description: "Scroll down to see the bottom-right",
         visibleafter: '',
-        target: '',
+        target: false,
         duration: '',
         children: [
         ],
@@ -3107,7 +3107,7 @@ export class BuilderComponent implements OnInit {
         showDot: true,
         overflowCount: '',
         showZero: false,
-        nztype:'count',
+        nztype: 'count',
         size: '',
         icon: 'clock-circle',
         offset: '',
@@ -3434,14 +3434,16 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        checkable: '',
+        checkable: false,
+        blockNode:false,
+        showLine:false,
+        showIcon:false,
+        draggable:false,
+        multiple:false,
+        expandAll:false,
+        expand: true,
         expandIcon: 'folder',
         closingexpandicon: 'file',
-        expand: "",
-        expandKeys: ['100', '1001'],
-
-        // title: 'parent 1',
-        key: '100',
         nodes: [
           {
             title: '0-0',
@@ -4454,7 +4456,7 @@ export class BuilderComponent implements OnInit {
       case "textarea":
       case "telephone":
       case "autoComplete":
-        case "number":
+      case "number":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         if (type == "tags" || type == "multiselect" || type == "search")
@@ -5039,7 +5041,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   notifyEmit(event: actionTypeFeild): void {
-    
+
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
@@ -5187,9 +5189,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.checkable = event.form.checkable;
+          this.selectedNode.blockNode = event.form.blockNode;
+          this.selectedNode.showLine = event.form.showLine;
+          // this.selectedNode.showIcon = event.form.showIcon;
+          this.selectedNode.draggable = event.form.draggable;
+          // this.selectedNode.multiple = event.form.multiple;
+          this.selectedNode.expandAll = event.form.expandAll;
           this.selectedNode.expand = event.form.expand;
           this.selectedNode.expandIcon = event.form.expandIcon;
           this.selectedNode.closingexpandicon = event.form.closingexpandicon;
+          // this.selectedNode.nodes = event.form.nodes;
           // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
           if (event.form.api) {
             this.builderService.genericApis(event.form.api).subscribe((res => {
@@ -6013,6 +6022,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.className = event.form.className;
           this.selectedNode.nzBordered = event.form.nzBordered;
           this.selectedNode.nzGhost = event.form.nzGhost;
@@ -6605,7 +6615,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "switch":
         if (this.selectedNode) {
-          
+
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
@@ -7036,7 +7046,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].templateOptions.config.size = formValues.size;
         }
         if (formValues.status) {
-          
+
           fieldGroup[0].templateOptions.config.status = formValues.status;
         }
       }

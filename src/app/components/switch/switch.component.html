@@ -92,6 +92,8 @@
 [nzControl]="field.control"
 ></nz-switch> -->
 <!-- {{switchData | json}} -->
+<span *ngIf="switchData?.tooltip" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
+        <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
 <nz-switch 
 [(ngModel)]="switchData.model"
  [nzSize]="switchData.size"

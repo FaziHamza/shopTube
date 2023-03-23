@@ -1,36 +1,11 @@
-<nz-tree [nzData]="treeData.nodes" 
-[nzCheckable]="treeData.checkable" 
-[nzShowExpand]="treeData.expand"
-    [nzExpandedIcon]="multiExpandedIconTpl" 
-    [nzBlockNode]="treeData.blockNode"
-    [nzShowLine]="treeData.showLine"
-    [nzShowIcon]="treeData.showIcon"
-    [nzAsyncData]="treeData.asyncData"
-    [nzDraggable]="treeData.draggable"
-    [nzMultiple]="treeData.multiple"
-    [nzHideUnMatched]="treeData.expandAll"
-    [nzCheckStrictly]="treeData.checkStricktly"
-    [nzExpandAll]="treeData.expandAll"
-    (nzClick)="common('nzClick')"
-    (nzDblClick)="common('nzDblClick')"
-    (nzContextMenu)="common('nzContextMenu')"
-    (nzCheckBoxChange)="common('nzCheckBoxChange')"
-    (nzExpandChange)="common('nzExpandChange')"
-    (nzSearchValueChange)="common('nzSearchValueChange')"
-    (nzOnDragEnter)="common('nzOnDragEnter')"
-    (nzOnDragOver)="common('nzOnDragOver')"
-    (nzOnDragLeave)="common('nzOnDragLeave')"
-    (nzOnDrop)="common('nzOnDrop')"
-    (nzOnDragEnd)="common('nzOnDragEnd')"
-    >
+<nz-tree [nzData]="treeData.nodes" [nzCheckable]="treeData.checkable" [nzShowExpand]="treeData.expand"
+  [nzExpandedIcon]="multiExpandedIconTpl" [nzBlockNode]="treeData.blockNode" [nzShowLine]="treeData.showLine"
+  [nzShowIcon]="treeData.showIcon" [nzDraggable]="treeData.draggable" [nzMultiple]="treeData.multiple"
+  [nzExpandAll]="treeData.expandAll">
 
-    <ng-template #multiExpandedIconTpl let-node let-origin="origin">
-        <span
-          *ngIf="!origin.isLeaf"
-          nz-icon
-          [nzType]="treeData.expandIcon"
-          class="ant-tree-switcher-line-icon"
-        ></span>
-        <span *ngIf="origin.isLeaf" nz-icon [nzType]="treeData.closingexpandicon" class="ant-tree-switcher-line-icon"></span>
-      </ng-template>
+  <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+    <span *ngIf="!origin.isLeaf" nz-icon [nzType]="treeData.expandIcon" class="ant-tree-switcher-line-icon"></span>
+    <span *ngIf="origin.isLeaf" nz-icon [nzType]="treeData.closingexpandicon"
+      class="ant-tree-switcher-line-icon"></span>
+  </ng-template>
 </nz-tree>
