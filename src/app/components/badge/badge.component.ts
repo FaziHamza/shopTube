@@ -12,5 +12,11 @@ export class BadgeComponent implements OnInit {
   ngOnInit(): void {
     
   }
+  number(data: any): number{
+    let temporary = data .to.number();
+    return temporary
+  }
+
+
 
 }

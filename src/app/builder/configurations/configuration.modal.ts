@@ -7056,10 +7056,10 @@ export class formFeildData {
         {
           className: "w-1/4 px-1",
           key: 'overflowCount',
-          type: 'number',
+          type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
-          
+            type:'number',
             label: 'OverflowCount',
           }
         },
