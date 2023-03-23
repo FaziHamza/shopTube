@@ -3861,15 +3861,15 @@ export class formFeildData {
             label: 'Expanded Icon',
           }
         },
-        {
-          key: 'extra',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
-            label: 'Extra',
-          }
-        },
+        // {
+        //   key: 'extra',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   templateOptions: {
+        //     label: 'Extra',
+        //   }
+        // },
         {
           key: 'nzExpandIconPosition',
           type: 'select',
@@ -6330,27 +6330,27 @@ export class formFeildData {
             options: [
               {
                 label: 'Blue',
-                value: 'blue-500'
+                value: 'bg-blue-500'
               },
               {
                 label: 'Red',
-                value: 'red-500'
+                value: 'bg-red-500'
               },
               {
                 label: 'Light Blue',
-                value: 'blue-300'
+                value: 'bg-blue-300'
               },
               {
                 label: 'Light Gray',
-                value: 'gray-300'
+                value: 'bg-gray-300'
               },
               {
                 label: 'yellow',
-                value: 'yellow-500'
+                value: 'bg-yellow-500'
               },
               {
                 label: 'gray',
-                value: 'gray-500'
+                value: 'bg-gray-500'
               }
             ]
           }
@@ -7361,27 +7361,29 @@ export class formFeildData {
         {
           className: "w-1/4 px-1",
           key: 'visibleafter',
-          type: 'number',
+          type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            type: 'number',
             label: 'Visible After',
           }
         },
         {
           className: "w-1/4 px-1",
           key: 'target',
-          type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          type: 'checkbox',
           templateOptions: {
             label: 'Target',
-          }
+          },
+          defaultValue: false
         },
         {
           className: "w-1/4 px-1",
           key: 'duration',
-          type: 'number',
+          type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           templateOptions: {
+            type: 'number',
             label: 'Duration',
           }
         },
@@ -10140,7 +10142,6 @@ export class formFeildData {
           templateOptions: {
             label: 'Icon',
           },
-
         },
         // {
         //   className: "w-1/4 mt-5 px-2",
@@ -10173,16 +10174,14 @@ export class formFeildData {
           templateOptions: {
             label: 'Show checkBox',
           },
-          defaultValue: true
         },
         {
           className: "w-1/4 mt-5 px-2",
           key: 'expand',
           type: 'checkbox',
           templateOptions: {
-            label: 'Show Icon',
+            label: 'Show Expand Icon',
           },
-          defaultValue: true
         },
         {
           className: "w-1/4 mt-5 px-2",
@@ -10191,35 +10190,31 @@ export class formFeildData {
           templateOptions: {
             label: 'Show line',
           },
-          defaultValue: true
         },
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'blockNode',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Block node',
-          },
-          defaultValue: true
-        },
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'showIcon',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Show icon',
-          },
-          defaultValue: true
-        },
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'asyncData',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Async data',
-          },
-          defaultValue: true
-        },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'blockNode',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Block node',
+        //   },
+        // },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'showIcon',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Show icon',
+        //   },
+        // },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'asyncData',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Async data',
+        //   },
+        // },
         {
           className: "w-1/4 mt-5 px-2",
           key: 'draggable',
@@ -10227,17 +10222,15 @@ export class formFeildData {
           templateOptions: {
             label: 'Draggable',
           },
-          defaultValue: true
         },
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'multiple',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Multiple',
-          },
-          defaultValue: true
-        },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'multiple',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Multiple',
+        //   },
+        // },
         {
           className: "w-1/4 mt-5 px-2",
           key: 'expandAll',
@@ -10245,17 +10238,15 @@ export class formFeildData {
           templateOptions: {
             label: 'Expandall',
           },
-          defaultValue: true
         },
-        {
-          className: "w-1/4 mt-5 px-2",
-          key: 'checkStricktly',
-          type: 'checkbox',
-          templateOptions: {
-            label: 'Check Stricktly',
-          },
-          defaultValue: true
-        },
+        // {
+        //   className: "w-1/4 mt-5 px-2",
+        //   key: 'checkStricktly',
+        //   type: 'checkbox',
+        //   templateOptions: {
+        //     label: 'Check Stricktly',
+        //   },
+        // },
       ]
     },
   ];

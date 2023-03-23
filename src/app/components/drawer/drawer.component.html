@@ -1,5 +1,4 @@
-{{drawerData | json}}
-<button nz-button [nzType]="drawerData.color" (click)="open()">{{drawerData.btnText}}</button>
+<button nz-button [class]="drawerData.color" (click)="open()" style="margin-top: 28px;">{{drawerData.btnText}}</button>
 <nz-drawer [nzClosable]="drawerData.isClosable" 
 [nzVisible]="visible" 
 [nzPlacement]="drawerData.placement"
@@ -16,7 +15,8 @@
     [nzWidth]="drawerData.width"
     [nzHeight]="drawerData.height"
     [nzOffsetX]="drawerData.offsetX"
-    [nzOffsetY]="drawerData.offsetY">
+    [nzOffsetY]="drawerData.offsetY"
+    >
     <ng-container *nzDrawerContent>
         <P>{{drawerData.content}}</P>
     </ng-container>

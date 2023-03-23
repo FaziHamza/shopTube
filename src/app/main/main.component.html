@@ -503,7 +503,7 @@
                                 nzTheme="twotone"></span></span>
                     </div>
                     <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size"
-                        [ngModel]="item.defaultSelectedIndex" [nzOptions]="item.options"
+                        [(ngModel)]="item.defaultSelectedIndex" [nzOptions]="item.options"
                         (nzValueChange)="handleIndexChange($event)"></nz-segmented>
                 </ng-container>
             </ng-container>
