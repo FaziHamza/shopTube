@@ -15,7 +15,6 @@ import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 
-
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
@@ -233,6 +232,7 @@ export class BuilderComponent implements OnInit {
         if (res[0].menuData[0].children[1]) {
           this.screenId = res[0].id;
           this.getUIRuleData(true);
+          this.getBusinessRule();
           // this.nodes = res[0].menuData;
           this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
 
@@ -334,6 +334,7 @@ export class BuilderComponent implements OnInit {
   stepperChild: TreeNode;
   tabsChild: TreeNode;
   screenData: any;
+  businessRuleData: any;
   formlyModel: any;
   faker: boolean = false;
   makeFaker() {
@@ -622,17 +623,24 @@ export class BuilderComponent implements OnInit {
     } catch (error) {
       console.log(error)
     } finally {
-      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-      if (mainModuleId.length  > 0) {
-        this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-
-          if (getRes.length > 0) {
-            const fishRhyme = ruleFactory(getRes[0].buisnessRule);
-            console.log(fishRhyme(this.formlyModel));
-            this.cdr.detectChanges();
-          }
-        }))
+      if(this.businessRuleData && this.businessRuleData.length > 0)
+      {
+        const fishRhyme = ruleFactory(this.businessRuleData);
+        console.log(fishRhyme(this.formlyModel));
+        // this.cdr.detectChanges();
+        // this.cdr.detach();
       }
+    }
+  }
+  getBusinessRule(){
+    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    if (mainModuleId.length  > 0) {
+      this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
+        if (getRes.length > 0) {
+          this.businessRuleData = [];
+          this.businessRuleData = getRes[0].buisnessRule
+        }
+      }))
     }
   }
   lastFormlyModelValue: string;
@@ -920,7 +928,7 @@ export class BuilderComponent implements OnInit {
           {
             fieldGroup: [
               {
-                key: data?.label + Guid.newGuid(),
+                key: data?.configType + Guid.newGuid(),
                 type: data?.type,
                 defaultValue: "",
                 focus: false,

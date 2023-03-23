@@ -19,6 +19,7 @@ export class PagesComponent implements OnInit {
   @Input() formlyModel: any;
   fields: any = [];
   screenData: any;
+  businessRuleData: any;
   @Input() screenName = '';
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -27,6 +28,7 @@ export class PagesComponent implements OnInit {
         this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
           if (res.length > 0) {
             this.getUIRuleData(res[0].moduleName);
+            this.getBusinessRule(this.screenName);
             this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
             this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
           }
@@ -185,7 +187,7 @@ export class PagesComponent implements OnInit {
                 }
               }
               if (eval(query)) {
-                const check= this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.resData[0].children[1].children[0].children[1].children = check;
                 // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
@@ -205,19 +207,23 @@ export class PagesComponent implements OnInit {
       console.log(error)
     } finally {
       if (this.screenName) {
-        this.builderService.jsonBisnessRuleGet(this.screenName).subscribe((getRes => {
-
-          if (getRes.length > 0) {
-            const fishRhyme = ruleFactory(getRes[0].buisnessRule);
-            console.log(fishRhyme(this.formlyModel));
-            this.cdr.detectChanges();
-            this.cdr.detach();
-          }
-        }))
+        const fishRhyme = ruleFactory(this.businessRuleData);
+        console.log(fishRhyme(this.formlyModel));
+        this.cdr.detectChanges();
+        this.cdr.detach();
       }
     }
   }
-
+  getBusinessRule(screenName: string) {
+    if (screenName) {
+      this.builderService.jsonBisnessRuleGet(screenName).subscribe((getRes => {
+        if (getRes.length > 0) {
+          this.businessRuleData = [];
+          this.businessRuleData = getRes[0].buisnessRule
+        }
+      }))
+    }
+  }
   makeFaker() {
 
     let dataModelFaker: any = [];
