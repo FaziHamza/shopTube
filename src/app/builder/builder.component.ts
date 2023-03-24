@@ -962,6 +962,8 @@ export class BuilderComponent implements OnInit {
                     format: 'dd-MM-yyyy',
                     optionHieght: 30,
                     optionHoverSize: 10,
+                    suffixicon:'',
+                    prefixicon:'',
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -3815,7 +3817,7 @@ export class BuilderComponent implements OnInit {
         loading: false,
         disabled: false,
         noneData: '',
-        status: 'error',
+        status: 'default',
         prefix: '',
         position: 'top',
 
@@ -5562,6 +5564,8 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['secondStep'] = event.form.secondStep;
             templateOptions.config['hoursStep'] = event.form.hoursStep;
             templateOptions.config['use12Hours'] = event.form.use12Hours;
+            templateOptions.config['prefixicon'] = event.form.prefixicon;
+            templateOptions.config['suffixicon'] = event.form.suffixicon;
             templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {

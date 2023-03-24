@@ -1,5 +1,6 @@
 
-<nz-input-group [nzSuffix]="to.config?.addonLeft" 
+<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''" 
+[nzSuffix]="to.config?.addonLeft" 
 [nzPrefix]="to.config?.addonRight" 
 [nzSize]="to.config?.size"
     [nzStatus]="to.config?.status">
@@ -19,3 +20,29 @@
     [formControl]="formControl"
   ></nz-input-number>
   </nz-input-group>
+
+<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
+[nzSuffix]="suffixTemplateInfo" 
+[nzPrefix]="prefixTemplateUser"
+[nzSize]="to.config?.size"
+    [nzStatus]="to.config?.status">
+    <nz-input-number style="width:100%" 
+[nzMin]="to.minLength || 0" 
+[nzMax]="to.maxLength || 1" 
+[nzStep]="to.config?.step || 1" 
+[nzPrecision]="precision"
+  nzPrecisionMode="cut" 
+  nzInputMode="" 
+  [nzPlaceHolder]="to.placeholder || ''"
+  [nzBorderless]="to.config?.border" 
+  [nzDisabled]="to.disabled" 
+  [nzReadOnly]="to.readonly"
+  [nzSize]="to.config?.size"
+    [nzStatus]="to.config?.status"
+    [formControl]="formControl"
+  ></nz-input-number>
+  </nz-input-group>
+  <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+  <ng-template #suffixTemplateInfo>
+    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+  </ng-template>
