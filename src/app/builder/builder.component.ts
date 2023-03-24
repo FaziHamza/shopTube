@@ -822,7 +822,7 @@ export class BuilderComponent implements OnInit {
         header: false,
         expanded: true,
         sectionDisabled: "editable",
-        labelPosition: "text-right",
+        labelPosition: "text-left",
         highLight: false,
         isNextChild: true,
         repeatable: false,
