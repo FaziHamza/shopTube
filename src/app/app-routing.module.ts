@@ -10,6 +10,7 @@ import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component
 import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
 import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
 import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
+import { BuilderModule } from './builder/builder.module';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -30,7 +31,10 @@ const routes: Routes = [
   },
   {
     path: 'builder',
-    component: BuilderComponent
+    loadChildren: () =>
+        import(
+            "src/app/builder/builder.module"
+        ).then((m) => m.BuilderModule),
   },
   {
     path: 'menu-builder',

@@ -151,7 +151,7 @@ export const htmlTabsData = [
             id: "static-1",
             icon: "fa fa-chevron-down",
             children: [
-             
+
               {
                 parameter: "cascader",
                 icon: "uil-arrow-break",
@@ -173,7 +173,7 @@ export const htmlTabsData = [
                 icon: "uil-file-copy-alt",
                 label: "Mention"
               },
-           
+
               {
                 parameter: "transfer",
                 icon: "uil-sliders-v-alt",
@@ -207,7 +207,7 @@ export const htmlTabsData = [
                 // maskString: "",
                 // maskLabel: ""
               },
-             
+
               {
                 parameter: "input",
                 icon: "uil uil-text",
@@ -279,7 +279,7 @@ export const htmlTabsData = [
                 configType:'number',fieldType: 'number',
                 // maskString: "",
               },
-            
+
               {
                 parameter: "input",
                 icon: "uil uil-key-skeleton-alt",
@@ -299,7 +299,7 @@ export const htmlTabsData = [
                  // maskLabel: "",
                  options:true,
               },
-             
+
               {
                 parameter: "input",
                 icon: "uil uil-dice-one pr-1",
@@ -310,7 +310,7 @@ export const htmlTabsData = [
                  // maskLabel: "",
                  options:true,
               },
-             
+
               {
                 parameter: "input",
                 icon: "uil uil-phone-alt",
@@ -329,7 +329,7 @@ export const htmlTabsData = [
                 // maskString: "",
                  // maskLabel: "",
               },
-           
+
             ]
           },
           {
@@ -612,7 +612,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Avatar"
               },
-             
+
               {
                 parameter: "badge",
                 icon: "uil-arrow-break",
@@ -633,7 +633,7 @@ export const htmlTabsData = [
                 icon: "uil-sliders-v-alt",
                 label: "Slider"
               },
-            
+
               {
                 parameter: "comment",
                 icon: "uil-arrow-break",
@@ -644,7 +644,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Description"
               },
-             
+
               {
                 parameter: "descriptionChild",
                 icon: "uil uil-file-alt",
@@ -945,7 +945,7 @@ export const htmlTabsData = [
                 icon: "uil-file-copy-alt",
                 label: "Notification"
               },
-           
+
               {
                 parameter: "progressBar",
                 icon: "uil-sliders-v-alt",
@@ -956,7 +956,7 @@ export const htmlTabsData = [
                 icon: "uil-sliders-v-alt",
                 label: "Result"
               },
-              
+
               {
                 parameter: "skeleton",
                 icon: "uil-sliders-v-alt",
@@ -971,8 +971,8 @@ export const htmlTabsData = [
           },
         ]
       },
-   
-      
+
+
       {
         label: "Components",
         icon: "fa fa-chevron-down",
@@ -986,35 +986,35 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Accordion Button"
               },
-              
-             
+
+
               {
                 parameter: "audio",
                 icon: "uil uil-file-alt",
                 label: "Play Audio"
               },
-             
-           
+
+
               {
                 parameter: "breakTag",
                 icon: "uil-arrow-break",
                 label: "Break Tag"
               },
-            
+
                 // {
               //   parameter: "carouselCrossfade",
               //   icon: "uil-sliders-v-alt",
               //   label: "Slider"
               // },
-              
-            
-              
+
+
+
               // {
               //   parameter: "fileupload",
               //   icon: "uil uil-file-alt",
               //   label: "File Manager"
               // },
-             
+
               {
                 parameter: "kanabnAddNew",
                 icon: "uil uil-file-alt",
@@ -1025,35 +1025,35 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Kanban Task"
               },
-             
-           
+
+
               {
                 parameter: "multiFileUpload",
                 icon: "uil-file-copy-alt",
                 label: "File Uploader"
               },
-            
-            
+
+
               {
                 parameter: "rate",
                 icon: "uil-sliders-v-alt",
                 label: "Rating"
               },
-            
-             
+
+
               {
                 parameter: "textEditor",
                 icon: "uil uil-file-alt",
                 label: "Editor"
               },
-            
+
               {
                 parameter: "toastr",
                 icon: "uil-sliders-v-alt",
                 label: "Toastr"
               },
-              
-              
+
+
               {
                 parameter: "video",
                 icon: "uil uil-file-alt",
@@ -1115,7 +1115,7 @@ export const htmlTabsData = [
                 icon: "uil-square-full",
                 label: "Fixed Div"
               },
-            
+
               {
                 parameter: "input",
                 icon: "uil uil-images",

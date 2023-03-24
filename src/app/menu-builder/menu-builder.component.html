@@ -45,29 +45,26 @@
               <ng-template #suffixIconButton>
                 <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
               </ng-template>
-              <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
-                <div *ngFor="let item of filterMenuData">
-                  <li class="menu-labels d-flex justify-content-between">{{item.title | uppercase}}
-                    <label *ngIf="item?.type=='input'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
+              <ul id="search-menu" *ngIf="filterMenuData.length">
+                <nz-tree [nzData]="filterMenuData" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
+                (nzOnDrop)="nzEvent($event)">
+                <ng-template #nzTreeTemplate let-node>
+                  <div class="flex">
+                    <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="openField(node)">
+                      {{node.title}}
+                    </div>
+                    <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
+                      <span nz-icon nzType="copy" nzTheme="outline"></span>
+                    </span>
+                    <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
+                      <span nz-icon nzType="sliders" nzTheme="outline"></span>
                     </label>
-                    <label *ngIf=" item?.type=='dashonicTabs'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
+                    <label *ngIf="isVisible === node.origin.id" (click)="remove(node)">
+                      <span nz-icon nzType="delete" nzTheme="outline"></span>
                     </label>
-                    <label *ngIf=" item?.type=='mainDashonicTabs'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
-                    </label>
-                    <label *ngIf="item?.type=='dropdown'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
-                    </label>
-                    <label *ngIf="item?.type=='buttons'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
-                    </label>
-                    <label *ngIf="item?.type=='pages'" (click)="openConfig(item,item)">
-                      <i class="uil uil-sliders-v"></i>
-                    </label>
-                  </li>
-                </div>
+                  </div>
+                </ng-template>
+              </nz-tree>
               </ul>
               <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
                 (nzOnDrop)="nzEvent($event)">
