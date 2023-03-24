@@ -965,6 +965,8 @@ export class BuilderComponent implements OnInit {
                     format: 'dd-MM-yyyy',
                     optionHieght: 30,
                     optionHoverSize: 10,
+                    suffixicon:'',
+                    prefixicon:'',
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -3818,7 +3820,7 @@ export class BuilderComponent implements OnInit {
         loading: false,
         disabled: false,
         noneData: '',
-        status: 'error',
+        status: 'default',
         prefix: '',
         position: 'top',
 
@@ -5565,6 +5567,8 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['secondStep'] = event.form.secondStep;
             templateOptions.config['hoursStep'] = event.form.hoursStep;
             templateOptions.config['use12Hours'] = event.form.use12Hours;
+            templateOptions.config['prefixicon'] = event.form.prefixicon;
+            templateOptions.config['suffixicon'] = event.form.suffixicon;
             templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
@@ -6555,6 +6559,7 @@ export class BuilderComponent implements OnInit {
                   res['wrapper'] = [];
                   res.wrapper.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
+                  res['className'] = event.form.className
                   // if (event.form.className) {
                   //   res.className = event.form.className;
                   // }
@@ -6568,6 +6573,7 @@ export class BuilderComponent implements OnInit {
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
+                      res['className'] = event.form.className
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
@@ -6579,6 +6585,7 @@ export class BuilderComponent implements OnInit {
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
+                      res['className'] = event.form.className
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
@@ -6588,6 +6595,7 @@ export class BuilderComponent implements OnInit {
                 res.children?.forEach((element: any) => {
                   element.children.forEach((elementV1: any) => {
                     elementV1['wrapper'] = event.form.wrappers;
+                    res['className'] = event.form.className
                     elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                   });
                 });
@@ -6595,6 +6603,7 @@ export class BuilderComponent implements OnInit {
               if (res.type == "accordionButton") {
                 res?.children?.forEach((elementV1: any) => {
                   elementV1['wrapper'] = event.form.wrappers;
+                  res['className'] = event.form.className
                   elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                 });
               }

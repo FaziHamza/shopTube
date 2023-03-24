@@ -8887,6 +8887,26 @@ export class formFeildData {
           }
         },
         {
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          key: 'suffixicon',
+          type: 'input',
+          templateOptions: {
+            config: {},
+            label: 'Add On Left Icon'
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          key: 'prefixicon',
+          type: 'input',
+          templateOptions: {
+            config: {},
+            label: 'Add On Right Icon'
+          }
+        },
+        {
           key: 'rows',
           type: 'input',
           className: "w-1/4 px-1",
