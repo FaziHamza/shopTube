@@ -22,7 +22,6 @@ import { FieldWrapper } from '@ngx-formly/core';
 		</div>
 </div>
 
-
   `,
 })
 export class FormlyHorizontalWrapper extends FieldWrapper {

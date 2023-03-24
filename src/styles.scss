@@ -4,32 +4,41 @@
 @tailwind components;
 @tailwind utilities;
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
-@import "~ng-zorro-antd/style/index.min.css"; /* Import base styles */
-@import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
+@import "~ng-zorro-antd/style/index.min.css";
+/* Import base styles */
+@import "~ng-zorro-antd/button/style/index.min.css";
+/* Import one component's styles */
 @import "~jsoneditor/dist/jsoneditor.min.css";
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 $white: #F0F2F5;
-nz-input-number{
+
+nz-input-number {
   width: 100% !important;
 }
-nz-select{
+
+nz-select {
   width: 100% !important;
 }
-nz-time-picker{
+
+nz-time-picker {
   width: 100% !important;
 }
+
 .demo-loadmore-list {
   min-height: 350px;
 }
+
 .loadmore {
   text-align: center;
   margin-top: 12px;
   height: 32px;
   line-height: 32px;
 }
+
 .login-form {
   max-width: 300px;
 }
@@ -81,7 +90,15 @@ html {
 .ant-tabs-tab .anticon {
   margin-right: 4px !important;
 }
-img, svg, video, canvas, audio, iframe, embed, object{
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
   vertical-align: baseline !important;
 }
 
@@ -96,7 +113,7 @@ img, svg, video, canvas, audio, iframe, embed, object{
   &.ant-switch-checked {
     background-color: #1890ff;
   }
-  
+
   &:not(.ant-switch-checked) {
     background-color: grey;
   }
@@ -105,4 +122,87 @@ img, svg, video, canvas, audio, iframe, embed, object{
 .ant-btn>span+.anticon {
   margin-left: 0px !important;
 }
- 
+
+.theme-body {
+  .input-group-text {
+    height: 50px !important;
+    border-radius: 0px !important;
+  }
+
+  .v-body-border {
+    border: 1px solid lightgray;
+  }
+
+  background: #f5f5f5;
+  padding: 0px 0px !important;
+
+  .col-form-label {
+    text-align: right !important;
+    border: 1px solid lightgray;
+  }
+
+  .form-control {
+    height: 50px !important;
+    border-radius: 0px !important;
+  }
+
+  .ant-input-group-lg .ant-input,
+  .ant-input-group-lg>.ant-input-group-addon {
+    padding: 6.5px 11px;
+    font-size: 16px;
+    height: 55px !important;
+  }
+
+  .ant-input-group-sm .ant-input,
+  .ant-input-group-sm>.ant-input-group-addon {
+    padding: 0 7px;
+    height: 55px !important;
+  }
+
+  .ant-input-group .ant-input {
+    float: left;
+    width: 100%;
+    height: 55px !important;
+    margin-bottom: 0;
+    text-align: inherit;
+  }
+
+  .ng-select-container {
+    height: 52px !important;
+
+    .ng-value-container {
+      .ng-placeholder {
+        top: 15px !important;
+      }
+    }
+  }
+
+  .column-form-input {
+    background: white;
+  }
+
+  .col-form-label {
+    padding: 14px !important;
+  }
+
+  .mt-1 {
+    margin-top: 0px !important;
+  }
+
+  .mb-1 {
+    margin-bottom: 0px !important;
+  }
+
+  input,
+  .ng-select-container {
+    border-radius: 0px !important;
+  }
+
+  .row:first-child {
+    padding: 0px !important;
+  }
+
+  .col-sm-9 {
+    padding: 0px !important;
+  }
+}
