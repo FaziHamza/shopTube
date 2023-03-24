@@ -6556,6 +6556,7 @@ export class BuilderComponent implements OnInit {
                   res['wrapper'] = [];
                   res.wrapper.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
+                  res['className'] = event.form.className
                   // if (event.form.className) {
                   //   res.className = event.form.className;
                   // }
@@ -6569,6 +6570,7 @@ export class BuilderComponent implements OnInit {
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
+                      res['className'] = event.form.className
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
@@ -6580,6 +6582,7 @@ export class BuilderComponent implements OnInit {
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
+                      res['className'] = event.form.className
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
@@ -6589,6 +6592,7 @@ export class BuilderComponent implements OnInit {
                 res.children?.forEach((element: any) => {
                   element.children.forEach((elementV1: any) => {
                     elementV1['wrapper'] = event.form.wrappers;
+                    res['className'] = event.form.className
                     elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                   });
                 });
@@ -6596,6 +6600,7 @@ export class BuilderComponent implements OnInit {
               if (res.type == "accordionButton") {
                 res?.children?.forEach((elementV1: any) => {
                   elementV1['wrapper'] = event.form.wrappers;
+                  res['className'] = event.form.className
                   elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                 });
               }
