@@ -6,10 +6,13 @@ import { FieldWrapper } from '@ngx-formly/core';
   template: `
   <div class=" flex flex-wrap mt-1 mb-1"  >
   <label [attr.for]="id" class="w-1/3 col-form-label column-form-label"  *ngIf="to.label">
-   <span style="color: #0B0B0B;
-    font-size: 17px;"><i *ngIf="to['labelIcon']" [class]="to['labelIcon']"></i>{{ to.label }}</span>
-    <!-- <ng-container *ngIf="to.required && to.hideRequiredMarker !== true"> *</ng-container> -->
-    <span *ngIf="to?.['tooltip'] && to['tooltip']" nz-tooltip nzTooltipTitle="prompt text" class=" uil uil-question-circle">Tooltip will show when mouse enter.</span>
+  <span>
+        <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
+        <span *ngIf="to.required">*</span>{{to.label}}
+      </span>
+      <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
+        <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+      </span>
   </label>
   <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
     <ng-template #fieldComponent ></ng-template>

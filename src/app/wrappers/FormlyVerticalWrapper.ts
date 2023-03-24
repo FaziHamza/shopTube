@@ -6,8 +6,9 @@ import { FieldWrapper } from '@ngx-formly/core';
   template: `
   <div [class]='to.labelPosition'>
     <label [attr.for]="id" class="col-form-label" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
-      <span>
-        <i *ngIf="to['labelIcon']" [class]="to['labelIcon']" style="padding-right: 1%;"></i>{{ to.label }}
+    <span>
+        <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
+        <span *ngIf="to.required">*</span>{{to.label}}
       </span>
       <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
