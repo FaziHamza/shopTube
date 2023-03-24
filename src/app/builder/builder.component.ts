@@ -556,12 +556,14 @@ export class BuilderComponent implements OnInit {
               if (eval(query)) {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
             }
             else if (inputType[j].formly != undefined) {
@@ -606,13 +608,14 @@ export class BuilderComponent implements OnInit {
               if (eval(query)) {
                 const check= this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                this.updateNodes();
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
             }
           }
