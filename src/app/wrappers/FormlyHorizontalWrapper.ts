@@ -4,7 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-  {{to | json}}
+  <!-- {{to | json}} -->
   <div class="flex flex-wrap">
   <label class= {{firstColum}} [attr.for]="id" *ngIf="to.label">
       <span>
@@ -31,7 +31,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   secondColum1 = '';
   secondColum2 = '';
   ngOnInit(): void {
-    
+    debugger
     if (this.to.className.includes('w-full')) {
       if (this.to.labelPosition) {
         this.firstColum = "w-1/4 " + this.to.labelPosition;

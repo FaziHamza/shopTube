@@ -928,6 +928,7 @@ export class BuilderComponent implements OnInit {
                 wrappers: ["formly-vertical-wrapper"],
                 templateOptions: {
                   multiple: true,
+                  className: 'w-1/3 px-1 py-1',
                   attributes: {
                     autocomplete: 'off',
                   },
@@ -5530,6 +5531,7 @@ export class BuilderComponent implements OnInit {
             templateOptions['minLength'] = event.form.minLength;
             templateOptions['disabled'] = event.form.disabled;
             templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['className'] = event.form.className;
             templateOptions['titleIcon'] = event.form.titleIcon;
             templateOptions.config['addonRight'] = event.form.addonRight;
             templateOptions.config['addonLeft'] = event.form.addonLeft;
