@@ -843,6 +843,7 @@ export class BuilderClickButtonService {
         repeatable: node.repeatable,
         size: node.size,
         status: node.status,
+        sectionClassName: node.sectionClassName,
         wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
       }
     }

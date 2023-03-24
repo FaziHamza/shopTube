@@ -23,10 +23,11 @@ export class MainComponent implements OnInit {
   }
 
   submit() {
-
+    debugger
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     this.form.value;
+    console.log(this.form.value);
     this.dataModel
   }
   handleIndexChange(e: number): void {

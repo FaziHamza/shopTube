@@ -4104,6 +4104,15 @@ export class formFeildData {
         //   }
         // },
         {
+          key: 'sectionClassName',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          templateOptions: {
+            label: 'Formly Class',
+          }
+        },
+        {
           key: 'wrappers',
           type: 'select',
           className: "w-1/4 px-1",

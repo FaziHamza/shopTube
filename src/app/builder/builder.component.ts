@@ -604,7 +604,7 @@ export class BuilderComponent implements OnInit {
                 }
               }
               if (eval(query)) {
-                const check= this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.nodes[0].children[1].children[0].children[1].children = check;
                 // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
@@ -623,8 +623,7 @@ export class BuilderComponent implements OnInit {
     } catch (error) {
       console.log(error)
     } finally {
-      if(this.businessRuleData && this.businessRuleData.length > 0)
-      {
+      if (this.businessRuleData && this.businessRuleData.length > 0) {
         const fishRhyme = ruleFactory(this.businessRuleData);
         console.log(fishRhyme(this.formlyModel));
         // this.cdr.detectChanges();
@@ -632,9 +631,9 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  getBusinessRule(){
+  getBusinessRule() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    if (mainModuleId.length  > 0) {
+    if (mainModuleId.length > 0) {
       this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
         if (getRes.length > 0) {
           this.businessRuleData = [];
@@ -824,7 +823,8 @@ export class BuilderComponent implements OnInit {
         key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
-        className: "",
+        className: "w-1/2 p-1",
+        sectionClassName: "",
         footer: false,
         header: false,
         expanded: true,
@@ -2410,11 +2410,11 @@ export class BuilderComponent implements OnInit {
         uploadBtnLabel: "Click here to upload",
         multiple: false,
         disabled: false,
-        showDialogueBox:true,
-        showUploadlist:true,
-        onlyDirectoriesAllow:false,
-        uploadLimit:10,
-        size:30,
+        showDialogueBox: true,
+        showUploadlist: true,
+        onlyDirectoriesAllow: false,
+        uploadLimit: 10,
+        size: 30,
         children: [
         ],
       } as TreeNode;
@@ -2986,8 +2986,8 @@ export class BuilderComponent implements OnInit {
         affix: true,
         offSetTop: 5,
         showInkInFixed: true,
-        bond:5,
-        target:false,
+        bond: 5,
+        target: false,
         options: [
           {
             nzTitle: "Basic demo",
@@ -3444,12 +3444,12 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         checkable: false,
-        blockNode:false,
-        showLine:false,
-        showIcon:false,
-        draggable:false,
-        multiple:false,
-        expandAll:false,
+        blockNode: false,
+        showLine: false,
+        showIcon: false,
+        draggable: false,
+        multiple: false,
+        expandAll: false,
         expand: true,
         expandIcon: 'folder',
         closingexpandicon: 'file',
@@ -3598,7 +3598,7 @@ export class BuilderComponent implements OnInit {
         offsetY: 0,
         wrapClassName: "",
         zIndex: 1,
-        content:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum blanditiis sunt unde quisquam architecto. Nesciunt eum consequatur suscipit obcaecati. Aliquam repudiandae neque ratione natus doloribus ab excepturi, a modi voluptate!',
+        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum blanditiis sunt unde quisquam architecto. Nesciunt eum consequatur suscipit obcaecati. Aliquam repudiandae neque ratione natus doloribus ab excepturi, a modi voluptate!',
         // onClose: "right",//function
         children: [
         ],
@@ -5903,9 +5903,9 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData = [];
             }
           }
-          else{
-            if(this.selectedNode['tableNoResultArray'])
-            this.selectedNode.tableData = this.selectedNode['tableNoResultArray'];
+          else {
+            if (this.selectedNode['tableNoResultArray'])
+              this.selectedNode.tableData = this.selectedNode['tableNoResultArray'];
           }
 
           // this.selectedNode.sort = event.form.sort;
@@ -6539,6 +6539,7 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.id = event.form.accordingText;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
+          this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.sectionDisabled = event.form.disabled;
           this.selectedNode.labelPosition = event.form.labelPosition;
@@ -6552,33 +6553,29 @@ export class BuilderComponent implements OnInit {
                   res['wrapper'] = [];
                   res.wrapper.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
-                  res['className'] = event.form.className
-                  // if (event.form.className) {
-                  //   res.className = event.form.className;
-                  // }
+                  if (event.form.sectionClassName) {
+                    res['className'] = event.form.sectionClassName
+                  }
                   res.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.formly[0].fieldGroup);
                 }
                 if (res.type == "tabsMain") {
-
-                  if (event.form.className) {
-                    res.className = event.form.className;
-                  }
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
-                      res['className'] = event.form.className
+                      if (event.form.sectionClassName) {
+                        res['className'] = event.form.sectionClassName
+                      }
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
                 }
                 if (res.type == "stepperMain") {
-                  if (event.form.className) {
-                    res.className = event.form.className;
-                  }
                   res.children?.forEach((element: any) => {
                     element.children.forEach((elementV1: any) => {
                       elementV1['wrapper'] = event.form.wrappers;
-                      res['className'] = event.form.className
+                      if (event.form.sectionClassName) {
+                        res['className'] = event.form.sectionClassName
+                      }
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     });
                   });
@@ -6588,7 +6585,9 @@ export class BuilderComponent implements OnInit {
                 res.children?.forEach((element: any) => {
                   element.children.forEach((elementV1: any) => {
                     elementV1['wrapper'] = event.form.wrappers;
-                    res['className'] = event.form.className
+                    if (event.form.sectionClassName) {
+                      res['className'] = event.form.sectionClassName
+                    }
                     elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                   });
                 });
@@ -6596,7 +6595,9 @@ export class BuilderComponent implements OnInit {
               if (res.type == "accordionButton") {
                 res?.children?.forEach((elementV1: any) => {
                   elementV1['wrapper'] = event.form.wrappers;
-                  res['className'] = event.form.className
+                  if (event.form.sectionClassName) {
+                    res['className'] = event.form.sectionClassName
+                  }
                   elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                 });
               }
@@ -7067,15 +7068,14 @@ export class BuilderComponent implements OnInit {
         } else {
           fieldGroup[0].templateOptions.config['floatingInput'] = false;
         }
-        if (formValues.className) {
-          fieldGroup[0].templateOptions.className = formValues.className;
-          fieldGroup[0].className = formValues.className;
+        if (formValues.sectionClassName) {
+          fieldGroup[0].templateOptions.className = formValues.sectionClassName;
+          fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.size) {
           fieldGroup[0].templateOptions.config.size = formValues.size;
         }
         if (formValues.status) {
-
           fieldGroup[0].templateOptions.config.status = formValues.status;
         }
       }

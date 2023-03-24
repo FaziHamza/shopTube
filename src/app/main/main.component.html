@@ -253,13 +253,14 @@
         </ng-template>
         <ng-template #thirty>
             <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
-                <div *ngFor="let items of item.children">
-                    <form [formGroup]="form" (ngSubmit)="submit()">
+                <!-- <div *ngFor="let items of item.children">
+                    <form [formGroup]="form">
                         <formly-form [fields]="items.formly" [(model)]="dataModel" [form]="form">
                         </formly-form>
-                        <!-- <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button> -->
+                        <button *ngIf="isLast" nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
+                        <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button>
                     </form>
-                </div>
+                </div> -->
             </ng-container>
 
         </ng-template>
@@ -327,12 +328,16 @@
         </ng-template>
         <ng-template #thirtySix>
             <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
-                <form [formGroup]="form" (ngSubmit)="submit()">
+                <form [formGroup]="form">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
                         <formly-form [fields]="item.formly" [(model)]="dataModel" [form]="form">
                         </formly-form>
                         <!-- <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button> -->
+                    </div>
+                    <div *ngIf="isLast" class="pt-1">
+                        <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
+                                nzTheme="outline"></span>Submit</button>
                     </div>
                 </form>
             </ng-container>
@@ -510,15 +515,16 @@
         </ng-template>
         <ng-template #fiftyFour>
             <ng-container *ngIf="item.type == 'nzTag' ; else fiftyFive">
-                <ng-container *ngIf="!item.hideExpression" >
+                <ng-container *ngIf="!item.hideExpression">
                     <div style="padding-top: 7%;">
                         <div *ngIf="item.tooltip" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>
                         </div>
                         <nz-tag *ngFor="let child of item.options" [nzColor]='child.tagColor' [nzMode]="item.mode"
-                        [nzChecked]="item.checked" (nzOnClose)="onClose()"><span nz-icon [nzType]='child.icon'></span>
-                        <span>{{child.title}}</span></nz-tag>
+                            [nzChecked]="item.checked" (nzOnClose)="onClose()"><span nz-icon
+                                [nzType]='child.icon'></span>
+                            <span>{{child.title}}</span></nz-tag>
                     </div>
                 </ng-container>
             </ng-container>

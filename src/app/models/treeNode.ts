@@ -70,6 +70,7 @@ export interface TreeNode {
   showValue?: boolean;
   className?: string;
   margin?: any;
+  sectionClassName?: any;
   selectedIndex?: any;
   direction?: any;
   animated?: any;

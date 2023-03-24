@@ -106,7 +106,6 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
     { name: 'formly-vertical-wrapper', component: FormlyVerticalWrapper },
     { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
-    { name: 'formly-vertical-theme-wrapper', component: FormlyVerticalThemeWrapper },
     { name: 'floating-label', component: FormlyFloatComponent },
 
   ]

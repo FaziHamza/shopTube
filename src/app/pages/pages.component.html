@@ -28,8 +28,8 @@
         </div>
     </div>
     <!-- SECTION -->
-    <div class="">
-        <div *ngFor="let j of resData[0].children[1].children ; index as i" [ngClass]="i > 0 ? ' py-3': ''">
+    <div class="flex flex-wrap">
+        <div *ngFor="let j of resData[0].children[1].children ; index as i"  [class]="j.className">
             <!-- INCOLAPSSABLE CASE -->
             <div class="border" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper border-b" *ngIf="j.children[0].header">
