@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormBuilder } from '@angular/forms';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -14,6 +13,7 @@ import { actionTypeFeild, formFeildData } from './configurations/configuration.m
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-builder',
@@ -55,7 +55,7 @@ export class BuilderComponent implements OnInit {
   showSectionOnly: boolean = false;
   columnData: any = [];
   controlListvisible = false;
-
+  requestSubscription: Subscription;
 
 
 
@@ -91,22 +91,42 @@ export class BuilderComponent implements OnInit {
     this.htmlTabsData = htmlTabsData;
   }
   jsonModuleSetting() {
-    this.builderService.jsonScreenModuleList().subscribe((res => {
-      this.screenModule = res;
-    }));
+    this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
+      next: (res) => {
+        this.screenModule = res;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+
+
   }
   loadApplications() {
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
-      this.applicationBuilder = res;
-    }));
+    this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
+      next: (res) => {
+        this.applicationBuilder = res;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   };
   getDataFromApi(name: any, apiType: any) {
     if (apiType == "application") {
       this.selectModuleName = "";
       this.applicationBuilder = this.applicationBuilder;
-      this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe((res => {
-        this.moduleList = res;
-      }));
+      this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
+        next: (res) => {
+          this.moduleList = res;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
     }
   }
   LayerShow() {
@@ -186,77 +206,86 @@ export class BuilderComponent implements OnInit {
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
 
-    this.builderService.jsonBuilderSettingV1(this.screenName).subscribe(((res: any) => {
-      if (res.length > 0) {
-        this.builderService.jsonDeleteBuilder(res[0].id).subscribe((res => {
-          this.builderService.jsonSaveBuilder(data).subscribe((res => {
-            alert("Data Save");
-          }))
-        }))
-      } else {
-        this.builderService.jsonSaveBuilder(data).subscribe((res => {
-          alert("Data Save");
-        }))
+    this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
+      next: (res: any) => {
+        if (res.length > 0) {
+          this.requestSubscription = this.builderService.jsonDeleteBuilder(res[0].id).subscribe({
+            next: (res) => {
+              this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
+                next: (res) => {
+                  alert("Data Save");
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                }
+              })
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
+        } else {
+          this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
+            next: (res) => {
+              alert("Data Save");
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
       }
-    }))
-    // this.builderService.jsonDeleteBuilder(this.screenId).subscribe((res => {
-    //
-    //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
-    //     this.builderService.jsonBuilderSettingV1(this.screenName).subscribe((res => {
-    //       if (res.length > 0) {
-    //         this.screenId = res[0].id;
-    //         alert("Data Save");
-    //         this.builderService.jsonUIRuleGetData(mainModuleId[0].screenId).subscribe((getRes => {
-    //           if (getRes.length == 0) {
-    //             this.screenData = [];
-    //             this.screenData = getRes;
-    //           }
-    //         }));
-    //       }
-    //     }
-    //     ));
-    //   }))
-    // }))
-    // } else {
-    //   this.builderService.jsonSaveBuilder(data).subscribe((res => {
-    //     alert("Data Save");
-    //   }))
-    // }
+
+    })
   }
   expandedKeys: any;
   getFormLayers(data: any) {
 
     this.screenName = data;
-    this.builderService.jsonBuilderSettingV1(data).subscribe((res => {
-      if (res.length > 0) {
-        if (res[0].menuData[0].children[1]) {
-          this.screenId = res[0].id;
-          this.getUIRuleData(true);
-          this.getBusinessRule();
-          // this.nodes = res[0].menuData;
-          this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+    this.requestSubscription = this.builderService.jsonBuilderSettingV1(data).subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          if (res[0].menuData[0].children[1]) {
+            this.screenId = res[0].id;
+            // this.nodes = res[0].menuData;
+            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
 
-          // this.uiRuleGetData(res[0].moduleId);
-          // this.uiGridRuleGetData(res[0].moduleId);
+            // this.uiRuleGetData(res[0].moduleId);
+            // this.uiGridRuleGetData(res[0].moduleId);
+          }
+          else {
+            this.screenId = res[0].id;
+            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+            // this.uiRuleGetData(res[0].moduleId);
+            // this.uiGridRuleGetData(res[0].moduleId);
+            // this.updateNodes();
+          }
+
         }
         else {
-          this.screenId = res[0].id;
-          this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-          // this.uiRuleGetData(res[0].moduleId);
-          // this.uiGridRuleGetData(res[0].moduleId);
+          this.screenId = 0;
+          this.clearChildNode();
           // this.updateNodes();
         }
-
+        this.formModalData = {};
+        this.getUIRuleData(true);
+        this.getBusinessRule();
+        this.expandedKeys = this.nodes.map((node: any) => node.key);
+        this.uiRuleGetData(this.screenName);
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
       }
-      else {
-        this.screenId = 0;
-        this.clearChildNode();
-        // this.updateNodes();
-      }
-      this.expandedKeys = this.nodes.map((node: any) => node.key);
-      this.uiRuleGetData(this.screenName);
     }
-    ));
+    );
     this.screenPage = true;
 
   }
@@ -364,18 +393,14 @@ export class BuilderComponent implements OnInit {
                             });
                           }
                           else {//input field
-                            dataModelFaker[V2.key] = this.makeFakerData(V2);
+                            dataModelFaker[V2.formly[0].fieldGroup[0].key] = this.makeFakerData(V2);
                           }
                         } else if (V2.mainDashonicTabsConfig) {
                           V2.children.forEach((element: any) => {
                             element.children.forEach((element2: any) => {
-                              if (element2.chartCardConfig) {
-                                if (element2.chartCardConfig.length > 0) {
-                                  if (element2.formly) {
-                                    if (element2.formly[0].fieldGroup) {
-                                      dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
-                                    }
-                                  }
+                              if (element2.formly) {
+                                if (element2.formly[0].fieldGroup) {
+                                  dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
                                 }
                               }
                             });
@@ -395,9 +420,9 @@ export class BuilderComponent implements OnInit {
     this.formlyModel = dataModelFaker;
   }
   makeFakerData(V2: any) {
-    if (V2.formly[0].fieldGroup[0].templateOptions) {
+    if (V2.formly[0].fieldGroup[0].props) {
       let modelFaker: any;
-      if (V2.formly[0].fieldGroup[0].templateOptions.type) {
+      if (V2.formly[0].fieldGroup[0].props.type) {
         if (V2.formly[0].fieldGroup[0].type == 'input') {
           // modelFaker = faker.name.firstName()
         }
@@ -407,39 +432,39 @@ export class BuilderComponent implements OnInit {
         else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
           // modelFaker = faker.name.firstName()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'password') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
           // modelFaker = faker.name.firstName()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'tel') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
           // modelFaker = faker.phone.number()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'date') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
           // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'email') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
           // modelFaker = faker.internet.email()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'checkbox') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
           // modelFaker = faker.datatype.boolean()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'radio') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
           // modelFaker = faker.datatype.boolean()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'number') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
           // modelFaker = 1
           // modelFaker = faker.datatype.number(10)
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'decimal') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
           // modelFaker = 0.0
           // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'month') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
           // modelFaker = faker.date.month({ abbr: true, context: true })
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'datetime-local') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
           // modelFaker = faker.datatype.datetime(1893456000000)
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'color') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
           // modelFaker = faker.color.colorByCSSColorSpace()
         }
       }
@@ -497,29 +522,45 @@ export class BuilderComponent implements OnInit {
   }
   checkConditionUIRule(model: any, currentValue: any) {
     this.getUIRule(model, currentValue);
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
     // this.cdr.detach();
   }
   getUIRuleData(data: any) {
-    this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
-      if (getRes.length > 0) {
-        this.screenData = [];
-        this.screenData = getRes[0];
-      } else { }
-    }));
+    this.requestSubscription = this.builderService.jsonUIRuleGetData(this.screenName).subscribe({
+      next: (getRes) => {
+        if (getRes.length > 0) {
+          this.screenData = getRes[0];
+        } else {
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+
+    });
   }
   getUIRule(model: any, currentValue: any) {
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
-        for (let j = 0; j < inputType.length; j++) {
-          for (let index = 0; index < this.screenData.uiData.length; index++) {
-            if (inputType[j] == undefined) {
-              let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+        for (let index = 0; index < this.screenData.uiData.length; index++) {
+          if (model.key == this.screenData.uiData[index].ifMenuName) {
+            let query: any;
+            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            if (this.screenData.uiData[index].condationName == 'contains') {
+              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+                query = '1 == 1';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+              else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            } else if (this.screenData.uiData[index].condationName == 'null') {
+              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -527,101 +568,43 @@ export class BuilderComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-
               } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
-              if (eval(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.updateNodes();
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
-              else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.updateNodes();
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+
+            } else {
+              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              } else {
+                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
-            else if (inputType[j].formly != undefined) {
-              let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                  query = '1 == 1';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-                else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-
-              } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-              }
-              if (eval(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.updateNodes();
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
-              else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.updateNodes();
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
+            if (eval(query)) {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+              this.nodes[0].children[1].children[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
+              // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+            }
+            else {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              this.nodes[0].children[1].children[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
+              // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
             }
           }
         }
-        // this.clickBack();
-        // this.cdr.detectChanges();
+      } else {
+        this.updateFormlyModel();
+        // Object.assign([],this.formlyModel)
+        // this.updateNodes();
+        // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
       }
     } catch (error) {
       console.log(error)
@@ -630,19 +613,30 @@ export class BuilderComponent implements OnInit {
         const fishRhyme = ruleFactory(this.businessRuleData);
         console.log(fishRhyme(this.formlyModel));
         // this.cdr.detectChanges();
-        // this.cdr.detach();
+
       }
     }
+  }
+  updateFormlyModel() {
+    this.formlyModel = Object.assign({}, this.formlyModel)
   }
   getBusinessRule() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     if (mainModuleId.length > 0) {
-      this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-        if (getRes.length > 0) {
-          this.businessRuleData = [];
-          this.businessRuleData = getRes[0].buisnessRule
+      this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+        next: (getRes) => {
+          if (getRes.length > 0) {
+            this.businessRuleData = [];
+            this.businessRuleData = getRes[0].buisnessRule
+          } else {
+            this.businessRuleData = [];
+          }
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
-      }))
+      })
     }
   }
   lastFormlyModelValue: string;
@@ -936,7 +930,7 @@ export class BuilderComponent implements OnInit {
                 defaultValue: "",
                 focus: false,
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   multiple: true,
                   className: 'w-1/3 px-1 py-1',
                   attributes: {
@@ -965,8 +959,8 @@ export class BuilderComponent implements OnInit {
                     format: 'dd-MM-yyyy',
                     optionHieght: 30,
                     optionHoverSize: 10,
-                    suffixicon:'',
-                    prefixicon:'',
+                    suffixicon: '',
+                    prefixicon: '',
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -999,6 +993,7 @@ export class BuilderComponent implements OnInit {
         ],
       } as TreeNode;
       this.addNode(node, newNode);
+      // this.makeFaker();
     }
     else if (value == "buttonGroup") {
       const newNode = {
@@ -1753,7 +1748,7 @@ export class BuilderComponent implements OnInit {
         //   {
         //     key: "inputfeildGen",
         //     type: "input",
-        //     templateOptions: {
+        //     props: {
         //       label: "Genaric Added",
         // tooltip: {"content": ""},
         //     },
@@ -3932,13 +3927,13 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.children[j].formlyType != undefined) {
           if (this.selectedNode.children[j].formlyType == 'input') {
             wrapperName = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-            disabledProperty = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+            disabledProperty = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
           }
           else if (this.selectedNode.children[j].type == 'tabsMain') {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
               });
             });
           }
@@ -3946,7 +3941,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
               });
             });
           }
@@ -3954,7 +3949,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.children[j].children?.forEach(element => {
               element.children?.forEach(elementV1 => {
                 wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.templateOptions?.disabled;
+                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
               });
             });
           }
@@ -4996,17 +4991,30 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   formDataFromApi(screenId: any) {
-    this.builderService.genericApis(screenId).subscribe((res => {
-      this.nodes[0].children[1].children.push(res[0])
-      this.updateNodes();
-    }));
+    this.requestSubscription = this.builderService.genericApis(screenId).subscribe({
+      next: (res) => {
+        this.nodes[0].children[1].children.push(res[0])
+        this.updateNodes();
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+
+    });
   }
   dashonicTemplates(model: any) {
-    this.builderService.dashonicTemplates(model).subscribe((res => {
-      this.selectedNode?.children?.push(res);
-      this.updateNodes();
-      this.toastr.success('Controll Added', { nzDuration: 3000 });
-    }));
+    this.requestSubscription = this.builderService.dashonicTemplates(model).subscribe({
+      next: (res) => {
+        this.selectedNode?.children?.push(res);
+        this.updateNodes();
+        this.toastr.success('Controll Added', { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   }
   remove(parent: any, node: any) {
 
@@ -5046,15 +5054,20 @@ export class BuilderComponent implements OnInit {
 
   }
   EnumView() {
-    this.builderService.multiAPIData().subscribe((res => {
-      const node = this.selectedNode ?? {};
-      const formly = node.formly ?? [];
-      const fieldGroup = formly?.[0]?.fieldGroup ?? [];
-      const templateOptions = fieldGroup[0]?.templateOptions ?? {};
-      templateOptions.options = res ?? undefined;
-      this.updateNodes();
-      // this.updateNodes();
-    }));
+    this.requestSubscription = this.builderService.multiAPIData().subscribe({
+      next: (res) => {
+        const node = this.selectedNode ?? {};
+        const formly = node.formly ?? [];
+        const fieldGroup = formly?.[0]?.fieldGroup ?? [];
+        const props = fieldGroup[0]?.props ?? {};
+        props.options = res ?? undefined;
+        this.updateNodes();
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   }
   notifyEmit(event: actionTypeFeild): void {
 
@@ -5107,9 +5120,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.target = event.form.target;
           this.selectedNode.bond = event.form.bond;
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              this.selectedNode.options = res;
-            }))
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                this.selectedNode.options = res;
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
         }
         break;
@@ -5137,12 +5156,18 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.nodes = event.tableDta;
           }
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.nodes = res;
-                this.updateNodes();
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.nodes = res;
+                  this.updateNodes();
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
           // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
 
@@ -5159,12 +5184,18 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.nodes = event.tableDta;
           }
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.nodes = res;
-                this.updateNodes();
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.nodes = res;
+                  this.updateNodes();
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
           // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
 
@@ -5191,12 +5222,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.showSearch = event.form.showSearch;
           this.selectedNode.disabled = event.form.disabled;
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.nodes = res;
-                this.updateNodes();
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.nodes = res;
+                  this.updateNodes();
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
           // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
         }
@@ -5220,11 +5257,17 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.nodes = event.form.nodes;
           // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.nodes = res;
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.nodes = res;
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
         }
         break;
@@ -5271,11 +5314,17 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
           // this.selectedNode.list = this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.list = res;
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.list = res;
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
         }
         break;
@@ -5395,11 +5444,17 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.options = this.assigOptionsData(this.selectedNode.options, event.tableDta, event.form.api);
           // this.selectedNode.options = event.form.options;
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.options = res;
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.options = res;
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
           this.selectedNode.position = event.form.position;
 
@@ -5528,62 +5583,68 @@ export class BuilderComponent implements OnInit {
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
             fieldGroup[0].hideExpression = event.form.hideExpression;
-            const templateOptions = fieldGroup[0]?.templateOptions ?? {};
-            templateOptions.label = event.form.title;
-            templateOptions['key'] = event.form.key;
-            templateOptions['className'] = event.form.className;
-            templateOptions['hideExpression'] = event.form.hideExpression;
-            templateOptions.placeholder = event.form.placeholder;
-            // templateOptions['className'] = event.form.className;
+            const props = fieldGroup[0]?.props ?? {};
+            props.label = event.form.title;
+            props['key'] = event.form.key;
+            props['className'] = event.form.className;
+            props['hideExpression'] = event.form.hideExpression;
+            props.placeholder = event.form.placeholder;
+            // props['className'] = event.form.className;
             if (event.tableDta) {
-              templateOptions['options'] = event.tableDta;
+              props['options'] = event.tableDta;
             }
-            templateOptions['required'] = event.form.required;
-            templateOptions['maxLength'] = event.form.maxLength;
-            templateOptions['minLength'] = event.form.minLength;
-            templateOptions['disabled'] = event.form.disabled;
-            templateOptions['tooltip'] = event.form.tooltip;
-            templateOptions['className'] = event.form.className;
-            templateOptions['titleIcon'] = event.form.titleIcon;
-            templateOptions.config['addonRight'] = event.form.addonRight;
-            templateOptions.config['addonLeft'] = event.form.addonLeft;
-            templateOptions.config['optionWidth'] = event.form.optionWidth;
-            templateOptions.config['border'] = event.form.border;
-            templateOptions.config['step'] = event.form.step;
-            templateOptions.config['format'] = event.form.format;
-            templateOptions.config['allowClear'] = event.form.allowClear;
-            templateOptions.config['serveSearch'] = event.form.serveSearch;
-            templateOptions.config['showArrow'] = event.form.showArrow;
-            templateOptions.config['showSearch'] = event.form.showSearch;
-            templateOptions.config['clearIcon'] = event.form.clearIcon;
-            templateOptions.config['loading'] = event.form.loading;
-            templateOptions.config['optionHieght'] = event.form.optionHieght;
-            templateOptions.config['optionHoverSize'] = event.form.optionHoverSize;
-            templateOptions.config['optionDisabled'] = event.form.optionDisabled;
-            templateOptions.config['optionHide'] = event.form.optionHide;
-            templateOptions.config['firstBtnText'] = event.form.firstBtnText;
-            templateOptions.config['secondBtnText'] = event.form.secondBtnText;
-            templateOptions.config['minuteStep'] = event.form.minuteStep;
-            templateOptions.config['secondStep'] = event.form.secondStep;
-            templateOptions.config['hoursStep'] = event.form.hoursStep;
-            templateOptions.config['use12Hours'] = event.form.use12Hours;
-            templateOptions.config['prefixicon'] = event.form.prefixicon;
-            templateOptions.config['suffixicon'] = event.form.suffixicon;
-            templateOptions.config['icon'] = event.form.icon;
-            templateOptions['readonly'] = event.form.readonly;
+            props['required'] = event.form.required;
+            props['maxLength'] = event.form.maxLength;
+            props['minLength'] = event.form.minLength;
+            props['disabled'] = event.form.disabled;
+            props['tooltip'] = event.form.tooltip;
+            props['className'] = event.form.className;
+            props['titleIcon'] = event.form.titleIcon;
+            props.config['addonRight'] = event.form.addonRight;
+            props.config['addonLeft'] = event.form.addonLeft;
+            props.config['optionWidth'] = event.form.optionWidth;
+            props.config['border'] = event.form.border;
+            props.config['step'] = event.form.step;
+            props.config['format'] = event.form.format;
+            props.config['allowClear'] = event.form.allowClear;
+            props.config['serveSearch'] = event.form.serveSearch;
+            props.config['showArrow'] = event.form.showArrow;
+            props.config['showSearch'] = event.form.showSearch;
+            props.config['clearIcon'] = event.form.clearIcon;
+            props.config['loading'] = event.form.loading;
+            props.config['optionHieght'] = event.form.optionHieght;
+            props.config['optionHoverSize'] = event.form.optionHoverSize;
+            props.config['optionDisabled'] = event.form.optionDisabled;
+            props.config['optionHide'] = event.form.optionHide;
+            props.config['firstBtnText'] = event.form.firstBtnText;
+            props.config['secondBtnText'] = event.form.secondBtnText;
+            props.config['minuteStep'] = event.form.minuteStep;
+            props.config['secondStep'] = event.form.secondStep;
+            props.config['hoursStep'] = event.form.hoursStep;
+            props.config['use12Hours'] = event.form.use12Hours;
+            props.config['prefixicon'] = event.form.prefixicon;
+            props.config['suffixicon'] = event.form.suffixicon;
+            props.config['icon'] = event.form.icon;
+            props['readonly'] = event.form.readonly;
             if (event.tableDta) {
-              templateOptions['options'] = event.tableDta;
+              props['options'] = event.tableDta;
             } else {
-              templateOptions['options'] = event.form.options;
+              props['options'] = event.form.options;
             }
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
-            //   templateOptions['defaultValue'] = arr;
+            //   props['defaultValue'] = arr;
             // } else {
             // }
             if (event.form.api) {
-              this.builderService.jsonTagsDataGet(event.form.api).subscribe((res) => {
-                templateOptions.options = res;
+              this.requestSubscription = this.builderService.jsonTagsDataGet(event.form.api).subscribe({
+                next: (res) => {
+                  props.options = res;
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                }
               })
             }
           });
@@ -5831,10 +5892,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.viewType = event.form.viewType;
           this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
-            this.builderService.genericApis(event.form.statusApi).subscribe((res => {
-              this.selectedNode.options = res;
-              this.updateNodes();
-            }))
+            this.requestSubscription = this.builderService.genericApis(event.form.statusApi).subscribe({
+              next: (res) => {
+                this.selectedNode.options = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
           // this.updateNodes();
         }
@@ -5846,25 +5913,25 @@ export class BuilderComponent implements OnInit {
             // MapOperator(elementV1 =currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
-            const templateOptions = fieldGroup[0]?.templateOptions ?? {};
-            templateOptions['key'] = event.form.key;
-            templateOptions.label = event.form.title;
-            templateOptions.focus = event.form.focus;
-            templateOptions['hideExpression'] = event.form.hideExpression;
-            templateOptions['defaultValue'] = event.form.defaultValue;
-            templateOptions['required'] = event.form.required;
-            templateOptions.readonly = event.form.readonly;
-            templateOptions.placeholder = event.form.placeholder;
-            templateOptions['required'] = event.form.required;
-            templateOptions['disabled'] = event.form.disabled;
-            templateOptions['tooltip'] = event.form.tooltip;
-            templateOptions['maskString'] = event.form.maskString;
-            templateOptions['maskLabel'] = event.form.maskLabel;
-            templateOptions['labelIcon'] = event.form.labelIcon;
-            templateOptions['addonLeft'].text = event.form.addonLeft;
-            templateOptions['addonRight'].text = event.form.addonRight;
-            templateOptions['tooltip'] = event.form.tooltip;
-            templateOptions['options'] = event.form.multiselect == "" ? event.form.options : "";
+            const props = fieldGroup[0]?.props ?? {};
+            props['key'] = event.form.key;
+            props.label = event.form.title;
+            props.focus = event.form.focus;
+            props['hideExpression'] = event.form.hideExpression;
+            props['defaultValue'] = event.form.defaultValue;
+            props['required'] = event.form.required;
+            props.readonly = event.form.readonly;
+            props.placeholder = event.form.placeholder;
+            props['required'] = event.form.required;
+            props['disabled'] = event.form.disabled;
+            props['tooltip'] = event.form.tooltip;
+            props['maskString'] = event.form.maskString;
+            props['maskLabel'] = event.form.maskLabel;
+            props['labelIcon'] = event.form.labelIcon;
+            props['addonLeft'].text = event.form.addonLeft;
+            props['addonRight'].text = event.form.addonRight;
+            props['tooltip'] = event.form.tooltip;
+            props['options'] = event.form.multiselect == "" ? event.form.options : "";
           });
           this.selectedNode.title = event.form.title;
           this.selectedNode.id = event.form.id;
@@ -5898,10 +5965,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              this.selectedNode.tableData = res.tableData;
-              this.selectedNode.tableHeaders = res.tableHeaders;
-            }))
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                this.selectedNode.tableData = res.tableData;
+                this.selectedNode.tableHeaders = res.tableHeaders;
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
 
           if (this.selectedNode.noResult) {
@@ -6107,20 +6180,24 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = seriesList;
           this.selectedNode.link = event.form.link;
           if (event.form.link) {
-            this.builderService.salesDataApi().subscribe((res => {
-              // this.selectedNode.chartFilterData = res;
-              if (this.selectedNode.section) {
-                this.selectedNode.section[0].price = res[0]?.price;
-                this.selectedNode.section[0].filterData[0].price = res[0]?.price;
-                this.selectedNode.section[0].colors = res[0]?.colors;
-                this.selectedNode.section[0].data = res[0]?.data;
-                this.selectedNode.section[0].filtertype = res[0]?.filter;
-                this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
-                this.selectedNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
+            this.requestSubscription = this.builderService.salesDataApi().subscribe({
+              next: (res) => {
+                if (this.selectedNode.section) {
+                  this.selectedNode.section[0].price = res[0]?.price;
+                  this.selectedNode.section[0].filterData[0].price = res[0]?.price;
+                  this.selectedNode.section[0].colors = res[0]?.colors;
+                  this.selectedNode.section[0].data = res[0]?.data;
+                  this.selectedNode.section[0].filtertype = res[0]?.filter;
+                  this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
+                  this.selectedNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
+                }
+                this.updateNodes()
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-
-              this.updateNodes()
-            }));
+            });
             event.form.link = "";
           }
         }
@@ -6143,23 +6220,35 @@ export class BuilderComponent implements OnInit {
           }
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                for (let h = 0; h < event.form.options.length; h++) {
-                  if (event.form.options[index].api != undefined) {
-                    this.selectedNode.section[0].series[index] = res.series[0];
-                    this.selectedNode.section[0].labels[index] = res.labels[0];
-                    this.selectedNode.section[0].colors[index] = res.colors[0];
-                    this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  for (let h = 0; h < event.form.options.length; h++) {
+                    if (event.form.options[index].api != undefined) {
+                      this.selectedNode.section[0].series[index] = res.series[0];
+                      this.selectedNode.section[0].labels[index] = res.labels[0];
+                      this.selectedNode.section[0].colors[index] = res.colors[0];
+                      this.updateNodes();
+                    }
                   }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.visitordonutChart().subscribe((res => {
-              this.selectedNode.section = res;
-              this.updateNodes();
-            }));
+            this.requestSubscription = this.builderService.visitordonutChart().subscribe({
+              next: (res) => {
+                this.selectedNode.section = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            });
           }
         }
         break;
@@ -6184,25 +6273,37 @@ export class BuilderComponent implements OnInit {
           }
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                if (event.form.options[index].api != undefined) {
-                  // this.selectedNode.saledDonutChart[index].labels = res.labels;
-                  // this.selectedNode.saledDonutChart[index].series = res.series;
-                  // this.selectedNode.saledDonutChart[index].colors = res.colors;
-                  this.selectedNode.thisValue = res.thisValue;
-                  this.selectedNode.lastValue = res.lastValue;
-                  this.selectedNode.prevValue = res.prevValue;
-                  this.selectedNode.growth = res.growth;
-                  this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  if (event.form.options[index].api != undefined) {
+                    // this.selectedNode.saledDonutChart[index].labels = res.labels;
+                    // this.selectedNode.saledDonutChart[index].series = res.series;
+                    // this.selectedNode.saledDonutChart[index].colors = res.colors;
+                    this.selectedNode.thisValue = res.thisValue;
+                    this.selectedNode.lastValue = res.lastValue;
+                    this.selectedNode.prevValue = res.prevValue;
+                    this.selectedNode.growth = res.growth;
+                    this.updateNodes();
+                  }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("donutChart").subscribe((res => {
-              this.selectedNode.section = res;
-              this.updateNodes()
-            }));
+            this.requestSubscription = this.builderService.genericApis("donutChart").subscribe({
+              next: (res) => {
+                this.selectedNode.section = res;
+                this.updateNodes()
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            });
           }
         }
         break;
@@ -6222,23 +6323,35 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                for (let h = 0; h < event.form.options.length; h++) {
-                  if (event.form.options[index].api != undefined) {
-                    this.selectedNode.chart[index].percentage = res.min;
-                    this.selectedNode.chart[index].min = res.min;
-                    this.selectedNode.chart[index].bar = res.min + "%";
-                    this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  for (let h = 0; h < event.form.options.length; h++) {
+                    if (event.form.options[index].api != undefined) {
+                      this.selectedNode.chart[index].percentage = res.min;
+                      this.selectedNode.chart[index].min = res.min;
+                      this.selectedNode.chart[index].bar = res.min + "%";
+                      this.updateNodes();
+                    }
                   }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("browserdata").subscribe((res => {
-              this.selectedNode.chart = res;
-              this.updateNodes();
-            }))
+            this.requestSubscription = this.builderService.genericApis("browserdata").subscribe({
+              next: (res) => {
+                this.selectedNode.chart = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
         }
         break;
@@ -6259,24 +6372,35 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-
-                for (let h = 0; h < event.form.options.length; h++) {
-                  if (event.form.options[index].api != undefined) {
-                    this.selectedNode.chart[index].percentage = res.min;
-                    this.selectedNode.chart[index].min = res.min;
-                    this.selectedNode.chart[index].bar = res.min + "%";
-                    this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  for (let h = 0; h < event.form.options.length; h++) {
+                    if (event.form.options[index].api != undefined) {
+                      this.selectedNode.chart[index].percentage = res.min;
+                      this.selectedNode.chart[index].min = res.min;
+                      this.selectedNode.chart[index].bar = res.min + "%";
+                      this.updateNodes();
+                    }
                   }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("browserdata").subscribe((res => {
-              this.selectedNode.chart = res;
-              this.updateNodes();
-            }))
+            this.requestSubscription = this.builderService.genericApis("browserdata").subscribe({
+              next: (res) => {
+                this.selectedNode.chart = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
         }
         break;
@@ -6300,25 +6424,31 @@ export class BuilderComponent implements OnInit {
           }
           this.selectedNode.section[0].series = event.form.options;
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("analyticsChart").subscribe((res => {
-              this.selectedNode.section[0].chart = res.chart;
-              this.selectedNode.section[0].stroke = res.stroke;
-              this.selectedNode.section[0].plotOptions = res.plotOptions;
-              this.selectedNode.section[0].colors = res.colors;
-              for (let j = 0; j < res.series.length; j++) {
-                this.selectedNode.section[0].series[j].name = res.series[j].name;
-                this.selectedNode.section[0].series[j].title = res.series[j].name;
-                this.selectedNode.section[0].series[j].data = res.series[j].data;
+            this.requestSubscription = this.builderService.genericApis("analyticsChart").subscribe({
+              next: (res) => {
+                this.selectedNode.section[0].chart = res.chart;
+                this.selectedNode.section[0].stroke = res.stroke;
+                this.selectedNode.section[0].plotOptions = res.plotOptions;
+                this.selectedNode.section[0].colors = res.colors;
+                for (let j = 0; j < res.series.length; j++) {
+                  this.selectedNode.section[0].series[j].name = res.series[j].name;
+                  this.selectedNode.section[0].series[j].title = res.series[j].name;
+                  this.selectedNode.section[0].series[j].data = res.series[j].data;
+                }
+                this.selectedNode.section[0].fill = res.fill;
+                this.selectedNode.section[0].labels = res.labels;
+                this.selectedNode.section[0].markers = res.markers;
+                this.selectedNode.section[0].xaxis = res.xaxis;
+                this.selectedNode.section[0].yaxis = res.yaxis;
+                this.selectedNode.section[0].tooltip = res.tooltip;
+                this.selectedNode.section[0].grid = res.grid;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-              this.selectedNode.section[0].fill = res.fill;
-              this.selectedNode.section[0].labels = res.labels;
-              this.selectedNode.section[0].markers = res.markers;
-              this.selectedNode.section[0].xaxis = res.xaxis;
-              this.selectedNode.section[0].yaxis = res.yaxis;
-              this.selectedNode.section[0].tooltip = res.tooltip;
-              this.selectedNode.section[0].grid = res.grid;
-              this.updateNodes();
-            }))
+            })
           }
         }
         break;
@@ -6344,28 +6474,40 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.link = event.form.link;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                this.selectedNode.section = '';
-                for (let h = 0; h < event.form.options.length; h++) {
-                  if (event.form.options[index].api != undefined) {
-                    this.selectedNode.section[index].total = res.total;
-                    this.selectedNode.section[index].percentage = res.percentage;
-                    this.selectedNode.section[index].data = res.Chart.series[0].data;
-                    this.selectedNode.section[index].Chart = res.Chart;
-                    this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  this.selectedNode.section = '';
+                  for (let h = 0; h < event.form.options.length; h++) {
+                    if (event.form.options[index].api != undefined) {
+                      this.selectedNode.section[index].total = res.total;
+                      this.selectedNode.section[index].percentage = res.percentage;
+                      this.selectedNode.section[index].data = res.Chart.series[0].data;
+                      this.selectedNode.section[index].Chart = res.Chart;
+                      this.updateNodes();
+                    }
                   }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("widgetChart").subscribe((res => {
-              this.selectedNode.section = res;
-              for (let index = 0; index < res.length; index++) {
-                this.selectedNode.section[index].data = res[index].Chart.series[0].data;
+            this.requestSubscription = this.builderService.genericApis("widgetChart").subscribe({
+              next: (res) => {
+                this.selectedNode.section = res;
+                for (let index = 0; index < res.length; index++) {
+                  this.selectedNode.section[index].data = res[index].Chart.series[0].data;
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-              this.updateNodes();
-            }))
+            })
             event.form.link = "";
           }
         }
@@ -6388,22 +6530,34 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.link = event.form.link;
           for (let index = 0; index < event.form.options.length; index++) {
             if (event.form.options[index].api != undefined) {
-              this.builderService.genericApis(event.form.options[index].api).subscribe((res => {
-                for (let h = 0; h < event.form.options.length; h++) {
-                  if (event.form.options[index].api != undefined) {
-                    this.selectedNode.section[index].total = res.total;
-                    this.selectedNode.section[index].percentage = res.percentage;
-                    this.updateNodes();
+              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
+                next: (res) => {
+                  for (let h = 0; h < event.form.options.length; h++) {
+                    if (event.form.options[index].api != undefined) {
+                      this.selectedNode.section[index].total = res.total;
+                      this.selectedNode.section[index].percentage = res.percentage;
+                      this.updateNodes();
+                    }
                   }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
                 }
-              }))
+              })
             }
           }
           if (this.selectedNode.link != undefined) {
-            this.builderService.genericApis("widgetSecondCard").subscribe((res => {
-              this.selectedNode.section = res;
-              this.updateNodes();
-            }))
+            this.requestSubscription = this.builderService.genericApis("widgetSecondCard").subscribe({
+              next: (res) => {
+                this.selectedNode.section = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
             event.form.link = "";
           }
         }
@@ -6428,10 +6582,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.textAlign = event.form.textAlign;
           this.selectedNode.headingColor = event.form.headingColor;
           if (event.form.headingApi) {
-            this.builderService.genericApis(event.form.headingApi).subscribe((res => {
-              this.selectedNode.data = res.data;
-              this.updateNodes();
-            }))
+            this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
+              next: (res) => {
+                this.selectedNode.data = res.data;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
           this.updateNodes();
         }
@@ -6734,19 +6894,25 @@ export class BuilderComponent implements OnInit {
           }
 
           if (event.form.kanbanTaskApi != undefined) {
-            this.builderService.genericApis(event.form.kanbanTaskApi).subscribe((res => {
-              this.selectedNode = res;
-              for (let index = 0; index < res.length; index++) {
-                this.selectedNode.id = res[index].id;
-                this.selectedNode.title = res[index].title;
-                this.selectedNode.date = res[index].date;
-                this.selectedNode.users = res[index].users;
-                this.selectedNode.status = res[index].status;
-                this.selectedNode.variant = res[index].variant;
-                this.selectedNode.content = res[index].content;
+            this.requestSubscription = this.builderService.genericApis(event.form.kanbanTaskApi).subscribe({
+              next: (res) => {
+                this.selectedNode = res;
+                for (let index = 0; index < res.length; index++) {
+                  this.selectedNode.id = res[index].id;
+                  this.selectedNode.title = res[index].title;
+                  this.selectedNode.date = res[index].date;
+                  this.selectedNode.users = res[index].users;
+                  this.selectedNode.status = res[index].status;
+                  this.selectedNode.variant = res[index].variant;
+                  this.selectedNode.content = res[index].content;
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-              this.updateNodes();
-            }))
+            })
           }
           this.updateNodes();
         }
@@ -6831,10 +6997,16 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.sharedMessagesConfig[0].icon1 = event.form.options.icon1;
           }
           if (event.form.api != undefined) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              this.selectedNode.sharedMessagesConfig = res;
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                this.selectedNode.sharedMessagesConfig = res;
               this.updateNodes();
-            }))
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
           }
           this.updateNodes()
         }
@@ -6868,9 +7040,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tooltip = event.form.tooltip;
           event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
           if (event.form.link != undefined || event.form.link != "") {
-            this.builderService.genericApis(event.form.link).subscribe((res) => {
-              this.selectedNode.carousalConfig = res;
-              this.updateNodes();
+            this.requestSubscription = this.builderService.genericApis(event.form.link).subscribe({
+              next: (res) => {
+                this.selectedNode.carousalConfig = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+
             })
           }
         }
@@ -6931,12 +7110,18 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.data = event.tableDta;
           }
           if (event.form.api) {
-            this.builderService.genericApis(event.form.api).subscribe((res => {
-              if (res) {
-                this.selectedNode.data = res;
-                this.updateNodes();
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.data = res;
+                  this.updateNodes();
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            }))
+            })
           }
         }
         break;
@@ -7045,45 +7230,45 @@ export class BuilderComponent implements OnInit {
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
     if (fieldGroup) {
-      if (fieldGroup[0].templateOptions) {
-        if (fieldGroup[0].templateOptions.labelPosition == undefined && fieldGroup[0].templateOptions.labelPosition == '') {
-          fieldGroup[0].templateOptions["labelPosition"];
+      if (fieldGroup[0].props) {
+        if (fieldGroup[0].props.labelPosition == undefined && fieldGroup[0].props.labelPosition == '') {
+          fieldGroup[0].props["labelPosition"];
         }
         if (formValues.disabled == "editable") {
-          fieldGroup[0].templateOptions.disabled = false;
+          fieldGroup[0].props.disabled = false;
         }
         else if (formValues.disabled == "disabled") {
-          fieldGroup[0].templateOptions.disabled = true;
+          fieldGroup[0].props.disabled = true;
         }
         else if (formValues.disabled == "disabled-But-ditable") {
-          fieldGroup[0].templateOptions.disabled = true;
+          fieldGroup[0].props.disabled = true;
         }
         if (formValues.labelPosition == "text-right") {
-          fieldGroup[0].templateOptions.labelPosition = "text-right";
+          fieldGroup[0].props.labelPosition = "text-right";
         }
         else if (formValues.labelPosition == "text-center") {
-          fieldGroup[0].templateOptions.labelPosition = "text-center";
+          fieldGroup[0].props.labelPosition = "text-center";
         }
         else if (formValues.labelPosition == "text-left") {
-          fieldGroup[0].templateOptions.labelPosition = "text-left";
+          fieldGroup[0].props.labelPosition = "text-left";
         }
         if (formValues.wrappers != 'floatingInput') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
         }
         if (formValues.wrappers == 'floatingInput') {
-          fieldGroup[0].templateOptions.config['floatingInput'] = true;
+          fieldGroup[0].props.config['floatingInput'] = true;
         } else {
-          fieldGroup[0].templateOptions.config['floatingInput'] = false;
+          fieldGroup[0].props.config['floatingInput'] = false;
         }
         if (formValues.sectionClassName) {
-          fieldGroup[0].templateOptions.className = formValues.sectionClassName;
+          fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.size) {
-          fieldGroup[0].templateOptions.config.size = formValues.size;
+          fieldGroup[0].props.config.size = formValues.size;
         }
         if (formValues.status) {
-          fieldGroup[0].templateOptions.config.status = formValues.status;
+          fieldGroup[0].props.config.status = formValues.status;
         }
       }
     }
@@ -7092,11 +7277,16 @@ export class BuilderComponent implements OnInit {
 
   functionName: any;
   mainTemplate() {
-    this.builderService.genericApis(this.functionName).subscribe((res => {
-      if (this.selectedNode.children)
+    this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
+      next: (res) => {
+        if (this.selectedNode.children)
         this.selectedNode.children.push(res)
-      // this.updateNodes();
-    }));
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   }
 
   jsonStringify(data: any) {
@@ -7131,13 +7321,19 @@ export class BuilderComponent implements OnInit {
       return selectNode;
     }
     if (api) {
-      this.builderService.genericApis(api).subscribe((res => {
-        if (res) {
-          selectNode = res;
-          this.updateNodes();
-          return selectNode;
+      this.requestSubscription = this.builderService.genericApis(api).subscribe({
+        next: (res) => {
+          if (res) {
+            selectNode = res;
+            this.updateNodes();
+            return selectNode;
+          }
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
-      }))
+      })
     }
   }
 
@@ -7183,6 +7379,9 @@ export class BuilderComponent implements OnInit {
       };
       reader.readAsText(event.target.files[0]);
     }
+  }
+  ngOnDestroy() {
+    this.requestSubscription.unsubscribe();
   }
 }
 

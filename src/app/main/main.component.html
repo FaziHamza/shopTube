@@ -331,7 +331,7 @@
                 <form [formGroup]="form">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <formly-form [fields]="item.formly" [(model)]="dataModel" [form]="form">
+                        <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                         </formly-form>
                         <!-- <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button> -->
                     </div>

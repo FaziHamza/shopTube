@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ruleFactory } from '@elite-libs/rules-machine';
-import { FormlyFormOptions } from '@ngx-formly/core';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pages',
@@ -21,18 +20,24 @@ export class PagesComponent implements OnInit {
   screenData: any;
   businessRuleData: any;
   @Input() screenName = '';
+  requestSubscription: Subscription
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
-        this.employeeService.jsonBuilderSetting(params["schema"]).subscribe((res => {
-          if (res.length > 0) {
-            this.getUIRuleData(res[0].moduleName);
-            this.getBusinessRule(this.screenName);
-            this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
+        this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
+          next: (res) => {
+            if (res.length > 0) {
+              this.getUIRuleData(res[0].moduleName);
+              this.getBusinessRule(this.screenName);
+              this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+              this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
+            }
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
           }
-        }));
+        });
       }
     });
   }
@@ -55,12 +60,17 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
   getUIRuleData(data: any) {
-    this.builderService.jsonUIRuleGetData(data).subscribe((getRes => {
-      if (getRes.length > 0) {
-        this.screenData = [];
-        this.screenData = getRes[0];
-      } else { }
-    }));
+    this.requestSubscription = this.builderService.jsonUIRuleGetData(data).subscribe({
+      next: (getRes) => {
+        if (getRes.length > 0) {
+          this.screenData = [];
+          this.screenData = getRes[0];
+        } else { }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+      }
+    });
   }
   disabledAndEditableSection(data: any) {
     data[0].forEach((a: any) => {
@@ -76,9 +86,13 @@ export class PagesComponent implements OnInit {
       }
     });
   }
+  ngOnDestroy() {
+    this.requestSubscription.unsubscribe();
+  }
   uiRuleGetData(moduleId: any) {
     this.makeFaker();
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+    this.updateFormlyModel();
     // this.getUIRuleData();
   }
   updateNodes() {
@@ -88,21 +102,31 @@ export class PagesComponent implements OnInit {
     debugger
     this.getUIRule(model, currentValue);
     this.updateNodes();
-    this.cdr.detectChanges();
-    this.cdr.detach();
+    // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
+    // this.cdr.detectChanges();
+    // this.cdr.detach();
   }
   getUIRule(model: any, currentValue: any) {
     try {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children[0].children[1].children;
-        for (let j = 0; j < inputType.length; j++) {
-          for (let index = 0; index < this.screenData.uiData.length; index++) {
-            if (inputType[j] == undefined) {
-              let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+        for (let index = 0; index < this.screenData.uiData.length; index++) {
+          if (model.key == this.screenData.uiData[index].ifMenuName) {
+            let query: any;
+            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            if (this.screenData.uiData[index].condationName == 'contains') {
+              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+                query = '1 == 1';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+              else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            } else if (this.screenData.uiData[index].condationName == 'null') {
+              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -110,98 +134,38 @@ export class PagesComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-
               } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
-              if (eval(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.resData[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
-              else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.resData[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+
+            } else {
+              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              } else {
+                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
-            else if (inputType[j].formly != undefined) {
-              let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                  query = '1 == 1';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-                else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-
-              } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-              }
-              if (eval(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.resData[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
-              else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.resData[0].children[1].children[0].children[1].children = check;
-                this.updateNodes();
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-              }
+            if (eval(query)) {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+              this.resData[0].children[1].children[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
+            }
+            else {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              this.resData[0].children[1].children[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
             }
           }
         }
-        // this.clickBack();
-        // this.cdr.detectChanges();
+      } else {
+        this.updateFormlyModel();
       }
     } catch (error) {
       console.log(error)
@@ -209,19 +173,25 @@ export class PagesComponent implements OnInit {
       if (this.screenName) {
         const fishRhyme = ruleFactory(this.businessRuleData);
         console.log(fishRhyme(this.formlyModel));
-        this.cdr.detectChanges();
-        this.cdr.detach();
+        this.updateFormlyModel()
+        // this.cdr.detectChanges();
+        // this.cdr.detach();
       }
     }
   }
   getBusinessRule(screenName: string) {
     if (screenName) {
-      this.builderService.jsonBisnessRuleGet(screenName).subscribe((getRes => {
-        if (getRes.length > 0) {
-          this.businessRuleData = [];
-          this.businessRuleData = getRes[0].buisnessRule
+      this.requestSubscription = this.builderService.jsonBisnessRuleGet(screenName).subscribe({
+        next: (getRes) => {
+          if (getRes.length > 0) {
+            this.businessRuleData = [];
+            this.businessRuleData = getRes[0].buisnessRule
+          }
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
         }
-      }))
+      })
     }
   }
   makeFaker() {
@@ -247,7 +217,7 @@ export class PagesComponent implements OnInit {
                             });
                           }
                           else {//input field
-                            dataModelFaker[V2.key] = this.makeFakerData(V2);
+                            dataModelFaker[V2.formly[0].fieldGroup[0].key] = this.makeFakerData(V2);
                           }
                         } else if (V2.mainDashonicTabsConfig) {
                           V2.children.forEach((element: any) => {
@@ -276,6 +246,10 @@ export class PagesComponent implements OnInit {
       });
     }
     this.formlyModel = dataModelFaker;
+    this.updateFormlyModel();
+  }
+  updateFormlyModel() {
+    this.formlyModel = Object.assign({}, this.formlyModel)
   }
   evalConditionRule(query: any, dataTargetIfValue: any) {
     dataTargetIfValue.forEach((e: any) => {
