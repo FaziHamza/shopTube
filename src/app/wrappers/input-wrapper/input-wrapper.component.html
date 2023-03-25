@@ -1,16 +1,39 @@
-<div
-  [ngClass]="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? 'relative' : (to.config?.wrapper == 'floating_standard' ? 'relative z-0' : '')">
+<ng-container *ngIf="to.type != 'number' && to.config?.wrapper != 'floating_standard'">
+  <ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
+    <nz-input-group [ngClass]="to.config?.wrapper == 'floating_standard' ? 'relative z-0' : ''"
+      *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft"
+      [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+      <input
+        [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
+        [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
+        [nzStatus]="to.config?.status" [formControl]="formControl" [nzBorderless]="to.config?.border" />
+      <label
+        *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
+        [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+    </nz-input-group>
+    <nz-input-group *ngIf="to.config?.wrapper && to.config?.suffixicon || to.config?.prefixicon"
+      [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size"
+      [nzStatus]="to.config?.status">
+      <input [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
+        [nzStatus]="to.config?.status" [formControl]="formControl" [nzBorderless]="to.config?.border" />
+    </nz-input-group>
+  </ng-container>
+  <ng-container *ngIf="to.type == 'textarea'">
+    <textarea placeholder="Autosize height based on content lines" nzAutosize></textarea>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="to.type == 'number'">
+  <nz-input-number style="width:100%" [formControl]="formControl" [nzStep]="1"></nz-input-number>
+</ng-container>
+<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
   <input
-    [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
-    [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="" [nzStatus]="to.config?.status"
+    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+    [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder" [nzStatus]="to.config?.status"
     [formControl]="formControl" [nzBorderless]="to.config?.border" />
-  <label
-    *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard'"
-    [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+  <label for="floating_standard"
+    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{to.label}}</label>
 </div>
-
-
-<div class="relative">
-  <input type="text" id="floating_filled" nz-input class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-  <label for="floating_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Floating filled</label>
-</div>
+<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+<ng-template #suffixTemplateInfo>
+  <span nz-icon [nzType]="to.config?.prefixicon"></span>
+</ng-template>

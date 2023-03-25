@@ -1,37 +1,73 @@
-<nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon"
-[nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size"
-  [nzStatus]="to.config?.status">
-  <nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate"
-    [formlyAttributes]="field" [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
-    [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
-    [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
-    [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
-    [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
-    [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
-    [formControl]="formControl">
-    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
-      [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
-      [nzLabel]="item.label">{{item.label}}</nz-option>
-  </nz-select>
-</nz-input-group>
-<nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
-[nzSuffix]="suffixTemplateInfo" 
-[nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size"
-  [nzStatus]="to.config?.status">
-  <nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate"
-    [formlyAttributes]="field" [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
-    [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
-    [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
-    [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
-    [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
-    [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
-    [formControl]="formControl">
-    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
-      [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
-      [nzLabel]="item.label">{{item.label}}</nz-option>
-  </nz-select>
-</nz-input-group>
+<ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
+  <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft"
+    [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+    <nz-select [nzStatus]="to.config?.status"
+      [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''"
+      [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
+      [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
+      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
+      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
+      [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+      [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
+      [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+      [formControl]="formControl">
+      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
+        [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+        [nzLabel]="item.label">{{item.label}}</nz-option>
+      <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
+        [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+    </nz-select>
+  </nz-input-group>
+  <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+    <nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate"
+      [formlyAttributes]="field" [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
+      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
+      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
+      [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+      [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
+      [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+      [formControl]="formControl">
+      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
+        [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+        [nzLabel]="item.label">{{item.label}}</nz-option>
+    </nz-select>
+  </nz-input-group>
 
+  <ng-template #valueTemplate let-item>
+    <div class="d-flex align-items-center">
+      <i *ngIf="getIcon(item.nzValue)" class="{{getIcon(item.nzValue)}} option-icon"></i> {{item.nzLabel}}
+    </div>
+  </ng-template>
+
+
+  <ng-template #characterIcon>
+    <span nz-icon [nzType]="to.config?.icon || 'close'" nzTheme="outline"></span>
+  </ng-template>
+  <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+  <ng-template #suffixTemplateInfo>
+    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+  </ng-template>
+
+</ng-container>
+<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
+  <nz-select [nzStatus]="to.config?.status"
+  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+    [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
+    [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
+    [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
+    [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
+    [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+    [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
+    [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+    [formControl]="formControl">
+    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
+      [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+      [nzLabel]="item.label">{{item.label}}</nz-option>
+      <label class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{to.label}}</label>
+
+  </nz-select>
+</div>
 <ng-template #valueTemplate let-item>
   <div class="d-flex align-items-center">
     <i *ngIf="getIcon(item.nzValue)" class="{{getIcon(item.nzValue)}} option-icon"></i> {{item.nzLabel}}
@@ -41,8 +77,4 @@
 
 <ng-template #characterIcon>
   <span nz-icon [nzType]="to.config?.icon || 'close'" nzTheme="outline"></span>
-</ng-template>
-<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
-<ng-template #suffixTemplateInfo>
-  <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
 </ng-template>

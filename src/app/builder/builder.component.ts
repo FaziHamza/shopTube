@@ -965,11 +965,11 @@ export class BuilderComponent implements OnInit {
                     format: 'dd-MM-yyyy',
                     optionHieght: 30,
                     optionHoverSize: 10,
-                    suffixicon:'',
-                    prefixicon:'',
-                    wrapper:'',
-                    floatFieldClass:'',
-                    floatLabelClass:'',
+                    suffixicon: '',
+                    prefixicon: '',
+                    wrapper: '',
+                    floatFieldClass: '',
+                    floatLabelClass: '',
                   },
                   maxLength: 5000,
                   minLength: 1,
@@ -4096,7 +4096,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    
+
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -5364,7 +5364,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         if (this.selectedNode) {
-          
+
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -5521,8 +5521,9 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-        
+
         if (this.selectedNode) {
+          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5548,10 +5549,19 @@ export class BuilderComponent implements OnInit {
             templateOptions['tooltip'] = event.form.tooltip;
             templateOptions['className'] = event.form.className;
             templateOptions['titleIcon'] = event.form.titleIcon;
-            templateOptions.config['addonRight'] = event.form.addonRight;
-            templateOptions.config['addonLeft'] = event.form.addonLeft;
-            templateOptions.config['optionWidth'] = event.form.optionWidth;
+            if(templateOptions.config.wrapper == 'floating_filled' || templateOptions.config.wrapper == 'floating_filled' || templateOptions.config.wrapper == 'floating_standard'){
+              templateOptions.config['addonRight'] = '';
+            templateOptions.config['addonLeft'] = '';
+            templateOptions.config['prefixicon'] = '';
+            templateOptions.config['suffixicon'] = '';
+            }else{
+              templateOptions.config['addonRight'] = event.form.addonRight;
+              templateOptions.config['addonLeft'] = event.form.addonLeft;
+              templateOptions.config['prefixicon'] = event.form.prefixicon;
+              templateOptions.config['suffixicon'] = event.form.suffixicon;
+            }
             templateOptions.config['border'] = event.form.border;
+            templateOptions.config['optionWidth'] = event.form.optionWidth;
             templateOptions.config['step'] = event.form.step;
             templateOptions.config['format'] = event.form.format;
             templateOptions.config['allowClear'] = event.form.allowClear;
@@ -5570,8 +5580,6 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['secondStep'] = event.form.secondStep;
             templateOptions.config['hoursStep'] = event.form.hoursStep;
             templateOptions.config['use12Hours'] = event.form.use12Hours;
-            templateOptions.config['prefixicon'] = event.form.prefixicon;
-            templateOptions.config['suffixicon'] = event.form.suffixicon;
             templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
@@ -5874,7 +5882,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        
+
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -7071,34 +7079,48 @@ export class BuilderComponent implements OnInit {
         else if (formValues.labelPosition == "text-left") {
           fieldGroup[0].templateOptions.labelPosition = "text-left";
         }
+        if (formValues.status) {
+          fieldGroup[0].templateOptions.config.status = formValues.status;
+        }
+        if (formValues.size) {
+          fieldGroup[0].templateOptions.config.size = formValues.size;
+        }
         if (formValues.wrappers == 'floating_filled') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
           fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
           fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
         }
         else if (formValues.wrappers == 'floating_outlined') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
           fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
           fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0]
-          
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
         }
         else if (formValues.wrappers == 'floating_standard') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
           fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
-          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0]
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
         }
         if (formValues.sectionClassName) {
           fieldGroup[0].templateOptions.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
-        }
-        if (formValues.size) {
-          fieldGroup[0].templateOptions.config.size = formValues.size;
-        }
-        if (formValues.status) {
-          fieldGroup[0].templateOptions.config.status = formValues.status;
         }
       }
     }
