@@ -4061,6 +4061,14 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          key: 'isBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'isBordered'
+          },
+        },
       ]
     },
   ]
@@ -4291,6 +4299,14 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           templateOptions: {
             label: 'Repeatable '
+          },
+        },
+        {
+          key: 'isBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'isBordered'
           },
         },
         // {

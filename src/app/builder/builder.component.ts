@@ -762,6 +762,7 @@ export class BuilderComponent implements OnInit {
         footer: false,
         header: true,
         expanded: true,
+        isBordered: true,
         highLight: false,
         labelPosition: 'text-left',
         alertPosition: 'topHeader',
@@ -836,6 +837,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         repeatable: false,
+        isBordered: true,
         size: 'default',
         status: '',
         formly: [
@@ -6535,6 +6537,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.header = event.form.header;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.alertPosition = event.form.alertPosition;
+          this.selectedNode.isBordered = event.form.isBordered;
         }
         break;
 
@@ -6565,6 +6568,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.repeatable = event.form.repeatable;
           this.selectedNode.size = event.form.size;
           this.selectedNode.status = event.form.status;
+          this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
               if (res.formly != undefined) {

@@ -828,6 +828,7 @@ export class BuilderClickButtonService {
       header: node.header,
       labelPosition: node.labelPosition,
       alertPosition: node.alertPosition,
+      isBordered: node.isBordered,
     }
   }
   getFooterConfig(node: any) {
@@ -846,6 +847,7 @@ export class BuilderClickButtonService {
         size: node.size,
         status: node.status,
         sectionClassName: node.sectionClassName,
+        isBordered: node.isBordered,
         wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
       }
     }
