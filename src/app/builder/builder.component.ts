@@ -756,6 +756,7 @@ export class BuilderComponent implements OnInit {
         footer: false,
         header: true,
         expanded: true,
+        isBordered: true,
         highLight: false,
         labelPosition: 'text-left',
         alertPosition: 'topHeader',
@@ -820,7 +821,7 @@ export class BuilderComponent implements OnInit {
         key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
-        className: "w-1/2 p-1",
+        className: "w-full",
         sectionClassName: "",
         footer: false,
         header: false,
@@ -830,6 +831,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: true,
         repeatable: false,
+        isBordered: true,
         size: 'default',
         status: '',
         formly: [
@@ -929,7 +931,7 @@ export class BuilderComponent implements OnInit {
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: this.getLastNodeWrapper("wrappers"),
                 props: {
                   multiple: true,
                   className: 'w-1/3 px-1 py-1',
@@ -961,8 +963,11 @@ export class BuilderComponent implements OnInit {
                     optionHoverSize: 10,
                     suffixicon: '',
                     prefixicon: '',
+                    wrapper: '',
+                    floatFieldClass: '',
+                    floatLabelClass: '',
                   },
-                  maxLength: 10,
+                  maxLength: 5000,
                   minLength: 1,
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -1023,7 +1028,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "bg-blue-600",
-        onhover: "hover:bg-blue-400",
+        onhover: "hover:bg-black",
         btnIcon: "upload",
         tooltip: "",
         format: "text-left",
@@ -1056,7 +1061,7 @@ export class BuilderComponent implements OnInit {
         onhover: "hover:bg-green-400",
         btnIcon: "down",
         format: "text-left",
-        btnDisables: false,
+        disabled: false,
         nzDanger: false,
         nzBlock: false,
         nzSize: "default",
@@ -4088,7 +4093,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -5410,7 +5415,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         if (this.selectedNode) {
-          debugger
+
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -5573,8 +5578,9 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-        debugger
+
         if (this.selectedNode) {
+          debugger
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
@@ -5593,39 +5599,46 @@ export class BuilderComponent implements OnInit {
             if (event.tableDta) {
               props['options'] = event.tableDta;
             }
-            props['required'] = event.form.required;
-            props['maxLength'] = event.form.maxLength;
-            props['minLength'] = event.form.minLength;
-            props['disabled'] = event.form.disabled;
-            props['tooltip'] = event.form.tooltip;
-            props['className'] = event.form.className;
-            props['titleIcon'] = event.form.titleIcon;
-            props.config['addonRight'] = event.form.addonRight;
-            props.config['addonLeft'] = event.form.addonLeft;
-            props.config['optionWidth'] = event.form.optionWidth;
-            props.config['border'] = event.form.border;
-            props.config['step'] = event.form.step;
-            props.config['format'] = event.form.format;
-            props.config['allowClear'] = event.form.allowClear;
-            props.config['serveSearch'] = event.form.serveSearch;
-            props.config['showArrow'] = event.form.showArrow;
-            props.config['showSearch'] = event.form.showSearch;
-            props.config['clearIcon'] = event.form.clearIcon;
-            props.config['loading'] = event.form.loading;
-            props.config['optionHieght'] = event.form.optionHieght;
-            props.config['optionHoverSize'] = event.form.optionHoverSize;
-            props.config['optionDisabled'] = event.form.optionDisabled;
-            props.config['optionHide'] = event.form.optionHide;
-            props.config['firstBtnText'] = event.form.firstBtnText;
-            props.config['secondBtnText'] = event.form.secondBtnText;
-            props.config['minuteStep'] = event.form.minuteStep;
-            props.config['secondStep'] = event.form.secondStep;
-            props.config['hoursStep'] = event.form.hoursStep;
-            props.config['use12Hours'] = event.form.use12Hours;
-            props.config['prefixicon'] = event.form.prefixicon;
-            props.config['suffixicon'] = event.form.suffixicon;
-            props.config['icon'] = event.form.icon;
-            props['readonly'] = event.form.readonly;
+            templateOptions['required'] = event.form.required;
+            templateOptions['maxLength'] = event.form.maxLength;
+            templateOptions['minLength'] = event.form.minLength;
+            templateOptions['disabled'] = event.form.disabled;
+            templateOptions['tooltip'] = event.form.tooltip;
+            templateOptions['className'] = event.form.className;
+            templateOptions['titleIcon'] = event.form.titleIcon;
+            if(templateOptions.config.wrapper == 'floating_filled' || templateOptions.config.wrapper == 'floating_filled' || templateOptions.config.wrapper == 'floating_standard'){
+              templateOptions.config['addonRight'] = '';
+            templateOptions.config['addonLeft'] = '';
+            templateOptions.config['prefixicon'] = '';
+            templateOptions.config['suffixicon'] = '';
+            }else{
+              templateOptions.config['addonRight'] = event.form.addonRight;
+              templateOptions.config['addonLeft'] = event.form.addonLeft;
+              templateOptions.config['prefixicon'] = event.form.prefixicon;
+              templateOptions.config['suffixicon'] = event.form.suffixicon;
+            }
+            templateOptions.config['border'] = event.form.border;
+            templateOptions.config['optionWidth'] = event.form.optionWidth;
+            templateOptions.config['step'] = event.form.step;
+            templateOptions.config['format'] = event.form.format;
+            templateOptions.config['allowClear'] = event.form.allowClear;
+            templateOptions.config['serveSearch'] = event.form.serveSearch;
+            templateOptions.config['showArrow'] = event.form.showArrow;
+            templateOptions.config['showSearch'] = event.form.showSearch;
+            templateOptions.config['clearIcon'] = event.form.clearIcon;
+            templateOptions.config['loading'] = event.form.loading;
+            templateOptions.config['optionHieght'] = event.form.optionHieght;
+            templateOptions.config['optionHoverSize'] = event.form.optionHoverSize;
+            templateOptions.config['optionDisabled'] = event.form.optionDisabled;
+            templateOptions.config['optionHide'] = event.form.optionHide;
+            templateOptions.config['firstBtnText'] = event.form.firstBtnText;
+            templateOptions.config['secondBtnText'] = event.form.secondBtnText;
+            templateOptions.config['minuteStep'] = event.form.minuteStep;
+            templateOptions.config['secondStep'] = event.form.secondStep;
+            templateOptions.config['hoursStep'] = event.form.hoursStep;
+            templateOptions.config['use12Hours'] = event.form.use12Hours;
+            templateOptions.config['icon'] = event.form.icon;
+            templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
             } else {
@@ -5938,7 +5951,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        debugger
+
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -6059,7 +6072,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6081,9 +6094,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.format = event.form.format;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.btnType = event.form.target;
-          if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-            this.selectedNode.btnType = "modal";
-          }
+          // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
+          //   this.selectedNode.btnType = "modal";
+          // }
           this.updateNodes();
 
         }
@@ -6109,6 +6122,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.placement = event.form.placement;
           this.selectedNode.visible = event.form.visible;
           this.selectedNode.clickHide = event.form.clickHide;
+          this.selectedNode.disabled = event.form.disabled;
 
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
@@ -6683,6 +6697,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.header = event.form.header;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.alertPosition = event.form.alertPosition;
+          this.selectedNode.isBordered = event.form.isBordered;
         }
         break;
 
@@ -6713,6 +6728,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.repeatable = event.form.repeatable;
           this.selectedNode.size = event.form.size;
           this.selectedNode.status = event.form.status;
+          this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
               if (res.formly != undefined) {
@@ -7229,6 +7245,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
+    debugger
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (fieldGroup[0].props.labelPosition == undefined && fieldGroup[0].props.labelPosition == '') {
@@ -7252,23 +7269,48 @@ export class BuilderComponent implements OnInit {
         else if (formValues.labelPosition == "text-left") {
           fieldGroup[0].props.labelPosition = "text-left";
         }
-        if (formValues.wrappers != 'floatingInput') {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+        if (formValues.status) {
+          fieldGroup[0].templateOptions.config.status = formValues.status;
         }
-        if (formValues.wrappers == 'floatingInput') {
-          fieldGroup[0].props.config['floatingInput'] = true;
-        } else {
-          fieldGroup[0].props.config['floatingInput'] = false;
+        if (formValues.size) {
+          fieldGroup[0].templateOptions.config.size = formValues.size;
+        }
+        if (formValues.wrappers == 'floating_filled') {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
+        }
+        else if (formValues.wrappers == 'floating_outlined') {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0]
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
+        }
+        else if (formValues.wrappers == 'floating_standard') {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.placeholder = " ";
+          if (fieldGroup[0].templateOptions.config.size == 'small' || fieldGroup[0].templateOptions.config.size == 'large') {
+            fieldGroup[0].templateOptions.config.size = 'default';
+            this.selectedNode.size = 'default';
+          }
         }
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
-        }
-        if (formValues.size) {
-          fieldGroup[0].props.config.size = formValues.size;
-        }
-        if (formValues.status) {
-          fieldGroup[0].props.config.status = formValues.status;
         }
       }
     }
@@ -7338,7 +7380,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-
+    debugger
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {

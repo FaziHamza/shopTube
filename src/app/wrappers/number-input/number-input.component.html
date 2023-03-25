@@ -1,48 +1,36 @@
-
-<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''" 
-[nzSuffix]="to.config?.addonLeft" 
-[nzPrefix]="to.config?.addonRight" 
-[nzSize]="to.config?.size"
-    [nzStatus]="to.config?.status">
-    <nz-input-number style="width:100%" 
-[nzMin]="to.minLength || 0" 
-[nzMax]="to.maxLength || 1" 
-[nzStep]="to.config?.step || 1" 
-[nzPrecision]="precision"
-  nzPrecisionMode="cut" 
-  nzInputMode="" 
-  [nzPlaceHolder]="to.placeholder || ''"
-  [nzBorderless]="to.config?.border" 
-  [nzDisabled]="to.disabled" 
-  [nzReadOnly]="to.readonly"
-  [nzSize]="to.config?.size"
-    [nzStatus]="to.config?.status"
-    [formControl]="formControl"
-  ></nz-input-number>
+<ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
+  <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon " [nzSuffix]="to.config?.addonLeft"
+    [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+    <nz-input-number style="width:100%"
+      [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
+      [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to.config?.step || 1" [nzPrecision]="precision"
+      nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to.config?.border"
+      [nzDisabled]="to.disabled" [nzReadOnly]="to.readonly" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+      [formControl]="formControl"></nz-input-number>
+    <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
+      [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
   </nz-input-group>
 
-<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
-[nzSuffix]="suffixTemplateInfo" 
-[nzPrefix]="prefixTemplateUser"
-[nzSize]="to.config?.size"
-    [nzStatus]="to.config?.status">
-    <nz-input-number style="width:100%" 
-[nzMin]="to.minLength || 0" 
-[nzMax]="to.maxLength || 1" 
-[nzStep]="to.config?.step || 1" 
-[nzPrecision]="precision"
-  nzPrecisionMode="cut" 
-  nzInputMode="" 
-  [nzPlaceHolder]="to.placeholder || ''"
-  [nzBorderless]="to.config?.border" 
-  [nzDisabled]="to.disabled" 
-  [nzReadOnly]="to.readonly"
-  [nzSize]="to.config?.size"
-    [nzStatus]="to.config?.status"
-    [formControl]="formControl"
-  ></nz-input-number>
+  <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+    <nz-input-number style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
+      [nzStep]="to.config?.step || 1" [nzPrecision]="precision" nzPrecisionMode="cut" nzInputMode=""
+      [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to.config?.border" [nzDisabled]="to.disabled"
+      [nzReadOnly]="to.readonly" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+      [formControl]="formControl"></nz-input-number>
   </nz-input-group>
   <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
   <ng-template #suffixTemplateInfo>
-    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+    <span nz-icon [nzType]="to.config?.prefixicon"></span>
   </ng-template>
+</ng-container>
+<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
+  <nz-input-number style="width:100%"
+    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+    [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to.config?.step || 1" [nzPrecision]="precision"
+    nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to.config?.border"
+    [nzDisabled]="to.disabled" [nzReadOnly]="to.readonly" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+    [formControl]="formControl"></nz-input-number>
+  <label
+    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{to.label}}</label>
+</div>

@@ -196,7 +196,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -244,7 +244,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -681,7 +681,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -729,7 +729,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -1030,7 +1030,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -1079,7 +1079,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -4061,6 +4061,14 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          key: 'isBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'isBordered'
+          },
+        },
       ]
     },
   ]
@@ -4133,13 +4141,18 @@ export class formFeildData {
                 value: 'formly-vertical-theme-wrapper'
               },
               {
-                label: 'Floating Input',
-                value: 'floatingInput'
+                label: 'Floating Filled',
+                value: 'floating_filled'
               },
-              // {
-              //   label: 'Grid Theme',
-              //   value: 'formly-grid-wrapper'
-              // },
+              {
+                label: 'Floating Outlined',
+                value: 'floating_outlined'
+              },
+              {
+                label: 'Floating Standard',
+                value: 'floating_standard'
+              },
+              
             ],
           },
           // defaultValue: 'Vertical'
@@ -4286,6 +4299,14 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           templateOptions: {
             label: 'Repeatable '
+          },
+        },
+        {
+          key: 'isBordered',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          templateOptions: {
+            label: 'isBordered'
           },
         },
         // {
@@ -5084,7 +5105,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -6679,7 +6700,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]

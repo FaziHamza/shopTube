@@ -12,7 +12,7 @@ export class SwitchComponent implements OnInit {
   constructor() { }
   ngOnInit(): void {
   //  this.to;
-  debugger
+  
     this.switchData
   }
 

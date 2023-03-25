@@ -21,7 +21,7 @@ export class TransferComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterOption(inputValue: string, item: any): boolean {
-    debugger
+    
     return item.description.indexOf(inputValue) > -1;
   }
 

@@ -1,36 +1,32 @@
-<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''"
-[nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status">
-    <nz-date-picker style="width:100%" 
-    [nzFormat]="to.config?.format" 
-    [nzSize]="to.config?.size" 
-    [nzMode]="to.type"
-        [nzInputReadOnly]="true" 
-        [formControl]="formControl" 
-        [nzBorderless]="to.config?.border"
-        [nzStatus]="to.config?.status" 
-        [nzPlaceHolder]="to.placeholder || ''"
-        [nzDisabledDate]="disabledStartDate"
-        [nzDisabledDate]="disabledEndDate" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
+<ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
+  <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon " [nzSuffix]="to.config?.addonLeft"
+    [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status">
+    <nz-date-picker style="width:100%"
+      [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
+      [nzFormat]="to.config?.format" [nzSize]="to.config?.size" [formControl]="formControl"
+      [nzBorderless]="to.config?.border" [nzStatus]="to.config?.status"
+      [nzPlaceHolder]="to.placeholder || ''"></nz-date-picker>
+    <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
+      [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
 
-</nz-input-group>
-<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
-[nzSuffix]="suffixTemplateInfo" 
-[nzPrefix]="prefixTemplateUser" [nzStatus]="to.config?.status">
-    <nz-date-picker style="width:100%" 
-    [nzFormat]="to.config?.format" 
-    [nzSize]="to.config?.size" 
-    [nzMode]="to.type"
-        [nzInputReadOnly]="true" 
-        [formControl]="formControl" 
-        [nzBorderless]="to.config?.border"
-        [nzStatus]="to.config?.status" 
-        [nzPlaceHolder]="to.placeholder || ''"
-        [nzDisabledDate]="disabledStartDate"
-        [nzDisabledDate]="disabledEndDate" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
-
-</nz-input-group>
-
-<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
-<ng-template #suffixTemplateInfo>
-  <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
-</ng-template>
+  </nz-input-group>
+  <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    [nzPrefix]="prefixTemplateUser" [nzStatus]="to.config?.status">
+    <nz-date-picker style="width:100%" [nzFormat]="to.config?.format" [nzSize]="to.config?.size"
+      [formControl]="formControl" [nzBorderless]="to.config?.border" [nzStatus]="to.config?.status"
+      [nzPlaceHolder]="to.placeholder || ''"></nz-date-picker>
+  </nz-input-group>
+  <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+  <ng-template #suffixTemplateInfo>
+    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+  </ng-template>
+</ng-container>
+<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
+  <nz-date-picker style="width:100%"
+    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+    [nzFormat]="to.config?.format" [nzSize]="to.config?.size" [formControl]="formControl"
+    [nzBorderless]="to.config?.border" [nzStatus]="to.config?.status"
+    [nzPlaceHolder]="to.placeholder || ''"></nz-date-picker>
+  <label for="floating_standard"
+    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{to.label}}</label>
+</div>
