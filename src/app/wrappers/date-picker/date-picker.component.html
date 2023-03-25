@@ -1,32 +1,26 @@
-<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''"
+<nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon "
 [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status">
     <nz-date-picker style="width:100%" 
     [nzFormat]="to.config?.format" 
     [nzSize]="to.config?.size" 
-    [nzMode]="to.type"
-        [nzInputReadOnly]="true" 
         [formControl]="formControl" 
         [nzBorderless]="to.config?.border"
         [nzStatus]="to.config?.status" 
         [nzPlaceHolder]="to.placeholder || ''"
-        [nzDisabledDate]="disabledStartDate"
-        [nzDisabledDate]="disabledEndDate" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
+         ></nz-date-picker>
 
 </nz-input-group>
-<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
+<nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
 [nzSuffix]="suffixTemplateInfo" 
 [nzPrefix]="prefixTemplateUser" [nzStatus]="to.config?.status">
     <nz-date-picker style="width:100%" 
     [nzFormat]="to.config?.format" 
     [nzSize]="to.config?.size" 
-    [nzMode]="to.type"
-        [nzInputReadOnly]="true" 
         [formControl]="formControl" 
         [nzBorderless]="to.config?.border"
         [nzStatus]="to.config?.status" 
         [nzPlaceHolder]="to.placeholder || ''"
-        [nzDisabledDate]="disabledStartDate"
-        [nzDisabledDate]="disabledEndDate" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
+         ></nz-date-picker>
 
 </nz-input-group>
 

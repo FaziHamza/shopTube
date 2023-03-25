@@ -16,30 +16,30 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   ngOnInit(): void {
   }
 
-  disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.endValue) {
-      return false;
-    }
-    return startValue.getTime() > this.endValue.getTime();
-  };
+  // disabledStartDate = (startValue: Date): boolean => {
+  //   if (!startValue || !this.endValue) {
+  //     return false;
+  //   }
+  //   return startValue.getTime() > this.endValue.getTime();
+  // };
 
-  disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.startValue) {
-      return false;
-    }
-    return endValue.getTime() <= this.startValue.getTime();
-  };
+  // disabledEndDate = (endValue: Date): boolean => {
+  //   if (!endValue || !this.startValue) {
+  //     return false;
+  //   }
+  //   return endValue.getTime() <= this.startValue.getTime();
+  // };
 
-  handleStartOpenChange(open: boolean): void {
-    if (!open) {
-      this.endDatePicker.open();
-    }
-    console.log('handleStartOpenChange', open);
-  }
+  // handleStartOpenChange(open: boolean): void {
+  //   if (!open) {
+  //     this.endDatePicker.open();
+  //   }
+  //   console.log('handleStartOpenChange', open);
+  // }
 
-  handleEndOpenChange(open: boolean): void {
-    console.log('handleEndOpenChange', open);
-  }
+  // handleEndOpenChange(open: boolean): void {
+  //   console.log('handleEndOpenChange', open);
+  // }
 }
 
 

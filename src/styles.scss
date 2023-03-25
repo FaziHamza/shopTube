@@ -196,7 +196,9 @@ object {
   .ant-input-number-lg input {
     height: 47px;
   }
-
+  .ant-input-affix-wrapper-sm {
+    height: 52px !important;
+}
   // .ant-input-number-input-wrap-lg .ant-input-number-input,
   // .ant-input-number-input-wrap-lg>.ant-input-number-input-wrap-addon {
   //   padding: 6.5px 11px;

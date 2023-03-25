@@ -23,7 +23,7 @@ export class MultiFileUploadComponent implements OnInit {
   
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-    debugger
+    
     const status = file.status;
     console.log(fileList)
     // if (status !== 'uploading') {

@@ -85,7 +85,7 @@ export class PagesComponent implements OnInit {
     this.resData = [...this.resData];
   }
   checkConditionUIRule(model: any, currentValue: any) {
-    debugger
+    
     this.getUIRule(model, currentValue);
     this.updateNodes();
     this.cdr.detectChanges();

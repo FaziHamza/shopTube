@@ -1,5 +1,5 @@
 
-<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''" 
+<nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon " 
 [nzSuffix]="to.config?.addonLeft" 
 [nzPrefix]="to.config?.addonRight" 
 [nzSize]="to.config?.size"
@@ -21,7 +21,7 @@
   ></nz-input-number>
   </nz-input-group>
 
-<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
+<nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
 [nzSuffix]="suffixTemplateInfo" 
 [nzPrefix]="prefixTemplateUser"
 [nzSize]="to.config?.size"
@@ -44,5 +44,5 @@
   </nz-input-group>
   <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
   <ng-template #suffixTemplateInfo>
-    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+    <span nz-icon [nzType]="to.config?.prefixicon"></span>
   </ng-template>
