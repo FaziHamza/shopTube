@@ -693,6 +693,8 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].templateOptions?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].templateOptions.config.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].templateOptions.config.addonRight,
+      suffixicon: node.formly[0].fieldGroup[0].templateOptions.config.suffixicon,
+      prefixicon: node.formly[0].fieldGroup[0].templateOptions.config.prefixicon,
       optionWidth: node.formly[0].fieldGroup[0].templateOptions.config?.['optionWidth'],
       allowClear: node.formly[0].fieldGroup[0].templateOptions.config?.['allowClear'],
       serveSearch: node.formly[0].fieldGroup[0].templateOptions.config?.['serveSearch'],

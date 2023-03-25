@@ -2,9 +2,15 @@
   <input nz-input [formControl]="formControl" [placeholder]="to.placeholder"  nzStatus="error" />
 </nz-input-group> -->
 <!-- <label *ngIf="!to.config?.floatingInput">{{to.label}}</label> -->
+
 <ng-container *ngIf="to.type != 'number'">
   <ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
-    <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size"
+    <nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''"  [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size"
+      [nzStatus]="to.config?.status">
+      <input [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
+        [nzStatus]="to.config?.status" [formControl]="formControl" [nzBorderless]="to.config?.border" />
+    </nz-input-group>
+    <nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''" [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size"
       [nzStatus]="to.config?.status">
       <input [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
         [nzStatus]="to.config?.status" [formControl]="formControl" [nzBorderless]="to.config?.border" />
@@ -35,4 +41,8 @@
 
 <!-- <input *nzSpaceItem nz-input placeholder="Error" [formControlName]="'input1'" nzStatus="error" /> -->
 
-<!-- <nz-switch [formlyAttributes]="field" nzSize="small" [formControl]="formControl"></nz-switch> -->
+<!-- <nz-switch [formlyAttributes]="field" nzSize="small" [formControl]="formControl"></nz-switch> -->  
+<ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+    <ng-template #suffixTemplateInfo>
+      <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+    </ng-template>

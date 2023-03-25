@@ -556,12 +556,14 @@ export class BuilderComponent implements OnInit {
               if (eval(query)) {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
             }
             else if (inputType[j].formly != undefined) {
@@ -606,13 +608,14 @@ export class BuilderComponent implements OnInit {
               if (eval(query)) {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
               else {
                 const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
                 this.nodes[0].children[1].children[0].children[1].children = check;
-                this.updateNodes();
-                // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+                // this.updateNodes();
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
               }
             }
           }
@@ -962,6 +965,8 @@ export class BuilderComponent implements OnInit {
                     format: 'dd-MM-yyyy',
                     optionHieght: 30,
                     optionHoverSize: 10,
+                    suffixicon:'',
+                    prefixicon:'',
                   },
                   maxLength: 10,
                   minLength: 1,
@@ -3815,7 +3820,7 @@ export class BuilderComponent implements OnInit {
         loading: false,
         disabled: false,
         noneData: '',
-        status: 'error',
+        status: 'default',
         prefix: '',
         position: 'top',
 
@@ -5562,6 +5567,8 @@ export class BuilderComponent implements OnInit {
             templateOptions.config['secondStep'] = event.form.secondStep;
             templateOptions.config['hoursStep'] = event.form.hoursStep;
             templateOptions.config['use12Hours'] = event.form.use12Hours;
+            templateOptions.config['prefixicon'] = event.form.prefixicon;
+            templateOptions.config['suffixicon'] = event.form.suffixicon;
             templateOptions.config['icon'] = event.form.icon;
             templateOptions['readonly'] = event.form.readonly;
             if (event.tableDta) {
