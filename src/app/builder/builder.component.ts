@@ -1031,7 +1031,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "bg-blue-600",
-        onhover: "hover:bg-blue-400",
+        onhover: "hover:bg-black",
         btnIcon: "upload",
         tooltip: "",
         format: "text-left",
@@ -1064,7 +1064,7 @@ export class BuilderComponent implements OnInit {
         onhover: "hover:bg-green-400",
         btnIcon: "down",
         format: "text-left",
-        btnDisables: false,
+        disabled: false,
         nzDanger: false,
         nzBlock: false,
         nzSize: "default",
@@ -5997,7 +5997,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-
+        debugger
         if (this.selectedNode) {
           this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -6019,9 +6019,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.format = event.form.format;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.btnType = event.form.target;
-          if (event.form.target == "sm" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-            this.selectedNode.btnType = "modal";
-          }
+          // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
+          //   this.selectedNode.btnType = "modal";
+          // }
           this.updateNodes();
 
         }
@@ -6047,6 +6047,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.placement = event.form.placement;
           this.selectedNode.visible = event.form.visible;
           this.selectedNode.clickHide = event.form.clickHide;
+          this.selectedNode.disabled = event.form.disabled;
 
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
@@ -7179,7 +7180,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-
+    debugger
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {

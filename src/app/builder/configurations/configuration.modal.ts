@@ -196,7 +196,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -244,7 +244,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -681,7 +681,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -729,7 +729,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -1030,7 +1030,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -1079,7 +1079,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'hover:bg-black-300'
+                value: 'hover:bg-black'
               },
 
             ]
@@ -5089,7 +5089,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
@@ -6684,7 +6684,7 @@ export class formFeildData {
               },
               {
                 label: 'Black',
-                value: 'bg-black-600'
+                value: 'bg-black'
               },
 
             ]
