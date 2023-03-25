@@ -826,7 +826,7 @@ export class BuilderComponent implements OnInit {
         key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
-        className: "w-1/2 p-1",
+        className: "w-full",
         sectionClassName: "",
         footer: false,
         header: false,
@@ -935,7 +935,7 @@ export class BuilderComponent implements OnInit {
                 type: data?.type,
                 defaultValue: "",
                 focus: false,
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: this.getLastNodeWrapper("wrappers"),
                 templateOptions: {
                   multiple: true,
                   className: 'w-1/3 px-1 py-1',
@@ -967,8 +967,11 @@ export class BuilderComponent implements OnInit {
                     optionHoverSize: 10,
                     suffixicon:'',
                     prefixicon:'',
+                    wrapper:'',
+                    floatFieldClass:'',
+                    floatLabelClass:'',
                   },
-                  maxLength: 10,
+                  maxLength: 5000,
                   minLength: 1,
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -4093,7 +4096,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+    
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
       type: type,
@@ -5361,7 +5364,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
@@ -5518,7 +5521,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
@@ -5871,7 +5874,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        debugger
+        
         if (this.selectedNode.id) {
           this.selectedNode.key = event.form.key;
           this.selectedNode.id = event.form.id;
@@ -7044,6 +7047,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
+    debugger
     if (fieldGroup) {
       if (fieldGroup[0].templateOptions) {
         if (fieldGroup[0].templateOptions.labelPosition == undefined && fieldGroup[0].templateOptions.labelPosition == '') {
@@ -7067,13 +7071,24 @@ export class BuilderComponent implements OnInit {
         else if (formValues.labelPosition == "text-left") {
           fieldGroup[0].templateOptions.labelPosition = "text-left";
         }
-        if (formValues.wrappers != 'floatingInput') {
+        if (formValues.wrappers == 'floating_filled') {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0];
         }
-        if (formValues.wrappers == 'floatingInput') {
-          fieldGroup[0].templateOptions.config['floatingInput'] = true;
-        } else {
-          fieldGroup[0].templateOptions.config['floatingInput'] = false;
+        else if (formValues.wrappers == 'floating_outlined') {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0]
+          
+        }
+        else if (formValues.wrappers == 'floating_standard') {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].templateOptions.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+          fieldGroup[0].templateOptions.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
+          fieldGroup[0].templateOptions.config['wrapper'] = [formValues.wrappers][0]
         }
         if (formValues.sectionClassName) {
           fieldGroup[0].templateOptions.className = formValues.sectionClassName;

@@ -4133,13 +4133,18 @@ export class formFeildData {
                 value: 'formly-vertical-theme-wrapper'
               },
               {
-                label: 'Floating Input',
-                value: 'floatingInput'
+                label: 'Floating Filled',
+                value: 'floating_filled'
               },
-              // {
-              //   label: 'Grid Theme',
-              //   value: 'formly-grid-wrapper'
-              // },
+              {
+                label: 'Floating Outlined',
+                value: 'floating_outlined'
+              },
+              {
+                label: 'Floating Standard',
+                value: 'floating_standard'
+              },
+              
             ],
           },
           // defaultValue: 'Vertical'

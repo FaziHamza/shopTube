@@ -679,7 +679,7 @@ export class BuilderClickButtonService {
   }
 
   getFormlyConfig(node: any) {
-    debugger
+    
     return {
       placeholder: node.formly[0].fieldGroup[0].templateOptions?.placeholder,
       maxLength: node.formly[0].fieldGroup[0].templateOptions?.maxLength,

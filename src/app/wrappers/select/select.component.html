@@ -1,4 +1,4 @@
-<nz-input-group *ngIf="to.config?.suffixicon =='' && to.config?.prefixicon ==''"
+<nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon"
 [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size"
   [nzStatus]="to.config?.status">
   <nz-select [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate"
@@ -14,7 +14,7 @@
       [nzLabel]="item.label">{{item.label}}</nz-option>
   </nz-select>
 </nz-input-group>
-<nz-input-group *ngIf="to.config?.suffixicon != '' || to.config?.prefixicon !=''"
+<nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
 [nzSuffix]="suffixTemplateInfo" 
 [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size"
   [nzStatus]="to.config?.status">
