@@ -11,7 +11,7 @@ export interface Option {
     value: string;
 }
 
-export interface TemplateOptions {
+export interface props {
     label: string;
     required: boolean;
     placeholder: string;
@@ -23,7 +23,7 @@ export interface FieldGroup {
     className: string;
     key: string;
     type: string;
-    templateOptions: TemplateOptions;
+    props: props;
     defaultValue: string;
 }
 
@@ -39,7 +39,7 @@ export interface Option2 {
     value: string;
 }
 
-export interface TemplateOptions2 {
+export interface props2 {
     label: string;
     required: boolean;
     placeholder: string;
@@ -50,7 +50,7 @@ export interface FieldGroup2 {
     className: string;
     key: string;
     type: string;
-    templateOptions: TemplateOptions2;
+    props: props2;
     defaultValue: string;
 }
 
@@ -66,7 +66,7 @@ export interface Option3 {
     value: string;
 }
 
-export interface TemplateOptions3 {
+export interface props3 {
     label: string;
     required: boolean;
     placeholder: string;
@@ -77,7 +77,7 @@ export interface FieldGroup3 {
     className: string;
     key: string;
     type: string;
-    templateOptions: TemplateOptions3;
+    props: props3;
     defaultValue: string;
 }
 
@@ -88,7 +88,7 @@ export interface Eventsdata {
     template: string;
 }
 
-export interface TemplateOptions4 {
+export interface props4 {
     label: string;
     type: string;
     placeholder: string;
@@ -99,7 +99,7 @@ export interface FormSchemaw {
     key: string;
     type: string;
     wrappers: string[];
-    templateOptions: TemplateOptions4;
+    props: props4;
     className: string;
     template: string;
 }

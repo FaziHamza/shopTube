@@ -1,8 +1,8 @@
-import { TemplateOptions } from "./templateOptions";
+import { props } from "./templateOptions";
 
 export interface formlyConfig {
   fieldGroup:formDetail;
-   
+
   }
 
   export interface formDetail{
@@ -14,5 +14,5 @@ export interface formlyConfig {
     hideExpression?: string,
     btnClass?: string,
     size?: string,
-    templateOptions?: TemplateOptions;
+    props?: props;
   }

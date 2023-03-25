@@ -92,7 +92,7 @@ export const formlyCustomeConfig: ConfigOption = {
     //   {
     //     name: 'select', component: FormlyFieldSelect,
     //     defaultOptions: {
-    //       templateOptions: {
+    //       props: {
     //         options: []
     //       }
     //     }

@@ -1,4 +1,4 @@
-export interface TemplateOptions {
+export interface props {
     label?: string;
     placeholder?: string,
     required?: false,

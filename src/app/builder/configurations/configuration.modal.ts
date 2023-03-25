@@ -18,7 +18,7 @@ export class formFeildData {
           //   type: 'select',
           //   className: "w-1/4 px-1",
           //   wrappers: ["formly-vertical-wrapper"],
-          //   templateOptions: {
+          //   props: {
           //     label: 'Format',
           //     options: [
           //       {
@@ -39,7 +39,7 @@ export class formFeildData {
             type: 'select',
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
+            props: {
               label: 'Select API',
               options: [
                 {
@@ -58,7 +58,7 @@ export class formFeildData {
         key: 'options',
         type: 'repeatSection',
         // wrappers:["form-field-horizontal"],
-        templateOptions: {
+        props: {
           style: "margin-top: 6%;",
           canAdd: true,
           canRemove: true
@@ -71,7 +71,7 @@ export class formFeildData {
               type: 'input',
               className: "ml-2",
               wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
+              props: {
                 label: 'value'
               }
             },
@@ -80,7 +80,7 @@ export class formFeildData {
               type: 'input',
               className: "ml-2",
               wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
+              props: {
                 label: 'Label'
               }
             }
@@ -98,7 +98,7 @@ export class formFeildData {
             type: 'select',
             className: "w-1/4 px-1",
             wrappers: ["formly-vertical-wrapper"],
-            templateOptions: {
+            props: {
               label: 'Select API',
               options: [
                 {
@@ -117,7 +117,7 @@ export class formFeildData {
         key: 'options',
         type: 'repeatSection',
         className: "w-full px-1",
-        templateOptions: {
+        props: {
           style: "margin-top: 6%;",
           canAdd: true,
           canRemove: true
@@ -129,7 +129,7 @@ export class formFeildData {
               key: 'label',
               type: 'input',
               wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
+              props: {
                 label: 'label'
               }
             },
@@ -138,7 +138,7 @@ export class formFeildData {
               key: 'value',
               type: 'input',
               wrappers: ["formly-vertical-wrapper"],
-              templateOptions: {
+              props: {
                 label: 'value'
               }
             },
@@ -159,7 +159,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color',
             options: [
               {
@@ -207,7 +207,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color on Hover',
             options: [
               {
@@ -255,7 +255,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Position',
             options: [
               {
@@ -278,7 +278,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -301,7 +301,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Shape',
             options: [
               {
@@ -324,7 +324,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Icon'
           }
         },
@@ -332,7 +332,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -341,7 +341,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzGhost',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Ghost',
           },
           defaultValue: false
@@ -350,7 +350,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzLoading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -359,7 +359,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzBlock',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Block',
           },
           defaultValue: false
@@ -368,7 +368,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzDanger',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Danger',
           },
           defaultValue: false
@@ -386,10 +386,10 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'Option Hieght',
-           
+
           },
         },
         {
@@ -397,7 +397,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'Option Hover Size',
           },
@@ -407,7 +407,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Remove Icon',
           },
         },
@@ -415,7 +415,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'allowClear',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'AllowClear',
           },
           defaultValue: false
@@ -424,7 +424,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'serveSearch',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Serve Search',
           },
           defaultValue: false
@@ -433,7 +433,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'showArrow',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Arrow',
           },
           defaultValue: false
@@ -442,7 +442,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'showSearch',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Search',
           },
           defaultValue: false
@@ -451,7 +451,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'loading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -460,7 +460,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'optionDisabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'option Disabled',
           },
           defaultValue: false
@@ -469,7 +469,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'optionHide',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'option Hide',
           },
           defaultValue: false
@@ -478,7 +478,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -490,7 +490,7 @@ export class formFeildData {
                 key: 'label',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'label'
                 }
               },
@@ -499,7 +499,7 @@ export class formFeildData {
                 key: 'value',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'value'
                 }
               },
@@ -518,9 +518,9 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'First button text',
-           
+
           },
         },
         {
@@ -528,7 +528,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Second button text',
           },
         },
@@ -537,7 +537,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'minuteStep',
           },
@@ -547,7 +547,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'secondStep',
           },
@@ -557,7 +557,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'hoursStep',
           },
@@ -567,7 +567,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'icon',
           },
         },
@@ -575,7 +575,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'allowClear',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'AllowClear',
           },
           defaultValue: false
@@ -584,7 +584,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'use12Hours',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Use 12 Hours',
           },
           defaultValue: false
@@ -601,7 +601,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Group position',
             options: [
               {
@@ -634,7 +634,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Text'
           }
         },
@@ -644,7 +644,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color',
             options: [
               {
@@ -692,7 +692,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color on Hover',
             options: [
               {
@@ -740,7 +740,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Icon'
           }
         },
@@ -749,7 +749,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Position',
             options: [
               {
@@ -772,7 +772,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -795,7 +795,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Trigger',
             options: [
 
@@ -815,7 +815,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Menu Placement',
             options: [
 
@@ -850,7 +850,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -859,7 +859,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'nzGhost',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Ghost',
           },
           defaultValue: false
@@ -868,7 +868,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'visible',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Visible',
           },
           defaultValue: false
@@ -877,7 +877,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'clickHide',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Click Hide',
           },
           defaultValue: false
@@ -886,7 +886,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzBlock',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Block',
           },
           defaultValue: false
@@ -895,7 +895,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'nzLoading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -904,7 +904,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'nzDanger',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Danger',
           },
           defaultValue: false
@@ -917,7 +917,7 @@ export class formFeildData {
           type: 'repeatSection',
           className: "w-full",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -930,7 +930,7 @@ export class formFeildData {
                 type: 'input',
                 className: "ml-2",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'label'
                 }
               },
@@ -939,7 +939,7 @@ export class formFeildData {
                 type: 'input',
                 className: "ml-2",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'link'
                 }
               }
@@ -958,7 +958,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Open Type',
             options: [
               {
@@ -993,7 +993,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color',
             options: [
               {
@@ -1042,7 +1042,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color on Hover',
             options: [
               {
@@ -1090,7 +1090,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Format',
             options: [
               {
@@ -1114,7 +1114,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Shape',
             options: [
               {
@@ -1137,7 +1137,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Icon'
           }
         },
@@ -1146,7 +1146,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link'
           }
         },
@@ -1155,7 +1155,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           "wrappers": ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -1177,7 +1177,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzGhost',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Ghost',
           },
           defaultValue: false
@@ -1186,7 +1186,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzBlock',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Block',
           },
           defaultValue: false
@@ -1195,7 +1195,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzLoading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -1204,7 +1204,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'nzDanger',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Danger',
           },
           defaultValue: false
@@ -1217,7 +1217,7 @@ export class formFeildData {
   // btnTextField: FormlyFieldConfig[] = [{
   //   key: 'title',
   //   type: 'input',
-  //   templateOptions: {
+  //   props: {
   //     label: 'Button Text'
   //   }
   // }]
@@ -1231,7 +1231,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Default Color',
             type: 'color'
             // value:"#038edc",
@@ -1249,7 +1249,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "number",
             label: 'Option Width',
           },
@@ -1258,7 +1258,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",
-          templateOptions: {
+          props: {
             canAdd: true,
             canRemove: true
           },
@@ -1268,7 +1268,7 @@ export class formFeildData {
                 key: 'label',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'label'
                 }
               },
@@ -1277,7 +1277,7 @@ export class formFeildData {
                 key: 'value',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'value'
                 }
               },
@@ -1297,7 +1297,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Format',
             options: [
               {
@@ -1327,7 +1327,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'max Length',
 
@@ -1338,7 +1338,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'minLength',
 
@@ -1349,7 +1349,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Step',
 
@@ -1369,7 +1369,7 @@ export class formFeildData {
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'link',
           }
         },
@@ -1378,7 +1378,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'icon',
           }
         },
@@ -1387,7 +1387,7 @@ export class formFeildData {
           key: 'name',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Name'
           }
         },
@@ -1396,7 +1396,7 @@ export class formFeildData {
           key: 'total',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Total'
           }
@@ -1406,7 +1406,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -1424,7 +1424,7 @@ export class formFeildData {
           key: 'sub_label',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Sub Label',
           }
         },
@@ -1434,7 +1434,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -1449,7 +1449,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -1459,7 +1459,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -1472,7 +1472,7 @@ export class formFeildData {
               //   type: 'input',
               //   className: "w-1/3",
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Filtertype'
               //   }
               // },
@@ -1481,7 +1481,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'price'
                 }
               },
@@ -1490,7 +1490,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Data'
                 }
               },
@@ -1499,7 +1499,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   type: "color",
                   label: 'Colors'
                 }
@@ -1510,7 +1510,7 @@ export class formFeildData {
               //   type: 'input',
               //   className: "col",
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Api'
               //   }
               // },
@@ -1524,7 +1524,7 @@ export class formFeildData {
         // {
         //   key: 'options',
         //   type: 'multiRepeatSection',
-        //   templateOptions: {
+        //   props: {
         //     canAdd: true,
         //     canRemove: true
         //   },
@@ -1536,7 +1536,7 @@ export class formFeildData {
         //         type: 'input',
         //         className: "w-full",
         //         wrappers: ["formly-vertical-wrapper"],
-        //         templateOptions: {
+        //         props: {
         //           canAdd: true,
         //           canRemove: true,
         //           label: 'Filter'
@@ -1548,7 +1548,7 @@ export class formFeildData {
         //               type: 'input',
         //               className: "w-1/3",
         //               wrappers: ["formly-vertical-wrapper"],
-        //               templateOptions: {
+        //               props: {
         //                 type: 'number',
         //                 label: 'asdasd'
         //               }
@@ -1560,7 +1560,7 @@ export class formFeildData {
         //               type: 'input',
         //               className: "w-1/3",
         //               wrappers: ["formly-vertical-wrapper"],
-        //               templateOptions: {
+        //               props: {
         //                 label: 'Color',
         //                 type: "color"
         //               }
@@ -1571,7 +1571,7 @@ export class formFeildData {
         //               type: 'input',
         //               className: "w-1/3",
         //               wrappers: ["formly-vertical-wrapper"],
-        //               templateOptions: {
+        //               props: {
         //                 label: 'Api'
         //               }
         //             },
@@ -1596,7 +1596,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -1612,7 +1612,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -1622,7 +1622,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4% ",
             canAdd: true,
             canRemove: true
@@ -1635,7 +1635,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/3",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   type: 'number',
                   label: 'Series'
                 }
@@ -1646,7 +1646,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/3",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Color',
                   type: "color"
                 }
@@ -1657,7 +1657,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/3",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -1680,7 +1680,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -1696,7 +1696,7 @@ export class formFeildData {
           key: 'thisTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'This Title',
           }
         },
@@ -1705,7 +1705,7 @@ export class formFeildData {
           key: 'lastTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Last Title',
           }
         },
@@ -1714,7 +1714,7 @@ export class formFeildData {
           key: 'prevTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Prev Title',
           }
         },
@@ -1723,7 +1723,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -1733,7 +1733,7 @@ export class formFeildData {
         {
           key: 'options1',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4%;",
             canAdd: true,
             canRemove: true
@@ -1747,7 +1747,7 @@ export class formFeildData {
                 key: 'thisValue',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'This Value',
                 }
               },
@@ -1756,7 +1756,7 @@ export class formFeildData {
                 key: 'growth',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Growth',
                 }
               },
@@ -1765,7 +1765,7 @@ export class formFeildData {
                 key: 'lastValue',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Last Value',
                 }
               },
@@ -1774,7 +1774,7 @@ export class formFeildData {
                 key: 'prevValue',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Prev Value',
                 }
               },
@@ -1787,7 +1787,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4%;",
             canAdd: true,
             canRemove: true
@@ -1801,7 +1801,7 @@ export class formFeildData {
                 key: 'series',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   type: "number",
                   label: 'Series'
                 }
@@ -1812,7 +1812,7 @@ export class formFeildData {
                 key: 'color',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   type: "color",
                   label: 'Color'
                 }
@@ -1823,7 +1823,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -1831,7 +1831,7 @@ export class formFeildData {
               //   key: 'Direct',
               //   type: 'input',
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Direct Label'
               //   }
               // },
@@ -1839,7 +1839,7 @@ export class formFeildData {
               //   key: 'Others',
               //   type: 'input',
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Other Label'
               //   }
               // },
@@ -1861,7 +1861,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Default Color',
             options: [
               {
@@ -1909,7 +1909,7 @@ export class formFeildData {
           key: 'belowpercentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "number",
             label: 'Below Percentage',
           }
@@ -1919,7 +1919,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Below Percentage Color',
             options: [
               {
@@ -1967,7 +1967,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -1976,7 +1976,7 @@ export class formFeildData {
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Limit',
           }
@@ -1987,7 +1987,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -2003,7 +2003,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2013,7 +2013,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4%",
             canAdd: true,
             canRemove: true
@@ -2025,7 +2025,7 @@ export class formFeildData {
               //   key: 'name',
               //   type: 'input',
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Title'
               //   }
               // },
@@ -2033,7 +2033,7 @@ export class formFeildData {
                 key: 'percentage',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'percentage'
                 }
               },
@@ -2041,7 +2041,7 @@ export class formFeildData {
                 key: 'min',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'min'
                 }
               },
@@ -2049,7 +2049,7 @@ export class formFeildData {
                 key: 'max',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'max'
                 }
               },
@@ -2057,7 +2057,7 @@ export class formFeildData {
                 key: 'bar',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'bar'
                 }
               },
@@ -2065,7 +2065,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -2087,7 +2087,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Default Color',
             options: [
               {
@@ -2135,7 +2135,7 @@ export class formFeildData {
           key: 'numberofcolumns',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "number",
             label: 'Number Of Columns',
           }
@@ -2145,7 +2145,7 @@ export class formFeildData {
           key: 'belowpercentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "number",
             label: 'Below Percentage',
           }
@@ -2155,7 +2155,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Below Percentage Color',
             options: [
               {
@@ -2203,7 +2203,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -2212,7 +2212,7 @@ export class formFeildData {
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Limit',
           }
@@ -2224,7 +2224,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -2242,7 +2242,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2253,7 +2253,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 5%;",
             canAdd: true,
             canRemove: true
@@ -2265,7 +2265,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Title'
                 }
               },
@@ -2273,7 +2273,7 @@ export class formFeildData {
                 key: 'percentage',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'percentage'
                 }
               },
@@ -2281,7 +2281,7 @@ export class formFeildData {
                 key: 'min',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'min'
                 }
               },
@@ -2289,7 +2289,7 @@ export class formFeildData {
                 key: 'max',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'max'
                 }
               },
@@ -2297,7 +2297,7 @@ export class formFeildData {
                 key: 'bar',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'bar'
                 }
               },
@@ -2306,7 +2306,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -2328,7 +2328,7 @@ export class formFeildData {
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Limit',
           }
@@ -2338,7 +2338,7 @@ export class formFeildData {
           key: 'percentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Below Percentage',
           }
@@ -2348,7 +2348,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Below Percentage Color',
             options: [
               {
@@ -2384,7 +2384,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -2402,7 +2402,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2412,7 +2412,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4%",
             canAdd: true,
             canRemove: true
@@ -2425,7 +2425,7 @@ export class formFeildData {
                 type: 'input',
                 className: 'col',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Title'
                 }
               },
@@ -2434,7 +2434,7 @@ export class formFeildData {
                 type: 'input',
                 className: 'col',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'total'
                 }
               },
@@ -2443,7 +2443,7 @@ export class formFeildData {
                 type: 'input',
                 className: 'col',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'percentage'
                 }
               },
@@ -2452,7 +2452,7 @@ export class formFeildData {
                 type: 'input',
                 className: 'col',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'data'
                 }
               },
@@ -2461,7 +2461,7 @@ export class formFeildData {
                 type: 'input',
                 className: 'col',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -2483,7 +2483,7 @@ export class formFeildData {
           key: 'limit',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Limit',
           }
@@ -2493,7 +2493,7 @@ export class formFeildData {
           key: 'percentage',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Below Percentage',
           }
@@ -2503,7 +2503,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Below Percentage Color',
             options: [
               {
@@ -2541,7 +2541,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -2557,7 +2557,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2567,7 +2567,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:4%;",
             canAdd: true,
             canRemove: true
@@ -2580,7 +2580,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Title'
                 }
               },
@@ -2590,7 +2590,7 @@ export class formFeildData {
                 key: 'icon',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Icon'
                 }
               },
@@ -2600,7 +2600,7 @@ export class formFeildData {
               //   key: 'icon',
               //   type: 'input',
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Icon'
               //   }
               // },
@@ -2610,7 +2610,7 @@ export class formFeildData {
                 key: 'total',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'total'
                 }
               },
@@ -2620,7 +2620,7 @@ export class formFeildData {
                 key: 'percentage',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'percentage'
                 }
               },
@@ -2630,7 +2630,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -2643,7 +2643,7 @@ export class formFeildData {
         //   key: 'icon',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Icon'
         //   }
         // },
@@ -2652,7 +2652,7 @@ export class formFeildData {
         //   key: 'name',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Name'
         //   }
         // },
@@ -2661,7 +2661,7 @@ export class formFeildData {
         //   key: 'total',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Total'
         //   }
         // },
@@ -2670,7 +2670,7 @@ export class formFeildData {
         //   key: 'percentage',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Percentage'
         //   }
         // },
@@ -2687,7 +2687,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Api',
             options: [
               {
@@ -2703,7 +2703,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2713,7 +2713,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 4%;",
             canAdd: true,
             canRemove: true
@@ -2726,7 +2726,7 @@ export class formFeildData {
                 key: 'name1',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Label'
                 }
               },
@@ -2735,7 +2735,7 @@ export class formFeildData {
                 key: 'value',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Value'
                 }
               },
@@ -2744,7 +2744,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Title'
                 }
               },
@@ -2754,7 +2754,7 @@ export class formFeildData {
                 key: 'data',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'data'
                 }
               },
@@ -2763,7 +2763,7 @@ export class formFeildData {
                 type: 'select',
                 className: "w-1/3 px-1",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Graph',
                   options: [
                     {
@@ -2788,7 +2788,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Api'
                 }
               },
@@ -2810,7 +2810,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading Level',
             options: [
               {
@@ -2842,7 +2842,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text align',
             options: [
               {
@@ -2865,7 +2865,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Font Weight',
             options: [
               {
@@ -2889,7 +2889,7 @@ export class formFeildData {
           key: 'color',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'color',
             label: 'Heading Color',
           }
@@ -2899,7 +2899,7 @@ export class formFeildData {
           key: 'headingApi',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
 
             label: 'Heading Api',
           }
@@ -2909,7 +2909,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -2918,7 +2918,7 @@ export class formFeildData {
           key: 'text',
           type: 'textarea',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text',
             rows: 3
           }
@@ -2936,7 +2936,7 @@ export class formFeildData {
           key: 'beforecopyIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Before copy Icon',
           }
         },
@@ -2945,7 +2945,7 @@ export class formFeildData {
         //   key: 'aftercopyIcon',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'After copy Icon',
         //   }
         // },
@@ -2954,7 +2954,7 @@ export class formFeildData {
         //   key: 'copyTooltips',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'copy Tooltip',
         //   }
         // },
@@ -2963,7 +2963,7 @@ export class formFeildData {
           key: 'editableIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Edit Icon',
           }
         },
@@ -2972,7 +2972,7 @@ export class formFeildData {
         //   key: 'editableTooltip',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Editable Tooltip',
         //   }
         // },
@@ -2981,7 +2981,7 @@ export class formFeildData {
           key: 'suffix',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Suffix',
           }
         },
@@ -2990,7 +2990,7 @@ export class formFeildData {
           key: 'ellipsisRows',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'ellips Rows',
           }
@@ -3000,7 +3000,7 @@ export class formFeildData {
           key: 'color',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'color',
             label: 'Heading Color',
           }
@@ -3010,7 +3010,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Font Weight',
             options: [
               {
@@ -3034,7 +3034,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Type',
             options: [
               {
@@ -3065,7 +3065,7 @@ export class formFeildData {
           key: 'editable',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Editable'
           },
         },
@@ -3073,7 +3073,7 @@ export class formFeildData {
           key: 'copyable',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Copyable'
           },
         },
@@ -3081,7 +3081,7 @@ export class formFeildData {
           key: 'ellipsis',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Ellipsis'
           },
         },
@@ -3089,7 +3089,7 @@ export class formFeildData {
         //   key: 'editable',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Editable'
         //   },
         // },
@@ -3097,7 +3097,7 @@ export class formFeildData {
           key: 'expandable',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Expandable'
           },
         },
@@ -3105,7 +3105,7 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Disabled'
           },
         },
@@ -3114,7 +3114,7 @@ export class formFeildData {
           key: 'text',
           type: 'textarea',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text',
             rows: 3
           }
@@ -3124,7 +3124,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'APi',
         //     options: [
         //       {
@@ -3139,7 +3139,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -3157,7 +3157,7 @@ export class formFeildData {
           key: 'maskString',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Mask Format',
             placeholder: 'e.g "xxxx-xxxx"',
           }
@@ -3174,7 +3174,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'icon',
           }
         },
@@ -3183,7 +3183,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Subtitle'
           },
         },
@@ -3192,7 +3192,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'description',
           }
         },
@@ -3201,7 +3201,7 @@ export class formFeildData {
         //   type: 'number',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'percentage',
         //   }
         // },
@@ -3210,7 +3210,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -3240,7 +3240,7 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'disabled'
           },
         },
@@ -3256,7 +3256,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     type: 'number',
         //     label: 'Selected Index',
         //   }
@@ -3266,7 +3266,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Direction',
             options: [
               {
@@ -3285,7 +3285,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Stepper Type',
             options: [
               {
@@ -3304,7 +3304,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Label placement',
             options: [
               {
@@ -3323,7 +3323,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -3342,7 +3342,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Status',
         //     options: [
         //       {
@@ -3369,7 +3369,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Number of Steppers',
           }
@@ -3379,7 +3379,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Stepper Format',
         //     options: [
         //       {
@@ -3398,7 +3398,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     type: 'color',
         //     label: 'Select Color',
         //   }
@@ -3408,7 +3408,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     type: 'color',
         //     label: 'Default Color',
         //   }
@@ -3420,7 +3420,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Next Button Text',
         //   }
         // },
@@ -3429,7 +3429,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Next Button Icon',
         //   }
         // },
@@ -3438,7 +3438,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Next Button Color',
         //     options: [
         //       {
@@ -3483,7 +3483,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Back Button Text',
         //   }
         // },
@@ -3492,7 +3492,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Back Button Icon',
         //   }
         // },
@@ -3501,7 +3501,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Back Button Color',
         //     options: [
         //       {
@@ -3544,7 +3544,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Submit Button Text',
         //   }
         // },
@@ -3553,7 +3553,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Submit Button Icon',
         //   }
         // },
@@ -3562,7 +3562,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Submit Button Color',
         //     options: [
         //       {
@@ -3606,7 +3606,7 @@ export class formFeildData {
         //   key: 'disabled',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Disabled'
         //   },
         // },
@@ -3622,7 +3622,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Label',
         //     pattern: '^\\S*$',
         //   }
@@ -3632,7 +3632,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Label',
           }
         },
@@ -3640,7 +3640,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -3649,7 +3649,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Stepper Format',
         //     options: [
         //       {
@@ -3675,7 +3675,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -3683,11 +3683,11 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           className: "w-1/6 px-1 ",
-          templateOptions: {
+          props: {
             label: 'Disabled'
           },
         },
-       
+
       ]
     },
   ]
@@ -3700,7 +3700,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'selectedIndex',
           }
         },
@@ -3709,7 +3709,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'tabPosition',
             options: [
               {
@@ -3736,7 +3736,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -3759,7 +3759,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Number of Nodes',
           }
@@ -3769,7 +3769,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Tab type',
             options: [
               {
@@ -3792,7 +3792,7 @@ export class formFeildData {
           key: 'hideTabs',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Hidetabs'
           },
         },
@@ -3800,7 +3800,7 @@ export class formFeildData {
           key: 'animated',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Animated'
           },
         },
@@ -3808,7 +3808,7 @@ export class formFeildData {
           key: 'centerd',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'centerd'
           },
         },
@@ -3824,7 +3824,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -3833,7 +3833,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link',
           }
         },
@@ -3857,7 +3857,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Expanded Icon',
           }
         },
@@ -3866,7 +3866,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Extra',
         //   }
         // },
@@ -3875,7 +3875,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Expanded Icon',
             options: [
               {
@@ -3893,7 +3893,7 @@ export class formFeildData {
           key: 'nzBordered',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Bordered'
           },
           defaultValue: false
@@ -3902,7 +3902,7 @@ export class formFeildData {
           key: 'nzGhost',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Transparent'
           },
           defaultValue: false
@@ -3911,7 +3911,7 @@ export class formFeildData {
           key: 'nzDisabled',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Disables'
           },
           defaultValue: false
@@ -3920,7 +3920,7 @@ export class formFeildData {
           key: 'nzShowArrow',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show arrow'
           },
           defaultValue: false
@@ -3941,7 +3941,7 @@ export class formFeildData {
         {
           key: 'variables',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             canAdd: true,
             canRemove: true
           },
@@ -3952,7 +3952,7 @@ export class formFeildData {
                 key: 'variableName',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Variable Name',
                   pattern: '^\\S*$'
                 }
@@ -3962,7 +3962,7 @@ export class formFeildData {
                 type: 'select',
                 className: "w-1/4 px-1",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Variable Type',
                   options: [
                     {
@@ -3998,7 +3998,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading Size',
             options: [
               {
@@ -4033,7 +4033,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             defaultValue: 'topHeader',
             label: 'Alert Position',
             options: [
@@ -4056,7 +4056,7 @@ export class formFeildData {
           key: 'header',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Header'
           },
           defaultValue: false
@@ -4065,7 +4065,7 @@ export class formFeildData {
           key: 'isBordered',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'isBordered'
           },
         },
@@ -4089,7 +4089,7 @@ export class formFeildData {
           key: 'footer',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Footer'
           },
           defaultValue: false
@@ -4106,7 +4106,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Label',
         //     pattern: '^\\S*$',
         //   }
@@ -4116,7 +4116,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Formly Class',
           }
         },
@@ -4125,7 +4125,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Format',
             options: [
               {
@@ -4152,7 +4152,7 @@ export class formFeildData {
                 label: 'Floating Standard',
                 value: 'floating_standard'
               },
-              
+
             ],
           },
           // defaultValue: 'Vertical'
@@ -4162,7 +4162,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Label Position',
             options: [
               {
@@ -4185,7 +4185,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -4208,7 +4208,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -4231,7 +4231,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Disabled',
             options: [
               {
@@ -4262,7 +4262,7 @@ export class formFeildData {
         //   key: 'disabled',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-2",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Disabled'
         //   },
         // },
@@ -4271,7 +4271,7 @@ export class formFeildData {
         //   key: 'isExpanded',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-2",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Is Collepse'
         //   },
         // },
@@ -4279,7 +4279,7 @@ export class formFeildData {
         //   key: 'footer',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-2",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Enable Footer'
         //   },
         //   defaultValue: false
@@ -4288,7 +4288,7 @@ export class formFeildData {
         //   key: 'header',
         //   type: 'checkbox',
         //   className: "w-1/3 mt-2",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Enable Header'
         //   },
         //   defaultValue: false
@@ -4297,7 +4297,7 @@ export class formFeildData {
           key: 'repeatable',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Repeatable '
           },
         },
@@ -4305,7 +4305,7 @@ export class formFeildData {
           key: 'isBordered',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'isBordered'
           },
         },
@@ -4313,7 +4313,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -4330,7 +4330,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Label Position',
             options: [
               {
@@ -4353,7 +4353,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading Size',
             options: [
               {
@@ -4392,7 +4392,7 @@ export class formFeildData {
           key: 'backGroundColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Back Ground Color',
             type: 'color',
           }
@@ -4402,7 +4402,7 @@ export class formFeildData {
           key: 'textColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text Color',
             type: 'color',
           }
@@ -4411,7 +4411,7 @@ export class formFeildData {
           key: 'header',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Header'
           },
           defaultValue: false
@@ -4420,7 +4420,7 @@ export class formFeildData {
           key: 'expanded',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Is Collapse'
           },
           defaultValue: false,
@@ -4429,7 +4429,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -4445,7 +4445,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -4461,7 +4461,7 @@ export class formFeildData {
           key: 'footer',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Footer'
           },
           defaultValue: false
@@ -4470,7 +4470,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -4486,7 +4486,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Switch Type',
         //     options: [
         //       {
@@ -4525,7 +4525,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Switch Position',
         //     options: [
         //       {
@@ -4548,7 +4548,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -4568,7 +4568,7 @@ export class formFeildData {
           key: 'checkedChildren',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Checked Content'
           }
         },
@@ -4577,7 +4577,7 @@ export class formFeildData {
           key: 'unCheckedChildren',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Un Checked Content'
           }
         },
@@ -4585,7 +4585,7 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           className: "w-1/4 px-1",
-          templateOptions: {
+          props: {
             label: 'Disabled'
           },
           defaultValue: false
@@ -4594,7 +4594,7 @@ export class formFeildData {
           key: 'loading',
           type: 'checkbox',
           className: "w-1/4 px-1",
-          templateOptions: {
+          props: {
             label: 'Loading'
           },
           defaultValue: false
@@ -4603,7 +4603,7 @@ export class formFeildData {
           key: 'control',
           type: 'checkbox',
           className: "w-1/4 px-1",
-          templateOptions: {
+          props: {
             label: 'Control'
           },
           defaultValue: false
@@ -4620,7 +4620,7 @@ export class formFeildData {
           key: 'value',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Value'
           }
         },
@@ -4629,7 +4629,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Color',
             options: [
               {
@@ -4672,7 +4672,7 @@ export class formFeildData {
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Height'
           }
@@ -4682,7 +4682,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'API',
             options: [
               {
@@ -4702,7 +4702,7 @@ export class formFeildData {
           key: 'showValue',
           type: 'checkbox',
           className: "col mt-5",
-          templateOptions: {
+          props: {
             label: 'Show Value'
           },
           defaultValue: false
@@ -4711,7 +4711,7 @@ export class formFeildData {
           key: 'stripped',
           type: 'checkbox',
           className: "col mt-5",
-          templateOptions: {
+          props: {
             label: 'Show stripped'
           },
         },
@@ -4719,7 +4719,7 @@ export class formFeildData {
           key: 'animated',
           type: 'checkbox',
           className: "col mt-5",
-          templateOptions: {
+          props: {
             label: 'Show Animated'
           },
         },
@@ -4728,7 +4728,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "col mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -4745,7 +4745,7 @@ export class formFeildData {
           key: 'dividerText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Divider Text'
           }
         },
@@ -4754,7 +4754,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon'
           }
         },
@@ -4763,7 +4763,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Divider Type',
             options: [
               {
@@ -4782,7 +4782,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Orientation',
             options: [
               {
@@ -4804,7 +4804,7 @@ export class formFeildData {
           key: 'dashed',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Dashed'
           },
           defaultValue: false,
@@ -4813,7 +4813,7 @@ export class formFeildData {
           key: 'plain',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Plain'
           },
           defaultValue: false,
@@ -4831,7 +4831,7 @@ export class formFeildData {
           key: 'labelIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Label Icon',
           }
         },
@@ -4840,7 +4840,7 @@ export class formFeildData {
           key: 'heading',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading'
           }
         },
@@ -4849,7 +4849,7 @@ export class formFeildData {
           key: 'headingIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading Icon'
           }
         },
@@ -4858,7 +4858,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Heading Color',
             options: [
               {
@@ -4905,7 +4905,7 @@ export class formFeildData {
           key: 'subHeading',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Sub Heading'
           }
         },
@@ -4914,7 +4914,7 @@ export class formFeildData {
           key: 'subHeadingIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'sub Heading Icon'
           }
         },
@@ -4923,7 +4923,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Sub Heading Color',
             options: [
               {
@@ -4972,7 +4972,7 @@ export class formFeildData {
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link'
           }
         },
@@ -4981,7 +4981,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -4996,7 +4996,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5006,7 +5006,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top:5%",
             canAdd: true,
             canRemove: true
@@ -5020,7 +5020,7 @@ export class formFeildData {
                 key: 'message',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Message'
                 }
               },
@@ -5029,7 +5029,7 @@ export class formFeildData {
                 key: 'dateAndTime',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   type: "datetime-local",
                   label: 'dateAndTime'
                 }
@@ -5039,7 +5039,7 @@ export class formFeildData {
                 key: 'icon',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'First Icon'
                 }
               },
@@ -5048,7 +5048,7 @@ export class formFeildData {
                 key: 'icon1',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Second Icon'
                 }
               },
@@ -5068,7 +5068,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Alert Color',
             options: [
               {
@@ -5117,7 +5117,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Alert Icon',
         //   },
         // },
@@ -5127,7 +5127,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Alert Type',
             options: [
               {
@@ -5159,7 +5159,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "col mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5169,7 +5169,7 @@ export class formFeildData {
           key: 'description',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Description',
 
           }
@@ -5179,7 +5179,7 @@ export class formFeildData {
           key: 'action',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Action',
 
           }
@@ -5189,7 +5189,7 @@ export class formFeildData {
           key: 'closeText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'CloseText',
 
           }
@@ -5199,7 +5199,7 @@ export class formFeildData {
           key: 'iconType',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'IconType',
 
           }
@@ -5208,7 +5208,7 @@ export class formFeildData {
           key: 'banner',
           type: 'checkbox',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             label: 'Banner',
           },
           defaultValue: false
@@ -5217,7 +5217,7 @@ export class formFeildData {
           key: 'closeable',
           type: 'checkbox',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             label: 'Closeable',
           },
           defaultValue: false
@@ -5226,7 +5226,7 @@ export class formFeildData {
           key: 'showIcon',
           type: 'checkbox',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             label: 'ShowIcon',
           },
           defaultValue: false
@@ -5236,7 +5236,7 @@ export class formFeildData {
           key: 'text',
           type: 'textarea',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Alert Text',
             rows: 2
           }
@@ -5254,7 +5254,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text Align',
             options: [
               {
@@ -5277,7 +5277,7 @@ export class formFeildData {
           key: 'link',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'link',
             options: [
               {
@@ -5300,7 +5300,7 @@ export class formFeildData {
           key: 'nztype',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Type',
             options: [
 
@@ -5320,7 +5320,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
 
@@ -5340,7 +5340,7 @@ export class formFeildData {
           key: 'imageAlt',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'image Alt',
           }
         },
@@ -5349,7 +5349,7 @@ export class formFeildData {
           key: 'imageSrc',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image Src',
           }
         },
@@ -5358,7 +5358,7 @@ export class formFeildData {
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Height',
           }
         },
@@ -5368,7 +5368,7 @@ export class formFeildData {
           key: 'extra',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Extra',
           }
         },
@@ -5376,7 +5376,7 @@ export class formFeildData {
           key: 'borderless',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Borderless'
           },
         },
@@ -5386,7 +5386,7 @@ export class formFeildData {
           key: 'hover',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Hover'
           },
         },
@@ -5395,7 +5395,7 @@ export class formFeildData {
           key: 'loading',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Loading'
           },
         },
@@ -5404,7 +5404,7 @@ export class formFeildData {
           key: 'headerText',
           type: 'textarea',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Header Text',
             rows: 3,
           }
@@ -5414,7 +5414,7 @@ export class formFeildData {
           key: 'bodyText',
           type: 'textarea',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Body Text',
             rows: 3,
           }
@@ -5424,7 +5424,7 @@ export class formFeildData {
           key: 'footerText',
           type: 'textarea',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Footer Text',
             rows: 3,
           }
@@ -5443,7 +5443,7 @@ export class formFeildData {
           key: 'mainIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'MainIcon',
           }
         },
@@ -5453,7 +5453,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Position',
             options: [
               {
@@ -5479,7 +5479,7 @@ export class formFeildData {
           key: 'reverse',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'Reverse'
           },
         },
@@ -5488,7 +5488,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -5500,7 +5500,7 @@ export class formFeildData {
                 key: 'title',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Title',
                 }
               },
@@ -5509,7 +5509,7 @@ export class formFeildData {
                 key: 'dotIcon',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'DotIcon',
                 }
               },
@@ -5519,7 +5519,7 @@ export class formFeildData {
                 type: 'select',
                 className: "w-1/4 px-1",
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Color',
                   options: [
                     {
@@ -5557,7 +5557,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Video Title',
           },
         },
@@ -5566,7 +5566,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Video Ratio',
         //   },
         // },
@@ -5575,7 +5575,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Video Source',
           },
         },
@@ -5587,7 +5587,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5604,7 +5604,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Audio Title',
         //   },
         // },
@@ -5613,7 +5613,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Audio Source',
             options: [
               {
@@ -5654,7 +5654,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5670,7 +5670,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Effect',
             options: [
               {
@@ -5690,7 +5690,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Dot Position',
             options: [
               {
@@ -5718,7 +5718,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "carousel-fade",
-          templateOptions: {
+          props: {
             label: 'Api Ref',
             options: [
               {
@@ -5740,7 +5740,7 @@ export class formFeildData {
           key: 'autolPlaySpeed',
           type: 'input',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Auto Play Speed'
           },
@@ -5749,7 +5749,7 @@ export class formFeildData {
           key: 'autoPlay',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'Auto Play'
           },
         },
@@ -5757,7 +5757,7 @@ export class formFeildData {
           key: 'showDots',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'Show Dots'
           },
         },
@@ -5765,7 +5765,7 @@ export class formFeildData {
           key: 'enableSwipe',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'Enable Swipe'
           },
         },
@@ -5776,7 +5776,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: 'w-full',
-          templateOptions: {
+          props: {
             style: "margin-top: 4%;",
             canAdd: true,
             canRemove: true
@@ -5789,7 +5789,7 @@ export class formFeildData {
                 key: 'img',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Image Source'
                 }
               }
@@ -5810,7 +5810,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Nodes',
           },
         },
@@ -5820,7 +5820,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5835,7 +5835,7 @@ export class formFeildData {
           key: 'uploadBtnLabel',
           type: 'input',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             label: 'Upload btn label'
           },
         },
@@ -5843,7 +5843,7 @@ export class formFeildData {
           key: 'uploadLimit',
           type: 'input',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             type:'number',
             label: 'Upload limit'
           },
@@ -5852,7 +5852,7 @@ export class formFeildData {
           key: 'size',
           type: 'input',
           className: "w-1/6 px-1",
-          templateOptions: {
+          props: {
             type:'number',
             label: 'File size'
           },
@@ -5861,7 +5861,7 @@ export class formFeildData {
           key: 'showDialogueBox',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show dialogue box'
           },
         },
@@ -5869,7 +5869,7 @@ export class formFeildData {
           key: 'showUploadlist',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show upload list'
           },
         },
@@ -5877,7 +5877,7 @@ export class formFeildData {
           key: 'onlyDirectoriesAllow',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Only directories allow'
           },
         },
@@ -5885,7 +5885,7 @@ export class formFeildData {
           key: 'multiple',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-3",
-          templateOptions: {
+          props: {
             label: 'Allow multiple file'
           },
         },
@@ -5893,7 +5893,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-3",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disable',
           },
           defaultValue: false
@@ -5918,7 +5918,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Type',
             options: [
               {
@@ -5945,7 +5945,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "w-full",
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -5962,7 +5962,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disable',
           },
           defaultValue: false
@@ -5971,7 +5971,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "col mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -5981,7 +5981,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 5%;",
             canAdd: true,
             canRemove: true
@@ -5994,7 +5994,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'name',
                 type: 'input',
-                templateOptions: {
+                props: {
                   label: 'Name'
                 }
               },
@@ -6002,7 +6002,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'bgColor',
                 type: 'input',
-                templateOptions: {
+                props: {
                   label: 'Backgroup Color'
                 }
               },
@@ -6023,7 +6023,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "w-full",
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -6040,7 +6040,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -6050,7 +6050,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 4%;",
             canAdd: true,
             canRemove: true
@@ -6064,7 +6064,7 @@ export class formFeildData {
                 key: 'title',
                 type: 'input',
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'title'
                 }
               },
@@ -6073,7 +6073,7 @@ export class formFeildData {
                 key: 'date',
                 type: 'input',
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'date'
                 }
               },
@@ -6082,7 +6082,7 @@ export class formFeildData {
                 key: 'content',
                 type: 'input',
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'content'
                 }
               },
@@ -6091,7 +6091,7 @@ export class formFeildData {
                 key: 'users',
                 type: 'input',
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'users'
                 }
               },
@@ -6100,7 +6100,7 @@ export class formFeildData {
                 key: 'status',
                 type: 'input',
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'status'
                 }
               },
@@ -6109,7 +6109,7 @@ export class formFeildData {
                 type: 'select',
                 className: "col",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'variant',
                   options: [
                     {
@@ -6166,7 +6166,7 @@ export class formFeildData {
           key: 'nodes',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Nodes',
           }
@@ -6176,7 +6176,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -6193,7 +6193,7 @@ export class formFeildData {
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link',
           }
         },
@@ -6209,7 +6209,7 @@ export class formFeildData {
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link',
           }
         },
@@ -6218,7 +6218,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'icon',
           }
         },
@@ -6235,7 +6235,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Audio Title',
           },
         },
@@ -6244,7 +6244,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Audio Source',
           },
         },
@@ -6267,7 +6267,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Size',
             options: [
               {
@@ -6290,7 +6290,7 @@ export class formFeildData {
           key: 'buttonShape',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Button Shape',
             options: [
               {
@@ -6313,7 +6313,7 @@ export class formFeildData {
           key: 'avatarShape',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Avatar Shape',
             options: [
               {
@@ -6338,7 +6338,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isActive',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isActive',
           },
           defaultValue: false
@@ -6355,7 +6355,7 @@ export class formFeildData {
           key: 'color',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color',
             options: [
               {
@@ -6390,7 +6390,7 @@ export class formFeildData {
           key: 'btnText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Text',
           }
         },
@@ -6399,7 +6399,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Close Icon',
           }
         },
@@ -6408,7 +6408,7 @@ export class formFeildData {
         //   key: 'extra',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'extra ID Refrance',
         //   }
         // },
@@ -6417,7 +6417,7 @@ export class formFeildData {
           key: 'footerText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Footer Text',
           }
         },
@@ -6426,7 +6426,7 @@ export class formFeildData {
           key: 'placement',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Placement',
             options: [
               {
@@ -6453,7 +6453,7 @@ export class formFeildData {
         //   key: 'maskStyle',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Mask Style',
         //   }
         // },
@@ -6462,7 +6462,7 @@ export class formFeildData {
         //   key: 'bodyStyle',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Body Style',
         //   }
         // },
@@ -6471,7 +6471,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Size',
             options: [
               {
@@ -6490,7 +6490,7 @@ export class formFeildData {
           key: 'width',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'Width',
           }
@@ -6500,7 +6500,7 @@ export class formFeildData {
           key: 'height',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'Height',
             tooltip: "Height of the Drawer dialog, only when placement is 'top' or 'bottom', having a higher priority than nzSize"
@@ -6511,7 +6511,7 @@ export class formFeildData {
           key: 'offsetX',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Offset X',
           }
         },
@@ -6520,7 +6520,7 @@ export class formFeildData {
           key: 'offsetY',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Offset Y',
           }
         },
@@ -6529,7 +6529,7 @@ export class formFeildData {
         //   key: 'wrapClassName',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'wrap ClassName',
         //   }
         // },
@@ -6538,7 +6538,7 @@ export class formFeildData {
           key: 'zIndex',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Z Index',
           }
         },
@@ -6546,7 +6546,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'isClosable',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isClosable',
           },
           defaultValue: false
@@ -6555,7 +6555,7 @@ export class formFeildData {
         //   className: "w-1/6 px-1 mt-2",
         //   key: 'isMask',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'isMask',
         //   },
         //   defaultValue: false
@@ -6564,7 +6564,7 @@ export class formFeildData {
         //   className: "w-1/6 px-1 mt-2",
         //   key: 'isMaskClosable',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'isMaskClosable',
         //   },
         //   defaultValue: false
@@ -6573,7 +6573,7 @@ export class formFeildData {
         //   className: "w-1/6 px-1 mt-2",
         //   key: 'isCloseOnNavigation',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'isCloseOnNavigation',
         //   },
         //   defaultValue: false
@@ -6582,7 +6582,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isKeyboard',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isKeyboard',
           },
           defaultValue: false
@@ -6591,7 +6591,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isVisible',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isVisible',
           },
           defaultValue: false
@@ -6601,7 +6601,7 @@ export class formFeildData {
           key: 'content',
           type: 'textarea',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Content',
             rows: 3
           }
@@ -6618,7 +6618,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image link'
           }
         },
@@ -6627,7 +6627,7 @@ export class formFeildData {
         //   key: 'content',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Content Refrance ID'
         //   }
         // },
@@ -6636,7 +6636,7 @@ export class formFeildData {
           key: 'text',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Other Content'
           }
         },
@@ -6645,7 +6645,7 @@ export class formFeildData {
         //   key: 'link',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Description Link'
         //   }
         // },
@@ -6654,7 +6654,7 @@ export class formFeildData {
           key: 'btnText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Text'
           }
         },
@@ -6663,7 +6663,7 @@ export class formFeildData {
           key: 'color',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Color',
             options: [
               {
@@ -6718,7 +6718,7 @@ export class formFeildData {
           key: 'headerText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Header Text',
           }
         },
@@ -6727,7 +6727,7 @@ export class formFeildData {
           key: 'footerText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Footer Text',
           }
         },
@@ -6736,7 +6736,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'column',
             options: [
               {
@@ -6755,7 +6755,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'column',
             options: [
               {
@@ -6778,7 +6778,7 @@ export class formFeildData {
           key: 'loadText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Load More Text'
           }
         },
@@ -6789,7 +6789,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isBordered',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isBordered',
           },
           defaultValue: false
@@ -6798,7 +6798,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isSplit',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isSplit',
           },
           defaultValue: false
@@ -6807,7 +6807,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isEdit',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isEdit',
           },
           defaultValue: false
@@ -6816,7 +6816,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isUpdate',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isUpdate',
           },
           defaultValue: false
@@ -6825,7 +6825,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isDelete',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isDelete',
           },
           defaultValue: false
@@ -6834,7 +6834,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isLoad',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isLoad',
           },
           defaultValue: false
@@ -6846,7 +6846,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           // wrappers:["form-field-horizontal"],
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -6860,7 +6860,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Profile Image'
                 }
               },
@@ -6869,7 +6869,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'name'
                 }
               },
@@ -6878,7 +6878,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'description'
                 }
               },
@@ -6887,7 +6887,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'email'
                 }
               },
@@ -6896,7 +6896,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'last Name Href'
                 }
               },
@@ -6905,7 +6905,7 @@ export class formFeildData {
                 type: 'input',
                 className: "w-1/4 px-1",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'content'
                 }
               },
@@ -6914,7 +6914,7 @@ export class formFeildData {
                 type: 'checkbox',
                 className: "w-1/6 px-1 mt-2",
                 // wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'isLoading'
                 }
               }
@@ -6933,7 +6933,7 @@ export class formFeildData {
           key: 'btnText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button text',
           }
         },
@@ -6942,7 +6942,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'column',
             options: [
               {
@@ -6961,7 +6961,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select Size',
             options: [
               {
@@ -6986,7 +6986,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isBordered',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isBordered',
           },
           defaultValue: false
@@ -6995,7 +6995,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isColon',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isColon',
           },
           defaultValue: false
@@ -7012,7 +7012,7 @@ export class formFeildData {
           key: 'count',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Count',
           }
@@ -7022,7 +7022,7 @@ export class formFeildData {
           key: 'nzText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text',
           }
         },
@@ -7031,7 +7031,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon `if type icon`',
           }
         },
@@ -7040,7 +7040,7 @@ export class formFeildData {
           key: 'nzColor',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'color',
             label: 'Color',
           }
@@ -7050,7 +7050,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Type',
             options: [
               {
@@ -7077,7 +7077,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -7108,7 +7108,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -7128,7 +7128,7 @@ export class formFeildData {
         //   key: 'title',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Title',
         //   }
         // },
@@ -7137,7 +7137,7 @@ export class formFeildData {
           key: 'overflowCount',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type:'number',
             label: 'OverflowCount',
           }
@@ -7147,7 +7147,7 @@ export class formFeildData {
           key: 'standAlone',
           type: 'checkbox',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'StandAlone',
           }
         },
@@ -7156,7 +7156,7 @@ export class formFeildData {
           key: 'status',
           type: 'checkbox',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
           }
         },
@@ -7165,7 +7165,7 @@ export class formFeildData {
           key: 'showZero',
           type: 'checkbox',
           // wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'ShowZero',
           }
         },
@@ -7181,7 +7181,7 @@ export class formFeildData {
           key: 'content',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'content',
           }
         },
@@ -7190,7 +7190,7 @@ export class formFeildData {
           key: 'nzStatus',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'nzStatus',
           }
         },
@@ -7199,7 +7199,7 @@ export class formFeildData {
           key: 'nzSpan',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'nzSpan',
             type: "number"
           }
@@ -7211,7 +7211,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'isBadeg',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'isBadeg',
           },
           defaultValue: false
@@ -7229,7 +7229,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Affix Type',
             className: "w-1/4 px-1",
             options: [
@@ -7249,7 +7249,7 @@ export class formFeildData {
           key: 'margin',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'margin'
           }
@@ -7258,7 +7258,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'target',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Target',
           },
         },
@@ -7274,7 +7274,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -7283,7 +7283,7 @@ export class formFeildData {
           key: 'text',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Text',
           }
         },
@@ -7292,7 +7292,7 @@ export class formFeildData {
           key: 'src',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image src',
           }
         },
@@ -7301,7 +7301,7 @@ export class formFeildData {
         //   key: 'alt',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Imag alt',
         //   }
         // },
@@ -7310,7 +7310,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Avatar Size',
             options: [
               {
@@ -7337,7 +7337,7 @@ export class formFeildData {
           key: 'shape',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Avatar Shape',
             options: [
               {
@@ -7356,7 +7356,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "color",
             label: 'Bg-color',
           },
@@ -7366,7 +7366,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: "color",
             label: 'Color',
           },
@@ -7376,7 +7376,7 @@ export class formFeildData {
         //   type: 'input',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     type: "number",
         //     label: 'Gap',
         //   },
@@ -7393,7 +7393,7 @@ export class formFeildData {
           key: 'visibleafter',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Visible After',
           }
@@ -7402,7 +7402,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           key: 'target',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Target',
           },
           defaultValue: false
@@ -7412,7 +7412,7 @@ export class formFeildData {
           key: 'duration',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Duration',
           }
@@ -7429,7 +7429,7 @@ export class formFeildData {
           key: 'avatar',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Avatar',
           }
         },
@@ -7438,7 +7438,7 @@ export class formFeildData {
           key: 'author',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'author',
           }
         },
@@ -7454,7 +7454,7 @@ export class formFeildData {
           key: 'btnLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Label',
           }
         },
@@ -7463,7 +7463,7 @@ export class formFeildData {
           key: 'content',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Popover Content',
           }
         },
@@ -7472,7 +7472,7 @@ export class formFeildData {
           key: 'mouseEnterDelay',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Mouse enter delay',
           }
@@ -7482,7 +7482,7 @@ export class formFeildData {
           key: 'mouseLeaveDelay',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Mouse leave delay',
           }
@@ -7492,7 +7492,7 @@ export class formFeildData {
           key: 'trigger',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Trigger type',
             options: [
               {
@@ -7519,7 +7519,7 @@ export class formFeildData {
           key: 'placement',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Placement',
             options: [
               {
@@ -7577,7 +7577,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'arrowPointAtCenter',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Arrow Point At Center',
           },
           defaultValue: false
@@ -7586,7 +7586,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'visible',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Visible',
           },
           defaultValue: false
@@ -7603,7 +7603,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -7626,7 +7626,7 @@ export class formFeildData {
           key: 'delayTime',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Delay time',
           }
@@ -7636,7 +7636,7 @@ export class formFeildData {
           key: 'loaderText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Loader text',
           }
         },
@@ -7644,7 +7644,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'spinning',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Spinning',
           },
           defaultValue: false
@@ -7653,7 +7653,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'simple',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Simple',
           },
           defaultValue: false
@@ -7670,7 +7670,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -7701,7 +7701,7 @@ export class formFeildData {
           key: 'resultTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Result Title',
           }
         },
@@ -7710,7 +7710,7 @@ export class formFeildData {
           key: 'subTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Sub Title',
           }
         },
@@ -7721,7 +7721,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -7730,7 +7730,7 @@ export class formFeildData {
           key: 'extra',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Extra',
           }
         },
@@ -7739,7 +7739,7 @@ export class formFeildData {
           key: 'btnLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Label',
           }
         },
@@ -7763,7 +7763,7 @@ export class formFeildData {
           key: 'timeOut',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Time Out',
             type: 'number',
           }
@@ -7773,7 +7773,7 @@ export class formFeildData {
           key: 'message',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Message',
           }
         },
@@ -7782,7 +7782,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Toastr Type',
             options: [
               {
@@ -7813,7 +7813,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Position',
             options: [
               {
@@ -7856,7 +7856,7 @@ export class formFeildData {
           className: "col mt-5",
           key: 'progressBar',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'progressBar',
           },
         },
@@ -7864,7 +7864,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "col mt-5",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -7882,7 +7882,7 @@ export class formFeildData {
           key: 'invoiceNumberLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'invoice number label',
           }
         },
@@ -7891,7 +7891,7 @@ export class formFeildData {
           key: 'datelabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Date Label',
           }
         },
@@ -7900,7 +7900,7 @@ export class formFeildData {
           key: 'paymentTermsLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Payment Terms Label',
           }
         },
@@ -7909,7 +7909,7 @@ export class formFeildData {
           key: 'billToLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'BillTo Label',
           }
         },
@@ -7918,7 +7918,7 @@ export class formFeildData {
           key: 'dueDateLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Due Date Label',
           }
         },
@@ -7927,7 +7927,7 @@ export class formFeildData {
           key: 'poNumber',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'PO Number',
           }
         },
@@ -7936,7 +7936,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Ship To Label',
           }
         },
@@ -7945,7 +7945,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Notes Label',
           }
         },
@@ -7954,7 +7954,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Subtotal Label',
           }
         },
@@ -7963,7 +7963,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Dicount Label',
           }
         },
@@ -7972,7 +7972,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Shipping Label',
           }
         },
@@ -7981,7 +7981,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Tax Label',
           }
         },
@@ -7990,7 +7990,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Terms Label',
           }
         },
@@ -7999,7 +7999,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Total Label',
           }
         },
@@ -8008,7 +8008,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Amount Paid Label',
           }
         },
@@ -8017,7 +8017,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Balance Due Label',
           }
         },
@@ -8034,7 +8034,7 @@ export class formFeildData {
           key: 'alt',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Alt',
           }
         },
@@ -8043,7 +8043,7 @@ export class formFeildData {
           key: 'source',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image Source',
           }
         },
@@ -8052,7 +8052,7 @@ export class formFeildData {
           key: 'imagHieght',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Imag Hieght',
           }
@@ -8062,7 +8062,7 @@ export class formFeildData {
           key: 'imageWidth',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Image Width',
           }
@@ -8072,7 +8072,7 @@ export class formFeildData {
           key: 'zoom',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'zoom',
           }
@@ -8082,7 +8082,7 @@ export class formFeildData {
           key: 'rotate',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'rotate',
           }
@@ -8092,7 +8092,7 @@ export class formFeildData {
           key: 'zIndex',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'zIndex',
           }
@@ -8102,7 +8102,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image Class',
             options: [
               {
@@ -8121,7 +8121,7 @@ export class formFeildData {
           type: 'image-upload',
           className: "col-md-4 col-sm-6 col-xs-12 ",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Image Upload',
           }
         },
@@ -8129,7 +8129,7 @@ export class formFeildData {
           key: 'keyboardKey',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'keyboard Key'
           },
         },
@@ -8137,7 +8137,7 @@ export class formFeildData {
           key: 'imagePreview',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'image Preview button'
           },
         },
@@ -8154,7 +8154,7 @@ export class formFeildData {
           key: 'min',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Min',
             type: 'number',
           }
@@ -8164,7 +8164,7 @@ export class formFeildData {
           key: 'max',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Max',
             type: 'number',
           }
@@ -8174,7 +8174,7 @@ export class formFeildData {
         //   type: 'select',
         //   className: "w-1/4 px-1",
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     label: 'Toastr Type',
         //     options: [
         //       {
@@ -8193,7 +8193,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
         },
@@ -8203,7 +8203,7 @@ export class formFeildData {
           className: "w-1/3 mt-3",
           key: 'showValue',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show range value',
           },
         },
@@ -8211,7 +8211,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -8227,7 +8227,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -8237,7 +8237,7 @@ export class formFeildData {
           key: 'link',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Link',
           }
         },
@@ -8245,7 +8245,7 @@ export class formFeildData {
           key: 'isTitle',
           type: 'checkbox',
           className: "w-1/3 mt-2",
-          templateOptions: {
+          props: {
             label: 'Is Title'
           },
           defaultValue: false
@@ -8263,7 +8263,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Footer Text'
           }
         },
@@ -8272,7 +8272,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Header Text'
           }
         },
@@ -8281,7 +8281,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Pagination Position',
             options: [
               {
@@ -8304,7 +8304,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Pagination Type',
             options: [
               { value: 'default', label: 'Default' },
@@ -8317,7 +8317,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               { value: 'default', label: 'Default' },
@@ -8331,7 +8331,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               { value: 'gridNewApi', label: 'Api' },
@@ -8343,7 +8343,7 @@ export class formFeildData {
           key: 'nzLoading',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -8352,7 +8352,7 @@ export class formFeildData {
           key: 'nzShowPagination',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show Pagination',
           },
           defaultValue: false
@@ -8361,7 +8361,7 @@ export class formFeildData {
           key: 'nzBordered',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show Border',
           },
           defaultValue: false
@@ -8370,7 +8370,7 @@ export class formFeildData {
           key: 'showColumnHeader',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Column Header',
           },
         },
@@ -8378,7 +8378,7 @@ export class formFeildData {
           key: 'noResult',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'No Result',
           },
           defaultValue: false
@@ -8387,7 +8387,7 @@ export class formFeildData {
           key: 'nzShowSizeChanger',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'PageSizeChanger',
           },
           defaultValue: false
@@ -8396,7 +8396,7 @@ export class formFeildData {
           key: 'nzSimple',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Simple Pagination',
           },
           defaultValue: false
@@ -8405,7 +8405,7 @@ export class formFeildData {
           key: 'showCheckbox',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Show checkbox',
           },
           defaultValue: false
@@ -8417,7 +8417,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -8429,7 +8429,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Column Name'
                 }
               },
@@ -8437,7 +8437,7 @@ export class formFeildData {
                 key: 'sortOrder',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'Column Name'
                 }
               },
@@ -8445,7 +8445,7 @@ export class formFeildData {
                 key: 'sortDirections',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'sortDirections'
                 }
               },
@@ -8453,7 +8453,7 @@ export class formFeildData {
                 key: 'filterMultiple',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
-                templateOptions: {
+                props: {
                   label: 'filterMultiple'
                 }
               }
@@ -8462,7 +8462,7 @@ export class formFeildData {
               //   key: 'showColumn',
               //   type: 'checkbox',
               //   wrappers: ["formly-vertical-wrapper"],
-              //   templateOptions: {
+              //   props: {
               //     label: 'Is Show'
               //   }
               // }
@@ -8481,7 +8481,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Pagination'
           }
@@ -8491,7 +8491,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'API Data Link',
             options: [
               {
@@ -8514,7 +8514,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Delete API'
           }
         },
@@ -8523,7 +8523,7 @@ export class formFeildData {
         //   key: 'delete',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Delete',
         //   },
         // },
@@ -8531,7 +8531,7 @@ export class formFeildData {
         //   key: 'update',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Update',
         //   },
         // },
@@ -8539,7 +8539,7 @@ export class formFeildData {
         //   key: 'create',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Create',
         //   },
         // },
@@ -8547,7 +8547,7 @@ export class formFeildData {
           key: 'sortable',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Sorting',
           },
         },
@@ -8555,7 +8555,7 @@ export class formFeildData {
           key: 'filter',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
-          templateOptions: {
+          props: {
             label: 'Enable Filter'
           },
         },
@@ -8564,7 +8564,7 @@ export class formFeildData {
         //   key: 'repeat',
         //   type: 'checkbox',
         //   className: "w-1/6 px-1 mt-3",
-        //   templateOptions: {
+        //   props: {
         //     label: 'Repeat'
         //   },
         // },
@@ -8575,7 +8575,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 5%;",
             canAdd: true,
             canRemove: true
@@ -8588,7 +8588,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 className: "w-1/3",
-                templateOptions: {
+                props: {
                   label: 'key',
 
                 },
@@ -8597,7 +8597,7 @@ export class formFeildData {
                 key: 'header',
                 type: 'input',
                 className: "w-1/3",
-                templateOptions: {
+                props: {
                   label: 'header',
                 }
               },
@@ -8605,7 +8605,7 @@ export class formFeildData {
                 key: 'rule',
                 type: 'input',
                 className: "w-1/3",
-                templateOptions: {
+                props: {
                   label: 'Rule',
                 }
               },
@@ -8613,7 +8613,7 @@ export class formFeildData {
                 key: 'showColumn',
                 type: 'checkbox',
                 className: "w-1/12 mt-4",
-                templateOptions: {
+                props: {
                   label: 'Show'
                 },
                 defaultValue: false
@@ -8622,7 +8622,7 @@ export class formFeildData {
                 key: 'sumColumn',
                 type: 'checkbox',
                 className: "w-1/12 mt-4",
-                templateOptions: {
+                props: {
                   label: 'Sum'
                 },
                 defaultValue: false
@@ -8638,7 +8638,7 @@ export class formFeildData {
       key: 'APIList',
       type: 'select',
       className: "w-1/4 px-1",
-      templateOptions: {
+      props: {
         label: 'API',
         options: [
           {
@@ -8659,7 +8659,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'InputType',
             options: [
               {
@@ -8694,7 +8694,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             multiple: true,
             label: 'Email Type Allow',
             options: [
@@ -8718,7 +8718,7 @@ export class formFeildData {
           key: 'refrance',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Refrance'
           },
           expressionProperties: {
@@ -8730,7 +8730,7 @@ export class formFeildData {
           key: 'minlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Min Length',
             type: 'number'
           },
@@ -8743,7 +8743,7 @@ export class formFeildData {
           key: 'maxlength',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Max Length',
             type: 'number'
           },
@@ -8755,7 +8755,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-2",
           key: 'required',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'required'
           },
           expressionProperties: {
@@ -8769,7 +8769,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           defaultValue: "^[a-zA-Z0-9]{3,30}$",
-          templateOptions: {
+          props: {
             label: 'Pattern',
           },
           expressionProperties: {
@@ -8779,7 +8779,7 @@ export class formFeildData {
         // {
         //   key: 'emailTypeAllow',
         //   type: 'repeatSection',
-        //   templateOptions: {
+        //   props: {
         //     canAdd: true,
         //     canRemove: true
         //   },
@@ -8792,7 +8792,7 @@ export class formFeildData {
         //         key: 'value',
         //         type: 'input',
         //         wrappers: ["formly-vertical-wrapper"],
-        //         templateOptions: {
+        //         props: {
         //           label: 'value'
         //         }
         //       }
@@ -8818,7 +8818,7 @@ export class formFeildData {
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'Key',
             required: true,
@@ -8830,7 +8830,7 @@ export class formFeildData {
           key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'ID',
             pattern: '^\\S*$',
@@ -8841,7 +8841,7 @@ export class formFeildData {
           key: 'title',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'label'
           }
@@ -8851,7 +8851,7 @@ export class formFeildData {
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'Tooltip',
           }
@@ -8861,7 +8861,7 @@ export class formFeildData {
           key: 'className',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'column',
           }
@@ -8871,7 +8871,7 @@ export class formFeildData {
           key: 'titleIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'Label Icon',
           }
@@ -8881,7 +8881,7 @@ export class formFeildData {
           key: 'placeholder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Placeholder',
           }
         },
@@ -8891,7 +8891,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'Default Value'
           },
@@ -8901,7 +8901,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonLeft',
           type: 'input',
-          templateOptions: {
+          props: {
             config: {},
             label: 'Add On Left Text'
           }
@@ -8911,7 +8911,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           key: 'addonRight',
           type: 'input',
-          templateOptions: {
+          props: {
             config: {},
             label: 'Add On Right Text'
           }
@@ -8921,7 +8921,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           key: 'suffixicon',
           type: 'input',
-          templateOptions: {
+          props: {
             config: {},
             label: 'Add On Left Icon'
           }
@@ -8931,7 +8931,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-wrapper"],
           key: 'prefixicon',
           type: 'input',
-          templateOptions: {
+          props: {
             config: {},
             label: 'Add On Right Icon'
           }
@@ -8941,7 +8941,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             config: {},
             label: 'Rows'
           }
@@ -8953,7 +8953,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'focus',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Autofocus'
           },
           defaultValue: false
@@ -8962,7 +8962,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'required',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'required'
           },
           defaultValue: false
@@ -8971,7 +8971,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'readonly',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Readonly'
           },
           defaultValue: false
@@ -8980,7 +8980,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -8989,7 +8989,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'hideExpression',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Hide',
           },
           defaultValue: false
@@ -8998,7 +8998,7 @@ export class formFeildData {
           className: "mt-5 px-2",
           key: 'border',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Border',
           },
           defaultValue: false
@@ -9015,7 +9015,7 @@ export class formFeildData {
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Key',
             required: true,
             pattern: /^[a-z0-9_]+$/,
@@ -9026,7 +9026,7 @@ export class formFeildData {
           key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'ID',
             pattern: '^\\S*$',
           }
@@ -9036,7 +9036,7 @@ export class formFeildData {
           key: 'title',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'label'
           }
         },
@@ -9045,7 +9045,7 @@ export class formFeildData {
           key: 'tooltip',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Tooltip',
           }
         },
@@ -9054,7 +9054,7 @@ export class formFeildData {
           key: 'className',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'className',
           },
           defaultValue: 'w-1/4  px-1'
@@ -9063,7 +9063,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'hideExpression',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Hide',
           },
           defaultValue: false
@@ -9080,7 +9080,7 @@ export class formFeildData {
           key: 'key',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Key',
             required: true,
             pattern: /^[a-z0-9_]+$/,
@@ -9091,7 +9091,7 @@ export class formFeildData {
           key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'ID',
             pattern: '^\\S*$',
           }
@@ -9101,7 +9101,7 @@ export class formFeildData {
           key: 'title',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'label'
           }
         },
@@ -9117,7 +9117,7 @@ export class formFeildData {
           key: 'prefixIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Prefix',
           }
         },
@@ -9126,7 +9126,7 @@ export class formFeildData {
           key: 'suffixIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Suffix',
           }
         },
@@ -9134,7 +9134,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full",
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -9145,7 +9145,7 @@ export class formFeildData {
                 key: 'title',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'Title'
                 }
               },
@@ -9153,7 +9153,7 @@ export class formFeildData {
                 key: 'value',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'Value'
                 }
               },
@@ -9173,7 +9173,7 @@ export class formFeildData {
           key: 'defaultSelectedIndex',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Default Selected Index',
           }
@@ -9183,7 +9183,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -9205,7 +9205,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -9214,7 +9214,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'block',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'block',
           },
           defaultValue: false
@@ -9222,7 +9222,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -9233,7 +9233,7 @@ export class formFeildData {
                 key: 'label',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'label'
                 }
               },
@@ -9253,7 +9253,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -9277,7 +9277,7 @@ export class formFeildData {
           key: 'position',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Position',
             options: [
               {
@@ -9301,7 +9301,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -9315,7 +9315,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'loading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Loading',
           },
           defaultValue: false
@@ -9325,7 +9325,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'disabled',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Disabled',
         //   },
         //   defaultValue: false
@@ -9333,7 +9333,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -9344,7 +9344,7 @@ export class formFeildData {
                 key: 'label',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'label'
                 }
               },
@@ -9365,7 +9365,7 @@ export class formFeildData {
           key: 'mode',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Mode',
             options: [
               {
@@ -9387,7 +9387,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-1/4",
-          templateOptions: {
+          props: {
             canAdd: true,
             canRemove: true
           },
@@ -9396,21 +9396,21 @@ export class formFeildData {
               {
                 key: 'title',
                 type: 'input',
-                templateOptions: {
+                props: {
                   label: 'Label'
                 }
               },
               {
                 key: 'tagColor',
                 type: 'input',
-                templateOptions: {
+                props: {
                   label: 'Color'
                 }
               },
               {
                 key: 'icon',
                 type: 'input',
-                templateOptions: {
+                props: {
                   label: 'Icon'
                 }
               },
@@ -9429,7 +9429,7 @@ export class formFeildData {
           key: 'content',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Content',
           }
         },
@@ -9438,7 +9438,7 @@ export class formFeildData {
           key: 'duration',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Duration',
           }
@@ -9448,7 +9448,7 @@ export class formFeildData {
           key: 'messageType',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Message Type',
             options: [
               {
@@ -9478,7 +9478,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'pauseOnHover',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Pause OnHover',
           },
           defaultValue: false
@@ -9487,7 +9487,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'animate',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Animate',
           },
           defaultValue: false
@@ -9504,7 +9504,7 @@ export class formFeildData {
           key: 'content',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Content',
           }
         },
@@ -9513,7 +9513,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -9522,7 +9522,7 @@ export class formFeildData {
           key: 'color',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'color',
             label: 'Color',
           }
@@ -9532,7 +9532,7 @@ export class formFeildData {
           key: 'duration',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Duration',
           }
@@ -9541,7 +9541,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'pauseOnHover',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Pause OnHover',
           },
           defaultValue: false
@@ -9550,7 +9550,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'animate',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Animate',
           },
           defaultValue: false
@@ -9567,7 +9567,7 @@ export class formFeildData {
           key: 'progressBarType',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Progress Bar Type',
             options: [
               {
@@ -9590,7 +9590,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -9617,7 +9617,7 @@ export class formFeildData {
           key: 'strokeLineCap',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Stroke Line Cap',
             options: [
               {
@@ -9636,7 +9636,7 @@ export class formFeildData {
           key: 'percent',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Percent',
           }
@@ -9646,7 +9646,7 @@ export class formFeildData {
           key: 'success',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Success Percentage',
           }
@@ -9655,7 +9655,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showInfo',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'ShowInfo',
           },
           defaultValue: false
@@ -9673,7 +9673,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           }
         },
@@ -9682,7 +9682,7 @@ export class formFeildData {
           key: 'showCount',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Show number ',
           }
@@ -9692,7 +9692,7 @@ export class formFeildData {
           className: "w-1/4 px-1 mt-5",
           key: 'allowHalf',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Allow Half',
           },
           defaultValue: false
@@ -9701,7 +9701,7 @@ export class formFeildData {
           className: "w-1/4 px-1 mt-5",
           key: 'focus',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Focus',
           },
           defaultValue: false
@@ -9710,7 +9710,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           key: 'clear',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Click clear',
           },
           defaultValue: false
@@ -9719,7 +9719,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -9736,7 +9736,7 @@ export class formFeildData {
           key: 'firstBoxTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'First box title',
           }
         },
@@ -9745,7 +9745,7 @@ export class formFeildData {
           key: 'secondBoxTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Second box title',
           }
         },
@@ -9754,7 +9754,7 @@ export class formFeildData {
           key: 'leftButtonLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Left button label',
           }
         },
@@ -9763,7 +9763,7 @@ export class formFeildData {
           key: 'rightButtonLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Right button label',
           }
         },
@@ -9772,7 +9772,7 @@ export class formFeildData {
           key: 'searchPlaceHolder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Search placeHolder',
           }
         },
@@ -9781,7 +9781,7 @@ export class formFeildData {
           key: 'notFoundContentLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Not found content label',
           }
         },
@@ -9790,7 +9790,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -9809,7 +9809,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'api',
             options: [
               {
@@ -9824,7 +9824,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -9833,7 +9833,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showSearch',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'ShowSearch',
           },
           defaultValue: false
@@ -9842,7 +9842,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full",
-          templateOptions: {
+          props: {
             style: "margin-top: 6%;",
             canAdd: true,
             canRemove: true
@@ -9853,7 +9853,7 @@ export class formFeildData {
                 key: 'key',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'key'
                 }
               },
@@ -9861,7 +9861,7 @@ export class formFeildData {
                 key: 'title',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'title'
                 }
               },
@@ -9869,7 +9869,7 @@ export class formFeildData {
                 key: 'direction',
                 type: 'input',
                 className: "w-1/4 px-1",
-                templateOptions: {
+                props: {
                   label: 'direction'
                 }
               },
@@ -9888,7 +9888,7 @@ export class formFeildData {
           key: 'btnLabel',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Button Label',
           }
         },
@@ -9897,7 +9897,7 @@ export class formFeildData {
           key: 'modalContent',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Modal Content',
           }
         },
@@ -9906,7 +9906,7 @@ export class formFeildData {
           key: 'modalTitle',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Modal title',
           }
         },
@@ -9915,7 +9915,7 @@ export class formFeildData {
           key: 'cancalButtontext',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Cancal button text',
           }
         },
@@ -9924,7 +9924,7 @@ export class formFeildData {
           key: 'okBtnText',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Ok btn text',
           }
         },
@@ -9933,7 +9933,7 @@ export class formFeildData {
           key: 'closeIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Close Icon',
           }
         },
@@ -9942,7 +9942,7 @@ export class formFeildData {
         //   key: 'zIndex',
         //   type: 'input',
         //   wrappers: ["formly-vertical-wrapper"],
-        //   templateOptions: {
+        //   props: {
         //     type:'number',
         //     label: 'Z-Index',
         //   }
@@ -9952,7 +9952,7 @@ export class formFeildData {
           key: 'width',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Width',
           }
@@ -9961,7 +9961,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'okBtnLoading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Ok button loading',
           },
           defaultValue: false
@@ -9970,7 +9970,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'cancelBtnLoading',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Cancel button loading',
           },
           defaultValue: false
@@ -9979,7 +9979,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'centered',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Centered',
           },
           defaultValue: false
@@ -9988,7 +9988,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'ecsModalCancel',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'ESC modal cancel',
           },
           defaultValue: false
@@ -9997,7 +9997,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showCloseIcon',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show close icon',
           },
           defaultValue: false
@@ -10014,7 +10014,7 @@ export class formFeildData {
           key: 'placeHolder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'placeHolder',
           }
         },
@@ -10023,7 +10023,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -10046,7 +10046,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -10069,7 +10069,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -10083,7 +10083,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showSearch',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Search',
           },
           defaultValue: false
@@ -10092,7 +10092,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: false
@@ -10101,7 +10101,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'width',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Width as Parent',
           },
           defaultValue: false
@@ -10110,7 +10110,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'checkable',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Checkable',
           },
           defaultValue: false
@@ -10119,7 +10119,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showExpand',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Expand',
           },
           defaultValue: false
@@ -10128,7 +10128,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showLine',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Line',
           },
           defaultValue: false
@@ -10148,7 +10148,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -10162,7 +10162,7 @@ export class formFeildData {
           className: "w-1/4 px-2",
           key: 'directoryTree',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Directory Tree',
           },
           defaultValue: false
@@ -10171,7 +10171,7 @@ export class formFeildData {
           className: "w-1/4 px-2",
           key: 'blockNode',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Block Node',
           },
           defaultValue: false
@@ -10189,7 +10189,7 @@ export class formFeildData {
           key: 'expandIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           },
         },
@@ -10197,7 +10197,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'closingexpandicon',
         //   type: 'input',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Close Icon',
         //   },
 
@@ -10207,7 +10207,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -10221,7 +10221,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'checkable',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show checkBox',
           },
         },
@@ -10229,7 +10229,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'expand',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show Expand Icon',
           },
         },
@@ -10237,7 +10237,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showLine',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show line',
           },
         },
@@ -10245,7 +10245,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'blockNode',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Block node',
         //   },
         // },
@@ -10253,7 +10253,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'showIcon',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Show icon',
         //   },
         // },
@@ -10261,7 +10261,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'asyncData',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Async data',
         //   },
         // },
@@ -10269,7 +10269,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'draggable',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Draggable',
           },
         },
@@ -10277,7 +10277,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'multiple',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Multiple',
         //   },
         // },
@@ -10285,7 +10285,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'expandAll',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Expandall',
           },
         },
@@ -10293,7 +10293,7 @@ export class formFeildData {
         //   className: "w-1/4 mt-5 px-2",
         //   key: 'checkStricktly',
         //   type: 'checkbox',
-        //   templateOptions: {
+        //   props: {
         //     label: 'Check Stricktly',
         //   },
         // },
@@ -10309,7 +10309,7 @@ export class formFeildData {
           key: 'expandTrigger',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Trigger',
             options: [
               {
@@ -10328,7 +10328,7 @@ export class formFeildData {
           key: 'placeHolder',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'PlaceHolder',
           },
         },
@@ -10337,7 +10337,7 @@ export class formFeildData {
           key: 'size',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Size',
             options: [
               {
@@ -10360,7 +10360,7 @@ export class formFeildData {
           key: 'status',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Status',
             options: [
               {
@@ -10379,7 +10379,7 @@ export class formFeildData {
           key: 'expandIcon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Expand Icon',
           },
         },
@@ -10388,7 +10388,7 @@ export class formFeildData {
           key: 'api',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Api',
             options: [
               {
@@ -10403,7 +10403,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showInput',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'ShowInput',
           },
           defaultValue: true
@@ -10413,7 +10413,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'disabled',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Disabled',
           },
           defaultValue: true
@@ -10431,7 +10431,7 @@ export class formFeildData {
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon',
           },
         },
@@ -10440,7 +10440,7 @@ export class formFeildData {
           key: 'theme',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Icon type',
             options: [
               {
@@ -10470,7 +10470,7 @@ export class formFeildData {
           key: 'offSetTop',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Padding From top',
           },
@@ -10480,7 +10480,7 @@ export class formFeildData {
           key: 'bond',
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             type: 'number',
             label: 'Bond Distance',
           },
@@ -10490,7 +10490,7 @@ export class formFeildData {
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
-          templateOptions: {
+          props: {
             label: 'Select API',
             options: [
               {
@@ -10504,7 +10504,7 @@ export class formFeildData {
           key: 'affix',
           className: "w-1/4 mt-5 px-2",
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Fixed',
           },
         },
@@ -10512,7 +10512,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'showInkInFixed',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show balls',
           },
           defaultValue: false
@@ -10521,7 +10521,7 @@ export class formFeildData {
           className: "w-1/4 mt-5 px-2",
           key: 'target',
           type: 'checkbox',
-          templateOptions: {
+          props: {
             label: 'Show target div',
           },
           defaultValue: false

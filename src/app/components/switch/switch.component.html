@@ -94,7 +94,7 @@
 <!-- {{switchData | json}} -->
 <span *ngIf="switchData?.tooltip" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
-<nz-switch 
+<nz-switch
 [(ngModel)]="switchData.model"
  [nzSize]="switchData.size"
 [nzCheckedChildren]="switchData.checkedChildren"
@@ -103,4 +103,4 @@
 [nzLoading]="switchData.loading"
 [nzControl]="switchData.control"
 ></nz-switch>
-<!-- <span class="switch-label">{{field.templateOptions?.label}}</span> -->
+<!-- <span class="switch-label">{{field.props?.label}}</span> -->

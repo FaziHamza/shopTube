@@ -7,7 +7,7 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
   template: `
   <!-- {{field.fieldGroup | json}} -->
     <nz-steps [nzCurrent]="currentStepIndex">
-      <nz-step *ngFor="let step of field.fieldGroup" [nzTitle]="step.templateOptions?.label">
+      <nz-step *ngFor="let step of field.fieldGroup" [nzTitle]="step.props?.label">
       </nz-step>
     </nz-steps>
     <formly-field [field]='getField()'></formly-field>

@@ -4124,6 +4124,7 @@ export class BuilderComponent implements OnInit {
       case "anchor":
         configObj = { ...configObj, ...this.clickButtonService.getAnchorConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.anchorFields;
+
         break;
       case "treeSelect":
         configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };

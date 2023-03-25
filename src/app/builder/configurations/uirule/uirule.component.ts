@@ -74,7 +74,7 @@ export class UIRuleComponent implements OnInit {
       //   for (let k = 0; k < inputType.children.length; k++) {
       //     objTargetList = { key: '', value: '' };
       //     objTargetList.key = (inputType.children[k].formly[0].fieldGroup[0].key).toString()
-      //     objTargetList.value = (inputType.children[k].formly[0].fieldGroup[0].templateOptions.title).toString()
+      //     objTargetList.value = (inputType.children[k].formly[0].fieldGroup[0].props.title).toString()
       //     this.targetList.push(objTargetList)
       //   }
       // }
@@ -113,7 +113,7 @@ export class UIRuleComponent implements OnInit {
       nodeList = this.findElementNode(this.nodes, menuName);
     }
 
-    let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
+    let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
     this.condationList = [];
     this.condationList = this.conditioList(inputType);
     if (ifIndex != undefined && uiIndex != undefined) {
@@ -415,7 +415,7 @@ export class UIRuleComponent implements OnInit {
     nodeList = this.findElementNode(this.nodes, menuName);
     if (nodeList) {
 
-      let inputType = nodeList.formly[0].fieldGroup[0].templateOptions.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].templateOptions.type;
+      let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
       this.condationList = [];
       this.condationList = this.conditioList(inputType);
       return this.condationList;

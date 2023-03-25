@@ -77,10 +77,10 @@ export class PagesComponent implements OnInit {
       if (a.formlyType) {
         if (a.formlyType == "input") {
           a.formly[0].fieldGroup.forEach((b: any) => {
-            if (b.templateOptions.disabled == true)
-              b.templateOptions.disabled = false;
-            else if (b.templateOptions.disabled == false)
-              b.templateOptions.disabled = true;
+            if (b.props.disabled == true)
+              b.props.disabled = false;
+            else if (b.props.disabled == false)
+              b.props.disabled = true;
           });
         }
       }
@@ -99,7 +99,7 @@ export class PagesComponent implements OnInit {
     this.resData = [...this.resData];
   }
   checkConditionUIRule(model: any, currentValue: any) {
-    
+
     this.getUIRule(model, currentValue);
     this.updateNodes();
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
@@ -285,9 +285,9 @@ export class PagesComponent implements OnInit {
     return query;
   }
   makeFakerData(V2: any) {
-    if (V2.formly[0].fieldGroup[0].templateOptions) {
+    if (V2.formly[0].fieldGroup[0].props) {
       let modelFaker: any;
-      if (V2.formly[0].fieldGroup[0].templateOptions.type) {
+      if (V2.formly[0].fieldGroup[0].props.type) {
         if (V2.formly[0].fieldGroup[0].type == 'input') {
           // modelFaker = faker.name.firstName()
         }
@@ -297,39 +297,39 @@ export class PagesComponent implements OnInit {
         else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
           // modelFaker = faker.name.firstName()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'password') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
           // modelFaker = faker.name.firstName()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'tel') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
           // modelFaker = faker.phone.number()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'date') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
           // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'email') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
           // modelFaker = faker.internet.email()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'checkbox') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
           // modelFaker = faker.datatype.boolean()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'radio') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
           // modelFaker = faker.datatype.boolean()
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'number') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
           // modelFaker = 1
           // modelFaker = faker.datatype.number(10)
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'decimal') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
           // modelFaker = 0.0
           // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'month') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
           // modelFaker = faker.date.month({ abbr: true, context: true })
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'datetime-local') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
           // modelFaker = faker.datatype.datetime(1893456000000)
         }
-        else if (V2.formly[0].fieldGroup[0].templateOptions.type == 'color') {
+        else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
           // modelFaker = faker.color.colorByCSSColorSpace()
         }
       }

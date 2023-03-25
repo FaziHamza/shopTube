@@ -953,7 +953,7 @@
 //                       }
 //                       else {
 //                         data[i].children[j].children[0].chartCardConfig[0].formly[0].fieldGroup[0].className = 'col';
-//                         data[i].children[j].children[0].chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.className = 'col';
+//                         data[i].children[j].children[0].chartCardConfig[0].formly[0].fieldGroup[0].props.className = 'col';
 //                         data[i].children[j].children[0].chartCardConfig[0].formly[0].fieldGroup[0].wrappers = ['formly-grid-wrapper']
 //                         array[0] = Object.assign({}, data[i].children[j]);
 //                       }
@@ -1887,7 +1887,7 @@
 //   updateWrapperFields(hide: any, data: any, check: boolean) {
 //     data.chartCardConfig[0].formly[0].fieldGroup[0].hideExpression = hide;
 //     data.chartCardConfig[0].formly[0].fieldGroup[0].className = 'col'
-//     data.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.className = 'col';
+//     data.chartCardConfig[0].formly[0].fieldGroup[0].props.className = 'col';
 //     data.chartCardConfig[0].formly[0].fieldGroup[0].wrappers = ['formly-grid-wrapper'];
 //     // check true in case of Push  else when object is assign
 //     if (check) {
@@ -1958,42 +1958,42 @@
 //     this.formlyModel = dataModelFaker;
 //   }
 //   makeFakerData(V2: any) {
-//     if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions) {
+//     if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props) {
 //       let modelFaker: any;
-//       if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type) {
-//         if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'password') {
+//       if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type) {
+//         if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'password') {
 //           // modelFaker = faker.name.firstName()
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'tel') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'tel') {
 //           // modelFaker = faker.phone.number()
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'date') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'date') {
 //           // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'email') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'email') {
 //           // modelFaker = faker.internet.email()
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'checkbox') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'checkbox') {
 //           // modelFaker = faker.datatype.boolean()
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'radio') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'radio') {
 //           // modelFaker = faker.datatype.boolean()
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'number') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'number') {
 //           // modelFaker = 1
 //           // modelFaker = faker.datatype.number(10)
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'decimal') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'decimal') {
 //           // modelFaker = 0.0
 //           // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'month') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'month') {
 //           // modelFaker = faker.date.month({ abbr: true, context: true })
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'datetime-local') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'datetime-local') {
 //           // modelFaker = faker.datatype.datetime(1893456000000)
 //         }
-//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].templateOptions.type == 'color') {
+//         else if (V2.chartCardConfig[0].formly[0].fieldGroup[0].props.type == 'color') {
 //           // modelFaker = faker.color.colorByCSSColorSpace()
 //         }
 //       }
