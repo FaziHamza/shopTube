@@ -11,6 +11,7 @@ export class MenuComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter();
   applicationBuilder: any;
   screenSetting: any;
+  selectedApp:string = '';
   constructor(private employeeService: EmployeeService, private notification: NzNotificationService) { }
 
   ngOnInit(): void {
@@ -25,11 +26,11 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
-    
+    this.selectedApp = moduleName;
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
         this.notify.emit(res[0]);
-      } 
+      }
       else {
         this.notification.create(
           'error',

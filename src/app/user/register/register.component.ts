@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Router } from '@angular/router';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { first } from 'rxjs';
+import { ColorPickerService } from 'src/app/services/colorpicker.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 
@@ -12,19 +13,20 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  validateForm!: UntypedFormGroup;
+  signupForm!: UntypedFormGroup;
   successmsg: boolean = false;
   error = '';
+  saveSubmitted = false;
   captchaTooltipIcon: NzFormTooltipIcon = {
     type: 'info-circle',
     theme: 'twotone'
   };
 
   submitForm(): void {
-
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-      this.employeeService.register(this.validateForm.value).pipe(first()).subscribe((data: any) => {
+    this.saveSubmitted = true;
+    if (this.signupForm.valid) {
+      console.log('submit', this.signupForm.value);
+      this.employeeService.register(this.signupForm.value).pipe(first()).subscribe((data: any) => {
         this.successmsg = true;
         if (this.successmsg) {
           this.router.navigate(['/login']);
@@ -40,7 +42,7 @@ export class RegisterComponent implements OnInit {
       // }))
     }
     else {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.signupForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -51,13 +53,13 @@ export class RegisterComponent implements OnInit {
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
+    Promise.resolve().then(() => this.signupForm.controls['checkPassword'].updateValueAndValidity());
   }
 
   confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return { required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
+    } else if (control.value !== this.signupForm.controls['password'].value) {
       return { confirm: true, error: true };
     }
     return {};
@@ -67,14 +69,27 @@ export class RegisterComponent implements OnInit {
     e.preventDefault();
   }
 
-  constructor(private fb: UntypedFormBuilder, public employeeService: EmployeeService, private router: Router) { }
+  constructor(private fb: UntypedFormBuilder,
+    public employeeService: EmployeeService,
+    private router: Router,
+    private colorPickerService: ColorPickerService) { }
 
+  customColor(shade: string) {
+    return this.colorPickerService.getColor(shade);
+  }
+
+  setCustomColor(data:any) {
+    debugger
+    let color: string;
+    color = data.target.value;
+    this.colorPickerService.setCustomColor('custom-color', color);
+  }
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
+    this.signupForm = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
-      pwd: [null, [Validators.required]],
+      password: [null, [Validators.required]],
       // checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      first_name: [null, [Validators.required]],
+      userName: [null, [Validators.required]],
       // agree: [false]
     });
   }

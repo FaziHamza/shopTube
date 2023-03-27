@@ -4539,6 +4539,30 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
       case "according":
+        if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
+          this.fieldData.commonData[0].fieldGroup[4] = {
+            className: "w-1/4 px-2 d-none",
+            key: 'className',
+            type: 'select',
+            wrappers: ["formly-vertical-wrapper"],
+            props: {
+              label: 'Section ClassName',
+              options: [
+                {
+                  label: 'Full',
+                  value: 'w-full'
+                },
+                {
+                  label: 'col-6',
+                  value: 'w-1/2 pr-1'
+                },
+                {
+                  label: 'col-3',
+                  value: 'w-1/3 pr-1'
+                },
+              ]
+            }
+          };
         configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingFields;
         break;
@@ -7257,15 +7281,6 @@ export class BuilderComponent implements OnInit {
         else if (formValues.disabled == "disabled-But-ditable") {
           fieldGroup[0].props.disabled = true;
         }
-        if (formValues.labelPosition == "text-right") {
-          fieldGroup[0].props.labelPosition = "text-right";
-        }
-        else if (formValues.labelPosition == "text-center") {
-          fieldGroup[0].props.labelPosition = "text-center";
-        }
-        else if (formValues.labelPosition == "text-left") {
-          fieldGroup[0].props.labelPosition = "text-left";
-        }
         if (formValues.status) {
           fieldGroup[0].props.config.status = formValues.status;
         }
@@ -7307,6 +7322,11 @@ export class BuilderComponent implements OnInit {
             fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
           }
         }
+        if (formValues.sectionClassName) {
+          fieldGroup[0].props.className = formValues.sectionClassName;
+          fieldGroup[0].className = formValues.sectionClassName;
+        }
+        fieldGroup[0].props.labelPosition = formValues?.labelPosition;
       }
     }
     return fieldGroup;
