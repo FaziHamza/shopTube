@@ -141,9 +141,16 @@ object {
   label {
     // text-align: right !important;
     border: 1px solid lightgray;
-    padding-top: 15px;
+    padding-top: 8px;
     font-weight: bold;
-
+    span{
+      padding: 0px 1px;
+    }
+  }
+  .ant-checkbox-group{
+    label{
+      padding-top: -15px !important;
+    }
   }
   .ant-checkbox-wrapper{
     border: none !important;
