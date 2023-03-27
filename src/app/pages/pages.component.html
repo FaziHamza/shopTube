@@ -1,4 +1,7 @@
-<div class="bg-white  shadow-md {{resData[0].children[0].isBordered?'border': ''}}" *ngIf="resData.length">
+
+<div
+    class="bg-white shadow-md {{resData[0].children[0].isBordered ? 'border' : ''}} {{resData[0].highLight ? 'highLight' : ''}}"
+    *ngIf="resData.length">
     <!-- PAGE HEADER -->
     <div class="site-page-header-ghost-wrapper " *ngIf="resData[0].children[0].header">
         <div *ngFor="let item of resData[0]?.children[0].children">
@@ -6,7 +9,9 @@
                 <app-new-alerts [alertData]="item"></app-new-alerts>
             </ng-container>
         </div>
-        <nz-page-header class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].isBordered?'border-b': ''}}" [nzGhost]="false">
+        <nz-page-header
+            class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].isBordered?'border-b': ''}} {{resData[0].children[0].highLight ? 'highLight' : ''}}"
+            [nzGhost]="false">
             <nz-page-header-title [class]="resData[0].children[0].headingSize">
                 {{resData[0].children[0].title}}
             </nz-page-header-title>
