@@ -1,6 +1,4 @@
-
-
-<body class="antialiased bg-gray-200 text-gray-900 font-sans">
+<!-- <body class="antialiased bg-gray-200 text-gray-900 font-sans">
   <div class="flex items-center h-screen w-full">
     <div class="w-full bg-white rounded shadow-lg p-8 m-4 md:max-w-screen-md md:mx-auto">
       <span class="block w-full text-xl uppercase font-bold mb-4">Register</span>
@@ -29,29 +27,6 @@
             />
           </nz-form-control>
         </nz-form-item>
-        <!-- <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
-          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
-            <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
-            <ng-template #errorTpl let-control>
-              <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
-              <ng-container *ngIf="control.hasError('confirm')">
-                Two passwords that you enter is inconsistent!
-              </ng-container>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item> -->
-
-        <!-- <nz-form-item nz-row class="register-area">
-          <nz-form-control [nzSpan]="14" [nzOffset]="6">
-            <label nz-checkbox formControlName="agree">
-              <span>
-                I have read the
-                <a>agreement</a>
-              </span>
-            </label>
-          </nz-form-control>
-        </nz-form-item> -->
         <nz-form-item nz-row class="register-area">
           <nz-form-control [nzSpan]="14" [nzOffset]="6">
             <button nz-button nzType="primary">Register</button>
@@ -60,8 +35,81 @@
       </form>
     </div>
   </div>
-</body>
+</body> -->
 
+<section class="bg-gray-50 dark:bg-gray-900">
+  <!-- <div class="rtl">
+    <label for="name" class="block text-right mb-2">First Name</label>
+    <input type="text" id="name" class="w-full px-4 py-2 rounded-md border-gray-300">
+  </div> -->
+  <!-- <div [style.backgroundColor]="customColor('900')">
+    <h1>My Component</h1>
+  </div>
+  <input type="color" (input)="setCustomColor($event)"> -->
 
-
-
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+      Shopotube
+    </a>
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          Create and account
+        </h1>
+        <form class="space-y-4 md:space-y-6" [formGroup]="signupForm" (ngSubmit)="submitForm()">
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+            <input type="email" formControlName="email" name="email" id="email"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="name@company.com" required="">
+            <div class="text-red-600"
+              *ngIf="(signupForm.get('email')?.invalid && (signupForm.get('email')?.touched || saveSubmitted)) || (!signupForm.get('email')?.value && saveSubmitted)">
+              Email is required.
+            </div>
+          </div>
+          <div>
+            <label for="UserName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Name</label>
+            <input type="UserName" name="UserName" formControlName="userName" id="UserName" placeholder="UserName"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required="">
+            <div class="text-red-600"
+              *ngIf="(signupForm.get('userName')?.invalid && (signupForm.get('userName')?.touched || saveSubmitted)) || (!signupForm.get('userName')?.value && saveSubmitted)">
+              UserName is required.
+            </div>
+          </div>
+          <div>
+            <label for="Password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <input type="Password" formControlName="password" (ngModelChange)="updateConfirmValidator()" name="Password"
+              id="Password" placeholder="••••••••"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required="">
+              <div class="text-red-600"
+              *ngIf="(signupForm.get('password')?.invalid && (signupForm.get('password')?.touched || saveSubmitted)) || (!signupForm.get('password')?.value && saveSubmitted)">
+              Password is required.
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input id="terms" aria-describedby="terms" type="checkbox"
+                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                required="">
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="terms" class="font-light text-gray-500 dark:text-gray-300">I accept the <a
+                  class="font-medium text-primary-600 hover:underline dark:text-primary-500">Terms and
+                  Conditions</a></label>
+            </div>
+          </div>
+          <button type="submit"
+            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create
+            an account</button>
+          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            Already have an account? <a href="/login"
+              class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

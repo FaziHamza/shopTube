@@ -4117,7 +4117,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Formly Class',
+            label: 'Input Class',
           }
         },
         {
@@ -4176,6 +4176,10 @@ export class formFeildData {
               {
                 label: 'Left',
                 value: 'text-left'
+              },
+              {
+                label: 'RTL',
+                value: 'rtl'
               },
             ]
           },

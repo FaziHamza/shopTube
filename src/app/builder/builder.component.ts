@@ -4538,6 +4538,30 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
       case "according":
+        if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
+          this.fieldData.commonData[0].fieldGroup[4] = {
+            className: "w-1/4 px-2 d-none",
+            key: 'className',
+            type: 'select',
+            wrappers: ["formly-vertical-wrapper"],
+            props: {
+              label: 'Section ClassName',
+              options: [
+                {
+                  label: 'Full',
+                  value: 'w-full'
+                },
+                {
+                  label: 'col-6',
+                  value: 'w-1/2 pr-1'
+                },
+                {
+                  label: 'col-3',
+                  value: 'w-1/3 pr-1'
+                },
+              ]
+            }
+          };
         configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingFields;
         break;
@@ -5607,12 +5631,12 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            if(props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_standard'){
+            if (props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_standard') {
               props.config['addonRight'] = '';
-            props.config['addonLeft'] = '';
-            props.config['prefixicon'] = '';
-            props.config['suffixicon'] = '';
-            }else{
+              props.config['addonLeft'] = '';
+              props.config['prefixicon'] = '';
+              props.config['suffixicon'] = '';
+            } else {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
               props.config['prefixicon'] = event.form.prefixicon;
@@ -7017,7 +7041,7 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
                 this.selectedNode.sharedMessagesConfig = res;
-              this.updateNodes();
+                this.updateNodes();
               },
               error: (err) => {
                 console.error(err); // Log the error to the console
@@ -7261,15 +7285,6 @@ export class BuilderComponent implements OnInit {
         else if (formValues.disabled == "disabled-But-ditable") {
           fieldGroup[0].props.disabled = true;
         }
-        if (formValues.labelPosition == "text-right") {
-          fieldGroup[0].props.labelPosition = "text-right";
-        }
-        else if (formValues.labelPosition == "text-center") {
-          fieldGroup[0].props.labelPosition = "text-center";
-        }
-        else if (formValues.labelPosition == "text-left") {
-          fieldGroup[0].props.labelPosition = "text-left";
-        }
         if (formValues.status) {
           fieldGroup[0].props.config.status = formValues.status;
         }
@@ -7313,6 +7328,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
         }
+        fieldGroup[0].props.labelPosition = formValues?.labelPosition;
       }
     }
     return fieldGroup;
@@ -7323,7 +7339,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
       next: (res) => {
         if (this.selectedNode.children)
-        this.selectedNode.children.push(res)
+          this.selectedNode.children.push(res)
       },
       error: (err) => {
         console.error(err); // Log the error to the console
