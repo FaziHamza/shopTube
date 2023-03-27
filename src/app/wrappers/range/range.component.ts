@@ -7,7 +7,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./range.component.scss']
 })
 export class RangeComponent extends FieldType<FieldTypeConfig> {
-
+  
 
   ngOnInit(): void {
   }

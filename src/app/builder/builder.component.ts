@@ -4645,7 +4645,6 @@ export class BuilderComponent implements OnInit {
     this.isVisible = data.origin.id;
   }
   applyOrRemoveHighlight(element: any, id: any) {
-    debugger
     if (id == element.id)
       element["highLight"] = true;
     else
@@ -4688,7 +4687,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   highlightSelect(id: any) {
-    debugger
     this.applyOrRemoveHighlight(this.nodes[0], id);
     this.nodes.at(0)?.children?.forEach((element: any) => {
       this.applyOrRemoveHighlight(element, id);
@@ -5609,16 +5607,13 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            if (props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_standard') {
-              props.config['addonRight'] = '';
-              props.config['addonLeft'] = '';
-              props.config['prefixicon'] = '';
-              props.config['suffixicon'] = '';
-            } else {
+            if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
               props.config['prefixicon'] = event.form.prefixicon;
               props.config['suffixicon'] = event.form.suffixicon;
+            }else{
+              this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
             }
             props.config['border'] = event.form.border;
             props.config['optionWidth'] = event.form.optionWidth;
@@ -6720,7 +6715,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.selectedNode.id) {
-
           // this.selectedNode.id = event.form.accordingText;
           this.selectedNode.title = event.form.title;
           this.selectedNode.className = event.form.className;
@@ -7278,42 +7272,40 @@ export class BuilderComponent implements OnInit {
         if (formValues.size) {
           fieldGroup[0].props.config.size = formValues.size;
         }
-        if (formValues.wrappers == 'floating_filled') {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-          fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
-          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
-          fieldGroup[0].props.placeholder = " ";
-          if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-            fieldGroup[0].props.config.size = 'default';
-            this.selectedNode.size = 'default';
-          }
-        }
-        else if (formValues.wrappers == 'floating_outlined') {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-          fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
-          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0]
-          fieldGroup[0].props.placeholder = " ";
-          if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-            fieldGroup[0].props.config.size = 'default';
-            this.selectedNode.size = 'default';
-          }
-        }
-        else if (formValues.wrappers == 'floating_standard') {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-          fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
-          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
-          fieldGroup[0].props.placeholder = " ";
-          if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-            fieldGroup[0].props.config.size = 'default';
-            this.selectedNode.size = 'default';
-          }
-        }
+
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
+        }
+        if (formValues.wrappers) {
+          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
+          if(formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard'){
+            if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
+              this.selectedNode.size = 'default';
+              // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
+            }
+            if(fieldGroup[0].props.config['addonRight'] != ''|| fieldGroup[0].props.config['addonLeft'] != ''|| fieldGroup[0].props.config['prefixicon'] != ''|| fieldGroup[0].props.config['suffixicon'] != ''){
+              // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
+              fieldGroup[0].props.config['addonRight'] = '';
+              fieldGroup[0].props.config['addonLeft'] = '';
+              fieldGroup[0].props.config['prefixicon'] = '';
+              fieldGroup[0].props.config['suffixicon'] = '';
+            }
+            fieldGroup[0].props.placeholder = " ";
+          }
+          if (formValues.wrappers == 'floating_filled') {
+            fieldGroup[0].props.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
+          }
+          else if (formValues.wrappers == 'floating_outlined') {
+            fieldGroup[0].props.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
+          }
+          else if (formValues.wrappers == 'floating_standard') {
+            fieldGroup[0].props.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
+          }
         }
       }
     }

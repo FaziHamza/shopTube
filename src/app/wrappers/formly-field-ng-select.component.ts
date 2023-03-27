@@ -5,8 +5,8 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   selector: 'app-formly-field-ng-select',
   template: `
   <ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
-    <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
-      <nz-select [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''" nzShowSearch nzAllowClear [nzPlaceHolder]="to.placeholder || ''" [formControl]="formControl" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
+    <nz-input-group  [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
+      <nz-select [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''" [formControl]="formControl" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
         <nz-option [nzLabel]="item.label" [nzValue]="item.value" *ngFor="let item of list"></nz-option>
       </nz-select>
       <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'" [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>

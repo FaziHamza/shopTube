@@ -33,13 +33,13 @@
         </div>
     </div>
     <!-- SECTION -->
-    <div class="flex flex-wrap">
-        <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className">
+    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
+        <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className" class="{{j.highLight  ? 'highLight' : ''}}">
             <!-- INCOLAPSSABLE CASE -->
             <div class="{{resData[0].children[0].isBordered?'border': ''}}" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}"
                     *ngIf="j.children[0].header">
-                    <nz-page-header class="pl-6 pt-1 pb-1 font-semibold text-lg" [nzGhost]="false">
+                    <nz-page-header class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}" [nzGhost]="false">
                         <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
@@ -60,10 +60,10 @@
                         </nz-page-header-extra>
                     </nz-page-header>
                 </div>
-                <div class="p-6">
+                <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}" >
                     <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                 </div>
-                <div class="py-3 px-10 {{j.isBordered?'border-t': ''}}  text-black font-semibold text-lg"
+                <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
                     *ngIf="j.children[2].footer">
                     {{j.children[2].title}}
                     <div *ngFor="let item of resData[0]?.children[1].children[i]">
@@ -74,16 +74,15 @@
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
-                    <nz-collapse-panel class="text-black font-semibold text-lg" [nzHeader]="j.children[0].title"
+                    <nz-collapse-panel class="text-black font-semibold text-lg border-black-500" [nzHeader]="j.children[0].title"
                         [nzExtra]="extraTpl" [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
-                        <div class="px-3 font-normal text-base" *ngIf="resData.length > 0">
-
+                        <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0">
                             <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                         </div>
 
                         <br />
                     </nz-collapse-panel>
-                    <div class="py-3 px-10 {{j.isBordered?'border-t':''}}  text-black font-semibold text-lg"
+                    <div class="py-3 px-10 {{j.isBordered?'border-t':''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
                         *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
                         <div *ngFor="let item of j.children[0].children">
@@ -105,11 +104,11 @@
                     </ng-template>
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
-                    <div class="px-3" *ngIf="resData.length > 0">
+                    <div class="px-3 {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0">
                         <app-main [mainData]="j.children[1].children"></app-main>
                     </div>
                     <br />
-                    <div class="py-3 px-6 {{j.isBordered?'border-t':''}} text-black font-semibold text-lg"
+                    <div class="py-3 px-6 {{j.isBordered?'border-t':''}} {{j.children[2].highLight ? 'highLight' : ''}} text-black font-semibold text-lg"
                         *ngIf="j.children[2].footer">
                         {{j.children[2].title}}
                         <div *ngFor="let item of resData[0]?.children[1].children[i]">
@@ -124,7 +123,7 @@
         </div>
     </div>
     <!-- PAGE FOOTER -->
-    <div class="py-3 px-6 text-black font-semibold text-lg" *ngIf="resData[0].children[2].footer">
+    <div class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}" *ngIf="resData[0].children[2].footer">
         {{resData[0].children[2].title}}
         <div *ngFor="let item of resData[0]?.children[2]?.children">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>
