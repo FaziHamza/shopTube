@@ -148,53 +148,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-
-    //<---------------- This is used to unhighlight the highlight components------------------------->//
-    this.nodes[0].children?.forEach((element: any) => {
-      element = this.applyHighLight(false, element);
-      element.children.forEach((element1: any) => {
-        if (element1.type == "buttonGroup") {
-          element1.children[0].highLight = false;
-        }
-        else if (element1.type != "buttonGroup") {
-          element1 = this.applyHighLight(false, element1);
-        }
-        element1.children.forEach((element2: any) => {
-          element2 = this.applyHighLight(false, element2);
-          element2.children.forEach((element3: any) => {
-            if (element3) {
-              if (element3.length > 0) {
-                if (element3) {
-                  if (element3.formly != undefined) {
-                    if (element3.type == "stepperMain") {
-                      element3.children[0].highLight = false;
-
-                    } else {
-                      if (element3.formly[0].fieldGroup[0].className && element3.formly[0].fieldGroup[0].className.includes("highLight")) {
-                        var className = element3.formly[0].fieldGroup[0].className;
-                        element3.formly[0].fieldGroup[0].className = className.replace("highLight", "");
-                      }
-                    }
-                  }
-                }
-                else if (element3.type == "buttonGroup") {
-                  element3.children[0].highLight = false;
-                }
-                else if (element3.type != "buttonGroup" && element3 == undefined) {
-                  element3 = this.applyHighLight(false, element3);
-                }
-                element3.children.forEach((element4: any) => {
-                  if (element3.type != "buttonGroup" && element3.type != "stepperMain") {
-                    element4 = this.applyHighLight(true, element4);
-                  }
-                });
-              }
-            }
-          });
-        });
-      });
-    });
-
+    this.highlightSelect(this.selectedNode.id, false);
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     var data =
@@ -3986,12 +3940,10 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   openConfig(parent: any, node: any) {
-
     if (node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
-
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -3999,9 +3951,8 @@ export class BuilderComponent implements OnInit {
     this.IsShowConfig = true;
     this.selectedNode = node;
     this.selectdParentNode = parent;
-
+    // this.highlightSelect(this.selectedNode.id,true)
     this.clickButton(node?.type)
-
   }
   applyHighLight(data: boolean, element: any) {
     debugger
@@ -4668,11 +4619,14 @@ export class BuilderComponent implements OnInit {
   hoverOut(data: any) {
     this.isVisible = data.origin.id;
   }
-  applyOrRemoveHighlight(element: any, id: any) {
+  applyOrRemoveHighlight(element: any, id: any, highlightOrNot: boolean) {
     if (id == element.id)
       element["highLight"] = true;
     else
       element["highLight"] = false;
+    if (!highlightOrNot) {
+      element["highLight"] = false;
+    }
   }
 
   // define function to handle button group
@@ -4710,24 +4664,24 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  highlightSelect(id: any) {
-    this.applyOrRemoveHighlight(this.nodes[0], id);
+  highlightSelect(id: any, highlightOrNot: boolean) {
+    this.applyOrRemoveHighlight(this.nodes[0], id,highlightOrNot);
     this.nodes.at(0)?.children?.forEach((element: any) => {
-      this.applyOrRemoveHighlight(element, id);
+      this.applyOrRemoveHighlight(element, id, highlightOrNot);
       element.children.forEach((child: any) => {
-        this.applyOrRemoveHighlight(child, id);
+        this.applyOrRemoveHighlight(child, id, highlightOrNot);
         child.children.forEach((child1: any) => {
-          this.applyOrRemoveHighlight(child1, id);
+          this.applyOrRemoveHighlight(child1, id, highlightOrNot);
           child1.children.forEach((child2: any) => {
-            this.applyOrRemoveHighlight(child2, id);
+            this.applyOrRemoveHighlight(child2, id, highlightOrNot);
             child2.children.forEach((child3: any) => {
-              this.applyOrRemoveHighlight(child3, id);
+              this.applyOrRemoveHighlight(child3, id, highlightOrNot);
               child3.children.forEach((child4: any) => {
-                this.applyOrRemoveHighlight(child4, id);
+                this.applyOrRemoveHighlight(child4, id, highlightOrNot);
                 child4.children.forEach((child5: any) => {
-                  this.applyOrRemoveHighlight(child5, id);
+                  this.applyOrRemoveHighlight(child5, id, highlightOrNot);
                   child5.children.forEach((child6: any) => {
-                    this.applyOrRemoveHighlight(child6, id);
+                    this.applyOrRemoveHighlight(child6, id, highlightOrNot);
                   });
                 });
               });
@@ -4774,7 +4728,7 @@ export class BuilderComponent implements OnInit {
   // }
   newChild: any = [];
   insertAt(parent: any, node: any) {
-
+    // this.highlightSelect(this.selectedNode.id,true)
     parent = parent.parentNode.origin;
     node = node.origin;
     var nodeData = JSON.parse(JSON.stringify(node));
@@ -5636,7 +5590,7 @@ export class BuilderComponent implements OnInit {
               props.config['addonLeft'] = event.form.addonLeft;
               props.config['prefixicon'] = event.form.prefixicon;
               props.config['suffixicon'] = event.form.suffixicon;
-            }else{
+            } else {
               this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
             }
             props.config['border'] = event.form.border;
@@ -7291,12 +7245,12 @@ export class BuilderComponent implements OnInit {
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
-          if(formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard'){
+          if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-              this.selectedNode.size = 'default';
+              this.selectedNode.size = 'default ';
               // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
             }
-            if(fieldGroup[0].props.config['addonRight'] != ''|| fieldGroup[0].props.config['addonLeft'] != ''|| fieldGroup[0].props.config['prefixicon'] != ''|| fieldGroup[0].props.config['suffixicon'] != ''){
+            if (fieldGroup[0].props.config['addonRight'] != '' || fieldGroup[0].props.config['addonLeft'] != '' || fieldGroup[0].props.config['prefixicon'] != '' || fieldGroup[0].props.config['suffixicon'] != '') {
               // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
               fieldGroup[0].props.config['addonRight'] = '';
               fieldGroup[0].props.config['addonLeft'] = '';
@@ -7431,6 +7385,9 @@ export class BuilderComponent implements OnInit {
   }
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
+  }
+  removeHighlightOnsaveScreen() {
+
   }
 }
 

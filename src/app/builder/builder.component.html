@@ -122,7 +122,7 @@
                   <div class="flex">
 
 
-                    <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="[openField(node),highlightSelect(node.origin.id)]">
+                    <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="[openField(node),highlightSelect(node.origin.id,true)]">
                       <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
                     <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
                       {{node.title}}

@@ -33,8 +33,8 @@
         </div>
     </div>
     <!-- SECTION -->
-    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
-        <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className" class="{{j.highLight  ? 'highLight' : ''}}">
+    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}" >
+        <div *ngFor="let j of resData[0].children[1].children ; index as i"  [class]="j.className" [ngClass]="{'highLight': j.highLight}">
             <!-- INCOLAPSSABLE CASE -->
             <div class="{{resData[0].children[0].isBordered?'border': ''}}" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}"

@@ -4,14 +4,14 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-    <div class="flex flex-wrap" [ngClass]="to.labelPosition =='rtl' ? 'rtl' : ''">
-      <div [ngClass]="[fieldColumn]" *ngIf="to.labelPosition =='rtl'">
+    <div class="flex flex-wrap">
+      <div [ngClass]="[fieldColumn]" [dir]="rtl" *ngIf="to.labelPosition =='rtl pr-1'">
         <ng-template #fieldComponent></ng-template>
       </div>
-      <div *ngIf="showError && to.labelPosition =='rtl'" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
+      <div *ngIf="showError && to.labelPosition =='rtl pr-1'" [dir]="rtl" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
-      <label [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to.labelPosition]">
+      <label [attr.for]="id" *ngIf="to.label" [dir]="rtl" [ngClass]="[labelColumn , to.labelPosition]" >
         <span>
           <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
           <span *ngIf="to.required">*</span>{{ to.label }}
@@ -20,10 +20,10 @@ import { FieldWrapper } from '@ngx-formly/core';
           <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
         </span>
       </label>
-      <div [ngClass]="[fieldColumn]" *ngIf="to.labelPosition !='rtl'">
+      <div [ngClass]="[fieldColumn]" *ngIf="to.labelPosition !='rtl pr-1'">
         <ng-template #fieldComponent></ng-template>
       </div>
-      <div *ngIf="showError && to.labelPosition !='rtl'" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
+      <div *ngIf="showError && to.labelPosition !='rtl pr-1'" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
     </div>
@@ -34,15 +34,20 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldColumn: string;
   errorColumn: string;
   fieldPadding: string;
-
+  rtl:any;
   ngOnInit(): void {
+    debugger
     const fullWidth = this.to.className.includes('w-full');
     const labelPosition = this.to.labelPosition || '';
-
     this.labelColumn = `w-1/4 ${labelPosition}`;
     this.fieldColumn = fullWidth ? 'w-3/4' : 'w-3/4';
     this.errorColumn = fullWidth ? 'w-3/4' : '';
     this.fieldPadding = this.getFieldPaddingClass(this.to.config?.size);
+    if(labelPosition == 'rtl pr-1'){
+      this.rtl = 'rtl'
+    }else{
+      this.rtl = ''
+    }
   }
 
   private getFieldPaddingClass(size: string): string {

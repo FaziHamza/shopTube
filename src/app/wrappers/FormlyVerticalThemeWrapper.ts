@@ -5,7 +5,10 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'formly-vertical-theme-wrapper',
   template: `
   <div class=" flex flex-wrap">
-  <label [attr.for]="id" class="w-1/3 col-form-label column-form-label" *ngIf="to.label">
+  <div [dir]="rtl" class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px" *ngIf="to.labelPosition =='rtl pr-1'">
+    <ng-template #fieldComponent></ng-template>
+  </div>
+  <label [dir]="rtl" [attr.for]="id" class="w-1/3 col-form-label column-form-label {{to.labelPosition}}" *ngIf="to.label">
     <span>
       <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
       <span *ngIf="to.required">*</span>{{to.label}}
@@ -14,7 +17,7 @@ import { FieldWrapper } from '@ngx-formly/core';
       <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
     </span>
   </label>
-  <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+  <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px" *ngIf="to.labelPosition !='rtl pr-1'">
     <ng-template #fieldComponent></ng-template>
   </div>
   <!-- <div *ngIf="showError" class="col-sm-8 offset-md-4 offset-sm-4 invalid-feedback d-block"><formly-validation-message [field]="field"></formly-validation-message></div> -->
@@ -22,12 +25,13 @@ import { FieldWrapper } from '@ngx-formly/core';
   `,
 })
 export class FormlyVerticalThemeWrapper extends FieldWrapper {
-  class: any;
+  rtl:any;
   ngOnInit(): void {
-    if ('') {
-      this.class = "col-sm-4 col-form-label " + '';
-    } else {
-      this.class = "col-sm-4 col-form-label";
+    this.to;
+    if(this.to.labelPosition == 'rtl pr-1'){
+      this.rtl = 'rtl'
+    }else{
+      this.rtl = ''
     }
   }
 }

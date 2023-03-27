@@ -4167,7 +4167,7 @@ export class formFeildData {
             options: [
               {
                 label: 'Right',
-                value: 'text-right'
+                value: 'text-right pr-1'
               },
               {
                 label: 'Center',
@@ -4179,7 +4179,7 @@ export class formFeildData {
               },
               {
                 label: 'RTL',
-                value: 'rtl'
+                value: 'rtl pr-1'
               },
             ]
           },
