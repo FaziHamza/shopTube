@@ -5604,87 +5604,87 @@ export class BuilderComponent implements OnInit {
       case "autoComplete":
       case "number":
 
-        if (this.selectedNode) {
-          debugger
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.formly?.forEach(elementV1 => {
-            // MapOperator(elementV1 = currentData);
-            const formly = elementV1 ?? {};
-            const fieldGroup = formly.fieldGroup ?? [];
-            fieldGroup[0].defaultValue = event.form.defaultValue;
-            fieldGroup[0].hideExpression = event.form.hideExpression;
-            const props = fieldGroup[0]?.props ?? {};
-            props.label = event.form.title;
-            props['key'] = event.form.key;
-            props['className'] = event.form.className;
-            props['hideExpression'] = event.form.hideExpression;
-            props.placeholder = event.form.placeholder;
-            // props['className'] = event.form.className;
-            if (event.tableDta) {
-              props['options'] = event.tableDta;
-            }
-            props['required'] = event.form.required;
-            props['maxLength'] = event.form.maxLength;
-            props['minLength'] = event.form.minLength;
-            props['disabled'] = event.form.disabled;
-            props['tooltip'] = event.form.tooltip;
-            props['className'] = event.form.className;
-            props['titleIcon'] = event.form.titleIcon;
-            if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
-              props.config['addonRight'] = event.form.addonRight;
-              props.config['addonLeft'] = event.form.addonLeft;
-              props.config['prefixicon'] = event.form.prefixicon;
-              props.config['suffixicon'] = event.form.suffixicon;
-            }else{
-              this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
-            }
-            props.config['border'] = event.form.border;
-            props.config['optionWidth'] = event.form.optionWidth;
-            props.config['step'] = event.form.step;
-            props.config['format'] = event.form.format;
-            props.config['allowClear'] = event.form.allowClear;
-            props.config['serveSearch'] = event.form.serveSearch;
-            props.config['showArrow'] = event.form.showArrow;
-            props.config['showSearch'] = event.form.showSearch;
-            props.config['clearIcon'] = event.form.clearIcon;
-            props.config['loading'] = event.form.loading;
-            props.config['optionHieght'] = event.form.optionHieght;
-            props.config['optionHoverSize'] = event.form.optionHoverSize;
-            props.config['optionDisabled'] = event.form.optionDisabled;
-            props.config['optionHide'] = event.form.optionHide;
-            props.config['firstBtnText'] = event.form.firstBtnText;
-            props.config['secondBtnText'] = event.form.secondBtnText;
-            props.config['minuteStep'] = event.form.minuteStep;
-            props.config['secondStep'] = event.form.secondStep;
-            props.config['hoursStep'] = event.form.hoursStep;
-            props.config['use12Hours'] = event.form.use12Hours;
-            props.config['icon'] = event.form.icon;
-            props['readonly'] = event.form.readonly;
-            if (event.tableDta) {
-              props['options'] = event.tableDta;
-            } else {
-              props['options'] = event.form.options;
-            }
-            // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
-            //   const arr = event.form.defaultValue.split(',');
-            //   props['defaultValue'] = arr;
-            // } else {
-            // }
-            if (event.form.api) {
-              this.requestSubscription = this.builderService.jsonTagsDataGet(event.form.api).subscribe({
-                next: (res) => {
-                  props.options = res;
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          });
-          this.clickBack();
-        }
+      if (this.selectedNode) {
+        debugger
+        this.selectedNode.className = event.form.className;
+        this.selectedNode.title = event.form.title;
+        this.selectedNode.formly?.forEach(elementV1 => {
+          // MapOperator(elementV1 = currentData);
+          const formly = elementV1 ?? {};
+          const fieldGroup = formly.fieldGroup ?? [];
+          fieldGroup[0].defaultValue = event.form.defaultValue;
+          fieldGroup[0].hideExpression = event.form.hideExpression;
+          const props = fieldGroup[0]?.props ?? {};
+          props.label = event.form.title;
+          props['key'] = event.form.key;
+          props['className'] = event.form.className;
+          props['hideExpression'] = event.form.hideExpression;
+          props.placeholder = event.form.placeholder;
+          // props['className'] = event.form.className;
+          if (event.tableDta) {
+            props['options'] = event.tableDta;
+          }
+          props['required'] = event.form.required;
+          props['maxLength'] = event.form.maxLength;
+          props['minLength'] = event.form.minLength;
+          props['disabled'] = event.form.disabled;
+          props['tooltip'] = event.form.tooltip;
+          props['className'] = event.form.className;
+          props['titleIcon'] = event.form.titleIcon;
+          if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
+            props.config['addonRight'] = event.form.addonRight;
+            props.config['addonLeft'] = event.form.addonLeft;
+            props.config['prefixicon'] = event.form.prefixicon;
+            props.config['suffixicon'] = event.form.suffixicon;
+          }else{
+            this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
+          }
+          props.config['border'] = event.form.border;
+          props.config['optionWidth'] = event.form.optionWidth;
+          props.config['step'] = event.form.step;
+          props.config['format'] = event.form.format;
+          props.config['allowClear'] = event.form.allowClear;
+          props.config['serveSearch'] = event.form.serveSearch;
+          props.config['showArrow'] = event.form.showArrow;
+          props.config['showSearch'] = event.form.showSearch;
+          props.config['clearIcon'] = event.form.clearIcon;
+          props.config['loading'] = event.form.loading;
+          props.config['optionHieght'] = event.form.optionHieght;
+          props.config['optionHoverSize'] = event.form.optionHoverSize;
+          props.config['optionDisabled'] = event.form.optionDisabled;
+          props.config['optionHide'] = event.form.optionHide;
+          props.config['firstBtnText'] = event.form.firstBtnText;
+          props.config['secondBtnText'] = event.form.secondBtnText;
+          props.config['minuteStep'] = event.form.minuteStep;
+          props.config['secondStep'] = event.form.secondStep;
+          props.config['hoursStep'] = event.form.hoursStep;
+          props.config['use12Hours'] = event.form.use12Hours;
+          props.config['icon'] = event.form.icon;
+          props['readonly'] = event.form.readonly;
+          if (event.tableDta) {
+            props['options'] = event.tableDta;
+          } else {
+            props['options'] = event.form.options;
+          }
+          // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
+          //   const arr = event.form.defaultValue.split(',');
+          //   props['defaultValue'] = arr;
+          // } else {
+          // }
+          if (event.form.api) {
+            this.requestSubscription = this.builderService.jsonTagsDataGet(event.form.api).subscribe({
+              next: (res) => {
+                props.options = res;
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
+          }
+        });
+        this.clickBack();
+      }
         break;
 
       case "breakTag":
@@ -7284,6 +7284,7 @@ export class BuilderComponent implements OnInit {
         if (formValues.size) {
           fieldGroup[0].props.config.size = formValues.size;
         }
+
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
@@ -7312,13 +7313,33 @@ export class BuilderComponent implements OnInit {
           else if (formValues.wrappers == 'floating_outlined') {
             fieldGroup[0].props.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
             fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
+          if(formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard'){
+            if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
+              this.selectedNode.size = 'default';
+              // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
+            }
+            if(fieldGroup[0].props.config['addonRight'] != ''|| fieldGroup[0].props.config['addonLeft'] != ''|| fieldGroup[0].props.config['prefixicon'] != ''|| fieldGroup[0].props.config['suffixicon'] != ''){
+              // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
+              fieldGroup[0].props.config['addonRight'] = '';
+              fieldGroup[0].props.config['addonLeft'] = '';
+              fieldGroup[0].props.config['prefixicon'] = '';
+              fieldGroup[0].props.config['suffixicon'] = '';
+            }
+            fieldGroup[0].props.placeholder = " ";
+          }
+          if (formValues.wrappers == 'floating_filled') {
+            fieldGroup[0].props.config['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
+          }
+          else if (formValues.wrappers == 'floating_outlined') {
+            fieldGroup[0].props.config['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
           }
           else if (formValues.wrappers == 'floating_standard') {
             fieldGroup[0].props.config['floatFieldClass'] = 'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
             fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
           }
         }
-        fieldGroup[0].props.labelPosition = formValues?.labelPosition;
       }
     }
     return fieldGroup;

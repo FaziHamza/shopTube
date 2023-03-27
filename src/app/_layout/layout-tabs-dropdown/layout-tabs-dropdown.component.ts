@@ -16,8 +16,13 @@ export class LayoutTabsDropdownComponent implements OnInit {
     screenLoad(link: any) {
     debugger
     if (link) {
-      let routerLink = '/pages/'+ link;
-      this.router.navigate([routerLink]);
+      if(link.includes('/pages/')){
+        this.router.navigate([link]);
+      } else{
+        let routerLink = '/pages/'+ link;
+        this.router.navigate([routerLink]);
+      }
+      
     }
   }
 
