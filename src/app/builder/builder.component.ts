@@ -4004,8 +4004,9 @@ export class BuilderComponent implements OnInit {
 
   }
   applyHighLight(data: boolean, element: any) {
+    debugger
     if (element.highLight) {
-      element.highLight = data;
+      element["highLight"] = data;
     } else {
       element["highLight"] = data;
     }
@@ -4643,11 +4644,12 @@ export class BuilderComponent implements OnInit {
   hoverOut(data: any) {
     this.isVisible = data.origin.id;
   }
-  applyOrRemoveHighlight(element: any, id: any, highlight: boolean) {
+  applyOrRemoveHighlight(element: any, id: any) {
+    debugger
     if (id == element.id)
-      element = this.applyHighLight(highlight, element);
+      element["highLight"] = true;
     else
-      element = this.applyHighLight(false, element);
+      element["highLight"] = false;
   }
 
   // define function to handle button group
@@ -4686,31 +4688,31 @@ export class BuilderComponent implements OnInit {
     }
   }
   highlightSelect(id: any) {
+    debugger
+    this.applyOrRemoveHighlight(this.nodes[0], id);
     this.nodes.at(0)?.children?.forEach((element: any) => {
-      this.applyOrRemoveHighlight(element, id, true);
-
+      this.applyOrRemoveHighlight(element, id);
       element.children.forEach((child: any) => {
-        this.applyOrRemoveHighlight(child, id, false);
-
-        if (child.type == "buttonGroup") {
-          this.handleButtonGroup(child, id);
-        } else {
-          this.applyOrRemoveHighlight(child, id, false);
-
-          child.children.forEach((subChild: any) => {
-            this.applyOrRemoveHighlight(subChild, id, false);
-
-            this.handleButtonGroup(subChild, id);
-
-            this.handleFormly(subChild, id);
-
-            subChild.children.forEach((subSubChild: any) => {
-              this.applyOrRemoveHighlight(subSubChild, id, true);
+        this.applyOrRemoveHighlight(child, id);
+        child.children.forEach((child1: any) => {
+          this.applyOrRemoveHighlight(child1, id);
+          child1.children.forEach((child2: any) => {
+            this.applyOrRemoveHighlight(child2, id);
+            child2.children.forEach((child3: any) => {
+              this.applyOrRemoveHighlight(child3, id);
+              child3.children.forEach((child4: any) => {
+                this.applyOrRemoveHighlight(child4, id);
+                child4.children.forEach((child5: any) => {
+                  this.applyOrRemoveHighlight(child5, id);
+                  child5.children.forEach((child6: any) => {
+                    this.applyOrRemoveHighlight(child6, id);
+                  });
+                });
+              });
             });
           });
-        }
+        });
       });
-
       this.updateNodes();
     });
   }
@@ -5607,12 +5609,12 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            if(props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_standard'){
+            if (props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_filled' || props.config.wrapper == 'floating_standard') {
               props.config['addonRight'] = '';
-            props.config['addonLeft'] = '';
-            props.config['prefixicon'] = '';
-            props.config['suffixicon'] = '';
-            }else{
+              props.config['addonLeft'] = '';
+              props.config['prefixicon'] = '';
+              props.config['suffixicon'] = '';
+            } else {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
               props.config['prefixicon'] = event.form.prefixicon;
@@ -7017,7 +7019,7 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
                 this.selectedNode.sharedMessagesConfig = res;
-              this.updateNodes();
+                this.updateNodes();
               },
               error: (err) => {
                 console.error(err); // Log the error to the console
@@ -7323,7 +7325,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
       next: (res) => {
         if (this.selectedNode.children)
-        this.selectedNode.children.push(res)
+          this.selectedNode.children.push(res)
       },
       error: (err) => {
         console.error(err); // Log the error to the console
