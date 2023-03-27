@@ -5055,13 +5055,19 @@ export class BuilderComponent implements OnInit {
   }
   notifyEmit(event: actionTypeFeild): void {
 
+    if(event.type)
+    {
+      this.selectedNode.title = event.form.title;
+      this.selectedNode.className = event.form.className;
+      this.selectedNode.tooltip = event.form.tooltip;
+      this.selectedNode.hideExpression = event.form.hideExpression;
+      this.selectedNode['id'] = event.form?.id;
+      this.selectedNode['key'] = event.form?.key;
+    }
+
     switch (event.type) {
       case "drawer":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.color = event.form.color;
           this.selectedNode.btnText = event.form.btnText;
           this.selectedNode.isClosable = event.form.isClosable;
@@ -5084,20 +5090,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "icon":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.theme = event.form.theme;
         }
         break;
       case "anchor":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.affix = event.form.affix;
           this.selectedNode.offSetTop = event.form.offSetTop;
           this.selectedNode.showInkInFixed = event.form.showInkInFixed;
@@ -5119,10 +5117,6 @@ export class BuilderComponent implements OnInit {
       case "treeSelect":
 
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.expandKeys = event.form.expandKeys;
           this.selectedNode.showSearch = event.form.showSearch;
           this.selectedNode.placeHolder = event.form.placeHolder;
@@ -5160,10 +5154,6 @@ export class BuilderComponent implements OnInit {
       case "treeView":
 
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           if (event.tableDta) {
             this.selectedNode.nodes = event.tableDta;
           }
@@ -5187,10 +5177,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "cascader":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.expandTrigger = event.form.expandTrigger;
           this.selectedNode.labelProperty = event.form.labelProperty;
           this.selectedNode.placeHolder = event.form.placeHolder;
@@ -5224,10 +5210,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "tree":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.checkable = event.form.checkable;
           this.selectedNode.blockNode = event.form.blockNode;
           this.selectedNode.showLine = event.form.showLine;
@@ -5257,10 +5239,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "modal":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.color = event.form.color;
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.modalContent = event.form.modalContent;
@@ -5281,12 +5259,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "transfer":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.showSearch = event.form.showSearch;
           this.selectedNode.firstBoxTitle = event.form.firstBoxTitle;
@@ -5314,10 +5286,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "skeleton":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.isActive = event.form.isActive;
           this.selectedNode.size = event.form.size;
           this.selectedNode.buttonShape = event.form.buttonShape;
@@ -5326,12 +5294,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "rate":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.clear = event.form.clear;
           this.selectedNode.allowHalf = event.form.allowHalf;
           this.selectedNode.focus = event.form.focus;
@@ -5342,12 +5304,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "statistic":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.prefixIcon = event.form.prefixIcon;
           this.selectedNode.suffixIcon = event.form.suffixIcon;
           if (event.tableDta) {
@@ -5359,12 +5315,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "nzTag":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.color = event.form.color;
           this.selectedNode.mode = event.form.mode;
           this.selectedNode.checked = event.form.checked;
@@ -5375,12 +5325,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "segmented":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           if (event.tableDta) {
             this.selectedNode.options = event.tableDta
           } else {
@@ -5394,11 +5338,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         if (this.selectedNode) {
-
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.count = parseInt(event.form.count);
           this.selectedNode.nzText = event.form.nzText;
           this.selectedNode.nzColor = event.form.nzColor;
@@ -5417,11 +5356,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "mentions":
         if (this.selectedNode) {
-
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.loading = event.form.loading;
           this.selectedNode.status = event.form.status;
@@ -5446,10 +5380,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "empty":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.content = event.form.content;
           this.selectedNode.text = event.form.text;
@@ -5460,14 +5390,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "notification":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.content = event.form.content;
           this.selectedNode.icon = event.form.icon;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.color = event.form.color;
           this.selectedNode.duration = event.form.duration;
           this.selectedNode.pauseOnHover = event.form.pauseOnHover;
@@ -5476,10 +5400,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "list":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.headerText = event.form.headerText;
           this.selectedNode.footerText = event.form.footerText;
           this.selectedNode.formatter = event.form.formatter;
@@ -5497,10 +5417,6 @@ export class BuilderComponent implements OnInit {
       case "description":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.btnText = event.form.btnText;
           this.selectedNode.formatter = event.form.formatter;
           this.selectedNode.size = event.form.size;
@@ -5511,10 +5427,6 @@ export class BuilderComponent implements OnInit {
       case "message":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.content = event.form.content;
           this.selectedNode.duration = event.form.duration;
           this.selectedNode.messageType = event.form.messageType;
@@ -5524,10 +5436,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "descriptionChild":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.title = event.form.title;
           this.selectedNode.content = event.form.content;
           this.selectedNode.nzStatus = event.form.nzStatus;
@@ -5560,7 +5468,6 @@ export class BuilderComponent implements OnInit {
 
         if (this.selectedNode) {
           debugger
-          this.selectedNode.className = event.form.className;
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
@@ -5643,20 +5550,10 @@ export class BuilderComponent implements OnInit {
 
       case "breakTag":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
       case "affix":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.affixType = event.form.affixType;
           this.selectedNode.margin = event.form.margin;
           this.selectedNode.target = event.form.target;
@@ -5665,11 +5562,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "backTop":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.target = event.form.target;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.visibleafter = event.form.visibleafter;
@@ -5678,12 +5570,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "avatar":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.src = event.form.src;
           this.selectedNode.text = event.form.text;
           this.selectedNode.icon = event.form.icon;
@@ -5698,24 +5584,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "comment":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.avatar = event.form.avatar;
           this.selectedNode.author = event.form.author;
         }
         break;
       case "popOver":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.content = event.form.content;
           this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
@@ -5730,12 +5604,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "popConfirm":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.content = event.form.content;
           this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
@@ -5750,12 +5618,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "spin":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.size = event.form.size;
           this.selectedNode.delayTime = event.form.delayTime;
           this.selectedNode.loaderText = event.form.loaderText;
@@ -5766,12 +5628,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "result":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.status = event.form.status;
           this.selectedNode.resultTitle = event.form.resultTitle;
           this.selectedNode.subTitle = event.form.subTitle;
@@ -5784,11 +5640,6 @@ export class BuilderComponent implements OnInit {
       case "imageUpload":
 
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.alt = event.form.alt;
           this.selectedNode.source = event.form.source;
           this.selectedNode.imagHieght = event.form.imagHieght;
@@ -5810,10 +5661,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "toastr":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.toastrType = event.form.toastrType;
           this.selectedNode.toasterTitle = event.form.toasterTitle;
           this.selectedNode.duration = event.form.duration;
@@ -5826,9 +5673,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "invoice":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.invoiceNumberLabel = event.form.invoiceNumberLabel;
           this.selectedNode.datelabel = event.form.datelabel;
           this.selectedNode.paymentTermsLabel = event.form.paymentTermsLabel;
@@ -5849,35 +5693,21 @@ export class BuilderComponent implements OnInit {
         break;
       case "rangeSlider":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.min = event.form.min;
           this.selectedNode.max = event.form.max;
           this.selectedNode.sliderType = event.form.sliderType;
           this.selectedNode.progressBar = event.form.progressBar;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.showValue = event.form.showValue;
         }
         break;
       case "inputGroupGrid":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
         }
         break;
 
       case "calendar":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.viewType = event.form.viewType;
           this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
@@ -5897,7 +5727,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "masking":
         if (this.selectedNode) {
-          this.selectedNode.className = event.form.className
           this.selectedNode?.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 =currentData);
             const formly = elementV1 ?? {};
@@ -5922,19 +5751,11 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['options'] = event.form.multiselect == "" ? event.form.options : "";
           });
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.id = event.form.id;
         }
         break;
       case "gridList":
 
         if (this.selectedNode.id) {
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.label = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.nzTitle = event.form.nzTitle;
           this.selectedNode.nzBordered = event.form.nzBordered;
           this.selectedNode.nzFooter = event.form.nzFooter;
@@ -6014,14 +5835,9 @@ export class BuilderComponent implements OnInit {
       case "button":
 
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.color = event.form.color;
           this.selectedNode.onhover = event.form.onhover;
           this.selectedNode.btnIcon = event.form.btnIcon;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
@@ -6036,29 +5852,17 @@ export class BuilderComponent implements OnInit {
 
       case "buttonGroup":
         if (this.selectedNode) {
-
-          this.selectedNode.id = event.form.id;
           this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.btngroupformat = event.form.btngroupformat;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.title = event.form.title
           this.updateNodes();
         }
         break;
       case "linkButton":
         debugger
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.key = event.form.key;
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.href = event.form.href;
           this.selectedNode.target = event.form.target;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.color = event.form.color;
           this.selectedNode.onhover = event.form.onhover;
           this.selectedNode.disabled = event.form.disabled;
@@ -6079,14 +5883,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "dropdownButton":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.color = event.form.color;
           this.selectedNode.onhover = event.form.onhover;
           this.selectedNode.btnIcon = event.form.btnIcon;
-          this.selectedNode.hideExpression = event.form.hideExpression;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
           this.selectedNode.nzShape = event.form.nzShape;
@@ -6107,11 +5906,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "accordionButton":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.nzBordered = event.form.nzBordered;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.nzExpandIconPosition = event.form.nzExpandIconPosition;
@@ -6126,7 +5920,6 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.hideExpression = event.form.hideExpression;
         if (this.selectedNode) {
           this.selectedNode.label = event.form.name;
-          this.selectedNode.className = event.form.className;
           // this.selectedNode.className = event.form.className;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.name = event.form.name;
@@ -6138,15 +5931,12 @@ export class BuilderComponent implements OnInit {
       case "fixedDiv":
         if (this.selectedNode) {
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.title = event.form.title;
         }
         break;
 
       case "chart":
 
         if (this.selectedNode) {
-          this.selectedNode.hideExpression = event.form.hideExpression;
           var seriesList = [];
           var ans = Array.isArray(event.form.options[0].data)
           if (ans != true) {
@@ -6159,9 +5949,6 @@ export class BuilderComponent implements OnInit {
           } else {
             seriesList = event.form.options[0].data;
           };
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.section[0].filterData[0].heading = event.form.title;
           this.selectedNode.section[0].filterData[0].subheading = event.form.sub_label;
           // this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = event.form.options;
@@ -6195,10 +5982,6 @@ export class BuilderComponent implements OnInit {
 
       case "donutChart":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.link = event.form.link;
           this.selectedNode.section[0].series = [];
           this.selectedNode.section[0].labels = [];
@@ -6245,11 +6028,6 @@ export class BuilderComponent implements OnInit {
 
       case "donutSaleChart":
         if (this.selectedNode) {
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.link = event.form.link;
           this.selectedNode.thisTitle = event.form.thisTitle;
           this.selectedNode.lastTitle = event.form.lastTitle;
           this.selectedNode.prevTitle = event.form.prevTitle;
@@ -6301,10 +6079,6 @@ export class BuilderComponent implements OnInit {
       case "browserCard":
 
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.link = event.form.link;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.limit = event.form.limit;
@@ -6349,10 +6123,6 @@ export class BuilderComponent implements OnInit {
       case "browserCombineChart":
 
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.link = event.form.link;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.limit = event.form.limit;
@@ -6397,10 +6167,6 @@ export class BuilderComponent implements OnInit {
 
       case "salesAnalyticsChart":
         if (this.selectedNode) {
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.link = event.form.link;
           this.selectedNode.section[0].series = event.form.options;
           for (let index = 0; index < this.selectedNode.section[0].series.length; index++) {
@@ -6445,10 +6211,6 @@ export class BuilderComponent implements OnInit {
 
       case "widgetSectionChart":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.limit = event.form.limit;
           this.selectedNode.belowpercentage = event.form.percentage;
           this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
@@ -6505,12 +6267,7 @@ export class BuilderComponent implements OnInit {
 
       case "SectionChart":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.limit = event.form.limit;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.key = event.form.key;
           this.selectedNode.belowpercentage = event.form.percentage;
           this.selectedNode.section.icon = event.form.options;
           this.selectedNode.section.name = event.form.options;
@@ -6555,11 +6312,7 @@ export class BuilderComponent implements OnInit {
 
       case "heading":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
             this.selectedNode.heading = event.form.heading,
-            this.selectedNode.className = event.form.className;
           this.selectedNode.color = event.form.color;
           // this.selectedNode.paddingLeft = event.form.paddingLeft;
           // this.selectedNode.paddingRight = event.form.paddingRight;
@@ -6589,10 +6342,6 @@ export class BuilderComponent implements OnInit {
 
       case "paragraph":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.className = event.form.className;
           this.selectedNode.text = event.form.text;
           this.selectedNode.editable = event.form.editable;
           this.selectedNode.editableTooltip = event.form.editableTooltip;
@@ -6620,12 +6369,8 @@ export class BuilderComponent implements OnInit {
 
       case "step":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.key = event.form.key;
           // this.selectedNode.hideExpression = event.form.hideExpression;
           // this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.description = event.form.description;
@@ -6640,13 +6385,6 @@ export class BuilderComponent implements OnInit {
 
       case "mainStep":
         if (this.selectedNode) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          // this.selectedNode.selectedIndex = event.form.selectedIndex;
           this.selectedNode.direction = event.form.direction;
           this.selectedNode.placement = event.form.placement;
           this.selectedNode.size = event.form.size;
@@ -6659,16 +6397,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "page":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.screenVariables = event.form.variables;
         }
         break;
 
       case "pageHeader":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.headingSize = event.form.headingSize;
           this.selectedNode.header = event.form.header;
           this.selectedNode.labelPosition = event.form.labelPosition;
@@ -6679,25 +6413,17 @@ export class BuilderComponent implements OnInit {
 
       case "pageBody":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
         }
         break;
 
       case "pageFooter":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.footer = event.form.footer;
         }
         break;
       case "according":
         if (this.selectedNode.id) {
-          // this.selectedNode.id = event.form.accordingText;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.sectionClassName = event.form.sectionClassName;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.sectionDisabled = event.form.disabled;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
@@ -6769,8 +6495,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "accordingHeader":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.headingSize = event.form.headingSize;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
@@ -6783,28 +6507,16 @@ export class BuilderComponent implements OnInit {
 
       case "accordingBody":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
         }
         break;
 
       case "accordingFooter":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.footer = event.form.footer;
         }
         break;
       case "switch":
         if (this.selectedNode) {
-
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          // this.selectedNode.switchType = event.form.switchType;
-          // this.selectedNode.switchPosition = event.form.switchPosition;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.size = event.form.size;
           this.selectedNode.checkedChildren = event.form.checkedChildren;
           this.selectedNode.unCheckedChildren = event.form.unCheckedChildren;
@@ -6816,11 +6528,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "multiFileUpload":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.uploadBtnLabel = event.form.title;
           this.selectedNode.multiple = event.form.multiple;
           this.selectedNode.disabled = event.form.disabled;
@@ -6834,20 +6541,11 @@ export class BuilderComponent implements OnInit {
         break;
       case "textEditor":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
         }
         break;
 
       case "tabs":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.updateNodes();
@@ -6855,23 +6553,13 @@ export class BuilderComponent implements OnInit {
         break;
       case "kanban":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.text = event.form.title;
           this.selectedNode.nodes = event.form.nodes;
-          // this.adddynamicKanban(event.form.nodes);
           this.updateNodes();
         }
         break;
       case "kanbanTask":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.hideExpression = event.form.hideExpression,
-            this.selectedNode.title = event.form.title;
           if (this.selectedNode.children) {
             for (let i = 0; i < this.selectedNode.children.length; i++) {
               this.selectedNode.children[i].id = event.form.options[i].id;
@@ -6911,11 +6599,6 @@ export class BuilderComponent implements OnInit {
 
       case "mainTab":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.selectedIndex = event.form.selectedIndex;
           this.selectedNode.animated = event.form.animated;
           this.selectedNode.size = event.form.size;
@@ -6930,12 +6613,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "progressBar":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.key = event.form.key;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.progressBarType = event.form.progressBarType;
           this.selectedNode.percent = event.form.percent;
           this.selectedNode.showInfo = event.form.showInfo;
@@ -6949,11 +6626,6 @@ export class BuilderComponent implements OnInit {
 
       case "divider":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.dividerText = event.form.dividerText;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.dashed = event.form.dashed;
@@ -6967,12 +6639,6 @@ export class BuilderComponent implements OnInit {
       case "sharedMessagesChart":
 
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.labelIcon = event.form.labelIcon;
           this.selectedNode.heading = event.form.heading;
           this.selectedNode.headingIcon = event.form.headingIcon;
@@ -7005,30 +6671,18 @@ export class BuilderComponent implements OnInit {
 
       case "audio":
         if (this.selectedNode.id) {
-
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.tooltip = event.form.tooltip;
-          this.selectedNode.title = event.form.title;
           this.selectedNode.audioSrc = event.form.audioSrc;
           this.updateNodes()
         }
         break;
       case "carouselCrossfade":
         if (this.selectedNode.id) {
-
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.effect = event.form.effect;
           this.selectedNode.dotPosition = event.form.dotPosition;
           this.selectedNode.autoPlay = event.form.autoPlay;
           this.selectedNode.autolPlaySpeed = event.form.autolPlaySpeed;
           this.selectedNode.showDots = event.form.showDots;
           this.selectedNode.enableSwipe = event.form.enableSwipe;
-          this.selectedNode.tooltip = event.form.tooltip;
           event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
           if (event.form.link != undefined || event.form.link != "") {
             this.requestSubscription = this.builderService.genericApis(event.form.link).subscribe({
@@ -7047,10 +6701,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "videos":
         if (this.selectedNode.id) {
-
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.videoConfig[0].title = event.form.title;
           this.selectedNode.videoConfig[0].videoRatio = event.form.videoRatio;
           this.selectedNode.videoConfig[0].videoSrc = event.form.videoSrc;
@@ -7059,14 +6709,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "alert":
-
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.text = event.form.text;
           this.selectedNode.alertColor = event.form.alertColor;
           this.selectedNode.alertType = event.form.alertType;
@@ -7081,14 +6724,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "timeline":
-
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.tooltip = event.form.tooltip,
-            this.selectedNode.className = event.form.className,
-            // this.selectedNode.data = this.assigOptionsData(this.selectedNode.data, event.tableDta, event.form.api);
             this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
@@ -7116,14 +6752,9 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-
       case "simpleCardWithHeaderBodyFooter":
         if (this.selectedNode.id) {
-          this.selectedNode.id = event.form.id;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.className = event.form.className;
           this.selectedNode.headerText = event.form.headerText;
-          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.bodyText = event.form.bodyText;
           this.selectedNode.footerText = event.form.footerText;
           this.selectedNode.height = event.form.height;
@@ -7137,16 +6768,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.imageAlt = event.form.imageAlt;
           this.selectedNode.imageSrc = event.form.imageSrc;
-          // if (event.form.link != undefined || event.form.link != "") {
-          //   this.builderService.genericApis(event.form.link).subscribe((res => {
-
-          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].headerText = res[0].headerText;
-          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].bodyText = res[0].bodyText;
-          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].footerText = res[0].footerText;
-          //     this.selectedNode.simpleCardWithHeaderBodyFooterConfig[0].height = res[0].height;
-          //     this.updateNodes();
-          //   }))
-          // }
           this.updateNodes()
         }
         break;
@@ -7158,10 +6779,6 @@ export class BuilderComponent implements OnInit {
     this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
-    // document.getElementById("mySidenav-right").style.width = "0";
-    // this.formlyService.templateNode = JSON.parse(JSON.stringify(this.formlyService.nodes));
-    // this.wrapperForCombineFeilds(this.formlyService.templateNode)
-
   }
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
