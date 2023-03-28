@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class DynamicTableComponent implements OnInit {
 
   @Input() tableId: any;
+  @Input() checkType: boolean;
   @Input() tableData: any;
   @Input() tableHeaders: any[];
   @Input() data: any;
@@ -23,19 +24,21 @@ export class DynamicTableComponent implements OnInit {
   indeterminate = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
-  constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) { }
+  constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) {
+    this.getHeader();
+   }
 
   ngOnInit(): void {
-    
+
     this.gridInitilize();
   }
   gridInitilize() {
-    
+
     this.loadTableData();
     this.builderService.jsonGridBusinessRuleGet('55').subscribe((getRes => {
       if (getRes.length > 0) {
         for (let m = 0; m < getRes.length; m++) {
-          if (getRes[m].gridKey == this.data.key) {
+          if (getRes[m].gridKey == this.data.key && this.data.tableData) {
             for (let index = 0; index < getRes[m].buisnessRulleData.length; index++) {
               const elementv1 = getRes[m].buisnessRulleData[index];
               for (let j = 0; j < this.data.tableData.length; j++) {
@@ -94,36 +97,42 @@ export class DynamicTableComponent implements OnInit {
   }
   columnName: any;
   isVisible = false;
+  // addColumn(): void {
+  //   this.isVisible = true;
+  // };
+  // handleOk(): void {
   addColumn(): void {
-    this.isVisible = true;
-  };
-  handleOk(): void {
-    if (this.tableData.length > 0) {
-      const firstObjectKeys = Object.keys(this.tableData[0]);
-      for (let index = 0; index < firstObjectKeys.length; index++) {
-        const element = firstObjectKeys[index];
-        if (element.toLocaleLowerCase() == this.columnName.toLocaleLowerCase())
-          return alert('this Column is already Exsist')
-      }
-      this.tableHeaders.push(
-        {
-          name: this.columnName,
-          sortOrder: null,
-          // sortFn: "(a, b) => a.name.localeCompare(b.name)",
-          sortDirections: [
-            "ascend",
-            "descend",
-            null
-          ],
-          "filterMultiple": true
-        });
-      for (let j = 0; j < this.data.tableData.length; j++) {
-        this.data.tableData[j][this.columnName.charAt(0).toLowerCase() + this.columnName.slice(1)] = 0;
-      }
-      this.loadTableData();
-      this.columnName = null;
-    }
-    this.isVisible = false;
+    debugger
+    const id = this.tableData.length - 1;
+    const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
+    newRow["id"] = this.tableData[id].id + 1;
+    this.tableData = [...this.tableData, newRow];
+    // if (this.tableData.length > 0) {
+    //   const firstObjectKeys = Object.keys(this.tableData[0]);
+    //   for (let index = 0; index < firstObjectKeys.length; index++) {
+    //     const element = firstObjectKeys[index];
+    //     if (element.toLocaleLowerCase() == this.columnName.toLocaleLowerCase())
+    //       return alert('this Column is already Exsist')
+    //   }
+    //   this.tableHeaders.push(
+    //     {
+    //       name: this.columnName,
+    //       sortOrder: null,
+    //       // sortFn: "(a, b) => a.name.localeCompare(b.name)",
+    //       sortDirections: [
+    //         "ascend",
+    //         "descend",
+    //         null
+    //       ],
+    //       "filterMultiple": true
+    //     });
+    //   for (let j = 0; j < this.data.tableData.length; j++) {
+    //     this.data.tableData[j][this.columnName.charAt(0).toLowerCase() + this.columnName.slice(1)] = 0;
+    //   }
+    //   this.loadTableData();
+    //   this.columnName = null;
+    // }
+    // this.isVisible = false;
   }
   handleCancel(): void {
     this.isVisible = false;
@@ -144,7 +153,7 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    
+
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.key = this.key.filter((header: any) => header.name !== 'color');
@@ -185,6 +194,14 @@ export class DynamicTableComponent implements OnInit {
         newId = newId + 1
         j['id'] = newId;
       });
+    }
+
+  }
+  getHeader(){
+    if(this.tableData){
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.key = firstObjectKeys.map(key => ({ name: key }));
+      this.key = this.key.filter((header: any) => header.name !== 'color');
     }
 
   }

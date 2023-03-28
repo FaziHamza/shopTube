@@ -136,7 +136,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <dynamic-table [tableId]='item.tableId' [tableData]='item.tableData'
+                    <dynamic-table [tableId]='item.tableId' [checkType]="false" [tableData]='item.tableData'
                         [tableHeaders]='item.tableHeaders' [data]="item"></dynamic-table>
                 </div>
             </ng-container>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BuilderService } from 'src/app/services/builder.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
@@ -9,7 +9,7 @@ import { ruleFactory } from '@elite-libs/rules-machine';
   styleUrls: ['./business-rule.component.scss']
 })
 export class BusinessRuleComponent implements OnInit {
-
+  @Output() businessRuleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screenModule:any;
   @Input() screenName:any;
   @Input() selectedNode:any;
@@ -165,24 +165,24 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
-    
+
     this.bussinessRuleObj = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
-      let cond = '"';
+      let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond + '"' + elv2.condType + '"' + elv2.condifCodition + elv2.condOperator + " " + elv2.condValue + " ";
+          cond = cond + '"' + elv2.condType + '"' + elv2.condifCodition + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + " ";
         });
       }
       let condThen = '';
       if (elv.thenCondition) {
         elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + elv2.thenOpratorForTraget + " " + elv2.thenResultValue + " ";
+          condThen = condThen + " , 'then' : " + elv2.thenTarget + elv2.thenOpratorForTraget + '"' + elv2.thenResultValue + '"';
         });
       }
       var dt = {
-        if: elv.ifCondition + " " + elv.oprator + ' "' + elv.getValue + cond,
-        then: elv.target + " " + elv.opratorForTraget + ' "' + elv.resultValue + '"' + condThen
+        if: elv.ifCondition + " " + elv.oprator + this.applyCondition(elv.getValue) + this.checkValueIntegerOrNot(elv.getValue) + this.applyCondition(elv.getValue) + cond,
+        then: elv.target + " " + elv.opratorForTraget + ' "' + this.checkValueIntegerOrNot(elv.resultValue) + '"' + condThen
       };
       this.bussinessRuleObj.push(dt);
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
@@ -201,13 +201,15 @@ export class BusinessRuleComponent implements OnInit {
         this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
           if (getRes.length == 0) {
             this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe((saveRes => {
+              this.businessRuleNotify.emit();
               alert("Data Save");
             }));
           }
           else {
             this.builderService.jsonBisnessRuleRemove(getRes[0].id).subscribe((delRes => {
               this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe((saveRes => {
-                alert("Data Save");
+                this.businessRuleNotify.emit();
+                alert("Data Saved");
               }));
             }));
           }
@@ -219,5 +221,11 @@ export class BusinessRuleComponent implements OnInit {
     // console.log(fishRhyme1({ text_675d95bf: "abc" }));
     // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
     console.log(fishRhyme(this.formlyModel));
+  }
+  checkValueIntegerOrNot(value:any){
+    return /^[0-9]+$/.test(value) ?  parseInt(value) : value
+  }
+  applyCondition(value:any){
+    return /^[0-9]+$/.test(value) ?  '' : '"'
   }
 }
