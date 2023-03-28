@@ -294,7 +294,7 @@ export class SiteLayoutComponent implements OnInit {
   //     this.selectedTheme.isCollapsed = false;
   // }
   getMenu() {
-    this.employeeService.getJsonModules('Home Page').subscribe((res) => {
+    this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
       if (res.length > 0) {
         this.newSelectedTheme.allMenuItems = res[0].menuData;
         // this.menuItems.forEach((e: any) => {

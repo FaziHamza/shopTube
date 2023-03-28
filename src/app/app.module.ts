@@ -38,6 +38,7 @@ import { ApplicationBuilderComponent } from './Builder-module/application-builde
 import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
 import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
 import { ShareModule } from './shared/share.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -78,6 +79,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
+    FullCalendarModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,

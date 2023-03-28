@@ -46,3 +46,6 @@ export * from "./tree/tree.component"
 export * from "./tree-select/tree-select.component"
 export * from "./tree-view/tree-view.component"
 export * from "./videos/videos.component"
+export * from "./calendar/calendar.component"
+
+
