@@ -53,7 +53,7 @@ export class BlockButtonsCardComponent {
 
 
   showModal(href: string): void {
-    debugger
+    
     this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
       if (res.length > 0) {
         this.nodes = res[0].menuData;

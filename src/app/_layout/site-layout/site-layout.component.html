@@ -1,6 +1,6 @@
 
-<nz-layout>
-  <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' ? 'dark' : 'light'" >
+<nz-layout [dir]="this.selectedTheme.layout">
+  <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'" >
     <div class="flex flex-wrap">
       <div [ngClass]='selectedTheme.topHeaderMenu'>
         <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
@@ -9,11 +9,14 @@
       <div [ngClass]='selectedTheme.topHeader'
       [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
        || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
-        *ngIf="selectedTheme.layout == 'vertical'" nz-menu
-        [nzTheme]="selectedTheme.layout === 'vertical' ? 'dark' : 'light'">
+        *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'" nz-menu
+        [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
+        <!-- <button nz-button nzType="primary" (click)="toggleCollapsed()">
+          <span nz-icon  [nzType]="selectedTheme.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+        </button> -->
         <app-menu (notify)="notifyEmit($event)"></app-menu>
       </div>
-      <div [ngClass]='selectedTheme.topHeader' *ngIf="selectedTheme.layout != 'vertical'">
+      <div [ngClass]='selectedTheme.topHeader' *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
         <app-menu (notify)="notifyEmit($event)"></app-menu>
       </div>
     </div>

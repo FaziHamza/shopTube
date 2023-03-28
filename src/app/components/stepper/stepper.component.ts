@@ -6,10 +6,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./stepper.component.scss']
 })
 export class StepperComponent implements OnInit {
-  current = 0;
-  tttt: any;
   @Input() step: any;
-
+  current = 0;
+  ngOnInt(){
+    debugger
+    this.step;
+  }
 
   pre(): void {
     this.current -= 1;
@@ -32,7 +34,6 @@ export class StepperComponent implements OnInit {
 
   ngOnInit(): void {
     this.current = 0;
-    this.tttt = this.step.stepperType
 
   }
 

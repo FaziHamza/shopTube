@@ -192,7 +192,7 @@
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
                           <app-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" ></app-uirule>
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule>
                             <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
@@ -200,7 +200,7 @@
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
                           <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" [formlyModel]="this.formlyModel"></app-business-rule>
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (businessRuleNotify)="getBusinessRule()" [formlyModel]="this.formlyModel"></app-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
                           <app-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"

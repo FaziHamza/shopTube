@@ -148,7 +148,9 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
+    if(this.selectedNode){
     this.highlightSelect(this.selectedNode.id, false);
+    }
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     var data =
@@ -566,6 +568,8 @@ export class BuilderComponent implements OnInit {
       if (this.businessRuleData && this.businessRuleData.length > 0) {
         const fishRhyme = ruleFactory(this.businessRuleData);
         console.log(fishRhyme(this.formlyModel));
+        this.updateNodes();
+        this.updateFormlyModel();
         // this.cdr.detectChanges();
 
       }
@@ -614,10 +618,10 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
           inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputJsonData.defaultValue;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
+          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
           }
@@ -3956,7 +3960,7 @@ export class BuilderComponent implements OnInit {
     this.clickButton(node?.type)
   }
   applyHighLight(data: boolean, element: any) {
-    debugger
+    
     if (element.highLight) {
       element["highLight"] = data;
     } else {
@@ -5469,7 +5473,7 @@ export class BuilderComponent implements OnInit {
       case "number":
 
         if (this.selectedNode) {
-          debugger
+          
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
@@ -5776,6 +5780,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fixHeader = event.form.fixHeader;
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
+          this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
@@ -5860,7 +5865,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.href = event.form.href;
@@ -6395,6 +6400,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.stepperType = event.form.stepperType;
           this.selectedNode.nodes = event.form.nodes;
           this.addDynamic(event.form.nodes, 'step', 'mainStep')
+          this.updateNodes();
+          // this.clickBack();
         }
         break;
       case "page":
@@ -6839,12 +6846,9 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-    debugger
+    
     if (fieldGroup) {
       if (fieldGroup[0].props) {
-        if (fieldGroup[0].props.labelPosition == undefined && fieldGroup[0].props.labelPosition == '') {
-          fieldGroup[0].props["labelPosition"];
-        }
         if (formValues.disabled == "editable") {
           fieldGroup[0].props.disabled = false;
         }
@@ -6854,22 +6858,12 @@ export class BuilderComponent implements OnInit {
         else if (formValues.disabled == "disabled-But-ditable") {
           fieldGroup[0].props.disabled = true;
         }
-        if (formValues.labelPosition == "text-right") {
-          fieldGroup[0].props.labelPosition = "text-right";
-        }
-        else if (formValues.labelPosition == "text-center") {
-          fieldGroup[0].props.labelPosition = "text-center";
-        }
-        else if (formValues.labelPosition == "text-left") {
-          fieldGroup[0].props.labelPosition = "text-left";
-        }
         if (formValues.status) {
           fieldGroup[0].props.config.status = formValues.status;
         }
         if (formValues.size) {
           fieldGroup[0].props.config.size = formValues.size;
         }
-
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
@@ -6904,6 +6898,7 @@ export class BuilderComponent implements OnInit {
             fieldGroup[0].props.config['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
           }
         }
+        fieldGroup[0].props.labelPosition = formValues.labelPosition;
       }
     }
     return fieldGroup;
@@ -6972,7 +6967,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-    debugger
+    
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
@@ -7018,7 +7013,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
   removeHighlightOnsaveScreen() {
-    
+
   }
 }
 

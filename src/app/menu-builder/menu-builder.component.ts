@@ -1102,21 +1102,21 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-
+    
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
-    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
+    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.menuMode = "inline",
         this.selectedTheme.isCollapsed = false;
       this.selectedTheme.topHeaderMenu = 'w-1/6'
       this.selectedTheme.topHeader = 'w-10/12';
       // this.selectedTheme.menuColumn = 'w-1/6';
-      // this.selectedTheme.rowClass = 'w-10/12';
-      if (layoutType == 'vertical' || layoutType == 'fluid') {
+      // this.selectedTheme.rowClass = 'w-10/12'; 
+      if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
         this.selectedTheme.horizontalRow = 'flex flex-wrap';
         this.selectedTheme.menuColumn = 'w-1/6';
         this.selectedTheme.rowClass = 'w-10/12';
-        if (layoutType == 'vertical')
+        if (layoutType == 'vertical' || layoutType == 'rtl')
           this.selectedTheme.layout = layoutType;
       }
       if (layoutType == 'twoColumn') {
@@ -1169,7 +1169,7 @@ export class MenuBuilderComponent implements OnInit {
       this.selectedTheme.isCollapsed = false;
     }
     // This conditions is used to assign value to object
-    if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn') {
+    if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.layout = layoutType;
       if (this.selectedTheme.sideBarSize == 'compact') {
         if (layoutType == 'horizental' || layoutType == 'twoColumn')

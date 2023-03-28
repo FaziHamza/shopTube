@@ -367,9 +367,9 @@ export class PagesComponent implements OnInit {
           inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
           inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
+          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
           }
         } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||

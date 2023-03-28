@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
   }
 
   setCustomColor(data:any) {
-    debugger
+    
     let color: string;
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);

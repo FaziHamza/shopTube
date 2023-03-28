@@ -1,29 +1,28 @@
-<nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible"  nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()">
+  <!-- (nzOnOk)="handleOk()" -->
   <ng-container *nzModalContent>
     <label class="form-label ml-3 text-base font-bold w-3/12">Column Name</label>
     <input nz-input type="text" class="form-control ml-1  w-4/12" placeholder="Enetr Column Name"
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal>
-<button nz-button (click)="addRow()" type="button" nzType="primary">Add</button>
-<button nz-button (click)="addColumn()" type="button" nzType="primary">Add Column</button>
+<button nz-button (click)="addRow()" *ngIf="!checkType" type="button" nzType="primary">Add</button>
+<button nz-button (click)="addColumn()" *ngIf="checkType" type="button" nzType="primary">Add</button>
 <br />
 <br />
-<nz-table #editRowTable 
-[nzData]="tableData" 
-[nzPageSize]="10" 
-[nzBordered]='data.nzBordered' 
-[nzData]="tableData" 
+<nz-table #editRowTable
+[nzPageSize]="10"
+[nzBordered]='data.nzBordered'
+[nzData]="tableData"
 [nzFooter]="data?.nzFooter"
-[nzLoading]="data?.nzLoading" 
+[nzLoading]="data?.nzLoading"
 [nzPaginationPosition]='data?.nzPaginationPosition'
-[nzPaginationType]='data?.nzPaginationType' 
+[nzPaginationType]='data?.nzPaginationType'
 [nzFrontPagination]='data?.nzFrontPagination'
-[nzShowPagination]='data?.nzShowPagination' 
-[nzTitle]='data?.nzTitle' 
+[nzShowPagination]='data?.nzShowPagination'
+[nzTitle]='data?.nzTitle'
 [nzSize]="data.nzSize"
-[nzSimple]="data.nzSimple" 
+[nzSimple]="data.nzSimple"
 [nzShowSizeChanger]="data.nzShowSizeChanger"
 [nzScroll]="{ x: data.tableScroll, y: scrollY }">
   <thead >
@@ -39,11 +38,13 @@
   </thead>
   <tbody>
     <ng-template #recursiveList let-data1>
+      <!-- {{data1 | json}} -->
       <ng-container  *ngFor="let item of data1">
         <tr  [ngStyle]="{'background': item?.color}">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of key">
+
             <td [nzEllipsis]="true"
               *ngIf="header.name != 'description' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
               <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
@@ -105,3 +106,4 @@
 
 
 <button nz-button (click)="save()" type="button" nzType="primary">Save</button>
+<!-- {{data | json}} -->
