@@ -5,7 +5,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'formly-horizontal-wrapper',
   template: `
     <div class="flex flex-wrap">
-      <div [ngClass]="[fieldColumn]" [dir]="rtl" *ngIf="to.labelPosition =='rtl pr-1'">
+      <div [ngClass]="[fieldColumn]" [dir]="rtl"  *ngIf="to.labelPosition =='rtl pr-1'">
         <ng-template #fieldComponent></ng-template>
       </div>
       <div *ngIf="showError && to.labelPosition =='rtl pr-1'" [dir]="rtl" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
