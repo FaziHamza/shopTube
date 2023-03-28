@@ -1,4 +1,4 @@
-<ul nz-menu nzMode="horizontal">
+<ul nz-menu nzMode="horizontal" [dir]="'rtl'">
     <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" routerLinkActive="active" [routerLink]="'/pages/'+child.link" *ngFor="let child of layoutTabsDropdownData.children" >
         <ng-container *ngIf="child.children.length">
             <ul *ngFor="let child1 of child.children">

@@ -46,33 +46,37 @@ export class SiteLayoutComponent implements OnInit {
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
-
+    window.onresize = () => {
+      this.controlMenu();
+    };
+    // this.controlMenu();
     if (!this.selectedTheme) {
       this.getMenu();
       this.selectedTheme = this.newSelectedTheme;
 
     }
   }
-  // toggleCollapsed(): void {
-
-  //   if (this.selectedTheme.layout == 'twoColumn') {
-  //     this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
-  //     if (this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/6';
-  //     } else if (!this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/5';
-  //     }
-  //   }
-  //   else {
-  //     this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-  //   }
-  //   if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
-  //     this.selectedTheme.menuColumn = '';
-  //   }
-  //   else if (!this.selectedTheme.isCollapsed) {
-  //     this.selectedTheme.menuColumn = 'w-2/12';
-  //   }
-  // }
+  toggleCollapsed(): void {
+    debugger
+    if (this.selectedTheme.layout == 'twoColumn') {
+      this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
+      if (this.selectedTheme.isTwoColumnCollapsed) {
+        this.selectedTheme.menuColumn = 'w-1/6';
+      } else if (!this.selectedTheme.isTwoColumnCollapsed) {
+        this.selectedTheme.menuColumn = 'w-1/5';
+      }
+    }
+    else {
+      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    }
+    if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
+      // this.selectedTheme.topHeaderMenu = 'w-1/12';
+      // this.selectedTheme.topHeader = 'w-11/12';
+    }
+    else if (!this.selectedTheme.isCollapsed) {
+      this.selectedTheme.menuColumn = 'w-2/12';
+    }
+  }
 
 
   // changeLayout(layoutType: any) {
@@ -304,6 +308,14 @@ export class SiteLayoutComponent implements OnInit {
       else
       this.newSelectedTheme.allMenuItems = [];
     })
+  }
+  controlMenu() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 768) {
+      this.selectedTheme.isCollapsed = true
+    } else {
+      this.selectedTheme.isCollapsed = false
+    }
   }
 }
 

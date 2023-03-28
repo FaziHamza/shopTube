@@ -17,7 +17,7 @@ export class LayoutTabsComponent implements OnInit {
   }
 
   screenLoad(link: any) {
-    debugger
+    
     if (link) {
       let routerLink = link;
       this.router.navigate([routerLink]);

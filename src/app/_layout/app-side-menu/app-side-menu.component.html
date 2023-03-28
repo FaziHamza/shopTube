@@ -5,7 +5,7 @@
       style="background-size: cover; background-repeat: no-repeat; height: 100%; ">
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
       <div [ngClass]="{'w-4/5': selectedTheme.menuMode === 'horizontal'}">
-        <ul nz-menu [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
+        <ul nz-menu [ngClass]="this.selectedTheme.layout == 'rtl' ? 'rtlMenu' : ''" [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
           [nzMode]='selectedTheme.menuMode' [nzInlineCollapsed]="selectedTheme.isCollapsed"
           [nzTheme]="selectedTheme.theme ? 'dark' : 'light'">
           <ng-container class="flex flex-nowrap">
@@ -14,8 +14,8 @@
           </ng-container>
           <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
             <ng-container *ngFor="let item of selectedTheme.allMenuItems">
-              <li class="menu-title" *ngIf="item.isTitle && shouldExecute(item);">{{item.title}}</li>
-              <ng-container *ngIf="item.children && item.children.length && shouldExecute(item);else menu">
+              <li class="menu-title" *ngIf="item.isTitle && shouldExecute(item);"><span nz-icon *ngIf="this.selectedTheme.isCollapsed" [nzType]="'appstore'"></span><span *ngIf="!this.selectedTheme.isCollapsed">{{item.title}}</span></li>
+              <ng-container *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
                 <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon"
                   (mouseover)="setHovered('up', item.menuIcon,item)" (mouseout)="setHovered('down',item.menuIcon,item)"
                   (click)="loadTabsAndButtons($event,item)">
@@ -35,7 +35,7 @@
                   *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip nzTooltipPlacement="right"
                   (click)="loadTabsAndButtons($event,item)">
                   <span nz-icon [nzType]="item.icon"></span>
-                  <span>{{item.title}}</span>
+                  <span class="title">{{item.title}}</span>
                 </li>
               </ng-template>
             </ng-container>
@@ -47,7 +47,7 @@
                   <span nz-icon [nzType]="item.icon"></span>
                 </ng-container>
                 <ng-template #subMenu>
-                  <ng-container *ngIf="item.children && item.children.length && shouldExecute(item);else menu">
+                  <ng-container *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
                     <div class="box block">
                       <span nz-icon nzType="appstore" nzTheme="outline"></span>
                       <!-- <p>{{item.label}}</p> -->
@@ -86,7 +86,7 @@
                     <span nz-icon nzType="appstore"></span>
                   </ng-container>
                   <ng-template #subMenu>
-                    <ng-container *ngIf="item.children && item.children.length && shouldExecute(item);else menu">
+                    <ng-container *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
                       <li nz-submenu [nzTitle]="item.title" nzIcon="appstore" (click)="loadTabsAndButtons($event,item)">
                         <ul>
                           <li nz-menu-item *ngFor="let sub of item.children" class="bg-transparent"

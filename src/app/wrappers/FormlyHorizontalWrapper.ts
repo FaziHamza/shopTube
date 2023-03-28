@@ -4,14 +4,14 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap pb-1">
       <div [ngClass]="[fieldColumn]"  [dir]="rtl"  *ngIf="to.labelPosition =='rtl pr-1'">
         <ng-template #fieldComponent></ng-template>
       </div>
       <div *ngIf="showError && to.labelPosition =='rtl pr-1'" [dir]="rtl" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
-      <label [attr.for]="id" *ngIf="to.label" [dir]="rtl" [ngClass]="[labelColumn , to.labelPosition]" >
+      <label [attr.for]="id" *ngIf="to.label" [dir]="rtl" [ngClass]="[labelColumn , to.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
         <span>
           <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
           <span *ngIf="to.required">*</span>{{ to.label }}
@@ -36,7 +36,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldPadding: string;
   rtl:any;
   ngOnInit(): void {
-    debugger
+    
     const fullWidth = this.to.className.includes('w-full');
     const labelPosition = this.to.labelPosition || '';
     this.labelColumn = `w-1/4 ${labelPosition}`;
@@ -54,7 +54,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     switch (size) {
       case 'default': return 'pt-2';
       case 'small': return 'pt-1';
-      case 'large': return 'pt-2';
+      case 'large': return 'pt-3';
       default: return '';
     }
   }

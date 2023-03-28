@@ -162,7 +162,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   shouldExecute(data: any): boolean {
-
+    
     if (data.type === 'mainTab' || data.type === 'dropdown') {
       return false;
     }

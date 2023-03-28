@@ -14,7 +14,7 @@ export class LayoutTabsDropdownComponent implements OnInit {
   ngOnInit(): void {
   }
     screenLoad(link: any) {
-    debugger
+    
     if (link) {
       if(link.includes('/pages/')){
         this.router.navigate([link]);

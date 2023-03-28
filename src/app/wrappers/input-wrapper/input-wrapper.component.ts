@@ -10,7 +10,7 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() value = '';
   @Input() placeholder = '';
   ngOnInt(){
-    debugger
+    
     console.log('ngonint chal para');
   }
   

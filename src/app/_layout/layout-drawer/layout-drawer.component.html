@@ -31,6 +31,14 @@
                 </div>
                 <P class="mt-2 font-bold">Two Column</P>
             </div>
+            <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
+                <div
+                    [ngClass]="selectedTheme.layout == 'rtl' ? 'rounded-md border border-blue-400' : 'rounded-md border border-gray-200'">
+                    <img class="rounded-md h-20 w-25 hover:cursor-pointer" src="assets/images/layout/horizental.png"
+                        (click)="changeLayout('rtl')">
+                </div>
+                <P class="mt-2 font-bold">RTL</P>
+            </div>
         </div>
         <h6 class="mb-0 font-bold uppercase pt-2" *ngIf="selectedTheme.layout != 'twoColumn'">LAYOUT WIDTH</h6>
         <p class="text-gray-500 text-xs" *ngIf="selectedTheme.layout != 'twoColumn'">Choose Fluid or Boxed layout.</p>
@@ -72,8 +80,10 @@
                 <P class="mt-2 font-bold">Dark</P>
             </div>
         </div>
-        <h6 *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'" class="mb-0 font-bold uppercase pt-2">SIDEBAR SIZE</h6>
-        <p *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'" class="text-gray-500 text-xs">Choose a size of Sidebar</p>
+        <h6 *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
+            class="mb-0 font-bold uppercase pt-2">SIDEBAR SIZE</h6>
+        <p *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
+            class="text-gray-500 text-xs">Choose a size of Sidebar</p>
         <div *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'" class="flex pt-2">
             <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
                 <div
