@@ -566,6 +566,8 @@ export class BuilderComponent implements OnInit {
       if (this.businessRuleData && this.businessRuleData.length > 0) {
         const fishRhyme = ruleFactory(this.businessRuleData);
         console.log(fishRhyme(this.formlyModel));
+        this.updateNodes();
+        this.updateFormlyModel();
         // this.cdr.detectChanges();
 
       }
@@ -614,10 +616,10 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
           inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
+          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputJsonData.defaultValue;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue) {
+          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
           }
@@ -5774,6 +5776,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fixHeader = event.form.fixHeader;
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
+          this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
@@ -7016,7 +7019,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
   removeHighlightOnsaveScreen() {
-    
+
   }
 }
 

@@ -4,7 +4,7 @@ import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table [tableId]='tableId' [tableData]='this.form.value?.options'></dynamic-table>
+ <dynamic-table [tableId]='tableId' [checkType]='true' [tableData]='this.form.value?.options'></dynamic-table>
   `,
   styles: [
     `
@@ -25,7 +25,7 @@ import { Guid } from '../models/guid';
 export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   ngOnInit(): void {
-    
+
     this.tableId = this.field.key + Guid.newGuid();
     this.form.value?.options
   }

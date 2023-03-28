@@ -5,8 +5,8 @@ import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-field-repeat-section',
   template: `
-    <dynamic-table></dynamic-table>
-    
+    <dynamic-table [checkType]='true'></dynamic-table>
+
    `,
   styles: [`
   .group-inline{
