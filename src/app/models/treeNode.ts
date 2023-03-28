@@ -306,6 +306,7 @@ export interface TreeNode {
   sliderType?: any,
   disabled?: boolean,
   headingSize?: any,
+  ngvalue?: any,
   nzBlock?: any,
   stepperType?: any,
   block?: any,

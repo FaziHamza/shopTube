@@ -392,16 +392,16 @@ export class formFeildData {
 
           },
         },
-        {
-          key: 'optionHoverSize',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            type:'number',
-            label: 'Option Hover Size',
-          },
-        },
+        // {
+        //   key: 'optionHoverSize',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     type:'number',
+        //     label: 'Option Hover Size',
+        //   },
+        // },
         {
           key: 'icon',
           type: 'input',
@@ -9691,6 +9691,16 @@ export class formFeildData {
             label: 'Show number ',
           }
         },
+        {
+          className: "w-1/4 px-1",
+          key: 'ngvalue',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Value',
+          }
+        },
 
         {
           className: "w-1/4 px-1 mt-5",
@@ -9797,6 +9807,10 @@ export class formFeildData {
           props: {
             label: 'Status',
             options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
               {
                 label: 'error',
                 value: 'error'

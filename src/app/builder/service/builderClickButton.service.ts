@@ -92,7 +92,8 @@ export class BuilderClickButtonService {
   }
   getRateFieldsConfig(node: any) {
     return {
-      clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
+      clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled, 
+      ngvalue:node.ngvalue,
     };
   }
 

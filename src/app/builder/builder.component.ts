@@ -2809,6 +2809,7 @@ export class BuilderComponent implements OnInit {
         focus: true,
         icon: 'star',
         showCount: 5,
+        ngvalue: 0,
         disabled: false,
         children: [
         ],
@@ -3285,7 +3286,7 @@ export class BuilderComponent implements OnInit {
         leftButtonLabel: 'to left',
         rightButtonLabel: 'to right',
         searchPlaceHolder: 'Search here...',
-        status: 'error',
+        status: 'default',
         notFoundContentLabel: 'The list is empty',
         list: [
           {
@@ -5300,6 +5301,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.showCount = event.form.showCount;
           this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.ngvalue = event.form.ngvalue;
         }
         break;
       case "statistic":
