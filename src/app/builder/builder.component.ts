@@ -4519,7 +4519,7 @@ export class BuilderComponent implements OnInit {
                 },
                 {
                   label: 'col-6',
-                  value: 'w-1/2 pr-1'
+                  value: 'w-1/2 px-2'
                 },
                 {
                   label: 'col-3',
