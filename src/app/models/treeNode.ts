@@ -156,6 +156,8 @@ export interface TreeNode {
   fixHeader?: any;
   tableScroll?: any;
   fixedColumn?: any;
+  sortOrder?: any;
+  sortDirections?: any;
   sort?: any;
   tableHeaders?: any;
   tableNoResultArray?: any;
@@ -372,7 +374,7 @@ export interface TreeNode {
   showColumnHeader?: any;
   pattern?: any;
   emailTypeAllow?: any;
-  
+
   shape?: any;
   refrance?: string;
   minlength?: number;

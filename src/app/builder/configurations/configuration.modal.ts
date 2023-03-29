@@ -8344,6 +8344,38 @@ export class formFeildData {
           },
         },
         {
+          key: 'sortOrder',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Sort Order',
+            options: [
+              { value: 'descend', label: 'Descend' },
+              { value: 'ascend', label: 'Ascend' },
+              { value: null, label: 'No Need' },
+
+            ]
+          },
+        },
+        {
+          key: 'sortDirections',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Sort Direction',
+            options: [
+              { value: ['ascend'], label: 'Ascend' },
+              { value: ['descend'], label: 'Descend' },
+              { value: ['ascend', 'descend'], label: 'Ascend And Descend' },
+              { value: ['ascend', 'descend', null], label: 'All' },
+              { value: [null], label: 'No Need' },
+
+            ]
+          },
+        },
+        {
           key: 'nzLoading',
           type: 'checkbox',
           className: "w-1/6 px-1 mt-5",
@@ -8430,37 +8462,62 @@ export class formFeildData {
             className: 'ml-3 me-2',
             fieldGroup: [
               {
+                key: 'id',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                props: {
+                  label: 'id'
+                }
+              },
+              {
+                key: 'key',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                props: {
+                  label: 'key'
+                }
+              },
+              {
                 key: 'name',
                 type: 'input',
                 wrappers: ["formly-vertical-wrapper"],
                 props: {
-                  label: 'Column Name'
+                  label: 'Header'
                 }
               },
-              {
-                key: 'sortOrder',
-                type: 'input',
+             {
+               className: "ml-2",
+                key: 'show',
+                type: 'checkbox',
                 wrappers: ["formly-vertical-wrapper"],
                 props: {
-                  label: 'Column Name'
+                  label: 'Is Show'
                 }
               },
-              {
-                key: 'sortDirections',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'sortDirections'
-                }
-              },
-              {
-                key: 'filterMultiple',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'filterMultiple'
-                }
-              }
+              // {
+              //   key: 'sortOrder',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-wrapper"],
+              //   props: {
+              //     label: 'Column Name'
+              //   }
+              // },
+              // {
+              //   key: 'sortDirections',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-wrapper"],
+              //   props: {
+              //     label: 'sortDirections'
+              //   }
+              // },
+              // {
+              //   key: 'filterMultiple',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-wrapper"],
+              //   props: {
+              //     label: 'filterMultiple'
+              //   }
+              // }
               // {
               //   className: "ml-2",
               //   key: 'showColumn',

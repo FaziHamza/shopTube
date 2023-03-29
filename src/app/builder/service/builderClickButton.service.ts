@@ -83,8 +83,17 @@ export class BuilderClickButtonService {
       expandable: node.expandable,
       tableScroll: node.tableScroll,
       fixHeader: node.fixHeader,
+      sortDirections: node.sortDirections,
+      sortOrder: node.sortOrder,
       fixedColumn: node.fixedColumn,
-      options: node?.tableHeaders,
+      options: node?.tableHeaders.map((obj:any) => {
+        return {
+          name: obj.name,
+          key: obj.key,
+          show: obj.show,
+          id:0
+        };
+      }),
     };
   }
   getCommentConfig(node: any) {
@@ -92,7 +101,7 @@ export class BuilderClickButtonService {
   }
   getRateFieldsConfig(node: any) {
     return {
-      clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled, 
+      clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
       ngvalue:node.ngvalue,
     };
   }

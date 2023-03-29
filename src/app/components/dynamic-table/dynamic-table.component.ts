@@ -25,7 +25,7 @@ export class DynamicTableComponent implements OnInit {
   scrollX: string | null = null;
   scrollY: string | null = null;
   constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) {
-    this.getHeader();
+    // this.getHeader();
    }
 
   ngOnInit(): void {
@@ -44,7 +44,11 @@ export class DynamicTableComponent implements OnInit {
               for (let j = 0; j < this.data.tableData.length; j++) {
                 //query
                 let query: any;
-                query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
+                if (elementv1.oprator == 'NotNull')
+                  query = "1==1"
+                else
+                  query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
+
                 if (eval(query)) {
                   for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                     const elementv2 = elementv1.getRuleCondition[k];

@@ -2418,10 +2418,12 @@ export class BuilderComponent implements OnInit {
         tableHeaders: [
           {
             name: 'Id',
+            key: 'Id',
             sortOrder: null,
             sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            show: true,
             // listOfFilter: [
             //   { text: 'Joe', value: 'Joe' },
             //   { text: 'Jim', value: 'Jim', byDefault: true }
@@ -2430,10 +2432,12 @@ export class BuilderComponent implements OnInit {
           },
           {
             name: 'Name',
+            key: 'Name',
             sortOrder: null,
             sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
+            show: true,
             listOfFilter: [
               // { text: 'Joe', value: 'Joe' },
               // { text: 'Jim', value: 'Jim', byDefault: true }
@@ -2442,19 +2446,23 @@ export class BuilderComponent implements OnInit {
           },
           {
             name: 'Age',
+            key: 'Age',
             sortOrder: 'descend',
             sortFn: (a: any, b: any) => a.age - b.age,
             sortDirections: ['descend', null],
             listOfFilter: [],
             filterFn: null,
+            show: true,
             filterMultiple: false
           },
           {
             name: 'Address',
+            key: 'Address',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: any, b: any) => a.address.length - b.address.length,
             filterMultiple: false,
+            show: true,
             listOfFilter: [
               { text: 'London', value: 'London' },
               { text: 'Sidney', value: 'Sidney' }
@@ -3960,7 +3968,7 @@ export class BuilderComponent implements OnInit {
     this.clickButton(node?.type)
   }
   applyHighLight(data: boolean, element: any) {
-    
+
     if (element.highLight) {
       element["highLight"] = data;
     } else {
@@ -5473,7 +5481,7 @@ export class BuilderComponent implements OnInit {
       case "number":
 
         if (this.selectedNode) {
-          
+
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
@@ -5780,7 +5788,27 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fixHeader = event.form.fixHeader;
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
+          this.selectedNode.sortOrder = event.form?.sortOrder;
+          this.selectedNode.sortDirections = event.form?.sortDirections;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
+          if (this.selectedNode.tableHeaders.length > 0) {
+            let newHeaders = this.selectedNode.tableHeaders.map((obj:any) => {
+              let newObj = { ...obj };
+              if (event.form.sortOrder) {
+                newObj.sortOrder = event.form.sortOrder;
+              }
+              if (event.form.sortDirections) {
+                let key = obj.key
+                newObj.sortDirections = event.form.sortDirections;
+                // newObj.sortFn = (a:any, b:any) => a[key][0][key].localeCompare(a[key][0][key]);
+              }
+              return newObj;
+            });
+            this.selectedNode.tableHeaders = newHeaders;
+          }
+
+
+          this.selectedNode.tableData = this.updateTableData(this.selectedNode.tableData,event.tableDta ? event.tableDta : event.form.options);
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
@@ -5865,7 +5893,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "linkButton":
-        
+
         if (this.selectedNode) {
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.href = event.form.href;
@@ -6789,6 +6817,20 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
     this.closeConfigurationList();
   }
+  updateTableData(tableData:any,tableHeaders:any) {
+    // Loop through each object in tableData
+    tableData.forEach((data:any) => {
+      // Loop through each object in tableHeaders
+      tableHeaders.forEach((header:any) => {
+        // Check if the key exists in the data object
+        if (!data.hasOwnProperty(header.key.toLowerCase())) {
+          // If the key does not exist, add it with a value of null or an empty string
+          data[header.key] = null; // or data[header.key] = '';
+        }
+      });
+    });
+    return tableData;
+  }
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
@@ -6846,7 +6888,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-    
+
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == "editable") {
@@ -6967,7 +7009,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-    
+
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {

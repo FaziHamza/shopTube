@@ -1,3 +1,4 @@
+{{tableHeaders | json}}
 <nz-modal [(nzVisible)]="isVisible"  nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()">
   <!-- (nzOnOk)="handleOk()" -->
   <ng-container *nzModalContent>
@@ -38,7 +39,6 @@
   </thead>
   <tbody>
     <ng-template #recursiveList let-data1>
-      <!-- {{data1 | json}} -->
       <ng-container  *ngFor="let item of data1">
         <tr  [ngStyle]="{'background': item?.color}">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>

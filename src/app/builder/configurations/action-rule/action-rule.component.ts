@@ -116,6 +116,7 @@ export class ActionRuleComponent implements OnInit {
   getActionData() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe((getRes => {
+      if(getRes.length > 0)
       this.actionForm = this.formBuilder.group({
         actionType: [getRes[0]?.queryData[0]?.type],
         actionLink: [getRes[0].actionLink],
