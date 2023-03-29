@@ -743,7 +743,7 @@ export class BuilderClickButtonService {
 
     return {
       color: node.color,
-      onhover: node.onhover,
+      hoverColor: node.hoverColor,
       title: node.title,
       hideExpression: node.hideExpression,
       format: node.format,
@@ -756,6 +756,7 @@ export class BuilderClickButtonService {
       nzLoading: node.nzLoading,
       nzGhost: node.nzGhost,
       nzDanger: node.nzDanger,
+      nztype: node.nztype,
     }
   }
   getDropdownButtonConfig(node: any) {

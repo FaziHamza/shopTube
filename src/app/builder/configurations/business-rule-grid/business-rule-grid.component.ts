@@ -22,7 +22,7 @@ export class BusinessRuleGridComponent implements OnInit {
   isModalVisible = false;
   isReadOnly: boolean = true;
   ngOnInit(): void {
-    
+
     this.dynamicBuisnessRule();
     this.conditionForm = this.formBuilder.group({
       getRuleCondition: this.formBuilder.array([
@@ -153,16 +153,16 @@ export class BusinessRuleGridComponent implements OnInit {
       .get('multiConditionList') as FormArray;
   }
   addMathmaticRule() {
-    
+
     this.getRuleCondition().push(this.mathmaticRule());
   }
   addgetRuleMultiCondition(index: number) {
-    
+
     this.getRuleMultiCondition(index).push(this.multiCondition());
     this.cd.detectChanges();
   }
   removeMathmaticRule(mathIndex: number) {
-    
+
     this.getRuleCondition().removeAt(mathIndex);
     this.getGridRuleCondition();
   }
@@ -171,7 +171,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getGridRuleCondition();
   }
   saveMathmaticRule() {
-    
+
     if (this.thenIndexForConditionForm != undefined) {
       this.buisnessRuleThen(this.indexForConditionForm).at(this.thenIndexForConditionForm).patchValue({
         thenResultValue: this.getGridRuleCondition()
@@ -229,7 +229,7 @@ export class BusinessRuleGridComponent implements OnInit {
   indexForConditionForm: any;
   thenIndexForConditionForm: any;
   addConditionRule(index: number, thenIndex?: number) {
-    
+
     this.isVisible = true;
     this.indexForConditionForm = index;
     this.thenIndexForConditionForm = thenIndex;
@@ -323,6 +323,7 @@ export class BusinessRuleGridComponent implements OnInit {
       ifCondition: '',
       oprator: '',
       getValue: '',
+      isGetValue: true,
       target: '',
       opratorForTraget: '',
       resultValue: '',
@@ -340,7 +341,7 @@ export class BusinessRuleGridComponent implements OnInit {
     });
   }
   newThen(): FormGroup {
-    
+
     return this.formBuilder.group({
       thenTarget: '',
       thenOpratorForTraget: '',
@@ -349,7 +350,7 @@ export class BusinessRuleGridComponent implements OnInit {
     });
   }
   buisnessGetThenRuleCondition(): FormGroup {
-    
+
     return this.formBuilder.group({
       ifCondition: '',
       oprator: '',
@@ -421,7 +422,7 @@ export class BusinessRuleGridComponent implements OnInit {
       .get('multiConditionList') as FormArray;
   }
   addBuisnessRule() {
-    
+
     this.buisnessRule().push(this.newBuisnessRule());
   }
   addBuisnessRuleSkill(empIndex: number) {
@@ -465,7 +466,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-    
+    debugger
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
@@ -490,19 +491,21 @@ export class BusinessRuleGridComponent implements OnInit {
       { name: "=", key: "=" },
       { name: ">", key: ">" },
       { name: "<", key: "<" },
+      { name: "Not Null", key: "NotNull" },
     ]
-  const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
-  if (mainModuleId.length > 0) {
+    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
+    if (mainModuleId.length > 0) {
       this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-        
+
         if (getRes.length > 0) {
           for (let k = 0; k < getRes.length; k++) {
-            if(getRes[k].gridKey == this.selectedNode.key){
+            if (getRes[k].gridKey == this.selectedNode.key) {
               this.buisnessForm = this.formBuilder.group({
                 buisnessRule: this.formBuilder.array(getRes[k].buisnessRulleData.map((getBuisnessRuleRes: any) =>
                   this.formBuilder.group({
                     ifCondition: [getBuisnessRuleRes.ifCondition],
                     oprator: [getBuisnessRuleRes.oprator],
+                    isGetValue: [getBuisnessRuleRes.oprator == "NotNull" ? false : true],
                     getValue: [getBuisnessRuleRes.getValue],
                     target: [getBuisnessRuleRes.target],
                     opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
@@ -606,8 +609,8 @@ export class BusinessRuleGridComponent implements OnInit {
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
     });
 
-  const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
-  const jsonRuleValidation = {
+    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
+    const jsonRuleValidation = {
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       "buisnessRulleData": this.buisnessForm.value.buisnessRule,
@@ -677,5 +680,18 @@ export class BusinessRuleGridComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+  }
+  isInput: boolean = true;
+  operatorChange(operator: string, index: number) {
+    debugger
+    if (operator == "NotNull")
+      this.buisnessRule().at(index).patchValue({
+        isGetValue: false,
+        getValue: null
+      });
+    else
+      this.buisnessRule().at(index).patchValue({
+        isGetValue: true
+      });
   }
 }
