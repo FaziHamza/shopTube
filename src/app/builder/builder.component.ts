@@ -4531,6 +4531,10 @@ export class BuilderComponent implements OnInit {
                   value: 'w-1/2 px-2'
                 },
                 {
+                  label: 'col-4',
+                  value: 'w-1/4 pr-1'
+                },
+                {
                   label: 'col-3',
                   value: 'w-1/3 pr-1'
                 },
@@ -6945,7 +6949,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         fieldGroup[0].props.labelPosition = formValues.labelPosition;
-        
+
         fieldGroup[0].props.config['formatAlignment'] = formValues.formatAlignment;
       }
     }
