@@ -4158,6 +4158,25 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'formatAlignment',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Format Alignment',
+            options: [
+              {
+                label: 'LTR',
+                value: 'ltr'
+              },
+              {
+                label: 'RTL',
+                value: 'rtl'
+              },
+            ]
+          },
+        },
+        {
           key: 'labelPosition',
           type: 'select',
           className: "w-1/4 px-1",
@@ -4167,7 +4186,7 @@ export class formFeildData {
             options: [
               {
                 label: 'Right',
-                value: 'text-right pr-1'
+                value: 'text-right'
               },
               {
                 label: 'Center',
@@ -4176,10 +4195,6 @@ export class formFeildData {
               {
                 label: 'Left',
                 value: 'text-left'
-              },
-              {
-                label: 'RTL',
-                value: 'rtl pr-1'
               },
             ]
           },

@@ -427,6 +427,7 @@ export interface TreeNode {
   nzExtra?: string;
   nzStatus?: string;
   standAlone?: any;
+  formatAlignment?: any;
   dot?: any;
   showDot?: any;
   overflowCount?: any;

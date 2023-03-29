@@ -924,6 +924,7 @@ export class BuilderComponent implements OnInit {
                     wrapper: '',
                     floatFieldClass: '',
                     floatLabelClass: '',
+                    formatAlignment:'ltr',
                   },
                   maxLength: 5000,
                   minLength: 1,
@@ -6852,18 +6853,11 @@ export class BuilderComponent implements OnInit {
         if (formValues.disabled == "editable") {
           fieldGroup[0].props.disabled = false;
         }
-        else if (formValues.disabled == "disabled") {
+        else if (formValues.disabled == "disabled" || formValues.disabled == "disabled-But-ditable") {
           fieldGroup[0].props.disabled = true;
         }
-        else if (formValues.disabled == "disabled-But-ditable") {
-          fieldGroup[0].props.disabled = true;
-        }
-        if (formValues.status) {
-          fieldGroup[0].props.config.status = formValues.status;
-        }
-        if (formValues.size) {
-          fieldGroup[0].props.config.size = formValues.size;
-        }
+        fieldGroup[0].props.config.status = formValues.status;
+        fieldGroup[0].props.config.size = formValues.size;
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
           fieldGroup[0].className = formValues.sectionClassName;
@@ -6899,6 +6893,8 @@ export class BuilderComponent implements OnInit {
           }
         }
         fieldGroup[0].props.labelPosition = formValues.labelPosition;
+        
+        fieldGroup[0].props.config['formatAlignment'] = formValues.formatAlignment;
       }
     }
     return fieldGroup;

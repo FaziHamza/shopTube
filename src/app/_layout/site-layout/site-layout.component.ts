@@ -37,9 +37,10 @@ export class SiteLayoutComponent implements OnInit {
     theme: false,
     isCollapsed: false,
     newMenuArray: [],
-    menuChildArrayTwoColumn:  [],
-    isTwoColumnCollapsed : false,
-    allMenuItems:[],
+    menuChildArrayTwoColumn: [],
+    isTwoColumnCollapsed: false,
+    allMenuItems: [],
+    showMenu : true,
   }
   // selectedTheme: any;
 
@@ -51,9 +52,8 @@ export class SiteLayoutComponent implements OnInit {
     };
     // this.controlMenu();
     if (!this.selectedTheme) {
-      this.getMenu();
       this.selectedTheme = this.newSelectedTheme;
-
+      this.getMenu();
     }
   }
   toggleCollapsed(): void {
@@ -212,9 +212,9 @@ export class SiteLayoutComponent implements OnInit {
 
   notifyEmit(data: any) {
 
-    if(data.selectedTheme){
-    this.selectedTheme = data.selectedTheme
-    }else{
+    if (data.selectedTheme) {
+      this.selectedTheme = data.selectedTheme
+    } else {
       this.selectedTheme = this.newSelectedTheme;
     }
     this.selectedTheme.allMenuItems = data.menuData;
@@ -279,9 +279,9 @@ export class SiteLayoutComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      const withOutTitle = this.selectedTheme.allMenuItems.filter((a:any)=>a.isTitle != true);
+      const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);
       this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;
@@ -298,23 +298,31 @@ export class SiteLayoutComponent implements OnInit {
   //     this.selectedTheme.isCollapsed = false;
   // }
   getMenu() {
+    debugger
     this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
       if (res.length > 0) {
-        this.newSelectedTheme.allMenuItems = res[0].menuData;
+        if(!res[0].selectedTheme.showMenu){
+          this.selectedTheme['showMenu'] = true;
+        }
+        this.selectedTheme = res[0].selectedTheme;
+        this.selectedTheme.allMenuItems = res[0].menuData;
         // this.menuItems.forEach((e: any) => {
         //   e["menuIcon"] = "up"
         // });
       }
       else
-      this.newSelectedTheme.allMenuItems = [];
+        this.newSelectedTheme.allMenuItems = [];
     })
   }
   controlMenu() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 768) {
-      this.selectedTheme.isCollapsed = true
+    if (screenWidth <= 784) {
+      this.selectedTheme.showMenu = false;
+      this.selectedTheme.topHeader = 'w-full';
     } else {
-      this.selectedTheme.isCollapsed = false
+      this.selectedTheme.showMenu = true;
+      this.selectedTheme.topHeaderMenu = 'w-1/6';
+      this.selectedTheme.topHeader = 'w-10/12';
     }
   }
 }

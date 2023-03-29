@@ -102,7 +102,7 @@ export class DynamicTableComponent implements OnInit {
   // };
   // handleOk(): void {
   addColumn(): void {
-    debugger
+    
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;

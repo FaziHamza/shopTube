@@ -36,7 +36,7 @@ export class AppSideMenuComponent implements OnInit {
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-
+    
     this.makeMenuData();
   }
 
@@ -69,7 +69,6 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-
     this.employeeService.getJsonModules('Home Page').subscribe((res) => {
       if (res.length > 0) {
         this.selectedTheme.allMenuItems = res[0].menuData;
@@ -83,7 +82,6 @@ export class AppSideMenuComponent implements OnInit {
     })
   }
   makeMenuData() {
-
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;
     arrayList = this.menuItems;
@@ -95,13 +93,15 @@ export class AppSideMenuComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      this.selectedTheme.newMenuArray[0].subMenu = this.menuItems.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.slice(0, 7);
+      const withOutTitle = this.menuItems.filter((a:any)=>a.isTitle != true);
+      this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
+  
 
   changeIcon() {
     this.newMenuArray[0].icon == 'up' ? 'down' : 'up';

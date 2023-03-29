@@ -838,6 +838,7 @@ export class BuilderClickButtonService {
     }
   }
   getSectionConfig(node: any) {
+    
     if (node.children?.at(1)?.children[0].formly) {
       return {
         title: node.title,
@@ -850,6 +851,7 @@ export class BuilderClickButtonService {
         sectionClassName: node.sectionClassName,
         isBordered: node.isBordered,
         wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
+        formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
       }
     }
     else {
