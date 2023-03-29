@@ -120,13 +120,14 @@
                   </nz-select>
                 </div>
                 <div class="w-1/4 ml-1">
-                  <nz-select formControlName="oprator" nzShowSearch nzAllowClear>
-                    <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
-                      *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
+                  <nz-select formControlName="oprator" nzShowSearch nzAllowClear
+                    (ngModelChange)="operatorChange($event, i)">
+                  <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
+                    *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
                   </nz-select>
                 </div>
                 <div class="w-1/4 ml-1">
-                  <input type="text" placeholder="Enter value" nz-input id="getValue{{i}}" formControlName="getValue"
+                  <input *ngIf="buisnessRule().controls[i].value.isGetValue" type="text" placeholder="Enter value" nz-input id="getValue{{i}}" formControlName="getValue"
                     required class="form-control" name="getValue{{i}}" />
                 </div>
               </div>

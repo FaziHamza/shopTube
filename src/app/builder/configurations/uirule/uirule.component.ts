@@ -207,7 +207,7 @@ export class UIRuleComponent implements OnInit {
             inputOldJsonData: inputType.children
           });
         }
-      } else if (inputType.type == "input" || inputType.type == "inputGroup" || inputType.type == "checkbox" || inputType.type == "color" ||
+      } else if (inputType.type == "input" || inputType.type == "inputGroup" || inputType.type == "number" || inputType.type == "checkbox" || inputType.type == "color" ||
         inputType.type == "decimal" || inputType.type == "image" || inputType.type == "multiselect" || inputType.type == "radiobutton" ||
         inputType.type == "search" || inputType.type == "repeatSection" || inputType.type == "tags" || inputType.type == "telephone"
         || inputType.type == "textarea" || inputType.type == "date" || inputType.type == "datetime" || inputType.type == "month"
