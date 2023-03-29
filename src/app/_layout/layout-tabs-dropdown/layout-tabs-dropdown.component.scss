@@ -1,4 +1,29 @@
-.active{
-border-bottom: 2px solid;
-border-color: skyblue;
+.active {
+    // border-bottom: 2px solid #1890ff !important;
+    background-color: #a7cff4;
+    border-radius: 1px;
+    // margin: 0 20px !important;
+    color: white;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
+    border-bottom: 2px solid #1890ff !important;
+}
+
+.ant-menu-item,
+.ant-menu-submenu-title {
+    & .ant-menu-item-icon+span,
+    & .anticon+span {
+        margin-left: 10px;
+        margin-right: 10px !important;
+        opacity: 1;
+        transition: opacity .3s cubic-bezier(.645, .045, .355, 1), margin .3s, color .3s;
+    }
 }

@@ -1102,7 +1102,7 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    
+    debugger
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
@@ -1126,9 +1126,9 @@ export class MenuBuilderComponent implements OnInit {
         this.selectedTheme.rowClass = 'w-11/12';
         this.selectedTheme.isCollapsed = true;
         this.selectedTheme.isTwoColumnCollapsed = false;
-        this.selectedTheme.menuColumn = '-w-1/12';
-        this.selectedTheme.topHeaderMenu = '';
-        this.selectedTheme.topHeader = '';
+        this.selectedTheme.menuColumn = 'w-1/12';
+        this.selectedTheme.topHeaderMenu = 'w-1/6'
+      this.selectedTheme.topHeader = 'w-10/12';
         this.selectedTheme.layoutWidth = '';
         if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
           this.selectedTheme.rowClass = 'w-10/12';

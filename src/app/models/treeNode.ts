@@ -325,7 +325,7 @@ export interface TreeNode {
   textColor?: string,
   repeat?: any,
   color?: string,
-  onhover?: string,
+  hoverColor?: string,
   icon?: any,
   theme?: any,
   mode?: any,
@@ -429,6 +429,7 @@ export interface TreeNode {
   nzExtra?: string;
   nzStatus?: string;
   standAlone?: any;
+  formatAlignment?: any;
   dot?: any;
   showDot?: any;
   overflowCount?: any;

@@ -1,8 +1,8 @@
 
-<nz-layout [dir]="this.selectedTheme.layout">
-  <nz-header nz-menu [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'" >
+<nz-layout>
+  <nz-header [dir]="selectedTheme?.layout" nz-menu [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'" >
     <div class="flex flex-wrap">
-      <div [ngClass]='selectedTheme.topHeaderMenu'>
+      <div [ngClass]='selectedTheme.topHeaderMenu' >
         <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
         <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png">
       </div>
@@ -22,8 +22,8 @@
     </div>
   </nz-header>
 
-  <div [ngClass]='selectedTheme.horizontalRow'>
-    <div [ngClass]='selectedTheme.menuColumn'>
+  <div [ngClass]='selectedTheme.horizontalRow' [dir]="this.selectedTheme.layout">
+    <div [ngClass]='selectedTheme.menuColumn' >
       <app-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></app-app-side-menu>
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
@@ -37,7 +37,9 @@
           <app-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"></app-layout-tabs-dropdown>
         </ng-container>
       </ng-container>
-      <router-outlet></router-outlet>
+      <div dir="ltr">
+        <router-outlet></router-outlet>
+      </div>
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
   </div>

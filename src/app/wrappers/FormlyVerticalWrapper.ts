@@ -4,9 +4,9 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-vertical-wrapper',
   template: `
-  <div [dir]="rtl">
-  <div [class]='to.labelPosition'>
-    <label [attr.for]="id" class="col-form-label" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
+  <div [dir]="to.config?.formatAlignment || 'ltr'">
+  <div [class]='to.labelPosition'> 
+    <label [attr.for]="id" class="col-form-label {{to.labelPosition}} pl-1"  *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
       <span>
         <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
         <span *ngIf="to.required">*</span>{{to.label}}
@@ -16,7 +16,7 @@ import { FieldWrapper } from '@ngx-formly/core';
       </span>
     </label>
   </div>
-  <div class="mt-1">
+  <div class="mt-1 pl-2">
     <ng-template #fieldComponent></ng-template>
   </div>
   <div *ngIf="showError" class="invalid-feedback d-block">
@@ -27,13 +27,8 @@ import { FieldWrapper } from '@ngx-formly/core';
   `,
 })
 export class FormlyVerticalWrapper extends FieldWrapper {
-  rtl:any;
   ngOnInit(): void {
     this.to;
-    if(this.to.labelPosition == 'rtl pr-1'){
-      this.rtl = 'rtl'
-    }else{
-      this.rtl = ''
-    }
+    
   }
 }

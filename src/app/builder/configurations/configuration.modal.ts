@@ -156,100 +156,25 @@ export class formFeildData {
       fieldGroup: [
         {
           key: 'color',
-          type: 'select',
-          className: "w-1/4 px-1",
-          "wrappers": ["formly-vertical-wrapper"],
-          props: {
-            label: 'Button Color',
-            options: [
-              {
-                label: 'White',
-                value: 'bg-white-600'
-              },
-              {
-                label: 'Blue',
-                value: 'bg-blue-600'
-              },
-              {
-                label: 'Grey',
-                value: 'bg-gray-600'
-              },
-              {
-                label: 'Red',
-                value: 'bg-red-600'
-              },
-              {
-                label: 'Green',
-                value: 'bg-green-600'
-              },
-              {
-                label: 'Light Blue',
-                value: 'bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-yellow-600'
-              },
-              {
-                label: 'Purple',
-                value: 'bg-purple-600'
-              },
-              {
-                label: 'Black',
-                value: 'bg-black'
-              },
-
-            ]
-          },
-        },
-        {
-          key: 'onhover',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color on Hover',
-            options: [
-              {
-                label: 'White',
-                value: 'hover:bg-white-400'
-              },
-              {
-                label: 'Blue',
-                value: 'hover:bg-blue-400'
-              },
-              {
-                label: 'Grey',
-                value: 'hover:bg-gray-400'
-              },
-              {
-                label: 'Red',
-                value: 'hover:bg-red-400'
-              },
-              {
-                label: 'Green',
-                value: 'hover:bg-green-400'
-              },
-              {
-                label: 'Light Blue',
-                value: 'hover:bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'hover:bg-yellow-400'
-              },
-              {
-                label: 'Purple',
-                value: 'hover:bg-purple-400'
-              },
-              {
-                label: 'Black',
-                value: 'hover:bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color'
+          }
         },
+        {
+          key: 'hoverColor',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: "color",
+            label: 'Background color on hover'
+          }
+        },
+       
         {
           key: 'format',
           type: 'select',
@@ -269,6 +194,33 @@ export class formFeildData {
               {
                 label: 'Text Center',
                 value: 'text-center'
+              },
+            ]
+          },
+        },
+        {
+          key: 'nztype',
+          type: 'select',
+          className: "w-1/4 px-1",
+          "wrappers": ["formly-vertical-wrapper"],
+          props: {
+            label: 'Button Type',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Primary',
+                value: 'primary'
+              },
+              {
+                label: 'Dashed',
+                value: 'dashed'
+              },
+              {
+                label: 'Text',
+                value: 'text'
               },
             ]
           },
@@ -688,7 +640,7 @@ export class formFeildData {
           },
         },
         {
-          key: 'onhover',
+          key: 'hoverColor',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
@@ -1038,7 +990,7 @@ export class formFeildData {
           defaultValue: 'bg-blue-200'
         },
         {
-          key: 'onhover',
+          key: 'hoverColor',
           type: 'select',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
@@ -4158,6 +4110,25 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'formatAlignment',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Format Alignment',
+            options: [
+              {
+                label: 'LTR',
+                value: 'ltr'
+              },
+              {
+                label: 'RTL',
+                value: 'rtl'
+              },
+            ]
+          },
+        },
+        {
           key: 'labelPosition',
           type: 'select',
           className: "w-1/4 px-1",
@@ -4167,7 +4138,7 @@ export class formFeildData {
             options: [
               {
                 label: 'Right',
-                value: 'text-right pr-1'
+                value: 'text-right'
               },
               {
                 label: 'Center',
@@ -4176,10 +4147,6 @@ export class formFeildData {
               {
                 label: 'Left',
                 value: 'text-left'
-              },
-              {
-                label: 'RTL',
-                value: 'rtl pr-1'
               },
             ]
           },
