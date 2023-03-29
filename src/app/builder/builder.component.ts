@@ -612,7 +612,7 @@ export class BuilderComponent implements OnInit {
           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
             inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         }
-        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "checkbox" ||
+        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "number" || inputType[l].type == "checkbox" ||
           inputType[l].type == "color" || inputType[l].type == "decimal" || inputType[l].type == "image" ||
           inputType[l].type == "multiselect" || inputType[l].type == "radiobutton" || inputType[l].type == "search" ||
           inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
@@ -925,7 +925,7 @@ export class BuilderComponent implements OnInit {
                     floatFieldClass: '',
                     floatLabelClass: '',
                   },
-                  maxLength: 5000,
+                  maxLength: 10000000,
                   minLength: 1,
                   type: data?.fieldType,
                   labelPosition: "text-left",
@@ -946,6 +946,15 @@ export class BuilderComponent implements OnInit {
                     this.formlyModel[model.key] = model.formControl.value;
                     this.checkConditionUIRule(model, currentVal);
                   }
+                  // change: (model: any) => {
+                  //   debugger
+                  //   let currentVal = model.formControl.value;
+                  //   if(!currentVal){
+                  //     currentVal = (document.getElementById(model.id) as HTMLInputElement).value;
+                  //   }
+                  //   this.formlyModel[model.key] = currentVal;
+                  //   this.checkConditionUIRule(model, currentVal);
+                  // }
                 },
                 hideExpression: false,
               },
