@@ -17,6 +17,7 @@ export class BlockButtonsCardComponent {
   nodes: TreeNode[];
   url: string;
   size: NzButtonSize = 'large';
+  color:"hover:bg-[#000000]";
   constructor(private modalService: NzModalService, public employeeService: EmployeeService,
   ) { }
   ngOnInit(): void {

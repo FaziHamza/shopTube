@@ -323,7 +323,7 @@ export interface TreeNode {
   textColor?: string,
   repeat?: any,
   color?: string,
-  onhover?: string,
+  hoverColor?: string,
   icon?: any,
   theme?: any,
   mode?: any,

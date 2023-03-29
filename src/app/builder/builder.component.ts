@@ -985,15 +985,15 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/3",
-        color: "bg-blue-600",
-        onhover: "hover:bg-black",
+        color: "",
+        hoverColor: "#00000",
         btnIcon: "upload",
         tooltip: "",
         format: "text-left",
         disabled: false,
         nzDanger: false,
         nzBlock: false,
-        nzType: "Primary",
+        nztype: "default",
         nzSize: "large",
         nzShape: 'default',
         nzLoading: false,
@@ -1016,7 +1016,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "bg-green-600",
-        onhover: "hover:bg-green-400",
+        hoverColor: "hover:bg-green-400",
         btnIcon: "down",
         format: "text-left",
         disabled: false,
@@ -1067,7 +1067,7 @@ export class BuilderComponent implements OnInit {
         actionType: "update",
         className: "w-1/3",
         color: "bg-blue-200",
-        onhover: "hover:bg-blue-200",
+        hoverColor: "hover:bg-blue-200",
         btnIcon: "redo",
         format: "text-left",
         btnDisables: false,
@@ -1097,7 +1097,7 @@ export class BuilderComponent implements OnInit {
         actionType: "delete",
         className: "w-1/3",
         color: "bg-yellow-600",
-        onhover: "hover:bg-yellow-400",
+        hoverColor: "hover:bg-yellow-400",
         btnIcon: "delete",
         format: "text-left",
         btnDisables: false,
@@ -1562,7 +1562,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         tooltip: "",
         color: "bg-blue-200",
-        onhover: "hover:bg-blue-200",
+        hoverColor: "hover:bg-blue-200",
         target: "_blank",
         btnType: "_blank",
         href: "",
@@ -5843,7 +5843,7 @@ export class BuilderComponent implements OnInit {
 
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
-          this.selectedNode.onhover = event.form.onhover;
+          this.selectedNode.hoverColor = event.form.hoverColor;
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
@@ -5854,6 +5854,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzDanger = event.form.nzDanger;
           this.selectedNode.nzShape = event.form.nzShape;
           this.selectedNode.format = event.form.format;
+          this.selectedNode.nztype = event.form.nztype;
         }
         break;
 
@@ -5871,7 +5872,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.href = event.form.href;
           this.selectedNode.target = event.form.target;
           this.selectedNode.color = event.form.color;
-          this.selectedNode.onhover = event.form.onhover;
+          this.selectedNode.hoverColor = event.form.hoverColor;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
@@ -5891,7 +5892,7 @@ export class BuilderComponent implements OnInit {
       case "dropdownButton":
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
-          this.selectedNode.onhover = event.form.onhover;
+          this.selectedNode.hoverColor = event.form.hoverColor;
           this.selectedNode.btnIcon = event.form.btnIcon;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
