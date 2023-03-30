@@ -1,16 +1,15 @@
-
-<div
-    class="bg-white shadow-md {{resData[0].children[0].isBordered ? 'border' : ''}} {{resData[0].highLight ? 'highLight' : ''}}"
-    *ngIf="resData.length">
+<div class="bg-white shadow-md  {{resData[0].highLight ? 'highLight' : ''}}" *ngIf="resData.length">
     <!-- PAGE HEADER -->
-    <div class="site-page-header-ghost-wrapper " *ngIf="resData[0].children[0].header">
+    <div class="site-page-header-ghost-wrapper"
+        [ngStyle]="{'border-bottom': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
+        *ngIf="resData[0].children[0].header">
         <div *ngFor="let item of resData[0]?.children[0].children">
             <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'topHeader'">
                 <app-new-alerts [alertData]="item"></app-new-alerts>
             </ng-container>
         </div>
         <nz-page-header
-            class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].isBordered?'border-b': ''}} {{resData[0].children[0].highLight ? 'highLight' : ''}}"
+            class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
             [nzGhost]="false">
             <nz-page-header-title [class]="resData[0].children[0].headingSize">
                 {{resData[0].children[0].title}}
@@ -33,13 +32,21 @@
         </div>
     </div>
     <!-- SECTION -->
-    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}" >
-        <div *ngFor="let j of resData[0].children[1].children ; index as i"  [class]="j.className" [ngClass]="{'highLight': j.highLight}">
+    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
+        <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className"
+            [ngClass]="{'highLight': j.highLight}" [ngStyle]="{
+                'padding-left': 
+                  (j.className === 'w-1/4' || j.className === 'w-1/3' || j.className === 'w-1/2') && i % 2 !== 0 ? '3px' : '',
+                  'padding-right':j.className === 'w-1/3' && i % 2 !== 0 ? '3px' : ''
+              }"
+              >
             <!-- INCOLAPSSABLE CASE -->
-            <div class="{{resData[0].children[0].isBordered?'border': ''}}" *ngIf="!j.children[0].expanded">
+            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0].expanded">
                 <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}"
                     *ngIf="j.children[0].header">
-                    <nz-page-header class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}" [nzGhost]="false">
+                    <nz-page-header
+                        class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
+                        [nzGhost]="false">
                         <nz-page-header-title>{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
@@ -60,7 +67,7 @@
                         </nz-page-header-extra>
                     </nz-page-header>
                 </div>
-                <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}" >
+                <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}">
                     <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                 </div>
                 <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
@@ -74,9 +81,11 @@
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
-                    <nz-collapse-panel class="text-black font-semibold text-lg border-black-500" [nzHeader]="j.children[0].title"
-                        [nzExtra]="extraTpl" [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
-                        <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0">
+                    <nz-collapse-panel class="text-black font-semibold text-lg border-black-500"
+                        [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"
+                        [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
+                        <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}"
+                            *ngIf="resData.length > 0">
                             <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
                         </div>
 
@@ -123,7 +132,9 @@
         </div>
     </div>
     <!-- PAGE FOOTER -->
-    <div class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}" *ngIf="resData[0].children[2].footer">
+    <div [ngStyle]="{'border-top': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
+        class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}"
+        *ngIf="resData[0].children[2].footer">
         {{resData[0].children[2].title}}
         <div *ngFor="let item of resData[0]?.children[2]?.children">
             <app-block-buttons-card [softIconList]="item[0]"></app-block-buttons-card>

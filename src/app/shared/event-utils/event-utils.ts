@@ -7,19 +7,29 @@ export const INITIAL_EVENTS: EventInput[] = [
   {
     id: createEventId(),
     title: 'All-day event',
-    start: TODAY_STR
+    start: TODAY_STR,
+    backgroundColor:'#f5abac',
+    textColor:'#FF0000',
+    color:'#1890FF',
+    borderColor:'#ea5455'
   },
   {
     id: createEventId(),
     title: 'Timed event',
     start: TODAY_STR + 'T00:00:00',
-    end: TODAY_STR + 'T03:00:00'
+    end: TODAY_STR + 'T03:00:00',
+    backgroundColor:'#f5abac',
+    textColor:'#FF0000',
+    color:'#1890FF'
   },
   {
     id: createEventId(),
     title: 'Timed event',
     start: TODAY_STR + 'T12:00:00',
-    end: TODAY_STR + 'T15:00:00'
+    end: TODAY_STR + 'T15:00:00',
+    backgroundColor:'#f5abac',
+    textColor:'#FF0000',
+    color:'#1890FF'
   }
 ];
 

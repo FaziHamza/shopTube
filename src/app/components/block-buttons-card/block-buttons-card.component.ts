@@ -11,6 +11,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
   styleUrls: ['./block-buttons-card.component.scss']
 })
 export class BlockButtonsCardComponent {
+  bgColor : any;
   @Input() softIconList: any;
   dataSrc: any;
   isShow: Boolean = false;
@@ -24,6 +25,7 @@ export class BlockButtonsCardComponent {
 
     this.softIconList
     this.url = window.location.origin;
+    this.bgColor = this.softIconList?.color;
   }
 
 
@@ -54,7 +56,7 @@ export class BlockButtonsCardComponent {
 
 
   showModal(href: string): void {
-    
+
     this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
       if (res.length > 0) {
         this.nodes = res[0].menuData;

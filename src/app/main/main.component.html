@@ -1,4 +1,5 @@
 <div class="card-content  flex flex-wrap">
+
     <div class="{{!item.hideExpression   ? item.className : ''}}"
         *ngFor="let item of mainData ; index as i; last as isLast">
         <ng-container *ngIf="item.type == 'multiFileUpload';else one">
@@ -195,10 +196,12 @@
             </ng-container>
         </ng-template>
         <ng-template #twentythree>
-            <ng-container *ngIf="item.type == 'tuiCalender' ;else twentyfour">
+            <ng-container *ngIf="item.type == 'calender' ;else twentyfour">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
+                    <app-calendar [calenderData]="item"></app-calendar>
+
                     <!-- <app-tui-calendar [calendarData]="item"></app-tui-calendar> -->
                 </div>
             </ng-container>
@@ -669,7 +672,6 @@
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <!-- <app-tree-view [treeListData]="item"></app-tree-view> -->
-                    <app-calendar></app-calendar>
                 </div>
             </ng-container>
         </ng-template>
@@ -722,10 +724,12 @@
         </ng-template>
         <ng-template #seventyFour>
             <ng-container *ngIf="item.type == 'icon'">
-                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <span nz-icon [nzType]="item.icon" [nzTheme]='item.theme'></span>
+                    <span nz-icon *ngIf="item.iconType == 'outline' || item.iconType == 'fill' || item.iconType == 'twotone'" [nzType]="item.icon" [nzTheme]='item.iconType'></span>
+                    <i *ngIf="item.iconType == 'font_awsome'" [class]="item.icon"></i>
+                    <i *ngIf="item.iconType == 'material'" class="material-icons">{{item.icon}}</i>
                 </div>
             </ng-container>
         </ng-template>
