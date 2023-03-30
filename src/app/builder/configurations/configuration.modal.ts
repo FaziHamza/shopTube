@@ -10479,23 +10479,31 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
-          key: 'theme',
+          key: 'iconType',
           type: 'select',
           wrappers: ["formly-vertical-wrapper"],
           props: {
             label: 'Icon type',
             options: [
               {
-                label: 'Outlined',
+                label: 'Icon outlined',
                 value: 'outline'
               },
               {
-                label: 'Fill',
+                label: 'Icon filled',
                 value: 'fill'
               },
               {
-                label: 'Twotone',
+                label: 'Icon twotone',
                 value: 'twotone'
+              },
+              {
+                label: 'Font Awsome',
+                value: 'font_awsome'
+              },
+              {
+                label: 'Material',
+                value: 'material'
               },
             ]
           },

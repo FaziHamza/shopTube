@@ -9,7 +9,7 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose , content:node.content , };
   }
   getIconConfig(node: any) {
-    return { icon: node.icon, theme: node.theme };
+    return { icon: node.icon, iconType: node.iconType };
   }
   getAnchorConfig(node: any) {
     return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed , target:node.target , bond:node.bond};

@@ -3857,7 +3857,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         isNextChild: false,
         icon: 'star',
-        theme: 'outline',
+        iconType: 'outline',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4528,15 +4528,15 @@ export class BuilderComponent implements OnInit {
                 },
                 {
                   label: 'col-6',
-                  value: 'w-1/2 px-2'
+                  value: 'w-1/2'
                 },
                 {
                   label: 'col-4',
-                  value: 'w-1/4 pr-1'
+                  value: 'w-1/4'
                 },
                 {
                   label: 'col-3',
-                  value: 'w-1/3 pr-1'
+                  value: 'w-1/3'
                 },
               ]
             }
@@ -5118,7 +5118,7 @@ export class BuilderComponent implements OnInit {
       case "icon":
         if (this.selectedNode) {
           this.selectedNode.icon = event.form.icon;
-          this.selectedNode.theme = event.form.theme;
+          this.selectedNode.iconType = event.form.iconType;
         }
         break;
       case "anchor":
