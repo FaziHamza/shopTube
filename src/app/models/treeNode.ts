@@ -117,6 +117,11 @@ export interface TreeNode {
   iconType?: any;
   text?: any;
   editable?: any;
+  dayMaxEvents?: any;
+  selectMirror?: any;
+  selectable?: any;
+  weekends?: any;
+  details?: any;
   editableTooltip?: any;
   copyable?: any;
   copyTooltips?: any;
@@ -186,6 +191,7 @@ export interface TreeNode {
   gridConfig?: any,
   haediing?: string,
   viewType?: string,
+  view?: string,
   tooltip?: any,
   labelText?: any,
   pendingText?: any,

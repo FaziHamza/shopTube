@@ -1286,38 +1286,58 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'tuiCalender') {
+    else if (value == 'calender') {
+      const TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
       const newNode = {
         id: 'common_' + Guid.newGuid(),
         key: 'common_' + Guid.newGuid(),
         title: 'calender_1',
-        type: "tuiCalender",
-        className: "w-10/12",
+        type: "calender",
+        className: "w-full",
         hideExpression: false,
         highLight: false,
         isNextChild: false,
         tooltip: "",
-        viewType: "month",
-        disabled: false,
+        view:'prev,next today',
+        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        // disabled: false,
+        weekends:true,
+        editable:true,
+        selectable:true,
+        selectMirror:true,
+        dayMaxEvents:true,
+        details:true,
         options: [
           {
-            id: 'cal1',
-            name: 'Personal',
-            "bgColor": '#bbdc00',
+            id: 1,
+            title: 'All-day event',
+            start: TODAY_STR,
+            backgroundColor:'#fbe0e0',
+            textColor:'#ea5455',
+            color:'#EF6C00',
+            borderColor:'#ea5455'
           },
           {
-            id: 'cal2',
-            name: 'Work',
-            bgColor: '#ffbb3b',
+            id: 2,
+            title: 'Timed event',
+            start: TODAY_STR,
+            end: TODAY_STR,
+            backgroundColor:'#fbe0e0',
+            textColor:'#ea5455',
+            color:'#EF6C00',
+            borderColor:'#ea5455'
           },
           {
-            id: 'cal2',
-            name: 'Work Tonight',
-            bgColor: 'black',
-          },
+            id: 3,
+            title: 'Timed event',
+            start: TODAY_STR ,
+            end: TODAY_STR ,
+            backgroundColor:'#fbe0e0',
+            textColor:'#ea5455',
+            color:'#EF6C00',
+            borderColor:'#ea5455'
+          }
         ],
-
-
         children: [
         ],
 
@@ -4260,8 +4280,8 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.fixedDivFields;
         break;
 
-      case "tuiCalender":
-        configObj = { ...configObj, ...this.clickButtonService.getTuiCalenderConfig(selectedNode) };
+      case "calender":
+        configObj = { ...configObj, ...this.clickButtonService.getCalenderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
         break;
 
@@ -5737,7 +5757,14 @@ export class BuilderComponent implements OnInit {
       case "calendar":
         if (this.selectedNode.id) {
           this.selectedNode.viewType = event.form.viewType;
-          this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode.view = event.form.view;
+          this.selectedNode.weekends = event.form.weekends;
+          this.selectedNode.editable = event.form.editable;
+          this.selectedNode.selectable = event.form.selectable;
+          this.selectedNode.selectMirror = event.form.selectMirror;
+          this.selectedNode.dayMaxEvents = event.form.dayMaxEvents;
+          this.selectedNode.details = event.form.details;
+          // this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
             this.requestSubscription = this.builderService.genericApis(event.form.statusApi).subscribe({
               next: (res) => {
