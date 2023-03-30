@@ -1,8 +1,7 @@
 <div class="m-1" *ngIf="softIconList.type != 'buttonGroup'">
   <div class={{softIconList.format}}>
     <!-- simple -->
-    {{softIconList?.hoverColor ? 'hover:bg-[' + softIconList?.hoverColor+']' : ''}}
-    <button  [ngClass]="softIconList?.hoverColor ? 'hover:bg-[' + softIconList?.hoverColor+']' : ''"  [nzType]="softIconList.nztype"
+    <button  [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = softIconList?.hoverColor" (mouseout)="bgColor = softIconList?.color"  [nzType]="softIconList.nztype"
       *ngIf="softIconList.type != 'dropdownButton' && !softIconList.href" nz-button [nzSize]="softIconList.nzSize"
       [disabled]="softIconList.disabled" [nzShape]="softIconList.nzShape" [nzGhost]='softIconList.nzGhost'
       [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger'
@@ -69,7 +68,7 @@
         <!-- simple -->
         <button [class]='[item.color, item.hoverColor]' class="text-white" *ngIf="item.type != 'dropdownButton' && !item.href" nz-button
           [nzSize]="item.nzSize" [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost'
-          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' 
+          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
           (click)="getButtonType(item?.type)"><span [ngClass]="softIconList.title ? 'mr-2' : ''
           " *ngIf="item.btnIcon" nz-icon [nzType]='item.btnIcon'></span>{{item.title}}
         </button>

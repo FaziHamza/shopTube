@@ -618,13 +618,13 @@ export const htmlTabsData = [
                 icon: "uil-arrow-break",
                 label: "Badge"
               },
+              // {
+              //   parameter: "treeView",
+              //   icon: "uil uil-file-alt",
+              //   label: "Tree View"
+              // },
               {
-                parameter: "treeView",
-                icon: "uil uil-file-alt",
-                label: "Tree View"
-              },
-              {
-                parameter: "tuiCalender",
+                parameter: "calender",
                 icon: "uil uil-file-alt",
                 label: "Calendar"
               },

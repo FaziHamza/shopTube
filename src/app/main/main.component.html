@@ -196,10 +196,12 @@
             </ng-container>
         </ng-template>
         <ng-template #twentythree>
-            <ng-container *ngIf="item.type == 'tuiCalender' ;else twentyfour">
+            <ng-container *ngIf="item.type == 'calender' ;else twentyfour">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
+                    <app-calendar [calenderData]="item"></app-calendar>
+
                     <!-- <app-tui-calendar [calendarData]="item"></app-tui-calendar> -->
                 </div>
             </ng-container>
@@ -670,7 +672,6 @@
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <!-- <app-tree-view [treeListData]="item"></app-tree-view> -->
-                    <app-calendar></app-calendar>
                 </div>
             </ng-container>
         </ng-template>

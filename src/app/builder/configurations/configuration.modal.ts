@@ -174,7 +174,7 @@ export class formFeildData {
             label: 'Background color on hover'
           }
         },
-       
+
         {
           key: 'format',
           type: 'select',
@@ -5894,22 +5894,71 @@ export class formFeildData {
             options: [
               {
                 label: 'Month',
-                value: 'month'
+                value: 'dayGridMonth'
               },
               {
                 label: 'Week',
-                value: 'week'
+                value: 'timeGridWeek'
               },
               {
                 label: 'Day',
-                value: 'day'
+                value: 'timeGridDay'
               },
-
+              {
+                label: 'List',
+                value: 'listWeek'
+              },
+              {
+                label: 'Month And Week',
+                value: 'dayGridMonth,timeGridWeek'
+              },
+              {
+                label: 'Month And Day',
+                value: 'dayGridMonth,timeGridDay'
+              },
+              {
+                label: 'Week And Day',
+                value: 'timeGridWeek,timeGridDay'
+              },
+              {
+                label: 'All',
+                value: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              },
             ]
           },
         },
-
-
+        {
+          key: 'view',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          defaultValue: "w-full",
+          props: {
+            label: 'View',
+            options: [
+              {
+                label: 'Previous',
+                value: 'prev'
+              },
+              {
+                label: 'Next',
+                value: 'next'
+              },
+              {
+                label: 'Today',
+                value: 'today'
+              },
+              {
+                label: 'Previous and Next',
+                value: 'prev,next'
+              },
+              {
+                label: 'Previous, Next and Today',
+                value: 'prev,next today'
+              },
+            ]
+          },
+        },
         {
           key: 'statusApi',
           type: 'select',
@@ -5927,14 +5976,57 @@ export class formFeildData {
             ]
           },
         },
-
-
         {
-          className: "col mt-5",
-          key: 'disabled',
+          className: "w-1/4 px-1",
+          key: 'weekends',
           type: 'checkbox',
           props: {
-            label: 'Disable',
+            label: 'Weekends',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'editable',
+          type: 'checkbox',
+          props: {
+            label: 'Editable',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'selectable',
+          type: 'checkbox',
+          props: {
+            label: 'Selectable',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'selectMirror',
+          type: 'checkbox',
+          props: {
+            label: 'Select Mirror',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'dayMaxEvents',
+          type: 'checkbox',
+          props: {
+            label: 'DayMax Events',
+          },
+          defaultValue: true
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'details',
+          type: 'checkbox',
+          props: {
+            label: 'Show Events Detail',
           },
           defaultValue: false
         },
@@ -5960,21 +6052,28 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
-
               {
                 className: "ml-2",
-                key: 'name',
+                key: 'title',
                 type: 'input',
                 props: {
-                  label: 'Name'
+                  label: 'Title'
                 }
               },
               {
                 className: "ml-2",
-                key: 'bgColor',
-                type: 'input',
+                key: 'start',
+                type: 'datetime',
                 props: {
-                  label: 'Backgroup Color'
+                  label: 'Start Date'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'end',
+                type: 'datetime',
+                props: {
+                  label: 'End Date'
                 }
               },
             ]
