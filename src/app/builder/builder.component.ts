@@ -878,7 +878,7 @@ export class BuilderComponent implements OnInit {
         title: data?.label,
         expanded: true,
         type: data?.configType,
-        className: 'w-1/3 px-1 py-1',
+        className: 'w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
         // type: data?.type,
         formlyType: data?.parameter,
         formly: [
@@ -1380,7 +1380,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'alert') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'alert_' + Guid.newGuid(),
         title: 'alert_1',
         type: "alert",
         className: "w-full",
@@ -1389,7 +1389,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         tooltip: "",
-        alertColor: "bg-blue-200",
+        alertColor: "bg-blue-200 text-blue-600",
         text: "This is an alert—check it out!",
         icon: "",
         alertType: 'success',
