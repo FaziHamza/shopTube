@@ -308,7 +308,7 @@ object {
   // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border: 1px solid #038edcb8 !important;
   border-radius: 4px !important;
-  background-color: #038ddc0e !important;
+  // background-color: #038ddc0e !important;
 }
 
 .height {
@@ -580,3 +580,10 @@ a.fc-event, a.fc-event:hover {
 // .my-class {
 //   color: var(--my-color); // Use the custom property in your global SCSS file
 // }
+.material-icons {
+  font-size: 16px !important;
+}
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected{
+  background-color: transparent !important;
+  padding: 0 0px !important
+}
