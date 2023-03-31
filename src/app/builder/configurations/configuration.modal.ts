@@ -593,99 +593,23 @@ export class formFeildData {
 
         {
           key: 'color',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color',
-            options: [
-              {
-                label: 'White',
-                value: 'bg-white-600'
-              },
-              {
-                label: 'Blue',
-                value: 'bg-blue-600'
-              },
-              {
-                label: 'Grey',
-                value: 'bg-gray-600'
-              },
-              {
-                label: 'Red',
-                value: 'bg-red-600'
-              },
-              {
-                label: 'Green',
-                value: 'bg-green-600'
-              },
-              {
-                label: 'Light Blue',
-                value: 'bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-yellow-600'
-              },
-              {
-                label: 'Purple',
-                value: 'bg-purple-600'
-              },
-              {
-                label: 'Black',
-                value: 'bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color'
+          }
         },
         {
           key: 'hoverColor',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color on Hover',
-            options: [
-              {
-                label: 'White',
-                value: 'hover:bg-white-400'
-              },
-              {
-                label: 'Blue',
-                value: 'hover:bg-blue-400'
-              },
-              {
-                label: 'Grey',
-                value: 'hover:bg-gray-400'
-              },
-              {
-                label: 'Red',
-                value: 'hover:bg-red-400'
-              },
-              {
-                label: 'Green',
-                value: 'hover:bg-green-400'
-              },
-              {
-                label: 'Light Blue',
-                value: 'hover:bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'hover:bg-yellow-400'
-              },
-              {
-                label: 'Purple',
-                value: 'hover:bg-purple-400'
-              },
-              {
-                label: 'Black',
-                value: 'hover:bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color on hover'
+          }
         },
         {
           key: 'btnIcon',
@@ -942,100 +866,23 @@ export class formFeildData {
         },
         {
           key: 'color',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color',
-            options: [
-              {
-                label: 'White',
-                value: 'bg-white-600'
-              },
-              {
-                label: 'Blue',
-                value: 'bg-blue-600'
-              },
-              {
-                label: 'Grey',
-                value: 'bg-gray-600'
-              },
-              {
-                label: 'Red',
-                value: 'bg-red-600'
-              },
-              {
-                label: 'Green',
-                value: 'bg-green-600'
-              },
-              {
-                label: 'Light Blue',
-                value: 'bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-yellow-600'
-              },
-              {
-                label: 'Purple',
-                value: 'bg-purple-600'
-              },
-              {
-                label: 'Black',
-                value: 'bg-black'
-              },
-
-            ]
-          },
-          defaultValue: 'bg-blue-200'
+            type: "color",
+            label: 'Background color'
+          }
         },
         {
           key: 'hoverColor',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color on Hover',
-            options: [
-              {
-                label: 'White',
-                value: 'hover:bg-white-400'
-              },
-              {
-                label: 'Blue',
-                value: 'hover:bg-blue-400'
-              },
-              {
-                label: 'Grey',
-                value: 'hover:bg-gray-400'
-              },
-              {
-                label: 'Red',
-                value: 'hover:bg-red-400'
-              },
-              {
-                label: 'Green',
-                value: 'hover:bg-green-400'
-              },
-              {
-                label: 'Light Blue',
-                value: 'hover:bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'hover:bg-yellow-400'
-              },
-              {
-                label: 'Purple',
-                value: 'hover:bg-purple-400'
-              },
-              {
-                label: 'Black',
-                value: 'hover:bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color on hover'
+          }
         },
         {
           key: 'format',
