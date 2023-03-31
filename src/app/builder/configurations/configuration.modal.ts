@@ -339,7 +339,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Option Hieght',
 
           },
@@ -490,7 +490,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'minuteStep',
           },
         },
@@ -500,7 +500,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'secondStep',
           },
         },
@@ -510,7 +510,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'hoursStep',
           },
         },
@@ -3733,59 +3733,65 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
-          template: '<div class="mt-3">Variables</div>'
-        },
-        {
-          key: 'variables',
-          type: 'repeatSection',
+          key: 'title',
+          type: 'input',
+          className: "w-1/6 px-1 mt-5",
           props: {
-            canAdd: true,
-            canRemove: true
-          },
-          fieldArray: {
-            className: 'ml-3 me-2',
-            fieldGroup: [
-              {
-                key: 'variableName',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'Variable Name',
-                  pattern: '^\\S*$'
-                }
-              },
-              {
-                key: 'variableType',
-                type: 'select',
-                className: "w-1/4 px-1",
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'Variable Type',
-                  options: [
-                    {
-                      label: 'String',
-                      value: 'string'
-                    },
-                    {
-                      label: 'Number',
-                      value: 'number'
-                    },
-                    {
-                      label: 'Decimal',
-                      value: 'decimal'
-                    }
-                  ],
-                },
-              },
-            ]
+            label: 'label'
           }
         },
-        {
-          template: '<div class="mb-3"></div>'
-        },
       ]
+    },
+    {
+      template: '<div class="bold-label mt-3">Variables</div>',
+    },
+    {
+      key: 'options',
+      type: 'repeatSection',
+      props: {
+        style: "margin-top: 6%;",
+        canAdd: true,
+        canRemove: true
+      },
+      fieldArray: {
+        className: 'ml-3 me-2',
+        fieldGroup: [
+          {
+            key: 'VariableName',
+            type: 'input',
+            className: "ml-2",
+            wrappers: ["formly-vertical-wrapper"],
+            props: {
+              label: 'Variable Name',
+              pattern: '^\\S*$'
+            }
+          },
+          // {
+          //   key: 'value',
+          //   type: 'select',
+          //   className: "w-1/4 px-1",
+          //   wrappers: ["formly-vertical-wrapper"],
+          //   props: {
+          //     label: 'Select API',
+          //     options: [
+          //       {
+          //         label: 'String',
+          //         value: 'string'
+          //       },
+          //       {
+          //         label: 'Number',
+          //         value: 'number'
+          //       },
+          //       {
+          //         label: 'Decimal',
+          //         value: 'decimal'
+          //       }
+          //     ]
+          //   },
+          // },
+        ]
+      }
     },
   ]
   pageHeaderFields: FormlyFieldConfig[] = [
@@ -5662,7 +5668,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/6 px-1",
           props: {
-            type:'number',
+            type: 'number',
             label: 'Upload limit'
           },
         },
@@ -5671,7 +5677,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/6 px-1",
           props: {
-            type:'number',
+            type: 'number',
             label: 'File size'
           },
         },
@@ -6411,7 +6417,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Width',
           }
         },
@@ -6421,7 +6427,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Height',
             tooltip: "Height of the Drawer dialog, only when placement is 'top' or 'bottom', having a higher priority than nzSize"
           }
@@ -7058,7 +7064,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'OverflowCount',
           }
         },
@@ -8401,8 +8407,8 @@ export class formFeildData {
                   label: 'Header'
                 }
               },
-             {
-               className: "ml-2",
+              {
+                className: "ml-2",
                 key: 'show',
                 type: 'checkbox',
                 wrappers: ["formly-vertical-wrapper"],
@@ -9035,6 +9041,26 @@ export class formFeildData {
             label: 'className',
           },
           defaultValue: 'w-1/4  px-1'
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'getVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'getVariable',
+            options:[]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'setVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'setVariable',
+            options:[]
+          }
         },
         {
           className: "w-1/4 mt-5 px-2",
