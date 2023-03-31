@@ -6521,7 +6521,7 @@ export class BuilderComponent implements OnInit {
       case "page":
         if (this.selectedNode.id) {
           this.selectedNode.title = event.form.title;
-          this.selectedNode.options = event.form?.options;
+          this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
         }
         break;
 
