@@ -83,7 +83,8 @@ export class BuilderClickButtonService {
       expandable: node.expandable,
       tableScroll: node.tableScroll,
       fixHeader: node.fixHeader,
-      sortDirections: node.sortDirections,
+      sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
+      filterMultiple: node.filterMultiple,
       sortOrder: node.sortOrder,
       fixedColumn: node.fixedColumn,
       options: node?.tableHeaders.map((obj:any) => {
@@ -91,6 +92,7 @@ export class BuilderClickButtonService {
           name: obj.name,
           key: obj.key,
           show: obj.show,
+          listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           id:0
         };
       }),
@@ -841,7 +843,7 @@ export class BuilderClickButtonService {
   }
   getPagesConfig(node: any) {
     return {
-      variables: node.screenVariables
+      options: node?.options
     }
   }
   getHeaderConfig(node: any) {
