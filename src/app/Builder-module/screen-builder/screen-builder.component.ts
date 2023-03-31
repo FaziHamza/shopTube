@@ -214,7 +214,6 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(): void {
-    
     this.isShow = false;
     this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
     console.log(this.listOfDisplayData);

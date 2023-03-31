@@ -118,17 +118,15 @@
                 </div>
               </ul>
               <!-- <nz-tree [nzData]="nodes" (nzClick)="openField($event)" nzDraggable nzBlockNode (nzOnDrop)="nzEvent($event)"></nz-tree> -->
+              
               <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
                 (nzOnDrop)="nzEvent($event)">
                 <ng-template #nzTreeTemplate let-node>
-                  <div class="flex">
-
-
+                  <div class="flex" [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
                     <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)" (click)="[openField(node),highlightSelect(node.origin.id,true)]">
                       <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
                     <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
-                      {{node.title}}
-
+                    {{node.title}}
                     </div>
                     <span *ngIf="screenPage">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node,node)">

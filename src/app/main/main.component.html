@@ -340,7 +340,7 @@
                         </div>
                         <!-- <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button> -->
                     </div>
-                    <div *ngIf="isLast" class="pt-1">
+                    <div *ngIf="isLast">
                         <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
                                 nzTheme="outline"></span>Submit</button>
                     </div>
@@ -360,7 +360,9 @@
                 <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                         nzType="question-circle" nzTheme="twotone"></span></span>
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <br>
+                    <div style="padding: 2%;">
+                        <br>
+                    </div>
                 </div>
             </ng-container>
         </ng-template>
@@ -727,9 +729,7 @@
                 <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <span nz-icon *ngIf="item.iconType == 'outline' || item.iconType == 'fill' || item.iconType == 'twotone'" [nzType]="item.icon" [nzTheme]='item.iconType'></span>
-                    <i *ngIf="item.iconType == 'font_awsome'" [class]="item.icon"></i>
-                    <i *ngIf="item.iconType == 'material'" class="material-icons">{{item.icon}}</i>
+                    <app-icon [type]="item.iconType" [icon]="item.icon"></app-icon>
                 </div>
             </ng-container>
         </ng-template>
