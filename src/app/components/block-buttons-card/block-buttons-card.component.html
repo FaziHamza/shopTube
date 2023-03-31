@@ -72,7 +72,7 @@
       nzType="question-circle" nzTheme="twotone"></span></span>
   <div class={{softIconList.btngroupformat}}>
     <nz-button-group>
-      <div class="m-1" *ngFor="let item of softIconList.children">
+      <div *ngFor="let item of softIconList.children">
         <!-- simple -->
         <button [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = item?.hoverColor"
           (mouseout)="bgColor = item?.color" class="text-white" *ngIf="item.type != 'dropdownButton' && !item.href"
