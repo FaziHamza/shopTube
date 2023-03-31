@@ -163,6 +163,7 @@ export interface TreeNode {
   fixedColumn?: any;
   sortOrder?: any;
   sortDirections?: any;
+  filterMultiple?: any;
   sort?: any;
   tableHeaders?: any;
   tableNoResultArray?: any;

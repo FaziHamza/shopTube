@@ -5832,18 +5832,37 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
           this.selectedNode.sortOrder = event.form?.sortOrder;
-          this.selectedNode.sortDirections = event.form?.sortDirections;
+          this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
+          this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj:any) => {
               let newObj = { ...obj };
+              let key = newObj.key;
               if (event.form.sortOrder) {
                 newObj.sortOrder = event.form.sortOrder;
               }
               if (event.form.sortDirections) {
-                let key = obj.key
                 newObj.sortDirections = event.form.sortDirections;
-                // newObj.sortFn = (a:any, b:any) => a[key][0][key].localeCompare(a[key][0][key]);
+                // let sortFn = (a: any, b: any) => {
+                //   const propA = newObj[key]?.toLowerCase() || '';
+                //   const propB = newObj[key]?.toLowerCase() || '';
+                //   return propA.localeCompare(propB);
+                // };
+                // newObj.sortFn = sortFn;
+                // newObj.sortFn = (a:any, b:any) => newObj.key.localeCompare(newObj.key);
+              }
+              if (event.form.filterMultiple) {
+                newObj.filterMultiple = event.form.filterMultiple;
+              }
+              if(newObj.listOfFilter)
+              {
+                newObj.listOfFilter = JSON.parse(newObj.listOfFilter);
+                // let filterFn = (address: string, item: any) => {
+                //   const propValue = item[key].toLowerCase();
+                //   return propValue.indexOf(address.toLowerCase()) !== -1;
+                // };
+                // newObj.filterFn = (address: string, item: any) => newObj.key.indexOf(newObj.key) !== -1;
               }
               return newObj;
             });

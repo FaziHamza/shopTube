@@ -8435,14 +8435,23 @@ export class formFeildData {
           props: {
             label: 'Sort Direction',
             options: [
-              { value: ['ascend'], label: 'Ascend' },
-              { value: ['descend'], label: 'Descend' },
-              { value: ['ascend', 'descend'], label: 'Ascend And Descend' },
-              { value: ['ascend', 'descend', null], label: 'All' },
-              { value: [null], label: 'No Need' },
+              { value: '["ascend"]', label: "Ascend" },
+              { value: '["descend"]', label: "Descend" },
+              { value: "[\"ascend\",\"descend\"]", label: "Ascend And Descend" },
+              { value: "[\"ascend\", \"descend\", null]", label: "All" },
+              { value: '[null]', label: "No Need" },
 
             ]
           },
+        },
+        {
+          key: 'filterMultiple',
+          type: 'checkbox',
+          className: "w-1/6 px-1 mt-5",
+          props: {
+            label: 'Filter Multiple',
+          },
+          defaultValue: false
         },
         {
           key: 'nzLoading',
@@ -8561,6 +8570,15 @@ export class formFeildData {
                 wrappers: ["formly-vertical-wrapper"],
                 props: {
                   label: 'Is Show'
+                }
+              },
+             {
+               className: "ml-2",
+                key: 'listOfFilter',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                props: {
+                  label: 'Filter List'
                 }
               },
               // {
