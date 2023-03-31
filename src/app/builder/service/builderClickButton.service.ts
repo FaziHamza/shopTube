@@ -417,6 +417,7 @@ export class BuilderClickButtonService {
   getTabsConfig(node: any) {
     return {
       icon: node.icon,
+      iconType: node['iconType'],
       tooltip: node.tooltip,
       disabled:node.disabled,
     }
@@ -764,7 +765,7 @@ export class BuilderClickButtonService {
       hideExpression: node.hideExpression,
       format: node.format,
       disabled: node.disabled,
-      btnIcon: node.btnIcon,
+      icon: node.btnIcon,
       tooltip: node.tooltip,
       nzBlock: node.nzBlock,
       nzSize: node.nzSize,
@@ -773,6 +774,7 @@ export class BuilderClickButtonService {
       nzGhost: node.nzGhost,
       nzDanger: node.nzDanger,
       nztype: node.nztype,
+      iconType: node['iconType'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -784,7 +786,7 @@ export class BuilderClickButtonService {
       options: node.dropdownOptions,
       format: node.format,
       tooltip: node.tooltip,
-      btnIcon: node.btnIcon,
+      icon: node.btnIcon,
       disabled: node.disabled,
       nzGhost: node.nzGhost,
       nzLoading: node.nzLoading,
@@ -796,6 +798,7 @@ export class BuilderClickButtonService {
       placement: node.placement,
       visible: node.visible,
       clickHide: node.clickHide,
+      iconType: node['iconType'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -820,7 +823,7 @@ export class BuilderClickButtonService {
       target: node.target,
       format: node.format,
       btnType: node.btnType,
-      btnIcon: node.btnIcon,
+      icon: node.btnIcon,
       disabled: node.disabled,
       nzGhost: node.nzGhost,
       nzLoading: node.nzLoading,
@@ -828,6 +831,7 @@ export class BuilderClickButtonService {
       nzSize: node.nzSize,
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
+      iconType: node['iconType'],
     }
   }
   getBtnGroupConfig(node: any) {
@@ -908,6 +912,7 @@ export class BuilderClickButtonService {
       status: node.status,
       label: node.label,
       subtitle: node.subtitle,
+      iconType: node['iconType'],
       // percentage: node.percentage,
     }
   }

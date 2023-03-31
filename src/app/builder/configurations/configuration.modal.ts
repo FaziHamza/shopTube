@@ -271,15 +271,15 @@ export class formFeildData {
             ]
           },
         },
-        {
-          key: 'btnIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          "wrappers": ["formly-vertical-wrapper"],
-          props: {
-            label: 'Button Icon'
-          }
-        },
+        // {
+        //   key: 'btnIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   "wrappers": ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Button Icon'
+        //   }
+        // },
         {
           className: "w-1/6 px-1 mt-5",
           key: 'disabled',
@@ -611,15 +611,15 @@ export class formFeildData {
             label: 'Background color on hover'
           }
         },
-        {
-          key: 'btnIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'Button Icon'
-          }
-        },
+        // {
+        //   key: 'btnIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Button Icon'
+        //   }
+        // },
         {
           key: 'format',
           type: 'select',
@@ -931,15 +931,15 @@ export class formFeildData {
             ]
           },
         },
-        {
-          key: 'btnIcon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'Button Icon'
-          }
-        },
+        // {
+        //   key: 'btnIcon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Button Icon'
+        //   }
+        // },
         {
           key: 'href',
           type: 'input',
@@ -2968,15 +2968,15 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'icon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'icon',
-          }
-        },
+        // {
+        //   key: 'icon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'icon',
+        //   }
+        // },
         {
           key: 'subtitle',
           type: 'input',
@@ -3469,15 +3469,15 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'icon',
-          type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'Icon',
-          }
-        },
+        // {
+        //   key: 'icon',
+        //   type: 'input',
+        //   className: "w-1/4 px-1",
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Icon',
+        //   }
+        // },
         {
           key: 'disabled',
           type: 'checkbox',
@@ -10413,7 +10413,7 @@ export class formFeildData {
       ]
     },
   ];
-  iconFields: FormlyFieldConfig[] = [
+  commonIconFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [

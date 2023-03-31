@@ -1129,7 +1129,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-bullseye",
                 label: "Color",
-                type: 'color',
+                type: 'input',
                 configType:'color',fieldType: 'color',
                 // maskString: "",
                 // maskLabel: ""

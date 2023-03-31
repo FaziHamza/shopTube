@@ -987,7 +987,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'insertButton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'insertButton_' + Guid.newGuid(),
         key: "insert" + Guid.newGuid(),
         hideExpression: false,
         title: 'insert_1',
@@ -1007,6 +1007,7 @@ export class BuilderComponent implements OnInit {
         nztype: "default",
         nzSize: "large",
         nzShape: 'default',
+        iconType: 'outline',
         nzLoading: false,
         nzGhost: false,
         children: [
@@ -1041,6 +1042,7 @@ export class BuilderComponent implements OnInit {
         clickHide: false,
         nzLoading: false,
         nzGhost: false,
+        iconType: 'outline',
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1079,7 +1081,7 @@ export class BuilderComponent implements OnInit {
         className: "w-1/3",
         color: "",
         hoverColor: "",
-        btnIcon: "redo",
+        icon: "redo",
         format: "text-left",
         btnDisables: false,
         nzDanger: false,
@@ -1089,6 +1091,7 @@ export class BuilderComponent implements OnInit {
         nzShape: 'default',
         nzLoading: false,
         nzGhost: false,
+        iconType: 'outline',
         children: [
         ],
 
@@ -1109,7 +1112,7 @@ export class BuilderComponent implements OnInit {
         className: "w-1/3",
         color: "",
         hoverColor: "",
-        btnIcon: "delete",
+        icon: "delete",
         format: "text-left",
         btnDisables: false,
         nzDanger: false,
@@ -1119,6 +1122,7 @@ export class BuilderComponent implements OnInit {
         nzShape: 'default',
         nzLoading: false,
         nzGhost: false,
+        iconType: 'outline',
         children: [
         ],
 
@@ -1451,6 +1455,7 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         tooltip: '',
         icon: 'star',
+        iconType:'outline',
         children: [
         ],
       } as TreeNode;
@@ -1523,6 +1528,7 @@ export class BuilderComponent implements OnInit {
         status: '',
         subtitle: '',
         percentage: '',
+        iconType : 'outline',
         children: [
         ],
       } as TreeNode;
@@ -1583,7 +1589,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'linkbutton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'linkbutton_' + Guid.newGuid(),
         title: 'linkbutton_1',
         type: "linkButton",
         highLight: false,
@@ -1601,6 +1607,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: "",
         nzSize: "default",
         nzShape: 'default',
+        iconType : 'outline',
         children: [
         ],
 
@@ -4115,7 +4122,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "icon":
         configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.iconFields;
+        this.fieldData.formData = _formFieldData.commonIconFields;
         break;
       case "anchor":
         configObj = { ...configObj, ...this.clickButtonService.getAnchorConfig(selectedNode) };
@@ -4303,6 +4310,7 @@ export class BuilderComponent implements OnInit {
 
       case "tabs":
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.tabsFields)
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
 
@@ -4317,7 +4325,9 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "mainTab":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
+        
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
 
@@ -4496,10 +4506,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "button":
         configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.buttonFields);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case "dropdownButton":
         configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
@@ -4508,6 +4520,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "linkButton":
         configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.linkButtonFields);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
       case "buttonGroup":
@@ -4549,15 +4562,15 @@ export class BuilderComponent implements OnInit {
                 },
                 {
                   label: 'col-6',
-                  value: 'w-1/2'
+                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
                 },
                 {
                   label: 'col-4',
-                  value: 'w-1/4'
+                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
                 },
                 {
                   label: 'col-3',
-                  value: 'w-1/3'
+                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
                 },
               ]
             }
@@ -4579,6 +4592,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "step":
         configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.stepperFields);
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
       case "mainStep":
@@ -4737,7 +4751,6 @@ export class BuilderComponent implements OnInit {
           });
         });
       });
-      this.updateNodes();
     });
   }
   addSection() {
@@ -4752,7 +4765,6 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
-
     let id = event.origin.id;
     let node = event.origin;
     if (this.screenPage) {
@@ -5593,7 +5605,6 @@ export class BuilderComponent implements OnInit {
               })
             }
           });
-          this.clickBack();
         }
         break;
 
@@ -5915,7 +5926,8 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.hoverColor = event.form.hoverColor;
-          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.btnIcon = event.form.icon;
+          this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
@@ -5939,7 +5951,7 @@ export class BuilderComponent implements OnInit {
       case "linkButton":
 
         if (this.selectedNode) {
-          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.btnIcon = event.form.icon;
           this.selectedNode.href = event.form.href;
           this.selectedNode.target = event.form.target;
           this.selectedNode.color = event.form.color;
@@ -5953,6 +5965,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.format = event.form.format;
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.btnType = event.form.target;
+          this.selectedNode['iconType'] = event.form.iconType;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
           // }
@@ -5964,7 +5977,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.hoverColor = event.form.hoverColor;
-          this.selectedNode.btnIcon = event.form.btnIcon;
+          this.selectedNode.btnIcon = event.form.icon;
           this.selectedNode.nzBlock = event.form.nzBlock;
           this.selectedNode.nzSize = event.form.nzSize;
           this.selectedNode.nzShape = event.form.nzShape;
@@ -5977,6 +5990,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.visible = event.form.visible;
           this.selectedNode.clickHide = event.form.clickHide;
           this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode['iconType'] = event.form.iconType;
 
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
@@ -6456,6 +6470,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.status = event.form.status;
           this.selectedNode.label = event.form.label;
           this.selectedNode.subtitle = event.form.subtitle;
+          this.selectedNode['iconType'] = event.form.iconType;
           // this.selectedNode.percentage = event.form.percentage;
 
           this.updateNodes()
@@ -6627,6 +6642,7 @@ export class BuilderComponent implements OnInit {
 
       case "tabs":
         if (this.selectedNode.id) {
+          this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.updateNodes();
@@ -7093,8 +7109,13 @@ export class BuilderComponent implements OnInit {
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
-  removeHighlightOnsaveScreen() {
-
+  addIconCommonConfiguration(configurationFields : any) {
+    let _formFieldData = new formFeildData();
+    if( _formFieldData.commonIconFields[0].fieldGroup){
+      _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
+        configurationFields[0].fieldGroup.unshift(element)
+      });
+    }
   }
 }
 
