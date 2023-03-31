@@ -149,8 +149,8 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    if(this.selectedNode){
-    this.highlightSelect(this.selectedNode.id, false);
+    if (this.selectedNode) {
+      this.highlightSelect(this.selectedNode.id, false);
     }
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
@@ -254,6 +254,11 @@ export class BuilderComponent implements OnInit {
         type: "page",
         footer: false,
         header: false,
+        options: [
+          {
+            VariableName: ''
+          }
+        ],
         expanded: false,
         isNextChild: true,
         children: [
@@ -686,11 +691,9 @@ export class BuilderComponent implements OnInit {
         footer: false,
         header: false,
         expanded: true,
-        screenVariables: [
+        options: [
           {
-            variableName: '',
-            type: '',
-            value: ''
+            VariableName: ''
           }
         ],
         highLight: false,
@@ -925,7 +928,7 @@ export class BuilderComponent implements OnInit {
                     wrapper: '',
                     floatFieldClass: '',
                     floatLabelClass: '',
-                    formatAlignment:'ltr',
+                    formatAlignment: 'ltr',
                   },
                   maxLength: 10000000,
                   minLength: 1,
@@ -997,7 +1000,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         className: "w-1/3",
         color: "",
-        hoverColor: "#00000",
+        hoverColor: "",
         btnIcon: "upload",
         tooltip: "",
         format: "text-left",
@@ -1026,8 +1029,8 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         className: "w-1/3",
-        color: "bg-green-600",
-        hoverColor: "hover:bg-green-400",
+        color: "",
+        hoverColor: "",
         btnIcon: "down",
         format: "text-left",
         disabled: false,
@@ -1077,8 +1080,8 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "update",
         className: "w-1/3",
-        color: "bg-blue-200",
-        hoverColor: "hover:bg-blue-200",
+        color: "",
+        hoverColor: "",
         btnIcon: "redo",
         format: "text-left",
         btnDisables: false,
@@ -1107,8 +1110,8 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         actionType: "delete",
         className: "w-1/3",
-        color: "bg-yellow-600",
-        hoverColor: "hover:bg-yellow-400",
+        color: "",
+        hoverColor: "",
         btnIcon: "delete",
         format: "text-left",
         btnDisables: false,
@@ -1299,44 +1302,44 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         tooltip: "",
-        view:'prev,next today',
+        view: 'prev,next today',
         viewType: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         // disabled: false,
-        weekends:true,
-        editable:true,
-        selectable:true,
-        selectMirror:true,
-        dayMaxEvents:true,
-        details:true,
+        weekends: true,
+        editable: true,
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true,
+        details: true,
         options: [
           {
             id: 1,
             title: 'All-day event',
             start: TODAY_STR,
-            backgroundColor:'#fbe0e0',
-            textColor:'#ea5455',
-            color:'#EF6C00',
-            borderColor:'#ea5455'
+            backgroundColor: '#fbe0e0',
+            textColor: '#ea5455',
+            color: '#EF6C00',
+            borderColor: '#ea5455'
           },
           {
             id: 2,
             title: 'Timed event',
             start: TODAY_STR,
             end: TODAY_STR,
-            backgroundColor:'#fbe0e0',
-            textColor:'#ea5455',
-            color:'#EF6C00',
-            borderColor:'#ea5455'
+            backgroundColor: '#fbe0e0',
+            textColor: '#ea5455',
+            color: '#EF6C00',
+            borderColor: '#ea5455'
           },
           {
             id: 3,
             title: 'Timed event',
-            start: TODAY_STR ,
-            end: TODAY_STR ,
-            backgroundColor:'#fbe0e0',
-            textColor:'#ea5455',
-            color:'#EF6C00',
-            borderColor:'#ea5455'
+            start: TODAY_STR,
+            end: TODAY_STR,
+            backgroundColor: '#fbe0e0',
+            textColor: '#ea5455',
+            color: '#EF6C00',
+            borderColor: '#ea5455'
           }
         ],
         children: [
@@ -4089,8 +4092,27 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-
+    debugger
     let _formFieldData = new formFeildData();
+
+    let veriableOptions: any[] = [];
+    if (this.nodes[0].options) {
+      for (let index = 0; index < this.nodes[0].options.length; index++) {
+        const element = this.nodes[0].options[index];
+        veriableOptions.push({
+          label: element.VariableName,
+          value: element.VariableName
+        })
+      }
+    }
+    const filteredFields: any = _formFieldData.commonOtherConfigurationFields[0].fieldGroup
+    const getVar = filteredFields.filter((x: any) => x.key == "getVariable");
+    const index = filteredFields.indexOf(getVar[0]);
+    if (_formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
+      _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
+      _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index + 1].props!.options;
+    }
+
     this.fieldData = new GenaricFeild({
       type: type,
       title: "Change Attribute Values",
@@ -4100,7 +4122,9 @@ export class BuilderComponent implements OnInit {
     let configObj: any = {
       id: selectedNode.id as string, className: selectedNode.className,
       key: selectedNode.key, title: selectedNode.title,
-      tooltip: selectedNode.tooltip, hideExpression: selectedNode.hideExpression
+      tooltip: selectedNode.tooltip,
+      getVariable: selectedNode?.getVariable,
+      setVariable: selectedNode?.setVariable, hideExpression: selectedNode.hideExpression
     };
 
     switch (type) {
@@ -4713,7 +4737,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   highlightSelect(id: any, highlightOrNot: boolean) {
-    this.applyOrRemoveHighlight(this.nodes[0], id,highlightOrNot);
+    this.applyOrRemoveHighlight(this.nodes[0], id, highlightOrNot);
     this.nodes.at(0)?.children?.forEach((element: any) => {
       this.applyOrRemoveHighlight(element, id, highlightOrNot);
       element.children.forEach((child: any) => {
@@ -5103,8 +5127,7 @@ export class BuilderComponent implements OnInit {
   }
   notifyEmit(event: actionTypeFeild): void {
 
-    if(event.type)
-    {
+    if (event.type) {
       this.selectedNode.title = event.form.title;
       this.selectedNode.className = event.form.className;
       this.selectedNode.tooltip = event.form.tooltip;
@@ -5836,7 +5859,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
-            let newHeaders = this.selectedNode.tableHeaders.map((obj:any) => {
+            let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
               let key = newObj.key;
               if (event.form.sortOrder) {
@@ -5870,7 +5893,7 @@ export class BuilderComponent implements OnInit {
           }
 
 
-          this.selectedNode.tableData = this.updateTableData(this.selectedNode.tableData,event.tableDta ? event.tableDta : event.form.options);
+          this.selectedNode.tableData = this.updateTableData(this.selectedNode.tableData, event.tableDta ? event.tableDta : event.form.options);
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
@@ -6410,8 +6433,8 @@ export class BuilderComponent implements OnInit {
 
       case "heading":
         if (this.selectedNode) {
-            this.selectedNode.heading = event.form.heading,
-          this.selectedNode.color = event.form.color;
+          this.selectedNode.heading = event.form.heading,
+            this.selectedNode.color = event.form.color;
           // this.selectedNode.paddingLeft = event.form.paddingLeft;
           // this.selectedNode.paddingRight = event.form.paddingRight;
           // this.selectedNode.paddingTop = event.form.paddingTop;
@@ -6497,7 +6520,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "page":
         if (this.selectedNode.id) {
-          this.selectedNode.screenVariables = event.form.variables;
+          this.selectedNode.title = event.form.title;
+          this.selectedNode.options = event.form?.options;
         }
         break;
 
@@ -6825,7 +6849,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "timeline":
         if (this.selectedNode.id) {
-            this.selectedNode.labelText = event.form.labelText,
+          this.selectedNode.labelText = event.form.labelText,
             this.selectedNode.dotIcon = event.form.dotIcon,
             this.selectedNode.mainIcon = event.form.mainIcon,
             this.selectedNode.timecolor = event.form.timecolor,
@@ -6880,11 +6904,11 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
     this.closeConfigurationList();
   }
-  updateTableData(tableData:any,tableHeaders:any) {
+  updateTableData(tableData: any, tableHeaders: any) {
     // Loop through each object in tableData
-    tableData.forEach((data:any) => {
+    tableData.forEach((data: any) => {
       // Loop through each object in tableHeaders
-      tableHeaders.forEach((header:any) => {
+      tableHeaders.forEach((header: any) => {
         // Check if the key exists in the data object
         if (!data.hasOwnProperty(header.key.toLowerCase())) {
           // If the key does not exist, add it with a value of null or an empty string
@@ -6969,12 +6993,12 @@ export class BuilderComponent implements OnInit {
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
-          if(formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard'){
+          if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
               this.selectedNode.size = 'default';
               // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
             }
-            if(fieldGroup[0].props.config['addonRight'] != ''|| fieldGroup[0].props.config['addonLeft'] != ''|| fieldGroup[0].props.config['prefixicon'] != ''|| fieldGroup[0].props.config['suffixicon'] != ''){
+            if (fieldGroup[0].props.config['addonRight'] != '' || fieldGroup[0].props.config['addonLeft'] != '' || fieldGroup[0].props.config['prefixicon'] != '' || fieldGroup[0].props.config['suffixicon'] != '') {
               // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
               fieldGroup[0].props.config['addonRight'] = '';
               fieldGroup[0].props.config['addonLeft'] = '';

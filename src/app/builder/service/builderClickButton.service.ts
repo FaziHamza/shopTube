@@ -839,7 +839,7 @@ export class BuilderClickButtonService {
   }
   getPagesConfig(node: any) {
     return {
-      variables: node.screenVariables
+      options: node?.options
     }
   }
   getHeaderConfig(node: any) {

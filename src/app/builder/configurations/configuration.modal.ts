@@ -339,7 +339,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Option Hieght',
 
           },
@@ -490,7 +490,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'minuteStep',
           },
         },
@@ -500,7 +500,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'secondStep',
           },
         },
@@ -510,7 +510,7 @@ export class formFeildData {
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'hoursStep',
           },
         },
@@ -593,99 +593,23 @@ export class formFeildData {
 
         {
           key: 'color',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color',
-            options: [
-              {
-                label: 'White',
-                value: 'bg-white-600'
-              },
-              {
-                label: 'Blue',
-                value: 'bg-blue-600'
-              },
-              {
-                label: 'Grey',
-                value: 'bg-gray-600'
-              },
-              {
-                label: 'Red',
-                value: 'bg-red-600'
-              },
-              {
-                label: 'Green',
-                value: 'bg-green-600'
-              },
-              {
-                label: 'Light Blue',
-                value: 'bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-yellow-600'
-              },
-              {
-                label: 'Purple',
-                value: 'bg-purple-600'
-              },
-              {
-                label: 'Black',
-                value: 'bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color'
+          }
         },
         {
           key: 'hoverColor',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color on Hover',
-            options: [
-              {
-                label: 'White',
-                value: 'hover:bg-white-400'
-              },
-              {
-                label: 'Blue',
-                value: 'hover:bg-blue-400'
-              },
-              {
-                label: 'Grey',
-                value: 'hover:bg-gray-400'
-              },
-              {
-                label: 'Red',
-                value: 'hover:bg-red-400'
-              },
-              {
-                label: 'Green',
-                value: 'hover:bg-green-400'
-              },
-              {
-                label: 'Light Blue',
-                value: 'hover:bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'hover:bg-yellow-400'
-              },
-              {
-                label: 'Purple',
-                value: 'hover:bg-purple-400'
-              },
-              {
-                label: 'Black',
-                value: 'hover:bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color on hover'
+          }
         },
         {
           key: 'btnIcon',
@@ -942,100 +866,23 @@ export class formFeildData {
         },
         {
           key: 'color',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color',
-            options: [
-              {
-                label: 'White',
-                value: 'bg-white-600'
-              },
-              {
-                label: 'Blue',
-                value: 'bg-blue-600'
-              },
-              {
-                label: 'Grey',
-                value: 'bg-gray-600'
-              },
-              {
-                label: 'Red',
-                value: 'bg-red-600'
-              },
-              {
-                label: 'Green',
-                value: 'bg-green-600'
-              },
-              {
-                label: 'Light Blue',
-                value: 'bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'bg-yellow-600'
-              },
-              {
-                label: 'Purple',
-                value: 'bg-purple-600'
-              },
-              {
-                label: 'Black',
-                value: 'bg-black'
-              },
-
-            ]
-          },
-          defaultValue: 'bg-blue-200'
+            type: "color",
+            label: 'Background color'
+          }
         },
         {
           key: 'hoverColor',
-          type: 'select',
+          type: 'input',
           className: "w-1/4 px-1",
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            label: 'Button Color on Hover',
-            options: [
-              {
-                label: 'White',
-                value: 'hover:bg-white-400'
-              },
-              {
-                label: 'Blue',
-                value: 'hover:bg-blue-400'
-              },
-              {
-                label: 'Grey',
-                value: 'hover:bg-gray-400'
-              },
-              {
-                label: 'Red',
-                value: 'hover:bg-red-400'
-              },
-              {
-                label: 'Green',
-                value: 'hover:bg-green-400'
-              },
-              {
-                label: 'Light Blue',
-                value: 'hover:bg-blue-200'
-              },
-              {
-                label: 'Yellow',
-                value: 'hover:bg-yellow-400'
-              },
-              {
-                label: 'Purple',
-                value: 'hover:bg-purple-400'
-              },
-              {
-                label: 'Black',
-                value: 'hover:bg-black'
-              },
-
-            ]
-          },
+            type: "color",
+            label: 'Background color on hover'
+          }
         },
         {
           key: 'format',
@@ -3886,59 +3733,65 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
-          template: '<div class="mt-3">Variables</div>'
-        },
-        {
-          key: 'variables',
-          type: 'repeatSection',
+          key: 'title',
+          type: 'input',
+          className: "w-1/6 px-1 mt-5",
           props: {
-            canAdd: true,
-            canRemove: true
-          },
-          fieldArray: {
-            className: 'ml-3 me-2',
-            fieldGroup: [
-              {
-                key: 'variableName',
-                type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'Variable Name',
-                  pattern: '^\\S*$'
-                }
-              },
-              {
-                key: 'variableType',
-                type: 'select',
-                className: "w-1/4 px-1",
-                wrappers: ["formly-vertical-wrapper"],
-                props: {
-                  label: 'Variable Type',
-                  options: [
-                    {
-                      label: 'String',
-                      value: 'string'
-                    },
-                    {
-                      label: 'Number',
-                      value: 'number'
-                    },
-                    {
-                      label: 'Decimal',
-                      value: 'decimal'
-                    }
-                  ],
-                },
-              },
-            ]
+            label: 'label'
           }
         },
-        {
-          template: '<div class="mb-3"></div>'
-        },
       ]
+    },
+    {
+      template: '<div class="bold-label mt-3">Variables</div>',
+    },
+    {
+      key: 'options',
+      type: 'repeatSection',
+      props: {
+        style: "margin-top: 6%;",
+        canAdd: true,
+        canRemove: true
+      },
+      fieldArray: {
+        className: 'ml-3 me-2',
+        fieldGroup: [
+          {
+            key: 'VariableName',
+            type: 'input',
+            className: "ml-2",
+            wrappers: ["formly-vertical-wrapper"],
+            props: {
+              label: 'Variable Name',
+              pattern: '^\\S*$'
+            }
+          },
+          // {
+          //   key: 'value',
+          //   type: 'select',
+          //   className: "w-1/4 px-1",
+          //   wrappers: ["formly-vertical-wrapper"],
+          //   props: {
+          //     label: 'Select API',
+          //     options: [
+          //       {
+          //         label: 'String',
+          //         value: 'string'
+          //       },
+          //       {
+          //         label: 'Number',
+          //         value: 'number'
+          //       },
+          //       {
+          //         label: 'Decimal',
+          //         value: 'decimal'
+          //       }
+          //     ]
+          //   },
+          // },
+        ]
+      }
     },
   ]
   pageHeaderFields: FormlyFieldConfig[] = [
@@ -5815,7 +5668,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/6 px-1",
           props: {
-            type:'number',
+            type: 'number',
             label: 'Upload limit'
           },
         },
@@ -5824,7 +5677,7 @@ export class formFeildData {
           type: 'input',
           className: "w-1/6 px-1",
           props: {
-            type:'number',
+            type: 'number',
             label: 'File size'
           },
         },
@@ -6564,7 +6417,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Width',
           }
         },
@@ -6574,7 +6427,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'Height',
             tooltip: "Height of the Drawer dialog, only when placement is 'top' or 'bottom', having a higher priority than nzSize"
           }
@@ -7211,7 +7064,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-wrapper"],
           props: {
-            type:'number',
+            type: 'number',
             label: 'OverflowCount',
           }
         },
@@ -8563,8 +8416,8 @@ export class formFeildData {
                   label: 'Header'
                 }
               },
-             {
-               className: "ml-2",
+              {
+                className: "ml-2",
                 key: 'show',
                 type: 'checkbox',
                 wrappers: ["formly-vertical-wrapper"],
@@ -9206,6 +9059,26 @@ export class formFeildData {
             label: 'className',
           },
           defaultValue: 'w-1/4  px-1'
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'getVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'getVariable',
+            options:[]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'setVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'setVariable',
+            options:[]
+          }
         },
         {
           className: "w-1/4 mt-5 px-2",
