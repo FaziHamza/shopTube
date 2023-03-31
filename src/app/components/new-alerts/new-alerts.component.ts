@@ -8,10 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NewAlertsComponent implements OnInit {
   @Input() alertData: any;
+  color: string = 'blue';
   constructor() { }
 
   ngOnInit(): void {
-    
     this.alertData;
   }
   // close(alert: AlertColor, alertData: AlertColor[]) {

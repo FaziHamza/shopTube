@@ -567,3 +567,16 @@ a.fc-event, a.fc-event:hover {
   background: #fff;
   background: var(--fc-page-bg-color,#fff);
 }
+.ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title, .ant-menu-vertical .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-item, .ant-menu-vertical-right .ant-menu-submenu-title {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.ant-menu-submenu-title .anticon+span {
+  margin-right: 10px !important;
+}
+// .ant-alert-message {
+//   color: var(--my-color) !important;
+// }   
+// .my-class {
+//   color: var(--my-color); // Use the custom property in your global SCSS file
+// }

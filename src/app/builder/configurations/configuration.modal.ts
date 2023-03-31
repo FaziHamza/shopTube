@@ -5825,6 +5825,9 @@ export class formFeildData {
         },
         {
           className: "w-1/4 px-1",
+        },
+        {
+          className: "w-1/6 px-1",
           key: 'weekends',
           type: 'checkbox',
           props: {
@@ -5833,7 +5836,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/6 px-1",
           key: 'editable',
           type: 'checkbox',
           props: {
@@ -5842,7 +5845,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/6 px-1",
           key: 'selectable',
           type: 'checkbox',
           props: {
@@ -5851,7 +5854,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/6 px-1",
           key: 'selectMirror',
           type: 'checkbox',
           props: {
@@ -5860,7 +5863,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/6 px-1",
           key: 'dayMaxEvents',
           type: 'checkbox',
           props: {
@@ -5869,7 +5872,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/6 px-1",
           key: 'details',
           type: 'checkbox',
           props: {

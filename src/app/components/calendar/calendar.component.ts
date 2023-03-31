@@ -49,6 +49,7 @@ export class CalendarComponent {
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
+    debugger
   }
 
   handleCalendarToggle() {

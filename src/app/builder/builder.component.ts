@@ -14,6 +14,7 @@ import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
+import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 
 @Component({
   selector: 'app-builder',
@@ -878,7 +879,7 @@ export class BuilderComponent implements OnInit {
         title: data?.label,
         expanded: true,
         type: data?.configType,
-        className: 'w-1/3 px-1 py-1',
+        className: 'w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
         // type: data?.type,
         formlyType: data?.parameter,
         formly: [
@@ -1380,7 +1381,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'alert') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'alert_' + Guid.newGuid(),
         title: 'alert_1',
         type: "alert",
         className: "w-full",
@@ -1389,7 +1390,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         isNextChild: false,
         tooltip: "",
-        alertColor: "bg-blue-200",
+        alertColor: "bg-blue-200 text-blue-600",
         text: "This is an alert—check it out!",
         icon: "",
         alertType: 'success',
@@ -5754,7 +5755,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "calendar":
+      case "calender":
         if (this.selectedNode.id) {
           this.selectedNode.viewType = event.form.viewType;
           this.selectedNode.view = event.form.view;
@@ -5766,18 +5767,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.details = event.form.details;
           // this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
-            this.requestSubscription = this.builderService.genericApis(event.form.statusApi).subscribe({
-              next: (res) => {
-                this.selectedNode.options = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
+            this.selectedNode.options = INITIAL_EVENTS;
+            // this.requestSubscription = this.builderService.genericApis(event.form.statusApi).subscribe({
+            //   next: (res) => {
+            //     this.selectedNode.options = res;
+            //     this.updateNodes();
+            //   },
+            //   error: (err) => {
+            //     console.error(err); // Log the error to the console
+            //     this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            //   }
+            // })
           }
-          // this.updateNodes();
+          // this.cdr.detectChanges();
         }
         break;
       case "masking":
