@@ -974,6 +974,15 @@ export class formFeildData {
         },
         {
           className: "w-1/6 px-1 mt-5",
+          key: 'disabled',
+          type: 'checkbox',
+          props: {
+            label: 'Disabled',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-1/6 px-1 mt-5",
           key: 'nzGhost',
           type: 'checkbox',
           props: {

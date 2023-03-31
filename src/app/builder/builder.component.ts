@@ -1592,8 +1592,8 @@ export class BuilderComponent implements OnInit {
         key: "button_" + Guid.newGuid(),
         hideExpression: false,
         tooltip: "",
-        color: "bg-blue-200",
-        hoverColor: "hover:bg-blue-200",
+        color: "",
+        hoverColor: "",
         target: "_blank",
         btnType: "_blank",
         href: "",
@@ -4552,11 +4552,11 @@ export class BuilderComponent implements OnInit {
                   value: 'w-1/2'
                 },
                 {
-                  label: 'col-4',
+                  label: 'col-3',
                   value: 'w-1/4'
                 },
                 {
-                  label: 'col-3',
+                  label: 'col-4',
                   value: 'w-1/3'
                 },
               ]
