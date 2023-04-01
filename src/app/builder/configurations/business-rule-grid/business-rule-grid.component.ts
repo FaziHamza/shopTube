@@ -313,6 +313,7 @@ export class BusinessRuleGridComponent implements OnInit {
   BuisnessRuleCondationList: any;
   buisnessForm: FormGroup;
   buisnessRuleTargetList: any = [];
+  buisnessRuleVariableTargetList: any = [];
   // bussinessRuleObj: any = [];
   UIRule: boolean = false;
   dynmaicRule: boolean = false;
@@ -482,7 +483,7 @@ export class BusinessRuleGridComponent implements OnInit {
     }
     this.buisnessRuleData = this.buisnessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
-    this.buisnessRuleTargetList;
+    // this.buisnessRuleTargetList;
     this.BuisnessRuleCondationList = [
       { name: "==", key: "==" },
       { name: "!=", key: "!=" },
@@ -571,11 +572,35 @@ export class BusinessRuleGridComponent implements OnInit {
     }
   }
   changeDynamicBuisnessRuleIf() {
+    this.buisnessRuleVariableTargetList = [];
     this.buisnessRuleTargetList = [];
     if (this.selectedNode.type == "gridList") {
+      let obj = {
+        'Group':'Grid Header',
+        'GroupData':[],
+        "Variable":"Variable Name",
+        "VariableData":[],
+      };
+      let arrayData = [];
+      this.buisnessRuleVariableTargetList.push(obj)
       for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
+        arrayData.push(this.selectedNode.tableHeaders[index]);
         this.buisnessRuleTargetList.push(this.selectedNode.tableHeaders[index]);
       }
+      this.buisnessRuleVariableTargetList[0].GroupDate = arrayData;
+    }
+    let veriableOptions: any[] = [];
+    if (this.nodes[0].options) {
+      for (let index = 0; index < this.nodes[0].options.length; index++) {
+        const element = this.nodes[0].options[index];
+        veriableOptions.push({
+          label: element.VariableName,
+          value: element.VariableName
+        })
+      }
+    }
+    if(veriableOptions.length > 0){
+      this.buisnessRuleVariableTargetList[0].VariableData = veriableOptions;
     }
   }
   buttonTextCahnge(empIndex: number, skillIndex: number) {
