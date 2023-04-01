@@ -12,6 +12,7 @@ export class MenuComponent implements OnInit {
   applicationBuilder: any;
   screenSetting: any;
   selectedApp:string = '';
+  isCollapsed: boolean = false;
   constructor(private employeeService: EmployeeService, private notification: NzNotificationService) { }
 
   ngOnInit(): void {
@@ -39,5 +40,9 @@ export class MenuComponent implements OnInit {
         );
       }
     }));
+  }
+  collapse(){
+    this.isCollapsed = !this.isCollapsed;
+    this.notify.emit(this.isCollapsed);
   }
 }

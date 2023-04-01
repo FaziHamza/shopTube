@@ -24,6 +24,7 @@ export class GenericFieldComponent implements OnInit {
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService) { }
   ngOnInit(): void {
     this.itemData;
+    this._dataSharedService.data = '';
   }
   actionform = new FormGroup({});
   onSubmitV1(e: any) {

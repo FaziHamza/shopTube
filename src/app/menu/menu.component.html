@@ -1,11 +1,11 @@
 <div class="flex flex-wrap">
   <div class="w-3/4">
-    <div class="ml-12">
-      <!-- <button nz-button nzType="primary">
-        <span nz-icon  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-      </button> -->
+    <div class="ml-12 p-4">
+      <button nz-button class="mobile-toggle mr-4" (click)="collapse()" nzType="primary">
+        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+      </button>
       <button
-        class="hover:bg-white  text-white bg-white border-color: rgb(255 255 255);  hover:text-white cursor-pointer text-center rounded-md  m-4"
+        class="hover:bg-white  text-white bg-white border-color: rgb(255 255 255);  hover:text-white cursor-pointer text-center rounded-md  "
         nz-button nz-dropdown nzType="link" [nzDropdownMenu]="menu">
         <h2 class="font-bold font-sans"><span nz-icon nzType="appstore" nzTheme="outline"></span></h2>
       </button>
