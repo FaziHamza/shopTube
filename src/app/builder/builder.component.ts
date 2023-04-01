@@ -4660,28 +4660,28 @@ export class BuilderComponent implements OnInit {
           this.fieldData.commonData[0].fieldGroup[4] = {
             className: "w-1/4 px-2 d-none",
             key: 'className',
-            type: 'select',
+            type: 'input',
             wrappers: ["formly-vertical-wrapper"],
             props: {
               label: 'Section ClassName',
-              options: [
-                {
-                  label: 'Full',
-                  value: 'w-full'
-                },
-                {
-                  label: 'col-6',
-                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
-                },
-                {
-                  label: 'col-4',
-                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
-                },
-                {
-                  label: 'col-3',
-                  value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
-                },
-              ]
+              // options: [
+              //   {
+              //     label: 'Full',
+              //     value: 'w-full'
+              //   },
+              //   {
+              //     label: 'col-6',
+              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
+              //   },
+              //   {
+              //     label: 'col-4',
+              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
+              //   },
+              //   {
+              //     label: 'col-3',
+              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
+              //   },
+              // ]
             }
           };
         configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
@@ -5116,7 +5116,7 @@ export class BuilderComponent implements OnInit {
     }
     return node;
   }
-  
+
   addFunctionsInHtml(type: any) {
     if (type == "dashonictabsAddNew")
       this.dashonictabsAddNew();
