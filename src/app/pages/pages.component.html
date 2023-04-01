@@ -1,3 +1,4 @@
+
 <div class="bg-white shadow-md  {{resData[0].highLight ? 'highLight' : ''}}" *ngIf="resData.length">
     <!-- PAGE HEADER -->
     <div class="site-page-header-ghost-wrapper"
@@ -66,7 +67,7 @@
                     </nz-page-header>
                 </div>
                 <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}">
-                    <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
+                    <app-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel" [screenName]="screenName"></app-main>
                 </div>
                 <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
                     *ngIf="j.children[2].footer">
@@ -84,7 +85,7 @@
                         [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
                         <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}"
                             *ngIf="resData.length > 0">
-                            <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"></app-main>
+                            <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"></app-main>
                         </div>
 
                         <br />
@@ -112,7 +113,7 @@
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
                     <div class="px-3 {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0">
-                        <app-main [mainData]="j.children[1].children"></app-main>
+                        <app-main [mainData]="j.children[1].children" [screenName]="screenName" [screenId]="screenId"></app-main>
                     </div>
                     <br />
                     <div class="py-3 px-6 {{j.isBordered?'border-t':''}} {{j.children[2].highLight ? 'highLight' : ''}} text-black font-semibold text-lg"

@@ -92,6 +92,7 @@ export class BuilderClickButtonService {
           name: obj.name,
           key: obj.key,
           show: obj.show,
+          sum: obj.sum,
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           id:0
         };
@@ -713,6 +714,8 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].props?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].props.config.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].props.config.addonRight,
+      getVariable:  node.formly[0].fieldGroup[0].props.config?.getVariable,
+      setVariable:  node.formly[0].fieldGroup[0].props.config?.setVariable,
       suffixicon: node.formly[0].fieldGroup[0].props.config.suffixicon,
       prefixicon: node.formly[0].fieldGroup[0].props.config.prefixicon,
       optionWidth: node.formly[0].fieldGroup[0].props.config?.['optionWidth'],

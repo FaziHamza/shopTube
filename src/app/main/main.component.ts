@@ -15,6 +15,8 @@ export class MainComponent implements OnInit {
   model: any = {};
   options: FormlyFormOptions = {};
   selectedTags: any[] = [];
+  @Input() screenName :any;
+  @Input() screenId :any;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService) { }
 
   ngOnInit(): void {
@@ -23,7 +25,7 @@ export class MainComponent implements OnInit {
   }
 
   submit() {
-    
+
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     this.form.value;

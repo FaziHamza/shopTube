@@ -4,6 +4,7 @@ import { ruleFactory } from '@elite-libs/rules-machine';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
 import { Subscription } from 'rxjs';
+import { ElementData } from '../models/element';
 
 @Component({
   selector: 'app-pages',
@@ -20,6 +21,7 @@ export class PagesComponent implements OnInit {
   screenData: any;
   businessRuleData: any;
   @Input() screenName = '';
+  @Input() screenId : any;
   requestSubscription: Subscription
   ngOnInit(): void {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
@@ -28,6 +30,7 @@ export class PagesComponent implements OnInit {
         this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
           next: (res) => {
             if (res.length > 0) {
+              this.screenId = res[0].moduleId;
               this.getUIRuleData(res[0].moduleName);
               this.getBusinessRule(this.screenName);
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
@@ -177,7 +180,40 @@ export class PagesComponent implements OnInit {
         // this.cdr.detectChanges();
         // this.cdr.detach();
       }
+      this.getSetVariableRule(model, currentValue);
+
     }
+  }
+  getSetVariableRule(model: any, value: any) {
+    //for grid amount assign to other input field
+    const filteredNodes = this.filterInputElements(this.resData);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+      if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+      }
+    });
+  }
+  filterInputElements(data: ElementData[]): any[] {
+    const inputElements: ElementData[] = [];
+
+    function traverse(obj: any): void {
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input') {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
   }
   getBusinessRule(screenName: string) {
     if (screenName) {

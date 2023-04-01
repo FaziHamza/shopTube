@@ -8434,6 +8434,15 @@ export class formFeildData {
                   label: 'Is Show'
                 }
               },
+              {
+                className: "ml-2",
+                key: 'sum',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-wrapper"],
+                props: {
+                  label: 'Sum'
+                }
+              },
              {
                className: "ml-2",
                 key: 'listOfFilter',
@@ -8947,6 +8956,26 @@ export class formFeildData {
           }
         },
         {
+          className: "w-1/4 px-1",
+          key: 'getVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'getVariable',
+            options:[]
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'setVariable',
+          type: 'select',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'setVariable',
+            options:[]
+          }
+        },
+        {
           key: 'rows',
           type: 'input',
           className: "w-1/4 px-1",
@@ -9069,26 +9098,26 @@ export class formFeildData {
           },
           defaultValue: 'w-1/4  px-1'
         },
-        {
-          className: "w-1/4 px-1",
-          key: 'getVariable',
-          type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'getVariable',
-            options:[]
-          }
-        },
-        {
-          className: "w-1/4 px-1",
-          key: 'setVariable',
-          type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
-          props: {
-            label: 'setVariable',
-            options:[]
-          }
-        },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'getVariable',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'getVariable',
+        //     options:[]
+        //   }
+        // },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'setVariable',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'setVariable',
+        //     options:[]
+        //   }
+        // },
         {
           className: "w-1/4 mt-5 px-2",
           key: 'hideExpression',

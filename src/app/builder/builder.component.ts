@@ -15,6 +15,7 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
+import { ElementData } from '../models/element';
 
 @Component({
   selector: 'app-builder',
@@ -43,6 +44,7 @@ export class BuilderComponent implements OnInit {
   screenModule: any;
   screenName: any;
   screenId: any = 0;
+  moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
   searchControllData: any = [];
@@ -212,6 +214,7 @@ export class BuilderComponent implements OnInit {
           if (res[0].menuData[0].children[1]) {
             this.screenId = res[0].id;
             // this.nodes = res[0].menuData;
+            this.moduleId = res[0].moduleId;
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
 
             // this.uiRuleGetData(res[0].moduleId);
@@ -579,8 +582,52 @@ export class BuilderComponent implements OnInit {
         // this.cdr.detectChanges();
 
       }
+      this.getSetVariableRule(model,currentValue);
     }
   }
+  getSetVariableRule(model:any,value:any){
+     //for grid amount assign to other input field
+     const filteredNodes = this.filterInputElements(this.nodes);
+     filteredNodes.forEach(node => {
+       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+       if(formlyConfig.setVariable != "")
+        if(model?.props?.config?.getVariable !="")
+       if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+         this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+       }
+     });
+  }
+  //#region GetInputFormly
+
+  filterInputElements(data: ElementData[]): any[] {
+    const inputElements: ElementData[] = [];
+
+    function traverse(obj: any): void {
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input') {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
+  }
+
+  // const data: Element[] = [ / your data here / ];
+
+  // const inputElements = filterInputElements(data);
+  // console.log(inputElements);
+
+  //#endregion
+
   updateFormlyModel() {
     this.formlyModel = Object.assign({}, this.formlyModel)
   }
@@ -901,6 +948,8 @@ export class BuilderComponent implements OnInit {
                     autocomplete: 'off',
                   },
                   config: {
+                    getVariable: '',
+                    setVariable: '',
                     addonLeft: '',
                     addonRight: '',
                     addonLeftIcon: '',
@@ -2465,6 +2514,7 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
             show: true,
+            sum: false,
             // listOfFilter: [
             //   { text: 'Joe', value: 'Joe' },
             //   { text: 'Jim', value: 'Jim', byDefault: true }
@@ -2479,6 +2529,7 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['ascend', 'descend', null],
             filterMultiple: true,
             show: true,
+            sum: false,
             listOfFilter: [
               // { text: 'Joe', value: 'Joe' },
               // { text: 'Jim', value: 'Jim', byDefault: true }
@@ -2493,6 +2544,7 @@ export class BuilderComponent implements OnInit {
             sortDirections: ['descend', null],
             listOfFilter: [],
             filterFn: null,
+            sum: false,
             show: true,
             filterMultiple: false
           },
@@ -2504,6 +2556,7 @@ export class BuilderComponent implements OnInit {
             sortFn: (a: any, b: any) => a.address.length - b.address.length,
             filterMultiple: false,
             show: true,
+            sum: false,
             listOfFilter: [
               { text: 'London', value: 'London' },
               { text: 'Sidney', value: 'Sidney' }
@@ -4112,12 +4165,16 @@ export class BuilderComponent implements OnInit {
         })
       }
     }
-    const filteredFields: any = _formFieldData.commonOtherConfigurationFields[0].fieldGroup
+    const filteredFields: any = _formFieldData.commonFormlyConfigurationFields[0].fieldGroup
     const getVar = filteredFields.filter((x: any) => x.key == "getVariable");
     const index = filteredFields.indexOf(getVar[0]);
-    if (_formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
-      _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
-      _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index + 1].props!.options;
+    // if (_formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
+    //   _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
+    //   _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index + 1].props!.options;
+    // }
+    if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup) {
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[index + 1].props!.options = veriableOptions;
     }
 
     this.fieldData = new GenaricFeild({
@@ -4130,8 +4187,7 @@ export class BuilderComponent implements OnInit {
       id: selectedNode.id as string, className: selectedNode.className,
       key: selectedNode.key, title: selectedNode.title,
       tooltip: selectedNode.tooltip,
-      getVariable: selectedNode?.getVariable,
-      setVariable: selectedNode?.setVariable, hideExpression: selectedNode.hideExpression
+      hideExpression: selectedNode.hideExpression
     };
 
     switch (type) {
@@ -4351,7 +4407,7 @@ export class BuilderComponent implements OnInit {
       case "mainTab":
         debugger
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
-        
+
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
 
@@ -4505,22 +4561,51 @@ export class BuilderComponent implements OnInit {
       case "number":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-        if (type == "tags" || type == "multiselect" || type == "search")
-          this.fieldData.formData = _formFieldData.selectFields;
-        else if (type == "radiobutton" || type == "checkbox")
-          this.fieldData.formData = _formFieldData.radioFields;
-        else if (type == 'color')
-          this.fieldData.formData = _formFieldData.colorFields;
-        else if (type == 'autoComplete')
-          this.fieldData.formData = _formFieldData.autoCompleteFields;
-        else if (type == 'date')
-          this.fieldData.formData = _formFieldData.zorroDateFields;
-        else if (type == 'number')
-          this.fieldData.formData = _formFieldData.numberFields;
-        else if (type == 'repeatSection')
-          this.fieldData.formData = _formFieldData.zorroSelectFields;
-        else if (type == 'timepicker')
-          this.fieldData.formData = _formFieldData.zorroTimeFields;
+        switch (type) {
+          case "tags":
+          case "multiselect":
+          case "search":
+            this.fieldData.formData = _formFieldData.selectFields;
+            break;
+          case "radiobutton":
+          case "checkbox":
+            this.fieldData.formData = _formFieldData.radioFields;
+            break;
+          case "color":
+            this.fieldData.formData = _formFieldData.colorFields;
+            break;
+          case "autoComplete":
+            this.fieldData.formData = _formFieldData.autoCompleteFields;
+            break;
+          case "date":
+            this.fieldData.formData = _formFieldData.zorroDateFields;
+            break;
+          case "number":
+            this.fieldData.formData = _formFieldData.numberFields;
+            break;
+          case "repeatSection":
+            this.fieldData.formData = _formFieldData.zorroSelectFields;
+            break;
+          case "timepicker":
+            this.fieldData.formData = _formFieldData.zorroTimeFields;
+            break;
+        }
+        // if (type == "tags" || type == "multiselect" || type == "search")
+        //   this.fieldData.formData = _formFieldData.selectFields;
+        // else if (type == "radiobutton" || type == "checkbox")
+        //   this.fieldData.formData = _formFieldData.radioFields;
+        // else if (type == 'color')
+        //   this.fieldData.formData = _formFieldData.colorFields;
+        // else if (type == 'autoComplete')
+        //   this.fieldData.formData = _formFieldData.autoCompleteFields;
+        // else if (type == 'date')
+        //   this.fieldData.formData = _formFieldData.zorroDateFields;
+        // else if (type == 'number')
+        //   this.fieldData.formData = _formFieldData.numberFields;
+        // else if (type == 'repeatSection')
+        //   this.fieldData.formData = _formFieldData.zorroSelectFields;
+        // else if (type == 'timepicker')
+        //   this.fieldData.formData = _formFieldData.zorroTimeFields;
         break;
 
       case "customMasking":
@@ -5549,9 +5634,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-
         if (this.selectedNode) {
-
           this.selectedNode.title = event.form.title;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
@@ -5605,6 +5688,8 @@ export class BuilderComponent implements OnInit {
             props.config['hoursStep'] = event.form.hoursStep;
             props.config['use12Hours'] = event.form.use12Hours;
             props.config['icon'] = event.form.icon;
+            props.config['setVariable'] = event.form?.setVariable;
+            props.config['getVariable'] = event.form?.getVariable;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
@@ -7130,6 +7215,7 @@ export class BuilderComponent implements OnInit {
           "menuData": currentData,
           "moduleId": makeData.moduleId,
         };
+        this.moduleId = makeData.moduleId;
         this.nodes = makeData.menuData;
         // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
         //   if (res.length > 0) {

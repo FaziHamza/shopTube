@@ -467,7 +467,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-    debugger
+
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
@@ -589,17 +589,20 @@ export class BusinessRuleGridComponent implements OnInit {
       }
       this.buisnessRuleVariableTargetList[0].GroupDate = arrayData;
     }
+
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
       for (let index = 0; index < this.nodes[0].options.length; index++) {
         const element = this.nodes[0].options[index];
-        veriableOptions.push({
-          label: element.VariableName,
-          value: element.VariableName
-        })
+        if(element.VariableName != ""){
+          veriableOptions.push({
+            label: element.VariableName,
+            value: element.VariableName
+          })
+        }
       }
     }
-    if(veriableOptions.length > 0){
+    if(veriableOptions.length > 0 && this.buisnessRuleVariableTargetList.length > 0){
       this.buisnessRuleVariableTargetList[0].VariableData = veriableOptions;
     }
   }
@@ -678,7 +681,7 @@ export class BusinessRuleGridComponent implements OnInit {
         }
         let _attributesRevert = {
         }
-        this.selectedNode.rowData.forEach((elementV1: any) => {
+        this.selectedNode?.rowData?.forEach((elementV1: any) => {
 
           query = elementV1[conditionKey] + " " + conditionOperator + " " + dataval;
           if (eval(query)) {
@@ -708,7 +711,7 @@ export class BusinessRuleGridComponent implements OnInit {
   }
   isInput: boolean = true;
   operatorChange(operator: string, index: number) {
-    debugger
+
     if (operator == "NotNull")
       this.buisnessRule().at(index).patchValue({
         isGetValue: false,
