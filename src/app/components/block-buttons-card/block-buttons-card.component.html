@@ -52,8 +52,8 @@
         [disabled]="softIconList.disabled" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
         [nzTrigger]="softIconList.trigger" [nzPlacement]="softIconList.placement" [nzClickHide]="softIconList.clickHide"
         [nzVisible]="softIconList.visible" [nzDanger]='softIconList.nzDanger' [nzShape]="softIconList.nzShape">
-        <span [ngClass]="softIconList.title ? 'mr-2' : ''
-        " *ngIf="softIconList.btnIcon" nz-icon [nzType]='softIconList.btnIcon'></span>{{softIconList.title}}
+        {{softIconList.title}} <span class="pl-1" *ngIf="softIconList.btnIcon"><app-icon
+          [type]="softIconList.iconType" [icon]="softIconList.btnIcon"></app-icon></span>
       </button>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu *ngFor="let options of softIconList.dropdownOptions">
@@ -117,8 +117,8 @@
             (mouseout)="bgColor = item?.color" class="text-white" nz-button nz-dropdown [nzDropdownMenu]="menu"
             [nzGhost]='item.nzGhost' [nzSize]="item.nzSize" [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock'
             [disabled]="item.disabled" [nzDanger]='item.nzDanger'>
-            <span *ngIf="item.btnIcon"><app-icon [type]="item.iconType"
-              [icon]="item.btnIcon"></app-icon></span>{{item.title}}
+            {{item.title}}<span *ngIf="item.btnIcon"><app-icon [type]="item.iconType"
+              [icon]="item.btnIcon"></app-icon></span>
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu *ngFor="let options of item.dropdownOptions">
