@@ -667,6 +667,33 @@ export class formFeildData {
           },
         },
         {
+          key: 'nztype',
+          type: 'select',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Button Type',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Primary',
+                value: 'primary'
+              },
+              {
+                label: 'Dashed',
+                value: 'dashed'
+              },
+              {
+                label: 'Text',
+                value: 'text'
+              },
+            ]
+          },
+        },
+        {
           key: 'trigger',
           type: 'select',
           className: "w-1/4 px-1",

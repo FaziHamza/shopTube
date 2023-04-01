@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DataSharedService {
 
-  private data: any;
+  public data: any;
 
   constructor() { }
 

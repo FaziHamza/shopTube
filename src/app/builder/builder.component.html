@@ -129,7 +129,7 @@
                     {{node.title}}
                     </div>
                     <span *ngIf="screenPage">
-                      <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node,node)">
+                      <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
                         <span nz-icon nzType="copy" nzTheme="outline"></span>
                       </span>
                       <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">

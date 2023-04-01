@@ -804,6 +804,7 @@ export class BuilderClickButtonService {
       visible: node.visible,
       clickHide: node.clickHide,
       iconType: node['iconType'],
+      nztype: node['nztype'],
     }
   }
   getAccordionButtonConfig(node: any) {

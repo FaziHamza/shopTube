@@ -723,7 +723,6 @@ export class BuilderComponent implements OnInit {
   }
 
   addControlToJson(value: string, data?: any) {
-
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
@@ -1070,7 +1069,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'dropdownButton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'dropdownButton_' + Guid.newGuid(),
         title: 'dropdownButton_1',
         hideExpression: false,
         tooltip: "",
@@ -1095,6 +1094,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
+        nztype: "default",
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1507,7 +1507,7 @@ export class BuilderComponent implements OnInit {
         disabled: false,
         tooltip: '',
         icon: 'star',
-        iconType:'outline',
+        iconType: 'outline',
         children: [
         ],
       } as TreeNode;
@@ -1580,7 +1580,7 @@ export class BuilderComponent implements OnInit {
         status: '',
         subtitle: '',
         percentage: '',
-        iconType : 'outline',
+        iconType: 'outline',
         children: [
         ],
       } as TreeNode;
@@ -1659,7 +1659,7 @@ export class BuilderComponent implements OnInit {
         btnIcon: "",
         nzSize: "default",
         nzShape: 'default',
-        iconType : 'outline',
+        iconType: 'outline',
         children: [
         ],
 
@@ -4896,174 +4896,227 @@ export class BuilderComponent implements OnInit {
   //   this.selectedNode = node;
   // }
   newChild: any = [];
-  insertAt(parent: any, node: any) {
-    // this.highlightSelect(this.selectedNode.id,true)
-    parent = parent.parentNode.origin;
+  // insertAt(parent: any, node: any) {
+  //   // this.highlightSelect(this.selectedNode.id,true)
+  //   parent = parent.parentNode.origin;
+  //   node = node.origin;
+  //   var nodeData = JSON.parse(JSON.stringify(node));
+  //   if (parent.children) {
+  //     const idx = parent.children.indexOf(node as TreeNode);
+  //     this.newChild = [];
+  //     if (nodeData.children[0] != undefined) {
+  //       if (nodeData.type != "buttonGroup" && nodeData.type != "stepperMain" && nodeData.type != "mainDashonicTabs" && nodeData.type != "gridList" && nodeData.type != "gridListEditDelete" && nodeData.type != "kanban" && nodeData.type != "accordionButton" && nodeData.type != "fixedDiv") {
+  //         nodeData.id = nodeData.id + Guid.newGuid();
+
+  //         for (let index = 0; index < this.nodes.length; index++) {
+  //           for (let k = 0; k < this.nodes[index].children.length; k++) {
+  //             if (this.nodes[index].children[k].type == 'pageBody') {
+  //               const element = JSON.parse(JSON.stringify(this.nodes[index].children[1].children[idx]));
+  //               // element.id = element.id+idx+1;
+  //               // formly checker
+  //               for (let i = 0; i < element.children.length; i++) {
+  //                 // for (let a = 0; a < this.nodes[index].children[1].children.length; a++) {
+  //                 //   this.nodes[index].children[1].children[a].id = Guid.newGuid();
+  //                 //   this.nodes[index].children[1].children[a].formly[0].key = Guid.newGuid();
+  //                 // }
+  //                 if (element.children[i].type == 'accordingBody') {
+  //                   element.children[i].id = element.children[i].id + Guid.newGuid();
+  //                   element.children[i].formly[0].key = element.children[i].formly[0].key + Guid.newGuid();
+  //                   for (let a = 0; a < element.children[i].children.length; a++) {
+  //                     if (element.children[i].children[a].formly != undefined) {
+  //                       element.children[i].children[a].formly[0].fieldGroup[0].key = element.children[i].children[a].formly[0].fieldGroup[0].key + Guid.newGuid();
+  //                       element.children[i].children[a].formly[0].fieldGroup[0].id = element.children[i].children[a].formly[0].fieldGroup[0].id + Guid.newGuid();
+  //                     } else if (element.children[i].children[a].type != "buttonGroup")
+  //                       element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
+  //                     else if (element.children[i].children[a].type == "buttonGroup") {
+  //                       element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
+  //                       for (let b = 0; b < element.children[i].children[a].children.length; b++) {
+  //                         element.children[i].children[a].children[b].id = element.children[i].children[a].children[b].id + Guid.newGuid();
+  //                       }
+  //                     }
+  //                   }
+
+  //                 }
+  //                 // else
+  //                 // element.children[j].children[i].id = element.children[j].children[i].id+ Guid.newGuid();
+  //               }
+  //               let obj = {};
+  //               if (nodeData.formly != undefined) {
+  //                 obj = { id: Guid.newGuid(), title: element.title, type: element.type, footer: element.footer, header: element.header, expanded: element.expanded, sectionDisabled: element.sectionDisabled, highLight: element.highLight, isNextChild: element.isNextChild, children: element.children[0].children, key: Guid.newGuid(), formly: element.formly }
+  //               }
+  //               else if (nodeData?.type == "buttonGroup") {
+  //                 for (let index = 0; index < element.children[0].children[1].children.length; index++) {
+  //                   if (element.children[0].children[1].children[index].type == "buttonGroup") {
+  //                     obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children[0].children[1].children[index].children, key: element.key }
+  //                   }
+  //                 }
+  //               }
+  //               else {
+  //                 obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
+  //               }
+  //               this.newChild.push(obj);
+  //             }
+  //           }
+  //         }
+
+  //         for (let index = 0; index < nodeData.children.length; index++) {
+  //           nodeData.children[index].id = nodeData.children[index].id + Guid.newGuid();
+  //           for (let indexChildren = 0; indexChildren < nodeData.children[index].children.length; indexChildren++) {
+  //             nodeData.children[index].children[indexChildren].id = nodeData.children[index].children[indexChildren].id + Guid.newGuid();
+  //           }
+  //         }
+  //         const newNode = {
+  //           id: nodeData.id + Guid.newGuid(),
+  //           title: nodeData.title,
+  //           type: nodeData?.type,
+  //           footer: nodeData.footer,
+  //           expanded: nodeData.expanded,
+  //           sectionDisabled: nodeData.sectionDisabled,
+  //           highLight: nodeData.highLight,
+  //           isNextChild: nodeData.isNextChild,
+  //           children: nodeData.children,
+  //           formly: nodeData?.formly,
+  //           key: nodeData.key + Guid.newGuid(),
+
+  //         } as TreeNode;
+  //         parent.children.splice(idx as number + 1, 0, newNode);
+  //       }
+  //       else {
+  //         nodeData.id = nodeData.id + Guid.newGuid();
+  //         nodeData.children.forEach((element: any) => {
+  //           element.id = element.id + Guid.newGuid();
+  //           if (element) {
+  //             if (element.length > 0) {
+  //               if (element.formly) {
+  //                 element.formly[0].fieldGroup[0].key = element.formly[0].fieldGroup[0].key + Guid.newGuid();
+  //               }
+  //             }
+  //           }
+  //           element.children.forEach((element1: any) => {
+  //             element1.id = element1.id + Guid.newGuid();
+  //             if (element1) {
+  //               if (element1.length > 0) {
+  //                 if (element1.formly) {
+  //                   element1.formly[0].fieldGroup[0].key = element1.formly[0].fieldGroup[0].key + Guid.newGuid();
+  //                 }
+  //               }
+  //             }
+  //           });
+  //         });
+  //         const newNode = nodeData;
+  //         const idx = parent.children.indexOf(node as TreeNode);
+  //         parent.children.splice(idx as number + 1, 0, newNode);
+  //       }
+  //     }
+  //     else {
+  //       if (nodeData.formly) {
+  //         if (nodeData.formly != undefined) {
+  //           nodeData.formly[0].fieldGroup[0].key = Guid.newGuid();
+  //           nodeData.formly[0].fieldGroup[0].id = Guid.newGuid();
+  //         }
+  //       }
+  //       nodeData.id = nodeData.id + Guid.newGuid();
+  //       const newNode = nodeData;
+  //       const idx = parent.children.indexOf(node as TreeNode);
+  //       parent.children.splice(idx as number + 1, 0, newNode);
+  //     }
+  //   }
+  //   else {
+  //     const idx = this.nodes.indexOf(node as TreeNode);
+  //     this.newChild = [];
+  //     for (let index = 0; index < this.nodes[idx].children.length; index++) {
+  //       const element = JSON.parse(JSON.stringify(this.nodes[idx].children[index]));
+  //       for (let j = 0; j < element.children.length; j++) {
+  //         if (node?.formly != undefined) {
+  //           element.children[j].formly[0].fieldGroup[0].key = Guid.newGuid();
+  //           element.children[j].formly[0].fieldGroup[0].id = Guid.newGuid();
+  //         } else
+  //           element.children[j].key = Guid.newGuid();
+  //       }
+  //       let obj = {};
+  //       if (nodeData.formly != undefined) {
+  //         obj = { id: Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: Guid.newGuid(), formly: element.formly }
+  //       }
+  //       else {
+  //         obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
+  //       }
+  //       this.newChild.push(obj);
+
+  //     }
+  //     // this.newChild.forEach(elementV2 => {
+  //     //   elementV2.id=elementV2.id+"f"+1;
+  //     // });
+
+  //     const newNode = {
+  //       id: this.nodes[idx].id + "_" + idx + '_1',
+  //       title: nodeData.title,
+  //       children: this.newChild,
+  //       formly: this.nodes[idx].formly,
+  //       type: this.nodes[idx].type,
+  //       className: nodeData?.className,
+  //     } as TreeNode;
+  //     this.nodes.splice(idx + 1, 0, newNode);
+
+  //   }
+
+  //   this.updateNodes();
+  //   // this.jsonStringifData();
+
+  //   // array.splice(index, 0, ...elementsArray);
+  // }
+  insertAt(node: any) {
+    debugger
+    let parent = node?.parentNode?.origin;
     node = node.origin;
-    var nodeData = JSON.parse(JSON.stringify(node));
-    if (parent.children) {
+    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
+      let newNode = JSON.parse(JSON.stringify(node));
+      newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
-      this.newChild = [];
-      if (nodeData.children[0] != undefined) {
-        if (nodeData.type != "buttonGroup" && nodeData.type != "stepperMain" && nodeData.type != "mainDashonicTabs" && nodeData.type != "gridList" && nodeData.type != "gridListEditDelete" && nodeData.type != "kanban" && nodeData.type != "accordionButton" && nodeData.type != "fixedDiv") {
-          nodeData.id = nodeData.id + Guid.newGuid();
-
-          for (let index = 0; index < this.nodes.length; index++) {
-            for (let k = 0; k < this.nodes[index].children.length; k++) {
-              if (this.nodes[index].children[k].type == 'pageBody') {
-                const element = JSON.parse(JSON.stringify(this.nodes[index].children[1].children[idx]));
-                // element.id = element.id+idx+1;
-                // formly checker
-                for (let i = 0; i < element.children.length; i++) {
-                  // for (let a = 0; a < this.nodes[index].children[1].children.length; a++) {
-                  //   this.nodes[index].children[1].children[a].id = Guid.newGuid();
-                  //   this.nodes[index].children[1].children[a].formly[0].key = Guid.newGuid();
-                  // }
-                  if (element.children[i].type == 'accordingBody') {
-                    element.children[i].id = element.children[i].id + Guid.newGuid();
-                    element.children[i].formly[0].key = element.children[i].formly[0].key + Guid.newGuid();
-                    for (let a = 0; a < element.children[i].children.length; a++) {
-                      if (element.children[i].children[a].formly != undefined) {
-                        element.children[i].children[a].formly[0].fieldGroup[0].key = element.children[i].children[a].formly[0].fieldGroup[0].key + Guid.newGuid();
-                        element.children[i].children[a].formly[0].fieldGroup[0].id = element.children[i].children[a].formly[0].fieldGroup[0].id + Guid.newGuid();
-                      } else if (element.children[i].children[a].type != "buttonGroup")
-                        element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
-                      else if (element.children[i].children[a].type == "buttonGroup") {
-                        element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
-                        for (let b = 0; b < element.children[i].children[a].children.length; b++) {
-                          element.children[i].children[a].children[b].id = element.children[i].children[a].children[b].id + Guid.newGuid();
-                        }
-                      }
-                    }
-
-                  }
-                  // else
-                  // element.children[j].children[i].id = element.children[j].children[i].id+ Guid.newGuid();
-                }
-                let obj = {};
-                if (nodeData.formly != undefined) {
-                  obj = { id: Guid.newGuid(), title: element.title, type: element.type, footer: element.footer, header: element.header, expanded: element.expanded, sectionDisabled: element.sectionDisabled, highLight: element.highLight, isNextChild: element.isNextChild, children: element.children[0].children, key: Guid.newGuid(), formly: element.formly }
-                }
-                else if (nodeData?.type == "buttonGroup") {
-                  for (let index = 0; index < element.children[0].children[1].children.length; index++) {
-                    if (element.children[0].children[1].children[index].type == "buttonGroup") {
-                      obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children[0].children[1].children[index].children, key: element.key }
-                    }
-                  }
-                }
-                else {
-                  obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
-                }
-                this.newChild.push(obj);
-              }
-            }
-          }
-
-          for (let index = 0; index < nodeData.children.length; index++) {
-            nodeData.children[index].id = nodeData.children[index].id + Guid.newGuid();
-            for (let indexChildren = 0; indexChildren < nodeData.children[index].children.length; indexChildren++) {
-              nodeData.children[index].children[indexChildren].id = nodeData.children[index].children[indexChildren].id + Guid.newGuid();
-            }
-          }
-          const newNode = {
-            id: nodeData.id + Guid.newGuid(),
-            title: nodeData.title,
-            type: nodeData?.type,
-            footer: nodeData.footer,
-            expanded: nodeData.expanded,
-            sectionDisabled: nodeData.sectionDisabled,
-            highLight: nodeData.highLight,
-            isNextChild: nodeData.isNextChild,
-            children: nodeData.children,
-            formly: nodeData?.formly,
-            key: nodeData.key + Guid.newGuid(),
-
-          } as TreeNode;
-          parent.children.splice(idx as number + 1, 0, newNode);
-        }
-        else {
-          nodeData.id = nodeData.id + Guid.newGuid();
-          nodeData.children.forEach((element: any) => {
-            element.id = element.id + Guid.newGuid();
-            if (element) {
-              if (element.length > 0) {
-                if (element.formly) {
-                  element.formly[0].fieldGroup[0].key = element.formly[0].fieldGroup[0].key + Guid.newGuid();
-                }
-              }
-            }
-            element.children.forEach((element1: any) => {
-              element1.id = element1.id + Guid.newGuid();
-              if (element1) {
-                if (element1.length > 0) {
-                  if (element1.formly) {
-                    element1.formly[0].fieldGroup[0].key = element1.formly[0].fieldGroup[0].key + Guid.newGuid();
-                  }
-                }
-              }
+      newNode.children.forEach((child: any) => {
+        child = this.changeIdAndkey(child);
+        child.children.forEach((child1: any) => {
+          child1 = this.changeIdAndkey(child1);
+          child1.children.forEach((child2: any) => {
+            child2 = this.changeIdAndkey(child2);
+            child2.children.forEach((child3: any) => {
+              child3 = this.changeIdAndkey(child3);
+              child3.children.forEach((child4: any) => {
+                child4 = this.changeIdAndkey(child4);
+                child4.children.forEach((child5: any) => {
+                  child5 = this.changeIdAndkey(child5);
+                  child5.children.forEach((child6: any) => {
+                    child6 = this.changeIdAndkey(child6);
+                  });
+                });
+              });
             });
           });
-          const newNode = nodeData;
-          const idx = parent.children.indexOf(node as TreeNode);
-          parent.children.splice(idx as number + 1, 0, newNode);
+        });
+      });
+      parent.children.splice(idx as number + 1, 0, newNode);
+      if (parent) {
+        if (parent.type == 'mainTab' || parent.type == 'dropdown') {
+          parent.nodes = parent.children.length;
         }
       }
-      else {
-        if (nodeData.formly) {
-          if (nodeData.formly != undefined) {
-            nodeData.formly[0].fieldGroup[0].key = Guid.newGuid();
-            nodeData.formly[0].fieldGroup[0].id = Guid.newGuid();
-          }
-        }
-        nodeData.id = nodeData.id + Guid.newGuid();
-        const newNode = nodeData;
-        const idx = parent.children.indexOf(node as TreeNode);
-        parent.children.splice(idx as number + 1, 0, newNode);
-      }
-    }
-    else {
-      const idx = this.nodes.indexOf(node as TreeNode);
-      this.newChild = [];
-      for (let index = 0; index < this.nodes[idx].children.length; index++) {
-        const element = JSON.parse(JSON.stringify(this.nodes[idx].children[index]));
-        for (let j = 0; j < element.children.length; j++) {
-          if (node?.formly != undefined) {
-            element.children[j].formly[0].fieldGroup[0].key = Guid.newGuid();
-            element.children[j].formly[0].fieldGroup[0].id = Guid.newGuid();
-          } else
-            element.children[j].key = Guid.newGuid();
-        }
-        let obj = {};
-        if (nodeData.formly != undefined) {
-          obj = { id: Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: Guid.newGuid(), formly: element.formly }
-        }
-        else {
-          obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
-        }
-        this.newChild.push(obj);
-
-      }
-      // this.newChild.forEach(elementV2 => {
-      //   elementV2.id=elementV2.id+"f"+1;
-      // });
-
-      const newNode = {
-        id: this.nodes[idx].id + "_" + idx + '_1',
-        title: nodeData.title,
-        children: this.newChild,
-        formly: this.nodes[idx].formly,
-        type: this.nodes[idx].type,
-        className: nodeData?.className,
-      } as TreeNode;
-      this.nodes.splice(idx + 1, 0, newNode);
-
+      this.updateNodes();
+    } else {
+      this.toastr.error("Don't copy this!", { nzDuration: 3000 });
     }
 
-    this.updateNodes();
-    // this.jsonStringifData();
-
-    // array.splice(index, 0, ...elementsArray);
   }
+  changeIdAndkey(node: any) {
+    node.id = node.id + Guid.newGuid();
+    if (node.formly) {
+      if (node.formly[0].key) {
+        node.formly[0].key = node.formly[0].key + Guid.newGuid();
+      } else if (node.formly[0].fieldGroup[0].key) {
+        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key + Guid.newGuid();
+      }
+    }
+    return node;
+  }
+  
   addFunctionsInHtml(type: any) {
     if (type == "dashonictabsAddNew")
       this.dashonictabsAddNew();
@@ -5974,8 +6027,7 @@ export class BuilderComponent implements OnInit {
               if (event.form.filterMultiple) {
                 newObj.filterMultiple = event.form.filterMultiple;
               }
-              if(newObj.listOfFilter)
-              {
+              if (newObj.listOfFilter) {
                 newObj.listOfFilter = JSON.parse(newObj.listOfFilter);
                 // let filterFn = (address: string, item: any) => {
                 //   const propValue = item[key].toLowerCase();
@@ -6101,6 +6153,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "dropdownButton":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.hoverColor = event.form.hoverColor;
@@ -6118,7 +6171,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.clickHide = event.form.clickHide;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode['iconType'] = event.form.iconType;
-
+          this.selectedNode['nztype'] = event.form.nztype;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -7238,9 +7291,9 @@ export class BuilderComponent implements OnInit {
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
-  addIconCommonConfiguration(configurationFields : any) {
+  addIconCommonConfiguration(configurationFields: any) {
     let _formFieldData = new formFeildData();
-    if( _formFieldData.commonIconFields[0].fieldGroup){
+    if (_formFieldData.commonIconFields[0].fieldGroup) {
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
         configurationFields[0].fieldGroup.unshift(element)
       });

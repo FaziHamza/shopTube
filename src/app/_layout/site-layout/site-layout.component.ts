@@ -40,7 +40,7 @@ export class SiteLayoutComponent implements OnInit {
     menuChildArrayTwoColumn: [],
     isTwoColumnCollapsed: false,
     allMenuItems: [],
-    showMenu : true,
+    showMenu: true,
   }
   // selectedTheme: any;
 
@@ -211,15 +211,23 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   notifyEmit(data: any) {
+    debugger
+    if (typeof data === 'boolean') {
+      this.selectedTheme.showMenu = data;
+      this.selectedTheme.rowClass = 'w-full';
+      let newData = JSON.parse(JSON.stringify(this.selectedTheme));
+      this.selectedTheme = newData;
 
-    if (data.selectedTheme) {
-      this.selectedTheme = data.selectedTheme
     } else {
-      this.selectedTheme = this.newSelectedTheme;
+      if (data.selectedTheme) {
+        this.selectedTheme = data.selectedTheme
+      } else {
+        this.selectedTheme = this.newSelectedTheme;
+      }
+      this.selectedTheme.allMenuItems = data.menuData;
+      // this.newMenuArrayFunc();
+      this.makeMenuData();
     }
-    this.selectedTheme.allMenuItems = data.menuData;
-    // this.newMenuArrayFunc();
-    this.makeMenuData();
   }
   notifyEmitForDropdown(data: any) {
 
@@ -301,11 +309,11 @@ export class SiteLayoutComponent implements OnInit {
     debugger
     this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
       if (res.length > 0) {
-        if(!res[0].selectedTheme.showMenu){
-          this.selectedTheme['showMenu'] = true;
-        }
         this.selectedTheme = res[0].selectedTheme;
         this.selectedTheme.allMenuItems = res[0].menuData;
+        if (!res[0].selectedTheme.showMenu) {
+          this.selectedTheme['showMenu'] = true;
+        }
         // this.menuItems.forEach((e: any) => {
         //   e["menuIcon"] = "up"
         // });
@@ -316,13 +324,17 @@ export class SiteLayoutComponent implements OnInit {
   }
   controlMenu() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 784) {
+    if (screenWidth <= 789) {
+      // this.selectedTheme.isCollapsed = true;
       this.selectedTheme.showMenu = false;
-      this.selectedTheme.topHeader = 'w-full';
+      this.selectedTheme.rowClass = 'w-full';
+      // this.selectedTheme.isCollapsed = true; 
     } else {
+      // this.selectedTheme.isCollapsed = false;
+      this.selectedTheme.rowClass = 'w-10/12';
       this.selectedTheme.showMenu = true;
-      this.selectedTheme.topHeaderMenu = 'w-1/6';
-      this.selectedTheme.topHeader = 'w-10/12';
+      // this.selectedTheme.topHeaderMenu = 'w-1/6';
+      // this.selectedTheme.topHeader = 'w-10/12';
     }
   }
 }
