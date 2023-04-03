@@ -2704,10 +2704,6 @@ export class formFeildData {
             label: 'Font Weight',
             options: [
               {
-                label: 'Bold',
-                value: 'font-bold'
-              },
-              {
                 label: 'Italic',
                 value: 'italic'
               },
