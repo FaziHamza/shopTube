@@ -20,7 +20,7 @@ import { CommonModule } from "@angular/common";
 @NgModule({
   declarations: [
     BuilderComponent,
-    ActionRuleComponent,BusinessRuleComponent,BusinessRuleGridComponent,UIRuleComponent,ValidationRuleComponent
+    ActionRuleComponent,BusinessRuleComponent,UIRuleComponent,ValidationRuleComponent
   ],
   imports: [
     CommonModule,

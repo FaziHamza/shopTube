@@ -93,8 +93,10 @@ export class BuilderClickButtonService {
           key: obj.key,
           show: obj.show,
           sum: obj.sum,
+          headerButton:'',
+          footerButton:'',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id:0
+          id:0,
         };
       }),
     };

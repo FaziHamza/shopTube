@@ -23,7 +23,6 @@ import { ElementData } from '../models/element';
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
-
   public editorOptions: JsonEditorOptions;
 
   makeOptions = () => new JsonEditorOptions();
@@ -590,6 +589,7 @@ export class BuilderComponent implements OnInit {
      const filteredNodes = this.filterInputElements(this.nodes);
      filteredNodes.forEach(node => {
        const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+       if(formlyConfig)
        if(formlyConfig.setVariable != "")
         if(model?.props?.config?.getVariable !="")
        if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
@@ -4059,7 +4059,12 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = node;
     this.selectdParentNode = parent;
     // this.highlightSelect(this.selectedNode.id,true)
-    this.clickButton(node?.type)
+    this.clickButton(node?.type);
+    this.dataSharedService.nodes = this.nodes;
+    this.dataSharedService.screenModule = this.screenModule;
+    this.dataSharedService.selectedNode = this.selectedNode;
+    this.dataSharedService.screenName = this.screenName;
+
   }
   applyHighLight(data: boolean, element: any) {
 
@@ -7064,6 +7069,7 @@ export class BuilderComponent implements OnInit {
       // Loop through each object in tableHeaders
       tableHeaders.forEach((header: any) => {
         // Check if the key exists in the data object
+        if(header.key)
         if (!data.hasOwnProperty(header.key.toLowerCase())) {
           // If the key does not exist, add it with a value of null or an empty string
           data[header.key] = null; // or data[header.key] = '';

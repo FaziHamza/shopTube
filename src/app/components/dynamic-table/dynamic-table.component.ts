@@ -17,9 +17,10 @@ export class DynamicTableComponent implements OnInit {
   @Input() tableHeaders: any[];
   @Input() data: any;
   editId: string | null = null;
-  @Output() notifyTable: EventEmitter<any> = new EventEmitter();
   @Input() screenName: any;
+  GridType:string = '';
   key: any;
+  footerData: any;
   childKey: any;
   allChecked = false;
   indeterminate = false;
@@ -27,7 +28,7 @@ export class DynamicTableComponent implements OnInit {
   scrollY: string | null = null;
   @Input() screenId: any;
   @Input() dataModel: any;
-  constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) {
+  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService) {
     // this.getHeader();
   }
 
@@ -43,10 +44,11 @@ export class DynamicTableComponent implements OnInit {
         debugger
         if (getRes.length > 0) {
           // this.dataModel['input34d5985f']='1313'
-          for (let m = 0; m < getRes.length; m++) {
-            if (getRes[m].gridKey == this.data.key && this.data.tableData) {
-              for (let index = 0; index < getRes[m].buisnessRulleData.length; index++) {
-                const elementv1 = getRes[m].buisnessRulleData[index];
+          let gridFilter = getRes.filter(a=>a.gridType == 'Body');
+          for (let m = 0; m < gridFilter.length; m++) {
+            if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
+              for (let index = 0; index < gridFilter[m].buisnessRulleData.length; index++) {
+                const elementv1 = gridFilter[m].buisnessRulleData[index];
                 let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
                 if (checkType.length == 0) {
                   console.log("No obj Found!")
@@ -106,14 +108,137 @@ export class DynamicTableComponent implements OnInit {
               }
             }
           }
+          let headerFilter = getRes.filter(a=>a.gridType == 'Header');
+          for (let m = 0; m < headerFilter.length; m++) {
+            if (headerFilter[m].gridKey == this.data.key && this.data.tableData) {
+              for (let index = 0; index < headerFilter[m].buisnessRulleData.length; index++) {
+                const elementv1 = headerFilter[m].buisnessRulleData[index];
+                let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+                if (checkType.length == 0) {
+                  console.log("No obj Found!")
+                }
+                else {
+                  for (let j = 0; j < this.data.tableData.length; j++) {
+                    //query
+                    let query: any;
+                    if (elementv1.oprator == 'NotNull')
+                      query = "1==1"
+                    else
+                      query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
 
+                    if (eval(query)) {
+                      for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                        const elementv2 = elementv1.getRuleCondition[k];
+                        if (elementv1.getRuleCondition[k].refranceOperator != '') {
+                          this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                        } else {
+                          if (k > 0) {
+                            this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                            this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                          }
+                          else
+                            this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                        }
+                        if (elementv2.multiConditionList.length > 0) {
+                          for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                            const elementv3 = elementv2.multiConditionList[l];
+                            const value = this.data.tableData[j][elementv1.target];
+                            this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                            // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                          }
+                        }
+                      }
+                      for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                        const elementv2 = elementv1.thenCondition[k];
+                        for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                          const elementv3 = elementv2.getRuleCondition[l];
+                          this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                          if (elementv3.multiConditionList.length > 0) {
+                            for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                              const elementv4 = elementv3.multiConditionList[m];
+                              const value = this.data.tableData[j][elementv2.thenTarget];
+                              this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                              // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+          }
+          let footerFilter = getRes.filter(a=>a.gridType == 'Footer');
+          for (let m = 0; m < footerFilter.length; m++) {
+            if (footerFilter[m].gridKey == this.data.key && this.data.tableData) {
+              for (let index = 0; index < footerFilter[m].buisnessRulleData.length; index++) {
+                const elementv1 = footerFilter[m].buisnessRulleData[index];
+                let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+                if (checkType.length == 0) {
+                  console.log("No obj Found!")
+                }
+                else {
+                  for (let j = 0; j < this.data.tableData.length; j++) {
+                    //query
+                    let query: any;
+                    if (elementv1.oprator == 'NotNull')
+                      query = "1==1"
+                    else
+                      query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
+
+                    if (eval(query)) {
+                      for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                        const elementv2 = elementv1.getRuleCondition[k];
+                        if (elementv1.getRuleCondition[k].refranceOperator != '') {
+                          this.footerData[elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                        }
+                        else {
+                          if (k > 0) {
+                            this.footerData[elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                          }
+                          else
+                          this.footerData[elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                        }
+                        if (elementv2.multiConditionList.length > 0) {
+                          for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                            const elementv3 = elementv2.multiConditionList[l];
+                            const value = this.footerData[elementv1.target];
+                            this.footerData[elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                          }
+                        }
+                      }
+                      for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                        const elementv2 = elementv1.thenCondition[k];
+                        for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                          const elementv3 = elementv2.getRuleCondition[l];
+                          this.footerData[elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                          if (elementv3.multiConditionList.length > 0) {
+                            for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                              const elementv4 = elementv3.multiConditionList[m];
+                              const value = this.footerData[elementv2.thenTarget];
+                              this.footerData[elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+
+              }
+            }
+          }
 
         }
         this.loadTableData();
       }));
   }
   columnName: any;
-  isVisible = false;
+  isHeaderVisible = false;
   // addColumn(): void {
   //   this.isVisible = true;
   // };
@@ -151,9 +276,7 @@ export class DynamicTableComponent implements OnInit {
     // }
     // this.isVisible = false;
   }
-  handleCancel(): void {
-    this.isVisible = false;
-  }
+
   addRow(): void {
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
@@ -174,8 +297,9 @@ export class DynamicTableComponent implements OnInit {
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.key = this.key.filter((header: any) => header.name !== 'color');
-    this.childKey = this.getChildrenData();
-    let checkcount = this.getParentChildrenKeys(this.tableData);
+
+    // this.childKey = this.getChildrenData();
+    // let checkcount = this.getParentChildrenKeys(this.tableData);
     // console.log(JSON.stringify(checkcount));
     if (!this.tableHeaders) {
       this.tableHeaders = this.key;
@@ -214,6 +338,22 @@ export class DynamicTableComponent implements OnInit {
     }
 
   }
+  handleCancel(): void {
+    this.isHeaderVisible = false;
+  }
+  showModal(type:any): void {
+    this.GridType = type;
+    this.isHeaderVisible = true;
+  }
+
+  handleOk(): void {
+    this.isHeaderVisible = false;
+  }
+
+  // handleCancel(): void {
+  //   console.log('Button cancel clicked!');
+  //   this.isVisible = false;
+  // }
   getSumOfRow(data: any) {
     if (data.sum) {
       if (this.tableData.some((item: any) => item.hasOwnProperty(data.key.toLowerCase()))) {
@@ -252,7 +392,6 @@ export class DynamicTableComponent implements OnInit {
       }
       return acc;
     }, []);
-    console.log(childKeys); // This will output an array of unique keys for all the child objects in the tableData array.
     return childKeys;
   }
   save() {

@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataSharedService {
-
+  // activeTabIndex = 0;
+  selectedNode:any;
+  screenModule:any;
+  nodes:any;
   public data: any;
 
   constructor() { }

@@ -8479,6 +8479,25 @@ export class formFeildData {
                   label: 'Filter List'
                 }
               },
+              {
+                className: "ml-2",
+                 key: 'headerButton',
+                 type: 'input',
+                 wrappers: ["formly-vertical-wrapper"],
+                 props: {
+                   label: 'Footer Button'
+                 }
+               },
+             {
+               className: "ml-2",
+                key: 'footerButton',
+                type: 'input',
+                wrappers: ["formly-vertical-wrapper"],
+                props: {
+                  label: 'Header Button'
+                }
+              },
+
               // {
               //   key: 'sortOrder',
               //   type: 'input',
