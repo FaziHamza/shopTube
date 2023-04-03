@@ -151,6 +151,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
+    debugger
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -3587,7 +3588,6 @@ export class BuilderComponent implements OnInit {
         type: "cascader",
         isNextChild: false,
         hideExpression: false,
-
         expandTrigger: 'hover',
         placeHolder: 'Please select',
         size: 'default',
@@ -3595,7 +3595,7 @@ export class BuilderComponent implements OnInit {
         expandIcon: 'down',
         showInput: true,
         disabled: false,
-        nodes: [
+        options: [
           {
             value: 'zhejiang',
             label: 'Zhejiang',
@@ -7217,6 +7217,7 @@ export class BuilderComponent implements OnInit {
     return JSON.stringify(data)
   }
   jsonStringifyWithObject(data: any) {
+    debugger
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
         return value.toString();
