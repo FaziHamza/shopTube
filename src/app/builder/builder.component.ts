@@ -150,6 +150,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
+    debugger
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -205,9 +206,10 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-
-    this.screenName = data;
-    this.requestSubscription = this.builderService.jsonBuilderSettingV1(data).subscribe({
+    debugger
+    this.screenName = data
+    const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
+    this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
       next: (res) => {
         if (res.length > 0) {
           if (res[0].menuData[0].children[1]) {
@@ -581,7 +583,7 @@ export class BuilderComponent implements OnInit {
         // this.cdr.detectChanges();
 
       }
-      this.getSetVariableRule(model,currentValue);
+      this.getSetVariableRule(model, currentValue);
     }
   }
   getSetVariableRule(model:any,value:any){
@@ -833,6 +835,7 @@ export class BuilderComponent implements OnInit {
         sectionClassName: "",
         footer: false,
         header: false,
+        borderColor: "#000000",
         expanded: true,
         sectionDisabled: "editable",
         labelPosition: "text-left",
@@ -866,6 +869,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         labelPosition: "text-left",
         isNextChild: true,
+        // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",
         formly: [
@@ -884,6 +888,9 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        // borderColor: "#000000",
+        backGroundColor: "#FFFFFF",
+        textColor: "#000000",
         footer: false,
         header: false,
         expanded: true,
@@ -906,6 +913,9 @@ export class BuilderComponent implements OnInit {
         title: 'Footer',
         type: "accordingFooter",
         key: "accordingFooter_" + Guid.newGuid(),
+        // borderColor: "#000000",
+        backGroundColor: "#FFFFFF",
+        textColor: "#000000",
         footer: false,
         header: false,
         expanded: true,
@@ -1000,7 +1010,7 @@ export class BuilderComponent implements OnInit {
                     this.checkConditionUIRule(model, currentVal);
                   }
                   // change: (model: any) => {
-                  //   debugger
+                  //
                   //   let currentVal = model.formControl.value;
                   //   if(!currentVal){
                   //     currentVal = (document.getElementById(model.id) as HTMLInputElement).value;
@@ -1061,6 +1071,7 @@ export class BuilderComponent implements OnInit {
         iconType: 'outline',
         nzLoading: false,
         nzGhost: false,
+        iconSize:15,
         children: [
         ],
 
@@ -1095,6 +1106,8 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         nztype: "default",
+        textColor:"#000000",
+        iconSize:15,
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1144,6 +1157,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -1175,6 +1189,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -1508,6 +1523,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         icon: 'star',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
       } as TreeNode;
@@ -1581,6 +1597,7 @@ export class BuilderComponent implements OnInit {
         subtitle: '',
         percentage: '',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
       } as TreeNode;
@@ -1660,6 +1677,7 @@ export class BuilderComponent implements OnInit {
         nzSize: "default",
         nzShape: 'default',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -3578,7 +3596,6 @@ export class BuilderComponent implements OnInit {
         type: "cascader",
         isNextChild: false,
         hideExpression: false,
-
         expandTrigger: 'hover',
         placeHolder: 'Please select',
         size: 'default',
@@ -3586,7 +3603,7 @@ export class BuilderComponent implements OnInit {
         expandIcon: 'down',
         showInput: true,
         disabled: false,
-        nodes: [
+        options: [
           {
             value: 'zhejiang',
             label: 'Zhejiang',
@@ -3942,6 +3959,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         icon: 'star',
         iconType: 'outline',
+        iconSize:15,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4157,7 +4175,6 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
     let _formFieldData = new formFeildData();
 
     let veriableOptions: any[] = [];
@@ -4394,6 +4411,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "tabs":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.tabsFields)
         this.fieldData.formData = _formFieldData.tabsFields;
@@ -4410,7 +4428,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "mainTab":
-        debugger
+
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
 
         this.fieldData.formData = _formFieldData.mainTabFields;
@@ -4701,7 +4719,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.accordingFooterFields;
         break;
       case "accordingBody":
-        // configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingBodyFields;
         break;
       case "step":
@@ -5070,7 +5088,7 @@ export class BuilderComponent implements OnInit {
   //   // array.splice(index, 0, ...elementsArray);
   // }
   insertAt(node: any) {
-    debugger
+
     let parent = node?.parentNode?.origin;
     node = node.origin;
     if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
@@ -5318,6 +5336,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.iconType = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
         }
         break;
       case "anchor":
@@ -6122,6 +6141,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzShape = event.form.nzShape;
           this.selectedNode.format = event.form.format;
           this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode['iconSize'] = event.form.iconSize;
         }
         break;
 
@@ -6150,6 +6170,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.btnType = event.form.target;
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
           // }
@@ -6158,7 +6179,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "dropdownButton":
-        debugger
+
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.hoverColor = event.form.hoverColor;
@@ -6177,6 +6198,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['nztype'] = event.form.nztype;
+          this.selectedNode['textColor'] = event.form.textColor;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -6656,6 +6679,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.label = event.form.label;
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           // this.selectedNode.percentage = event.form.percentage;
 
           this.updateNodes()
@@ -6707,6 +6731,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
+          this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
           this.selectedNode.size = event.form.size;
@@ -6778,6 +6803,7 @@ export class BuilderComponent implements OnInit {
       case "accordingHeader":
         if (this.selectedNode.id) {
           this.selectedNode.headingSize = event.form.headingSize;
+          // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
           this.selectedNode.header = event.form.header;
@@ -6789,11 +6815,17 @@ export class BuilderComponent implements OnInit {
 
       case "accordingBody":
         if (this.selectedNode.id) {
+          // this.selectedNode.borderColor = event.form.borderColor;
+          this.selectedNode.backGroundColor = event.form.backGroundColor;
+          this.selectedNode.textColor = event.form.textColor;
         }
         break;
 
       case "accordingFooter":
         if (this.selectedNode.id) {
+          // this.selectedNode.borderColor = event.form.borderColor;
+          this.selectedNode.backGroundColor = event.form.backGroundColor;
+          this.selectedNode.textColor = event.form.textColor;
           this.selectedNode.footer = event.form.footer;
         }
         break;
@@ -6829,6 +6861,7 @@ export class BuilderComponent implements OnInit {
       case "tabs":
         if (this.selectedNode.id) {
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.updateNodes();
@@ -7206,6 +7239,7 @@ export class BuilderComponent implements OnInit {
     return JSON.stringify(data)
   }
   jsonStringifyWithObject(data: any) {
+    debugger
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
         return value.toString();

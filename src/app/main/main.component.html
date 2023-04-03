@@ -729,7 +729,7 @@
                 <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-icon [type]="item.iconType" [icon]="item.icon"></app-icon>
+                    <app-icon [type]="item.iconType" [icon]="item.icon" [size]="item.IconSize"></app-icon>
                 </div>
             </ng-container>
         </ng-template>

@@ -57,7 +57,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   toggleCollapsed(): void {
-    debugger
+    
     if (this.selectedTheme.layout == 'twoColumn') {
       this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
       if (this.selectedTheme.isTwoColumnCollapsed) {
@@ -211,7 +211,7 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   notifyEmit(data: any) {
-    debugger
+    
     if (typeof data === 'boolean') {
       this.selectedTheme.showMenu = data;
       this.selectedTheme.rowClass = 'w-full';
@@ -306,7 +306,7 @@ export class SiteLayoutComponent implements OnInit {
   //     this.selectedTheme.isCollapsed = false;
   // }
   getMenu() {
-    debugger
+    
     this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
       if (res.length > 0) {
         this.selectedTheme = res[0].selectedTheme;

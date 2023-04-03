@@ -115,6 +115,7 @@ export interface TreeNode {
   closeText?: any;
   action?: any;
   iconType?: any;
+  iconSize?: any;
   text?: any;
   editable?: any;
   dayMaxEvents?: any;
@@ -352,6 +353,7 @@ export interface TreeNode {
   update?: boolean,
   create?: boolean,
   filter?: any,
+  borderColor?: any,
   backGroundColor?: any,
   labelPosition?: string,
   repeatable?: any,
