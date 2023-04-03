@@ -84,7 +84,7 @@
           *ngIf="item.type != 'dropdownButton' && !item.href" nz-button [nzSize]="item.nzSize"
           [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost' [nzLoading]='item.nzLoading'
           [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' (click)="getButtonType(item?.type)"><span
-            *ngIf="item.btnIcon" [size]="item?.iconSize"><app-icon [type]="item.iconType" [icon]="item.btnIcon"></app-icon></span>{{item.title}}
+            *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>{{item.title}}
         </button>
 
         <!-- link  -->
