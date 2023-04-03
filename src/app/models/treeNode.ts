@@ -115,6 +115,7 @@ export interface TreeNode {
   closeText?: any;
   action?: any;
   iconType?: any;
+  iconSize?: any;
   text?: any;
   editable?: any;
   dayMaxEvents?: any;

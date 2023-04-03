@@ -590,7 +590,16 @@ export class formFeildData {
             label: 'Button Text'
           }
         },
-
+        {
+          key: 'textColor',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: "color",
+            label: 'Text color'
+          }
+        },
         {
           key: 'color',
           type: 'input',
@@ -2704,10 +2713,6 @@ export class formFeildData {
             label: 'Font Weight',
             options: [
               {
-                label: 'Bold',
-                value: 'font-bold'
-              },
-              {
                 label: 'Italic',
                 value: 'italic'
               },
@@ -4227,32 +4232,28 @@ export class formFeildData {
             label: 'Heading Size',
             options: [
               {
-                label: 'Default',
-                value: ''
-              },
-              {
                 label: 'h1',
-                value: 'h1'
+                value: 'text-xl'
               },
               {
                 label: 'h2',
-                value: 'h2'
+                value: 'text-lg'
               },
               {
                 label: 'h3',
-                value: 'h3'
+                value: 'text-base'
               },
               {
                 label: 'h4',
-                value: 'h4'
+                value: 'text-md'
               },
               {
                 label: 'h5',
-                value: 'h5'
+                value: 'text-sm'
               },
               {
                 label: 'h6',
-                value: 'h6'
+                value: 'text-xs'
               },
             ],
           },
@@ -10642,6 +10643,16 @@ export class formFeildData {
                 value: 'material'
               },
             ]
+          },
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'iconSize',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type:'number',
+            label: 'Icon Size',
           },
         },
       ]

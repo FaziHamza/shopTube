@@ -40,7 +40,7 @@ export class DynamicTableComponent implements OnInit {
     this.loadTableData();
     if (this.screenId)
       this.builderService.jsonGridBusinessRuleGet(this.screenId).subscribe((getRes => {
-        debugger
+        
         if (getRes.length > 0) {
           // this.dataModel['input34d5985f']='1313'
           for (let m = 0; m < getRes.length; m++) {

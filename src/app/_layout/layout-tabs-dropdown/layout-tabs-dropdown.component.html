@@ -1,9 +1,10 @@
 <ul nz-menu nzMode="horizontal" [dir]="'rtl'">
-    <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" routerLinkActive="active" [routerLink]="'/pages/'+child.link" *ngFor="let child of layoutTabsDropdownData.children" >
+    <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" routerLinkActive="active"
+        [routerLink]="'/pages/'+child.link" *ngFor="let child of layoutTabsDropdownData.children">
         <ng-container *ngIf="child.children.length">
             <ul *ngFor="let child1 of child.children">
                 <ng-container *ngIf="child1.children.length">
-                    <li nz-submenu [nzTitle]="child1.title"  (click)="screenLoad(child1.link)">
+                    <li nz-submenu [nzTitle]="child1.title" (click)="screenLoad(child1.link)">
                         <ul *ngFor="let child2 of child1.children">
                             <li nz-menu-item (click)="screenLoad(child2.link)">{{child2.title}}</li>
                         </ul>
@@ -15,4 +16,21 @@
             </ul>
         </ng-container>
     </li>
+    <div *ngIf="moreMenu.length" style="flex-grow: 1">
+        <button nz-button nz-dropdown [nzDropdownMenu]="menu">More</button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                <ng-container  *ngFor="let item of moreMenu">
+                    <li *ngIf="item.children.length > 0" nz-submenu [nzTitle]="item.title">
+                        <ul *ngFor="let child of item.children">
+                            <li nz-menu-item>{{child.title}}</li>
+                        </ul>
+                    </li>
+                    <li nz-menu-item *ngIf="item.children.length == 0">
+                        {{item.title}}
+                    </li>
+                </ng-container>
+            </ul>
+        </nz-dropdown-menu>
+    </div>
 </ul>
