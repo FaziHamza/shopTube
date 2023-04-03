@@ -5,8 +5,8 @@
         [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
         [nzDisabled]="tabs.disabled">
         <ng-template #titleTemplate>
-            <span>
-                <app-icon [type]="items.iconType" [icon]="items.icon"></app-icon>
+            <span *ngIf="items.icon">
+                <app-icon [type]="items.iconType" [icon]="items.icon" [size]="items.iconSize"></app-icon>
             </span>
             {{items.title}}
             <span nz-tooltip *ngIf='items.tooltip' [nzTooltipTitle]='items.tooltip'><span nz-icon

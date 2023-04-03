@@ -206,9 +206,10 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-
-    this.screenName = data;
-    this.requestSubscription = this.builderService.jsonBuilderSettingV1(data).subscribe({
+    debugger
+    this.screenName = data
+    const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
+    this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
       next: (res) => {
         if (res.length > 0) {
           if (res[0].menuData[0].children[1]) {
@@ -582,20 +583,20 @@ export class BuilderComponent implements OnInit {
         // this.cdr.detectChanges();
 
       }
-      this.getSetVariableRule(model,currentValue);
+      this.getSetVariableRule(model, currentValue);
     }
   }
-  getSetVariableRule(model:any,value:any){
-     //for grid amount assign to other input field
-     const filteredNodes = this.filterInputElements(this.nodes);
-     filteredNodes.forEach(node => {
-       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
-       if(formlyConfig.setVariable != "")
-        if(model?.props?.config?.getVariable !="")
-       if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
-         this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
-       }
-     });
+  getSetVariableRule(model: any, value: any) {
+    //for grid amount assign to other input field
+    const filteredNodes = this.filterInputElements(this.nodes);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+      if (formlyConfig.setVariable != "")
+        if (model?.props?.config?.getVariable != "")
+          if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+            this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+          }
+    });
   }
   //#region GetInputFormly
 
@@ -1000,7 +1001,7 @@ export class BuilderComponent implements OnInit {
                     this.checkConditionUIRule(model, currentVal);
                   }
                   // change: (model: any) => {
-                  //   debugger
+                  //   
                   //   let currentVal = model.formControl.value;
                   //   if(!currentVal){
                   //     currentVal = (document.getElementById(model.id) as HTMLInputElement).value;
@@ -1061,6 +1062,7 @@ export class BuilderComponent implements OnInit {
         iconType: 'outline',
         nzLoading: false,
         nzGhost: false,
+        iconSize:15,
         children: [
         ],
 
@@ -1095,6 +1097,8 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         nztype: "default",
+        textColor:"#000000",
+        iconSize:15,
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1144,6 +1148,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -1175,6 +1180,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -1508,6 +1514,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         icon: 'star',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
       } as TreeNode;
@@ -1581,6 +1588,7 @@ export class BuilderComponent implements OnInit {
         subtitle: '',
         percentage: '',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
       } as TreeNode;
@@ -1660,6 +1668,7 @@ export class BuilderComponent implements OnInit {
         nzSize: "default",
         nzShape: 'default',
         iconType: 'outline',
+        iconSize:15,
         children: [
         ],
 
@@ -3942,6 +3951,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         icon: 'star',
         iconType: 'outline',
+        iconSize:15,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4152,7 +4162,6 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
     let _formFieldData = new formFeildData();
 
     let veriableOptions: any[] = [];
@@ -4389,6 +4398,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "tabs":
+        debugger
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.tabsFields)
         this.fieldData.formData = _formFieldData.tabsFields;
@@ -4405,7 +4415,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "mainTab":
-        debugger
+
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
 
         this.fieldData.formData = _formFieldData.mainTabFields;
@@ -5065,7 +5075,7 @@ export class BuilderComponent implements OnInit {
   //   // array.splice(index, 0, ...elementsArray);
   // }
   insertAt(node: any) {
-    debugger
+
     let parent = node?.parentNode?.origin;
     node = node.origin;
     if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
@@ -5313,6 +5323,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.iconType = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
         }
         break;
       case "anchor":
@@ -6117,6 +6128,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzShape = event.form.nzShape;
           this.selectedNode.format = event.form.format;
           this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode['iconSize'] = event.form.iconSize;
         }
         break;
 
@@ -6145,6 +6157,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzGhost = event.form.nzGhost;
           this.selectedNode.btnType = event.form.target;
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
           // }
@@ -6153,7 +6166,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "dropdownButton":
-        debugger
+
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.hoverColor = event.form.hoverColor;
@@ -6172,6 +6185,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['nztype'] = event.form.nztype;
+          this.selectedNode['textColor'] = event.form.textColor;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -6651,6 +6666,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.label = event.form.label;
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           // this.selectedNode.percentage = event.form.percentage;
 
           this.updateNodes()
@@ -6824,6 +6840,7 @@ export class BuilderComponent implements OnInit {
       case "tabs":
         if (this.selectedNode.id) {
           this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
           this.updateNodes();

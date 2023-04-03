@@ -11,8 +11,8 @@
                     nzTheme="twotone"></span></span>
         </div>
         <ng-template #characterIcon>
-            <app-icon [type]="item.iconType"
-                [icon]="item.icon"></app-icon>
+            <app-icon *ngIf="item.icon" [type]="item.iconType"
+                [icon]="item.icon" [size]="item.iconSize"></app-icon>
         </ng-template>
 
     </ng-container>

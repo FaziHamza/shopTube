@@ -6,13 +6,13 @@ import { Injectable } from "@angular/core";
 export class BuilderClickButtonService {
 
   getDrawerConfig(node: any) {
-    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose , content:node.content , };
+    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, };
   }
   getIconConfig(node: any) {
-    return { icon: node.icon, iconType: node.iconType };
+    return { icon: node.icon, iconType: node.iconType , iconSize:node['iconSize'] };
   }
   getAnchorConfig(node: any) {
-    return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed , target:node.target , bond:node.bond};
+    return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed, target: node.target, bond: node.bond };
   }
   getTransferConfig(node: any) {
 
@@ -87,14 +87,14 @@ export class BuilderClickButtonService {
       filterMultiple: node.filterMultiple,
       sortOrder: node.sortOrder,
       fixedColumn: node.fixedColumn,
-      options: node?.tableHeaders.map((obj:any) => {
+      options: node?.tableHeaders.map((obj: any) => {
         return {
           name: obj.name,
           key: obj.key,
           show: obj.show,
           sum: obj.sum,
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id:0
+          id: 0
         };
       }),
     };
@@ -105,7 +105,7 @@ export class BuilderClickButtonService {
   getRateFieldsConfig(node: any) {
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
-      ngvalue:node.ngvalue,
+      ngvalue: node.ngvalue,
     };
   }
 
@@ -421,8 +421,9 @@ export class BuilderClickButtonService {
     return {
       icon: node.icon,
       iconType: node['iconType'],
+      iconSize: node['iconSize'],
       tooltip: node.tooltip,
-      disabled:node.disabled,
+      disabled: node.disabled,
     }
   }
   getMenutab(node: any) {
@@ -695,7 +696,7 @@ export class BuilderClickButtonService {
       aftercopyIcon: node.aftercopyIcon,
       editableIcon: node.editableIcon,
       color: node.color,
-      fontstyle:  node.fontstyle,
+      fontstyle: node.fontstyle,
     }
   }
 
@@ -714,8 +715,8 @@ export class BuilderClickButtonService {
       formCheck: node.formly[0].fieldGroup[0].props?.['formCheck'],
       addonLeft: node.formly[0].fieldGroup[0].props.config.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].props.config.addonRight,
-      getVariable:  node.formly[0].fieldGroup[0].props.config?.getVariable,
-      setVariable:  node.formly[0].fieldGroup[0].props.config?.setVariable,
+      getVariable: node.formly[0].fieldGroup[0].props.config?.getVariable,
+      setVariable: node.formly[0].fieldGroup[0].props.config?.setVariable,
       suffixicon: node.formly[0].fieldGroup[0].props.config.suffixicon,
       prefixicon: node.formly[0].fieldGroup[0].props.config.prefixicon,
       optionWidth: node.formly[0].fieldGroup[0].props.config?.['optionWidth'],
@@ -780,6 +781,7 @@ export class BuilderClickButtonService {
       nzDanger: node.nzDanger,
       nztype: node.nztype,
       iconType: node['iconType'],
+      iconSize: node['iconSize'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -805,6 +807,8 @@ export class BuilderClickButtonService {
       clickHide: node.clickHide,
       iconType: node['iconType'],
       nztype: node['nztype'],
+      textColor: node['textColor'],
+      iconSize: node['iconSize'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -838,6 +842,7 @@ export class BuilderClickButtonService {
       nzBlock: node.nzBlock,
       nzDanger: node.nzDanger,
       iconType: node['iconType'],
+      iconSize: node['iconSize'],
     }
   }
   getBtnGroupConfig(node: any) {
@@ -865,29 +870,41 @@ export class BuilderClickButtonService {
     }
   }
   getSectionConfig(node: any) {
-
-    if (node.children?.at(1)?.children[0].formly) {
-      return {
-        title: node.title,
-        disabled: node.sectionDisabled,
-        className: node.className,
-        labelPosition: node.labelPosition,
-        repeatable: node.repeatable,
-        size: node.size,
-        status: node.status,
-        sectionClassName: node.sectionClassName,
-        isBordered: node.isBordered,
-        wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
-        formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
+    debugger
+    if (node.children[1].children.length > 0) {
+      if (node.children[1].children[0].formly) {
+        return {
+          title: node.title,
+          disabled: node.sectionDisabled,
+          className: node.className,
+          labelPosition: node.labelPosition,
+          repeatable: node.repeatable,
+          size: node.size,
+          status: node.status,
+          sectionClassName: node.sectionClassName,
+          isBordered: node.isBordered,
+          wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
+          formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
+        }
       }
-    }
-    else {
+      else {
+        return {
+          title: node.title,
+          disabled: node.sectionDisabled,
+          className: node.className,
+          titlePosition: node.labelPosition,
+          repeatable: node.repeatable,
+          isBordered: node.isBordered,
+        }
+      }
+    } else {
       return {
         title: node.title,
         disabled: node.sectionDisabled,
         className: node.className,
         titlePosition: node.labelPosition,
         repeatable: node.repeatable,
+        isBordered: node.isBordered,
       }
     }
   }
@@ -919,6 +936,7 @@ export class BuilderClickButtonService {
       label: node.label,
       subtitle: node.subtitle,
       iconType: node['iconType'],
+      iconSize: node['iconSize'],
       // percentage: node.percentage,
     }
   }

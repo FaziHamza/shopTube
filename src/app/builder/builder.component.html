@@ -59,7 +59,7 @@
         <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
     </div>
     <div class="w-1/2">
-      <nz-select [ngModel]="screenName" (ngModelChange)="getFormLayers($event)">
+      <nz-select [(ngModel)]="screenName" (ngModelChange)="getFormLayers($event)">
         <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
           *ngFor="let item of screenModule"></nz-option>
       </nz-select>

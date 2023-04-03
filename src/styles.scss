@@ -646,9 +646,9 @@ a.fc-event:hover {
 // .my-class {
 //   color: var(--my-color); // Use the custom property in your global SCSS file
 // }
-.material-icons {
-  font-size: 16px !important;
-}
+// .material-icons {
+//   font-size: 16px !important;
+// }
 
 .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: transparent !important;
@@ -692,3 +692,8 @@ a.fc-event:hover {
     display: none !important;
   }
 }
+// @media screen and (min-width: 1132) {
+//   .show-mbl-screen {
+//       display: none !important;
+//   }
+// }

@@ -49,7 +49,7 @@ export class CalendarComponent {
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
-    debugger
+    
   }
 
   handleCalendarToggle() {
@@ -57,7 +57,7 @@ export class CalendarComponent {
   }
 
   handleWeekendsToggle() {
-    debugger
+    
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
   }

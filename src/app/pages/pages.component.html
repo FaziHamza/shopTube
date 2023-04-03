@@ -46,7 +46,7 @@
                     <nz-page-header
                         class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
                         [nzGhost]="false">
-                        <nz-page-header-title>{{j.children[0].title}}
+                        <nz-page-header-title [class]="j.children[0].headingSize">{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
@@ -80,7 +80,7 @@
             <!-- COLLAPSABLE CASE -->
             <div *ngIf="j.children[0].expanded">
                 <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
-                    <nz-collapse-panel class="text-black font-semibold text-lg border-black-500"
+                    <nz-collapse-panel class="text-black font-semibold border-black-500 {{ j.children[0].headingSize}}"
                         [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"
                         [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
                         <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}"

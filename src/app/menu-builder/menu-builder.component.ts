@@ -709,7 +709,7 @@ export class MenuBuilderComponent implements OnInit {
     var downloadButtonScreen = 0;
     var screenIdListLength = this.screenIdList.length;
     this.screenIdList.forEach((element: any) => {
-      this.builderService.menuTabs(element).subscribe((res => {
+      this.builderService.screenById(element).subscribe((res => {
         downloadFileScreen++;
         if (res.length > 0) {
           resData.push(res[0]);
@@ -719,7 +719,7 @@ export class MenuBuilderComponent implements OnInit {
           if (this.buttonLinkArray.length > 0) {
             var length = this.buttonLinkArray.length;
             this.buttonLinkArray.forEach((element1: any) => {
-              this.builderService.menuTabs(element1).subscribe((res => {
+              this.builderService.screenById(element1).subscribe((res => {
                 downloadButtonScreen++;
                 if (res.length > 0) {
                   resData.push(res[0]);
@@ -1102,7 +1102,7 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    debugger
+    
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {

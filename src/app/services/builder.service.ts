@@ -174,7 +174,7 @@ export class BuilderService {
       this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
     );
   }
-  menuTabs(moduleId: any): Observable<TreeNode[]> {
+  screenById(moduleId: any): Observable<TreeNode[]> {
     return this.http.get<TreeNode[]>(
       this.baseUrl + "jsonBuilderSetting?moduleId=" + moduleId
     );

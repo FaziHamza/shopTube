@@ -22,7 +22,7 @@ export class BlockButtonsCardComponent {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService,
   ) { }
   ngOnInit(): void {
-    debugger
+    
     this.bgColor = this.softIconList?.color;
     this.url = window.location.origin;
   }
@@ -76,7 +76,7 @@ export class BlockButtonsCardComponent {
     this.isVisible = false;
   }
   changeColor(bgColor:any , hoverColor:any){
-    debugger
+    
     bgColor = hoverColor;
   }
 }
