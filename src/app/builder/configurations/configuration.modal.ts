@@ -4118,6 +4118,16 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
+        {
+          className: "w-1/4 px-1",
+          key: 'borderColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Border Color',
+            type: 'color',
+          }
+        },
         // {
         //   key: 'disabled',
         //   type: 'checkbox',
@@ -4247,6 +4257,16 @@ export class formFeildData {
             ],
           },
         },
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'borderColor',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Border Color',
+        //     type: 'color',
+        //   }
+        // },
         {
           className: "w-1/4 px-1",
           key: 'backGroundColor',
@@ -4300,7 +4320,36 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'borderColor',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Border Color',
+        //     type: 'color',
+        //   }
+        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'backGroundColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Back Ground Color',
+            type: 'color',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'textColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Text Color',
+            type: 'color',
+          }
+        },
         // {
         //   key: 'repeat',
         //   type: 'checkbox',
@@ -4316,7 +4365,36 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
+        // {
+        //   className: "w-1/4 px-1",
+        //   key: 'borderColor',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-wrapper"],
+        //   props: {
+        //     label: 'Border Color',
+        //     type: 'color',
+        //   }
+        // },
+        {
+          className: "w-1/4 px-1",
+          key: 'backGroundColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Back Ground Color',
+            type: 'color',
+          }
+        },
+        {
+          className: "w-1/4 px-1",
+          key: 'textColor',
+          type: 'input',
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Text Color',
+            type: 'color',
+          }
+        },
         {
           key: 'footer',
           type: 'checkbox',

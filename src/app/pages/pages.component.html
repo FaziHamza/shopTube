@@ -1,4 +1,3 @@
-
 <div class="bg-white shadow-md  {{resData[0].highLight ? 'highLight' : ''}}" *ngIf="resData.length">
     <!-- PAGE HEADER -->
     <div class="site-page-header-ghost-wrapper"
@@ -35,18 +34,20 @@
     <!-- SECTION -->
     <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
         <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className" class="pb-2"
-            [ngClass]="{'highLight': j.highLight}"  [ngStyle]="{
+            [ngClass]="{'highLight': j.highLight}" [ngStyle]="{
                 'padding-left': ((j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' || j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2') && i % 2 !== 0) ? '3px' : ((j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4') ? '3px' : ''),
-                'padding-right': (j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' && i % 2 !== 0) ? '3px' : ''
+                'padding-right': (j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' && i % 2 !== 0) ? '3px' : '',
+                'border-color': j.borderColor + '!important'
               }">
             <!-- INCOLAPSSABLE CASE -->
-            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0].expanded">
-                <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}"
-                    *ngIf="j.children[0].header">
-                    <nz-page-header
+            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0].expanded"
+                [style]="{'border-color': j.borderColor + '!important'}">
+                <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}" *ngIf="j.children[0].header"
+                    [style]="{'border-color': j.borderColor + '!important'}">
+                    <nz-page-header [style]="{'background-color': j.children[0].backGroundColor}"
                         class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
                         [nzGhost]="false">
-                        <nz-page-header-title>{{j.children[0].title}}
+                        <nz-page-header-title [style]="{'color': j.children[0].textColor}">{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
@@ -66,11 +67,14 @@
                         </nz-page-header-extra>
                     </nz-page-header>
                 </div>
-                <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}">
-                    <app-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel" [screenName]="screenName"></app-main>
+                <div class="p-6 {{j.children[1].highLight ? 'highLight' : ''}}"
+                    [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
+                    <app-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
+                        [screenName]="screenName"></app-main>
                 </div>
                 <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
-                    *ngIf="j.children[2].footer">
+                    *ngIf="j.children[2].footer"
+                    [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
                     {{j.children[2].title}}
                     <div *ngFor="let item of resData[0]?.children[1].children[i]">
                         <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
@@ -82,16 +86,19 @@
                 <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
                     <nz-collapse-panel class="text-black font-semibold text-lg border-black-500"
                         [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"
-                        [ngStyle]="j.isBordered?{}:{'border-radius': '4px','border': '0px'}">
+                        [ngStyle]="j.isBordered?{'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important','border-color': j.borderColor + '!important'}:{'border-radius': '4px','border': '0px','border-color': j.borderColor + '!important', 'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important'}">
                         <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}}"
-                            *ngIf="resData.length > 0">
-                            <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"></app-main>
+                            *ngIf="resData.length > 0"
+                            [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
+                            <app-main [mainData]="j.children[1].children" [dataModel]="formlyModel"
+                                [screenName]="screenName" [screenId]="screenId"></app-main>
                         </div>
 
                         <br />
                     </nz-collapse-panel>
                     <div class="py-3 px-10 {{j.isBordered?'border-t':''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg"
-                        *ngIf="j.children[2].footer">
+                        *ngIf="j.children[2].footer"
+                        [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
                         {{j.children[2].title}}
                         <div *ngFor="let item of j.children[0].children">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>
@@ -112,12 +119,15 @@
                     </ng-template>
                 </nz-collapse>
                 <div *ngIf="!j.children[0].header">
-                    <div class="px-3 {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0">
-                        <app-main [mainData]="j.children[1].children" [screenName]="screenName" [screenId]="screenId"></app-main>
+                    <div class="px-3 {{j.children[1].highLight ? 'highLight' : ''}}" *ngIf="resData.length > 0"
+                        [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
+                        <app-main [mainData]="j.children[1].children" [screenName]="screenName"
+                            [screenId]="screenId"></app-main>
                     </div>
                     <br />
                     <div class="py-3 px-6 {{j.isBordered?'border-t':''}} {{j.children[2].highLight ? 'highLight' : ''}} text-black font-semibold text-lg"
-                        *ngIf="j.children[2].footer">
+                        *ngIf="j.children[2].footer"
+                        [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor,'border-color': resData[0].children[0].borderColor + '!important'}">
                         {{j.children[2].title}}
                         <div *ngFor="let item of resData[0]?.children[1].children[i]">
                             <app-block-buttons-card [softIconList]="item"></app-block-buttons-card>

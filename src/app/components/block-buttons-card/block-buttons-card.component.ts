@@ -11,14 +11,14 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
   styleUrls: ['./block-buttons-card.component.scss']
 })
 export class BlockButtonsCardComponent {
-  bgColor : any;
+  bgColor: any;
   @Input() softIconList: any;
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];
   url: string;
   size: NzButtonSize = 'large';
-  color:"hover:bg-[#000000]";
+  color: "hover:bg-[#000000]";
   constructor(private modalService: NzModalService, public employeeService: EmployeeService,
   ) { }
   ngOnInit(): void {
@@ -70,12 +70,12 @@ export class BlockButtonsCardComponent {
     console.log('Button ok clicked!');
     this.isVisible = false;
   }
-
+  isHover: boolean = false;
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  changeColor(bgColor:any , hoverColor:any){
+  changeColor(bgColor: any, hoverColor: any) {
     debugger
     bgColor = hoverColor;
   }

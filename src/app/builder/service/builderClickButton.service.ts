@@ -870,6 +870,7 @@ export class BuilderClickButtonService {
       return {
         title: node.title,
         disabled: node.sectionDisabled,
+        borderColor: node.borderColor,
         className: node.className,
         labelPosition: node.labelPosition,
         repeatable: node.repeatable,
@@ -894,10 +895,16 @@ export class BuilderClickButtonService {
   getSectionFooterConfig(node: any) {
     return {
       footer: node.footer,
+      // borderColor: node.borderColor,
+      backGroundColor: node.backGroundColor,
+      textColor: node.textColor,
     }
   }
   getSectionBodyConfig(node: any) {
     return {
+      // borderColor: node.borderColor,
+      backGroundColor: node.backGroundColor,
+      textColor: node.textColor,
     }
   }
   getSectionHeaderConfig(node: any) {
@@ -906,6 +913,7 @@ export class BuilderClickButtonService {
       header: node.header,
       expanded: node.expanded,
       titlePosition: node.labelPosition,
+      // borderColor: node.borderColor,
       backGroundColor: node.backGroundColor,
       textColor: node.textColor,
     }
