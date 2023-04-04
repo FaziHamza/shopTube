@@ -82,7 +82,7 @@
         <!-- simple -->
         <button [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = item?.hoverColor"
           (mouseout)="bgColor = item?.color" class="text-white" *ngIf="item.type != 'dropdownButton' && !item.href"
-          nz-button [nzSize]="item.nzSize" [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost'
+          nz-button [nzType]="item.nztype" [nzSize]="item.nzSize" [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost'
           [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
           (click)="getButtonType(item?.type)"><span><app-icon *ngIf="item.btnIcon" [type]="item.iconType"
               [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>{{item.title}}
@@ -118,7 +118,7 @@
         </a>
         <!-- dropdown  -->
         <div class="dropdown " *ngIf="item.type == 'dropdownButton'">
-          <button [nzType]="softIconList.nztype" [ngStyle]="{ 'background-color': bgColor , 'color':item?.textColor }"
+          <button [nzType]="item.nztype" [ngStyle]="{ 'background-color': bgColor , 'color':item?.textColor }"
             (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" class="text-white" nz-button
             nz-dropdown [nzDropdownMenu]="menu" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
             [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'>
