@@ -5,7 +5,7 @@
             <input
                 [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
                 [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-                [nzBorderless]="to.config?.border" />
+                [nzBorderless]="to.config?.border" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"/>
             <nz-autocomplete [nzWidth]="to.config?.optionWidth" [nzDataSource]="list"
                 [nzDefaultActiveFirstOption]="true" [nzBackfill]="false" #auto></nz-autocomplete>
             <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
@@ -16,7 +16,7 @@
     <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
         <input [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-            [nzBorderless]="to.config?.border" />
+            [nzBorderless]="to.config?.border" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"/>
         <nz-autocomplete [nzWidth]="to.config?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
             [nzBackfill]="false" #auto></nz-autocomplete>
     </nz-input-group>
@@ -30,7 +30,7 @@
     <input
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-        [nzBorderless]="to.config?.border" />
+        [nzBorderless]="to.config?.border" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"/>
     <nz-autocomplete [nzWidth]="to.config?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
         [nzBackfill]="false" #auto></nz-autocomplete>
     <label for="floating_standard"

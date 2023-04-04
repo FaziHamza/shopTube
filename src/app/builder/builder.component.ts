@@ -7285,7 +7285,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-
+    debugger
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
