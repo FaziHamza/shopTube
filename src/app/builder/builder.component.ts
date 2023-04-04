@@ -206,7 +206,6 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-    debugger
     this.screenName = data
     const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
     this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
@@ -7239,7 +7238,6 @@ export class BuilderComponent implements OnInit {
     return JSON.stringify(data)
   }
   jsonStringifyWithObject(data: any) {
-    debugger
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
         return value.toString();

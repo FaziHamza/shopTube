@@ -1,5 +1,5 @@
-{{tableData | json}}
-{{key | json}}
+{{tableHeaders | json}}
+<!-- {{key | json}} -->
 <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <label class="form-label ml-3 text-base font-bold w-3/12">Column Name</label>
@@ -24,7 +24,7 @@
         (nzCheckedChange)="checkAll($event)"></th>
       <th [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
         [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
-        *ngFor="let header of tableHeaders">{{header.name}}</th>
+        *ngFor="let header of tableHeaders">{{header.name}}  <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span></th>
       <th>Delete</th>
     </tr>
   </thead>
@@ -109,7 +109,7 @@
     <tr nz-custom-footer>
       <td nzWidth="40px" *ngIf="data.expandable"></td>
       <td *ngIf="data.showCheckbox" nzWidth="60px"></td>
-      <td *ngFor="let header of tableHeaders">{{getSumOfRow(header)}}</td>
+      <td *ngFor="let header of footerData"> <span *ngIf="header.gridFooterSum"> ({{header.gridFooterSum}})</span> </td>
       <td></td>
     </tr>
   </tfoot>
