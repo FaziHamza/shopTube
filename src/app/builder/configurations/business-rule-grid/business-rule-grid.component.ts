@@ -126,6 +126,13 @@ export class BusinessRuleGridComponent implements OnInit {
     { name: "/", key: "/" },
     { name: "%", key: "%" },
   ]
+  aggregateFormOprator = [
+    { name: "COUNT", key: "count" },
+    { name: "SUM", key: "sum" },
+    { name: "AVG", key: "avg" },
+    { name: "MAX", key: "max" },
+    { name: "MIN", key: "min" },
+  ]
   mathmaticRule(): FormGroup {
     return this.formBuilder.group({
       ifCondition: '',

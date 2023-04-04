@@ -206,7 +206,6 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   getFormLayers(data: any) {
-    debugger
     this.screenName = data
     const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
     this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
@@ -835,7 +834,7 @@ export class BuilderComponent implements OnInit {
         sectionClassName: "",
         footer: false,
         header: false,
-        borderColor: "#000000",
+        borderColor: "",
         expanded: true,
         sectionDisabled: "editable",
         labelPosition: "text-left",
@@ -1072,6 +1071,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconSize:15,
+        hoverTextColor:'',
         children: [
         ],
 
@@ -7239,7 +7239,6 @@ export class BuilderComponent implements OnInit {
     return JSON.stringify(data)
   }
   jsonStringifyWithObject(data: any) {
-    debugger
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
         return value.toString();
