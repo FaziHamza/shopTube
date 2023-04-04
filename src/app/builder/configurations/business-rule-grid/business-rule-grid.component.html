@@ -18,7 +18,7 @@
                     <nz-select formControlName="ifCondition" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
                       <ng-container *ngFor="let allCond of buisnessRuleTargetList">
                       <nz-option-group   [nzLabel]="allCond.Group">
-                        <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                        <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.key"
                         [nzLabel]="ifCond.name"></nz-option>
                       </nz-option-group>
                       <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
@@ -33,16 +33,20 @@
                     </nz-select> -->
                   </div>
                   <div class="w-2/12 ml-1">
-                    <nz-select formControlName="oprator" nzShowSearch nzAllowClear>
+                    <nz-select formControlName="oprator"  *ngIf="!GridType"  nzShowSearch nzAllowClear>
                       <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                         *ngFor="let ifCond of conditonFormOprator"></nz-option>
+                    </nz-select>
+                    <nz-select formControlName="oprator" *ngIf="GridType" nzShowSearch nzAllowClear>
+                      <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
+                        *ngFor="let ifCond of aggregateFormOprator"></nz-option>
                     </nz-select>
                   </div>
                   <div class="w-4/12 ml-1">
                     <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
                       <ng-container *ngFor="let allCond of buisnessRuleTargetList">
                       <nz-option-group   [nzLabel]="allCond.Group">
-                        <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                        <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.key"
                         [nzLabel]="ifCond.name"></nz-option>
                       </nz-option-group>
                       <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
@@ -74,12 +78,13 @@
                               <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                                 *ngFor="let ifCond of conditonFormOprator"></nz-option>
                             </nz-select>
+
                           </div>
                           <div class="w-8/12">
                             <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
                               <ng-container *ngFor="let allCond of buisnessRuleTargetList">
                               <nz-option-group   [nzLabel]="allCond.Group">
-                                <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                                <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.key"
                                 [nzLabel]="ifCond.name"></nz-option>
                               </nz-option-group>
                               <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
@@ -110,11 +115,12 @@
               </div>
             </div>
             <div style="border: 1px solid #ccc !important; background-color: #2989d9; padding: 10px; margin: 5px;">
-              <nz-select formControlName="refranceOperator" nzShowSearch nzAllowClear
+              <nz-select formControlName="refranceOperator"  nzShowSearch nzAllowClear
                 (change)="getConditionFormInput()">
                 <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                   *ngFor="let ifCond of conditonFormOprator"></nz-option>
               </nz-select>
+
             </div>
           </div>
         </div>
@@ -172,7 +178,7 @@
                   <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
                     <ng-container *ngFor="let allCond of buisnessRuleTargetList">
                     <nz-option-group   [nzLabel]="allCond.Group">
-                      <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                      <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.key"
                       [nzLabel]="ifCond.name"></nz-option>
                     </nz-option-group>
                     <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
@@ -269,7 +275,7 @@
                       <nz-select formControlName="thenTarget" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
                         <ng-container *ngFor="let allCond of buisnessRuleTargetList">
                         <nz-option-group   [nzLabel]="allCond.Group">
-                          <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                          <nz-option *ngFor="let ifCond of allCond.GroupDate"  [nzValue]="ifCond.key"
                           [nzLabel]="ifCond.name"></nz-option>
                         </nz-option-group>
                         <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
