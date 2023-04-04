@@ -26,6 +26,7 @@ import {
 import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
 
 @NgModule({
   imports:
@@ -48,6 +49,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     GenericFieldComponent,
     PagesComponent,
     MainComponent,
+    BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
     BlockButtonsCardComponent, BreadCrumbComponent, BuilderToaterComponent, CarouselCrossfadeCardComponent, CascaderComponent, CommentComponent, DescriptionComponent,
     DividerComponent, DrawerComponent, DynamicTableComponent, DynamicTableRepeatSectionComponent, EmptyComponent, HeadingComponent,
@@ -62,6 +64,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     GenericFieldComponent,
     PagesComponent,
     MainComponent,
+    BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
     BlockButtonsCardComponent, BreadCrumbComponent, BuilderToaterComponent, CarouselCrossfadeCardComponent, CascaderComponent, CommentComponent, DescriptionComponent,
     DividerComponent, DrawerComponent, DynamicTableComponent, DynamicTableRepeatSectionComponent, EmptyComponent, HeadingComponent,

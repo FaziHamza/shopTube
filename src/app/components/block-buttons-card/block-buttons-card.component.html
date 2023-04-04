@@ -50,15 +50,14 @@
     </a>
     <!-- dropdown  -->
     <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
-      <button [nzType]="softIconList.nztype"
-        [ngStyle]="{ 'background-color': bgColor , 'color':softIconList?.textColor }"
+      <button [nzType]="softIconList.nztype" [ngStyle]="{ 'background-color': bgColor }"
         (mouseover)="bgColor = softIconList?.hoverColor" (mouseout)="bgColor = softIconList?.color" class="text-white"
         nz-button nz-dropdown [nzDropdownMenu]="menu" (nzVisibleChange)="change($event)"
         [nzGhost]='softIconList.nzGhost' [nzSize]="softIconList.nzSize" [disabled]="softIconList.disabled"
         [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock' [nzTrigger]="softIconList.trigger"
         [nzPlacement]="softIconList.placement" [nzClickHide]="softIconList.clickHide" [nzVisible]="softIconList.visible"
         [nzDanger]='softIconList.nzDanger' [nzShape]="softIconList.nzShape">
-        {{softIconList.title}} <span class="pl-1" *ngIf="softIconList.btnIcon"><app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType"
+        {{softIconList.title}} <span class="pl-1" *ngIf="softIconList.btnIcon"><app-icon [type]="softIconList.iconType"
             [icon]="softIconList.btnIcon" [size]="softIconList?.iconSize"></app-icon></span>
       </button>
       <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -80,12 +79,12 @@
     <nz-button-group>
       <div *ngFor="let item of softIconList.children">
         <!-- simple -->
-        <button [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = item?.hoverColor"
-          (mouseout)="bgColor = item?.color" class="text-white" *ngIf="item.type != 'dropdownButton' && !item.href"
-          nz-button [nzType]="item.nztype" [nzSize]="item.nzSize" [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost'
-          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger'
-          (click)="getButtonType(item?.type)"><span><app-icon *ngIf="item.btnIcon" [type]="item.iconType"
-              [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>{{item.title}}
+        <button [nzType]="item.nztype" [ngStyle]="isHover?{'background-color': item.hoverColor }:{'background-color': item.color}"
+          (mouseover)="isHover = true" (mouseout)="isHover = false" class="text-white"
+          *ngIf="item.type != 'dropdownButton' && !item.href" nz-button [nzSize]="item.nzSize"
+          [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost' [nzLoading]='item.nzLoading'
+          [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' (click)="getButtonType(item?.type)"><span
+            *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>{{item.title}}
         </button>
 
         <!-- link  -->
@@ -122,8 +121,8 @@
             (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" class="text-white" nz-button
             nz-dropdown [nzDropdownMenu]="menu" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
             [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'>
-            {{item.title}}<span *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
-                [size]="item?.iconSize"></app-icon></span>
+            {{item.title}}<span *ngIf="item.btnIcon"><app-icon [type]="item.iconType"
+                [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu *ngFor="let options of item.dropdownOptions">

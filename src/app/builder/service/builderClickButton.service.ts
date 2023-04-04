@@ -93,8 +93,10 @@ export class BuilderClickButtonService {
           key: obj.key,
           show: obj.show,
           sum: obj.sum,
+          headerButton:'',
+          footerButton:'',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id: 0
+          id:0,
         };
       }),
     };
@@ -876,6 +878,7 @@ export class BuilderClickButtonService {
         return {
           title: node.title,
           disabled: node.sectionDisabled,
+          borderColor: node.borderColor,
           className: node.className,
           labelPosition: node.labelPosition,
           repeatable: node.repeatable,
@@ -892,6 +895,7 @@ export class BuilderClickButtonService {
           title: node.title,
           disabled: node.sectionDisabled,
           className: node.className,
+          borderColor: node.borderColor,
           titlePosition: node.labelPosition,
           repeatable: node.repeatable,
           isBordered: node.isBordered,
@@ -902,6 +906,7 @@ export class BuilderClickButtonService {
         title: node.title,
         disabled: node.sectionDisabled,
         className: node.className,
+        borderColor: node.borderColor,
         titlePosition: node.labelPosition,
         repeatable: node.repeatable,
         isBordered: node.isBordered,
@@ -911,10 +916,16 @@ export class BuilderClickButtonService {
   getSectionFooterConfig(node: any) {
     return {
       footer: node.footer,
+      // borderColor: node.borderColor,
+      backGroundColor: node.backGroundColor,
+      textColor: node.textColor,
     }
   }
   getSectionBodyConfig(node: any) {
     return {
+      // borderColor: node.borderColor,
+      backGroundColor: node.backGroundColor,
+      textColor: node.textColor,
     }
   }
   getSectionHeaderConfig(node: any) {
@@ -923,6 +934,7 @@ export class BuilderClickButtonService {
       header: node.header,
       expanded: node.expanded,
       titlePosition: node.labelPosition,
+      // borderColor: node.borderColor,
       backGroundColor: node.backGroundColor,
       textColor: node.textColor,
     }

@@ -23,7 +23,6 @@ import { ElementData } from '../models/element';
   styleUrls: ['./builder.component.scss']
 })
 export class BuilderComponent implements OnInit {
-
   public editorOptions: JsonEditorOptions;
 
   makeOptions = () => new JsonEditorOptions();
@@ -587,17 +586,18 @@ export class BuilderComponent implements OnInit {
       this.getSetVariableRule(model, currentValue);
     }
   }
-  getSetVariableRule(model: any, value: any) {
-    //for grid amount assign to other input field
-    const filteredNodes = this.filterInputElements(this.nodes);
-    filteredNodes.forEach(node => {
-      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
-      if (formlyConfig.setVariable != "")
-        if (model?.props?.config?.getVariable != "")
-          if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
-            this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
-          }
-    });
+  getSetVariableRule(model:any,value:any){
+     //for grid amount assign to other input field
+     const filteredNodes = this.filterInputElements(this.nodes);
+     filteredNodes.forEach(node => {
+       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+       if(formlyConfig)
+       if(formlyConfig.setVariable != "")
+        if(model?.props?.config?.getVariable !="")
+       if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+         this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+       }
+     });
   }
   //#region GetInputFormly
 
@@ -835,6 +835,7 @@ export class BuilderComponent implements OnInit {
         sectionClassName: "",
         footer: false,
         header: false,
+        borderColor: "#000000",
         expanded: true,
         sectionDisabled: "editable",
         labelPosition: "text-left",
@@ -868,6 +869,7 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         labelPosition: "text-left",
         isNextChild: true,
+        // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",
         formly: [
@@ -886,6 +888,9 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        // borderColor: "#000000",
+        backGroundColor: "#FFFFFF",
+        textColor: "#000000",
         footer: false,
         header: false,
         expanded: true,
@@ -908,6 +913,9 @@ export class BuilderComponent implements OnInit {
         title: 'Footer',
         type: "accordingFooter",
         key: "accordingFooter_" + Guid.newGuid(),
+        // borderColor: "#000000",
+        backGroundColor: "#FFFFFF",
+        textColor: "#000000",
         footer: false,
         header: false,
         expanded: true,
@@ -1002,7 +1010,7 @@ export class BuilderComponent implements OnInit {
                     this.checkConditionUIRule(model, currentVal);
                   }
                   // change: (model: any) => {
-                  //   
+                  //
                   //   let currentVal = model.formControl.value;
                   //   if(!currentVal){
                   //     currentVal = (document.getElementById(model.id) as HTMLInputElement).value;
@@ -4069,7 +4077,12 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = node;
     this.selectdParentNode = parent;
     // this.highlightSelect(this.selectedNode.id,true)
-    this.clickButton(node?.type)
+    this.clickButton(node?.type);
+    this.dataSharedService.nodes = this.nodes;
+    this.dataSharedService.screenModule = this.screenModule;
+    this.dataSharedService.selectedNode = this.selectedNode;
+    this.dataSharedService.screenName = this.screenName;
+
   }
   applyHighLight(data: boolean, element: any) {
 
@@ -4706,7 +4719,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.accordingFooterFields;
         break;
       case "accordingBody":
-        // configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
+        configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingBodyFields;
         break;
       case "step":
@@ -6718,6 +6731,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
+          this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.labelPosition = event.form.labelPosition;
           this.selectedNode.repeatable = event.form.repeatable;
           this.selectedNode.size = event.form.size;
@@ -6789,6 +6803,7 @@ export class BuilderComponent implements OnInit {
       case "accordingHeader":
         if (this.selectedNode.id) {
           this.selectedNode.headingSize = event.form.headingSize;
+          // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
           this.selectedNode.header = event.form.header;
@@ -6800,11 +6815,17 @@ export class BuilderComponent implements OnInit {
 
       case "accordingBody":
         if (this.selectedNode.id) {
+          // this.selectedNode.borderColor = event.form.borderColor;
+          this.selectedNode.backGroundColor = event.form.backGroundColor;
+          this.selectedNode.textColor = event.form.textColor;
         }
         break;
 
       case "accordingFooter":
         if (this.selectedNode.id) {
+          // this.selectedNode.borderColor = event.form.borderColor;
+          this.selectedNode.backGroundColor = event.form.backGroundColor;
+          this.selectedNode.textColor = event.form.textColor;
           this.selectedNode.footer = event.form.footer;
         }
         break;
@@ -7081,6 +7102,7 @@ export class BuilderComponent implements OnInit {
       // Loop through each object in tableHeaders
       tableHeaders.forEach((header: any) => {
         // Check if the key exists in the data object
+        if(header.key)
         if (!data.hasOwnProperty(header.key.toLowerCase())) {
           // If the key does not exist, add it with a value of null or an empty string
           data[header.key] = null; // or data[header.key] = '';

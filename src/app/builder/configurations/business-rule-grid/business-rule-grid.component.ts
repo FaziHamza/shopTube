@@ -11,6 +11,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class BusinessRuleGridComponent implements OnInit {
   @Input() screenModule: any = [];
   @Input() screenName: any;
+  @Input() GridType: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
   isVisible = false;
@@ -313,7 +314,7 @@ export class BusinessRuleGridComponent implements OnInit {
   BuisnessRuleCondationList: any;
   buisnessForm: FormGroup;
   buisnessRuleTargetList: any = [];
-  buisnessRuleVariableTargetList: any = [];
+  // buisnessRuleVariableTargetList: any = [];
   // bussinessRuleObj: any = [];
   UIRule: boolean = false;
   dynmaicRule: boolean = false;
@@ -497,12 +498,13 @@ export class BusinessRuleGridComponent implements OnInit {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
     if (mainModuleId.length > 0) {
       this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-
-        if (getRes.length > 0) {
-          for (let k = 0; k < getRes.length; k++) {
-            if (getRes[k].gridKey == this.selectedNode.key) {
+        let type = this.GridType ? this.GridType : 'Body';
+        let gridData = getRes.filter(a => a.gridType == type);
+        if (gridData.length > 0) {
+          for (let k = 0; k < gridData.length; k++) {
+            if (gridData[k].gridKey == this.selectedNode.key) {
               this.buisnessForm = this.formBuilder.group({
-                buisnessRule: this.formBuilder.array(getRes[k].buisnessRulleData.map((getBuisnessRuleRes: any) =>
+                buisnessRule: this.formBuilder.array(gridData[k].buisnessRulleData.map((getBuisnessRuleRes: any) =>
                   this.formBuilder.group({
                     ifCondition: [getBuisnessRuleRes.ifCondition],
                     oprator: [getBuisnessRuleRes.oprator],
@@ -572,29 +574,29 @@ export class BusinessRuleGridComponent implements OnInit {
     }
   }
   changeDynamicBuisnessRuleIf() {
-    this.buisnessRuleVariableTargetList = [];
+    // this.buisnessRuleVariableTargetList = [];
     this.buisnessRuleTargetList = [];
     if (this.selectedNode.type == "gridList") {
       let obj = {
-        'Group':'Grid Header',
-        'GroupData':[],
-        "Variable":"Variable Name",
-        "VariableData":[],
+        'Group': 'Grid Header',
+        'GroupData': [],
+        "Variable": "Variable Name",
+        "VariableData": [],
       };
       let arrayData = [];
-      this.buisnessRuleVariableTargetList.push(obj)
+      this.buisnessRuleTargetList.push(obj)
       for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
         arrayData.push(this.selectedNode.tableHeaders[index]);
-        this.buisnessRuleTargetList.push(this.selectedNode.tableHeaders[index]);
+        // this.buisnessRuleTargetList.push(this.selectedNode.tableHeaders[index]);
       }
-      this.buisnessRuleVariableTargetList[0].GroupDate = arrayData;
+      this.buisnessRuleTargetList[0].GroupDate = arrayData;
     }
 
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
       for (let index = 0; index < this.nodes[0].options.length; index++) {
         const element = this.nodes[0].options[index];
-        if(element.VariableName != ""){
+        if (element.VariableName != "") {
           veriableOptions.push({
             label: element.VariableName,
             value: element.VariableName
@@ -602,8 +604,8 @@ export class BusinessRuleGridComponent implements OnInit {
         }
       }
     }
-    if(veriableOptions.length > 0 && this.buisnessRuleVariableTargetList.length > 0){
-      this.buisnessRuleVariableTargetList[0].VariableData = veriableOptions;
+    if (veriableOptions.length > 0 && this.buisnessRuleTargetList.length > 0) {
+      this.buisnessRuleTargetList[0].VariableData = veriableOptions;
     }
   }
   buttonTextCahnge(empIndex: number, skillIndex: number) {
@@ -644,6 +646,7 @@ export class BusinessRuleGridComponent implements OnInit {
       "buisnessRulleData": this.buisnessForm.value.buisnessRule,
       "buisnessRule": this.GridBusinessRuleData,
       "gridKey": this.selectedNode.key,
+      "gridType": this.GridType ? this.GridType : 'Body'
     }
     if (jsonRuleValidation != null) {
       if (mainModuleId[0].screenId != null) {
@@ -654,11 +657,20 @@ export class BusinessRuleGridComponent implements OnInit {
             }));
           }
           else {
-            this.builderService.jsonGridBusinessRuleRemove(getRes[0].id).subscribe((delRes => {
+            let type = this.GridType ? this.GridType : 'Body';
+            let gridFilter = getRes.filter(a => a.gridType == type);
+            if (gridFilter.length > 0) {
+              this.builderService.jsonGridBusinessRuleRemove(gridFilter[0].id).subscribe((delRes => {
+                this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe((saveRes => {
+                  alert("Data Save");
+                }));
+              }));
+            } else {
               this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe((saveRes => {
                 alert("Data Save");
               }));
-            }));
+            }
+
           }
         }));
       }

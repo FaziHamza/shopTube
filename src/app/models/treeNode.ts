@@ -353,6 +353,7 @@ export interface TreeNode {
   update?: boolean,
   create?: boolean,
   filter?: any,
+  borderColor?: any,
   backGroundColor?: any,
   labelPosition?: string,
   repeatable?: any,
