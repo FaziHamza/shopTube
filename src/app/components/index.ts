@@ -48,5 +48,6 @@ export * from "./tree-view/tree-view.component"
 export * from "./videos/videos.component"
 export * from "./calendar/calendar.component"
 export * from "./icon/icon.component"
+export * from "./buttons/buttons.component"
 
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input , OnInit } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
@@ -8,54 +8,27 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-block-buttons-card',
-  templateUrl: './block-buttons-card.component.html',
-  styleUrls: ['./block-buttons-card.component.scss']
+  selector: 'app-buttons',
+  templateUrl: './buttons.component.html',
+  styleUrls: ['./buttons.component.scss']
 })
-export class BlockButtonsCardComponent {
+export class ButtonsComponent implements OnInit {
+  @Input() buttonData : any;
   bgColor: any;
   hoverTextColor: any;
-  @Input() softIconList: any;
   dataSrc: any;
   isShow: Boolean = false;
-  nodes: TreeNode[];
-  size: NzButtonSize = 'large';
   color: "hover:bg-[#000000]";
   borderColor:any;
-  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-  ) { }
-  ngOnInit(): void {
-    this.hoverTextColor = this.softIconList?.color;
-    this.bgColor = this.softIconList?.color;
-    this.borderColor = this.softIconList?.textColor;
-  }
-
-
-  getButtonType(type: any) {
-    console.log(type);
-    // if(type == 'insert')
-    //   this.insertData('insert');
-    // else if(type == 'update')
-    //   this.updateData('update')
-    // else if(type == 'delete')
-    //   this.deleteData('delete')
-  }
-
-  // insertData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Insert Click");
-  // }
-  // updateData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Update Click");
-  // }
-  // deleteData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Delete Click");
-  // }
   isVisible = false;
+  nodes: TreeNode[];
+  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
-
+  ngOnInit(): void {
+    this.hoverTextColor = this.buttonData?.color;
+    this.bgColor = this.buttonData?.color;
+    this.borderColor = this.buttonData?.textColor;
+  }
 
   pagesRoute(href: string, routeType: any): void {
     let url = window.location.origin;
@@ -79,6 +52,15 @@ export class BlockButtonsCardComponent {
     }
 
   }
+  getButtonType(type: any) {
+    console.log(type);
+    // if(type == 'insert')
+    //   this.insertData('insert');
+    // else if(type == 'update')
+    //   this.updateData('update')
+    // else if(type == 'delete')
+    //   this.deleteData('delete')
+  }
   change(value: boolean): void {
     console.log(value);
   }
@@ -95,4 +77,5 @@ export class BlockButtonsCardComponent {
 
     bgColor = hoverColor;
   }
+
 }

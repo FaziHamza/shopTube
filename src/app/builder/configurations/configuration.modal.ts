@@ -165,6 +165,26 @@ export class formFeildData {
           }
         },
         {
+          key: 'hoverTextColor',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover text color'
+          }
+        },
+        {
+          key: 'textColor',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: "color",
+            label: 'Text color'
+          }
+        },
+        {
           key: 'hoverColor',
           type: 'input',
           className: "w-1/4 px-1",
@@ -588,6 +608,16 @@ export class formFeildData {
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Text'
+          }
+        },
+        {
+          key: 'hoverTextColor',
+          type: 'input',
+          className: "w-1/4 px-1",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover text color'
           }
         },
         {
@@ -7337,6 +7367,15 @@ export class formFeildData {
             label: 'Image src',
           }
         },
+        {
+          key: 'image',
+          type: 'image-upload',
+          className: "col-md-4 col-sm-6 col-xs-12 ",
+          wrappers: ["formly-vertical-wrapper"],
+          props: {
+            label: 'Image Upload',
+          }
+        },
         // {
         //   className: "w-1/4 px-1",
         //   key: 'alt',
@@ -9163,7 +9202,7 @@ export class formFeildData {
           key: 'border',
           type: 'checkbox',
           props: {
-            label: 'Border',
+            label: 'Border less',
           },
           defaultValue: false
         },
