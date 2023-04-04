@@ -26,9 +26,11 @@ export class ButtonsComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    this.hoverTextColor = this.buttonData?.color ? this.buttonData?.color : '';
+    this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
+    this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor :'';
+
+    // this.buttonData['textColor'] = this.buttonData?.textColor ? this.buttonData?.textColor :'#000000';
   }
 
   pagesRoute(href: string, routeType: any): void {
