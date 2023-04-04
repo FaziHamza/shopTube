@@ -334,7 +334,7 @@
                 <form [formGroup]="form">
                     <div
                         [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <div [ngClass]="{'highLight': item.highLight == true}">
+                        <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                             <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                             </formly-form>
                         </div>
@@ -729,7 +729,7 @@
                 <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-icon [type]="item.iconType" [icon]="item.icon" [size]="item.IconSize"></app-icon>
+                    <app-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"></app-icon>
                 </div>
             </ng-container>
         </ng-template>

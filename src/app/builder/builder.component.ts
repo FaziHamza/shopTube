@@ -826,8 +826,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'according') {
       const newNode = {
-        id: 'according_' + Guid.newGuid(),
-        key: "according_" + Guid.newGuid(),
+        id: 'according_'+ Guid.newGuid(),
+        key: "according_"+ Guid.newGuid(),
         title: 'Section_1',
         type: "according",
         className: "w-full",
@@ -844,11 +844,11 @@ export class BuilderComponent implements OnInit {
         isBordered: true,
         size: 'default',
         status: '',
-        formly: [
-          {
-            key: "according_" + Guid.newGuid(),
-          }
-        ],
+        // formly: [
+        //   {
+        //     key: "according_" + Guid.newGuid(),
+        //   }
+        // ],
         children: [
         ],
       } as TreeNode;
@@ -940,6 +940,7 @@ export class BuilderComponent implements OnInit {
         className: 'w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
         // type: data?.type,
         formlyType: data?.parameter,
+        hideExpression: false,
         formly: [
           {
             fieldGroup: [
@@ -1018,7 +1019,6 @@ export class BuilderComponent implements OnInit {
                   //   this.checkConditionUIRule(model, currentVal);
                   // }
                 },
-                hideExpression: false,
               },
             ]
           },
@@ -1072,6 +1072,7 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconSize:15,
         hoverTextColor:'',
+        textColor:'',
         children: [
         ],
 
@@ -1106,8 +1107,9 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         nztype: "default",
-        textColor:"#000000",
+        textColor:"",
         iconSize:15,
+        hoverTextColor:'',
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1158,6 +1160,8 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         iconSize:15,
+        hoverTextColor:'',
+        textColor:'',
         children: [
         ],
 
@@ -1190,6 +1194,8 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         iconSize:15,
+        hoverTextColor:'',
+        textColor:'',
         children: [
         ],
 
@@ -5088,7 +5094,7 @@ export class BuilderComponent implements OnInit {
   //   // array.splice(index, 0, ...elementsArray);
   // }
   insertAt(node: any) {
-
+    debugger
     let parent = node?.parentNode?.origin;
     node = node.origin;
     if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
@@ -5713,17 +5719,18 @@ export class BuilderComponent implements OnInit {
       case "number":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
+          this.selectedNode['hideExpression'] = event.form.hideExpression;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
-            fieldGroup[0].hideExpression = event.form.hideExpression;
+            // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
             props['key'] = event.form.key;
             props['className'] = event.form.className;
-            props['hideExpression'] = event.form.hideExpression;
+            // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
             // props['className'] = event.form.className;
             if (event.tableDta) {
@@ -5815,7 +5822,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "avatar":
         if (this.selectedNode) {
-          this.selectedNode.src = event.form.src;
           this.selectedNode.text = event.form.text;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.bgColor = event.form.bgColor;
@@ -5824,7 +5830,13 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.alt = event.form.alt;
           this.selectedNode.size = event.form.size;
           this.selectedNode.shape = event.form.shape;
-
+          if (event.form.src) {
+            this.selectedNode.src = event.form.src;
+          }
+          else if (this.dataSharedService.imageUrl) {
+            this.selectedNode.src = this.dataSharedService.imageUrl;
+            this.dataSharedService.imageUrl = '';
+          }
         }
         break;
       case "comment":
@@ -6142,6 +6154,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.format = event.form.format;
           this.selectedNode.nztype = event.form.nztype;
           this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
+          this.selectedNode['textColor'] = event.form.textColor;
         }
         break;
 
@@ -6200,6 +6214,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['nztype'] = event.form.nztype;
           this.selectedNode['textColor'] = event.form.textColor;
           this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -7284,7 +7299,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-
+    debugger
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {

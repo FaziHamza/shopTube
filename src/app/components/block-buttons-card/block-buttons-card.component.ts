@@ -14,17 +14,20 @@ import { Router } from '@angular/router';
 })
 export class BlockButtonsCardComponent {
   bgColor: any;
+  hoverTextColor: any;
   @Input() softIconList: any;
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];
   size: NzButtonSize = 'large';
   color: "hover:bg-[#000000]";
+  borderColor:any;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
   ) { }
   ngOnInit(): void {
-
+    this.hoverTextColor = this.softIconList?.color;
     this.bgColor = this.softIconList?.color;
+    this.borderColor = this.softIconList?.textColor;
   }
 
 

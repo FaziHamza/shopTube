@@ -119,7 +119,7 @@
               </ul>
               <!-- <nz-tree [nzData]="nodes" (nzClick)="openField($event)" nzDraggable nzBlockNode (nzOnDrop)="nzEvent($event)"></nz-tree> -->
 
-              <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
+              <nz-tree [nzData]="nodes" nzDraggable nzBlockNode
                 (nzOnDrop)="nzEvent($event)">
                 <ng-template #nzTreeTemplate let-node>
                   <div class="flex" [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
@@ -383,7 +383,7 @@
             <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
           </ng-template>
           <app-pages  [resData]="nodes" [screenId]="moduleId" [screenName]="screenName" [formlyModel]="formlyModel"  *ngIf="nodes.length  > 0"></app-pages>
-          
+
         </div>
       </as-split-area>
     </as-split>

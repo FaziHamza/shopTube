@@ -744,7 +744,8 @@ export class BuilderClickButtonService {
       border: node.formly[0].fieldGroup[0].props.config.border,
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
-      hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,
+      // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,
+      hideExpression: node['hideExpression'],
     }
   }
   getMaskingFormlyConfig(node: any) {
@@ -784,6 +785,8 @@ export class BuilderClickButtonService {
       nztype: node.nztype,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
+      hoverTextColor: node['hoverTextColor'],
+      textColor: node['textColor'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -791,6 +794,7 @@ export class BuilderClickButtonService {
     return {
       color: node.color,
       onhover: node.onhover,
+      hoverColor: node.hoverColor,
       hideExpression: node.hideExpression,
       options: node.dropdownOptions,
       format: node.format,
@@ -811,6 +815,7 @@ export class BuilderClickButtonService {
       nztype: node['nztype'],
       textColor: node['textColor'],
       iconSize: node['iconSize'],
+      hoverTextColor: node['hoverTextColor'],
     }
   }
   getAccordionButtonConfig(node: any) {
