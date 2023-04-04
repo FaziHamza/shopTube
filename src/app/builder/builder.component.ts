@@ -834,7 +834,7 @@ export class BuilderComponent implements OnInit {
         sectionClassName: "",
         footer: false,
         header: false,
-        borderColor: "#000000",
+        borderColor: "",
         expanded: true,
         sectionDisabled: "editable",
         labelPosition: "text-left",
@@ -1071,6 +1071,7 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconSize:15,
+        hoverTextColor:'',
         children: [
         ],
 

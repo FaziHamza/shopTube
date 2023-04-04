@@ -4,6 +4,8 @@ import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-block-buttons-card',
@@ -16,15 +18,13 @@ export class BlockButtonsCardComponent {
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];
-  url: string;
   size: NzButtonSize = 'large';
   color: "hover:bg-[#000000]";
-  constructor(private modalService: NzModalService, public employeeService: EmployeeService,
+  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
   ) { }
   ngOnInit(): void {
-    
+
     this.bgColor = this.softIconList?.color;
-    this.url = window.location.origin;
   }
 
 
@@ -54,14 +54,27 @@ export class BlockButtonsCardComponent {
 
 
 
-  showModal(href: string): void {
-
-    this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
-      if (res.length > 0) {
-        this.nodes = res[0].menuData;
-        this.isVisible = true;
+  pagesRoute(href: string, routeType: any): void {
+    let url = window.location.origin;
+    if (href) {
+      if (routeType == 'modal') {
+        this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
+          if (res.length > 0) {
+            this.nodes = res[0].menuData;
+            this.isVisible = true;
+          }
+        }));
+      } else if (routeType == '_blank') {
+        let link = '/pages/' + href;
+        window.open(link)
+      } else if (routeType == '') {
+        let link = '/pages/' + href;
+        this.router.navigate([link]);
       }
-    }));
+    } else {
+      this.toastr.error('Link is required', { nzDuration: 3000 });
+    }
+
   }
   change(value: boolean): void {
     console.log(value);
@@ -75,8 +88,8 @@ export class BlockButtonsCardComponent {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  changeColor(bgColor:any , hoverColor:any){
-    
+  changeColor(bgColor: any, hoverColor: any) {
+
     bgColor = hoverColor;
   }
 }

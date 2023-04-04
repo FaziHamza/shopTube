@@ -3,51 +3,54 @@
     <!-- simple -->
     <button [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = softIconList?.hoverColor"
       (mouseout)="bgColor = softIconList?.color" [nzType]="softIconList.nztype"
-      *ngIf="softIconList.type != 'dropdownButton' && !softIconList.href" nz-button [nzSize]="softIconList.nzSize"
-      [disabled]="softIconList.disabled" [nzShape]="softIconList.nzShape" [nzGhost]='softIconList.nzGhost'
-      [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger'
-      (click)="getButtonType(softIconList?.type)"><span *ngIf="softIconList.btnIcon"><app-icon
-          [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
+      *ngIf="softIconList.type != 'dropdownButton' && softIconList.type != 'linkButton'" nz-button
+      [nzSize]="softIconList.nzSize" [disabled]="softIconList.disabled" [nzShape]="softIconList.nzShape"
+      [nzGhost]='softIconList.nzGhost' [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+      [nzDanger]='softIconList.nzDanger' (click)="getButtonType(softIconList?.type)"><span
+        *ngIf="softIconList.btnIcon"><app-icon [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
           [size]="softIconList?.iconSize"></app-icon></span>
       <span *ngIf="softIconList.title">
         {{softIconList.title}}</span>
     </button>
     <!-- link  -->
-    <a nz-button routerLink="/pages/{{softIconList.href}}" nzType="link" [nzGhost]='softIconList.nzGhost'
-      [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = softIconList?.hoverColor"
-      (mouseout)="bgColor = softIconList?.color" [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading'
-      [nzBlock]='softIconList.nzBlock' [disabled]="softIconList.disabled" [nzDanger]='softIconList.nzDanger'
-      *ngIf="softIconList.href && softIconList.btnType ==''" [class]='[softIconList.color, softIconList.hoverColor]'
-      class="text-white">
-      <span><app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
-          [size]="softIconList?.iconSize"></app-icon>
-        {{softIconList.title}}
-      </span>
+    <ng-container *ngIf="softIconList.type == 'linkButton'">
+      <a nz-button nzType="link" [nzGhost]='softIconList.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
+        (mouseover)="bgColor = softIconList?.hoverColor" (mouseout)="bgColor = softIconList?.color"
+        [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+        [disabled]="softIconList.disabled" [nzDanger]='softIconList.nzDanger' *ngIf="softIconList.btnType ==''"
+        [class]='[softIconList.color, softIconList.hoverColor]' class="text-white"
+        (click)="pagesRoute(softIconList.href,softIconList.btnType)">
+        <span><app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
+            [size]="softIconList?.iconSize"></app-icon>
+          {{softIconList.title}}
+        </span>
 
-    </a>
-    <a nz-button href="{{url}}/pages/{{softIconList.href}}" nzType="link" [nzGhost]='softIconList.nzGhost'
-      [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = softIconList?.hoverColor"
-      (mouseout)="bgColor = softIconList?.color" [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading'
-      [nzBlock]='softIconList.nzBlock' [disabled]="softIconList.disabled" [nzDanger]='softIconList.nzDanger'
-      *ngIf="softIconList.href && softIconList.btnType =='_blank'" target="{{softIconList?.btnType}}" class="text-white"
-      class="p-2">
-      <span><app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
-          [size]="softIconList?.iconSize"></app-icon>
-        {{softIconList.title}}
-      </span>
-    </a>
-    <a nz-button nzType="link" *ngIf="softIconList.href && softIconList.btnType =='modal'"
-      [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = softIconList?.hoverColor"
-      (mouseout)="bgColor = softIconList?.color" class="text-white" [nzSize]="softIconList.nzSize"
-      [nzGhost]='softIconList.nzGhost' [disabled]="softIconList.disabled" [nzLoading]='softIconList.nzLoading'
-      [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger' data-bs-toggle="modal"
-      data-bs-target=".bs-example-modal-center" (click)="showModal(softIconList.href)">
-      <span>
-        <app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
-          [size]="softIconList?.iconSize"></app-icon>
-        {{softIconList.title}}
-      </span>
-    </a>
+      </a>
+      <a nz-button nzType="link" [nzGhost]='softIconList.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
+        (mouseover)="bgColor = softIconList?.hoverColor" (mouseout)="bgColor = softIconList?.color"
+        [nzSize]="softIconList.nzSize" [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock'
+        [disabled]="softIconList.disabled" [nzDanger]='softIconList.nzDanger' *ngIf="softIconList.btnType =='_blank'"
+        target="{{softIconList?.btnType}}" class="text-white" class="p-2"
+        (click)="pagesRoute(softIconList.href,softIconList.btnType)">
+        <span><app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
+            [size]="softIconList?.iconSize"></app-icon>
+          {{softIconList.title}}
+        </span>
+      </a>
+      <a nz-button nzType="link" *ngIf="softIconList.btnType =='modal'" [ngStyle]="{ 'background-color': bgColor }"
+        (mouseover)="bgColor = softIconList?.hoverColor" (mouseout)="bgColor = softIconList?.color" class="text-white"
+        [nzSize]="softIconList.nzSize" [nzGhost]='softIconList.nzGhost' [disabled]="softIconList.disabled"
+        [nzLoading]='softIconList.nzLoading' [nzBlock]='softIconList.nzBlock' [nzDanger]='softIconList.nzDanger'
+        data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"
+        (click)="pagesRoute(softIconList.href,softIconList.btnType)">
+        <span>
+          <app-icon *ngIf="softIconList.btnIcon" [type]="softIconList.iconType" [icon]="softIconList.btnIcon"
+            [size]="softIconList?.iconSize"></app-icon>
+          {{softIconList.title}}
+        </span>
+      </a>
+    </ng-container>
+
     <!-- dropdown  -->
     <div class="dropdown " *ngIf="softIconList.type == 'dropdownButton'">
       <button [nzType]="softIconList.nztype" [ngStyle]="{ 'background-color': bgColor }"
@@ -79,50 +82,58 @@
     <nz-button-group>
       <div *ngFor="let item of softIconList.children">
         <!-- simple -->
-        <button [nzType]="item.nztype" [ngStyle]="isHover?{'background-color': item.hoverColor }:{'background-color': item.color}"
+        <button [nzType]="item.nztype"
+          [ngStyle]="isHover?{'background-color': item.hoverColor }:{'background-color': item.color}"
           (mouseover)="isHover = true" (mouseout)="isHover = false" class="text-white"
-          *ngIf="item.type != 'dropdownButton' && !item.href" nz-button [nzSize]="item.nzSize"
+          *ngIf="item.type != 'dropdownButton' && item.type != 'linkButton'" nz-button [nzSize]="item.nzSize"
           [disabled]="item.disabled" [nzShape]="item.nzShape" [nzGhost]='item.nzGhost' [nzLoading]='item.nzLoading'
           [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' (click)="getButtonType(item?.type)"><span
-            *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>{{item.title}}
+            *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
+              [size]="item?.iconSize"></app-icon></span>{{item.title}}
         </button>
 
         <!-- link  -->
-        <a nz-button routerLink="/pages/{{item.href}}" nzType="link" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
-          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' [disabled]="item.disabled"
-          *ngIf="item.href && item.btnType ==''" class="text-white" [ngStyle]="{ 'background-color': bgColor }"
-          (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" class="p-2">
-          <span *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
-              [size]="item?.iconSize"></app-icon></span>
-          {{item.title}}
-        </a>
-        <a nz-button href="{{url}}/pages/{{item.href}}" nzType="link" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
-          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' [disabled]="item.disabled"
-          *ngIf="item.href && item.btnType =='_blank'" target="{{item?.btnType}}" class="text-white"
-          [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = item?.hoverColor"
-          (mouseout)="bgColor = item?.color" class="p-2">
-          <span *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
-              [size]="item?.iconSize"></app-icon></span>
-          {{item.title}}
-
-        </a>
-        <a nz-button nzType="link" *ngIf="item.href && item.btnType =='modal'" class="text-white"
-          [ngStyle]="{ 'background-color': bgColor }" (mouseover)="bgColor = item?.hoverColor"
-          (mouseout)="bgColor = item?.color" [nzSize]="item.nzSize" [nzGhost]='item.nzGhost'
-          [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'
-          data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" (click)="showModal(item.href)">
-          <span *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
-              [size]="item?.iconSize"></app-icon></span>
-          {{item.title}}
-        </a>
+        <ng-container *ngIf="item.type == 'linkButton'">
+          <a nz-button nzType="link" [nzGhost]='item.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
+            (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" [nzSize]="item.nzSize"
+            [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'
+            *ngIf="item.btnType ==''" [class]='[item.color, item.hoverColor]' class="text-white"
+            (click)="pagesRoute(item.href,item.btnType)">
+            <span><app-icon *ngIf="item.btnIcon" [type]="item.iconType" [icon]="item.btnIcon"
+                [size]="item?.iconSize"></app-icon>
+              {{item.title}}
+            </span>
+          </a>
+          <a nz-button nzType="link" [nzGhost]='item.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
+            (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" [nzSize]="item.nzSize"
+            [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'
+            *ngIf="item.btnType =='_blank'" target="{{item?.btnType}}" class="text-white" class="p-2"
+            (click)="pagesRoute(item.href,item.btnType)">
+            <span><app-icon *ngIf="item.btnIcon" [type]="item.iconType" [icon]="item.btnIcon"
+                [size]="item?.iconSize"></app-icon>
+              {{item.title}}
+            </span>
+          </a>
+          <a nz-button nzType="link" *ngIf="item.btnType =='modal'" [ngStyle]="{ 'background-color': bgColor }"
+            (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" class="text-white"
+            [nzSize]="item.nzSize" [nzGhost]='item.nzGhost' [disabled]="item.disabled" [nzLoading]='item.nzLoading'
+            [nzBlock]='item.nzBlock' [nzDanger]='item.nzDanger' data-bs-toggle="modal"
+            data-bs-target=".bs-example-modal-center" (click)="pagesRoute(item.href,item.btnType)">
+            <span>
+              <app-icon *ngIf="item.btnIcon" [type]="item.iconType" [icon]="item.btnIcon"
+                [size]="item?.iconSize"></app-icon>
+              {{item.title}}
+            </span>
+          </a>
+        </ng-container>
         <!-- dropdown  -->
         <div class="dropdown " *ngIf="item.type == 'dropdownButton'">
           <button [nzType]="item.nztype" [ngStyle]="{ 'background-color': bgColor , 'color':item?.textColor }"
             (mouseover)="bgColor = item?.hoverColor" (mouseout)="bgColor = item?.color" class="text-white" nz-button
             nz-dropdown [nzDropdownMenu]="menu" [nzGhost]='item.nzGhost' [nzSize]="item.nzSize"
             [nzLoading]='item.nzLoading' [nzBlock]='item.nzBlock' [disabled]="item.disabled" [nzDanger]='item.nzDanger'>
-            {{item.title}}<span *ngIf="item.btnIcon"><app-icon [type]="item.iconType"
-                [icon]="item.btnIcon" [size]="item?.iconSize"></app-icon></span>
+            {{item.title}}<span *ngIf="item.btnIcon"><app-icon [type]="item.iconType" [icon]="item.btnIcon"
+                [size]="item?.iconSize"></app-icon></span>
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu *ngFor="let options of item.dropdownOptions">
