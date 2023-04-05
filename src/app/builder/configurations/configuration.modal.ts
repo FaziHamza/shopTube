@@ -2895,6 +2895,10 @@ export class formFeildData {
                 label: 'Normal',
                 value: 'font-normal'
               },
+              {
+                label: 'Light',
+                value: 'font-light'
+              },
             ]
           },
           // defaultValue: 'w-1/3'

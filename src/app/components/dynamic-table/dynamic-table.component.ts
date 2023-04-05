@@ -327,7 +327,7 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-
+    debugger
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.key = this.key.filter((header: any) => header.name !== 'color');

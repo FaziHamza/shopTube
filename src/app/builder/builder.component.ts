@@ -4182,6 +4182,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
+    debugger
     let _formFieldData = new formFeildData();
 
     let veriableOptions: any[] = [];
@@ -4567,13 +4568,14 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
-
+        
       case "tags":
       case "repeatSection":
       case "multiselect":
       case "search":
       case "radiobutton":
       case "checkbox":
+      case "url":
       case "datetime":
       case "time":
       case "timepicker":
@@ -4589,6 +4591,7 @@ export class BuilderComponent implements OnInit {
       case "telephone":
       case "autoComplete":
       case "number":
+      case "url":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         switch (type) {
@@ -5718,6 +5721,8 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
+      case "customMasking":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
@@ -5744,6 +5749,8 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
+            props['maskString'] = event.form.maskString;
+            props['masktitle'] = event.form.masktitle;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
