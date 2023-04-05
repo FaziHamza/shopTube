@@ -16,6 +16,7 @@ import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ElementData } from '../models/element';
+import { ColorPickerService } from '../services/colorpicker.service';
 
 @Component({
   selector: 'app-builder',
@@ -66,7 +67,7 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService , private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -7352,6 +7353,12 @@ export class BuilderComponent implements OnInit {
         configurationFields[0].fieldGroup.unshift(element)
       });
     }
+  }
+   setCustomColor(data:any) {
+    debugger
+    let color: string;
+    color = data.target.value;
+    this.colorPickerService.setCustomColor('custom-color', color);
   }
 }
 
