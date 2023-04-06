@@ -753,6 +753,7 @@ export class BuilderClickButtonService {
   }
   getMaskingFormlyConfig(node: any) {
     return {
+      key: node.formly[0].fieldGroup[0].key,
       focus: node.formly[0].fieldGroup[0].focus,
       defaultValue: node.formly[0].fieldGroup[0].defaultValue,
       title: node.formly[0].fieldGroup[0].props?.label,
@@ -765,7 +766,6 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].props?.['labelIcon'],
       addonLeft: node.formly[0].fieldGroup[0].props.addonLeft,
       addonRight: node.formly[0].fieldGroup[0].props.addonRight,
-
     }
   }
   getButtonConfig(node: any) {
