@@ -24,7 +24,7 @@ export class CalendarComponent {
         listPlugin,
       ],
       headerToolbar: {
-        left: this.calenderData?.view,
+        left: "sidebarToggle , "+ this.calenderData?.view,
         center: 'title',
         right: this.calenderData?.viewType
       },
@@ -49,7 +49,7 @@ export class CalendarComponent {
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
-    
+
   }
 
   handleCalendarToggle() {
@@ -57,7 +57,7 @@ export class CalendarComponent {
   }
 
   handleWeekendsToggle() {
-    
+
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
   }
