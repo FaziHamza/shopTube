@@ -5725,7 +5725,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-      case "customMasking":
+        case "customMasking":
         debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -5753,8 +5753,8 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            props['maskString'] = event.form.maskString;
-            props['masktitle'] = event.form.masktitle;
+            // props['maskString'] = event.form.maskString;
+            // props['masktitle'] = event.form.masktitle;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
@@ -6002,34 +6002,34 @@ export class BuilderComponent implements OnInit {
           // this.cdr.detectChanges();
         }
         break;
-      case "masking":
-        if (this.selectedNode) {
-          this.selectedNode?.formly?.forEach(elementV1 => {
-            // MapOperator(elementV1 =currentData);
-            const formly = elementV1 ?? {};
-            const fieldGroup = formly.fieldGroup ?? [];
-            const props = fieldGroup[0]?.props ?? {};
-            props['key'] = event.form.key;
-            props.label = event.form.title;
-            props.focus = event.form.focus;
-            props['hideExpression'] = event.form.hideExpression;
-            props['defaultValue'] = event.form.defaultValue;
-            props['required'] = event.form.required;
-            props.readonly = event.form.readonly;
-            props.placeholder = event.form.placeholder;
-            props['required'] = event.form.required;
-            props['disabled'] = event.form.disabled;
-            props['tooltip'] = event.form.tooltip;
-            props['maskString'] = event.form.maskString;
-            props['maskLabel'] = event.form.maskLabel;
-            props['labelIcon'] = event.form.labelIcon;
-            props['addonLeft'].text = event.form.addonLeft;
-            props['addonRight'].text = event.form.addonRight;
-            props['tooltip'] = event.form.tooltip;
-            props['options'] = event.form.multiselect == "" ? event.form.options : "";
-          });
-        }
-        break;
+        // case "customMasking":
+        // if (this.selectedNode) {
+        //   this.selectedNode?.formly?.forEach(elementV1 => {
+        //     // MapOperator(elementV1 =currentData);
+        //     const formly = elementV1 ?? {};
+        //     const fieldGroup = formly.fieldGroup ?? [];
+        //     const props = fieldGroup[0]?.props ?? {};
+        //     props['key'] = event.form.key;
+        //     props.label = event.form.title;
+        //     props.focus = event.form.focus;
+        //     props['hideExpression'] = event.form.hideExpression;
+        //     props['defaultValue'] = event.form.defaultValue;
+        //     props['required'] = event.form.required;
+        //     props.readonly = event.form.readonly;
+        //     props.placeholder = event.form.placeholder;
+        //     props['required'] = event.form.required;
+        //     props['disabled'] = event.form.disabled;
+        //     props['tooltip'] = event.form.tooltip;
+        //     props['maskString'] = event.form.maskString;
+        //     props['maskLabel'] = event.form.maskLabel;
+        //     props['labelIcon'] = event.form.labelIcon;
+        //     props['addonLeft'].text = event.form.addonLeft;
+        //     props['addonRight'].text = event.form.addonRight;
+        //     props['tooltip'] = event.form.tooltip;
+        //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
+        //   });
+        // }
+        // break;
       case "gridList":
 
         if (this.selectedNode.id) {
@@ -6766,8 +6766,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
+              debugger
               if (res.formly != undefined) {
-                if (res.type != "stepperMain" && res.type != "tabsMain") {
+                if (res.type != "mainStep" && res.type != "mainTab") {
                   // res['wrappers'] = [];
                   // res.wrappers.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
@@ -6776,28 +6777,18 @@ export class BuilderComponent implements OnInit {
                   }
                   res.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.formly[0].fieldGroup);
                 }
-                if (res.type == "tabsMain") {
-                  res.children?.forEach((element: any) => {
-                    element.children.forEach((elementV1: any) => {
-                      if (event.form.sectionClassName) {
-                        res['className'] = event.form.sectionClassName
-                      }
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    });
-                  });
-                }
-                if (res.type == "stepperMain") {
-                  res.children?.forEach((element: any) => {
-                    element.children.forEach((elementV1: any) => {
-                      if (event.form.sectionClassName) {
-                        res['className'] = event.form.sectionClassName
-                      }
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    });
-                  });
-                }
               }
-              if (res.type == "mainDashonicTabs") {
+              if (res.type == "mainStep") {
+                res.children?.forEach((element: any) => {
+                  element.children.forEach((elementV1: any) => {
+                    if (event.form.sectionClassName) {
+                      res['className'] = event.form.sectionClassName
+                    }
+                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  });
+                });
+              }
+              if (res.type == "mainTab") {
                 res.children?.forEach((element: any) => {
                   element.children.forEach((elementV1: any) => {
                     if (event.form.sectionClassName) {
@@ -6815,9 +6806,6 @@ export class BuilderComponent implements OnInit {
                   elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                 });
               }
-              // if (event.form.className) {
-              //   res.className = event.form.className;
-              // }
             }
           })
           this.clickBack();

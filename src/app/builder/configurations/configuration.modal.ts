@@ -803,7 +803,7 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -813,7 +813,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'nzGhost',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -823,7 +823,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'visible',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -833,7 +833,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'clickHide',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -853,7 +853,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'nzLoading',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -863,7 +863,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'nzDanger',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -2412,7 +2412,7 @@ export class formFeildData {
                 }
               },
               // {
-              //   className: "w-1/6 px-1",
+              //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
               //   // className: "ml-2",
               //   key: 'icon',
               //   type: 'input',
@@ -3035,7 +3035,7 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'disabled'
           },
@@ -3402,7 +3402,7 @@ export class formFeildData {
         //   key: 'disabled',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-3",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
         //   props: {
         //     label: 'Disabled'
         //   },
@@ -3472,7 +3472,7 @@ export class formFeildData {
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 ",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 ",
           props: {
             label: 'Disabled'
           },
@@ -4097,7 +4097,7 @@ export class formFeildData {
         //   key: 'disabled',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   props: {
         //     label: 'Disabled'
         //   },
@@ -4107,7 +4107,7 @@ export class formFeildData {
         //   key: 'isExpanded',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   props: {
         //     label: 'Is Collepse'
         //   },
@@ -4116,7 +4116,7 @@ export class formFeildData {
         //   key: 'footer',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   props: {
         //     label: 'Enable Footer'
         //   },
@@ -5062,7 +5062,7 @@ export class formFeildData {
           key: 'banner',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Banner',
           },
@@ -5072,7 +5072,7 @@ export class formFeildData {
           key: 'closeable',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Closeable',
           },
@@ -5082,7 +5082,7 @@ export class formFeildData {
           key: 'showIcon',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'ShowIcon',
           },
@@ -5339,7 +5339,7 @@ export class formFeildData {
           key: 'reverse',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'Reverse'
           },
@@ -5578,7 +5578,7 @@ export class formFeildData {
         {
           key: 'autolPlaySpeed',
           type: 'input',
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             type: 'number',
             label: 'Auto Play Speed'
@@ -5588,7 +5588,7 @@ export class formFeildData {
           key: 'autoPlay',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'Auto Play'
           },
@@ -5597,7 +5597,7 @@ export class formFeildData {
           key: 'showDots',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'Show Dots'
           },
@@ -5606,7 +5606,7 @@ export class formFeildData {
           key: 'enableSwipe',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'Enable Swipe'
           },
@@ -5666,7 +5666,7 @@ export class formFeildData {
         {
           key: 'uploadBtnLabel',
           type: 'input',
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Upload btn label'
           },
@@ -5674,7 +5674,7 @@ export class formFeildData {
         {
           key: 'uploadLimit',
           type: 'input',
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             type: 'number',
             label: 'Upload limit'
@@ -5683,7 +5683,7 @@ export class formFeildData {
         {
           key: 'size',
           type: 'input',
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             type: 'number',
             label: 'File size'
@@ -5720,13 +5720,13 @@ export class formFeildData {
           key: 'multiple',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           props: {
             label: 'Allow multiple file'
           },
         },
         {
-          className: "w-1/6 px-1 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5846,7 +5846,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'weekends',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5856,7 +5856,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'editable',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5866,7 +5866,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'selectable',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5876,7 +5876,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'selectMirror',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5886,7 +5886,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'dayMaxEvents',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5896,7 +5896,7 @@ export class formFeildData {
           defaultValue: true
         },
         {
-          className: "w-1/6 px-1",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'details',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -6481,7 +6481,7 @@ export class formFeildData {
           defaultValue: false
         },
         // {
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   key: 'isMask',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
@@ -6491,7 +6491,7 @@ export class formFeildData {
         //   defaultValue: false
         // },
         // {
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   key: 'isMaskClosable',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
@@ -6501,7 +6501,7 @@ export class formFeildData {
         //   defaultValue: false
         // },
         // {
-        //   className: "w-1/6 px-1 mt-2",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-2",
         //   key: 'isCloseOnNavigation',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
@@ -8588,7 +8588,7 @@ export class formFeildData {
         //   key: 'delete',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-3",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
         //   props: {
         //     label: 'Delete',
         //   },
@@ -8597,7 +8597,7 @@ export class formFeildData {
         //   key: 'update',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-3",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
         //   props: {
         //     label: 'Update',
         //   },
@@ -8606,7 +8606,7 @@ export class formFeildData {
         //   key: 'create',
         //   type: 'checkbox',
         // wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-1/6 px-1 mt-3",
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mt-3",
         //   props: {
         //     label: 'Create',
         //   },

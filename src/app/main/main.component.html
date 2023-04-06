@@ -331,14 +331,14 @@
         </ng-template>
         <ng-template #thirtySix>
             <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
-                <form [formGroup]="form">
+                <form [formGroup]="form" (ngSubmit)="submit()">
                     <div
                         [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
                         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                             <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                             </formly-form>
                         </div>
-                        <!-- <button *ngIf="isLast"  type="submit" class="bg-blue-500 mt-2">Submit</button> -->
+                        <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button>
                     </div>
                     <div *ngIf="isLast">
                         <!-- <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
