@@ -23,6 +23,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 export class FormlyFieldNgSearchComponent extends FieldType<FieldTypeConfig> {
   inputValue?: string;
   get list(): any {
+    debugger
     return this.to.options;
   }
   get labelVal(): any {

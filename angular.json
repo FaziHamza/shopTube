@@ -34,6 +34,11 @@
               "node_modules/ng-zorro-antd/graph/style/index.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -108,6 +113,11 @@
               "node_modules/ng-zorro-antd/graph/style/index.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": []
           }
         }

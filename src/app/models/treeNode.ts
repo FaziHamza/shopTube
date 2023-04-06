@@ -20,7 +20,7 @@ export interface TreeNode {
   thisTitle?: string,
   actionType?: string;
   formlyType?: string;
-  wrapper?: any;
+  wrappers?: any;
   highLight?: boolean;
   isNextChild?: boolean;
   level?: any;

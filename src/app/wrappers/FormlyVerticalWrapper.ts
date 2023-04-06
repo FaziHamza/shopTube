@@ -6,7 +6,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   template: `
   <div [dir]="to.config?.formatAlignment || 'ltr'">
   <div [class]='to.labelPosition'> 
-    <label [attr.for]="id" class="col-form-label {{to.labelPosition}} pl-1"  *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
+    <label class="label-style" [attr.for]="id" class="col-form-label {{to.labelPosition}} pl-1"  *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
       <span>
         <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
         <span *ngIf="to.required">*</span>{{to.label}}

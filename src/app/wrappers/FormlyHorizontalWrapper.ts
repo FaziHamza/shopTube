@@ -5,7 +5,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'formly-horizontal-wrapper',
   template: `
     <div class="flex flex-wrap pb-1" [dir]="to.config?.formatAlignment || 'ltr'">
-      <label [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
+      <label class="label-style py-1 px-2" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
         <span>
           <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
           <span *ngIf="to.required">*</span>{{ to.label }}
@@ -30,7 +30,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldPadding: string;
   rtl:any;
   ngOnInit(): void {
-    
+
     const fullWidth = this.to.className.includes('w-full');
     const labelPosition = this.to.labelPosition + ' pl-2 pr-2' || '';
     this.labelColumn = `w-1/4 ${labelPosition}`;

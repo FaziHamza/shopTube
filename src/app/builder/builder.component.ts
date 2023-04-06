@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ElementData } from '../models/element';
 import { ColorPickerService } from '../services/colorpicker.service';
+import { DataService } from '../services/offlineDb.service';
+import { EncryptionService } from '../services/encryption.service';
 
 @Component({
   selector: 'app-builder',
@@ -25,7 +27,7 @@ import { ColorPickerService } from '../services/colorpicker.service';
 })
 export class BuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
-
+  isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
 
 
@@ -64,10 +66,12 @@ export class BuilderComponent implements OnInit {
 
 
   constructor(public builderService: BuilderService,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
+    private _encryptionService : EncryptionService,
     private toastr: NzMessageService,
+    private dataService: DataService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService , private colorPickerService: ColorPickerService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -142,7 +146,64 @@ export class BuilderComponent implements OnInit {
     this.applySize();
 
   }
+  updateNodes() {
+    this.nodes = [...this.nodes];
+    if(this.isSavedDb)
+      this.saveOfflineDB();
+  }
+  saveOfflineDB(){
+    let data = this.jsonStringifyWithObject(this.nodes);
+    let encryptData  = this._encryptionService.encryptData(data)
+    this.dataService.saveData(this.screenName, encryptData);
+  }
+  getOfflineDb(){
+    let data  = this.dataService.getNodes(this.screenName);
+    let decryptData  = this._encryptionService.decryptData(data)
+    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
+    // let data = this.jsonParse(this.jsonStringifyWithObject(data));
+  }
+  async applyOfflineDb(content:any){
+    debugger
+    let data  =await this.dataService.getNodes(this.screenName);
+    if(this.oldIndex != undefined){
+      if(content == 'previous' && this.oldIndex == 0)
+      {
+        this.toastr.error("Sorry there is no JSON Backward");
+      }
+      else if(content == 'next' && this.oldIndex + 1 == data.length){
+        this.toastr.error("Sorry there is no JSON Forward");
+      }
+      else{
+        if (this.oldIndex != undefined) {
+          for (let index = 0; index < data.length; index++) {
+              if (content == 'next' && index == this.oldIndex + 1) {
+                this.decryptData(data[index]);
+                this.oldIndex = index;
+                break;
+              } else if (content == 'previous' && index == this.oldIndex - 1) {
+                this.decryptData(data[index]);
+                this.oldIndex =index;
+                break;
+              }
+          }
+        }
 
+      }
+    }
+    else {
+      this.decryptData(data[data.length - 1]);
+      this.oldIndex = data.length - 1;
+    }
+  }
+  oldIndex: number;
+  decryptData(data:any){
+     let decryptData  = this._encryptionService.decryptData(data?.data)
+     this.nodes = this.jsonParseWithObject(decryptData);
+  }
+
+  deleteOfflineDb(){
+    let data  = this.dataService.deleteDb(this.screenName);
+  }
   JsonEditorShow() {
 
     this.IslayerVisible = false;
@@ -208,33 +269,34 @@ export class BuilderComponent implements OnInit {
   expandedKeys: any;
   getFormLayers(data: any) {
     this.screenName = data
+    this.isSavedDb = false;
     const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
     this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
       next: (res) => {
         if (res.length > 0) {
-          if (res[0].menuData[0].children[1]) {
+            this.isSavedDb = true;
             this.screenId = res[0].id;
-            // this.nodes = res[0].menuData;
             this.moduleId = res[0].moduleId;
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+            this.updateNodes();
+          // if (res[0].menuData[0].children[1]) {
 
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-          }
-          else {
-            this.screenId = res[0].id;
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-            // this.updateNodes();
-          }
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
+          // else {
+          //   this.screenId = res[0].id;
+          //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
 
         }
         else {
           this.screenId = 0;
           this.clearChildNode();
-          // this.updateNodes();
         }
+        this.isSavedDb = true;
         this.formModalData = {};
         this.getUIRuleData(true);
         this.getBusinessRule();
@@ -251,6 +313,7 @@ export class BuilderComponent implements OnInit {
 
   }
   clearChildNode() {
+    this.isSavedDb = false;
     if (this.screenPage) {
       const newNode = [{
         id: 'page',
@@ -283,6 +346,8 @@ export class BuilderComponent implements OnInit {
       this.selectedNode = newNode[0];
       this.addControlToJson('pageFooter', null);
       this.updateNodes();
+      this.saveOfflineDB();
+      this.isSavedDb = true;
     }
   }
   textJsonObj = {
@@ -586,18 +651,18 @@ export class BuilderComponent implements OnInit {
       this.getSetVariableRule(model, currentValue);
     }
   }
-  getSetVariableRule(model:any,value:any){
-     //for grid amount assign to other input field
-     const filteredNodes = this.filterInputElements(this.nodes);
-     filteredNodes.forEach(node => {
-       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
-       if(formlyConfig)
-       if(formlyConfig.setVariable != "")
-        if(model?.props?.config?.getVariable !="")
-       if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
-         this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
-       }
-     });
+  getSetVariableRule(model: any, value: any) {
+    //for grid amount assign to other input field
+    const filteredNodes = this.filterInputElements(this.nodes);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+      if (formlyConfig)
+        if (formlyConfig.setVariable != "" && formlyConfig.setVariable)
+          if (model?.props?.config?.getVariable != "")
+            if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+              this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+            }
+    });
   }
   //#region GetInputFormly
 
@@ -827,8 +892,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'according') {
       const newNode = {
-        id: 'according_'+ Guid.newGuid(),
-        key: "according_"+ Guid.newGuid(),
+        id: 'according_' + Guid.newGuid(),
+        key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
         className: "w-full",
@@ -888,6 +953,7 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        className: "px-6 pt-6 pb-10",
         // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",
@@ -1000,7 +1066,7 @@ export class BuilderComponent implements OnInit {
                   maskString: data?.maskString,
                   // sufix: 'INV ',
                   maskLabel: data?.maskLabel,
-                  disabled: this.getLastNodeWrapper("disabled"),
+                  // disabled: this.getLastNodeWrapper("disabled"),
                   readonly: false,
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
@@ -1032,7 +1098,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == "buttonGroup") {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'buttonGroup_' + Guid.newGuid(),
         title: 'buttonGroup',
         type: "buttonGroup",
         highLight: false,
@@ -1071,9 +1137,10 @@ export class BuilderComponent implements OnInit {
         iconType: 'outline',
         nzLoading: false,
         nzGhost: false,
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
+
         children: [
         ],
 
@@ -1108,9 +1175,9 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         nztype: "default",
-        textColor:"",
-        iconSize:15,
-        hoverTextColor:'',
+        textColor: "",
+        iconSize: 15,
+        hoverTextColor: '',
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1137,7 +1204,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'updateButton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'updateButton_' + Guid.newGuid(),
         key: "update" + Guid.newGuid(),
         title: 'update_1',
         type: "button",
@@ -1160,9 +1227,9 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
         children: [
         ],
 
@@ -1171,7 +1238,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'deleteButton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'deleteButton_' + Guid.newGuid(),
         hideExpression: false,
         tooltip: "",
         key: "delete" + Guid.newGuid(),
@@ -1194,9 +1261,9 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
         children: [
         ],
 
@@ -1223,7 +1290,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'switch') {
 
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'switch_' + Guid.newGuid(),
         type: "switch",
         highLight: false,
         isNextChild: false,
@@ -1275,7 +1342,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'progressBar') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'progressBar_' + Guid.newGuid(),
         title: 'progressBar',
         type: "progressBar",
         highLight: false,
@@ -1298,7 +1365,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'video') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'video_' + Guid.newGuid(),
         key: "video" + Guid.newGuid(),
         title: 'Play Video Online',
         type: "video",
@@ -1317,7 +1384,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'audio') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'audio_' + Guid.newGuid(),
         key: 'common_' + Guid.newGuid(),
         title: "Audio Example",
         type: "audio",
@@ -1334,8 +1401,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'carouselCrossfade') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'carouselCrossfade_' + Guid.newGuid(),
+        key: 'carouselCrossfade_' + Guid.newGuid(),
         title: 'carouselCrossfade_1',
         type: "carouselCrossfade",
         highLight: false,
@@ -1368,8 +1435,8 @@ export class BuilderComponent implements OnInit {
     else if (value == 'calender') {
       const TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'calender_' + Guid.newGuid(),
+        key: 'calender_' + Guid.newGuid(),
         title: 'calender_1',
         type: "calender",
         className: "w-full",
@@ -1378,7 +1445,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         view: 'prev,next today',
-        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
         // disabled: false,
         weekends: true,
         editable: true,
@@ -1425,8 +1492,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'sharedMessagesChart') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'sharedMessagesChart_' + Guid.newGuid(),
+        key: 'sharedMessagesChart_' + Guid.newGuid(),
         title: 'Task  Widget_1',
         type: "sharedMessagesChart",
         className: "w-1/2",
@@ -1485,8 +1552,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'simpleCardWithHeaderBodyFooter') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: "simpleCard_" + Guid.newGuid(),
+        id: 'simpleCardWithHeaderBodyFooter_' + Guid.newGuid(),
+        key: "simpleCardWithHeaderBodyFooter_" + Guid.newGuid(),
         title: 'simpleCard_1',
         type: "simpleCardWithHeaderBodyFooter",
         hideExpression: false,
@@ -1530,7 +1597,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         icon: 'star',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
       } as TreeNode;
@@ -1604,7 +1671,7 @@ export class BuilderComponent implements OnInit {
         subtitle: '',
         percentage: '',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
       } as TreeNode;
@@ -1684,7 +1751,7 @@ export class BuilderComponent implements OnInit {
         nzSize: "default",
         nzShape: 'default',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
 
@@ -1693,7 +1760,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'simplecard') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "simplecard_" + Guid.newGuid(),
         title: "card" + '_1',
         type: "card",
         className: "w-1/4",
@@ -1714,7 +1781,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'chartcard') {
       const newNode = {
-        id: "common" + Guid.newGuid(),
+        id: "chartcard" + Guid.newGuid(),
         title: "chart" + '_1',
         type: "chart",
         className: "w-1/2",
@@ -1840,7 +1907,7 @@ export class BuilderComponent implements OnInit {
 
     else if (value == 'sectionCard') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "sectionCard_" + Guid.newGuid(),
         title: "Section_Chart" + '_1',
         type: "sectionCard",
         className: "w-1/2",
@@ -1866,7 +1933,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'widgetSectionCard') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "widgetSectionCard_" + Guid.newGuid(),
         title: "Widget_Section_Card" + '_1',
         type: "widgetSectionCard",
         className: "w-1/2",
@@ -1963,7 +2030,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'donutChart') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "donutChart_" + Guid.newGuid(),
         title: "donut_Chart" + '_1',
         type: "donutChart",
         className: "w-1/2",
@@ -2023,7 +2090,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'browserChart') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "browserChart_" + Guid.newGuid(),
         title: "Browser_Chart" + '_1',
         type: "browserCard",
         link: "",
@@ -2056,7 +2123,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'browserCombineChart') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "browserCombineChart_" + Guid.newGuid(),
         title: "Browser_CombineChart" + '_1',
         type: "browserCombineChart",
         link: "",
@@ -2090,7 +2157,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'donuteSaleChart') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "donuteSaleChart_" + Guid.newGuid(),
         title: "Sale_Donute_Chart" + '_1',
         type: "donuteSaleChart",
         className: "w-1/2",
@@ -2148,7 +2215,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'salesAnalyticschart') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "salesAnalyticschart_" + Guid.newGuid(),
         title: "sales_Analytics_chart" + '_1',
         type: "salesAnalyticschart",
         className: "w-1/2",
@@ -2405,7 +2472,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'htmlBlock') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "htmlBlock_" + Guid.newGuid(),
         title: "Html Block" + '_1',
         type: "paragraph",
         className: "w-full",
@@ -2428,7 +2495,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'textEditor') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "textEditor_" + Guid.newGuid(),
         key: "textEditor" + Guid.newGuid(),
         title: "Text Editor" + '_1',
         type: "textEditor",
@@ -2444,7 +2511,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'editor_js') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "editor_js_" + Guid.newGuid(),
         key: "editor_js" + Guid.newGuid(),
         title: "editor_js" + '_1',
         type: "editor_js",
@@ -2460,7 +2527,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'breakTag') {
       const newNode = {
-        id: "common_" + Guid.newGuid(),
+        id: "breakTag_" + Guid.newGuid(),
         title: "breakTag" + '_1',
         type: "breakTag",
         className: "w-full",
@@ -2500,7 +2567,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'gridList') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'gridList_' + Guid.newGuid(),
         className: "w-full",
         title: 'Grid List' + '_1',
         type: 'gridList',
@@ -2643,7 +2710,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'invoiceGrid') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'invoiceGrid_' + Guid.newGuid(),
         title: 'Grid List' + '_1',
         type: 'invoiceGrid',
         link: '',
@@ -2659,9 +2726,6 @@ export class BuilderComponent implements OnInit {
         delete: true,
         update: false,
         create: false,
-
-
-
         children: [
           {
             "id": "description",
@@ -2835,7 +2899,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'fixedDiv') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'fixedDiv_' + Guid.newGuid(),
         key: "fixedDiv" + Guid.newGuid(),
         title: 'FixedDiv_1',
         type: "fixedDiv",
@@ -2881,7 +2945,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'divider') {
       const newNode = {
         className: "w-1/4",
-        id: 'common_' + Guid.newGuid(),
+        id: 'divider_' + Guid.newGuid(),
         title: 'Divider_1',
         type: "divider",
         highLight: false,
@@ -2905,7 +2969,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'toastr') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'toastr_' + Guid.newGuid(),
         key: 'toastr_' + Guid.newGuid(),
         title: 'toastr_1',
         type: "toastr",
@@ -2928,7 +2992,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'rate') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'rate_' + Guid.newGuid(),
         key: 'rate_' + Guid.newGuid(),
         title: 'rate_1',
         type: "rate",
@@ -2942,6 +3006,7 @@ export class BuilderComponent implements OnInit {
         showCount: 5,
         ngvalue: 0,
         disabled: false,
+        options: [ 'terrible' , 'bad' , 'normal' , 'good' , 'wonderful'],
         children: [
         ],
       } as TreeNode;
@@ -2949,8 +3014,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'rangeSlider') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'rangeSlider_' + Guid.newGuid(),
+        key: 'rangeSlider_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'rangeSlider',
         type: "rangeSlider",
@@ -3003,8 +3068,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'affix') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'affix_' + Guid.newGuid(),
+        key: 'affix_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Affix',
         type: "affix",
@@ -3021,8 +3086,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'statistic') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'statistic_' + Guid.newGuid(),
+        key: 'statistic_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Statistic',
         type: "statistic",
@@ -3047,8 +3112,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'backTop') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'backTop_' + Guid.newGuid(),
+        key: 'backTop_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Back Top',
         type: "backTop",
@@ -3165,7 +3230,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'avatar') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'avatar_' + Guid.newGuid(),
         className: "w-1/2",
         key: "avatar_" + Guid.newGuid(),
         title: 'Avatar',
@@ -3218,7 +3283,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'comment') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'comment_' + Guid.newGuid(),
         key: 'comment_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Comment',
@@ -3235,7 +3300,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'popOver') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'popOver_' + Guid.newGuid(),
         key: 'popOver_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Pop Over',
@@ -3278,7 +3343,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'descriptionChild') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'descriptionChild_' + Guid.newGuid(),
         key: 'descriptionchild_' + Guid.newGuid(),
         title: 'descriptionchild',
         type: "descriptionChild",
@@ -3297,8 +3362,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'segmented') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'segmented_' + Guid.newGuid(),
+        key: 'segmented_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Segmented',
         type: "segmented",
@@ -3323,8 +3388,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'result') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'result_' + Guid.newGuid(),
+        key: 'result_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'result',
         type: "result",
@@ -3382,7 +3447,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'spin') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'spin_' + Guid.newGuid(),
         key: 'spin_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Spin',
@@ -3402,8 +3467,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'transfer') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        key: 'common_' + Guid.newGuid(),
+        id: 'transfer_' + Guid.newGuid(),
+        key: 'transfer_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'transfer',
         type: "transfer",
@@ -3479,7 +3544,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'treeSelect') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'treeSelect_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'tree Select',
         type: "treeSelect",
@@ -3527,7 +3592,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'tree') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'tree_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'tree',
         type: "tree",
@@ -3697,7 +3762,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'skeleton') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'skeleton_' + Guid.newGuid(),
         key: 'skeleton_' + Guid.newGuid(),
         type: "skeleton",
         title: 'Skeleton',
@@ -3717,7 +3782,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'empty') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'empty_' + Guid.newGuid(),
         key: 'empty_' + Guid.newGuid(),
         type: "empty",
         title: 'Empty',
@@ -3738,7 +3803,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'list') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'list_' + Guid.newGuid(),
         key: 'list_' + Guid.newGuid(),
         type: "list",
         title: 'List with Load More',
@@ -3821,7 +3886,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'treeView') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'treeView_' + Guid.newGuid(),
         key: 'treeView_' + Guid.newGuid(),
         type: "treeView",
         title: 'Tree View',
@@ -3874,7 +3939,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'mentions') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'mentions_' + Guid.newGuid(),
         key: 'mentions_' + Guid.newGuid(),
         type: "mentions",
         // title: 'Mention',
@@ -3915,7 +3980,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'message') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'message_' + Guid.newGuid(),
         key: 'message_' + Guid.newGuid(),
         title: 'Message',
         type: "message",
@@ -3934,7 +3999,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'notification') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'notification_' + Guid.newGuid(),
         key: 'notification_' + Guid.newGuid(),
         title: 'Notification',
         type: "notification",
@@ -3966,7 +4031,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         icon: 'star',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4006,12 +4071,13 @@ export class BuilderComponent implements OnInit {
     // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectedNode);
   }
   getLastNodeWrapper(dataType?: string) {
+    debugger
     let wrapperName: any = ['form-field-horizontal'];
-    if (dataType == 'wrappers') {
-      return wrapperName;
-    } else if (dataType == 'disabled') {
-      return false;
-    }
+    // if (dataType == 'wrappers') {
+    //   return wrapperName;
+    // } else if (dataType == 'disabled') {
+    //   return false;
+    // }
     let disabledProperty: any;
     if (this.selectedNode.children) {
       for (let j = 0; j < this.selectedNode.children.length; j++) {
@@ -4047,13 +4113,11 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
-
     if (dataType == 'wrappers') {
       return wrapperName;
     } else if (dataType == 'disabled') {
       return disabledProperty;
     }
-
   }
   addNextChildProperty(data: any) {
 
@@ -4191,7 +4255,7 @@ export class BuilderComponent implements OnInit {
         const element = this.nodes[0].options[index];
         veriableOptions.push({
           label: element.VariableName,
-          value: element.VariableName
+          value: element.VariableName,
         })
       }
     }
@@ -4223,7 +4287,7 @@ export class BuilderComponent implements OnInit {
     switch (type) {
       case "breakTag":
         configObj = { ...configObj };
-        this.fieldData.formData = _formFieldData.breakTagFeilds;
+        // this.fieldData.formData = _formFieldData.breakTagFeilds;
         break;
 
       case "drawer":
@@ -4395,7 +4459,7 @@ export class BuilderComponent implements OnInit {
 
       case "fixedDiv":
         configObj = { ...configObj, ...this.clickButtonService.getFixedDivConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.fixedDivFields;
+        // this.fieldData.formData = _formFieldData.fixedDivFields;
         break;
 
       case "calender":
@@ -4410,7 +4474,7 @@ export class BuilderComponent implements OnInit {
 
       case "textEditor":
         configObj = { ...configObj, ...this.clickButtonService.getTextEditorConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.textEditorFeilds;
+        // this.fieldData.formData = _formFieldData.textEditorFeilds;
         break;
 
       case "switch":
@@ -4568,7 +4632,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
-        
+
       case "tags":
       case "repeatSection":
       case "multiselect":
@@ -4682,7 +4746,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "pageBody":
         // configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.pageBodyFields;
+        // this.fieldData.formData = _formFieldData.pageBodyFields;
         break;
       case "pageFooter":
         configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
@@ -4691,10 +4755,10 @@ export class BuilderComponent implements OnInit {
       case "according":
         if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
           this.fieldData.commonData[0].fieldGroup[4] = {
-            className: "w-1/4 px-2 d-none",
+            className: "w-1/2",
             key: 'className',
             type: 'input',
-            wrappers: ["formly-vertical-wrapper"],
+            wrappers: ["formly-vertical-theme-wrapper"],
             props: {
               label: 'Section ClassName',
               // options: [
@@ -5280,10 +5344,7 @@ export class BuilderComponent implements OnInit {
   nzEvent(event: NzFormatEmitEvent): void {
     // console.log(event);
   }
-  updateNodes() {
-    this.nodes = [...this.nodes];
 
-  }
   clickBack() {
 
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
@@ -5548,6 +5609,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "rate":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.clear = event.form.clear;
           this.selectedNode.allowHalf = event.form.allowHalf;
@@ -5556,6 +5618,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.showCount = event.form.showCount;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.ngvalue = event.form.ngvalue;
+          if (event.tableDta) {
+            this.selectedNode.options = event.tableDta.map((option : any) => option.label);
+          } else {
+            this.selectedNode.options = this.selectedNode.options;
+          }
         }
         break;
       case "statistic":
@@ -5721,7 +5788,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-      case "customMasking":
+        case "customMasking":
         debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -5735,6 +5802,7 @@ export class BuilderComponent implements OnInit {
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
             props['key'] = event.form.key;
+            this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
@@ -5749,8 +5817,8 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            props['maskString'] = event.form.maskString;
-            props['masktitle'] = event.form.masktitle;
+            // props['maskString'] = event.form.maskString;
+            // props['masktitle'] = event.form.masktitle;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
@@ -5998,34 +6066,34 @@ export class BuilderComponent implements OnInit {
           // this.cdr.detectChanges();
         }
         break;
-      case "masking":
-        if (this.selectedNode) {
-          this.selectedNode?.formly?.forEach(elementV1 => {
-            // MapOperator(elementV1 =currentData);
-            const formly = elementV1 ?? {};
-            const fieldGroup = formly.fieldGroup ?? [];
-            const props = fieldGroup[0]?.props ?? {};
-            props['key'] = event.form.key;
-            props.label = event.form.title;
-            props.focus = event.form.focus;
-            props['hideExpression'] = event.form.hideExpression;
-            props['defaultValue'] = event.form.defaultValue;
-            props['required'] = event.form.required;
-            props.readonly = event.form.readonly;
-            props.placeholder = event.form.placeholder;
-            props['required'] = event.form.required;
-            props['disabled'] = event.form.disabled;
-            props['tooltip'] = event.form.tooltip;
-            props['maskString'] = event.form.maskString;
-            props['maskLabel'] = event.form.maskLabel;
-            props['labelIcon'] = event.form.labelIcon;
-            props['addonLeft'].text = event.form.addonLeft;
-            props['addonRight'].text = event.form.addonRight;
-            props['tooltip'] = event.form.tooltip;
-            props['options'] = event.form.multiselect == "" ? event.form.options : "";
-          });
-        }
-        break;
+        // case "customMasking":
+        // if (this.selectedNode) {
+        //   this.selectedNode?.formly?.forEach(elementV1 => {
+        //     // MapOperator(elementV1 =currentData);
+        //     const formly = elementV1 ?? {};
+        //     const fieldGroup = formly.fieldGroup ?? [];
+        //     const props = fieldGroup[0]?.props ?? {};
+        //     props['key'] = event.form.key;
+        //     props.label = event.form.title;
+        //     props.focus = event.form.focus;
+        //     props['hideExpression'] = event.form.hideExpression;
+        //     props['defaultValue'] = event.form.defaultValue;
+        //     props['required'] = event.form.required;
+        //     props.readonly = event.form.readonly;
+        //     props.placeholder = event.form.placeholder;
+        //     props['required'] = event.form.required;
+        //     props['disabled'] = event.form.disabled;
+        //     props['tooltip'] = event.form.tooltip;
+        //     props['maskString'] = event.form.maskString;
+        //     props['maskLabel'] = event.form.maskLabel;
+        //     props['labelIcon'] = event.form.labelIcon;
+        //     props['addonLeft'].text = event.form.addonLeft;
+        //     props['addonRight'].text = event.form.addonRight;
+        //     props['tooltip'] = event.form.tooltip;
+        //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
+        //   });
+        // }
+        // break;
       case "gridList":
 
         if (this.selectedNode.id) {
@@ -6762,43 +6830,31 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
+              debugger
               if (res.formly != undefined) {
-                if (res.type != "stepperMain" && res.type != "tabsMain") {
-                  res['wrapper'] = [];
-                  res.wrapper.push(event.form.wrappers);
+                if (res.type != "mainStep" && res.type != "mainTab") {
+                  // res['wrappers'] = [];
+                  // res.wrappers.push(event.form.wrappers);
                   res['dataOnly'] = event.form.disabled;
                   if (event.form.sectionClassName) {
                     res['className'] = event.form.sectionClassName
                   }
                   res.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.formly[0].fieldGroup);
                 }
-                if (res.type == "tabsMain") {
-                  res.children?.forEach((element: any) => {
-                    element.children.forEach((elementV1: any) => {
-                      elementV1['wrapper'] = event.form.wrappers;
-                      if (event.form.sectionClassName) {
-                        res['className'] = event.form.sectionClassName
-                      }
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    });
-                  });
-                }
-                if (res.type == "stepperMain") {
-                  res.children?.forEach((element: any) => {
-                    element.children.forEach((elementV1: any) => {
-                      elementV1['wrapper'] = event.form.wrappers;
-                      if (event.form.sectionClassName) {
-                        res['className'] = event.form.sectionClassName
-                      }
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    });
-                  });
-                }
               }
-              if (res.type == "mainDashonicTabs") {
+              if (res.type == "mainStep") {
                 res.children?.forEach((element: any) => {
                   element.children.forEach((elementV1: any) => {
-                    elementV1['wrapper'] = event.form.wrappers;
+                    if (event.form.sectionClassName) {
+                      res['className'] = event.form.sectionClassName
+                    }
+                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  });
+                });
+              }
+              if (res.type == "mainTab") {
+                res.children?.forEach((element: any) => {
+                  element.children.forEach((elementV1: any) => {
                     if (event.form.sectionClassName) {
                       res['className'] = event.form.sectionClassName
                     }
@@ -6808,16 +6864,12 @@ export class BuilderComponent implements OnInit {
               }
               if (res.type == "accordionButton") {
                 res?.children?.forEach((elementV1: any) => {
-                  elementV1['wrapper'] = event.form.wrappers;
                   if (event.form.sectionClassName) {
                     res['className'] = event.form.sectionClassName
                   }
                   elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                 });
               }
-              // if (event.form.className) {
-              //   res.className = event.form.className;
-              // }
             }
           })
           this.clickBack();
@@ -7125,11 +7177,11 @@ export class BuilderComponent implements OnInit {
       // Loop through each object in tableHeaders
       tableHeaders.forEach((header: any) => {
         // Check if the key exists in the data object
-        if(header.key)
-        if (!data.hasOwnProperty(header.key.toLowerCase())) {
-          // If the key does not exist, add it with a value of null or an empty string
-          data[header.key] = null; // or data[header.key] = '';
-        }
+        if (header.key)
+          if (!data.hasOwnProperty(header.key.toLowerCase())) {
+            // If the key does not exist, add it with a value of null or an empty string
+            data[header.key] = null; // or data[header.key] = '';
+          }
       });
     });
     return tableData;
@@ -7191,7 +7243,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-
+    debugger
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == "editable") {
@@ -7208,7 +7260,7 @@ export class BuilderComponent implements OnInit {
         }
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].props.config['wrappers'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
               this.selectedNode.size = 'default';
@@ -7361,7 +7413,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-   setCustomColor(data:any) {
+  setCustomColor(data: any) {
     debugger
     let color: string;
     color = data.target.value;

@@ -4,6 +4,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-field-ng-select',
   template: `
+  multiselect
   <ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
     <nz-input-group  [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
       <nz-select [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''" [formControl]="formControl" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
