@@ -39,6 +39,7 @@ import { ModuleListComponent } from './Builder-module/module-list/module-list.co
 import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { EditorJsWrapperComponent } from './wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -67,6 +68,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutTabsComponent,
     LayoutDrawerComponent,
     LayoutButtonComponent,
+    EditorJsWrapperComponent,
   ],
   imports: [
     FormsModule,
