@@ -333,8 +333,7 @@
             <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
                 <form [formGroup]="form">
                     <div
-                        [ngClass]="item.wrapper == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
-                        <!-- {{item | json}} -->
+                        [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
                         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                             <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                             </formly-form>

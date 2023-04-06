@@ -1,20 +1,19 @@
 <form [formGroup]="actionform" (ngSubmit)="onSubmit()">
   <nz-collapse>
-    <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
+    <nz-collapse-panel [nzHeader]="'Common  Attribute value'" [nzActive]="true">
       <div class="theme-body">
         <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <br>
-  <br>
-  <nz-collapse *ngIf="itemData.formData">
+  <nz-collapse *ngIf="itemData.formData" class="mt-4">
     <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
       <div class="theme-body">
         <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
       </div>
     </nz-collapse-panel>
   </nz-collapse>
+  <br>
   <button nz-button nzType="primary" onclick="event.stopPropagation()">Save</button>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
 </form>
