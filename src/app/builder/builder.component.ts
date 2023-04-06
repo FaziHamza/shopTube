@@ -592,7 +592,7 @@ export class BuilderComponent implements OnInit {
     filteredNodes.forEach(node => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
       if (formlyConfig)
-        if (formlyConfig.setVariable != "")
+        if (formlyConfig.setVariable != "" && formlyConfig.setVariable)
           if (model?.props?.config?.getVariable != "")
             if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
               this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
@@ -4221,7 +4221,7 @@ export class BuilderComponent implements OnInit {
     switch (type) {
       case "breakTag":
         configObj = { ...configObj };
-        this.fieldData.formData = _formFieldData.breakTagFeilds;
+        // this.fieldData.formData = _formFieldData.breakTagFeilds;
         break;
 
       case "drawer":
@@ -4393,7 +4393,7 @@ export class BuilderComponent implements OnInit {
 
       case "fixedDiv":
         configObj = { ...configObj, ...this.clickButtonService.getFixedDivConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.fixedDivFields;
+        // this.fieldData.formData = _formFieldData.fixedDivFields;
         break;
 
       case "calender":
@@ -4408,7 +4408,7 @@ export class BuilderComponent implements OnInit {
 
       case "textEditor":
         configObj = { ...configObj, ...this.clickButtonService.getTextEditorConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.textEditorFeilds;
+        // this.fieldData.formData = _formFieldData.textEditorFeilds;
         break;
 
       case "switch":
@@ -4680,7 +4680,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "pageBody":
         // configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.pageBodyFields;
+        // this.fieldData.formData = _formFieldData.pageBodyFields;
         break;
       case "pageFooter":
         configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
@@ -5739,6 +5739,7 @@ export class BuilderComponent implements OnInit {
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
             props['key'] = event.form.key;
+            this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;

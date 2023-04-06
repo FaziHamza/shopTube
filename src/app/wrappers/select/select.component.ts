@@ -13,10 +13,21 @@ export class SelectComponent extends FieldType<FieldTypeConfig> {
       .find((i : any) => i.value === value)?.icon;
   }
   get list(): any {
+    debugger
     return this.to.options;
   }
   ngOnInit(): void {
     
     this.to
+  }
+  getNzMode(to : any) {
+    debugger
+    if (to.type === 'multiselect') {
+      return 'multiple';
+    } else if (to.type === 'tag') {
+      return 'tags';
+    } else {
+      return 'default';
+    }
   }
 }
