@@ -953,6 +953,7 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        className: "px-6 pt-6 pb-10",
         // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",

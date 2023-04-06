@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 @import "~ng-zorro-antd/style/index.min.css";
 /* Import base styles */
@@ -91,7 +95,9 @@ html {
 .ant-tabs-tab .anticon {
   margin-right: 4px !important;
 }
-
+// .pb-10{
+//   padding-bottom: 2.5rem;
+// }
 img,
 svg,
 video,
@@ -146,7 +152,8 @@ object {
     // border: 1px 1px 0px 1px solid lightgray;
     border: 1px solid lightgray;
     padding-top: 7px;
-    font-weight: bold;
+    font-weight: 500;
+    color: black;
 
     span {
       padding: 0px 1px;
@@ -162,7 +169,7 @@ object {
   .ant-checkbox-wrapper {
     border: none !important;
   }
-  
+
 
   .ant-radio-wrapper {
     border: none !important;
@@ -650,7 +657,7 @@ a.fc-event:hover {
 
 // .ant-alert-message {
 //   color: var(--my-color) !important;
-// }   
+// }
 // .my-class {
 //   color: var(--my-color); // Use the custom property in your global SCSS file
 // }
