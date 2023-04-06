@@ -351,8 +351,8 @@
             <ng-container *ngIf="item.type == 'textEditor'; else thirtyEight">
                 <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true} "
                     *ngIf="!item.hideExpression">
-                    <!-- <app-editor-js-wrapper ></app-editor-js-wrapper> -->
-                    <!-- <pre>{{ editorData | json }}</pre> -->
+                    <app-editor-js-wrapper [(ngModel)]="editorData" [minHeight]="'300px'" ></app-editor-js-wrapper>
+                    <pre>{{ editorData | json }}</pre>
                     <!-- <app-editors [editorData]="item"></app-editors> -->
                 </div>
             </ng-container>

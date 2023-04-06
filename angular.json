@@ -80,10 +80,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ngZorro:build:production"
+              "browserTarget": "ngZorro:build:production",
+              "hmr": true
             },
             "development": {
-              "browserTarget": "ngZorro:build:development"
+              "browserTarget": "ngZorro:build:development",
+              "hmr": true
             }
           },
           "defaultConfiguration": "development"
