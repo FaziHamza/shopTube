@@ -553,7 +553,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-phone-alt",
-                label: "Telephone",
+                label: "Telephone Masking",
                 type: 'custom',
                 configType:'customMasking',fieldType: 'custom',
                 maskString: "0000-0000",
@@ -1081,7 +1081,7 @@ export const htmlTabsData = [
                 icon: "uil uil-calender",
                 label: "URL",
                 type: 'input',
-                configType:'checkbox',fieldType: 'url',
+                configType:'url',fieldType: 'url',
                 // maskString: "",
                  // maskLabel: "",
               },
