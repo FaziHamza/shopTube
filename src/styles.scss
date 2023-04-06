@@ -272,7 +272,11 @@ object {
       }
     }
   }
-
+  // app-formly-field-ng-search{
+  //   border: 1px solid lightgray;
+  //   padding-top: 10px;
+  //   padding-bottom: 22px;
+  // }
   .column-form-input {
     background: white;
   }
@@ -656,6 +660,7 @@ a.fc-event:hover {
 }
 
 @media screen and (max-width: 789px) {
+
   // .web-view {
   //   display: none !important;
   // }
@@ -663,6 +668,7 @@ a.fc-event:hover {
     position: absolute;
     z-index: 1000;
   }
+
   // .layout-topbar-menu{
   //   width:80%;
   // }
@@ -670,20 +676,24 @@ a.fc-event:hover {
   //   width:20%;
   // }
 }
+
 @media screen and (min-width: 744px) and (max-width: 754px) {
-  .layout-topbar-menu{
-    width:79%;
+  .layout-topbar-menu {
+    width: 79%;
   }
-  .layout-topbar-icon{
-    width:22%;
+
+  .layout-topbar-icon {
+    width: 22%;
   }
 }
+
 @media screen and (min-width: 714px) and (max-width: 720px) {
-  .layout-topbar-menu{
-    width:78%;
+  .layout-topbar-menu {
+    width: 78%;
   }
-  .layout-topbar-icon{
-    width:22%;
+
+  .layout-topbar-icon {
+    width: 22%;
   }
 }
 
@@ -692,11 +702,22 @@ a.fc-event:hover {
     display: none !important;
   }
 }
+
 // @media screen and (min-width: 1132) {
 //   .show-mbl-screen {
 //       display: none !important;
 //   }
 // }
-.themeColor{
-  background-color: red;
+:root {
+  --my-color: red;
+}
+
+.my-class {
+  background-color: var(--my-color);
+}
+
+.label-style {
+  font-family: Roboto, sans-serif !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
 }

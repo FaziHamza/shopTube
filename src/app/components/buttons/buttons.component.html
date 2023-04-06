@@ -1,4 +1,4 @@
-<button [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || ''}" (mouseover)="bgColor = buttonData?.hoverColor"
+<button [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || '' }" (mouseover)="bgColor = buttonData?.hoverColor"
     (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
     (mouseover)="borderColor = buttonData.hoverColor || ''"
       (mouseout)="bgColor = buttonData?.color || ''" 

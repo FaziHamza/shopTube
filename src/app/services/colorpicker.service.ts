@@ -14,6 +14,7 @@ export class ColorPickerService {
   setCustomColor(colorName: string, colorValue: string) {
     tailwindConfig.theme.colors[colorName] = ({ opacityVariable, opacityValue, color }: { opacityVariable: string, opacityValue: number, color: any }) => {
       const newColor = color.alpha(opacityValue / 100).toString();
+      console.log(newColor);
       return {
         '50': color.alpha(0.05).mix(newColor, 0.5).string(),
         '100': color.alpha(0.1).mix(newColor, 0.5).string(),

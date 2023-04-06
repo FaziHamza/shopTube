@@ -1,7 +1,7 @@
-<nz-rate [(ngModel)]="rateData.ngvalue" [nzAllowHalf]="rateData.allowHalf" (nzOnBlur)="onRateBlur()"
+<nz-rate [(ngModel)]="rateData.ngvalue" [nzAllowHalf]="rateData.allowHalf" [nzTooltips]="rateData.options" (nzOnBlur)="onRateBlur()"
     (nzOnKeyDown)="onRateKeyDown($event)" (nzOnHoverChange)="onRateHoverChange($event)" (nzOnFocus)="onRateFocus()"
-    [nzAllowClear]="rateData.clear" [nzAutoFocus]="rateData.focus" [nzCharacter]="characterIcon" [nzCount]="rateData.showCount"
-    [nzDisabled]="rateData.disabled"></nz-rate>
+    [nzAllowClear]="rateData.clear" [nzAutoFocus]="rateData.focus" [nzCharacter]="characterIcon"
+    [nzCount]="rateData.showCount" [nzDisabled]="rateData.disabled"></nz-rate>
 <ng-template #characterIcon>
     <span nz-icon [nzType]="rateData.icon"></span>
 </ng-template>

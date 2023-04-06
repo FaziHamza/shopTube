@@ -16,7 +16,9 @@ export class RegisterComponent implements OnInit {
   signupForm!: UntypedFormGroup;
   successmsg: boolean = false;
   error = '';
+  colorData : any;
   saveSubmitted = false;
+  myColor: string = '#fff';
   captchaTooltipIcon: NzFormTooltipIcon = {
     type: 'info-circle',
     theme: 'twotone'
@@ -72,17 +74,19 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: UntypedFormBuilder,
     public employeeService: EmployeeService,
     private router: Router,
-    private colorPickerService: ColorPickerService) { }
+    public colorPickerService: ColorPickerService) { }
 
   customColor(shade: string) {
+    this.colorData = this.colorPickerService.getColor(shade);
     return this.colorPickerService.getColor(shade);
   }
 
   setCustomColor(data:any) {
-    
+    debugger
     let color: string;
     color = data.target.value;
-    this.colorPickerService.setCustomColor('custom-color', color);
+    document.documentElement.style.setProperty('--my-color', color);
+    // this.colorPickerService.setCustomColor('custom-color', color);
   }
   ngOnInit(): void {
     this.signupForm = this.fb.group({

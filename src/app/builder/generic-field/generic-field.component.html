@@ -1,10 +1,20 @@
-<div>
-  <form [formGroup]="actionform" (ngSubmit)="onSubmit()">
-    <h5 style="font-size: 14px; font-weight: 500;"> {{itemData.title}} </h5>
-    <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
-    <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
-    <br>
-    <button nz-button nzType="primary"  onclick="event.stopPropagation()">Save</button>
-    <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
-  </form>
-</div>
+<form [formGroup]="actionform" (ngSubmit)="onSubmit()">
+  <nz-collapse>
+    <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
+      <div class="theme-body">
+        <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <br>
+  <br>
+  <nz-collapse *ngIf="itemData.formData">
+    <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
+      <div class="theme-body">
+        <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <button nz-button nzType="primary" onclick="event.stopPropagation()">Save</button>
+  <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
+</form>

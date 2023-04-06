@@ -67,7 +67,7 @@ export class BuilderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: NzMessageService,
     private cdr: ChangeDetectorRef,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService , private colorPickerService: ColorPickerService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -586,18 +586,18 @@ export class BuilderComponent implements OnInit {
       this.getSetVariableRule(model, currentValue);
     }
   }
-  getSetVariableRule(model:any,value:any){
-     //for grid amount assign to other input field
-     const filteredNodes = this.filterInputElements(this.nodes);
-     filteredNodes.forEach(node => {
-       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
-       if(formlyConfig)
-       if(formlyConfig.setVariable != "")
-        if(model?.props?.config?.getVariable !="")
-       if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
-         this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
-       }
-     });
+  getSetVariableRule(model: any, value: any) {
+    //for grid amount assign to other input field
+    const filteredNodes = this.filterInputElements(this.nodes);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
+      if (formlyConfig)
+        if (formlyConfig.setVariable != "")
+          if (model?.props?.config?.getVariable != "")
+            if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+              this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+            }
+    });
   }
   //#region GetInputFormly
 
@@ -827,8 +827,8 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'according') {
       const newNode = {
-        id: 'according_'+ Guid.newGuid(),
-        key: "according_"+ Guid.newGuid(),
+        id: 'according_' + Guid.newGuid(),
+        key: "according_" + Guid.newGuid(),
         title: 'Section_1',
         type: "according",
         className: "w-full",
@@ -1071,9 +1071,10 @@ export class BuilderComponent implements OnInit {
         iconType: 'outline',
         nzLoading: false,
         nzGhost: false,
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
+        
         children: [
         ],
 
@@ -1108,9 +1109,9 @@ export class BuilderComponent implements OnInit {
         nzGhost: false,
         iconType: 'outline',
         nztype: "default",
-        textColor:"",
-        iconSize:15,
-        hoverTextColor:'',
+        textColor: "",
+        iconSize: 15,
+        hoverTextColor: '',
         dropdownOptions: [
           {
             label: "Option 1",
@@ -1160,9 +1161,9 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
         children: [
         ],
 
@@ -1194,9 +1195,9 @@ export class BuilderComponent implements OnInit {
         nzLoading: false,
         nzGhost: false,
         iconType: 'outline',
-        iconSize:15,
-        hoverTextColor:'',
-        textColor:'',
+        iconSize: 15,
+        hoverTextColor: '',
+        textColor: '',
         children: [
         ],
 
@@ -1530,7 +1531,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         icon: 'star',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
       } as TreeNode;
@@ -1604,7 +1605,7 @@ export class BuilderComponent implements OnInit {
         subtitle: '',
         percentage: '',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
       } as TreeNode;
@@ -1684,7 +1685,7 @@ export class BuilderComponent implements OnInit {
         nzSize: "default",
         nzShape: 'default',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [
         ],
 
@@ -2928,7 +2929,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'rate') {
       const newNode = {
-        id: 'common_' + Guid.newGuid(),
+        id: 'rate_' + Guid.newGuid(),
         key: 'rate_' + Guid.newGuid(),
         title: 'rate_1',
         type: "rate",
@@ -2942,6 +2943,7 @@ export class BuilderComponent implements OnInit {
         showCount: 5,
         ngvalue: 0,
         disabled: false,
+        options: [ 'terrible' , 'bad' , 'normal' , 'good' , 'wonderful'],
         children: [
         ],
       } as TreeNode;
@@ -3966,7 +3968,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         icon: 'star',
         iconType: 'outline',
-        iconSize:15,
+        iconSize: 15,
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -5545,6 +5547,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "rate":
+        debugger
         if (this.selectedNode) {
           this.selectedNode.clear = event.form.clear;
           this.selectedNode.allowHalf = event.form.allowHalf;
@@ -5553,6 +5556,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.showCount = event.form.showCount;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.ngvalue = event.form.ngvalue;
+          if (event.tableDta) {
+            this.selectedNode.options = event.tableDta.map((option : any) => option.label);
+          } else {
+            this.selectedNode.options = this.selectedNode.options;
+          }
         }
         break;
       case "statistic":
@@ -7118,11 +7126,11 @@ export class BuilderComponent implements OnInit {
       // Loop through each object in tableHeaders
       tableHeaders.forEach((header: any) => {
         // Check if the key exists in the data object
-        if(header.key)
-        if (!data.hasOwnProperty(header.key.toLowerCase())) {
-          // If the key does not exist, add it with a value of null or an empty string
-          data[header.key] = null; // or data[header.key] = '';
-        }
+        if (header.key)
+          if (!data.hasOwnProperty(header.key.toLowerCase())) {
+            // If the key does not exist, add it with a value of null or an empty string
+            data[header.key] = null; // or data[header.key] = '';
+          }
       });
     });
     return tableData;
@@ -7354,7 +7362,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-   setCustomColor(data:any) {
+  setCustomColor(data: any) {
     debugger
     let color: string;
     color = data.target.value;

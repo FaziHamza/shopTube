@@ -16,8 +16,8 @@ export class formFeildData {
           // {
           //   key: 'formCheck',
           //   type: 'select',
-          //   className: "w-1/4 px-1",
-          //   wrappers: ["formly-vertical-wrapper"],
+          //   className: "w-1/2",
+          //   wrappers: ["formly-vertical-theme-wrapper"],
           //   props: {
           //     label: 'Format',
           //     options: [
@@ -37,8 +37,8 @@ export class formFeildData {
           {
             key: 'api',
             type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
+            className: "w-1/2",
+            wrappers: ["formly-vertical-theme-wrapper"],
             props: {
               label: 'Select API',
               options: [
@@ -70,7 +70,7 @@ export class formFeildData {
               key: 'value',
               type: 'input',
               className: "ml-2",
-              wrappers: ["formly-vertical-wrapper"],
+              wrappers: ["formly-vertical-theme-wrapper"],
               props: {
                 label: 'value'
               }
@@ -79,7 +79,7 @@ export class formFeildData {
               key: 'label',
               type: 'input',
               className: "ml-2",
-              wrappers: ["formly-vertical-wrapper"],
+              wrappers: ["formly-vertical-theme-wrapper"],
               props: {
                 label: 'Label'
               }
@@ -96,8 +96,8 @@ export class formFeildData {
           {
             key: 'api',
             type: 'select',
-            className: "w-1/4 px-1",
-            wrappers: ["formly-vertical-wrapper"],
+            className: "w-1/2",
+            wrappers: ["formly-vertical-theme-wrapper"],
             props: {
               label: 'Select API',
               options: [
@@ -128,7 +128,7 @@ export class formFeildData {
             {
               key: 'label',
               type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
+              wrappers: ["formly-vertical-theme-wrapper"],
               props: {
                 label: 'label'
               }
@@ -137,7 +137,7 @@ export class formFeildData {
               className: "ml-2",
               key: 'value',
               type: 'input',
-              wrappers: ["formly-vertical-wrapper"],
+              wrappers: ["formly-vertical-theme-wrapper"],
               props: {
                 label: 'value'
               }
@@ -157,8 +157,8 @@ export class formFeildData {
         {
           key: 'color',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color'
@@ -167,8 +167,8 @@ export class formFeildData {
         {
           key: 'hoverTextColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Hover text color'
@@ -177,8 +177,8 @@ export class formFeildData {
         {
           key: 'textColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Text color'
@@ -187,8 +187,8 @@ export class formFeildData {
         {
           key: 'hoverColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color on hover'
@@ -198,7 +198,7 @@ export class formFeildData {
         {
           key: 'format',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Position',
@@ -221,7 +221,7 @@ export class formFeildData {
         {
           key: 'nztype',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Type',
@@ -248,7 +248,7 @@ export class formFeildData {
         {
           key: 'nzSize',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Size',
@@ -271,7 +271,7 @@ export class formFeildData {
         {
           key: 'nzShape',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Shape',
@@ -294,7 +294,7 @@ export class formFeildData {
         // {
         //   key: 'btnIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   "wrappers": ["formly-vertical-wrapper"],
         //   props: {
         //     label: 'Button Icon'
@@ -356,8 +356,8 @@ export class formFeildData {
         {
           key: 'optionHieght',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Option Hieght',
@@ -367,8 +367,8 @@ export class formFeildData {
         // {
         //   key: 'optionHoverSize',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type:'number',
         //     label: 'Option Hover Size',
@@ -377,8 +377,8 @@ export class formFeildData {
         {
           key: 'icon',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Remove Icon',
           },
@@ -461,7 +461,7 @@ export class formFeildData {
               {
                 key: 'label',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'label'
                 }
@@ -470,7 +470,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'value',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'value'
                 }
@@ -488,8 +488,8 @@ export class formFeildData {
         {
           key: 'firstBtnText',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'First button text',
 
@@ -498,8 +498,8 @@ export class formFeildData {
         {
           key: 'secondBtnText',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Second button text',
           },
@@ -507,8 +507,8 @@ export class formFeildData {
         {
           key: 'minuteStep',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'minuteStep',
@@ -517,8 +517,8 @@ export class formFeildData {
         {
           key: 'secondStep',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'secondStep',
@@ -527,8 +527,8 @@ export class formFeildData {
         {
           key: 'hoursStep',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'hoursStep',
@@ -537,8 +537,8 @@ export class formFeildData {
         {
           key: 'icon',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'icon',
           },
@@ -571,7 +571,7 @@ export class formFeildData {
         {
           key: 'btngroupformat',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Group position',
@@ -604,7 +604,7 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Text'
@@ -613,8 +613,8 @@ export class formFeildData {
         {
           key: 'hoverTextColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Hover text color'
@@ -623,8 +623,8 @@ export class formFeildData {
         {
           key: 'textColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Text color'
@@ -633,8 +633,8 @@ export class formFeildData {
         {
           key: 'color',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color'
@@ -643,8 +643,8 @@ export class formFeildData {
         {
           key: 'hoverColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color on hover'
@@ -653,8 +653,8 @@ export class formFeildData {
         // {
         //   key: 'btnIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Button Icon'
         //   }
@@ -662,7 +662,7 @@ export class formFeildData {
         {
           key: 'format',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Position',
@@ -685,7 +685,7 @@ export class formFeildData {
         {
           key: 'nzSize',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Size',
@@ -708,8 +708,8 @@ export class formFeildData {
         {
           key: 'nztype',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Type',
             options: [
@@ -735,7 +735,7 @@ export class formFeildData {
         {
           key: 'trigger',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Trigger',
@@ -755,7 +755,7 @@ export class formFeildData {
         {
           key: 'placement',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Menu Placement',
@@ -858,7 +858,7 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full",
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             style: "margin-top: 6%;",
             canAdd: true,
@@ -871,7 +871,7 @@ export class formFeildData {
                 key: 'label',
                 type: 'input',
                 className: "ml-2",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'label'
                 }
@@ -880,7 +880,7 @@ export class formFeildData {
                 key: 'link',
                 type: 'input',
                 className: "ml-2",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'link'
                 }
@@ -898,8 +898,8 @@ export class formFeildData {
         {
           key: 'target',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Open Type',
             options: [
@@ -933,8 +933,8 @@ export class formFeildData {
         {
           key: 'color',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color'
@@ -943,8 +943,8 @@ export class formFeildData {
         {
           key: 'hoverColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Background color on hover'
@@ -953,7 +953,7 @@ export class formFeildData {
         {
           key: 'format',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Button Format',
@@ -977,7 +977,7 @@ export class formFeildData {
         {
           key: 'nzShape',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Shape',
@@ -1000,8 +1000,8 @@ export class formFeildData {
         // {
         //   key: 'btnIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Button Icon'
         //   }
@@ -1009,8 +1009,8 @@ export class formFeildData {
         {
           key: 'href',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link'
           }
@@ -1018,7 +1018,7 @@ export class formFeildData {
         {
           key: 'nzSize',
           type: 'select',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           "wrappers": ["formly-vertical-wrapper"],
           props: {
             label: 'Size',
@@ -1103,8 +1103,8 @@ export class formFeildData {
         {
           key: 'defaultValue',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Default Color',
             type: 'color'
@@ -1121,8 +1121,8 @@ export class formFeildData {
         {
           key: 'optionWidth',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "number",
             label: 'Option Width',
@@ -1141,7 +1141,7 @@ export class formFeildData {
               {
                 key: 'label',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'label'
                 }
@@ -1150,7 +1150,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'value',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'value'
                 }
@@ -1169,8 +1169,8 @@ export class formFeildData {
         {
           key: 'format',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Format',
             options: [
@@ -1199,8 +1199,8 @@ export class formFeildData {
         {
           key: 'maxLength',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'max Length',
@@ -1210,8 +1210,8 @@ export class formFeildData {
         {
           key: 'minLength',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'minLength',
@@ -1221,8 +1221,8 @@ export class formFeildData {
         {
           key: 'step',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Step',
@@ -1239,37 +1239,37 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'link',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'name',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Name'
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'total',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Total'
@@ -1294,10 +1294,10 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'sub_label',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sub Label',
           }
@@ -1306,8 +1306,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -1345,7 +1345,7 @@ export class formFeildData {
               //   key: 'filtertype',
               //   type: 'input',
               //   className: "w-1/3",
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Filtertype'
               //   }
@@ -1353,8 +1353,8 @@ export class formFeildData {
               {
                 key: 'price',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'price'
                 }
@@ -1362,8 +1362,8 @@ export class formFeildData {
               {
                 key: 'data',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Data'
                 }
@@ -1371,8 +1371,8 @@ export class formFeildData {
               {
                 key: 'colors',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   type: "color",
                   label: 'Colors'
@@ -1383,7 +1383,7 @@ export class formFeildData {
               //   key: 'api',
               //   type: 'input',
               //   className: "col",
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Api'
               //   }
@@ -1409,7 +1409,7 @@ export class formFeildData {
         //         key: 'filtertype',
         //         type: 'input',
         //         className: "w-full",
-        //         wrappers: ["formly-vertical-wrapper"],
+        //         wrappers: ["formly-vertical-theme-wrapper"],
         //         props: {
         //           canAdd: true,
         //           canRemove: true,
@@ -1421,7 +1421,7 @@ export class formFeildData {
         //               key: 'series',
         //               type: 'input',
         //               className: "w-1/3",
-        //               wrappers: ["formly-vertical-wrapper"],
+        //               wrappers: ["formly-vertical-theme-wrapper"],
         //               props: {
         //                 type: 'number',
         //                 label: 'asdasd'
@@ -1433,7 +1433,7 @@ export class formFeildData {
         //               key: 'color',
         //               type: 'input',
         //               className: "w-1/3",
-        //               wrappers: ["formly-vertical-wrapper"],
+        //               wrappers: ["formly-vertical-theme-wrapper"],
         //               props: {
         //                 label: 'Color',
         //                 type: "color"
@@ -1444,7 +1444,7 @@ export class formFeildData {
         //               key: 'api',
         //               type: 'input',
         //               className: "w-1/3",
-        //               wrappers: ["formly-vertical-wrapper"],
+        //               wrappers: ["formly-vertical-theme-wrapper"],
         //               props: {
         //                 label: 'Api'
         //               }
@@ -1468,8 +1468,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -1508,7 +1508,7 @@ export class formFeildData {
                 key: 'series',
                 type: 'input',
                 className: "w-1/3",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   type: 'number',
                   label: 'Series'
@@ -1519,7 +1519,7 @@ export class formFeildData {
                 key: 'color',
                 type: 'input',
                 className: "w-1/3",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Color',
                   type: "color"
@@ -1530,7 +1530,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 className: "w-1/3",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -1552,8 +1552,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -1566,28 +1566,28 @@ export class formFeildData {
           // defaultValue: 'donutChart'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'thisTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'This Title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'lastTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Last Title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'prevTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Prev Title',
           }
@@ -1620,7 +1620,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'thisValue',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'This Value',
                 }
@@ -1629,7 +1629,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'growth',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Growth',
                 }
@@ -1638,7 +1638,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'lastValue',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Last Value',
                 }
@@ -1647,7 +1647,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'prevValue',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Prev Value',
                 }
@@ -1674,7 +1674,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'series',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   type: "number",
                   label: 'Series'
@@ -1685,7 +1685,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'color',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   type: "color",
                   label: 'Color'
@@ -1696,7 +1696,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'api',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -1704,7 +1704,7 @@ export class formFeildData {
               // {
               //   key: 'Direct',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Direct Label'
               //   }
@@ -1712,7 +1712,7 @@ export class formFeildData {
               // {
               //   key: 'Others',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Other Label'
               //   }
@@ -1733,8 +1733,8 @@ export class formFeildData {
         {
           key: 'defaultColor',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Default Color',
             options: [
@@ -1779,10 +1779,10 @@ export class formFeildData {
           // defaultValue: 'w-1/3'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'belowpercentage',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "number",
             label: 'Below Percentage',
@@ -1791,8 +1791,8 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Below Percentage Color',
             options: [
@@ -1837,19 +1837,19 @@ export class formFeildData {
           // defaultValue: 'w-1/3'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'limit',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Limit',
@@ -1859,8 +1859,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -1898,7 +1898,7 @@ export class formFeildData {
               // {
               //   key: 'name',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Title'
               //   }
@@ -1906,7 +1906,7 @@ export class formFeildData {
               {
                 key: 'percentage',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'percentage'
                 }
@@ -1914,7 +1914,7 @@ export class formFeildData {
               {
                 key: 'min',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'min'
                 }
@@ -1922,7 +1922,7 @@ export class formFeildData {
               {
                 key: 'max',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'max'
                 }
@@ -1930,7 +1930,7 @@ export class formFeildData {
               {
                 key: 'bar',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'bar'
                 }
@@ -1938,7 +1938,7 @@ export class formFeildData {
               {
                 key: 'api',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -1959,8 +1959,8 @@ export class formFeildData {
         {
           key: 'defaultColor',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Default Color',
             options: [
@@ -2005,20 +2005,20 @@ export class formFeildData {
           // defaultValue: 'w-1/3'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'numberofcolumns',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "number",
             label: 'Number Of Columns',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'belowpercentage',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "number",
             label: 'Below Percentage',
@@ -2027,8 +2027,8 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Below Percentage Color',
             options: [
@@ -2073,19 +2073,19 @@ export class formFeildData {
           // defaultValue: 'w-1/3'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'limit',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Limit',
@@ -2096,8 +2096,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -2138,7 +2138,7 @@ export class formFeildData {
               {
                 key: 'name',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title'
                 }
@@ -2146,7 +2146,7 @@ export class formFeildData {
               {
                 key: 'percentage',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'percentage'
                 }
@@ -2154,7 +2154,7 @@ export class formFeildData {
               {
                 key: 'min',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'min'
                 }
@@ -2162,7 +2162,7 @@ export class formFeildData {
               {
                 key: 'max',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'max'
                 }
@@ -2170,7 +2170,7 @@ export class formFeildData {
               {
                 key: 'bar',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'bar'
                 }
@@ -2179,7 +2179,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'api',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -2198,20 +2198,20 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'limit',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Limit',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'percentage',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Below Percentage',
@@ -2220,8 +2220,8 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Below Percentage Color',
             options: [
@@ -2256,8 +2256,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -2298,7 +2298,7 @@ export class formFeildData {
                 key: 'name',
                 type: 'input',
                 className: 'col',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title'
                 }
@@ -2307,7 +2307,7 @@ export class formFeildData {
                 key: 'total',
                 type: 'input',
                 className: 'col',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'total'
                 }
@@ -2316,7 +2316,7 @@ export class formFeildData {
                 key: 'percentage',
                 type: 'input',
                 className: 'col',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'percentage'
                 }
@@ -2325,7 +2325,7 @@ export class formFeildData {
                 key: 'data',
                 type: 'input',
                 className: 'col',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'data'
                 }
@@ -2334,7 +2334,7 @@ export class formFeildData {
                 key: 'api',
                 type: 'input',
                 className: 'col',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -2353,20 +2353,20 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'limit',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Limit',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'percentage',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Below Percentage',
@@ -2375,8 +2375,8 @@ export class formFeildData {
         {
           key: 'below_percentage_color',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Below Percentage Color',
             options: [
@@ -2413,8 +2413,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -2453,7 +2453,7 @@ export class formFeildData {
                 className: "col",
                 key: 'name',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title'
                 }
@@ -2463,7 +2463,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'icon',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Icon'
                 }
@@ -2473,7 +2473,7 @@ export class formFeildData {
               //   // className: "ml-2",
               //   key: 'icon',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Icon'
               //   }
@@ -2483,7 +2483,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'total',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'total'
                 }
@@ -2493,7 +2493,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'percentage',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'percentage'
                 }
@@ -2503,7 +2503,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'api',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -2513,37 +2513,37 @@ export class formFeildData {
         },
 
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'icon',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Icon'
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'name',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Name'
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'total',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Total'
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'percentage',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Percentage'
         //   }
@@ -2559,8 +2559,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Api',
             options: [
@@ -2599,7 +2599,7 @@ export class formFeildData {
                 className: "w-1/3 px-1",
                 key: 'name1',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Label'
                 }
@@ -2608,7 +2608,7 @@ export class formFeildData {
                 className: "w-1/3 px-1",
                 key: 'value',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Value'
                 }
@@ -2617,7 +2617,7 @@ export class formFeildData {
                 className: "w-1/3 px-1",
                 key: 'name',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title'
                 }
@@ -2627,7 +2627,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'data',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'data'
                 }
@@ -2636,7 +2636,7 @@ export class formFeildData {
                 key: 'type',
                 type: 'select',
                 className: "w-1/3 px-1",
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Graph',
                   options: [
@@ -2661,7 +2661,7 @@ export class formFeildData {
                 // className: "ml-2",
                 key: 'api',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Api'
                 }
@@ -2682,8 +2682,8 @@ export class formFeildData {
         {
           key: 'heading',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Level',
             options: [
@@ -2714,8 +2714,8 @@ export class formFeildData {
         {
           key: 'textAlign',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text align',
             options: [
@@ -2737,8 +2737,8 @@ export class formFeildData {
         {
           key: 'fontstyle',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Font Weight',
             options: [
@@ -2755,20 +2755,20 @@ export class formFeildData {
           // defaultValue: 'w-1/3'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'color',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
             label: 'Heading Color',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'headingApi',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
 
             label: 'Heading Api',
@@ -2787,7 +2787,7 @@ export class formFeildData {
           className: "w-full",
           key: 'text',
           type: 'textarea',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text',
             rows: 3
@@ -2802,74 +2802,74 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'beforecopyIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Before copy Icon',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'aftercopyIcon',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'After copy Icon',
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'copyTooltips',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'copy Tooltip',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'editableIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Edit Icon',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'editableTooltip',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Editable Tooltip',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'suffix',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Suffix',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'ellipsisRows',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'ellips Rows',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'color',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
             label: 'Heading Color',
@@ -2878,8 +2878,8 @@ export class formFeildData {
         {
           key: 'fontstyle',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Font Weight',
             options: [
@@ -2902,8 +2902,8 @@ export class formFeildData {
         {
           key: 'nztype',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Type',
             options: [
@@ -2983,7 +2983,7 @@ export class formFeildData {
           className: "w-full",
           key: 'text',
           type: 'textarea',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text',
             rows: 3
@@ -2992,8 +2992,8 @@ export class formFeildData {
         // {
         //   key: 'api',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'APi',
         //     options: [
@@ -3023,10 +3023,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'maskString',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Mask Format',
             placeholder: 'e.g "xxxx-xxxx"',
@@ -3042,8 +3042,8 @@ export class formFeildData {
         // {
         //   key: 'icon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'icon',
         //   }
@@ -3051,8 +3051,8 @@ export class formFeildData {
         {
           key: 'subtitle',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Subtitle'
           },
@@ -3060,8 +3060,8 @@ export class formFeildData {
         {
           key: 'description',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'description',
           }
@@ -3069,8 +3069,8 @@ export class formFeildData {
         // {
         //   key: 'percentage',
         //   type: 'number',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'percentage',
         //   }
@@ -3078,8 +3078,8 @@ export class formFeildData {
         {
           key: 'status',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -3124,8 +3124,8 @@ export class formFeildData {
         // {
         //   key: 'selectedIndex',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type: 'number',
         //     label: 'Selected Index',
@@ -3134,8 +3134,8 @@ export class formFeildData {
         {
           key: 'direction',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Direction',
             options: [
@@ -3153,8 +3153,8 @@ export class formFeildData {
         {
           key: 'stepperType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Stepper Type',
             options: [
@@ -3172,8 +3172,8 @@ export class formFeildData {
         {
           key: 'placement',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Label placement',
             options: [
@@ -3191,8 +3191,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -3210,8 +3210,8 @@ export class formFeildData {
         // {
         //   key: 'status',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Status',
         //     options: [
@@ -3237,8 +3237,8 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Number of Steppers',
@@ -3247,8 +3247,8 @@ export class formFeildData {
         // {
         //   key: 'stepperFormat',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Stepper Format',
         //     options: [
@@ -3266,8 +3266,8 @@ export class formFeildData {
         // {
         //   key: 'selectColor',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type: 'color',
         //     label: 'Select Color',
@@ -3276,8 +3276,8 @@ export class formFeildData {
         // {
         //   key: 'defaultColor',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type: 'color',
         //     label: 'Default Color',
@@ -3288,8 +3288,8 @@ export class formFeildData {
         // {
         //   key: 'nextButtonText',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Next Button Text',
         //   }
@@ -3297,8 +3297,8 @@ export class formFeildData {
         // {
         //   key: 'nextButtonIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Next Button Icon',
         //   }
@@ -3306,8 +3306,8 @@ export class formFeildData {
         // {
         //   key: 'nextButtonColor',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Next Button Color',
         //     options: [
@@ -3351,8 +3351,8 @@ export class formFeildData {
         // {
         //   key: 'backButtonText',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Back Button Text',
         //   }
@@ -3360,8 +3360,8 @@ export class formFeildData {
         // {
         //   key: 'backButtonIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Back Button Icon',
         //   }
@@ -3369,8 +3369,8 @@ export class formFeildData {
         // {
         //   key: 'backButtonColor',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Back Button Color',
         //     options: [
@@ -3412,8 +3412,8 @@ export class formFeildData {
         // {
         //   key: 'submitButtonText',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Submit Button Text',
         //   }
@@ -3421,8 +3421,8 @@ export class formFeildData {
         // {
         //   key: 'submitButtonIcon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Submit Button Icon',
         //   }
@@ -3430,8 +3430,8 @@ export class formFeildData {
         // {
         //   key: 'submitButtonColor',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Submit Button Color',
         //     options: [
@@ -3490,8 +3490,8 @@ export class formFeildData {
         // {
         //   key: 'stepperText',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Label',
         //     pattern: '^\\S*$',
@@ -3500,8 +3500,8 @@ export class formFeildData {
         {
           key: 'stepperLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Label',
           }
@@ -3517,8 +3517,8 @@ export class formFeildData {
         // {
         //   key: 'stepperFormat',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Stepper Format',
         //     options: [
@@ -3543,8 +3543,8 @@ export class formFeildData {
         // {
         //   key: 'icon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Icon',
         //   }
@@ -3568,8 +3568,8 @@ export class formFeildData {
         {
           key: 'selectedIndex',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'selectedIndex',
           }
@@ -3577,8 +3577,8 @@ export class formFeildData {
         {
           key: 'tabPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'tabPosition',
             options: [
@@ -3604,8 +3604,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -3627,8 +3627,8 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Number of Nodes',
@@ -3637,8 +3637,8 @@ export class formFeildData {
         {
           key: 'tabType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Tab type',
             options: [
@@ -3692,8 +3692,8 @@ export class formFeildData {
         {
           key: 'icon',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
@@ -3701,8 +3701,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link',
           }
@@ -3725,8 +3725,8 @@ export class formFeildData {
         {
           key: 'nzExpandedIcon',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Expanded Icon',
           }
@@ -3734,8 +3734,8 @@ export class formFeildData {
         // {
         //   key: 'extra',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Extra',
         //   }
@@ -3743,8 +3743,8 @@ export class formFeildData {
         {
           key: 'nzExpandIconPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Expanded Icon',
             options: [
@@ -3832,7 +3832,7 @@ export class formFeildData {
             key: 'VariableName',
             type: 'input',
             className: "ml-2",
-            wrappers: ["formly-vertical-wrapper"],
+            wrappers: ["formly-vertical-theme-wrapper"],
             props: {
               label: 'Variable Name',
               pattern: '^\\S*$'
@@ -3841,8 +3841,8 @@ export class formFeildData {
           // {
           //   key: 'value',
           //   type: 'select',
-          //   className: "w-1/4 px-1",
-          //   wrappers: ["formly-vertical-wrapper"],
+          //   className: "w-1/2",
+          //   wrappers: ["formly-vertical-theme-wrapper"],
           //   props: {
           //     label: 'Select API',
           //     options: [
@@ -3872,8 +3872,8 @@ export class formFeildData {
         {
           key: 'headingSize',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Size',
             options: [
@@ -3907,8 +3907,8 @@ export class formFeildData {
         {
           key: 'alertPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             defaultValue: 'topHeader',
             label: 'Alert Position',
@@ -3980,8 +3980,8 @@ export class formFeildData {
         // {
         //   key: 'accordingText',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Label',
         //     pattern: '^\\S*$',
@@ -3990,8 +3990,8 @@ export class formFeildData {
         {
           key: 'sectionClassName',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Input Class',
           }
@@ -3999,8 +3999,8 @@ export class formFeildData {
         {
           key: 'wrappers',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Format',
             options: [
@@ -4036,8 +4036,8 @@ export class formFeildData {
         {
           key: 'formatAlignment',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Format Alignment',
             options: [
@@ -4055,8 +4055,8 @@ export class formFeildData {
         {
           key: 'labelPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Label Position',
             options: [
@@ -4078,8 +4078,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -4101,8 +4101,8 @@ export class formFeildData {
         {
           key: 'status',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -4124,8 +4124,8 @@ export class formFeildData {
         {
           key: 'disabled',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Disabled',
             options: [
@@ -4154,10 +4154,10 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'borderColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Border Color',
             type: 'color',
@@ -4233,8 +4233,8 @@ export class formFeildData {
         {
           key: 'labelPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Label Position',
             options: [
@@ -4256,8 +4256,8 @@ export class formFeildData {
         {
           key: 'headingSize',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Size',
             options: [
@@ -4289,30 +4289,30 @@ export class formFeildData {
           },
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'borderColor',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Border Color',
         //     type: 'color',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'backGroundColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Back Ground Color',
             type: 'color',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'textColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text Color',
             type: 'color',
@@ -4352,30 +4352,30 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'borderColor',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Border Color',
         //     type: 'color',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'backGroundColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Back Ground Color',
             type: 'color',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'textColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text Color',
             type: 'color',
@@ -4397,30 +4397,30 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'borderColor',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Border Color',
         //     type: 'color',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'backGroundColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Back Ground Color',
             type: 'color',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'textColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text Color',
             type: 'color',
@@ -4453,8 +4453,8 @@ export class formFeildData {
         // {
         //   key: 'switchType',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Switch Type',
         //     options: [
@@ -4492,8 +4492,8 @@ export class formFeildData {
         // {
         //   key: 'switchPosition',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Switch Position',
         //     options: [
@@ -4515,8 +4515,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -4533,19 +4533,19 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'checkedChildren',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Checked Content'
           }
         },
         {
-          className: "w-1/4 px-1 text-black",
+          className: "w-1/2 px-1 text-black",
           key: 'unCheckedChildren',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Un Checked Content'
           }
@@ -4553,7 +4553,7 @@ export class formFeildData {
         {
           key: 'disabled',
           type: 'checkbox',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           props: {
             label: 'Disabled'
           },
@@ -4562,7 +4562,7 @@ export class formFeildData {
         {
           key: 'loading',
           type: 'checkbox',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           props: {
             label: 'Loading'
           },
@@ -4571,7 +4571,7 @@ export class formFeildData {
         {
           key: 'control',
           type: 'checkbox',
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           props: {
             label: 'Control'
           },
@@ -4585,10 +4585,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'value',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Value'
           }
@@ -4596,8 +4596,8 @@ export class formFeildData {
         {
           key: 'color',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Color',
             options: [
@@ -4637,10 +4637,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'height',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Height'
@@ -4649,8 +4649,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'API',
             options: [
@@ -4710,19 +4710,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'dividerText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Divider Text'
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon'
           }
@@ -4730,8 +4730,8 @@ export class formFeildData {
         {
           key: 'dividerType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Divider Type',
             options: [
@@ -4749,8 +4749,8 @@ export class formFeildData {
         {
           key: 'orientation',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Orientation',
             options: [
@@ -4796,28 +4796,28 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'labelIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Label Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'heading',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading'
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'headingIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Icon'
           }
@@ -4825,8 +4825,8 @@ export class formFeildData {
         {
           key: 'headingColor',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Color',
             options: [
@@ -4870,19 +4870,19 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'subHeading',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sub Heading'
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'subHeadingIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'sub Heading Icon'
           }
@@ -4890,8 +4890,8 @@ export class formFeildData {
         {
           key: 'subheadingColor',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sub Heading Color',
             options: [
@@ -4937,10 +4937,10 @@ export class formFeildData {
 
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link'
           }
@@ -4948,8 +4948,8 @@ export class formFeildData {
         {
           key: 'api',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -4988,7 +4988,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'message',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Message'
                 }
@@ -4997,7 +4997,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'dateAndTime',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   type: "datetime-local",
                   label: 'dateAndTime'
@@ -5007,7 +5007,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'icon',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'First Icon'
                 }
@@ -5016,7 +5016,7 @@ export class formFeildData {
                 className: "w-1/3",
                 key: 'icon1',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Second Icon'
                 }
@@ -5035,8 +5035,8 @@ export class formFeildData {
         {
           key: 'alertColor',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Alert Color',
             options: [
@@ -5084,8 +5084,8 @@ export class formFeildData {
         // {
         //   key: 'icon',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Alert Icon',
         //   },
@@ -5094,8 +5094,8 @@ export class formFeildData {
         {
           key: 'alertType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Alert Type',
             options: [
@@ -5134,40 +5134,40 @@ export class formFeildData {
         // },
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'description',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Description',
 
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'action',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Action',
 
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'closeText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'CloseText',
 
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'iconType',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'IconType',
 
@@ -5204,7 +5204,7 @@ export class formFeildData {
           className: "w-full mt-2",
           key: 'text',
           type: 'textarea',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Alert Text',
             rows: 2
@@ -5221,8 +5221,8 @@ export class formFeildData {
         {
           key: 'textAlign',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text Align',
             options: [
@@ -5242,10 +5242,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'link',
             options: [
@@ -5265,10 +5265,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nztype',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Type',
             options: [
@@ -5285,10 +5285,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -5305,38 +5305,38 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'imageAlt',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'image Alt',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'imageSrc',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image Src',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'height',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Height',
           }
         },
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'extra',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Extra',
           }
@@ -5372,7 +5372,7 @@ export class formFeildData {
           className: "w-full",
           key: 'headerText',
           type: 'textarea',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Header Text',
             rows: 3,
@@ -5382,7 +5382,7 @@ export class formFeildData {
           className: "w-full",
           key: 'bodyText',
           type: 'textarea',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Body Text',
             rows: 3,
@@ -5392,7 +5392,7 @@ export class formFeildData {
           className: "w-full",
           key: 'footerText',
           type: 'textarea',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Footer Text',
             rows: 3,
@@ -5408,10 +5408,10 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'mainIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'MainIcon',
           }
@@ -5420,8 +5420,8 @@ export class formFeildData {
         {
           key: 'mode',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Position',
             options: [
@@ -5465,19 +5465,19 @@ export class formFeildData {
           fieldArray: {
             fieldGroup: [
               {
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 key: 'title',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title',
                 }
               },
               {
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 key: 'dotIcon',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'DotIcon',
                 }
@@ -5486,8 +5486,8 @@ export class formFeildData {
               {
                 key: 'color',
                 type: 'select',
-                className: "w-1/4 px-1",
-                wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Color',
                   options: [
@@ -5524,8 +5524,8 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Video Title',
           },
@@ -5533,8 +5533,8 @@ export class formFeildData {
         // {
         //   key: 'videoRatio',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Video Ratio',
         //   },
@@ -5542,8 +5542,8 @@ export class formFeildData {
         {
           key: 'videoSrc',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Video Source',
           },
@@ -5571,8 +5571,8 @@ export class formFeildData {
         // {
         //   key: 'title',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Audio Title',
         //   },
@@ -5580,8 +5580,8 @@ export class formFeildData {
         {
           key: 'audioSrc',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Audio Source',
             options: [
@@ -5637,8 +5637,8 @@ export class formFeildData {
         {
           key: 'effect',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Effect',
             options: [
@@ -5657,8 +5657,8 @@ export class formFeildData {
         {
           key: 'dotPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Dot Position',
             options: [
@@ -5684,8 +5684,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: "carousel-fade",
           props: {
             label: 'Api Ref',
@@ -5757,7 +5757,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'img',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Image Source'
                 }
@@ -5777,8 +5777,8 @@ export class formFeildData {
         {
           key: 'nodes',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Nodes',
           },
@@ -5885,8 +5885,8 @@ export class formFeildData {
         {
           key: 'viewType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Type',
             options: [
@@ -5928,8 +5928,8 @@ export class formFeildData {
         {
           key: 'view',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: "w-full",
           props: {
             label: 'View',
@@ -5960,8 +5960,8 @@ export class formFeildData {
         {
           key: 'statusApi',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: "w-full",
           props: {
             label: 'Api',
@@ -5975,7 +5975,7 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
         },
         {
           className: "w-1/6 px-1",
@@ -6091,8 +6091,8 @@ export class formFeildData {
         {
           key: 'kanbanTaskApi',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: "w-full",
           props: {
             label: 'Api',
@@ -6134,7 +6134,7 @@ export class formFeildData {
                 className: "col",
                 key: 'title',
                 type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'title'
                 }
@@ -6143,7 +6143,7 @@ export class formFeildData {
                 className: "col",
                 key: 'date',
                 type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'date'
                 }
@@ -6152,7 +6152,7 @@ export class formFeildData {
                 className: "col",
                 key: 'content',
                 type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'content'
                 }
@@ -6161,7 +6161,7 @@ export class formFeildData {
                 className: "col",
                 key: 'users',
                 type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'users'
                 }
@@ -6170,7 +6170,7 @@ export class formFeildData {
                 className: "col",
                 key: 'status',
                 type: 'input',
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'status'
                 }
@@ -6179,7 +6179,7 @@ export class formFeildData {
                 key: 'variant',
                 type: 'select',
                 className: "col",
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'variant',
                   options: [
@@ -6233,20 +6233,20 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nodes',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Nodes',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
@@ -6260,10 +6260,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link',
           }
@@ -6276,19 +6276,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'icon',
           }
@@ -6304,8 +6304,8 @@ export class formFeildData {
         {
           key: 'title',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Audio Title',
           },
@@ -6313,8 +6313,8 @@ export class formFeildData {
         {
           key: 'audioSrc',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Audio Source',
           },
@@ -6334,10 +6334,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Size',
             options: [
@@ -6357,10 +6357,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'buttonShape',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Button Shape',
             options: [
@@ -6380,10 +6380,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'avatarShape',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Avatar Shape',
             options: [
@@ -6422,10 +6422,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'color',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Color',
             options: [
@@ -6457,46 +6457,46 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Close Icon',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'extra',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'extra ID Refrance',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'footerText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Footer Text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'placement',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Placement',
             options: [
@@ -6520,28 +6520,28 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'maskStyle',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Mask Style',
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'bodyStyle',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Body Style',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Size',
             options: [
@@ -6557,20 +6557,20 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'width',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Width',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'height',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Height',
@@ -6578,37 +6578,37 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'offsetX',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Offset X',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'offsetY',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Offset Y',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'wrapClassName',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'wrap ClassName',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'zIndex',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Z Index',
           }
@@ -6671,7 +6671,7 @@ export class formFeildData {
           className: "w-full",
           key: 'content',
           type: 'textarea',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Content',
             rows: 3
@@ -6685,55 +6685,55 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image link'
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'content',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Content Refrance ID'
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'text',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Other Content'
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'link',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Description Link'
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Text'
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'color',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Color',
             options: [
@@ -6785,19 +6785,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'headerText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Header Text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'footerText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Footer Text',
           }
@@ -6805,8 +6805,8 @@ export class formFeildData {
         {
           key: 'formatter',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'column',
             options: [
@@ -6824,8 +6824,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'column',
             options: [
@@ -6845,10 +6845,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'loadText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Load More Text'
           }
@@ -6929,8 +6929,8 @@ export class formFeildData {
               {
                 key: 'avater',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Profile Image'
                 }
@@ -6938,8 +6938,8 @@ export class formFeildData {
               {
                 key: 'name',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'name'
                 }
@@ -6947,8 +6947,8 @@ export class formFeildData {
               {
                 key: 'description',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'description'
                 }
@@ -6956,8 +6956,8 @@ export class formFeildData {
               {
                 key: 'email',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'email'
                 }
@@ -6965,8 +6965,8 @@ export class formFeildData {
               {
                 key: 'lastNameHref',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'last Name Href'
                 }
@@ -6974,8 +6974,8 @@ export class formFeildData {
               {
                 key: 'content',
                 type: 'input',
-                className: "w-1/4 px-1",
-                // wrappers: ["formly-vertical-wrapper"],
+                className: "w-1/2",
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'content'
                 }
@@ -6984,7 +6984,7 @@ export class formFeildData {
                 key: 'isLoading',
                 type: 'checkbox',
                 className: "w-1/6 px-1 mt-2",
-                // wrappers: ["formly-vertical-wrapper"],
+                // wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'isLoading'
                 }
@@ -7000,10 +7000,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button text',
           }
@@ -7011,8 +7011,8 @@ export class formFeildData {
         {
           key: 'formatter',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'column',
             options: [
@@ -7028,10 +7028,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select Size',
             options: [
@@ -7079,38 +7079,38 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'count',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Count',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nzText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon `if type icon`',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nzColor',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
             label: 'Color',
@@ -7119,8 +7119,8 @@ export class formFeildData {
         {
           key: 'nztype',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Type',
             options: [
@@ -7146,8 +7146,8 @@ export class formFeildData {
         {
           key: 'nzStatus',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -7177,8 +7177,8 @@ export class formFeildData {
         {
           key: 'size',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -7195,19 +7195,19 @@ export class formFeildData {
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'title',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Title',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'overflowCount',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'OverflowCount',
@@ -7217,7 +7217,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'standAlone',
           type: 'checkbox',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'StandAlone',
           }
@@ -7226,7 +7226,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'status',
           type: 'checkbox',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
           }
@@ -7235,7 +7235,7 @@ export class formFeildData {
           className: "w-1/6 px-1 mt-5",
           key: 'showZero',
           type: 'checkbox',
-          // wrappers: ["formly-vertical-wrapper"],
+          // wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'ShowZero',
           }
@@ -7248,28 +7248,28 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'content',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'content',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nzStatus',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'nzStatus',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'nzSpan',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'nzSpan',
             type: "number"
@@ -7298,11 +7298,11 @@ export class formFeildData {
         {
           key: 'affixType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Affix Type',
-            className: "w-1/4 px-1",
+            className: "w-1/2",
             options: [
               {
                 label: 'Affix Top',
@@ -7316,10 +7316,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'margin',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'margin'
@@ -7341,28 +7341,28 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'text',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'src',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image src',
           }
@@ -7371,25 +7371,25 @@ export class formFeildData {
           key: 'image',
           type: 'image-upload',
           className: "col-md-4 col-sm-6 col-xs-12 ",
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image Upload',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'alt',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Imag alt',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Avatar Size',
             options: [
@@ -7413,10 +7413,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'shape',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Avatar Shape',
             options: [
@@ -7434,8 +7434,8 @@ export class formFeildData {
         {
           key: 'bgColor',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Bg-color',
@@ -7444,8 +7444,8 @@ export class formFeildData {
         {
           key: 'color',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
             label: 'Color',
@@ -7454,8 +7454,8 @@ export class formFeildData {
         // {
         //   key: 'gap',
         //   type: 'input',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type: "number",
         //     label: 'Gap',
@@ -7469,17 +7469,17 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'visibleafter',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Visible After',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'target',
           type: 'checkbox',
           props: {
@@ -7488,10 +7488,10 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'duration',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Duration',
@@ -7505,19 +7505,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'avatar',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Avatar',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'author',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'author',
           }
@@ -7530,48 +7530,48 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'content',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Popover Content',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'mouseEnterDelay',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Mouse enter delay',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'mouseLeaveDelay',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Mouse leave delay',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'trigger',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Trigger type',
             options: [
@@ -7595,10 +7595,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'placement',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Placement',
             options: [
@@ -7679,10 +7679,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -7702,20 +7702,20 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'delayTime',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Delay time',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'loaderText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Loader text',
           }
@@ -7746,10 +7746,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -7777,19 +7777,19 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'resultTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Result Title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'subTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sub Title',
           }
@@ -7797,28 +7797,28 @@ export class formFeildData {
 
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'extra',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Extra',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Label',
           }
@@ -7839,20 +7839,20 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'timeOut',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Time Out',
             type: 'number',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'message',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Message',
           }
@@ -7860,8 +7860,8 @@ export class formFeildData {
         {
           key: 'toastrType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Toastr Type',
             options: [
@@ -7891,8 +7891,8 @@ export class formFeildData {
         {
           key: 'positionClass',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Position',
             options: [
@@ -7958,55 +7958,55 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'invoiceNumberLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'invoice number label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'datelabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Date Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'paymentTermsLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Payment Terms Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'billToLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'BillTo Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'dueDateLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Due Date Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'poNumber',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'PO Number',
           }
@@ -8014,8 +8014,8 @@ export class formFeildData {
         {
           key: 'shipToLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Ship To Label',
           }
@@ -8023,8 +8023,8 @@ export class formFeildData {
         {
           key: 'notesLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Notes Label',
           }
@@ -8032,8 +8032,8 @@ export class formFeildData {
         {
           key: 'subtotalLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Subtotal Label',
           }
@@ -8041,8 +8041,8 @@ export class formFeildData {
         {
           key: 'dicountLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Dicount Label',
           }
@@ -8050,8 +8050,8 @@ export class formFeildData {
         {
           key: 'shippingLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Shipping Label',
           }
@@ -8059,8 +8059,8 @@ export class formFeildData {
         {
           key: 'taxLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Tax Label',
           }
@@ -8068,8 +8068,8 @@ export class formFeildData {
         {
           key: 'termsLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Terms Label',
           }
@@ -8077,8 +8077,8 @@ export class formFeildData {
         {
           key: 'totalLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Total Label',
           }
@@ -8086,8 +8086,8 @@ export class formFeildData {
         {
           key: 'amountpaidLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Amount Paid Label',
           }
@@ -8095,8 +8095,8 @@ export class formFeildData {
         {
           key: 'balanceDueLabel',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Balance Due Label',
           }
@@ -8110,68 +8110,68 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'alt',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Alt',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'source',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image Source',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'imagHieght',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Imag Hieght',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'imageWidth',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Image Width',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'zoom',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'zoom',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'rotate',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'rotate',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'zIndex',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'zIndex',
@@ -8180,8 +8180,8 @@ export class formFeildData {
         {
           key: 'imageClass',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image Class',
             options: [
@@ -8200,7 +8200,7 @@ export class formFeildData {
           key: 'image',
           type: 'image-upload',
           className: "col-md-4 col-sm-6 col-xs-12 ",
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Image Upload',
           }
@@ -8230,20 +8230,20 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'min',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Min',
             type: 'number',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'max',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Max',
             type: 'number',
@@ -8252,8 +8252,8 @@ export class formFeildData {
         // {
         //   key: 'sliderType',
         //   type: 'select',
-        //   className: "w-1/4 px-1",
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   className: "w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'Toastr Type',
         //     options: [
@@ -8303,20 +8303,20 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'link',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Link',
           }
@@ -8341,8 +8341,8 @@ export class formFeildData {
         {
           key: 'nzFooter',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Footer Text'
           }
@@ -8350,8 +8350,8 @@ export class formFeildData {
         {
           key: 'nzTitle',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Header Text'
           }
@@ -8359,8 +8359,8 @@ export class formFeildData {
         {
           key: 'nzPaginationPosition',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Pagination Position',
             options: [
@@ -8382,8 +8382,8 @@ export class formFeildData {
         {
           key: 'nzPaginationType',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Pagination Type',
             options: [
@@ -8395,8 +8395,8 @@ export class formFeildData {
         {
           key: 'nzSize',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -8409,8 +8409,8 @@ export class formFeildData {
         {
           key: 'api',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -8422,8 +8422,8 @@ export class formFeildData {
         {
           key: 'sortOrder',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sort Order',
             options: [
@@ -8437,8 +8437,8 @@ export class formFeildData {
         {
           key: 'sortDirections',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Sort Direction',
             options: [
@@ -8549,7 +8549,7 @@ export class formFeildData {
               {
                 key: 'id',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'id'
                 }
@@ -8557,7 +8557,7 @@ export class formFeildData {
               {
                 key: 'key',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'key'
                 }
@@ -8565,7 +8565,7 @@ export class formFeildData {
               {
                 key: 'name',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Header'
                 }
@@ -8574,7 +8574,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'show',
                 type: 'checkbox',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Is Show'
                 }
@@ -8583,7 +8583,7 @@ export class formFeildData {
                 className: "ml-2",
                 key: 'sum',
                 type: 'checkbox',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Sum'
                 }
@@ -8592,7 +8592,7 @@ export class formFeildData {
                className: "ml-2",
                 key: 'listOfFilter',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Filter List'
                 }
@@ -8601,7 +8601,7 @@ export class formFeildData {
                 className: "ml-2",
                  key: 'headerButton',
                  type: 'input',
-                 wrappers: ["formly-vertical-wrapper"],
+                 wrappers: ["formly-vertical-theme-wrapper"],
                  props: {
                    label: 'Footer Button'
                  }
@@ -8610,7 +8610,7 @@ export class formFeildData {
                className: "ml-2",
                 key: 'footerButton',
                 type: 'input',
-                wrappers: ["formly-vertical-wrapper"],
+                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Header Button'
                 }
@@ -8619,7 +8619,7 @@ export class formFeildData {
               // {
               //   key: 'sortOrder',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Column Name'
               //   }
@@ -8627,7 +8627,7 @@ export class formFeildData {
               // {
               //   key: 'sortDirections',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'sortDirections'
               //   }
@@ -8635,7 +8635,7 @@ export class formFeildData {
               // {
               //   key: 'filterMultiple',
               //   type: 'input',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'filterMultiple'
               //   }
@@ -8644,7 +8644,7 @@ export class formFeildData {
               //   className: "ml-2",
               //   key: 'showColumn',
               //   type: 'checkbox',
-              //   wrappers: ["formly-vertical-wrapper"],
+              //   wrappers: ["formly-vertical-theme-wrapper"],
               //   props: {
               //     label: 'Is Show'
               //   }
@@ -8662,8 +8662,8 @@ export class formFeildData {
         {
           key: 'pagination',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Pagination'
@@ -8672,8 +8672,8 @@ export class formFeildData {
         {
           key: 'link',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'API Data Link',
             options: [
@@ -8695,8 +8695,8 @@ export class formFeildData {
         {
           key: 'deleteapi',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Delete API'
           }
@@ -8820,7 +8820,7 @@ export class formFeildData {
     {
       key: 'APIList',
       type: 'select',
-      className: "w-1/4 px-1",
+      className: "w-1/2",
       props: {
         label: 'API',
         options: [
@@ -8840,8 +8840,8 @@ export class formFeildData {
         {
           key: 'type',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'InputType',
             options: [
@@ -8875,8 +8875,8 @@ export class formFeildData {
         {
           key: 'emailTypeAllow',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             multiple: true,
             label: 'Email Type Allow',
@@ -8897,10 +8897,10 @@ export class formFeildData {
           defaultValue: 'text',
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'refrance',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Refrance'
           },
@@ -8909,10 +8909,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'minlength',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Min Length',
             type: 'number'
@@ -8922,10 +8922,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'maxlength',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Max Length',
             type: 'number'
@@ -8947,10 +8947,10 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'pattern',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: "^[a-zA-Z0-9]{3,30}$",
           props: {
             label: 'Pattern',
@@ -8974,7 +8974,7 @@ export class formFeildData {
         //         className: "ml-2",
         //         key: 'value',
         //         type: 'input',
-        //         wrappers: ["formly-vertical-wrapper"],
+        //         wrappers: ["formly-vertical-theme-wrapper"],
         //         props: {
         //           label: 'value'
         //         }
@@ -8997,10 +8997,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'key',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'Key',
@@ -9009,10 +9009,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2",
           key: 'id',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'ID',
@@ -9020,50 +9020,50 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'title',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'label'
           }
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2",
           key: 'tooltip',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'Tooltip',
           }
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2",
           key: 'className',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'column',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'titleIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'Label Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'placeholder',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Placeholder',
           }
@@ -9072,16 +9072,16 @@ export class formFeildData {
         {
           key: 'defaultValue',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'Default Value'
           },
         },
         {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           key: 'addonLeft',
           type: 'input',
           props: {
@@ -9090,8 +9090,8 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           key: 'addonRight',
           type: 'input',
           props: {
@@ -9100,8 +9100,8 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           key: 'suffixicon',
           type: 'input',
           props: {
@@ -9110,8 +9110,8 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           key: 'prefixicon',
           type: 'input',
           props: {
@@ -9120,20 +9120,20 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'getVariable',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'getVariable',
             options:[]
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'setVariable',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'setVariable',
             options:[]
@@ -9142,65 +9142,69 @@ export class formFeildData {
         {
           key: 'rows',
           type: 'input',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
             label: 'Rows'
           }
         },
         {
-          template: '<div class="flex flex-wrap"></div>'
-        },
-        {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'focus',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Autofocus'
+            multiple : true,
+            label: 'Autofocus',
           },
           defaultValue: false
         },
         {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'required',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'required'
           },
           defaultValue: false
         },
         {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'readonly',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Readonly'
           },
           defaultValue: false
         },
         {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'disabled',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Disabled',
           },
           defaultValue: false
         },
         {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'hideExpression',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Hide',
           },
           defaultValue: false
         },
         {
-          className: "mt-5 px-2",
+          className: "w-1/2",
           key: 'border',
           type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Border less',
           },
@@ -9214,10 +9218,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'key',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Key',
             required: true,
@@ -9225,65 +9229,65 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'id',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'ID',
             pattern: '^\\S*$',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'title',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'label'
           }
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2 px-2",
           key: 'tooltip',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Tooltip',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'className',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'className',
           },
-          defaultValue: 'w-1/4  px-1'
+          defaultValue: 'w-1/2  px-1'
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'getVariable',
         //   type: 'select',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'getVariable',
         //     options:[]
         //   }
         // },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'setVariable',
         //   type: 'select',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     label: 'setVariable',
         //     options:[]
         //   }
         // },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'hideExpression',
           type: 'checkbox',
           props: {
@@ -9299,10 +9303,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'key',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Key',
             required: true,
@@ -9310,20 +9314,20 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'id',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'ID',
             pattern: '^\\S*$',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'title',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'label'
           }
@@ -9336,19 +9340,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'prefixIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Prefix',
           }
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2 px-2",
           key: 'suffixIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Suffix',
           }
@@ -9367,7 +9371,7 @@ export class formFeildData {
               {
                 key: 'title',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'Title'
                 }
@@ -9375,7 +9379,7 @@ export class formFeildData {
               {
                 key: 'value',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'Value'
                 }
@@ -9392,20 +9396,20 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'defaultSelectedIndex',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Default Selected Index',
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -9425,7 +9429,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'disabled',
           type: 'checkbox',
           props: {
@@ -9434,7 +9438,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'block',
           type: 'checkbox',
           props: {
@@ -9455,7 +9459,7 @@ export class formFeildData {
               {
                 key: 'label',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'label'
                 }
@@ -9472,10 +9476,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -9496,10 +9500,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'position',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Position',
             options: [
@@ -9520,10 +9524,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -9535,7 +9539,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'loading',
           type: 'checkbox',
           props: {
@@ -9545,7 +9549,7 @@ export class formFeildData {
         },
 
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'disabled',
         //   type: 'checkbox',
         //   props: {
@@ -9566,7 +9570,7 @@ export class formFeildData {
               {
                 key: 'label',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'label'
                 }
@@ -9584,10 +9588,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2 px-2",
           key: 'mode',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Mode',
             options: [
@@ -9609,7 +9613,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          className: "w-1/4",
+          className: "w-1/2",
           props: {
             canAdd: true,
             canRemove: true
@@ -9648,29 +9652,29 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'content',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Content',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'duration',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Duration',
           }
         },
         {
-          className: "w-1/4 px-2 d-none",
+          className: "w-1/2 px-2 d-none",
           key: 'messageType',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Message Type',
             options: [
@@ -9698,7 +9702,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'pauseOnHover',
           type: 'checkbox',
           props: {
@@ -9707,7 +9711,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'animate',
           type: 'checkbox',
           props: {
@@ -9723,45 +9727,45 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'content',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Content',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'color',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
             label: 'Color',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'duration',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Duration',
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'pauseOnHover',
           type: 'checkbox',
           props: {
@@ -9770,7 +9774,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'animate',
           type: 'checkbox',
           props: {
@@ -9786,10 +9790,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'progressBarType',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Progress Bar Type',
             options: [
@@ -9809,10 +9813,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -9836,10 +9840,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'strokeLineCap',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Stroke Line Cap',
             options: [
@@ -9855,27 +9859,27 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'percent',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Percent',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'success',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Success Percentage',
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showInfo',
           type: 'checkbox',
           props: {
@@ -9892,37 +9896,36 @@ export class formFeildData {
       fieldGroup: [
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'showCount',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Show number ',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'ngvalue',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Value',
           }
         },
-
         {
-          className: "w-1/4 px-1 mt-5",
+          className: "w-1/2 px-1 mt-5",
           key: 'allowHalf',
           type: 'checkbox',
           props: {
@@ -9931,7 +9934,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-1 mt-5",
+          className: "w-1/2 px-1 mt-5",
           key: 'focus',
           type: 'checkbox',
           props: {
@@ -9940,7 +9943,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'clear',
           type: 'checkbox',
           props: {
@@ -9949,13 +9952,35 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'disabled',
           type: 'checkbox',
           props: {
             label: 'Disabled',
           },
           defaultValue: false
+        },
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full",
+          props: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                className: "w-1/2",
+                props: {
+                  label: 'Tooltip'
+                }
+              },
+            ]
+          }
         },
       ]
     },
@@ -9965,64 +9990,64 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'firstBoxTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'First box title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'secondBoxTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Second box title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'leftButtonLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Left button label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'rightButtonLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Right button label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'searchPlaceHolder',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Search placeHolder',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'notFoundContentLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Not found content label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -10042,10 +10067,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'api',
             options: [
@@ -10058,7 +10083,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'disabled',
           type: 'checkbox',
           props: {
@@ -10067,7 +10092,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showSearch',
           type: 'checkbox',
           props: {
@@ -10089,7 +10114,7 @@ export class formFeildData {
               {
                 key: 'key',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'key'
                 }
@@ -10097,7 +10122,7 @@ export class formFeildData {
               {
                 key: 'title',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'title'
                 }
@@ -10105,7 +10130,7 @@ export class formFeildData {
               {
                 key: 'direction',
                 type: 'input',
-                className: "w-1/4 px-1",
+                className: "w-1/2",
                 props: {
                   label: 'direction'
                 }
@@ -10121,81 +10146,81 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'btnLabel',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Button Label',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'modalContent',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Modal Content',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'modalTitle',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Modal title',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'cancalButtontext',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Cancal button text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'okBtnText',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Ok btn text',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'closeIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Close Icon',
           }
         },
         // {
-        //   className: "w-1/4 px-1",
+        //   className: "w-1/2",
         //   key: 'zIndex',
         //   type: 'input',
-        //   wrappers: ["formly-vertical-wrapper"],
+        //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
         //     type:'number',
         //     label: 'Z-Index',
         //   }
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'width',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Width',
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'okBtnLoading',
           type: 'checkbox',
           props: {
@@ -10204,7 +10229,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'cancelBtnLoading',
           type: 'checkbox',
           props: {
@@ -10213,7 +10238,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'centered',
           type: 'checkbox',
           props: {
@@ -10222,7 +10247,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'ecsModalCancel',
           type: 'checkbox',
           props: {
@@ -10231,7 +10256,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showCloseIcon',
           type: 'checkbox',
           props: {
@@ -10247,19 +10272,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'placeHolder',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'placeHolder',
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -10279,10 +10304,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -10302,10 +10327,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -10317,7 +10342,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showSearch',
           type: 'checkbox',
           props: {
@@ -10326,7 +10351,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'disabled',
           type: 'checkbox',
           props: {
@@ -10335,7 +10360,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'width',
           type: 'checkbox',
           props: {
@@ -10344,7 +10369,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'checkable',
           type: 'checkbox',
           props: {
@@ -10353,7 +10378,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showExpand',
           type: 'checkbox',
           props: {
@@ -10362,7 +10387,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showLine',
           type: 'checkbox',
           props: {
@@ -10381,10 +10406,10 @@ export class formFeildData {
 
 
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -10396,7 +10421,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2 px-2",
           key: 'directoryTree',
           type: 'checkbox',
           props: {
@@ -10405,7 +10430,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 px-2",
+          className: "w-1/2 px-2",
           key: 'blockNode',
           type: 'checkbox',
           props: {
@@ -10422,16 +10447,16 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'expandIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           },
         },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'closingexpandicon',
         //   type: 'input',
         //   props: {
@@ -10440,10 +10465,10 @@ export class formFeildData {
 
         // },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -10455,7 +10480,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'checkable',
           type: 'checkbox',
           props: {
@@ -10463,7 +10488,7 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'expand',
           type: 'checkbox',
           props: {
@@ -10471,7 +10496,7 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showLine',
           type: 'checkbox',
           props: {
@@ -10479,7 +10504,7 @@ export class formFeildData {
           },
         },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'blockNode',
         //   type: 'checkbox',
         //   props: {
@@ -10487,7 +10512,7 @@ export class formFeildData {
         //   },
         // },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'showIcon',
         //   type: 'checkbox',
         //   props: {
@@ -10495,7 +10520,7 @@ export class formFeildData {
         //   },
         // },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'asyncData',
         //   type: 'checkbox',
         //   props: {
@@ -10503,7 +10528,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'draggable',
           type: 'checkbox',
           props: {
@@ -10511,7 +10536,7 @@ export class formFeildData {
           },
         },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'multiple',
         //   type: 'checkbox',
         //   props: {
@@ -10519,7 +10544,7 @@ export class formFeildData {
         //   },
         // },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'expandAll',
           type: 'checkbox',
           props: {
@@ -10527,7 +10552,7 @@ export class formFeildData {
           },
         },
         // {
-        //   className: "w-1/4 mt-5 px-2",
+        //   className: "w-1/2 w-1/2",
         //   key: 'checkStricktly',
         //   type: 'checkbox',
         //   props: {
@@ -10542,10 +10567,10 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'expandTrigger',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Trigger',
             options: [
@@ -10561,19 +10586,19 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'placeHolder',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'PlaceHolder',
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'size',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Size',
             options: [
@@ -10593,10 +10618,10 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'status',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Status',
             options: [
@@ -10612,19 +10637,19 @@ export class formFeildData {
           }
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'expandIcon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Expand Icon',
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'api',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Api',
             options: [
@@ -10637,7 +10662,7 @@ export class formFeildData {
         },
 
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showInput',
           type: 'checkbox',
           props: {
@@ -10647,7 +10672,7 @@ export class formFeildData {
         },
 
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'disabled',
           type: 'checkbox',
           props: {
@@ -10664,19 +10689,19 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'icon',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon',
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'iconType',
           type: 'select',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Icon type',
             options: [
@@ -10704,10 +10729,10 @@ export class formFeildData {
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'iconSize',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type:'number',
             label: 'Icon Size',
@@ -10721,20 +10746,20 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'offSetTop',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Padding From top',
           },
         },
         {
-          className: "w-1/4 px-1",
+          className: "w-1/2",
           key: 'bond',
           type: 'input',
-          wrappers: ["formly-vertical-wrapper"],
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
             label: 'Bond Distance',
@@ -10743,8 +10768,8 @@ export class formFeildData {
         {
           key: 'api',
           type: 'select',
-          className: "w-1/4 px-1",
-          wrappers: ["formly-vertical-wrapper"],
+          className: "w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Select API',
             options: [
@@ -10757,14 +10782,14 @@ export class formFeildData {
         },
         {
           key: 'affix',
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           type: 'checkbox',
           props: {
             label: 'Fixed',
           },
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'showInkInFixed',
           type: 'checkbox',
           props: {
@@ -10773,7 +10798,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          className: "w-1/4 mt-5 px-2",
+          className: "w-1/2 w-1/2",
           key: 'target',
           type: 'checkbox',
           props: {

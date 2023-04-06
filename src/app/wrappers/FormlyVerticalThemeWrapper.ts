@@ -4,6 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-vertical-theme-wrapper',
   template: `
+    <!-- {{to.label | json}} -->
   <div class=" flex flex-wrap" [dir]="to.config?.formatAlignment || 'ltr'">
   <label [attr.for]="id" class="w-1/3 col-form-label column-form-label {{to.labelPosition}}" *ngIf="to.label">
     <span>

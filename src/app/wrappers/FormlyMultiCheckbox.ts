@@ -4,6 +4,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-field-ng-search',
   template: `
+  
     <nz-checkbox-wrapper [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass.replace('block','') : ''" [formControl]="formControl" *ngIf="list.length" style="width: 100%;" (nzOnChange)="log($event)">
       <div nz-row>
         <div nz-col ><label nz-checkbox [nzDisabled]='to.disabled' [nzValue]="item.value" *ngFor="let item of list">{{item.label}}</label></div>

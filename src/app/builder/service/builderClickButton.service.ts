@@ -9,7 +9,7 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, };
   }
   getIconConfig(node: any) {
-    return { icon: node.icon, iconType: node.iconType , iconSize:node['iconSize'] };
+    return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'] };
   }
   getAnchorConfig(node: any) {
     return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed, target: node.target, bond: node.bond };
@@ -93,10 +93,10 @@ export class BuilderClickButtonService {
           key: obj.key,
           show: obj.show,
           sum: obj.sum,
-          headerButton:'',
-          footerButton:'',
+          headerButton: '',
+          footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id:0,
+          id: 0,
         };
       }),
     };
@@ -105,9 +105,11 @@ export class BuilderClickButtonService {
     return { avatar: node.avatar, author: node.author };
   }
   getRateFieldsConfig(node: any) {
+    debugger
+    const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
-      ngvalue: node.ngvalue,
+      ngvalue: node.ngvalue, options: mappedOptions
     };
   }
 
@@ -705,6 +707,7 @@ export class BuilderClickButtonService {
   getFormlyConfig(node: any) {
 
     return {
+      key: node.formly[0].fieldGroup[0].key,
       placeholder: node.formly[0].fieldGroup[0].props?.placeholder,
       maxLength: node.formly[0].fieldGroup[0].props?.maxLength,
       minLength: node.formly[0].fieldGroup[0].props?.minLength,
