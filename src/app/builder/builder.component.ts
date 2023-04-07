@@ -7197,7 +7197,7 @@ export class BuilderComponent implements OnInit {
         }
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['wrappers'] = [formValues.wrappers][0];
+          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
               this.selectedNode.size = 'default';
