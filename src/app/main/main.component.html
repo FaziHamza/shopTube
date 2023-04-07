@@ -223,7 +223,7 @@
         <ng-template #twentysix>
             <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-simple-card-with-header-body-footer [SimpleCardWithHeaderBodyFooterData]="item">
+                    <app-simple-card-with-header-body-footer [cardData]="item">
                     </app-simple-card-with-header-body-footer>
                 </div>
             </ng-container>

@@ -1,9 +1,9 @@
 <nz-tabset [(nzSelectedIndex)]="tabs.selectedIndex" [nzAnimated]="tabs.animated" [nzSize]="tabs.size"
     [nzTabPosition]="tabs.tabPosition" [nzType]="tabs.tabType" [nzHideAll]="tabs.hideTabs" nzHideAdd
     (nzClose)="closeTab($event)" [nzCentered]="tabs.centerd">
-    <nz-tab *ngFor="let items of tabs.children; let i = index ; let last = last" [nzClosable]="i > 1"
+    <nz-tab *ngFor="let items of tabs.children; let i = index ; let last = last"
         [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
-        [nzDisabled]="tabs.disabled">
+        [nzDisabled]="tabs.disabled" nzClosable >
         <ng-template #titleTemplate>
             <span *ngIf="items.icon">
                 <app-icon [type]="items.iconType" [icon]="items.icon" [size]="items.iconSize"></app-icon>

@@ -581,6 +581,12 @@ export class BuilderClickButtonService {
       size: node.size,
       imageAlt: node.imageAlt,
       imageSrc: node.imageSrc,
+      description: node.description,
+      // bgColorHeader: node.bgColorHeader,
+      // bgColorBody: node.bgColorBody,
+      // bgColorFooter: node.bgColorFooter,
+      bgColor: node.bgColor,
+      footer: node.footer,
     }
   }
 

@@ -6,7 +6,9 @@ import { DataSharedService } from '../services/data-shared.service';
 @Component({
   selector: 'formly-field-image-upload',
   template: `
-    <input type="file" (change)="change($event)" accept="image/*" [formControl]="formControl" [formlyAttributes]="field">
+  <div class="imageUpoload">
+  <input type="file" (change)="change($event)" accept="image/*" [formControl]="formControl" [formlyAttributes]="field">
+  </div>
   `,
 })
 export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfig> {
