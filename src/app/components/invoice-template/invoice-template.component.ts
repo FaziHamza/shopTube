@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-invoice-template',
+  selector: 'st-invoice-template',
   templateUrl: './invoice-template.component.html',
   styleUrls: ['./invoice-template.component.scss']
 })

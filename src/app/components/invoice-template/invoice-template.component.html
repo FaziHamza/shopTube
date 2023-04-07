@@ -48,7 +48,7 @@
                 <div class="form-group row">
                     <div *ngFor="let item of invoiceData.invoiceChild">
                         <div class="text-right">
-                            <app-heading *ngIf="item.type == 'header'" [headingData]="item"></app-heading>
+                            <st-heading *ngIf="item.type == 'header'" [headingData]="item"></st-heading>
                         </div>
                     </div>
                     <div class="col-6 text-right">
@@ -90,7 +90,7 @@
             </div>
             <div class="row">
                 <div *ngFor="let item of invoiceData.invoiceChild">
-                    <!-- <app-tui-grid *ngIf="item.type =='gridList'" [gridData]="item"></app-tui-grid> -->
+                    <!-- <st-tui-grid *ngIf="item.type =='gridList'" [gridData]="item"></st-tui-grid> -->
                 </div>
             </div>
             <div class="col-6">
@@ -198,6 +198,6 @@
 
 <ng-template #content role="document" let-modal>
     <div class="modal-body">
-        <!-- <app-print-invoice [printInvoiceData]="invoiceObject"></app-print-invoice> -->
+        <!-- <st-print-invoice [printInvoiceData]="invoiceObject"></st-print-invoice> -->
     </div>
 </ng-template>

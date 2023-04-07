@@ -22,7 +22,7 @@ import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-builder',
+  selector: 'st-builder',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss']
 })

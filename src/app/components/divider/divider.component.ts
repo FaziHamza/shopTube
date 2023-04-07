@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-divider',
+  selector: 'st-divider',
   templateUrl: './divider.component.html',
   styleUrls: ['./divider.component.scss']
 })
@@ -10,8 +10,8 @@ export class DividerComponent implements OnInit {
   constructor() { }
   dividerPosition : any;
   ngOnInit(): void {
-    
-   
+
+
 
   }
 

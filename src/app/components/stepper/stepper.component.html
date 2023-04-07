@@ -11,14 +11,14 @@
                     nzTheme="twotone"></span></span>
         </div>
         <ng-template #characterIcon>
-            <app-icon *ngIf="item.icon" [type]="item.iconType"
-                [icon]="item.icon" [size]="item.iconSize"></app-icon>
+            <st-icon *ngIf="item.icon" [type]="item.iconType"
+                [icon]="item.icon" [size]="item.iconSize"></st-icon>
         </ng-template>
 
     </ng-container>
 
 </nz-steps>
-<app-main [mainData]="step.children[current].children"></app-main>
+<st-main [mainData]="step.children[current].children"></st-main>
 <div class="steps-action">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
         <span>Previous</span>

@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-business-rule-grid',
+  selector: 'st-business-rule-grid',
   templateUrl: './business-rule-grid.component.html',
   styleUrls: ['./business-rule-grid.component.scss']
 })

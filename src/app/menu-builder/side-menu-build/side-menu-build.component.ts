@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-side-menu-build',
+  selector: 'st-side-menu-build',
   templateUrl: './side-menu-build.component.html',
   styleUrls: ['./side-menu-build.component.scss']
 })
@@ -15,7 +15,7 @@ export class SideMenuBuildComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent,data: any) {
-    
+
     event.stopPropagation();
     let arrayEmpty = true;
     data.children.forEach((j: any) => {

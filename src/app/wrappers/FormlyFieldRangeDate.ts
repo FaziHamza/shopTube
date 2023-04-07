@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-formly-field-ng-search',
+  selector: 'st-formly-field-ng-search',
   template: `
     <ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
     <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"

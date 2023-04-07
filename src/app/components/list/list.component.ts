@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  selector: 'app-list',
+  selector: 'st-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })

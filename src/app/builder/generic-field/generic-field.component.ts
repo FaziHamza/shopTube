@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'app-generic-field',
+  selector: 'st-generic-field',
   templateUrl: './generic-field.component.html',
   styleUrls: ['./generic-field.component.scss']
 })
@@ -28,7 +28,7 @@ export class GenericFieldComponent implements OnInit {
   }
   actionform = new FormGroup({});
   onSubmitV1(e: any) {
-    
+
   }
   onSubmit() {
       // event.stopPropagation();

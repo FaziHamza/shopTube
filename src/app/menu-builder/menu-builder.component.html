@@ -91,7 +91,7 @@
           </json-editor>
         </as-split-area>
         <as-split-area [size]="sizes[1] ">
-          <app-site-layout [selectedTheme]="selectedTheme" *ngIf="nodes.length > 0"></app-site-layout>
+          <st-site-layout [selectedTheme]="selectedTheme" *ngIf="nodes.length > 0"></st-site-layout>
           <div class="col-border col-body-conter" style="position: relative ;">
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
               nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="config" (nzOnClose)="closeConfigurationList()">
@@ -109,9 +109,9 @@
                       </div>
                       <div class=" side-nav-body m-10">
                         <div style="position:relative ;">
-                          <app-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
+                          <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
                             [type]="fieldData.type" [itemData]="fieldData" *ngIf="fieldData">
-                          </app-generic-field>
+                          </st-generic-field>
 
                         </div>
                       </div>
@@ -169,4 +169,4 @@
     </div>
   </div>
 </div>
-<app-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></app-layout-drawer>
+<st-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></st-layout-drawer>

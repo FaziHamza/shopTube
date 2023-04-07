@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-statistic',
+  selector: 'st-statistic',
   templateUrl: './statistic.component.html',
   styleUrls: ['./statistic.component.scss']
 })

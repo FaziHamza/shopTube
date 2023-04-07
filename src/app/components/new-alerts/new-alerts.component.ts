@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 // import { AlertColor } from '../ui-elements/alerts/alerts.model';
 
 @Component({
-  selector: 'app-new-alerts',
+  selector: 'st-new-alerts',
   templateUrl: './new-alerts.component.html',
   styleUrls: ['./new-alerts.component.scss']
 })

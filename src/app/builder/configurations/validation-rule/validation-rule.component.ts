@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-validation-rule',
+  selector: 'st-validation-rule',
   templateUrl: './validation-rule.component.html',
   styleUrls: ['./validation-rule.component.scss']
 })

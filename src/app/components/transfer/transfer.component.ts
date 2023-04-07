@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TransferItem } from 'ng-zorro-antd/transfer';
 
 @Component({
-  selector: 'app-transfer',
+  selector: 'st-transfer',
   templateUrl: './transfer.component.html',
   styleUrls: ['./transfer.component.scss']
 })
@@ -21,7 +21,7 @@ export class TransferComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterOption(inputValue: string, item: any): boolean {
-    
+
     return item.description.indexOf(inputValue) > -1;
   }
 
@@ -38,12 +38,12 @@ export class TransferComponent implements OnInit {
   }
 
   handleChange(event : any){
-    
+
     console.log("change");
   }
-  
+
   reload(direction: string): void {
-    
+
     this.transferData.list = this.newTransferData;
     this.makeData();
     alert(`your clicked ${direction}!`);

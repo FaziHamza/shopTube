@@ -3,10 +3,10 @@
 
     <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled' [nzHeader]="accordionData.title" [nzActive]='true'
     [nzExtra]="tooltip"  [nzExpandedIcon]='accordionData.nzExpandedIcon' [nzShowArrow]='accordionData.nzShowArrow'>
-   
-        <app-main [mainData]="accordionData.children"></app-main>
+
+        <st-main [mainData]="accordionData.children"></st-main>
     </nz-collapse-panel>
-    
+
 </nz-collapse>
 <ng-template #extraTpl>
     <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>

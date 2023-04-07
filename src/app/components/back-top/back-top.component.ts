@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-back-top',
+  selector: 'st-back-top',
   templateUrl: './back-top.component.html',
   styleUrls: ['./back-top.component.scss']
 })

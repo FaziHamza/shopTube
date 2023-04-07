@@ -7,7 +7,7 @@ import listPlugin from '@fullcalendar/list';
 import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-utils';
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'st-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })

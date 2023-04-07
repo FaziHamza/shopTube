@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-affix',
+  selector: 'st-affix',
   templateUrl: './affix.component.html',
   styleUrls: ['./affix.component.scss']
 })

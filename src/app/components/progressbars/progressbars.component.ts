@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-progressbars',
+  selector: 'st-progressbars',
   templateUrl: './progressbars.component.html',
   styleUrls: ['./progressbars.component.scss']
 })
@@ -18,10 +18,10 @@ export class ProgressbarsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    
+
     this.progressBarData;
     /**
-     * BreadCrumb 
+     * BreadCrumb
      */
     this.breadCrumbItems = [
       { label: 'UI Elements' },

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-stepper',
+  selector: 'st-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss']
 })
@@ -9,7 +9,7 @@ export class StepperComponent implements OnInit {
   @Input() step: any;
   current = 0;
   ngOnInt(){
-    
+
     this.step;
   }
 

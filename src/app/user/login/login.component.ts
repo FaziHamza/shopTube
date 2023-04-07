@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'st-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

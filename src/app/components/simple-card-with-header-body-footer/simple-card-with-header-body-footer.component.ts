@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-simple-card-with-header-body-footer',
+  selector: 'st-simple-card-with-header-body-footer',
   templateUrl: './simple-card-with-header-body-footer.component.html',
   styleUrls: ['./simple-card-with-header-body-footer.component.scss']
 })

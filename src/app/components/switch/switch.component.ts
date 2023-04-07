@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-switch',
+  selector: 'st-switch',
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss']
 })
@@ -12,7 +12,7 @@ export class SwitchComponent implements OnInit {
   constructor() { }
   ngOnInit(): void {
   //  this.to;
-  
+
     this.switchData
   }
 

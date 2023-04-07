@@ -6,7 +6,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'app-screen-builder',
+  selector: 'st-screen-builder',
   templateUrl: './screen-builder.component.html',
   styleUrls: ['./screen-builder.component.scss']
 })
@@ -87,7 +87,7 @@ export class ScreenBuilderComponent implements OnInit {
   jsonScreenModuleList() {
     this.loading = true
     this.builderService.jsonScreenModuleList().subscribe((res => {
-      
+
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
@@ -129,7 +129,7 @@ export class ScreenBuilderComponent implements OnInit {
       moduleName: '',
     };
     this.builderService.jsonApplicationBuilder().subscribe((res => {
-      
+
       this.applicationBuilder = res;
 
 
@@ -137,14 +137,14 @@ export class ScreenBuilderComponent implements OnInit {
     this.model = daata;
   }
   getModulelist(applicationName: any) {
-    
+
     this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
-      
+
       this.moduleList = res;
     }))
   }
   onSubmit() {
-    
+
     if (this.form.valid && this.applicationName && this.moduleName) {
       const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName);
       var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
@@ -190,7 +190,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-    
+
     this.getModuleList();
     this.model = item;
     this.applicationName = item?.applicationName;
@@ -198,7 +198,7 @@ export class ScreenBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    
+
     this.builderService.deletejsonScreenModule(id).subscribe((res => {
       this.jsonScreenModuleList();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -230,8 +230,8 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   sort(property: string | number) {
-    
-    this.isDesc = !this.isDesc; //change the direction    
+
+    this.isDesc = !this.isDesc; //change the direction
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
     this.jsonScreenModule.sort((a: any, b: any) => {

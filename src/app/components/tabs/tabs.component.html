@@ -6,12 +6,12 @@
         [nzDisabled]="tabs.disabled" nzClosable >
         <ng-template #titleTemplate>
             <span *ngIf="items.icon">
-                <app-icon [type]="items.iconType" [icon]="items.icon" [size]="items.iconSize"></app-icon>
+                <st-icon [type]="items.iconType" [icon]="items.icon" [size]="items.iconSize"></st-icon>
             </span>
             {{items.title}}
             <span nz-tooltip *ngIf='items.tooltip' [nzTooltipTitle]='items.tooltip'><span nz-icon
                     nzType="question-circle" nzTheme="twotone"></span></span>
         </ng-template>
-        <app-main [mainData]="items.children"></app-main>
+        <st-main [mainData]="items.children"></st-main>
     </nz-tab>
 </nz-tabset>

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-anchor',
+  selector: 'st-anchor',
   templateUrl: './anchor.component.html',
   styleUrls: ['./anchor.component.scss']
 })

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  selector: 'app-popconfirm',
+  selector: 'st-popconfirm',
   templateUrl: './popconfirm.component.html',
   styleUrls: ['./popconfirm.component.scss']
 })

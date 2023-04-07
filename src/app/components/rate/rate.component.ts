@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-rate',
+  selector: 'st-rate',
   templateUrl: './rate.component.html',
   styleUrls: ['./rate.component.scss']
 })

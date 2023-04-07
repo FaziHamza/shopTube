@@ -184,32 +184,32 @@
                         <nz-tab nzTitle="Configuration">
                           <div class=" general_faq mt-3">
                             <div style="position:relative ;">
-                              <app-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
+                              <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
                                 [itemData]="fieldData" [type]="fieldData.type" *ngIf="fieldData">
-                              </app-generic-field>
+                              </st-generic-field>
                             </div>
                           </div>
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
-                          <app-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule>
-                            <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></app-uirule> -->
+                          <st-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule>
+                            <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
-                          <app-validation-rule></app-validation-rule>
+                          <st-validation-rule></st-validation-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
-                          <app-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"
-                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (businessRuleNotify)="getBusinessRule()" [formlyModel]="this.formlyModel"></app-business-rule>
+                          <st-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"
+                            [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (businessRuleNotify)="getBusinessRule()" [formlyModel]="this.formlyModel"></st-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
-                          <app-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
-                            [screenModule]="screenModule"></app-action-rule>
+                          <st-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
+                            [screenModule]="screenModule"></st-action-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Grid Rules">
-                          <app-business-rule-grid *ngIf="selectedNode && nodes.length  > 0"
+                          <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0"
                             [selectedNode]="selectedNode" [screenName]="screenName" [screenModule]="screenModule"
-                            [nodes]="nodes"></app-business-rule-grid>
+                            [nodes]="nodes"></st-business-rule-grid>
                         </nz-tab>
                         <!-- <nz-tab nzTitle="Tab 3">Content of Tab Pane 3</nz-tab> -->
                       </nz-tabset>
@@ -384,7 +384,7 @@
             &nbsp;
             <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
           </ng-template>
-          <app-pages  [resData]="nodes" [screenId]="moduleId" [screenName]="screenName" [formlyModel]="formlyModel"  *ngIf="nodes.length  > 0"></app-pages>
+          <st-pages  [resData]="nodes" [screenId]="moduleId" [screenName]="screenName" [formlyModel]="formlyModel"  *ngIf="nodes.length  > 0"></st-pages>
 
         </div>
       </as-split-area>

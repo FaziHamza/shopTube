@@ -10,9 +10,9 @@
                 <!-- <div [innerHTML]="cardData.bodyText | sanitize: 'html'"></div>
                 <p [innerHTML]="cardData.description | sanitize: 'html'"></p> -->
                 <ng-container *ngFor="let item of cardData.children">
-                    <app-heading *ngIf="item.type == 'heading'" [headingData]="item"></app-heading>
-                    <app-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></app-tabs>
-                    <app-divider *ngIf="item.type == 'divider'" [dividerData]="item"></app-divider>
+                    <st-heading *ngIf="item.type == 'heading'" [headingData]="item"></st-heading>
+                    <st-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></st-tabs>
+                    <st-divider *ngIf="item.type == 'divider'" [dividerData]="item"></st-divider>
                     <div *ngIf="item.type == 'imageUpload'">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType=" question-circle" nzTheme="twotone"></span></span>
@@ -30,9 +30,9 @@
         <div class="border">
             {{cardData.footerText}}
             <ng-container *ngFor="let item of cardData.children">
-                <app-block-buttons-card
+                <st-block-buttons-card
                     *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton'"
-                    [softIconList]="item"></app-block-buttons-card>
+                    [softIconList]="item"></st-block-buttons-card>
             </ng-container>
         </div>
     </div>

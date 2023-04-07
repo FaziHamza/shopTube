@@ -4,7 +4,7 @@ import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { BuilderService } from 'src/app/services/builder.service';
 
 @Component({
-  selector: 'app-uirule',
+  selector: 'st-uirule',
   templateUrl: './uirule.component.html',
   styleUrls: ['./uirule.component.scss']
 })

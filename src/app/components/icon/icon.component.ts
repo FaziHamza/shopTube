@@ -1,7 +1,7 @@
 import { Component, OnInit , Input} from '@angular/core';
 
 @Component({
-  selector: 'app-icon',
+  selector: 'st-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss']
 })

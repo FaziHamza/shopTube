@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-tree',
+  selector: 'st-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.scss']
 })
@@ -14,5 +14,5 @@ export class TreeComponent implements OnInit {
   common(data : any){
     console.log(data);
   }
-  
+
 }

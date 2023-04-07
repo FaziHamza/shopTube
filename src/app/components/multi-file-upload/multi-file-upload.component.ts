@@ -6,7 +6,7 @@ import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable, Observer } from 'rxjs';
 
 @Component({
-  selector: 'app-multi-file-upload',
+  selector: 'st-multi-file-upload',
   templateUrl: './multi-file-upload.component.html',
   styleUrls: ['./multi-file-upload.component.scss']
 })
@@ -20,10 +20,10 @@ export class MultiFileUploadComponent implements OnInit {
   }
 
 
-  
+
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-    
+
     const status = file.status;
     console.log(fileList)
     // if (status !== 'uploading') {
@@ -36,7 +36,7 @@ export class MultiFileUploadComponent implements OnInit {
     // }
   }
 
- 
+
 
 
 }

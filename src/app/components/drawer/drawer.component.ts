@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 
 @Component({
-  selector: 'app-drawer',
+  selector: 'st-drawer',
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss']
 })

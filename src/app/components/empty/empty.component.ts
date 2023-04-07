@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-empty',
+  selector: 'st-empty',
   templateUrl: './empty.component.html',
   styleUrls: ['./empty.component.scss']
 })

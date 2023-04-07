@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { formatDistance } from 'date-fns';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'st-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })

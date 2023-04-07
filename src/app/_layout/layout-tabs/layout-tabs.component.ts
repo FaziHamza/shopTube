@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  selector: 'app-layout-tabs',
+  selector: 'st-layout-tabs',
   templateUrl: './layout-tabs.component.html',
   styleUrls: ['./layout-tabs.component.scss']
 })
@@ -17,7 +17,7 @@ export class LayoutTabsComponent implements OnInit {
   }
 
   screenLoad(link: any) {
-    
+
     if (link) {
       let routerLink = link;
       this.router.navigate([routerLink]);

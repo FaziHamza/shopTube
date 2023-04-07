@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
-  selector: 'app-builder-toater',
+  selector: 'st-builder-toater',
   templateUrl: './builder-toater.component.html',
   styleUrls: ['./builder-toater.component.scss']
 })

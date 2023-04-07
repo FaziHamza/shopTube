@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 
 @Component({
-  selector: 'app-layout-drawer',
+  selector: 'st-layout-drawer',
   templateUrl: './layout-drawer.component.html',
   styleUrls: ['./layout-drawer.component.scss']
 })

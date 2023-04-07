@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-cascader',
+  selector: 'st-cascader',
   templateUrl: './cascader.component.html',
   styleUrls: ['./cascader.component.scss']
 })

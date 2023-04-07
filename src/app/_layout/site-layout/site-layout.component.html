@@ -14,27 +14,27 @@
         <!-- <button nz-button nzType="primary" (click)="toggleCollapsed()">
           <span nz-icon  [nzType]="selectedTheme.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
         </button> -->
-        <app-menu (notify)="notifyEmit($event)"></app-menu>
+        <st-menu (notify)="notifyEmit($event)"></st-menu>
       </div>
       <div [ngClass]='selectedTheme.topHeader' *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
-        <app-menu (notify)="notifyEmit($event)"></app-menu>
+        <st-menu (notify)="notifyEmit($event)"></st-menu>
       </div>
     </div>
   </nz-header>
 
   <div [ngClass]='selectedTheme.horizontalRow' [dir]="this.selectedTheme.layout">
     <div [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
-      <app-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></app-app-side-menu>
+      <st-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
     <div [ngClass]='selectedTheme.rowClass' >
       <ng-container *ngIf="dropdown.length" class="">
-        <app-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></app-layout-button>
+        <st-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
       </ng-container>
       <ng-container *ngIf="tabs.length" >
         <ng-container *ngFor="let item of tabs" >
-          <!-- <app-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></app-layout-tabs> -->
-          <app-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"></app-layout-tabs-dropdown>
+          <!-- <st-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></st-layout-tabs> -->
+          <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
         </ng-container>
       </ng-container>
       <div dir="ltr">

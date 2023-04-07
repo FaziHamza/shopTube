@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-radio-button',
+  selector: 'st-radio-button',
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.scss']
 })

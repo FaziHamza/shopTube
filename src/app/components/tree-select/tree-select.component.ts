@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-tree-select',
+  selector: 'st-tree-select',
   templateUrl: './tree-select.component.html',
   styleUrls: ['./tree-select.component.scss']
 })

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-action-rule',
+  selector: 'st-action-rule',
   templateUrl: './action-rule.component.html',
   styleUrls: ['./action-rule.component.scss']
 })

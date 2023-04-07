@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  selector: 'app-layout-tabs-dropdown',
+  selector: 'st-layout-tabs-dropdown',
   templateUrl: './layout-tabs-dropdown.component.html',
   styleUrls: ['./layout-tabs-dropdown.component.scss']
 })

@@ -4,7 +4,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
-  selector: 'app-main',
+  selector: 'st-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })

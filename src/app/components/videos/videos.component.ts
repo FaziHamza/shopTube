@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-videos',
+  selector: 'st-videos',
   templateUrl: './videos.component.html',
   styleUrls: ['./videos.component.scss']
 })
@@ -17,10 +17,10 @@ export class VideosComponent implements OnInit {
 
   // videodata() {
   //   this.employeeService.videodata().subscribe((res => {
-      
+
   //     this.videolist = res;
   //   }));
   // }
- 
+
 
 }

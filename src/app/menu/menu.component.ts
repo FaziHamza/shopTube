@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'st-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })

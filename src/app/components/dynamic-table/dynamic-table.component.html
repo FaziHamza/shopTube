@@ -121,8 +121,8 @@
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <app-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode"
+    <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode"
       [screenName]="_dataSharedService.screenName" [screenModule]="_dataSharedService.screenModule"
-      [nodes]="_dataSharedService.nodes"></app-business-rule-grid>
+      [nodes]="_dataSharedService.nodes"></st-business-rule-grid>
   </ng-container>
 </nz-modal>

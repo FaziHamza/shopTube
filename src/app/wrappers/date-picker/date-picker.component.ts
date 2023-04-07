@@ -4,7 +4,7 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 
 
 @Component({
-  selector: 'app-date-picker',
+  selector: 'st-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })

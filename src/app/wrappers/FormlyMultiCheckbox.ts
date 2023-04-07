@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-formly-field-ng-search',
+  selector: 'st-formly-field-ng-search',
   template: `
     <div class="checkBox">
     <nz-checkbox-wrapper [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass.replace('block','') : ''"  *ngIf="list.length" style="width: 100%;" (nzOnChange)="log($event)">

@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-buttons',
+  selector: 'st-buttons',
   templateUrl: './buttons.component.html',
   styleUrls: ['./buttons.component.scss']
 })

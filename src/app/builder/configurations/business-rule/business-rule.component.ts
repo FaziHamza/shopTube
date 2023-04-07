@@ -4,7 +4,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 
 @Component({
-  selector: 'app-business-rule',
+  selector: 'st-business-rule',
   templateUrl: './business-rule.component.html',
   styleUrls: ['./business-rule.component.scss']
 })

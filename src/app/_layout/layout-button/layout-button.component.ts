@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-layout-button',
+  selector: 'st-layout-button',
   templateUrl: './layout-button.component.html',
   styleUrls: ['./layout-button.component.scss']
 })

@@ -1,4 +1,4 @@
-<!-- <app-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
+<!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
 <nz-card nzTitle="Application Builder List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
         <div>
@@ -63,7 +63,7 @@
 </ng-template>
 <!-- Modal -->
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-    
+
     <ng-container *nzModalContent>
         <label class="mx-3 ">Select Application</label>
         <nz-select [(ngModel)]="applicationName" >

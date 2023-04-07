@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-paragraph',
+  selector: 'st-paragraph',
   templateUrl:'./paragraph.component.html',
   styleUrls: ['./paragraph.component.scss']
 })

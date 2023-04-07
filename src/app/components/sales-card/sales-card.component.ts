@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ChartType } from 'src/app/models/chart';
 
 @Component({
-  selector: 'app-sales-card',
+  selector: 'st-sales-card',
   templateUrl: './sales-card.component.html',
   styleUrls: ['./sales-card.component.scss']
 })
@@ -35,12 +35,12 @@ export class SalesCardComponent implements OnInit {
     colors: ['#038edc'],
   };
   ngOnInit(): void {
-    
+
     this.salesdata;
-    
+
   }
   defaultFilter(filterData:any,check:any){
-      
+
 
     // if(this.salesdata.length > 0){
     //   this.defaultName = this.salesdata[0].section[0].defaultfilter

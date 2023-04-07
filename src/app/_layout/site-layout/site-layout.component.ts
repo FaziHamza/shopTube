@@ -4,7 +4,7 @@ import { MenuItem } from 'src/app/models/menu';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-site-layout',
+  selector: 'st-site-layout',
   templateUrl: './site-layout.component.html',
   styleUrls: ['./site-layout.component.scss']
 })
@@ -57,7 +57,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   toggleCollapsed(): void {
-    
+
     if (this.selectedTheme.layout == 'twoColumn') {
       this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
       if (this.selectedTheme.isTwoColumnCollapsed) {
@@ -211,7 +211,7 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   notifyEmit(data: any) {
-    
+
     if (typeof data === 'boolean') {
       this.selectedTheme.showMenu = data;
       this.selectedTheme.rowClass = 'w-full';
@@ -306,7 +306,7 @@ export class SiteLayoutComponent implements OnInit {
   //     this.selectedTheme.isCollapsed = false;
   // }
   getMenu() {
-    
+
     this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
       if (res.length > 0) {
         this.selectedTheme = res[0].selectedTheme;
@@ -328,7 +328,7 @@ export class SiteLayoutComponent implements OnInit {
       // this.selectedTheme.isCollapsed = true;
       this.selectedTheme.showMenu = false;
       this.selectedTheme.rowClass = 'w-full';
-      // this.selectedTheme.isCollapsed = true; 
+      // this.selectedTheme.isCollapsed = true;
     } else {
       // this.selectedTheme.isCollapsed = false;
       this.selectedTheme.rowClass = 'w-10/12';

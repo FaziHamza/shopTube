@@ -5,7 +5,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'app-dynamic-table-repeat-section',
+  selector: 'st-dynamic-table-repeat-section',
   templateUrl: './dynamic-table-repeat-section.component.html',
   styleUrls: ['./dynamic-table-repeat-section.component.scss']
 })
@@ -32,7 +32,7 @@ export class DynamicTableRepeatSectionComponent implements OnInit {
   addColumn(): void {
     this.isVisible = true;
   };
-  
+
   addRow(): void {
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));

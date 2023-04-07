@@ -11,7 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Guid } from '../models/guid';
 
 @Component({
-  selector: 'app-menu-builder',
+  selector: 'st-menu-builder',
   templateUrl: './menu-builder.component.html',
   styleUrls: ['./menu-builder.component.scss']
 })
@@ -892,7 +892,7 @@ export class MenuBuilderComponent implements OnInit {
     this.IsShowConfig = false;
   }
   specificControllShow(selected: any, node: any) {
-    
+
     this.htmlTabsData[0].children[0].children[0].children.forEach((a: any) => {
       if (selected == 'input') {
         if (a.parameter == 'input' || a.parameter == 'dropdown' || a.parameter == 'In Page Dropdown' || a.parameter == 'Tabs') {
@@ -1102,7 +1102,7 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    
+
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
     if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
@@ -1111,7 +1111,7 @@ export class MenuBuilderComponent implements OnInit {
       this.selectedTheme.topHeaderMenu = 'w-1/6'
       this.selectedTheme.topHeader = 'w-10/12';
       // this.selectedTheme.menuColumn = 'w-1/6';
-      // this.selectedTheme.rowClass = 'w-10/12'; 
+      // this.selectedTheme.rowClass = 'w-10/12';
       if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
         this.selectedTheme.horizontalRow = 'flex flex-wrap';
         this.selectedTheme.menuColumn = 'w-1/6';
@@ -1214,7 +1214,7 @@ export class MenuBuilderComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      
+
       const withOutTitle = this.nodes.filter((a:any)=>a.isTitle != true);
       this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);

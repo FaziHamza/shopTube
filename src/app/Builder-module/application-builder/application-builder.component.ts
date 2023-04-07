@@ -6,7 +6,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'app-application-builder',
+  selector: 'st-application-builder',
   templateUrl: './application-builder.component.html',
   styleUrls: ['./application-builder.component.scss']
 })
@@ -35,7 +35,7 @@ export class ApplicationBuilderComponent implements OnInit {
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
-    },  
+    },
     {
       name: 'Action',
       sortOrder: null,
@@ -66,7 +66,7 @@ export class ApplicationBuilderComponent implements OnInit {
   jsonApplicationBuilder() {
     this.loading = true
     this.builderService.jsonApplicationBuilder().subscribe((res => {
-      
+
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
@@ -98,7 +98,7 @@ export class ApplicationBuilderComponent implements OnInit {
       name: '',
     };
     // this.builderService.jsonApplicationBuilder().subscribe((res => {
-    //   
+    //
     // }));
     this.model = daata;
   }
@@ -124,13 +124,13 @@ export class ApplicationBuilderComponent implements OnInit {
     this.handleCancel();
   }
   editItem(item: any) {
-    
+
     this.model = item;
     this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    
+
     this.builderService.deleteApplicationBuilder(id).subscribe((res => {
       this.jsonApplicationBuilder();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -142,7 +142,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   search(): void {
-    
+
     this.isShow = false;
     this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
     console.log(this.listOfDisplayData);
@@ -159,8 +159,8 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   sort(property: string | number) {
-    
-    this.isDesc = !this.isDesc; //change the direction    
+
+    this.isDesc = !this.isDesc; //change the direction
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
     this.applicationData.sort((a: any, b: any) => {

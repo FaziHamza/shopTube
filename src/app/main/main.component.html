@@ -8,68 +8,68 @@
                     <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                             nzTheme="twotone"></span></span>
                 </div>
-                <app-multi-file-upload [multiFileUploadData]="item"></app-multi-file-upload>
+                <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
             </div>
         </ng-container>
         <ng-template #one>
             <ng-container *ngIf="item.type == 'chart';else second">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-sales-card [salesdata]="item" *ngIf="item.type == 'chart' "></app-sales-card>
+                    <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart' "></st-sales-card>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #second>
             <ng-container *ngIf="item.type == 'sectionCard';else third">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-growth-percentage-card [widgetSecondCard]="item">
-                    </app-growth-percentage-card> -->
+                    <!-- <st-growth-percentage-card [widgetSecondCard]="item">
+                    </st-growth-percentage-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #third>
             <ng-container *ngIf="item.type == 'widgetSectionCard';else fourth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-growth-graph-card [allChart]=" item">
-                    </app-growth-graph-card> -->
+                    <!-- <st-growth-graph-card [allChart]=" item">
+                    </st-growth-graph-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #fourth>
             <ng-container *ngIf="item.type == 'browserCard';else fifth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-visitor-browser-card [browserdata]="item">
-                    </app-visitor-browser-card> -->
+                    <!-- <st-visitor-browser-card [browserdata]="item">
+                    </st-visitor-browser-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #fifth>
             <ng-container *ngIf="item.type == 'donutChart';else sixth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-visitor-source-card [donutChart]="item">
-                    </app-visitor-source-card> -->
+                    <!-- <st-visitor-source-card [donutChart]="item">
+                    </st-visitor-source-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #sixth>
             <ng-container *ngIf="item.type == 'donuteSaleChart';else seventh">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-sale-donute-card [saleDonutChart]="item">
-                    </app-sale-donute-card> -->
+                    <!-- <st-sale-donute-card [saleDonutChart]="item">
+                    </st-sale-donute-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #seventh>
             <ng-container *ngIf="item.type == 'salesAnalyticschart';else eight">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-sale-analytics-card [analyticsChart]="item">
-                    </app-sale-analytics-card> -->
+                    <!-- <st-sale-analytics-card [analyticsChart]="item">
+                    </st-sale-analytics-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #eight>
             <ng-container *ngIf="item.type == 'card';else tenth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-task-detail-card [widgetcard]="item"></app-task-detail-card> -->
+                    <!-- <st-task-detail-card [widgetcard]="item"></st-task-detail-card> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -82,7 +82,7 @@
                                     nzTheme="twotone"></span></span>
                         </div>
                     </div>
-                    <app-heading [headingData]="item"></app-heading>
+                    <st-heading [headingData]="item"></st-heading>
                 </div>
             </ng-container>
         </ng-template>
@@ -93,7 +93,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-paragraph [data]="item"></app-paragraph>
+                    <st-paragraph [data]="item"></st-paragraph>
                 </div>
             </ng-container>
         </ng-template>
@@ -101,32 +101,32 @@
             <ng-container *ngIf="item.type == 'button'; else thirteenth">
 
                 <div *ngIf="!item.hideExpression">
-                    <app-block-buttons-card [softIconList]="item">
-                    </app-block-buttons-card>
+                    <st-block-buttons-card [softIconList]="item">
+                    </st-block-buttons-card>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #thirteenth>
             <ng-container *ngIf="item.type =='linkButton'; else forteenth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-block-buttons-card [softIconList]="item">
-                    </app-block-buttons-card>
+                    <st-block-buttons-card [softIconList]="item">
+                    </st-block-buttons-card>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #forteenth>
             <ng-container *ngIf="item.type =='buttonGroup'; else fifteen">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-block-buttons-card [softIconList]="item">
-                    </app-block-buttons-card>
+                    <st-block-buttons-card [softIconList]="item">
+                    </st-block-buttons-card>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #fifteen>
             <ng-container *ngIf="item.type =='dropdownButton'; else sixteen">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-block-buttons-card [softIconList]="item">
-                    </app-block-buttons-card>
+                    <st-block-buttons-card [softIconList]="item">
+                    </st-block-buttons-card>
                 </div>
             </ng-container>
         </ng-template>
@@ -147,8 +147,8 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-table></app-table>
-                    <!-- <app-tui-grid [gridData]="item"></app-tui-grid> -->
+                    <st-table></st-table>
+                    <!-- <st-tui-grid [gridData]="item"></st-tui-grid> -->
 
                 </div>
             </ng-container>
@@ -156,7 +156,7 @@
         <ng-template #eighteen>
             <ng-container *ngIf="item.type == 'progressBar'; else ninteen">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-progressbars [progressBarData]="item"></app-progressbars>
+                    <st-progressbars [progressBarData]="item"></st-progressbars>
                 </div>
             </ng-container>
         </ng-template>
@@ -165,14 +165,14 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span class="text-right" nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span
                             nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-divider [dividerData]="item"></app-divider>
+                    <st-divider [dividerData]="item"></st-divider>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #twenty>
             <ng-container *ngIf="item.type == 'video'; else twentyone">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-videos [videoData]="item"></app-videos>
+                    <st-videos [videoData]="item"></st-videos>
                 </div>
             </ng-container>
         </ng-template>
@@ -181,7 +181,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-audio [audioData]="item"></app-audio>
+                    <st-audio [audioData]="item"></st-audio>
                 </div>
             </ng-container>
         </ng-template>
@@ -190,8 +190,8 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <!-- <app-browser-combine-chart
-                        [browserCombinechartData]="item"></app-browser-combine-chart> -->
+                    <!-- <st-browser-combine-chart
+                        [browserCombinechartData]="item"></st-browser-combine-chart> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -200,31 +200,31 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-calendar [calenderData]="item"></app-calendar>
+                    <st-calendar [calenderData]="item"></st-calendar>
 
-                    <!-- <app-tui-calendar [calendarData]="item"></app-tui-calendar> -->
+                    <!-- <st-tui-calendar [calendarData]="item"></st-tui-calendar> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #twentyfour>
             <ng-container *ngIf="item.type == 'sharedMessagesChart' ;else twentyfive">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-shared-messages-card [sharedMessagesData]="item"></app-shared-messages-card> -->
+                    <!-- <st-shared-messages-card [sharedMessagesData]="item"></st-shared-messages-card> -->
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #twentyfive>
             <ng-container *ngIf="item.type == 'alert' ;else twentysix">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-new-alerts [alertData]="item"></app-new-alerts>
+                    <st-new-alerts [alertData]="item"></st-new-alerts>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #twentysix>
             <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-simple-card-with-header-body-footer [cardData]="item">
-                    </app-simple-card-with-header-body-footer>
+                    <st-simple-card-with-header-body-footer [cardData]="item">
+                    </st-simple-card-with-header-body-footer>
                 </div>
             </ng-container>
         </ng-template>
@@ -233,7 +233,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-tabs [tabs]="item"></app-tabs>
+                    <st-tabs [tabs]="item"></st-tabs>
                 </div>
             </ng-container>
         </ng-template>
@@ -242,7 +242,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-timeline-builder [timelineData]="item"></app-timeline-builder>
+                    <st-timeline-builder [timelineData]="item"></st-timeline-builder>
                 </div>
             </ng-container>
         </ng-template>
@@ -250,7 +250,7 @@
             <ng-container *ngIf="item.type == 'multiFileUpload' ;else thirty">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
 
-                    <!-- <app-multi-file-upload [multiFileUploadData]="item"></app-multi-file-upload> -->
+                    <!-- <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -274,22 +274,22 @@
                         <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
                     </div>
-                    <app-stepper [step]="item">
-                    </app-stepper>
+                    <st-stepper [step]="item">
+                    </st-stepper>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #thirtyTwo>
             <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-accordion-button [accordionData]="item"></app-accordion-button>
+                    <st-accordion-button [accordionData]="item"></st-accordion-button>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #thirtyThree>
             <ng-container *ngIf="item.type == 'switch'; else thirtyforth">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-switch [switchData]="item"></app-switch>
+                    <st-switch [switchData]="item"></st-switch>
                 </div>
             </ng-container>
         </ng-template>
@@ -299,7 +299,7 @@
                     *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <!-- <app-kanban-boards [kanbanData]="item"></app-kanban-boards> -->
+                    <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -310,19 +310,19 @@
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <div *ngFor="let data of item.fixedDivChild">
                         <ng-container *ngIf="data.type == 'button';else second">
-                            <app-block-buttons-card [softIconList]="data">
-                            </app-block-buttons-card>
+                            <st-block-buttons-card [softIconList]="data">
+                            </st-block-buttons-card>
                         </ng-container>
                         <ng-template #second>
                             <ng-container *ngIf="data.type == 'linkButton';else third">
-                                <app-block-buttons-card [softIconList]="data">
-                                </app-block-buttons-card>
+                                <st-block-buttons-card [softIconList]="data">
+                                </st-block-buttons-card>
                             </ng-container>
                         </ng-template>
                         <ng-template #third>
                             <ng-container *ngIf="data.type == 'buttonGroup'">
-                                <app-block-buttons-card [softIconList]="data">
-                                </app-block-buttons-card>
+                                <st-block-buttons-card [softIconList]="data">
+                                </st-block-buttons-card>
                             </ng-container>
                         </ng-template>
                     </div>
@@ -351,9 +351,9 @@
             <ng-container *ngIf="item.type == 'textEditor'; else thirtyEight">
                 <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true} "
                     *ngIf="!item.hideExpression">
-                    <app-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'" [data]="item.editorJson" ></app-editor-js-wrapper>
+                    <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'" [data]="item.editorJson" ></st-editor-js-wrapper>
                     <!-- <pre>{{ item.editorJson | json }}</pre> -->
-                    <!-- <app-editors [editorData]="item"></app-editors> -->
+                    <!-- <st-editors [editorData]="item"></st-editors> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -372,7 +372,7 @@
                     <div class="p-2">
                         <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
-                        <app-carousel-crossfade-card [carouselslides]="item"></app-carousel-crossfade-card>
+                        <st-carousel-crossfade-card [carouselslides]="item"></st-carousel-crossfade-card>
                     </div>
                 </div>
             </ng-container>
@@ -380,21 +380,21 @@
         <ng-template #fourty>
             <ng-container *ngIf="item.type == 'toastr' ; else fourtyOne">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-builder-toater [toastrData]="item"></app-builder-toater>
+                    <st-builder-toater [toastrData]="item"></st-builder-toater>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #fourtyOne>
             <ng-container *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <app-rang-inputs [rangSlider]="item"></app-rang-inputs>
+                    <st-rang-inputs [rangSlider]="item"></st-rang-inputs>
                 </div>
             </ng-container>
         </ng-template>
         <ng-template #fourtyTwo>
             <ng-container *ngIf="item.type == 'editor_js' ; else fourtyThree">
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <!-- <app-editor-js></app-editor-js> -->
+                    <!-- <st-editor-js></st-editor-js> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -419,7 +419,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-invoice-template [invoiceData]="item"></app-invoice-template>
+                    <st-invoice-template [invoiceData]="item"></st-invoice-template>
                 </div>
             </ng-container>
         </ng-template>
@@ -428,7 +428,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-affix [affixData]="item"></app-affix>
+                    <st-affix [affixData]="item"></st-affix>
                 </div>
             </ng-container>
         </ng-template>
@@ -439,7 +439,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-transfer [transferData]="item"></app-transfer>
+                    <st-transfer [transferData]="item"></st-transfer>
                 </div>
             </ng-container>
         </ng-template>
@@ -450,7 +450,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-tree-select [treeSelectData]="item"></app-tree-select>
+                    <st-tree-select [treeSelectData]="item"></st-tree-select>
                 </div>
             </ng-container>
         </ng-template>
@@ -461,7 +461,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-cascader [cascaderData]="item"></app-cascader>
+                    <st-cascader [cascaderData]="item"></st-cascader>
                 </div>
             </ng-container>
         </ng-template>
@@ -470,7 +470,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-avatar [avatarData]="item"></app-avatar>
+                    <st-avatar [avatarData]="item"></st-avatar>
                 </div>
             </ng-container>
         </ng-template>
@@ -481,7 +481,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-badge [badgeData]="item"></app-badge>
+                    <st-badge [badgeData]="item"></st-badge>
                 </div>
             </ng-container>
         </ng-template>
@@ -490,7 +490,7 @@
                 <ng-container *ngIf="item.hideExpression == false">
                     <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-comment [commentData]="item"></app-comment>
+                    <st-comment [commentData]="item"></st-comment>
                 </ng-container>
             </ng-container>
         </ng-template>
@@ -553,7 +553,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-rate [rateData]="item"></app-rate>
+                    <st-rate [rateData]="item"></st-rate>
                 </div>
             </ng-container>
         </ng-template>
@@ -564,7 +564,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-modal [modalData]="item"></app-modal>
+                    <st-modal [modalData]="item"></st-modal>
                 </div>
             </ng-container>
         </ng-template>
@@ -575,7 +575,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-popconfirm [popConfirmData]="item"></app-popconfirm>
+                    <st-popconfirm [popConfirmData]="item"></st-popconfirm>
                 </div>
             </ng-container>
         </ng-template>
@@ -586,7 +586,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-description [descriptionData]="item"></app-description>
+                    <st-description [descriptionData]="item"></st-description>
                 </div>
             </ng-container>
         </ng-template>
@@ -595,7 +595,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-result [resulData]="item"></app-result>
+                    <st-result [resulData]="item"></st-result>
                 </div>
             </ng-container>
         </ng-template>
@@ -606,7 +606,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-anchor [anchorData]="item"></app-anchor>
+                    <st-anchor [anchorData]="item"></st-anchor>
                 </div>
             </ng-container>
         </ng-template>
@@ -617,7 +617,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-back-top [backTopData]="item"></app-back-top>
+                    <st-back-top [backTopData]="item"></st-back-top>
                 </div>
             </ng-container>
         </ng-template>
@@ -628,7 +628,7 @@
                         <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                 nzTheme="twotone"></span></span>
                     </div>
-                    <app-statistic [statisticData]="item"></app-statistic>
+                    <st-statistic [statisticData]="item"></st-statistic>
                 </div>
             </ng-container>
         </ng-template>
@@ -637,7 +637,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-drawer [drawerData]="item"></app-drawer>
+                    <st-drawer [drawerData]="item"></st-drawer>
                 </div>
             </ng-container>
         </ng-template>
@@ -646,7 +646,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-skeleton [skeltonData]="item"></app-skeleton>
+                    <st-skeleton [skeltonData]="item"></st-skeleton>
                 </div>
             </ng-container>
         </ng-template>
@@ -655,7 +655,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-empty [emptyData]="item"></app-empty>
+                    <st-empty [emptyData]="item"></st-empty>
                 </div>
             </ng-container>
         </ng-template>
@@ -664,7 +664,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-list [listData]="item"></app-list>
+                    <st-list [listData]="item"></st-list>
                 </div>
             </ng-container>
         </ng-template>
@@ -673,7 +673,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <!-- <app-tree-view [treeListData]="item"></app-tree-view> -->
+                    <!-- <st-tree-view [treeListData]="item"></st-tree-view> -->
                 </div>
             </ng-container>
         </ng-template>
@@ -682,7 +682,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-mention [mentionData]="item"></app-mention>
+                    <st-mention [mentionData]="item"></st-mention>
                 </div>
             </ng-container>
         </ng-template>
@@ -691,7 +691,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-message [messageData]="item"></app-message>
+                    <st-message [messageData]="item"></st-message>
                 </div>
             </ng-container>
         </ng-template>
@@ -700,7 +700,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-notification [notificationData]="item"></app-notification>
+                    <st-notification [notificationData]="item"></st-notification>
                 </div>
             </ng-container>
         </ng-template>
@@ -709,7 +709,7 @@
                 <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-tree [treeData]="item"></app-tree>
+                    <st-tree [treeData]="item"></st-tree>
                 </div>
             </ng-container>
         </ng-template>
@@ -720,7 +720,7 @@
                             nzType="question-circle" nzTheme="twotone"></span></span>
                 </div>
                 <nz-card [nzTitle]="item.title" [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
-                    <app-main [mainData]="item.children"></app-main>
+                    <st-main [mainData]="item.children"></st-main>
                 </nz-card>
             </ng-container>
         </ng-template>
@@ -729,7 +729,7 @@
                 <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
-                    <app-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"></app-icon>
+                    <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"></st-icon>
                 </div>
             </ng-container>
         </ng-template>
@@ -739,7 +739,7 @@
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                     <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
-                    <app-paragraph [data]="item"></app-paragraph>
+                    <st-paragraph [data]="item"></st-paragraph>
                 </ng-container>
 
             </ng-container>

@@ -20,7 +20,7 @@ import ImageTool from '@editorjs/image';
 // Import other tools as needed
 
 @Component({
-  selector: 'app-editor-js-wrapper',
+  selector: 'st-editor-js-wrapper',
   templateUrl: './editor-js-wrapper.component.html',
   styleUrls: ['./editor-js-wrapper.component.scss'],
   providers: [

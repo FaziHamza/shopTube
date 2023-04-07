@@ -3,7 +3,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { MentionOnSearchTypes } from 'ng-zorro-antd/mention';
 
 @Component({
-  selector: 'app-mention',
+  selector: 'st-mention',
   templateUrl: './mention.component.html',
   styleUrls: ['./mention.component.scss']
 })
@@ -25,7 +25,7 @@ export class MentionComponent implements OnInit {
     console.log(`onSelect ${suggestion}`);
   }
   onSearchChange({ value }: MentionOnSearchTypes): void {
-    
+
     console.log(`search: ${value}`);
     // this.mentionData.loading = true;
     this.fetchSuggestions(value, suggestions => {

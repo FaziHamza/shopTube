@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { ElementData } from '../models/element';
 
 @Component({
-  selector: 'app-pages',
+  selector: 'st-pages',
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss']
 })

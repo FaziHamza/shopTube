@@ -8,7 +8,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 
 
 @Component({
-  selector: 'app-register',
+  selector: 'st-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

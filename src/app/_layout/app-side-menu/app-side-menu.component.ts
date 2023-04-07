@@ -5,7 +5,7 @@ import { MenuItem } from 'src/app/models/menu';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-app-side-menu',
+  selector: 'st-app-side-menu',
   templateUrl: './app-side-menu.component.html',
   styleUrls: ['./app-side-menu.component.scss']
 })
@@ -36,7 +36,7 @@ export class AppSideMenuComponent implements OnInit {
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-    
+
     this.makeMenuData();
   }
 
@@ -101,14 +101,14 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-  
+
 
   changeIcon() {
     this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    
+
     let checkTabsAndDropdown = false;
     event.stopPropagation();
     data.children.forEach((element: any) => {
@@ -162,7 +162,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   shouldExecute(data: any): boolean {
-    
+
     if (data.type === 'mainTab' || data.type === 'dropdown') {
       return false;
     }
