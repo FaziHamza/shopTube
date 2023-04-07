@@ -25,7 +25,6 @@ export class ButtonsComponent implements OnInit {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-    debugger
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
     this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor :'';

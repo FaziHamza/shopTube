@@ -455,6 +455,7 @@ export class UIRuleComponent implements OnInit {
             return selectedNode[0].children[i];
           } else {
             for (let j = 0; j < selectedNode[0].children[i].children.length; j++) {
+              if(selectedNode[0].children[i].children[j].formly)
               if (selectedNode[0].children[i].children[j].formly[0].key == key) {
                 console.log(selectedNode[0].children[i].children[j]);
                 return selectedNode[0].children[i].children[j];

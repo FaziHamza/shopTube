@@ -68,7 +68,7 @@
                         </nz-page-header-extra>
                     </nz-page-header>
                 </div>
-                <div [ngClass]="[j.children[1].className, j.children[1].highLight ? 'highLight' : '']"
+                <div class="{{j.children[1].className}} {{j.children[1].highLight ? 'highLight' : ''}} "
                     [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
                     <app-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
                         [screenName]="screenName"></app-main>
