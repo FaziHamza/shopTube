@@ -1588,7 +1588,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         className: "w-1/2",
         highLight: false,
-        isNextChild: false,
+        isNextChild: true,
         tooltip: "",
         textAlign: "text-left",
         textSize: "h1",
@@ -1605,10 +1605,14 @@ export class BuilderComponent implements OnInit {
         size: 'default',
         imageSrc: '',
         imageAlt: '',
-
+        description:'Description',
+        // bgColorHeader:'',
+        // bgColorBody:'',
+        // bgColorFooter:'',
+        bgColor :'',
+        footer :false,
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -3036,7 +3040,7 @@ export class BuilderComponent implements OnInit {
         showCount: 5,
         ngvalue: 0,
         disabled: false,
-        options: [ 'terrible' , 'bad' , 'normal' , 'good' , 'wonderful'],
+        options: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
         children: [
         ],
       } as TreeNode;
@@ -4783,33 +4787,33 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
-          this.fieldData.commonData[0].fieldGroup[4] = {
-            className: "w-1/2",
-            key: 'className',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            props: {
-              label: 'Section ClassName',
-              // options: [
-              //   {
-              //     label: 'Full',
-              //     value: 'w-full'
-              //   },
-              //   {
-              //     label: 'col-6',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
-              //   },
-              //   {
-              //     label: 'col-4',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
-              //   },
-              //   {
-              //     label: 'col-3',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
-              //   },
-              // ]
-            }
-          };
+          // this.fieldData.commonData[0].fieldGroup[4] = {
+          //   className: "w-1/2",
+          //   key: 'className',
+          //   type: 'input',
+          //   wrappers: ["formly-vertical-theme-wrapper"],
+          //   props: {
+          //     label: 'Section ClassName',
+          //     // options: [
+          //     //   {
+          //     //     label: 'Full',
+          //     //     value: 'w-full'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-6',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-4',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-3',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
+          //     //   },
+          //     // ]
+          //   }
+          // };
         configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingFields;
         break;
@@ -5648,7 +5652,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.ngvalue = event.form.ngvalue;
           if (event.tableDta) {
-            this.selectedNode.options = event.tableDta.map((option : any) => option.label);
+            this.selectedNode.options = event.tableDta.map((option: any) => option.label);
           } else {
             this.selectedNode.options = this.selectedNode.options;
           }
@@ -5817,7 +5821,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-        case "customMasking":
+      case "customMasking":
         debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -6095,34 +6099,34 @@ export class BuilderComponent implements OnInit {
           // this.cdr.detectChanges();
         }
         break;
-        // case "customMasking":
-        // if (this.selectedNode) {
-        //   this.selectedNode?.formly?.forEach(elementV1 => {
-        //     // MapOperator(elementV1 =currentData);
-        //     const formly = elementV1 ?? {};
-        //     const fieldGroup = formly.fieldGroup ?? [];
-        //     const props = fieldGroup[0]?.props ?? {};
-        //     props['key'] = event.form.key;
-        //     props.label = event.form.title;
-        //     props.focus = event.form.focus;
-        //     props['hideExpression'] = event.form.hideExpression;
-        //     props['defaultValue'] = event.form.defaultValue;
-        //     props['required'] = event.form.required;
-        //     props.readonly = event.form.readonly;
-        //     props.placeholder = event.form.placeholder;
-        //     props['required'] = event.form.required;
-        //     props['disabled'] = event.form.disabled;
-        //     props['tooltip'] = event.form.tooltip;
-        //     props['maskString'] = event.form.maskString;
-        //     props['maskLabel'] = event.form.maskLabel;
-        //     props['labelIcon'] = event.form.labelIcon;
-        //     props['addonLeft'].text = event.form.addonLeft;
-        //     props['addonRight'].text = event.form.addonRight;
-        //     props['tooltip'] = event.form.tooltip;
-        //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
-        //   });
-        // }
-        // break;
+      // case "customMasking":
+      // if (this.selectedNode) {
+      //   this.selectedNode?.formly?.forEach(elementV1 => {
+      //     // MapOperator(elementV1 =currentData);
+      //     const formly = elementV1 ?? {};
+      //     const fieldGroup = formly.fieldGroup ?? [];
+      //     const props = fieldGroup[0]?.props ?? {};
+      //     props['key'] = event.form.key;
+      //     props.label = event.form.title;
+      //     props.focus = event.form.focus;
+      //     props['hideExpression'] = event.form.hideExpression;
+      //     props['defaultValue'] = event.form.defaultValue;
+      //     props['required'] = event.form.required;
+      //     props.readonly = event.form.readonly;
+      //     props.placeholder = event.form.placeholder;
+      //     props['required'] = event.form.required;
+      //     props['disabled'] = event.form.disabled;
+      //     props['tooltip'] = event.form.tooltip;
+      //     props['maskString'] = event.form.maskString;
+      //     props['maskLabel'] = event.form.maskLabel;
+      //     props['labelIcon'] = event.form.labelIcon;
+      //     props['addonLeft'].text = event.form.addonLeft;
+      //     props['addonRight'].text = event.form.addonRight;
+      //     props['tooltip'] = event.form.tooltip;
+      //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
+      //   });
+      // }
+      // break;
       case "gridList":
 
         if (this.selectedNode.id) {
@@ -6877,7 +6881,9 @@ export class BuilderComponent implements OnInit {
                     if (event.form.sectionClassName) {
                       res['className'] = event.form.sectionClassName
                     }
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    if (elementV1.formly) {
+                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    }
                   });
                 });
               }
@@ -6887,7 +6893,9 @@ export class BuilderComponent implements OnInit {
                     if (event.form.sectionClassName) {
                       res['className'] = event.form.sectionClassName
                     }
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    if (elementV1.formly) {
+                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    }
                   });
                 });
               }
@@ -6896,7 +6904,9 @@ export class BuilderComponent implements OnInit {
                   if (event.form.sectionClassName) {
                     res['className'] = event.form.sectionClassName
                   }
-                  elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  if (elementV1.formly) {
+                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  }
                 });
               }
             }
@@ -7188,6 +7198,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.imageAlt = event.form.imageAlt;
           this.selectedNode.imageSrc = event.form.imageSrc;
+          this.selectedNode.description = event.form.description;
+          // this.selectedNode.bgColorHeader = event.form.bgColorHeader;
+          // this.selectedNode.bgColorBody = event.form.bgColorBody;
+          // this.selectedNode.bgColorFooter = event.form.bgColorFooter;
+          this.selectedNode.bgColor = event.form.bgColor;
+          this.selectedNode.footer = event.form.footer;
+          if (event.form.imageSrc) {
+            this.selectedNode.imageSrc = event.form.imageSrc;
+          }
+          else if (this.dataSharedService.imageUrl) {
+            this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
+          }
           this.updateNodes()
         }
         break;
@@ -7289,7 +7311,7 @@ export class BuilderComponent implements OnInit {
         }
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props.config['wrappers'] = [formValues.wrappers][0];
+          fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
               this.selectedNode.size = 'default';
