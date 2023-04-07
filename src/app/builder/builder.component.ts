@@ -152,7 +152,7 @@ export class BuilderComponent implements OnInit {
     this.nodes = [...this.nodes];
     if(this.isSavedDb)
       this.saveOfflineDB();
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
   saveOfflineDB(){
     let data = this.jsonStringifyWithObject(this.nodes);
