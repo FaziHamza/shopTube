@@ -719,7 +719,7 @@
                     <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                             nzType="question-circle" nzTheme="twotone"></span></span>
                 </div>
-                <nz-card>
+                <nz-card [nzTitle]="item.title" [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
                     <app-main [mainData]="item.children"></app-main>
                 </nz-card>
             </ng-container>

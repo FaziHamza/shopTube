@@ -15,6 +15,7 @@
         </div>
     </div>
 </ng-template>
-<button nz-button [nzType]="'primary'" (click)="createBasicNotification(template)">
+<button nz-button [nzType]="'primary'" *ngIf="notificationData.notificationType == 'default'" (click)="createBasicNotification(template)">
     Open the notification box
 </button>
+<button nz-button [nzType]="'primary'" *ngIf="notificationData.notificationType != 'default'" (click)="createNotification(notificationData.notificationType)">Open the notification box</button>

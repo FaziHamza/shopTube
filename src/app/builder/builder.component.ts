@@ -1272,7 +1272,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (value == 'cardWithComponents') {
       const newNode = {
-        id: 'cardWithComponents_' + Guid.newGuid(),
+        id: 'cardwithcomponents_' + Guid.newGuid(),
         className: 'w-full',
         hideExpression: false,
         tooltip: "",
@@ -1281,6 +1281,7 @@ export class BuilderComponent implements OnInit {
         type: "cardWithComponents",
         highLight: false,
         isNextChild: true,
+        borderless:false,
         children: [
         ],
 
@@ -3779,6 +3780,7 @@ export class BuilderComponent implements OnInit {
         size: "default", //large, small
         buttonShape: "circle", //default ,round
         avatarShape: "circle", //square
+        shapeType:"paragraph",
         children: [
         ],
       } as TreeNode;
@@ -4019,6 +4021,8 @@ export class BuilderComponent implements OnInit {
         duration: 3000,
         pauseOnHover: true,
         animate: true,
+        notificationType:'default',
+        placement:'topRight',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4297,6 +4301,10 @@ export class BuilderComponent implements OnInit {
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.drawerFields;
+        break;
+      case "cardWithComponents":
+        configObj = { ...configObj, ...this.clickButtonService.getcardWithComponentsConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.cardWithComponentsFields;
         break;
       case "icon":
         configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
@@ -5407,6 +5415,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.content = event.form.content;
         }
         break;
+        case "cardWithComponents":
+        if (this.selectedNode) {
+          this.selectedNode.borderless = event.form.borderless;
+        }
+        break;
       case "icon":
         if (this.selectedNode) {
           this.selectedNode.icon = event.form.icon;
@@ -5610,6 +5623,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.buttonShape = event.form.buttonShape;
           this.selectedNode.avatarShape = event.form.avatarShape;
+          this.selectedNode.shapeType = event.form.shapeType;
         }
         break;
       case "rate":
@@ -5723,6 +5737,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.duration = event.form.duration;
           this.selectedNode.pauseOnHover = event.form.pauseOnHover;
           this.selectedNode.animate = event.form.animate;
+          this.selectedNode.notificationType = event.form.notificationType;
+          this.selectedNode.placement = event.form.placement;
         }
         break;
       case "list":
@@ -5821,8 +5837,8 @@ export class BuilderComponent implements OnInit {
             props['tooltip'] = event.form.tooltip;
             props['className'] = event.form.className;
             props['titleIcon'] = event.form.titleIcon;
-            // props['maskString'] = event.form.maskString;
-            // props['masktitle'] = event.form.masktitle;
+            props['maskString'] = event.form.maskString;
+            props['masktitle'] = event.form.masktitle;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
@@ -6856,6 +6872,16 @@ export class BuilderComponent implements OnInit {
                       elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
                     }
                   });
+                });
+              }
+              if (res.type == "cardWithComponents") {
+                res.children?.forEach((element: any) => {
+                  if (event.form.sectionClassName) {
+                    res['className'] = event.form.sectionClassName
+                  }
+                  if (element.formly) {
+                    element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
+                  }
                 });
               }
               if (res.type == "mainTab") {

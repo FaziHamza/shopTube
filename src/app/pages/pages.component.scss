@@ -6,6 +6,9 @@
 .border-less{
   border:none;
 }
+:host ::ng-deep .ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px !important;
+}
 
 
 

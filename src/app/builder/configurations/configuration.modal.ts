@@ -3648,13 +3648,23 @@ export class formFeildData {
     },
   ]
 
-  // fixedDivFields: FormlyFieldConfig[] = [
-  //   {
-  //     fieldGroupClassName: "flex flex-wrap",
-  //     fieldGroup: [
-  //     ]
-  //   },
-  // ]
+  cardWithComponentsFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'borderless',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Borderless'
+          },
+          defaultValue: false
+        },
+      ]
+    },
+  ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -3683,7 +3693,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Expanded Icon',
+            label: 'Icon Position',
             options: [
               {
                 label: 'Left',
@@ -6285,6 +6295,37 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               }
+            ]
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'shapeType',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Shape Type',
+            options: [
+              {
+                label: 'paragraph',
+                value: 'paragraph'
+              },
+              {
+                label: 'button',
+                value: 'button'
+              },
+              {
+                label: 'avatar',
+                value: 'avatar'
+              },
+              {
+                label: 'input',
+                value: 'input'
+              },
+              {
+                label: 'image',
+                value: 'image'
+              },
             ]
           }
         },
@@ -9723,6 +9764,68 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Duration',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'notificationType',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Notification Type',
+            options: [
+              {
+                label: 'Default',
+                value: 'default'
+              },
+              {
+                label: 'Success',
+                value: 'success'
+              },
+              {
+                label: 'Error',
+                value: 'error'
+              },
+              {
+                label: 'Info',
+                value: 'info'
+              },
+              {
+                label: 'Warning',
+                value: 'warning'
+              },
+            ]
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'placement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Placement',
+            options: [
+              {
+                label: 'topLeft ',
+                value: 'topLeft'
+              },
+              {
+                label: 'topRight ',
+                value: 'topRight'
+              },
+              {
+                label: 'bottomRight',
+                value: 'bottomRight'
+              },
+              {
+                label: 'top',
+                value: 'top'
+              },
+              {
+                label: 'bottom',
+                value: 'bottom'
+              },
+            ]
           }
         },
         {

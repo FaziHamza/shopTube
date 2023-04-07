@@ -8,6 +8,9 @@ export class BuilderClickButtonService {
   getDrawerConfig(node: any) {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, };
   }
+  getcardWithComponentsConfig(node: any) {
+    return { borderless: node.borderless};
+  }
   getIconConfig(node: any) {
     return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'] };
   }
@@ -114,7 +117,7 @@ export class BuilderClickButtonService {
   }
 
   getSkeletonConfig(node: any) {
-    return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape };
+    return { size: node.size, buttonShape: node.buttonShape, avatarShape: node.avatarShape, shapeType: node.shapeType, isActive: node.isActive };
   }
   getBadgeConfig(node: any) {
     return {
@@ -150,7 +153,7 @@ export class BuilderClickButtonService {
     return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
-    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate };
+    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement };
   }
   getStatisticConfig(node: any) {
     return { prefixIcon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray };

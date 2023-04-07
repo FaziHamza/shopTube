@@ -256,6 +256,7 @@ export interface TreeNode {
   bgColorBody?: any,
   bgColorFooter?: any,
   animate?: any,
+  notificationType?: any,
   pauseOnHover?: any,
   duration?: any,
   messageType?: any,
@@ -428,6 +429,7 @@ export interface TreeNode {
   isActive?: boolean;
   buttonShape?: string;
   avatarShape?: string;
+  shapeType?: string;
 
   //list
   isBordered?: boolean;
