@@ -12,7 +12,7 @@ export class DataService {
     this.db = new MyDatabase();
   }
   async saveData(screenName: string, data: any): Promise<void> {
-    debugger
+
     const obj = { screenName: screenName, data: data };
     await this.db.myTable.add(obj);
     // await this.db.myTable.put({
@@ -23,13 +23,13 @@ export class DataService {
     // this.deleteDb(screenName);
   }
   async getNodes(screenName: any) {
-    debugger
+
     let check = await this.db.myTable.where('screenName').equals(screenName).toArray();
     return check;
   }
 
   async deleteDb(screenName: any) {
-    debugger
+
     this.db.myTable.where('screenName').equals(screenName).delete().then(() => {
       console.log("Database successfully deleted");
     }).catch((error) => {

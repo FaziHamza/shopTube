@@ -24,7 +24,6 @@ export class PagesComponent implements OnInit {
   @Input() screenId : any;
   requestSubscription: Subscription
   ngOnInit(): void {
-    debugger
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
