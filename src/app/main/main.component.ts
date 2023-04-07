@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
   selectedTags: any[] = [];
   @Input() screenName :any;
   @Input() screenId :any;
+  editorData:any;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService) { }
 
   ngOnInit(): void {

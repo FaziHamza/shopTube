@@ -34,6 +34,11 @@
               "node_modules/ng-zorro-antd/graph/style/index.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -75,10 +80,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ngZorro:build:production"
+              "browserTarget": "ngZorro:build:production",
+              "hmr": true
             },
             "development": {
-              "browserTarget": "ngZorro:build:development"
+              "browserTarget": "ngZorro:build:development",
+              "hmr": true
             }
           },
           "defaultConfiguration": "development"
@@ -108,6 +115,11 @@
               "node_modules/ng-zorro-antd/graph/style/index.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": []
           }
         }

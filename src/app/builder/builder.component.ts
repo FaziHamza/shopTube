@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ElementData } from '../models/element';
 import { ColorPickerService } from '../services/colorpicker.service';
+import { DataService } from '../services/offlineDb.service';
+import { EncryptionService } from '../services/encryption.service';
 
 @Component({
   selector: 'app-builder',
@@ -25,7 +27,7 @@ import { ColorPickerService } from '../services/colorpicker.service';
 })
 export class BuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
-
+  isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
 
 
@@ -64,8 +66,10 @@ export class BuilderComponent implements OnInit {
 
 
   constructor(public builderService: BuilderService,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
+    private _encryptionService : EncryptionService,
     private toastr: NzMessageService,
+    private dataService: DataService,
     private cdr: ChangeDetectorRef,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
@@ -142,7 +146,64 @@ export class BuilderComponent implements OnInit {
     this.applySize();
 
   }
+  updateNodes() {
+    this.nodes = [...this.nodes];
+    if(this.isSavedDb)
+      this.saveOfflineDB();
+  }
+  saveOfflineDB(){
+    let data = this.jsonStringifyWithObject(this.nodes);
+    let encryptData  = this._encryptionService.encryptData(data)
+    this.dataService.saveData(this.screenName, encryptData);
+  }
+  getOfflineDb(){
+    let data  = this.dataService.getNodes(this.screenName);
+    let decryptData  = this._encryptionService.decryptData(data)
+    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
+    // let data = this.jsonParse(this.jsonStringifyWithObject(data));
+  }
+  async applyOfflineDb(content:any){
+    debugger
+    let data  =await this.dataService.getNodes(this.screenName);
+    if(this.oldIndex != undefined){
+      if(content == 'previous' && this.oldIndex == 0)
+      {
+        this.toastr.error("Sorry there is no JSON Backward");
+      }
+      else if(content == 'next' && this.oldIndex + 1 == data.length){
+        this.toastr.error("Sorry there is no JSON Forward");
+      }
+      else{
+        if (this.oldIndex != undefined) {
+          for (let index = 0; index < data.length; index++) {
+              if (content == 'next' && index == this.oldIndex + 1) {
+                this.decryptData(data[index]);
+                this.oldIndex = index;
+                break;
+              } else if (content == 'previous' && index == this.oldIndex - 1) {
+                this.decryptData(data[index]);
+                this.oldIndex =index;
+                break;
+              }
+          }
+        }
 
+      }
+    }
+    else {
+      this.decryptData(data[data.length - 1]);
+      this.oldIndex = data.length - 1;
+    }
+  }
+  oldIndex: number;
+  decryptData(data:any){
+     let decryptData  = this._encryptionService.decryptData(data?.data)
+     this.nodes = this.jsonParseWithObject(decryptData);
+  }
+
+  deleteOfflineDb(){
+    let data  = this.dataService.deleteDb(this.screenName);
+  }
   JsonEditorShow() {
 
     this.IslayerVisible = false;
@@ -208,33 +269,34 @@ export class BuilderComponent implements OnInit {
   expandedKeys: any;
   getFormLayers(data: any) {
     this.screenName = data
+    this.isSavedDb = false;
     const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
     this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
       next: (res) => {
         if (res.length > 0) {
-          if (res[0].menuData[0].children[1]) {
+            this.isSavedDb = true;
             this.screenId = res[0].id;
-            // this.nodes = res[0].menuData;
             this.moduleId = res[0].moduleId;
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+            this.updateNodes();
+          // if (res[0].menuData[0].children[1]) {
 
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-          }
-          else {
-            this.screenId = res[0].id;
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-            // this.updateNodes();
-          }
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
+          // else {
+          //   this.screenId = res[0].id;
+          //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
 
         }
         else {
           this.screenId = 0;
           this.clearChildNode();
-          // this.updateNodes();
         }
+        this.isSavedDb = true;
         this.formModalData = {};
         this.getUIRuleData(true);
         this.getBusinessRule();
@@ -251,6 +313,7 @@ export class BuilderComponent implements OnInit {
 
   }
   clearChildNode() {
+    this.isSavedDb = false;
     if (this.screenPage) {
       const newNode = [{
         id: 'page',
@@ -283,6 +346,8 @@ export class BuilderComponent implements OnInit {
       this.selectedNode = newNode[0];
       this.addControlToJson('pageFooter', null);
       this.updateNodes();
+      this.saveOfflineDB();
+      this.isSavedDb = true;
     }
   }
   textJsonObj = {
@@ -592,7 +657,7 @@ export class BuilderComponent implements OnInit {
     filteredNodes.forEach(node => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
       if (formlyConfig)
-        if (formlyConfig.setVariable != "")
+        if (formlyConfig.setVariable != "" && formlyConfig.setVariable)
           if (model?.props?.config?.getVariable != "")
             if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
               this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
@@ -888,6 +953,7 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        className: "px-6 pt-6 pb-10",
         // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",
@@ -1379,7 +1445,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         view: 'prev,next today',
-        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
         // disabled: false,
         weekends: true,
         editable: true,
@@ -4221,7 +4287,7 @@ export class BuilderComponent implements OnInit {
     switch (type) {
       case "breakTag":
         configObj = { ...configObj };
-        this.fieldData.formData = _formFieldData.breakTagFeilds;
+        // this.fieldData.formData = _formFieldData.breakTagFeilds;
         break;
 
       case "drawer":
@@ -4393,7 +4459,7 @@ export class BuilderComponent implements OnInit {
 
       case "fixedDiv":
         configObj = { ...configObj, ...this.clickButtonService.getFixedDivConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.fixedDivFields;
+        // this.fieldData.formData = _formFieldData.fixedDivFields;
         break;
 
       case "calender":
@@ -4408,7 +4474,7 @@ export class BuilderComponent implements OnInit {
 
       case "textEditor":
         configObj = { ...configObj, ...this.clickButtonService.getTextEditorConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.textEditorFeilds;
+        // this.fieldData.formData = _formFieldData.textEditorFeilds;
         break;
 
       case "switch":
@@ -4680,7 +4746,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "pageBody":
         // configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.pageBodyFields;
+        // this.fieldData.formData = _formFieldData.pageBodyFields;
         break;
       case "pageFooter":
         configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
@@ -5278,10 +5344,7 @@ export class BuilderComponent implements OnInit {
   nzEvent(event: NzFormatEmitEvent): void {
     // console.log(event);
   }
-  updateNodes() {
-    this.nodes = [...this.nodes];
 
-  }
   clickBack() {
 
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
@@ -5739,6 +5802,7 @@ export class BuilderComponent implements OnInit {
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
             props['key'] = event.form.key;
+            this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
