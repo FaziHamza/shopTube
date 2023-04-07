@@ -1315,7 +1315,7 @@ export class formFeildData {
             label: 'Total'
           }
         },
-       
+
       ]
     },
   ]
@@ -5790,7 +5790,7 @@ export class formFeildData {
               },
               {
                 label: 'List',
-                value: 'listWeek'
+                value: 'listMonth'
               },
               {
                 label: 'Month And Week',
@@ -5806,7 +5806,7 @@ export class formFeildData {
               },
               {
                 label: 'All',
-                value: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                value: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
               },
             ]
           },

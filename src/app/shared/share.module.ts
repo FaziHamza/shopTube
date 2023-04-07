@@ -27,6 +27,7 @@ import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
+import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 
 @NgModule({
   imports:
@@ -57,7 +58,7 @@ import { BusinessRuleGridComponent } from '../builder/configurations/business-ru
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,
-    SanitizePipe,IconComponent,ButtonsComponent
+    SanitizePipe,IconComponent,ButtonsComponent ,EditorJsWrapperComponent
   ],
   exports: [
     FormsModule,
@@ -71,7 +72,8 @@ import { BusinessRuleGridComponent } from '../builder/configurations/business-ru
     InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,IconComponent,ButtonsComponent
+    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,IconComponent,ButtonsComponent,
+    EditorJsWrapperComponent
   ],
   providers: [
   ],

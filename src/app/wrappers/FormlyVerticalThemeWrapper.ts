@@ -6,11 +6,9 @@ import { FieldWrapper } from '@ngx-formly/core';
   template: `
     <!-- {{to.label | json}} -->
   <div class=" flex flex-wrap" [dir]="to.config?.formatAlignment || 'ltr'">
-  <label [attr.for]="id" class="w-1/3 col-form-label column-form-label {{to.labelPosition}}" *ngIf="to.label">
-    <span>
-      <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
+  <label [attr.for]="id" class="w-1/3 py-2 col-form-label column-form-label {{to.labelPosition}}" *ngIf="to.label">
+      <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" ></span>
       <span *ngIf="to.required">*</span>{{to.label}}
-    </span>
     <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
       <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
     </span>

@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ElementData } from '../models/element';
 import { ColorPickerService } from '../services/colorpicker.service';
+import { DataService } from '../services/offlineDb.service';
+import { EncryptionService } from '../services/encryption.service';
 
 @Component({
   selector: 'app-builder',
@@ -25,7 +27,7 @@ import { ColorPickerService } from '../services/colorpicker.service';
 })
 export class BuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
-
+  isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
 
 
@@ -64,8 +66,10 @@ export class BuilderComponent implements OnInit {
 
 
   constructor(public builderService: BuilderService,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
+    private _encryptionService : EncryptionService,
     private toastr: NzMessageService,
+    private dataService: DataService,
     private cdr: ChangeDetectorRef,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
@@ -142,7 +146,64 @@ export class BuilderComponent implements OnInit {
     this.applySize();
 
   }
+  updateNodes() {
+    this.nodes = [...this.nodes];
+    if(this.isSavedDb)
+      this.saveOfflineDB();
+  }
+  saveOfflineDB(){
+    let data = this.jsonStringifyWithObject(this.nodes);
+    let encryptData  = this._encryptionService.encryptData(data)
+    this.dataService.saveData(this.screenName, encryptData);
+  }
+  getOfflineDb(){
+    let data  = this.dataService.getNodes(this.screenName);
+    let decryptData  = this._encryptionService.decryptData(data)
+    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
+    // let data = this.jsonParse(this.jsonStringifyWithObject(data));
+  }
+  async applyOfflineDb(content:any){
+    debugger
+    let data  =await this.dataService.getNodes(this.screenName);
+    if(this.oldIndex != undefined){
+      if(content == 'previous' && this.oldIndex == 0)
+      {
+        this.toastr.error("Sorry there is no JSON Backward");
+      }
+      else if(content == 'next' && this.oldIndex + 1 == data.length){
+        this.toastr.error("Sorry there is no JSON Forward");
+      }
+      else{
+        if (this.oldIndex != undefined) {
+          for (let index = 0; index < data.length; index++) {
+              if (content == 'next' && index == this.oldIndex + 1) {
+                this.decryptData(data[index]);
+                this.oldIndex = index;
+                break;
+              } else if (content == 'previous' && index == this.oldIndex - 1) {
+                this.decryptData(data[index]);
+                this.oldIndex =index;
+                break;
+              }
+          }
+        }
 
+      }
+    }
+    else {
+      this.decryptData(data[data.length - 1]);
+      this.oldIndex = data.length - 1;
+    }
+  }
+  oldIndex: number;
+  decryptData(data:any){
+     let decryptData  = this._encryptionService.decryptData(data?.data)
+     this.nodes = this.jsonParseWithObject(decryptData);
+  }
+
+  deleteOfflineDb(){
+    let data  = this.dataService.deleteDb(this.screenName);
+  }
   JsonEditorShow() {
 
     this.IslayerVisible = false;
@@ -208,33 +269,34 @@ export class BuilderComponent implements OnInit {
   expandedKeys: any;
   getFormLayers(data: any) {
     this.screenName = data
+    this.isSavedDb = false;
     const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
     this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
       next: (res) => {
         if (res.length > 0) {
-          if (res[0].menuData[0].children[1]) {
+            this.isSavedDb = true;
             this.screenId = res[0].id;
-            // this.nodes = res[0].menuData;
             this.moduleId = res[0].moduleId;
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+            this.updateNodes();
+          // if (res[0].menuData[0].children[1]) {
 
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-          }
-          else {
-            this.screenId = res[0].id;
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            // this.uiRuleGetData(res[0].moduleId);
-            // this.uiGridRuleGetData(res[0].moduleId);
-            // this.updateNodes();
-          }
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
+          // else {
+          //   this.screenId = res[0].id;
+          //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+          //   // this.uiRuleGetData(res[0].moduleId);
+          //   // this.uiGridRuleGetData(res[0].moduleId);
+          // }
 
         }
         else {
           this.screenId = 0;
           this.clearChildNode();
-          // this.updateNodes();
         }
+        this.isSavedDb = true;
         this.formModalData = {};
         this.getUIRuleData(true);
         this.getBusinessRule();
@@ -251,6 +313,7 @@ export class BuilderComponent implements OnInit {
 
   }
   clearChildNode() {
+    this.isSavedDb = false;
     if (this.screenPage) {
       const newNode = [{
         id: 'page',
@@ -283,6 +346,8 @@ export class BuilderComponent implements OnInit {
       this.selectedNode = newNode[0];
       this.addControlToJson('pageFooter', null);
       this.updateNodes();
+      this.saveOfflineDB();
+      this.isSavedDb = true;
     }
   }
   textJsonObj = {
@@ -888,6 +953,7 @@ export class BuilderComponent implements OnInit {
         key: "accordingBody_" + Guid.newGuid(),
         title: 'Body',
         type: "accordingBody",
+        className: "px-6 pt-6 pb-10",
         // borderColor: "#000000",
         backGroundColor: "#FFFFFF",
         textColor: "#000000",
@@ -1074,7 +1140,7 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        
+
         children: [
         ],
 
@@ -1379,7 +1445,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         tooltip: "",
         view: 'prev,next today',
-        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
         // disabled: false,
         weekends: true,
         editable: true,
@@ -2940,7 +3006,7 @@ export class BuilderComponent implements OnInit {
         showCount: 5,
         ngvalue: 0,
         disabled: false,
-        options: [ 'terrible' , 'bad' , 'normal' , 'good' , 'wonderful'],
+        options: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
         children: [
         ],
       } as TreeNode;
@@ -4566,7 +4632,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
-        
+
       case "tags":
       case "repeatSection":
       case "multiselect":
@@ -5278,10 +5344,7 @@ export class BuilderComponent implements OnInit {
   nzEvent(event: NzFormatEmitEvent): void {
     // console.log(event);
   }
-  updateNodes() {
-    this.nodes = [...this.nodes];
 
-  }
   clickBack() {
 
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
@@ -5556,7 +5619,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.ngvalue = event.form.ngvalue;
           if (event.tableDta) {
-            this.selectedNode.options = event.tableDta.map((option : any) => option.label);
+            this.selectedNode.options = event.tableDta.map((option: any) => option.label);
           } else {
             this.selectedNode.options = this.selectedNode.options;
           }
@@ -5725,7 +5788,7 @@ export class BuilderComponent implements OnInit {
       case "color":
       case "autoComplete":
       case "number":
-        case "customMasking":
+      case "customMasking":
         debugger
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
@@ -6003,34 +6066,34 @@ export class BuilderComponent implements OnInit {
           // this.cdr.detectChanges();
         }
         break;
-        // case "customMasking":
-        // if (this.selectedNode) {
-        //   this.selectedNode?.formly?.forEach(elementV1 => {
-        //     // MapOperator(elementV1 =currentData);
-        //     const formly = elementV1 ?? {};
-        //     const fieldGroup = formly.fieldGroup ?? [];
-        //     const props = fieldGroup[0]?.props ?? {};
-        //     props['key'] = event.form.key;
-        //     props.label = event.form.title;
-        //     props.focus = event.form.focus;
-        //     props['hideExpression'] = event.form.hideExpression;
-        //     props['defaultValue'] = event.form.defaultValue;
-        //     props['required'] = event.form.required;
-        //     props.readonly = event.form.readonly;
-        //     props.placeholder = event.form.placeholder;
-        //     props['required'] = event.form.required;
-        //     props['disabled'] = event.form.disabled;
-        //     props['tooltip'] = event.form.tooltip;
-        //     props['maskString'] = event.form.maskString;
-        //     props['maskLabel'] = event.form.maskLabel;
-        //     props['labelIcon'] = event.form.labelIcon;
-        //     props['addonLeft'].text = event.form.addonLeft;
-        //     props['addonRight'].text = event.form.addonRight;
-        //     props['tooltip'] = event.form.tooltip;
-        //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
-        //   });
-        // }
-        // break;
+      // case "customMasking":
+      // if (this.selectedNode) {
+      //   this.selectedNode?.formly?.forEach(elementV1 => {
+      //     // MapOperator(elementV1 =currentData);
+      //     const formly = elementV1 ?? {};
+      //     const fieldGroup = formly.fieldGroup ?? [];
+      //     const props = fieldGroup[0]?.props ?? {};
+      //     props['key'] = event.form.key;
+      //     props.label = event.form.title;
+      //     props.focus = event.form.focus;
+      //     props['hideExpression'] = event.form.hideExpression;
+      //     props['defaultValue'] = event.form.defaultValue;
+      //     props['required'] = event.form.required;
+      //     props.readonly = event.form.readonly;
+      //     props.placeholder = event.form.placeholder;
+      //     props['required'] = event.form.required;
+      //     props['disabled'] = event.form.disabled;
+      //     props['tooltip'] = event.form.tooltip;
+      //     props['maskString'] = event.form.maskString;
+      //     props['maskLabel'] = event.form.maskLabel;
+      //     props['labelIcon'] = event.form.labelIcon;
+      //     props['addonLeft'].text = event.form.addonLeft;
+      //     props['addonRight'].text = event.form.addonRight;
+      //     props['tooltip'] = event.form.tooltip;
+      //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
+      //   });
+      // }
+      // break;
       case "gridList":
 
         if (this.selectedNode.id) {
@@ -6785,7 +6848,9 @@ export class BuilderComponent implements OnInit {
                     if (event.form.sectionClassName) {
                       res['className'] = event.form.sectionClassName
                     }
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    if (elementV1.formly) {
+                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    }
                   });
                 });
               }
@@ -6795,7 +6860,9 @@ export class BuilderComponent implements OnInit {
                     if (event.form.sectionClassName) {
                       res['className'] = event.form.sectionClassName
                     }
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    if (elementV1.formly) {
+                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                    }
                   });
                 });
               }
@@ -6804,7 +6871,9 @@ export class BuilderComponent implements OnInit {
                   if (event.form.sectionClassName) {
                     res['className'] = event.form.sectionClassName
                   }
-                  elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  if (elementV1.formly) {
+                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
+                  }
                 });
               }
             }
