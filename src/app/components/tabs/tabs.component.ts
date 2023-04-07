@@ -8,6 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class TabsComponent implements OnInit {
   @Input() tabs: any;
+  selectedIndex = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -24,6 +25,8 @@ export class TabsComponent implements OnInit {
     // add your code here to handle the tab select event
   }
   closeTab({ index }: { index: number }): void {
-    this.tabs.splice(index, 1);
+    debugger
+    this.tabs.children.splice(index, 1);
+    this.tabs.nodes = this.tabs.children.length;
   }
 }

@@ -3,7 +3,8 @@
     (mouseover)="borderColor = buttonData.hoverColor || ''"
       (mouseout)="bgColor = buttonData?.color || ''" 
       (mouseout)="borderColor = buttonData?.textColor || ''" 
-      (mouseout)="hoverTextColor = buttonData?.textColor"  [nzType]="buttonData.nztype"
+      (mouseout)="hoverTextColor = buttonData?.textColor"
+      type="submit"  [nzType]="buttonData.nztype"
       *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkButton'" nz-button
       [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape"
       [nzGhost]='buttonData.nzGhost' [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock'

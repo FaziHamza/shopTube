@@ -1559,7 +1559,7 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         className: "w-1/2",
         highLight: false,
-        isNextChild: false,
+        isNextChild: true,
         tooltip: "",
         textAlign: "text-left",
         textSize: "h1",
@@ -1576,10 +1576,14 @@ export class BuilderComponent implements OnInit {
         size: 'default',
         imageSrc: '',
         imageAlt: '',
-
+        description:'Description',
+        // bgColorHeader:'',
+        // bgColorBody:'',
+        // bgColorFooter:'',
+        bgColor :'',
+        footer :false,
         children: [
         ],
-
       } as TreeNode;
       this.addNode(node, newNode);
     }
@@ -4754,33 +4758,33 @@ export class BuilderComponent implements OnInit {
         break;
       case "according":
         if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
-          this.fieldData.commonData[0].fieldGroup[4] = {
-            className: "w-1/2",
-            key: 'className',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            props: {
-              label: 'Section ClassName',
-              // options: [
-              //   {
-              //     label: 'Full',
-              //     value: 'w-full'
-              //   },
-              //   {
-              //     label: 'col-6',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
-              //   },
-              //   {
-              //     label: 'col-4',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
-              //   },
-              //   {
-              //     label: 'col-3',
-              //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
-              //   },
-              // ]
-            }
-          };
+          // this.fieldData.commonData[0].fieldGroup[4] = {
+          //   className: "w-1/2",
+          //   key: 'className',
+          //   type: 'input',
+          //   wrappers: ["formly-vertical-theme-wrapper"],
+          //   props: {
+          //     label: 'Section ClassName',
+          //     // options: [
+          //     //   {
+          //     //     label: 'Full',
+          //     //     value: 'w-full'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-6',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-4',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
+          //     //   },
+          //     //   {
+          //     //     label: 'col-3',
+          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
+          //     //   },
+          //     // ]
+          //   }
+          // };
         configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingFields;
         break;
@@ -7165,6 +7169,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.imageAlt = event.form.imageAlt;
           this.selectedNode.imageSrc = event.form.imageSrc;
+          this.selectedNode.description = event.form.description;
+          // this.selectedNode.bgColorHeader = event.form.bgColorHeader;
+          // this.selectedNode.bgColorBody = event.form.bgColorBody;
+          // this.selectedNode.bgColorFooter = event.form.bgColorFooter;
+          this.selectedNode.bgColor = event.form.bgColor;
+          this.selectedNode.footer = event.form.footer;
+          if (event.form.imageSrc) {
+            this.selectedNode.imageSrc = event.form.imageSrc;
+          }
+          else if (this.dataSharedService.imageUrl) {
+            this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
+          }
           this.updateNodes()
         }
         break;

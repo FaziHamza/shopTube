@@ -1315,7 +1315,7 @@ export class formFeildData {
             label: 'Total'
           }
         },
-
+       
       ]
     },
   ]
@@ -3938,7 +3938,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Input Class',
+            label: 'Input CSS ClassName',
           }
         },
         {
@@ -5216,15 +5216,24 @@ export class formFeildData {
             label: 'image Alt',
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'imageSrc',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Image Src',
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'imageSrc',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Image Src',
+        //   }
+        // },
+        // {
+        //   key: 'image',
+        //   type: 'image-upload',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Image Upload',
+        //   }
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'height',
@@ -5234,6 +5243,45 @@ export class formFeildData {
             label: 'Height',
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'description',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Description',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'bgColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type:'color',
+            label: 'BG Color',
+          }
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'bgColorBody',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type:'color',
+        //     label: 'BG Body',
+        //   }
+        // },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'bgColorFooter',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type:'color',
+        //     label: 'BG Footer',
+        //   }
+        // },
 
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -5275,6 +5323,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'footer',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'footer'
+          },
+        },
+        {
           className: "w-full",
           key: 'headerText',
           type: 'textarea',
@@ -5284,16 +5341,16 @@ export class formFeildData {
             rows: 3,
           }
         },
-        {
-          className: "w-full",
-          key: 'bodyText',
-          type: 'textarea',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Body Text',
-            rows: 3,
-          }
-        },
+        // {
+        //   className: "w-full",
+        //   key: 'bodyText',
+        //   type: 'textarea',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Body Text',
+        //     rows: 3,
+        //   }
+        // },
         {
           className: "w-full",
           key: 'footerText',
@@ -5790,7 +5847,7 @@ export class formFeildData {
               },
               {
                 label: 'List',
-                value: 'listMonth'
+                value: 'listWeek'
               },
               {
                 label: 'Month And Week',
@@ -5806,7 +5863,7 @@ export class formFeildData {
               },
               {
                 label: 'All',
-                value: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                value: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
               },
             ]
           },
@@ -8943,7 +9000,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             config: {},
-            label: 'column',
+            label: 'CSS ClassName',
           }
         },
         {
@@ -9159,7 +9216,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'className',
+            label: 'CSS ClassName',
           },
           defaultValue: 'w-1/2  px-1'
         },
