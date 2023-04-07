@@ -34,7 +34,7 @@ import ImageTool from '@editorjs/image';
 export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @ViewChild('editorContainer', { static: true }) editorContainer: ElementRef;
   @Input() minHeight: string = '300px';
-
+  @Input() data:any;
   private editor: EditorJS;
   private onChange: (data: OutputData) => void;
   private onTouched: () => void;
@@ -42,8 +42,10 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
   constructor() { }
 
   ngOnInit(): void {
+
     this.editor = new EditorJS({
       holder: this.editorContainer.nativeElement,
+      data: this.data,
       // minHeight: this.minHeight,
       tools: {
         header: {
@@ -119,6 +121,7 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
   }
 
   writeValue(data: OutputData): void {
+    debugger
     if (this.editor && data) {
       this.editor.clear();
       this.editor.render(data);

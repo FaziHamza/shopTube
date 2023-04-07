@@ -19,6 +19,7 @@ import { ElementData } from '../models/element';
 import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-builder',
@@ -70,6 +71,7 @@ export class BuilderComponent implements OnInit {
     private _encryptionService : EncryptionService,
     private toastr: NzMessageService,
     private dataService: DataService,
+    private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
@@ -150,6 +152,7 @@ export class BuilderComponent implements OnInit {
     this.nodes = [...this.nodes];
     if(this.isSavedDb)
       this.saveOfflineDB();
+    // this.cdr.detectChanges();
   }
   saveOfflineDB(){
     let data = this.jsonStringifyWithObject(this.nodes);
@@ -162,39 +165,60 @@ export class BuilderComponent implements OnInit {
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
-  async applyOfflineDb(content:any){
-    debugger
-    let data  =await this.dataService.getNodes(this.screenName);
-    if(this.oldIndex != undefined){
-      if(content == 'previous' && this.oldIndex == 0)
-      {
-        this.toastr.error("Sorry there is no JSON Backward");
-      }
-      else if(content == 'next' && this.oldIndex + 1 == data.length){
-        this.toastr.error("Sorry there is no JSON Forward");
-      }
-      else{
-        if (this.oldIndex != undefined) {
-          for (let index = 0; index < data.length; index++) {
-              if (content == 'next' && index == this.oldIndex + 1) {
-                this.decryptData(data[index]);
-                this.oldIndex = index;
-                break;
-              } else if (content == 'previous' && index == this.oldIndex - 1) {
-                this.decryptData(data[index]);
-                this.oldIndex =index;
-                break;
-              }
-          }
-        }
+  async applyOfflineDb(content: 'previous' | 'next') {
+    const nodes = await this.dataService.getNodes(this.screenName);
 
-      }
+    if (this.oldIndex === undefined) {
+      this.decryptData(nodes[nodes.length - 1]);
+      this.oldIndex = nodes.length - 1;
+      return;
     }
-    else {
-      this.decryptData(data[data.length - 1]);
-      this.oldIndex = data.length - 1;
+
+    const index = content === 'next' ? this.oldIndex + 1 : this.oldIndex - 1;
+
+    if (index < 0 || index >= nodes.length) {
+      const message = content === 'next' ? 'Sorry there is no JSON Forward' : 'Sorry there is no JSON Backward';
+      this.toastr.error(message);
+      return;
     }
+
+    const node = nodes[index];
+    this.decryptData(node);
+    this.oldIndex = index;
   }
+
+  // async applyOfflineDb(content:any){
+  //   let data  =await this.dataService.getNodes(this.screenName);
+  //   if(this.oldIndex != undefined){
+  //     if(content == 'previous' && this.oldIndex == 0)
+  //     {
+  //       return this.toastr.error("Sorry there is no JSON Backward");
+  //     }
+  //     else if(content == 'next' && this.oldIndex + 1 == data.length){
+  //       return this.toastr.error("Sorry there is no JSON Forward");
+  //     }
+  //     else{
+  //       if (this.oldIndex != undefined) {
+  //         for (let index = 0; index < data.length; index++) {
+  //             if (content == 'next' && index == this.oldIndex + 1) {
+  //               this.decryptData(data[index]);
+  //               this.oldIndex = index;
+  //               break;
+  //             } else if (content == 'previous' && index == this.oldIndex - 1) {
+  //               this.decryptData(data[index]);
+  //               this.oldIndex =index;
+  //               break;
+  //             }
+  //         }
+  //       }
+
+  //     }
+  //   }
+  //   else {
+  //     this.decryptData(data[data.length - 1]);
+  //     this.oldIndex = data.length - 1;
+  //   }
+  // }
   oldIndex: number;
   decryptData(data:any){
      let decryptData  = this._encryptionService.decryptData(data?.data)
@@ -267,54 +291,69 @@ export class BuilderComponent implements OnInit {
     })
   }
   expandedKeys: any;
+  previousScreenName : string = '';
   getFormLayers(data: any) {
-    this.screenName = data
-    this.isSavedDb = false;
-    const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
-    this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-            this.isSavedDb = true;
-            this.screenId = res[0].id;
-            this.moduleId = res[0].moduleId;
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            this.updateNodes();
-          // if (res[0].menuData[0].children[1]) {
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to switch your screen?',
+      nzOnOk: () =>{
+        new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+          this.screenName = data;
+          this.previousScreenName = data;
+          this.isSavedDb = false;
+          const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
+          this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
+            next: (res) => {
+              if (res.length > 0) {
+                this.isSavedDb = true;
+                this.screenId = res[0].id;
+                this.moduleId = res[0].moduleId;
+                this.formlyModel = [];
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+                this.updateNodes();
+              // if (res[0].menuData[0].children[1]) {
 
-          //   // this.uiRuleGetData(res[0].moduleId);
-          //   // this.uiGridRuleGetData(res[0].moduleId);
-          // }
-          // else {
-          //   this.screenId = res[0].id;
-          //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-          //   // this.uiRuleGetData(res[0].moduleId);
-          //   // this.uiGridRuleGetData(res[0].moduleId);
-          // }
+              //   // this.uiRuleGetData(res[0].moduleId);
+              //   // this.uiGridRuleGetData(res[0].moduleId);
+              // }
+              // else {
+              //   this.screenId = res[0].id;
+              //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+              //   // this.uiRuleGetData(res[0].moduleId);
+              //   // this.uiGridRuleGetData(res[0].moduleId);
+              // }
 
-        }
-        else {
-          this.screenId = 0;
-          this.clearChildNode();
-        }
-        this.isSavedDb = true;
-        this.formModalData = {};
-        this.getUIRuleData(true);
-        this.getBusinessRule();
-        this.expandedKeys = this.nodes.map((node: any) => node.key);
-        this.uiRuleGetData(this.screenName);
+            }
+              else {
+                this.screenId = 0;
+                this.clearChildNode();
+              }
+              this.isSavedDb = true;
+              this.formModalData = {};
+              this.getUIRuleData(true);
+              this.getBusinessRule();
+              this.expandedKeys = this.nodes.map((node: any) => node.key);
+              this.uiRuleGetData(this.screenName);
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          }
+          );
+          this.screenPage = true;
+        }).catch(() =>  this.screenName = this.previousScreenName)
       },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    }
-    );
-    this.screenPage = true;
-
+        nzOnCancel: () => {
+          this.screenName = this.previousScreenName;
+          console.log('User clicked Cancel');
+        }
+    });
   }
   clearChildNode() {
     this.isSavedDb = false;
     if (this.screenPage) {
+      this.formlyModel = [];
       const newNode = [{
         id: 'page',
         title: 'page',
@@ -1071,20 +1110,10 @@ export class BuilderComponent implements OnInit {
                   hidden: false,
                   options: this.makeFormlyOptions(data?.options),
                   keyup: (model: any) => {
-
                     let currentVal = model.formControl.value;
                     this.formlyModel[model.key] = model.formControl.value;
                     this.checkConditionUIRule(model, currentVal);
                   }
-                  // change: (model: any) => {
-                  //
-                  //   let currentVal = model.formControl.value;
-                  //   if(!currentVal){
-                  //     currentVal = (document.getElementById(model.id) as HTMLInputElement).value;
-                  //   }
-                  //   this.formlyModel[model.key] = currentVal;
-                  //   this.checkConditionUIRule(model, currentVal);
-                  // }
                 },
               },
             ]
@@ -2508,6 +2537,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
+        editorJson:"",
         children: [
         ],
       } as TreeNode;
@@ -4075,7 +4105,6 @@ export class BuilderComponent implements OnInit {
     // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectedNode);
   }
   getLastNodeWrapper(dataType?: string) {
-    debugger
     let wrapperName: any = ['form-field-horizontal'];
     // if (dataType == 'wrappers') {
     //   return wrapperName;
@@ -7335,10 +7364,14 @@ export class BuilderComponent implements OnInit {
   jsonStringify(data: any) {
     return JSON.stringify(data)
   }
-  jsonStringifyWithObject(data: any) {
+   jsonStringifyWithObject(data: any) {
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
-        return value.toString();
+        let check = value.toString();
+        if(check.includes('model =>'))
+        return check.replace('model =>','(model) =>')
+        else
+        return check;
       } else {
         return value;
       }
@@ -7352,6 +7385,7 @@ export class BuilderComponent implements OnInit {
       data, (key, value) => {
         if (typeof value === 'string' && value.startsWith('(')) {
           return eval(`(${value})`);
+          // return new Function('return ' + value)();
         }
         return value;
       });
