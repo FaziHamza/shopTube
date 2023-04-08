@@ -508,6 +508,7 @@ export class BuilderClickButtonService {
       dividerType: node.dividerType,
       plain: node.plain,
       orientation: node.orientation,
+      dividerFormat: node.dividerFormat,
     }
   }
 

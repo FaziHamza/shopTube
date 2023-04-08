@@ -2995,6 +2995,7 @@ export class BuilderComponent implements OnInit {
         dashed: false,
         dividerType: "horizontal",
         orientation: "center",
+        dividerFormat: "1px solid rgba(0,0,0,.06)",
         plain: false,
         children: [
         ],
@@ -7088,6 +7089,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.dividerType = event.form.dividerType;
           this.selectedNode.orientation = event.form.orientation;
           this.selectedNode.plain = event.form.plain;
+          this.selectedNode.dividerFormat = event.form.dividerFormat;
           this.updateNodes()
         }
         break;

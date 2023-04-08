@@ -12,7 +12,7 @@
           *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
           [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
       </nz-input-group>
-      <nz-input-group *ngIf="to.config?.wrapper && to.config?.suffixicon || to.config?.prefixicon"
+      <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
         [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size"
         [nzStatus]="to.config?.status">
         <input [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"

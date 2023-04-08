@@ -7,8 +7,8 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-<button nz-button (click)="addRow()" *ngIf="!checkType"  nzType="primary">Add</button>
-<button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
+<!-- <button nz-button (click)="addRow()" *ngIf="!checkType"  nzType="primary">Add</button>
+<button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button> -->
 <br />
 <br />
 <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData"
@@ -116,7 +116,7 @@
 </nz-table>
 
 
-<button nz-button (click)="save()"  nzType="primary">Save options</button>
+<!-- <button nz-button (click)="save()"  nzType="primary">Save options</button> -->
 <!-- {{data | json}} -->
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
