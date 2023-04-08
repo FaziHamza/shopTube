@@ -121,7 +121,7 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
   }
 
   writeValue(data: OutputData): void {
-    debugger
+    
     if (this.editor && data) {
       this.editor.clear();
       this.editor.render(data);

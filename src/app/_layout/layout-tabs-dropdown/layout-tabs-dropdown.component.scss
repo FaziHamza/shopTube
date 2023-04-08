@@ -1,21 +1,19 @@
-// .active {
-//     // border-bottom: 2px solid #1890ff !important;
-//     background-color: #a7cff4;
-//     border-radius: 1px;
-//     // margin: 0 20px !important;
-//     color: white;
-// }
+.active {
+  border-bottom: none !important;
+  color: #6691e7
+}
 
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
-//     border-bottom: 2px solid #1890ff !important;
-// }
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
+  border-bottom: none !important;
+  color: #6691e7;
+}
 
 // .ant-menu-item,
 // .ant-menu-submenu-title {
@@ -29,14 +27,13 @@
 // }
 .ng-star-inserted {
 
-    font-size: 0.925rem;
-    color: #7c7f90;
-    font-weight: 600;
-    font-family: Rubik,sans-serif;
+  font-size: 0.925rem;
+  color: #7c7f90;
+  font-weight: 400;
+  font-family: Rubik, sans-serif;
 
 }
-.ant-menu-submenu :hover {
-  color: transparent !important;
-  background-color: transparent !important;
-  border: none;
+
+.menu{
+  border: none !important;
 }

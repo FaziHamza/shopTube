@@ -14,10 +14,15 @@ export class LayoutTabsDropdownComponent implements OnInit {
   constructor(private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
+    debugger
     this.tempData = JSON.parse(JSON.stringify(this.layoutTabsDropdownData));
-    window.onresize = () => {
-      this.controlMenu();
-    };
+    // window.onresize = () => {
+    //   this.controlMenu();
+    // };
+    if (this.layoutTabsDropdownData.children.length > 6) {
+      this.layoutTabsDropdownData['aboveSevenTab'] = this.layoutTabsDropdownData.children.slice(6);
+      this.layoutTabsDropdownData.children = this.layoutTabsDropdownData.children.slice(0, 6);
+    }
   }
   screenLoad(link: any) {
     if (link) {
@@ -30,21 +35,21 @@ export class LayoutTabsDropdownComponent implements OnInit {
 
     }
   }
-  controlMenu() {
-    debugger
-    const screenWidth = window.innerWidth;
-    let arrayList = [];
-    this.moreMenu = [];
-    this.layoutTabsDropdownData.children = this.tempData.children;
-    arrayList = this.layoutTabsDropdownData.children;
-    if (screenWidth <= 789) {
-      if (this.layoutTabsDropdownData.children.length > 2) {
-        this.moreMenu = this.layoutTabsDropdownData.children.slice(2);
-        this.layoutTabsDropdownData.children = arrayList.slice(0, 2)
-      }
-    } else {
-      this.layoutTabsDropdownData.children = this.tempData.children
-      // this.moreMenu = [];
-    }
-  }
+  // controlMenu() {
+
+  //   const screenWidth = window.innerWidth;
+  //   let arrayList = [];
+  //   this.moreMenu = [];
+  //   this.layoutTabsDropdownData.children = this.tempData.children;
+  //   arrayList = this.layoutTabsDropdownData.children;
+  //   if (screenWidth <= 789) {
+  //     if (this.layoutTabsDropdownData.children.length > 2) {
+  //       this.moreMenu = this.layoutTabsDropdownData.children.slice(2);
+  //       this.layoutTabsDropdownData.children = arrayList.slice(0, 2)
+  //     }
+  //   } else {
+  //     this.layoutTabsDropdownData.children = this.tempData.children
+  //     // this.moreMenu = [];
+  //   }
+  // }
 }

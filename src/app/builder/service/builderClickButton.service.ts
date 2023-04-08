@@ -108,7 +108,7 @@ export class BuilderClickButtonService {
     return { avatar: node.avatar, author: node.author };
   }
   getRateFieldsConfig(node: any) {
-    debugger
+    
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
@@ -891,7 +891,7 @@ export class BuilderClickButtonService {
     }
   }
   getSectionConfig(node: any) {
-    debugger
+    
     if (node.children[1].children.length > 0) {
       if (node.children[1].children[0].formly) {
         return {

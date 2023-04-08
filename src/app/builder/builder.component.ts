@@ -237,7 +237,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    debugger
+    
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -4288,7 +4288,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+    
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -4533,7 +4533,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "tabs":
-        debugger
+        
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.tabsFields)
         this.fieldData.formData = _formFieldData.tabsFields;
@@ -5196,7 +5196,7 @@ export class BuilderComponent implements OnInit {
   //   // array.splice(index, 0, ...elementsArray);
   // }
   insertAt(node: any) {
-    debugger
+    
     let parent = node?.parentNode?.origin;
     node = node.origin;
     if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
@@ -5649,7 +5649,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "rate":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.clear = event.form.clear;
           this.selectedNode.allowHalf = event.form.allowHalf;
@@ -5832,7 +5832,7 @@ export class BuilderComponent implements OnInit {
       case "autoComplete":
       case "number":
       case "customMasking":
-        debugger
+        
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
@@ -6915,7 +6915,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
-              debugger
+              
               if (res.formly != undefined) {
                 if (res.type != "mainStep" && res.type != "mainTab") {
                   // res['wrappers'] = [];
@@ -7357,7 +7357,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-    debugger
+    
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == "editable") {
@@ -7478,7 +7478,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-    debugger
+    
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
@@ -7533,7 +7533,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   setCustomColor(data: any) {
-    debugger
+    
     let color: string;
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);

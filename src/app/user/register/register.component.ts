@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit {
   }
 
   setCustomColor(data:any) {
-    debugger
+    
     let color: string;
     color = data.target.value;
     document.documentElement.style.setProperty('--my-color', color);

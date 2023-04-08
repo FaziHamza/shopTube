@@ -25,7 +25,7 @@ export class TabsComponent implements OnInit {
     // add your code here to handle the tab select event
   }
   closeTab({ index }: { index: number }): void {
-    debugger
+    
     this.tabs.children.splice(index, 1);
     this.tabs.nodes = this.tabs.children.length;
   }
