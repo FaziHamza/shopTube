@@ -57,7 +57,7 @@ export class BuilderComponent implements OnInit {
   formModalData: any;
   isActiveShow: string;
   filterMenuData: any = [];
-
+  joiValidationData:TreeNode[] = [];
   isVisible: string;
   showSectionOnly: boolean = false;
   columnData: any = [];
@@ -312,6 +312,7 @@ export class BuilderComponent implements OnInit {
                 this.formlyModel = [];
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
                 this.updateNodes();
+                this.getJoiValidation(this.moduleId);
                 // if (res[0].menuData[0].children[1]) {
 
                 //   // this.uiRuleGetData(res[0].moduleId);
@@ -596,6 +597,13 @@ export class BuilderComponent implements OnInit {
     this.cdr.detectChanges();
     // this.cdr.detach();
   }
+  getJoiValidation(id:any){
+    if (id > 0) {
+      this.builderService.jsonGetScreenValidationRule(id).subscribe((getRes => {
+       this.joiValidationData = getRes;
+      }))
+    }
+  }
   getUIRuleData(data: any) {
     this.requestSubscription = this.builderService.jsonUIRuleGetData(this.screenName).subscribe({
       next: (getRes) => {
@@ -829,7 +837,7 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
 
-  
+
   addControlToJson(value: string, data?: any) {
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -4295,6 +4303,12 @@ export class BuilderComponent implements OnInit {
       title: "Change Attribute Values",
       formData: _formFieldData.inputValidationRuleFields,
     });
+    if(this.joiValidationData.length > 0)
+    {
+      let getJoiRule = this.joiValidationData.filter(a=>a.id == this.selectedNode.id);
+      if(getJoiRule.length)
+        this.validationFieldData.modelData = getJoiRule[0];
+    }
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
       for (let index = 0; index < this.nodes[0].options.length; index++) {
@@ -5405,7 +5419,7 @@ export class BuilderComponent implements OnInit {
   }
   notifyEmit(event: actionTypeFeild): void {
 
-    if (event.type) {
+    if (event.type && event.type != "inputValidationRule") {
       this.selectedNode.title = event.form.title;
       this.selectedNode.className = event.form.className;
       this.selectedNode.tooltip = event.form.tooltip;
@@ -5921,11 +5935,12 @@ export class BuilderComponent implements OnInit {
         case "inputValidationRule":
 
         if (this.selectedNode) {
+          debugger
           const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "moduleName": this.screenName,
             "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-            "id": this.selectedNode.id as string,
+            "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
             "label": event.form.label,

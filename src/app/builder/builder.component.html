@@ -187,7 +187,7 @@
                             <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
-                          <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
+                          <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
                           [itemData]="validationFieldData" [type]="validationFieldData.type"  *ngIf="validationFieldData">
                           </st-generic-field>
                           <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->

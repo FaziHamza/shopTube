@@ -20,18 +20,18 @@ export class MainComponent implements OnInit {
   model: any = {};
   options: FormlyFormOptions = {};
   selectedTags: any[] = [];
-  @Input() screenName :any;
-  @Input() screenId :any;
-  editorData:any;
+  @Input() screenName: any;
+  @Input() screenId: any;
+  editorData: any;
   ruleValidation: any = {};
   ruleObj: any = {};
   schemaValidation: any;
   formlyModel: any;
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
-  joiValidationData:TreeNode[] = [];
+  joiValidationData: TreeNode[] = [];
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
-    private builderService:BuilderService) { }
+    private builderService: BuilderService) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -45,9 +45,12 @@ export class MainComponent implements OnInit {
     // this.joiService.submit();
     this.formlyModel = this.form.value;
     this.joiValidation();
-    this.form.value;
-    console.log(this.form.value);
-    this.dataModel
+    if(this.validationCheckStatus.length  === 0)
+    {
+      this.form.value;
+      console.log(this.form.value);
+      this.dataModel
+    }
   }
   handleIndexChange(e: number): void {
     console.log(e);
@@ -80,16 +83,16 @@ export class MainComponent implements OnInit {
     ];
     this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
-  getJoiValidation(){
+  getJoiValidation() {
     if (this.screenId > 0) {
       this.builderService.jsonGetScreenValidationRule(this.screenId).subscribe((getRes => {
-       this.joiValidationData = getRes;
+        this.joiValidationData = getRes;
       }))
     }
   }
   joiValidation() {
     debugger
-    let jsonScreenRes : any = [];
+    let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.mainData.length; j++) {
         if (this.mainData[j].formlyType != undefined) {
@@ -97,12 +100,12 @@ export class MainComponent implements OnInit {
           if (jsonScreenRes.length) {
             if (jsonScreenRes[0].type == "text") {
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength: 0),
+                [jsonScreenRes[0].key]: Joi.string().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
               }
             }
             else if (jsonScreenRes[0].type == "number") {
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.number().integer().min(typeof jsonScreenRes[0].minlength !== 'undefined' ?jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength: 0),
+                [jsonScreenRes[0].key]: Joi.number().integer().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
               }
             }
             else if (jsonScreenRes[0].type == "pattern") {
@@ -116,9 +119,15 @@ export class MainComponent implements OnInit {
               }
             }
             else if (jsonScreenRes[0].type == "email") {
-              this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
-              }
+              // this.ruleObj = {
+              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
+              // }
+              const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
+              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
+              const schema = {
+                  [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
+              };
+              this.ruleObj = schema;
             }
             Object.assign(this.ruleValidation, this.ruleObj);
           }
@@ -151,10 +160,11 @@ export class MainComponent implements OnInit {
                 V2.formly[0].fieldGroup[index].props.error = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label)
             }
           }
-          this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props.error);
+          if(V2.formly[0].fieldGroup[index].props.error)
+             this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props.error);
         }
       });
-
+      // this.cd.detectChanges();
     }
   }
   filterInputElements(data: ElementData[]): any[] {

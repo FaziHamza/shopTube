@@ -17,6 +17,11 @@ import { FieldWrapper } from '@ngx-formly/core';
       <div [ngClass]="[(!to.label) || (!to.label && to.className.include('w-full')) ? 'w-full' : fieldColumn]">
         <ng-template #fieldComponent></ng-template>
       </div>
+      <div *ngIf="to.error != null"  class="{{labelColumn}}"></div>
+
+      <div *ngIf="to.error != null" class="text-red-500 text-sm block {{fieldColumn}}">
+         <p class="m-0 p-0">{{to.error }}</p>
+      </div>
       <div *ngIf="showError"  class="{{labelColumn}}"></div>
       <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
         <formly-validation-message [field]="field"></formly-validation-message>
