@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
   }
 
   submit() {
-    debugger
+
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     // this.joiService.dataModel = this.form.value;
@@ -91,8 +91,8 @@ export class MainComponent implements OnInit {
     }
   }
   joiValidation() {
-    debugger
-    let jsonScreenRes: any = [];
+
+    let jsonScreenRes : any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.mainData.length; j++) {
         if (this.mainData[j].formlyType != undefined) {

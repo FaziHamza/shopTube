@@ -25,7 +25,7 @@ import { Guid } from '../models/guid';
 export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   ngOnInit(): void {
-    debugger
+    
     this.tableId = this.field.key + Guid.newGuid();
     this.form.value?.options
   }

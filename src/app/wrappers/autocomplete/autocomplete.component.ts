@@ -16,7 +16,7 @@ export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
     this.filteredOptions = this.to.options;
   }
   onChange(value: string): void {
-    debugger
+    
     this.filteredOptions = this.list.filter((option : any) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 

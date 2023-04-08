@@ -211,14 +211,15 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   notifyEmit(data: any) {
-
+    debugger
     if (typeof data === 'boolean') {
       this.selectedTheme.showMenu = data;
       this.selectedTheme.rowClass = 'w-full';
       let newData = JSON.parse(JSON.stringify(this.selectedTheme));
       this.selectedTheme = newData;
 
-    } else {
+    }
+    else {
       if (data.selectedTheme) {
         this.selectedTheme = data.selectedTheme
       } else {
@@ -230,7 +231,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   notifyEmitForDropdown(data: any) {
-
+    debugger
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -240,7 +241,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-
+    debugger
     // event.preventDefault();
     data.isOpen = !data.isOpen;
     this.tabs = [];
