@@ -102,6 +102,7 @@ export interface TreeNode {
   borderless?: any;
   hover?: any;
   nztype?: any;
+  isSubmit?: any;
   hoverTextColor?: any;
   headingColor?: any;
   classNameForPosition?: any;

@@ -508,6 +508,7 @@ export class BuilderClickButtonService {
       dividerType: node.dividerType,
       plain: node.plain,
       orientation: node.orientation,
+      dividerFormat: node.dividerFormat,
     }
   }
 
@@ -799,6 +800,7 @@ export class BuilderClickButtonService {
       iconSize: node['iconSize'],
       hoverTextColor: node['hoverTextColor'],
       textColor: node['textColor'],
+      isSubmit: node['isSubmit'],
     }
   }
   getDropdownButtonConfig(node: any) {

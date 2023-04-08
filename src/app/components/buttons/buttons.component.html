@@ -1,79 +1,51 @@
-<button [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || '' }" (mouseover)="bgColor = buttonData?.hoverColor"
-    (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
-    (mouseover)="borderColor = buttonData.hoverColor || ''"
-      (mouseout)="bgColor = buttonData?.color || ''"
-      (mouseout)="borderColor = buttonData?.textColor || ''"
-      (mouseout)="hoverTextColor = buttonData?.textColor"
-      type="submit"  [nzType]="buttonData.nztype"
-      *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkButton'" nz-button
-      [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape"
-      [nzGhost]='buttonData.nzGhost' [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock'
-      [nzDanger]='buttonData.nzDanger' (click)="getButtonType(buttonData?.type)"><span
-        *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
-          [size]="buttonData?.iconSize"></st-icon></span>
-      <span *ngIf="buttonData.title">
-        {{buttonData.title}}</span>
-    </button>
-    <!-- link  -->
-    <ng-container *ngIf="buttonData.type == 'linkButton'">
-      <a nz-button nzType="link" [nzGhost]='buttonData.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
-        (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
-        [nzSize]="buttonData.nzSize" [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock'
-        [disabled]="buttonData.disabled" [nzDanger]='buttonData.nzDanger' *ngIf="buttonData.btnType ==''"
-        [class]='[buttonData.color, buttonData.hoverColor]' class="text-white"
-        (click)="pagesRoute(buttonData.href,buttonData.btnType)">
-        <span><st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
-            [size]="buttonData?.iconSize"></st-icon>
-          {{buttonData.title}}
-        </span>
-
-      </a>
-      <a nz-button nzType="link" [nzGhost]='buttonData.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
-        (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
-        [nzSize]="buttonData.nzSize" [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock'
-        [disabled]="buttonData.disabled" [nzDanger]='buttonData.nzDanger' *ngIf="buttonData.btnType =='_blank'"
-        target="{{buttonData?.btnType}}" class="text-white" class="p-2"
-        (click)="pagesRoute(buttonData.href,buttonData.btnType)">
-        <span><st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
-            [size]="buttonData?.iconSize"></st-icon>
-          {{buttonData.title}}
-        </span>
-      </a>
-      <a nz-button nzType="link" *ngIf="buttonData.btnType =='modal'" [ngStyle]="{ 'background-color': bgColor }"
-        (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color" class="text-white"
-        [nzSize]="buttonData.nzSize" [nzGhost]='buttonData.nzGhost' [disabled]="buttonData.disabled"
-        [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
-        data-bs-toggle="modal" data-bs-target=".bs-example-modal-center"
-        (click)="pagesRoute(buttonData.href,buttonData.btnType)">
-        <span>
-          <st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
-            [size]="buttonData?.iconSize"></st-icon>
-          {{buttonData.title}}
-        </span>
-      </a>
-    </ng-container>
-
-    <!-- dropdown  -->
-    <div class="dropdown " *ngIf="buttonData.type == 'dropdownButton'">
-      <button [nzType]="buttonData.nztype"  [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || ''}" (mouseover)="bgColor = buttonData?.hoverColor"
-      (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
-      (mouseover)="borderColor = buttonData.hoverColor || ''"
-        (mouseout)="bgColor = buttonData?.color || ''"
-        (mouseout)="borderColor = buttonData?.textColor || ''"
-        (mouseout)="hoverTextColor = buttonData?.textColor || ''"
-        nz-button nz-dropdown [nzDropdownMenu]="menu" (nzVisibleChange)="change($event)"
-        [nzGhost]='buttonData.nzGhost' [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled"
-        [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzTrigger]="buttonData.trigger"
-        [nzPlacement]="buttonData.placement" [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible"
-        [nzDanger]='buttonData.nzDanger' [nzShape]="buttonData.nzShape">
-        {{buttonData.title}} <span class="pl-1" *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
-            [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize"></st-icon></span>
-      </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu *ngFor="let options of buttonData.dropdownOptions">
-          <li nz-menu-item>
-            <a href={{options.link}}>{{options.label}}</a>
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-    </div>
+<button
+  [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || '' }"
+  [style.opacity]="0.75"
+  (mouseover)="bgColor = buttonData?.hoverColor" (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
+  (mouseover)="borderColor = buttonData.hoverColor || ''" (mouseout)="bgColor = buttonData?.color || ''"
+  (mouseout)="borderColor = buttonData?.textColor || ''" (mouseout)="hoverTextColor = buttonData?.textColor"
+  [type]="buttonData?.isSubmit ? 'submit' : 'button'" [nzType]="buttonData.nztype"
+  *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkButton'" nz-button [nzSize]="buttonData.nzSize"
+  [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
+  [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
+  (click)="getButtonType(buttonData?.type)"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
+      [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize"></st-icon></span>
+  <span *ngIf="buttonData.title">
+    {{buttonData.title}}</span>
+</button>
+<!-- link  -->
+<div *ngIf="buttonData.type == 'linkButton'" class="pt-3">
+  <a nz-button nzType="link" [nzGhost]='buttonData.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
+    (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color" [nzSize]="buttonData.nzSize"
+    [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [disabled]="buttonData.disabled"
+    [nzDanger]='buttonData.nzDanger' [class]='[buttonData.color, buttonData.hoverColor]'
+    (click)="pagesRoute(buttonData.href,buttonData.btnType)">
+    <span><st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
+        [size]="buttonData?.iconSize"></st-icon>
+      {{buttonData.title}}
+    </span>
+  </a>
+</div>
+<!-- dropdown  -->
+<div class="dropdown pt-2" *ngIf="buttonData.type == 'dropdownButton'">
+  <button [nzType]="buttonData.nztype"
+    [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || ''}"
+    (mouseover)="bgColor = buttonData?.hoverColor" (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
+    (mouseover)="borderColor = buttonData.hoverColor || ''" (mouseout)="bgColor = buttonData?.color || ''"
+    (mouseout)="borderColor = buttonData?.textColor || ''" (mouseout)="hoverTextColor = buttonData?.textColor || ''"
+    nz-button nz-dropdown [nzDropdownMenu]="menu" (nzVisibleChange)="change($event)" [nzGhost]='buttonData.nzGhost'
+    [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled" [nzLoading]='buttonData.nzLoading'
+    [nzBlock]='buttonData.nzBlock' [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
+    [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]='buttonData.nzDanger'
+    [nzShape]="buttonData.nzShape">
+    {{buttonData.title}} <span class="pl-1" *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
+        [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize"></st-icon></span>
+  </button>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu *ngFor="let options of buttonData.dropdownOptions">
+      <li nz-menu-item>
+        <a href={{options.link}}>{{options.label}}</a>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

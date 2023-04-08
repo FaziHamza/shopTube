@@ -69,7 +69,7 @@ export class BuilderComponent implements OnInit {
 
   constructor(public builderService: BuilderService,
     // private formBuilder: FormBuilder,
-    private _encryptionService : EncryptionService,
+    private _encryptionService: EncryptionService,
     private toastr: NzMessageService,
     private dataService: DataService,
     private modalService: NzModalService,
@@ -151,18 +151,18 @@ export class BuilderComponent implements OnInit {
   }
   updateNodes() {
     this.nodes = [...this.nodes];
-    if(this.isSavedDb)
+    if (this.isSavedDb)
       this.saveOfflineDB();
     // this.cdr.detectChanges();
   }
-  saveOfflineDB(){
+  saveOfflineDB() {
     let data = this.jsonStringifyWithObject(this.nodes);
-    let encryptData  = this._encryptionService.encryptData(data)
+    let encryptData = this._encryptionService.encryptData(data)
     this.dataService.saveData(this.screenName, encryptData);
   }
-  getOfflineDb(){
-    let data  = this.dataService.getNodes(this.screenName);
-    let decryptData  = this._encryptionService.decryptData(data)
+  getOfflineDb() {
+    let data = this.dataService.getNodes(this.screenName);
+    let decryptData = this._encryptionService.decryptData(data)
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
@@ -221,13 +221,13 @@ export class BuilderComponent implements OnInit {
   //   }
   // }
   oldIndex: number;
-  decryptData(data:any){
-     let decryptData  = this._encryptionService.decryptData(data?.data)
-     this.nodes = this.jsonParseWithObject(decryptData);
+  decryptData(data: any) {
+    let decryptData = this._encryptionService.decryptData(data?.data)
+    this.nodes = this.jsonParseWithObject(decryptData);
   }
 
-  deleteOfflineDb(){
-    let data  = this.dataService.deleteDb(this.screenName);
+  deleteOfflineDb() {
+    let data = this.dataService.deleteDb(this.screenName);
   }
   JsonEditorShow() {
 
@@ -292,11 +292,11 @@ export class BuilderComponent implements OnInit {
     })
   }
   expandedKeys: any;
-  previousScreenName : string = '';
+  previousScreenName: string = '';
   getFormLayers(data: any) {
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
-      nzOnOk: () =>{
+      nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           this.screenName = data;
@@ -312,19 +312,19 @@ export class BuilderComponent implements OnInit {
                 this.formlyModel = [];
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
                 this.updateNodes();
-              // if (res[0].menuData[0].children[1]) {
+                // if (res[0].menuData[0].children[1]) {
 
-              //   // this.uiRuleGetData(res[0].moduleId);
-              //   // this.uiGridRuleGetData(res[0].moduleId);
-              // }
-              // else {
-              //   this.screenId = res[0].id;
-              //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-              //   // this.uiRuleGetData(res[0].moduleId);
-              //   // this.uiGridRuleGetData(res[0].moduleId);
-              // }
+                //   // this.uiRuleGetData(res[0].moduleId);
+                //   // this.uiGridRuleGetData(res[0].moduleId);
+                // }
+                // else {
+                //   this.screenId = res[0].id;
+                //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+                //   // this.uiRuleGetData(res[0].moduleId);
+                //   // this.uiGridRuleGetData(res[0].moduleId);
+                // }
 
-            }
+              }
               else {
                 this.screenId = 0;
                 this.clearChildNode();
@@ -343,12 +343,12 @@ export class BuilderComponent implements OnInit {
           }
           );
           this.screenPage = true;
-        }).catch(() =>  this.screenName = this.previousScreenName)
+        }).catch(() => this.screenName = this.previousScreenName)
       },
-        nzOnCancel: () => {
-          this.screenName = this.previousScreenName;
-          console.log('User clicked Cancel');
-        }
+      nzOnCancel: () => {
+        this.screenName = this.previousScreenName;
+        console.log('User clicked Cancel');
+      }
     });
   }
   clearChildNode() {
@@ -829,6 +829,7 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
 
+  
   addControlToJson(value: string, data?: any) {
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
@@ -1044,7 +1045,7 @@ export class BuilderComponent implements OnInit {
         title: data?.label,
         expanded: true,
         type: data?.configType,
-        className: 'w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+        className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
         // type: data?.type,
         formlyType: data?.parameter,
         hideExpression: false,
@@ -1059,7 +1060,7 @@ export class BuilderComponent implements OnInit {
                 wrappers: this.getLastNodeWrapper("wrappers"),
                 props: {
                   multiple: true,
-                  className: 'w-1/3 px-1 py-1',
+                  className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
                   attributes: {
                     autocomplete: 'off',
                   },
@@ -1170,7 +1171,7 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-
+        isSubmit :false,
         children: [
         ],
 
@@ -1260,6 +1261,7 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
+        isSubmit :false,
         children: [
         ],
 
@@ -1294,6 +1296,7 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
+        isSubmit :false,
         children: [
         ],
 
@@ -1311,7 +1314,7 @@ export class BuilderComponent implements OnInit {
         type: "cardWithComponents",
         highLight: false,
         isNextChild: true,
-        borderless:false,
+        borderless: false,
         children: [
         ],
 
@@ -1607,12 +1610,12 @@ export class BuilderComponent implements OnInit {
         size: 'default',
         imageSrc: '',
         imageAlt: '',
-        description:'Description',
+        description: 'Description',
         // bgColorHeader:'',
         // bgColorBody:'',
         // bgColorFooter:'',
-        bgColor :'',
-        footer :false,
+        bgColor: '',
+        footer: false,
         children: [
         ],
       } as TreeNode;
@@ -2539,7 +2542,7 @@ export class BuilderComponent implements OnInit {
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
-        editorJson:"",
+        editorJson: "",
         children: [
         ],
       } as TreeNode;
@@ -2996,6 +2999,7 @@ export class BuilderComponent implements OnInit {
         dashed: false,
         dividerType: "horizontal",
         orientation: "center",
+        dividerFormat: "1px solid rgba(0,0,0,.06)",
         plain: false,
         children: [
         ],
@@ -3811,7 +3815,7 @@ export class BuilderComponent implements OnInit {
         size: "default", //large, small
         buttonShape: "circle", //default ,round
         avatarShape: "circle", //square
-        shapeType:"paragraph",
+        shapeType: "paragraph",
         children: [
         ],
       } as TreeNode;
@@ -4052,8 +4056,8 @@ export class BuilderComponent implements OnInit {
         duration: 3000,
         pauseOnHover: true,
         animate: true,
-        notificationType:'default',
-        placement:'topRight',
+        notificationType: 'default',
+        placement: 'topRight',
         children: [],
       } as TreeNode;
       this.addNode(node, newNode);
@@ -4682,6 +4686,7 @@ export class BuilderComponent implements OnInit {
       case "tags":
       case "repeatSection":
       case "multiselect":
+      case "tag":
       case "search":
       case "radiobutton":
       case "checkbox":
@@ -4705,8 +4710,6 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         switch (type) {
-          case "tags":
-          case "multiselect":
           case "search":
             this.fieldData.formData = _formFieldData.selectFields;
             break;
@@ -4727,6 +4730,8 @@ export class BuilderComponent implements OnInit {
             this.fieldData.formData = _formFieldData.numberFields;
             break;
           case "repeatSection":
+          case "multiselect":
+          case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -4810,7 +4815,7 @@ export class BuilderComponent implements OnInit {
           //     // ]
           //   }
           // };
-        configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
+          configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.accordingFields;
         break;
       case "accordingHeader":
@@ -5432,7 +5437,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.content = event.form.content;
         }
         break;
-        case "cardWithComponents":
+      case "cardWithComponents":
         if (this.selectedNode) {
           this.selectedNode.borderless = event.form.borderless;
         }
@@ -5805,6 +5810,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "select":
       case "repeatSection":
+      case "multiselect":
       case "tag":
       case "search":
       case "radiobutton":
@@ -6310,6 +6316,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['textColor'] = event.form.textColor;
+          this.selectedNode['isSubmit'] = event.form.isSubmit;
         }
         break;
 
@@ -7117,6 +7124,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.dividerType = event.form.dividerType;
           this.selectedNode.orientation = event.form.orientation;
           this.selectedNode.plain = event.form.plain;
+          this.selectedNode.dividerFormat = event.form.dividerFormat;
           this.updateNodes()
         }
         break;
@@ -7419,14 +7427,14 @@ export class BuilderComponent implements OnInit {
   jsonStringify(data: any) {
     return JSON.stringify(data)
   }
-   jsonStringifyWithObject(data: any) {
+  jsonStringifyWithObject(data: any) {
     return JSON.stringify(data, function (key, value) {
       if (typeof value == 'function') {
         let check = value.toString();
-        if(check.includes('model =>'))
-        return check.replace('model =>','(model) =>')
+        if (check.includes('model =>'))
+          return check.replace('model =>', '(model) =>')
         else
-        return check;
+          return check;
       } else {
         return value;
       }

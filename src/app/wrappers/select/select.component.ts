@@ -7,10 +7,10 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./select.component.scss']
 })
 export class SelectComponent extends FieldType<FieldTypeConfig> {
-
+  selectedValue: any | null = null;
   getIcon(value: any) {
     return (this.to.options as any)
-      .find((i : any) => i.value === value)?.icon;
+      .find((i: any) => i.value === value)?.icon;
   }
   get list(): any {
     return this.to.options;
@@ -19,13 +19,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> {
 
     this.to
   }
-  getNzMode(to : any) {
-    if (to.type === 'multiselect') {
-      return 'multiple';
-    } else if (to.type === 'tag') {
-      return 'tags';
-    } else {
-      return 'default';
-    }
+  log(value: any): void {
+    this.formControl.patchValue(value);
   }
 }

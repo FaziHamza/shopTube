@@ -4,7 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-    <div class="flex flex-wrap pb-1" [dir]="to.config?.formatAlignment || 'ltr'">
+    <div class="flex flex-wrap pb-1 pr-1" [dir]="to.config?.formatAlignment || 'ltr'">
       <label class="label-style py-1 px-2" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
         <span>
           <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
@@ -14,13 +14,11 @@ import { FieldWrapper } from '@ngx-formly/core';
           <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
         </span>
       </label>
-      <div [ngClass]="[fieldColumn]" *ngIf="to.labelPosition !='rtl pr-1'">
+      <div [ngClass]="[(!to.label) || (!to.label && to.className.include('w-full')) ? 'w-full' : fieldColumn]">
         <ng-template #fieldComponent></ng-template>
       </div>
-      <div *ngIf="to.error != null" class="col-10 offset-md-4 offset-sm-4 invalid-feedback d-block">
-      <p class="m-0 p-0">{{to.error }}</p>
-      </div>
-      <div *ngIf="showError" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
+      <div *ngIf="showError"  class="{{labelColumn}}"></div>
+      <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
     </div>
@@ -33,18 +31,12 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldPadding: string;
   rtl: any;
   ngOnInit(): void {
-
+    debugger
     const fullWidth = this.to.className.includes('w-full');
     const labelPosition = this.to.labelPosition + ' pl-2 pr-2' || '';
     this.labelColumn = `w-1/4 ${labelPosition}`;
     this.fieldColumn = fullWidth ? 'w-3/4' : 'w-3/4';
-    this.errorColumn = fullWidth ? 'w-3/4' : '';
     this.fieldPadding = this.getFieldPaddingClass(this.to.config?.size);
-    if (labelPosition == 'rtl pr-1') {
-      this.rtl = 'rtl'
-    } else {
-      this.rtl = ''
-    }
   }
 
   private getFieldPaddingClass(size: string): string {
