@@ -1,6 +1,5 @@
 <button
   [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || '' }"
-  [style.opacity]="0.75"
   (mouseover)="bgColor = buttonData?.hoverColor" (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
   (mouseover)="borderColor = buttonData.hoverColor || ''" (mouseout)="bgColor = buttonData?.color || ''"
   (mouseout)="borderColor = buttonData?.textColor || ''" (mouseout)="hoverTextColor = buttonData?.textColor"
