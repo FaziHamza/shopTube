@@ -800,6 +800,7 @@ export class BuilderClickButtonService {
       iconSize: node['iconSize'],
       hoverTextColor: node['hoverTextColor'],
       textColor: node['textColor'],
+      isSubmit: node['isSubmit'],
     }
   }
   getDropdownButtonConfig(node: any) {

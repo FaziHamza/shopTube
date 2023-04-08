@@ -25,6 +25,7 @@ import { RadioButtonComponent } from "./wrappers/radio-button/radio-button.compo
 import { RangeComponent } from "./wrappers/range/range.component";
 import { SelectComponent } from "./wrappers/select/select.component";
 import { TimePickerComponent } from "./wrappers/time-picker/time-picker.component";
+import { MultiSelectComponent } from "./wrappers/multi-select/multi-select.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -52,7 +53,8 @@ export const fieldComponents = [
   TimePickerComponent,
   DatePickerComponent,
   RangeComponent,
-  FormlyFloatComponent
+  FormlyFloatComponent,
+  MultiSelectComponent
 ];
 
 
@@ -87,7 +89,9 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'zorro-timePicker', component: TimePickerComponent },
     { name: 'zorro-datePicker', component: DatePickerComponent },
     { name: 'rangePicker', component: RangeComponent },
-    { name: 'checkbox', component: FormlyFieldMultiCheckbox }
+    { name: 'checkbox', component: FormlyFieldMultiCheckbox },
+    { name: 'muliselect', component: MultiSelectComponent },
+    { name: 'tag', component: MultiSelectComponent }
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,
