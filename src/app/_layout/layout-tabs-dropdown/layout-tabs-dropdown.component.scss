@@ -27,3 +27,16 @@
 //         transition: opacity .3s cubic-bezier(.645, .045, .355, 1), margin .3s, color .3s;
 //     }
 // }
+.ng-star-inserted {
+
+    font-size: 0.925rem;
+    color: #7c7f90;
+    font-weight: 600;
+    font-family: Rubik,sans-serif;
+
+}
+.ant-menu-submenu :hover {
+  color: transparent !important;
+  background-color: transparent !important;
+  border: none;
+}

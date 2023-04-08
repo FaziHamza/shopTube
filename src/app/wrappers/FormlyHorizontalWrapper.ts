@@ -17,6 +17,9 @@ import { FieldWrapper } from '@ngx-formly/core';
       <div [ngClass]="[fieldColumn]" *ngIf="to.labelPosition !='rtl pr-1'">
         <ng-template #fieldComponent></ng-template>
       </div>
+      <div *ngIf="to.error != null" class="col-10 offset-md-4 offset-sm-4 invalid-feedback d-block">
+      <p class="m-0 p-0">{{to.error }}</p>
+      </div>
       <div *ngIf="showError" class="ml-6 sm:ml-6 text-red-500 text-sm block {{ errorColumn }}">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
@@ -28,7 +31,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldColumn: string;
   errorColumn: string;
   fieldPadding: string;
-  rtl:any;
+  rtl: any;
   ngOnInit(): void {
 
     const fullWidth = this.to.className.includes('w-full');
@@ -37,9 +40,9 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     this.fieldColumn = fullWidth ? 'w-3/4' : 'w-3/4';
     this.errorColumn = fullWidth ? 'w-3/4' : '';
     this.fieldPadding = this.getFieldPaddingClass(this.to.config?.size);
-    if(labelPosition == 'rtl pr-1'){
+    if (labelPosition == 'rtl pr-1') {
       this.rtl = 'rtl'
-    }else{
+    } else {
       this.rtl = ''
     }
   }

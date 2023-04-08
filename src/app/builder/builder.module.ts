@@ -32,8 +32,6 @@ import { CommonModule } from "@angular/common";
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
-    NgxDropzoneModule,
-    DragDropModule,
     BuilderRoutingModule,
     ShareModule,
   ],

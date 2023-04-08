@@ -1,9 +1,9 @@
 <ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
     <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft"
         [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
-        <nz-time-picker
+        <nz-time-picker [(ngModel)]="time" (ngModelChange)="log($event)"
             [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
-            [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear" [formControl]="formControl"
+            [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear"
             [nzStatus]="to.config?.status" [nzNowText]="to.config?.firstBtnText" [nzOkText]="to.config?.secondBtnText"
             [nzMinuteStep]="to.config?.minuteStep" [nzSecondStep]="to.config?.secondStep"
             [nzHourStep]="to.config?.hoursStep" [nzDisabled]="to.disabled" [nzStatus]="to.config?.status"
@@ -12,9 +12,9 @@
         <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
             [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
     </nz-input-group>
-    <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [(ngModel)]="time" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzStatus]="to.config?.status" [nzSize]="to.config?.size">
-        <nz-time-picker [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear" [formControl]="formControl"
+        <nz-time-picker [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear"  (ngModelChange)="log($event)"
             [nzStatus]="to.config?.status" [nzNowText]="to.config?.firstBtnText" [nzOkText]="to.config?.secondBtnText"
             [nzMinuteStep]="to.config?.minuteStep" [nzSecondStep]="to.config?.secondStep"
             [nzHourStep]="to.config?.hoursStep" [nzDisabled]="to.disabled" [nzStatus]="to.config?.status"
@@ -31,11 +31,11 @@
     </ng-template>
 </ng-container>
 <div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
-<nz-time-picker class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear" 
-[formControl]="formControl" [nzStatus]="to.config?.status" [nzNowText]="to.config?.firstBtnText"
-[nzOkText]="to.config?.secondBtnText" [nzMinuteStep]="to.config?.minuteStep"
+<nz-time-picker class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" [nzAddOn]="customAddon" [nzAllowEmpty]="to.config?.allowClear"
+ [nzStatus]="to.config?.status" [nzNowText]="to.config?.firstBtnText"
+[nzOkText]="to.config?.secondBtnText" [nzMinuteStep]="to.config?.minuteStep" [(ngModel)]="time" (ngModelChange)="log($event)"
 [nzSecondStep]="to.config?.secondStep" [nzHourStep]="to.config?.hoursStep" [nzDisabled]="to.disabled"
-[nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzBorderless]="to.config?.border" 
+[nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzBorderless]="to.config?.border"
 [nzPlaceHolder]="to.placeholder || ''" [nzUse12Hours]="to.config?.use12Hours"
 [nzSuffixIcon]="customAddon || ''"></nz-time-picker>
 <label

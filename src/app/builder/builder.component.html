@@ -149,16 +149,7 @@
 
           <div class="carwd" *ngIf="IsjsonEditorVisible">
             <div class="card-bwody">
-              <!-- asdada -->
-              <!-- <json-editor [(ngModel)]="this.nodes" (change)="clickBack()" [options]="editorOptions">
-              </json-editor> -->
-
-              <json-editor
-              id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
-
-              [options]="editorOptions" >
-            </json-editor>
-
+              <json-editor id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"  [options]="editorOptions" ></json-editor>
             </div>
           </div>
         </div>
@@ -196,7 +187,10 @@
                             <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
-                          <st-validation-rule></st-validation-rule>
+                          <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
+                          [itemData]="validationFieldData" [type]="validationFieldData.type"  *ngIf="validationFieldData">
+                          </st-generic-field>
+                          <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
                           <st-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode"

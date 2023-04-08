@@ -65,24 +65,24 @@ export class DynamicTableComponent implements OnInit {
                     if (eval(query)) {
                       for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                         const elementv2 = elementv1.getRuleCondition[k];
-                        if (elementv1.getRuleCondition[k].refranceOperator != '') {
+                        if (elementv1.getRuleCondition[k].referenceOperator != '') {
                           this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                         } else {
                           if (k > 0) {
-                            this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].refranceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                            this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                            this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                            this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                           }
                           else
                             this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                          this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                         }
                         if (elementv2.multiConditionList.length > 0) {
                           for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                             const elementv3 = elementv2.multiConditionList[l];
                             const value = this.data.tableData[j][elementv1.target];
                             this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
-                            // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                            // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                           }
                         }
                       }
@@ -96,7 +96,7 @@ export class DynamicTableComponent implements OnInit {
                               const elementv4 = elementv3.multiConditionList[m];
                               const value = this.data.tableData[j][elementv2.thenTarget];
                               this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
-                              // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].refranceColor;
+                              // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                             }
                           }
                         }

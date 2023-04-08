@@ -20,7 +20,6 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-import { NgxDropzoneModule } from 'ngx-dropzone';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
@@ -29,7 +28,7 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
 import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
 import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { CommonModule } from '@angular/common';
 import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
@@ -84,8 +83,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     ShareModule,
-    NgxDropzoneModule,
-    DragDropModule
+
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

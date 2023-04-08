@@ -42,8 +42,6 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
       NgxMaskModule.forRoot(),
       FormlyModule.forRoot(formlyCustomeConfig),
       FullCalendarModule,
-      NgxDropzoneModule,
-      DragDropModule,
       RouterModule,
     ],
   declarations: [

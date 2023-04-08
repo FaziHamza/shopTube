@@ -43,7 +43,7 @@ export class ActionRuleComponent implements OnInit {
         type: [check[0].type],
         email: [check[0].email],
         confirmEmail: [check[0].confirmEmail],
-        refranceId: [check[0].refranceId],
+        referenceId: [check[0].referenceId],
         query: [check[0].query]
       }));
     // this.ActionsForms.push();
@@ -71,7 +71,7 @@ export class ActionRuleComponent implements OnInit {
         type: [this.actionForm.value.actionType],
         email: [''],
         confirmEmail: [''],
-        refranceId: [''],
+        referenceId: [''],
         query: [this.actionForm.value.actionType === "query" ? dataForQuery : ""]
       })
     )
@@ -127,7 +127,7 @@ export class ActionRuleComponent implements OnInit {
             type: [getQueryActionRes.type],
             email: [getQueryActionRes.email],
             confirmEmail: [getQueryActionRes.confirmEmail],
-            refranceId: [getQueryActionRes.refranceId],
+            referenceId: [getQueryActionRes.referenceId],
             query: [getQueryActionRes.query]
           })
         )),

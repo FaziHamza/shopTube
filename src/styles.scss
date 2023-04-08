@@ -16,7 +16,7 @@
 @import url('https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css');
 
 body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif,Rubik,sans-serif;
 }
 
 $white: #F0F2F5;
@@ -654,9 +654,9 @@ a.fc-event:hover {
   margin-bottom: 0px !important;
 }
 
-.ant-menu-submenu-title .anticon+span {
-  margin-right: 10px !important;
-}
+// .ant-menu-submenu-title .anticon+span {
+//   margin-right: 10px !important;
+// }
 
 // .ant-alert-message {
 //   color: var(--my-color) !important;

@@ -71,6 +71,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 // import { NzCodeEditorModule } from 'ng-zorro-antd/code-editor';
 // import { NzGraphModule } from 'ng-zorro-antd/graph';
 // import { NzCronExpressionModule } from 'ng-zorro-antd/cron-expression';
@@ -148,9 +150,11 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes';
     NzWaveModule,
     NzResizableModule,
     NzPipesModule,
+    NgxDropzoneModule,
+    DragDropModule,
     // NzCodeEditorModule,
     // NzGraphModule,
-    
+
   ]
 })
 export class NgZorroAntdModule {

@@ -390,7 +390,7 @@ export interface TreeNode {
   emailTypeAllow?: any;
 
   shape?: any;
-  refrance?: string;
+  reference?: string;
   minlength?: number;
   maxlength?: number;
   required?: boolean;

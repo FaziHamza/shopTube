@@ -50,6 +50,7 @@ export class BuilderComponent implements OnInit {
   moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
+  validationFieldData: GenaricFeild;
   searchControllData: any = [];
   selectedNode: TreeNode;
   selectdParentNode: TreeNode;
@@ -4285,7 +4286,11 @@ export class BuilderComponent implements OnInit {
   clickButton(type: any) {
     debugger
     let _formFieldData = new formFeildData();
-
+    this.validationFieldData = new GenaricFeild({
+      type: 'inputValidationRule',
+      title: "Change Attribute Values",
+      formData: _formFieldData.inputValidationRuleFields,
+    });
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
       for (let index = 0; index < this.nodes[0].options.length; index++) {
@@ -4728,24 +4733,7 @@ export class BuilderComponent implements OnInit {
             this.fieldData.formData = _formFieldData.zorroTimeFields;
             break;
         }
-        // if (type == "tags" || type == "multiselect" || type == "search")
-        //   this.fieldData.formData = _formFieldData.selectFields;
-        // else if (type == "radiobutton" || type == "checkbox")
-        //   this.fieldData.formData = _formFieldData.radioFields;
-        // else if (type == 'color')
-        //   this.fieldData.formData = _formFieldData.colorFields;
-        // else if (type == 'autoComplete')
-        //   this.fieldData.formData = _formFieldData.autoCompleteFields;
-        // else if (type == 'date')
-        //   this.fieldData.formData = _formFieldData.zorroDateFields;
-        // else if (type == 'number')
-        //   this.fieldData.formData = _formFieldData.numberFields;
-        // else if (type == 'repeatSection')
-        //   this.fieldData.formData = _formFieldData.zorroSelectFields;
-        // else if (type == 'timepicker')
-        //   this.fieldData.formData = _formFieldData.zorroTimeFields;
         break;
-
       case "customMasking":
         configObj = { ...configObj, ...this.clickButtonService.getMaskingFormlyConfig(selectedNode) };
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
@@ -5924,7 +5912,48 @@ export class BuilderComponent implements OnInit {
           });
         }
         break;
+        case "inputValidationRule":
 
+        if (this.selectedNode) {
+          const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+          const jsonRuleValidation = {
+            "moduleName": this.screenName,
+            "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+            "id": this.selectedNode.id as string,
+            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "type": event.form.type,
+            "label": event.form.label,
+            "reference": event.form.reference,
+            "minlength": event.form.minlength,
+            "maxlength": event.form.maxlength,
+            "pattern": event.form.pattern,
+            "required": event.form.required,
+            "emailTypeAllow": event.form.emailTypeAllow,
+          }
+          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+          if (mainModuleId.length > 0) {
+            this.builderService.jsonGetValidationRule(mainModuleId[0].screenId, event.form.id).subscribe((getRes => {
+
+              getRes;
+              if (getRes.length > 0) {
+                this.builderService.jsonDeleteValidationRule(event.form.id).subscribe((delRes => {
+
+                  this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+
+                    alert("Data Save");
+                  }))
+                }))
+              }
+              else {
+                this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+
+                  alert("Data Save");
+                }))
+              }
+            }))
+          }
+        }
+        break;
       case "breakTag":
         if (this.selectedNode) {
         }

@@ -267,6 +267,31 @@ export class BuilderService {
       this.baseUrl + "jsonModule/" + id
     );
   }
+  jsonGetValidationRule(moduleId: any, key: any): Observable<TreeNode[]> {
+    return this.http.get<TreeNode[]>(
+      this.baseUrl + "jsonBuilderValidationRule?moduleId=" + moduleId + "&id=" + key
+    );
+  }
+  jsonGetScreenValidationRule(moduleId: any): Observable<TreeNode[]> {
+    return this.http.get<TreeNode[]>(
+      this.baseUrl + "jsonBuilderValidationRule?moduleId=" + moduleId
+    );
+  }
+  jsonSaveValidationRule(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "jsonBuilderValidationRule", modal
+    );
+  }
+  jsonDeleteValidationRule(key: any): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.baseUrl + "jsonBuilderValidationRule/" + key
+    );
+  }
+  jsonScreenDataSave(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "screenData", modal
+    );
+  }
 }
 
 

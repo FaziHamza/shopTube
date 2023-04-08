@@ -44,21 +44,21 @@
           <div class="w-10/12 p-1">
             <div  *ngIf="ActionsForms.value[i].type == 'email'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
-              <input nz-input type="text" formControlName="refranceId" style="width: 18%;margin-bottom: 1%;">
-              
+              <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
+
               <textarea nz-input type="text" rows="3" class="form-control"
                 formControlName="email"></textarea>
             </div>
             <div  *ngIf="ActionsForms.value[i].type == 'query'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
-              <input nz-input type="text" formControlName="refranceId" class="form-control"
+              <input nz-input type="text" formControlName="referenceId" class="form-control"
                 style="width: 18%;margin-bottom: 1%;">
               <textarea nz-input type="text" rows="3" class="form-control" [id]="'query' + i"
                 formControlName="query"></textarea>
             </div>
             <div  *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
-              <input nz-input type="text" formControlName="refranceId" style="width: 18%;margin-bottom: 1%;">
+              <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
                 <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
                 formControlName="confirmEmail"></textarea>
             </div>

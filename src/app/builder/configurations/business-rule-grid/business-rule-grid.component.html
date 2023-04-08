@@ -8,10 +8,10 @@
             <div class="flex flex-wrap border">
               <div class="w-full">
                 <div class="flex flex-wrap mt-2">
-                  <label class="form-label ml-3 text-base font-bold w-3/12">Refrance ID</label>
-                  <input nz-input type="text" class="form-control ml-1  w-4/12" placeholder="Enetr Refrance ID"
-                    formControlName="refranceId" (keyup)="getConditionFormInput()">
-                  <input nz-input type="color" class="form-control ml-1 w-4/12" formControlName="refranceColor">
+                  <label class="form-label ml-3 text-base font-bold w-3/12">reference ID</label>
+                  <input nz-input type="text" class="form-control ml-1  w-4/12" placeholder="Enetr Reference ID"
+                    formControlName="referenceId" (keyup)="getConditionFormInput()">
+                  <input nz-input type="color" class="form-control ml-1 w-4/12" formControlName="referenceColor">
                 </div>
                 <div class="flex flex-wrap mt-2">
                   <div class="w-4/12 ml-2">
@@ -115,7 +115,7 @@
               </div>
             </div>
             <div style="border: 1px solid #ccc !important; background-color: #2989d9; padding: 10px; margin: 5px;">
-              <nz-select formControlName="refranceOperator"  nzShowSearch nzAllowClear
+              <nz-select formControlName="referenceOperator"  nzShowSearch nzAllowClear
                 (change)="getConditionFormInput()">
                 <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                   *ngFor="let ifCond of conditonFormOprator"></nz-option>

@@ -7,9 +7,12 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./time-picker.component.scss']
 })
 export class TimePickerComponent extends FieldType<FieldTypeConfig> {
-
+  time: any | null = null;
 
   ngOnInit(): void {
   }
 
+  log(value: any): void {
+    this.formControl.patchValue(value);
+  }
 }

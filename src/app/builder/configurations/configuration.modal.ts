@@ -614,7 +614,7 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
-        
+
       ]
     },
   ]
@@ -1315,7 +1315,7 @@ export class formFeildData {
             label: 'Total'
           }
         },
-       
+
       ]
     },
   ]
@@ -6454,7 +6454,7 @@ export class formFeildData {
         //   type: 'input',
         //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
-        //     label: 'extra ID Refrance',
+        //     label: 'extra ID reference',
         //   }
         // },
         {
@@ -6679,7 +6679,7 @@ export class formFeildData {
         //   type: 'input',
         //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
-        //     label: 'Content Refrance ID'
+        //     label: 'Content reference ID'
         //   }
         // },
         {
@@ -8852,8 +8852,8 @@ export class formFeildData {
                 value: 'pattern'
               },
               {
-                label: 'Refrance',
-                value: 'refrance'
+                label: 'Reference',
+                value: 'reference'
               },
               {
                 label: 'Email',
@@ -8892,14 +8892,14 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'refrance',
+          key: 'reference',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Refrance'
+            label: 'Reference'
           },
           expressionProperties: {
-            hide: "model.type!='refrance'",
+            hide: "model.type!='reference'",
           },
         },
         {
