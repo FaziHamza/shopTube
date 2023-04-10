@@ -8,7 +8,7 @@
   [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
   [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
   (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData.href,buttonData.btnType)]"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
-      [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize"></st-icon></span>
+      [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon></span>
   <span *ngIf="buttonData.title">
     {{buttonData.title}}</span>
 </button>
@@ -20,7 +20,7 @@
     [nzDanger]='buttonData.nzDanger' [class]='[buttonData.color, buttonData.hoverColor]'
     (click)="pagesRoute(buttonData.href,buttonData.btnType)">
     <span><st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
-        [size]="buttonData?.iconSize"></st-icon>
+        [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon>
       {{buttonData.title}}
     </span>
   </a>
@@ -38,7 +38,7 @@
     [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]='buttonData.nzDanger'
     [nzShape]="buttonData.nzShape">
     {{buttonData.title}} <span class="pl-1" *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
-        [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize"></st-icon></span>
+        [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon></span>
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu *ngFor="let options of buttonData.dropdownOptions">

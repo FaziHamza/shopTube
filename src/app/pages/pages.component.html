@@ -58,12 +58,12 @@
                                 </div>
                                 <div *ngIf="j.sectionDisabled == 'disabled-But-ditable'">
                                     <a nz-button nzType="link"
-                                        (click)="disabledAndEditableSection(j.children[1].children)">Disabled</a>
+                                        (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
                                 </div>
-                                <!-- <div *ngIf="j?.children[1].children[i].repeatable">
+                                <div *ngIf="j?.repeatable">
                                     <a nz-button nzType="link"
-                                    (click)="sectionRepeat(j?.children[1].children)">Repeat Section</a>
-                                </div> -->
+                                    (click)="sectionRepeat(j)">Repeat Section</a>
+                                </div>
                             </nz-space>
                         </nz-page-header-extra>
                     </nz-page-header>
@@ -111,15 +111,14 @@
                             </st-block-buttons-card>
                         </div>
                         <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
-                            <a nz-button nzType="link" (click)="disabledAndEditableSection(resData)">Disabled</a>
+                            <a nz-button nzType="link" (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
                         </div>
-                        <!-- <div *ngIf="j?.children[1].children[i].repeatable">
+                        <div *ngIf="j.repeatable">
                             <a nz-button nzType="link"
-                            (click)="sectionRepeat(j?.children[1].children)">Repeat Section</a>
-                        </div> -->
+                            (click)="sectionRepeat(j)">Repeat Section</a>
+                        </div>
                     </ng-template>
                 </nz-collapse>
-
                 <ng-template #extraTpl>
                     <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
                 </ng-template>

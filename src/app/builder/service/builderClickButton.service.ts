@@ -12,7 +12,8 @@ export class BuilderClickButtonService {
     return { borderless: node.borderless};
   }
   getIconConfig(node: any) {
-    return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'] };
+    debugger
+    return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'] , iconColor: node['iconColor'] };
   }
   getAnchorConfig(node: any) {
     return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed, target: node.target, bond: node.bond };
@@ -157,7 +158,7 @@ export class BuilderClickButtonService {
     return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement };
   }
   getStatisticConfig(node: any) {
-    return { prefixIcon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray };
+    return { icon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray , iconType: node['iconType'] , iconSize: node['iconSize'] , iconColor: node['iconColor']};
   }
 
   getlistConfig(node: any) {
@@ -430,6 +431,7 @@ export class BuilderClickButtonService {
       icon: node.icon,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
       tooltip: node.tooltip,
       disabled: node.disabled,
     }
@@ -566,6 +568,7 @@ export class BuilderClickButtonService {
       mainIcon: node.mainIcon,
       reverse: node.reverse,
       options: node.data,
+      nodes: node['nodes'],
 
     }
   }
@@ -592,6 +595,7 @@ export class BuilderClickButtonService {
       // bgColorFooter: node.bgColorFooter,
       bgColor: node.bgColor,
       footer: node.footer,
+      footerBorder: node['footerBorder'],
     }
   }
 
@@ -804,6 +808,7 @@ export class BuilderClickButtonService {
       hoverTextColor: node['hoverTextColor'],
       textColor: node['textColor'],
       isSubmit: node['isSubmit'],
+      iconColor: node['iconColor'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -833,6 +838,7 @@ export class BuilderClickButtonService {
       textColor: node['textColor'],
       iconSize: node['iconSize'],
       hoverTextColor: node['hoverTextColor'],
+      iconColor: node['iconColor'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -842,9 +848,12 @@ export class BuilderClickButtonService {
       nzGhost: node.nzGhost,
       nzExpandIconPosition: node.nzExpandIconPosition,
       nzDisabled: node.nzDisabled,
-      nzExpandedIcon: node.nzExpandedIcon,
+      icon: node.nzExpandedIcon,
       nzShowArrow: node.nzShowArrow,
       extra: node.extra,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
   getLinkButtonConfig(node: any) {
@@ -867,6 +876,7 @@ export class BuilderClickButtonService {
       nzDanger: node.nzDanger,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
   getBtnGroupConfig(node: any) {
@@ -971,6 +981,7 @@ export class BuilderClickButtonService {
       subtitle: node.subtitle,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
       // percentage: node.percentage,
     }
   }

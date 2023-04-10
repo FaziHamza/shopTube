@@ -38,18 +38,20 @@
             </ul>
         </nz-dropdown-menu>
     </div> -->
-    <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab.length">
-        <li class="menu" nz-submenu [nzTitle]="'More'" nzIcon="appstore" routerLinkActive="active">
-            <ul *ngFor="let item of layoutTabsDropdownData.aboveSevenTab">
-                <li *ngIf="item.children.length > 0" nz-submenu [nzTitle]="item.title" (click)="screenLoad(item .link)">
-                    <ul *ngFor="let child of item.children">
-                        <li nz-menu-item (click)="screenLoad(child.link)">{{child.title}}</li>
-                    </ul>
-                </li>
-                <li nz-menu-item *ngIf="item.children.length == 0" (click)="screenLoad(item.link)">
-                    {{item.title}}
-                </li>
-            </ul>
-        </li>
+    <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab">
+        <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab.length">
+            <li class="menu" nz-submenu [nzTitle]="'More'" nzIcon="appstore" routerLinkActive="active">
+                <ul *ngFor="let item of layoutTabsDropdownData.aboveSevenTab">
+                    <li *ngIf="item.children.length > 0" nz-submenu [nzTitle]="item.title" (click)="screenLoad(item .link)">
+                        <ul *ngFor="let child of item.children">
+                            <li nz-menu-item (click)="screenLoad(child.link)">{{child.title}}</li>
+                        </ul>
+                    </li>
+                    <li nz-menu-item *ngIf="item.children.length == 0" (click)="screenLoad(item.link)">
+                        {{item.title}}
+                    </li>
+                </ul>
+            </li>
+        </ng-container>
     </ng-container>
 </ul>
