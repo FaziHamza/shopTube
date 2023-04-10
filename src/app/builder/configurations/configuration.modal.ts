@@ -194,7 +194,6 @@ export class formFeildData {
             label: 'Bg color on hover'
           }
         },
-
         {
           key: 'format',
           type: 'select',
@@ -299,15 +298,35 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
-        // {
-        //   key: 'btnIcon',
-        //   type: 'input',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   "wrappers": ["formly-vertical-wrapper"],
-        //   props: {
-        //     label: 'Button Icon'
-        //   }
-        // },
+        {
+          key: 'href',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Link'
+          }
+        },
+        {
+          key: 'redirect',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Redirection Type',
+            options: [
+              {
+                label: 'New Page',
+                value: '_blank'
+              },
+              {
+                label: 'Current Page',
+                value: ''
+              }
+            ]
+          },
+          defaultValue: ''
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
@@ -8542,6 +8561,16 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Show checkbox',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'isAddRow',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Is Add New',
           },
           defaultValue: false
         },

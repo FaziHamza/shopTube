@@ -57,7 +57,7 @@ export class BuilderComponent implements OnInit {
   formModalData: any;
   isActiveShow: string;
   filterMenuData: any = [];
-  joiValidationData:TreeNode[] = [];
+  joiValidationData: TreeNode[] = [];
   isVisible: string;
   showSectionOnly: boolean = false;
   columnData: any = [];
@@ -237,7 +237,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    
+
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -597,10 +597,10 @@ export class BuilderComponent implements OnInit {
     this.cdr.detectChanges();
     // this.cdr.detach();
   }
-  getJoiValidation(id:any){
+  getJoiValidation(id: any) {
     if (id > 0) {
       this.builderService.jsonGetScreenValidationRule(id).subscribe((getRes => {
-       this.joiValidationData = getRes;
+        this.joiValidationData = getRes;
       }))
     }
   }
@@ -1179,7 +1179,8 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        isSubmit :false,
+        isSubmit: false, btnType: "",
+        href: "",
         children: [
         ],
 
@@ -1269,7 +1270,9 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        isSubmit :false,
+        isSubmit: false,
+        btnType: "",
+        href: "",
         children: [
         ],
 
@@ -1304,7 +1307,9 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        isSubmit :false,
+        isSubmit: false,
+        btnType: "",
+        href: "",
         children: [
         ],
 
@@ -2644,6 +2649,7 @@ export class BuilderComponent implements OnInit {
         fixedColumn: false,
         sort: true,
         filter: true,
+        isAddRow: true,
         tableHeaders: [
           {
             name: 'Id',
@@ -4296,17 +4302,16 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    
+
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
       title: "Change Attribute Values",
       formData: _formFieldData.inputValidationRuleFields,
     });
-    if(this.joiValidationData.length > 0)
-    {
-      let getJoiRule = this.joiValidationData.filter(a=>a.id == this.selectedNode.id);
-      if(getJoiRule.length)
+    if (this.joiValidationData.length > 0) {
+      let getJoiRule = this.joiValidationData.filter(a => a.id == this.selectedNode.id);
+      if (getJoiRule.length)
         this.validationFieldData.modelData = getJoiRule[0];
     }
     let veriableOptions: any[] = [];
@@ -4547,7 +4552,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case "tabs":
-        
+
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.tabsFields)
         this.fieldData.formData = _formFieldData.tabsFields;
@@ -5210,7 +5215,7 @@ export class BuilderComponent implements OnInit {
   //   // array.splice(index, 0, ...elementsArray);
   // }
   insertAt(node: any) {
-    
+
     let parent = node?.parentNode?.origin;
     node = node.origin;
     if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
@@ -5663,7 +5668,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "rate":
-        
+
         if (this.selectedNode) {
           this.selectedNode.clear = event.form.clear;
           this.selectedNode.allowHalf = event.form.allowHalf;
@@ -5846,7 +5851,7 @@ export class BuilderComponent implements OnInit {
       case "autoComplete":
       case "number":
       case "customMasking":
-        
+
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
@@ -5932,7 +5937,7 @@ export class BuilderComponent implements OnInit {
           });
         }
         break;
-        case "inputValidationRule":
+      case "inputValidationRule":
 
         if (this.selectedNode) {
           debugger
@@ -6215,6 +6220,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
           this.selectedNode.sortOrder = event.form?.sortOrder;
+          this.selectedNode.isAddRow = event.form?.isAddRow;
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
@@ -6328,6 +6334,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzShape = event.form.nzShape;
           this.selectedNode.format = event.form.format;
           this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode.href = event.form.href;
+          this.selectedNode.btnType = event.form.redirect;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['textColor'] = event.form.textColor;
@@ -6347,8 +6355,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.btnIcon = event.form.icon;
           this.selectedNode.href = event.form.href;
-          this.selectedNode.target = event.form.target;
-          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnType = event.form.target;
           this.selectedNode.hoverColor = event.form.hoverColor;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;
@@ -6930,7 +6937,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
-              
+
               if (res.formly != undefined) {
                 if (res.type != "mainStep" && res.type != "mainTab") {
                   // res['wrappers'] = [];
@@ -7372,7 +7379,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-    
+
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == "editable") {
@@ -7493,7 +7500,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-    
+
     let contents
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
@@ -7548,7 +7555,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   setCustomColor(data: any) {
-    
+
     let color: string;
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);

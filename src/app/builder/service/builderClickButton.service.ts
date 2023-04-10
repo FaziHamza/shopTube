@@ -88,6 +88,7 @@ export class BuilderClickButtonService {
       fixHeader: node.fixHeader,
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       filterMultiple: node.filterMultiple,
+      isAddRow: node.isAddRow,
       sortOrder: node.sortOrder,
       fixedColumn: node.fixedColumn,
       options: node?.tableHeaders.map((obj: any) => {
@@ -796,6 +797,8 @@ export class BuilderClickButtonService {
       nzGhost: node.nzGhost,
       nzDanger: node.nzDanger,
       nztype: node.nztype,
+      href: node.href,
+      btnType: node.btnType,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
       hoverTextColor: node['hoverTextColor'],
