@@ -166,7 +166,13 @@ export class BuilderComponent implements OnInit {
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
-  async applyOfflineDb(content: 'previous' | 'next') {
+  async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
+    if(content === 'delete')
+    {
+      const nodes = await this.dataService.deleteDb(this.screenName);
+      alert('this Screen Delete db successfully!')
+      return;
+    }
     const nodes = await this.dataService.getNodes(this.screenName);
 
     if (this.oldIndex === undefined) {
@@ -312,6 +318,7 @@ export class BuilderComponent implements OnInit {
                 this.formlyModel = [];
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
                 this.updateNodes();
+                this.applyDefaultValue();
                 this.getJoiValidation(this.moduleId);
                 // if (res[0].menuData[0].children[1]) {
 
@@ -350,6 +357,14 @@ export class BuilderComponent implements OnInit {
         this.screenName = this.previousScreenName;
         console.log('User clicked Cancel');
       }
+    });
+  }
+  applyDefaultValue(){
+    const filteredNodes = this.filterInputElements(this.nodes);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
+      if (formlyConfig)
+      this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = formlyConfig;
     });
   }
   clearChildNode() {
@@ -439,54 +454,13 @@ export class BuilderComponent implements OnInit {
   formlyModel: any;
   faker: boolean = false;
   makeFaker() {
-
     let dataModelFaker: any = [];
-    if (this.faker == true) {
-
-
-    }
+    // if (this.faker == true) {
+    // }
     if (this.nodes.length > 0) {
-      this.nodes.forEach((element: any) => {
-        if (element.children != undefined) {
-          element.children.forEach((element2: any) => {
-
-            if (element2.children != undefined) {
-              element2.children.forEach((according: any) => {
-                according.children.forEach((accordingBody: any) => {
-                  if (accordingBody.type == 'accordingBody') {
-                    accordingBody.children.forEach((V2: any) => {
-                      if (V2) {
-                        if (V2.formly != undefined) {
-                          if (V2.formly[0].type == 'stepper' || V2.formly[0].type == 'dashonicTabs') {
-                            V2.children.forEach((step1: any) => {
-                              step1.children.forEach((step2: any) => {
-                                dataModelFaker[step2.formly[0].fieldGroup[0].key] = this.makeFakerData(step2);
-                              });
-                            });
-                          }
-                          else {//input field
-                            dataModelFaker[V2.formly[0].fieldGroup[0].key] = this.makeFakerData(V2);
-                          }
-                        } else if (V2.mainDashonicTabsConfig) {
-                          V2.children.forEach((element: any) => {
-                            element.children.forEach((element2: any) => {
-                              if (element2.formly) {
-                                if (element2.formly[0].fieldGroup) {
-                                  dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
-                                }
-                              }
-                            });
-                          });
-                        }
-                      }
-                    });
-                  }
-                });
-              }
-              );
-            }
-          });
-        }
+      const filteredNodes = this.filterInputElements(this.nodes);
+      filteredNodes.forEach(node => {
+        dataModelFaker[node.formly[0].fieldGroup[0].key] = this.makeFakerData(node);
       });
     }
     this.formlyModel = dataModelFaker;
@@ -714,8 +688,8 @@ export class BuilderComponent implements OnInit {
   }
   //#region GetInputFormly
 
-  filterInputElements(data: ElementData[]): any[] {
-    const inputElements: ElementData[] = [];
+  filterInputElements(data: any): any[] {
+    const inputElements: any[] = [];
 
     function traverse(obj: any): void {
       if (Array.isArray(obj)) {
@@ -735,13 +709,6 @@ export class BuilderComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-
-  // const data: Element[] = [ / your data here / ];
-
-  // const inputElements = filterInputElements(data);
-  // console.log(inputElements);
-
-  //#endregion
 
   updateFormlyModel() {
     this.formlyModel = Object.assign({}, this.formlyModel)
@@ -4129,64 +4096,18 @@ export class BuilderComponent implements OnInit {
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
-    // if (dataType == 'wrappers') {
-    //   return wrapperName;
-    // } else if (dataType == 'disabled') {
-    //   return false;
-    // }
     let disabledProperty: any;
-    if (this.selectedNode.children) {
-      for (let j = 0; j < this.selectedNode.children.length; j++) {
-        if (this.selectedNode.children[j].formlyType != undefined) {
-          if (this.selectedNode.children[j].formlyType == 'input') {
-            wrapperName = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-            disabledProperty = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-          }
-          else if (this.selectedNode.children[j].type == 'tabsMain') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-          else if (this.selectedNode.children[j].type == 'stepperMain') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-          else if (this.selectedNode.children[j].type == 'mainDashonicTabs') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-        }
-      }
+    const filteredNodes = this.filterInputElements(this.selectedNode);
+    for (let index = 0; index < filteredNodes.length; index++) {
+      wrapperName = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+      disabledProperty = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
+      break;
     }
     if (dataType == 'wrappers') {
       return wrapperName;
     } else if (dataType == 'disabled') {
       return disabledProperty;
     }
-  }
-  addNextChildProperty(data: any) {
-
-    if (!data.isNextChild) {
-      if (data.type != "page" && data.type != "pageHeader" && data.type != "pageBody" && data.type != "pageFooter" && data.type != "according" && data.type != "accordingHeader" && data.type != "accordingBody" && data.type != "accordingFooter" && data.type != "stepperMain" && data.type != "stepper" && data.type != "buttonGroup" && data.type != "dashonicTabs" && data.type != "mainDashonicTabs" && data.type != "kanban" && data.type != "kanbanTask" && data.type != "fixedDiv" && data.type != "accordionButton") {
-        data["isNextChild"] = [],
-          data.isNextChild = false;
-      } else {
-        data["isNextChild"] = [],
-          data.isNextChild = true;
-      }
-    }
-    return data;
   }
   closeConfigurationList() {
     this.IsShowConfig = false;
@@ -4211,15 +4132,6 @@ export class BuilderComponent implements OnInit {
     this.dataSharedService.screenName = this.screenName;
 
   }
-  applyHighLight(data: boolean, element: any) {
-
-    if (element.highLight) {
-      element["highLight"] = data;
-    } else {
-      element["highLight"] = data;
-    }
-    return element;
-  }
   applySize() {
 
     this.sizes = [25, 75, 0]
@@ -4239,67 +4151,6 @@ export class BuilderComponent implements OnInit {
       this.sizes = [1, 99, 0]
     }
   }
-
-  addPropertieInOldScreens(propertyName: any, propertyType: any) {
-    if (propertyType == "isShow") {
-      if (propertyName == undefined) {
-        propertyName = true;
-      }
-    }
-    else if (propertyType == "repeat" || propertyType == "repeatable" || propertyType == "hideExpression") {
-      if (propertyName == undefined) {
-        propertyName = false;
-      }
-    }
-    else if (propertyType == "icon") {
-      if (propertyName == undefined) {
-        propertyName = [];
-      }
-    }
-    else if (propertyType == "padding") {
-      if (propertyName == undefined) {
-        propertyName = '';
-      }
-    }
-    else if (propertyType == "paddingRight" || propertyType == "paddingTop" || propertyType == "paddingBottom") {
-      if (propertyName == undefined) {
-        propertyName = 0;
-      }
-    }
-    else if (propertyType == "styleConfig") {
-      if (propertyName.styleConfig == undefined) {
-        propertyName["styleConfig"] = [{}]
-      }
-    }
-    else if (propertyType == "style") {
-      if (propertyName.style == undefined) {
-        propertyName[""] = {}
-      }
-    }
-    else if (propertyType == "addonLeft") {
-      if (propertyName.addonLeft == undefined) {
-        propertyName["addonLeft"] = {};
-        propertyName.addonLeft["text"] = "";
-        propertyName = propertyName.addonLeft.text;
-      } else {
-        propertyName = propertyName.addonLeft.text;
-      }
-    }
-    else if (propertyType == "addonRight") {
-      if (propertyName.addonRight == undefined) {
-        propertyName["addonRight"] = {};
-        propertyName.addonRight["text"] = "";
-        propertyName = propertyName.addonRight.text;
-      } else {
-        propertyName = propertyName.addonRight.text;
-      }
-    }
-    return propertyName;
-  };
-
-
-
-
 
   clickButton(type: any) {
 
@@ -4693,7 +4544,6 @@ export class BuilderComponent implements OnInit {
       case "heading":
 
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
-        // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
         this.fieldData.formData = _formFieldData.headingFields;
         break;
 
@@ -4950,41 +4800,6 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  // define function to handle button group
-  handleButtonGroup(element: any, id: any) {
-    if (id == element.id) {
-      if (element.children.length > 0)
-        element.highLight = true;
-    }
-    else {
-      if (element.children.length > 0)
-        element.highLight = false;
-    }
-  }
-
-  // define function to handle formly fields
-  handleFormly(element: any, id: any) {
-    if (!element) return;
-
-    if (element.formly != undefined) {
-      if (element.type == "stepperMain") {
-        if (id == element.id)
-          element.children[0].highLight = true;
-        else
-          element.children[0].highLight = false;
-      } else {
-        var className = element.formly[0].fieldGroup[0].className;
-        if (id == element.id) {
-          if (!className.includes("highLight")) {
-            element.formly[0].fieldGroup[0].className = className + " highLight";
-          }
-        }
-        else {
-          element.formly[0].fieldGroup[0].className = className.replace("highLight", "");
-        }
-      }
-    }
-  }
   highlightSelect(id: any, highlightOrNot: boolean) {
     this.applyOrRemoveHighlight(this.nodes[0], id, highlightOrNot);
     this.nodes.at(0)?.children?.forEach((element: any) => {
@@ -5865,6 +5680,7 @@ export class BuilderComponent implements OnInit {
             props.label = event.form.title;
             props['key'] = event.form.key;
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
+            this.updateFormlyModel();
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
@@ -7431,8 +7247,7 @@ export class BuilderComponent implements OnInit {
     }
     return fieldGroup;
   }
-
-  functionName: any;
+  functionName :any;
   mainTemplate() {
     this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
       next: (res) => {
