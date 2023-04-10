@@ -7,8 +7,10 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-<button nz-button (click)="addRow()" *ngIf="!checkType"  nzType="primary">Add</button>
-<button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
+<div *ngIf="data.isAddRow">
+  <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
+  <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
+</div>
 <br />
 <br />
 <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData"
@@ -24,7 +26,8 @@
         (nzCheckedChange)="checkAll($event)"></th>
       <th [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
         [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
-        *ngFor="let header of tableHeaders">{{header.name}}  <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span></th>
+        *ngFor="let header of tableHeaders">{{header.name}} <span
+          *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span></th>
       <th>Delete</th>
     </tr>
   </thead>
@@ -50,7 +53,8 @@
               </button>
             </td>
             <td *ngIf="header.name == 'footerButton'">
-              <button type="button" (click)="showModal('Footer')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button type="button" (click)="showModal('Footer')"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Button
               </button>
               <!-- <button nz-button nzType="primary" type="button">Button</button> -->
@@ -115,8 +119,9 @@
   </tfoot>
 </nz-table>
 
-
-<button nz-button (click)="save()"  nzType="primary">Save options</button>
+<div *ngIf="data.isAddRow">
+  <button nz-button (click)="save()" nzType="primary">Save options</button>
+</div>
 <!-- {{data | json}} -->
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">

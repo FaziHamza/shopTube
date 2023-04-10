@@ -9,6 +9,7 @@
             <div>
                 <!-- <div [innerHTML]="cardData.bodyText | sanitize: 'html'"></div>
                 <p [innerHTML]="cardData.description | sanitize: 'html'"></p> -->
+                
                 <ng-container *ngFor="let item of cardData.children">
                     <st-heading *ngIf="item.type == 'heading'" [headingData]="item"></st-heading>
                     <st-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></st-tabs>
@@ -23,16 +24,22 @@
                             [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
                             [alt]='item.alt' [nzFallback]="item.fallback" />
                     </div>
+                    <st-paragraph *ngIf="item.type == 'paragraph'" [data]="item"></st-paragraph>
+                    
                 </ng-container>
             </div>
         </nz-card>
         <div class="{{cardData.footerBorder ? 'border' :  ''}} p-2" style="border-top:'none'">
             {{cardData.footerText}}
-            <ng-container *ngFor="let item of cardData.children">
-                <st-block-buttons-card
-                    *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton'"
-                    [softIconList]="item"></st-block-buttons-card>
-            </ng-container>
+            <div class="flex flex-nowrap">
+                <ng-container *ngFor="let item of cardData.children">
+                    <div [class]="item.className"
+                        *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton'">
+                        <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
+                    </div>
+                </ng-container>
+            </div>
+
         </div>
     </div>
 </div>

@@ -1179,8 +1179,10 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
+        isSubmit: false, 
+        btnType: "",
+        href: "",
         iconColor: '',
-        isSubmit: false,
         children: [
         ],
 
@@ -1271,8 +1273,10 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        iconColor: '',
         isSubmit: false,
+        btnType: "",
+        href: "",
+        iconColor: '',
         children: [
         ],
 
@@ -1307,8 +1311,10 @@ export class BuilderComponent implements OnInit {
         iconSize: 15,
         hoverTextColor: '',
         textColor: '',
-        iconColor: '',
         isSubmit: false,
+        btnType: "",
+        href: "",
+        iconColor: '',
         children: [
         ],
 
@@ -2650,6 +2656,7 @@ export class BuilderComponent implements OnInit {
         fixedColumn: false,
         sort: true,
         filter: true,
+        isAddRow: true,
         tableHeaders: [
           {
             name: 'Id',
@@ -6209,6 +6216,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableScroll = event.form.tableScroll;
           this.selectedNode.fixedColumn = event.form.fixedColumn;
           this.selectedNode.sortOrder = event.form?.sortOrder;
+          this.selectedNode.isAddRow = event.form?.isAddRow;
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
@@ -6322,6 +6330,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.nzShape = event.form.nzShape;
           this.selectedNode.format = event.form.format;
           this.selectedNode.nztype = event.form.nztype;
+          this.selectedNode.href = event.form.href;
+          this.selectedNode.btnType = event.form.redirect;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['textColor'] = event.form.textColor;
@@ -6342,8 +6352,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.btnIcon = event.form.icon;
           this.selectedNode.href = event.form.href;
-          this.selectedNode.target = event.form.target;
-          this.selectedNode.color = event.form.color;
+          this.selectedNode.btnType = event.form.target;
           this.selectedNode.hoverColor = event.form.hoverColor;
           this.selectedNode.disabled = event.form.disabled;
           this.selectedNode.nzBlock = event.form.nzBlock;

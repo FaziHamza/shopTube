@@ -7,7 +7,7 @@
   *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkButton'" nz-button [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
   [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
-  (click)="getButtonType(buttonData?.type)"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
+  (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData.href,buttonData.btnType)]"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
       [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon></span>
   <span *ngIf="buttonData.title">
     {{buttonData.title}}</span>

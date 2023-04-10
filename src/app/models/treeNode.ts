@@ -360,6 +360,7 @@ export interface TreeNode {
   update?: boolean,
   create?: boolean,
   filter?: any,
+  isAddRow?: boolean,
   borderColor?: any,
   backGroundColor?: any,
   labelPosition?: string,
