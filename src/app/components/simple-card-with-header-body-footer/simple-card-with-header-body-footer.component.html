@@ -24,10 +24,9 @@
                             [alt]='item.alt' [nzFallback]="item.fallback" />
                     </div>
                 </ng-container>
-
             </div>
         </nz-card>
-        <div class="border">
+        <div class="{{cardData.footerBorder ? 'border' :  ''}} p-2" style="border-top:'none'">
             {{cardData.footerText}}
             <ng-container *ngFor="let item of cardData.children">
                 <st-block-buttons-card

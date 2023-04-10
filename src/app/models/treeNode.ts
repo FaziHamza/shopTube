@@ -334,6 +334,7 @@ export interface TreeNode {
   btngroupformat?: string,
   btnGroupPosition?: string,
   footer?: boolean,
+  footerBorder?: boolean,
   class?: string,
   isTitle?: boolean,
   textColor?: string,
@@ -491,4 +492,5 @@ export interface TreeNode {
   prefixIcon?: any,
   suffixIcon?: any,
   statisticArray?: any,
+  iconColor?: any,
 }

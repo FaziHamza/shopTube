@@ -26,6 +26,7 @@ import { RangeComponent } from "./wrappers/range/range.component";
 import { SelectComponent } from "./wrappers/select/select.component";
 import { TimePickerComponent } from "./wrappers/time-picker/time-picker.component";
 import { MultiSelectComponent } from "./wrappers/multi-select/multi-select.component";
+import { RepeatInputComponent } from "./wrappers/repeat-input/repeat-input.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -54,7 +55,8 @@ export const fieldComponents = [
   DatePickerComponent,
   RangeComponent,
   FormlyFloatComponent,
-  MultiSelectComponent
+  MultiSelectComponent,
+  RepeatInputComponent
 ];
 
 
@@ -91,7 +93,8 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'rangePicker', component: RangeComponent },
     { name: 'checkbox', component: FormlyFieldMultiCheckbox },
     { name: 'muliselect', component: MultiSelectComponent },
-    { name: 'tag', component: MultiSelectComponent }
+    { name: 'tag', component: MultiSelectComponent },
+    { name: 'repeat', component: RepeatInputComponent }
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,

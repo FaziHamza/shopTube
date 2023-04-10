@@ -676,7 +676,7 @@ export const htmlTabsData = [
                 label: "PopConfirm"
               },
               {
-                parameter: "timeline",
+                parameter: "timelineAddnew",
                 icon: "uil-sliders-v-alt",
                 label: "Timeline"
               },
@@ -1122,6 +1122,15 @@ export const htmlTabsData = [
                 label: "image Uploader",
                 type: 'input',
                 configType:'image',fieldType: 'file',
+                // maskString: "",
+                // maskLabel: ""
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-images",
+                label: "Repeat Input",
+                type: 'repeat',
+                configType:'input',fieldType: 'input',
                 // maskString: "",
                 // maskLabel: ""
               },

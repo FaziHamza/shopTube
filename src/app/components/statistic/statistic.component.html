@@ -1,12 +1,15 @@
+{{statisticData | json}}
 <nz-row [nzGutter]="16">
     <ng-container *ngFor="let item of statisticData.statisticArray">
         <nz-col [nzSpan]="12">
             <nz-card>
                 <nz-statistic [nzPrefix]="prefixTpl" [nzSuffix]="suffixTpl" [nzValue]='item.value'
-                    [nzTitle]='item.title'></nz-statistic>
-                <ng-template #prefixTpl><span nz-icon [nzType]="statisticData.prefixIcon"></span></ng-template>
-                <ng-template #suffixTpl><span nz-icon [nzType]="statisticData.suffixIcon"></span></ng-template>
-                <!-- <nz-statistic [nzValue]='item.nzValue | number' [nzTitle]='item.nzTitle'></nz-statistic> -->
+                [nzTitle]='item.title'></nz-statistic>
+                <ng-template #prefixTpl>
+                    <st-icon *ngIf="statisticData?.prefixIcon" [type]="statisticData?.iconType"
+                        [icon]="statisticData.prefixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
+                <ng-template #suffixTpl><st-icon *ngIf="statisticData?.suffixIcon" [type]="statisticData?.iconType"
+                        [icon]="statisticData.suffixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
             </nz-card>
         </nz-col>
     </ng-container>

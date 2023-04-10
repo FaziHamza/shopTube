@@ -3679,15 +3679,15 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'nzExpandedIcon',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Expanded Icon',
-          }
-        },
+        // {
+        //   key: 'nzExpandedIcon',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Expanded Icon',
+        //   }
+        // },
         // {
         //   key: 'extra',
         //   type: 'input',
@@ -3958,7 +3958,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Input CSS ClassName',
+            label: 'Input ClassName',
           }
         },
         {
@@ -5330,8 +5330,15 @@ export class formFeildData {
             label: 'Borderless'
           },
         },
-
-
+        {
+          key: 'footerBorder',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Footer Border'
+          },
+        },
         {
           key: 'hover',
           type: 'checkbox',
@@ -5398,7 +5405,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'mainIcon',
@@ -5408,7 +5414,15 @@ export class formFeildData {
             label: 'MainIcon',
           }
         },
-
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'nodes',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Nodes',
+          }
+        },
         {
           key: 'mode',
           type: 'select',
@@ -9354,15 +9368,15 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'prefixIcon',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Prefix',
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'prefixIcon',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Prefix',
+        //   }
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'suffixIcon',
@@ -10844,6 +10858,16 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Icon Size',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'iconColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Icon Color',
           },
         },
       ]

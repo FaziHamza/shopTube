@@ -5,6 +5,8 @@ import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
 import { Subscription } from 'rxjs';
 import { ElementData } from '../models/element';
+import { TreeNode } from '../models/treeNode';
+import { Guid } from '../models/guid';
 
 @Component({
   selector: 'st-pages',
@@ -21,7 +23,7 @@ export class PagesComponent implements OnInit {
   screenData: any;
   businessRuleData: any;
   @Input() screenName = '';
-  @Input() screenId : any;
+  @Input() screenId: any;
   requestSubscription: Subscription
   ngOnInit(): void {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
@@ -75,20 +77,7 @@ export class PagesComponent implements OnInit {
       }
     });
   }
-  disabledAndEditableSection(data: any) {
-    data[0].forEach((a: any) => {
-      if (a.formlyType) {
-        if (a.formlyType == "input") {
-          a.formly[0].fieldGroup.forEach((b: any) => {
-            if (b.props.disabled == true)
-              b.props.disabled = false;
-            else if (b.props.disabled == false)
-              b.props.disabled = true;
-          });
-        }
-      }
-    });
-  }
+
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
@@ -451,4 +440,51 @@ export class PagesComponent implements OnInit {
     }
     return inputType;
   }
+
+  sectionRepeat(section: any) {
+    try {
+      const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
+      let newNode = JSON.parse(JSON.stringify(section));
+      this.traverseAndChange(newNode, 'copy');
+      this.resData[0].children[1].children.splice(idx as number + 1, 0, newNode);
+      this.resData = [...this.resData];
+    } catch (error: any) {
+      console.error('An error occurred:', error);
+    }
+  }
+  changeIdAndkey(node: any) {
+    node.id = node.id + Guid.newGuid();
+    if (node.formly) {
+      if (node.formly[0].key) {
+        node.formly[0].key = node.formly[0].key + Guid.newGuid();
+      } else if (node.formly[0].fieldGroup[0].key) {
+        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key + Guid.newGuid();
+      }
+    }
+    return node;
+  }
+  traverseAndChange(node: any , type? : any) {
+    debugger
+    if (node) {
+      if(type == 'copy'){
+      node = this.changeIdAndkey(node);
+      }else if(type == 'disabled'){
+        node = this.disabledAndEditableSection(node);
+      }
+      if (node.children) {
+        node.children.forEach((child: any) => {
+          this.traverseAndChange(child, type);
+        });
+      }
+    }
+  }
+  disabledAndEditableSection(data: any) {
+    debugger
+    if (data.formlyType) {
+      if (data.formlyType == "input") {
+        data.formly[0].fieldGroup[0].props.disabled = data.formly[0].fieldGroup[0].props.disabled ? false : true;
+      };
+    };
+    return data;
+  };
 }
