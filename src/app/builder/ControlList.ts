@@ -226,16 +226,16 @@ export const htmlTabsData = [
               //   // maskString: "",
               //   // maskLabel: ""
               // },
-              {
-                parameter: "inputGroup",
-                icon: "uil uil-text",
-                label: "Input Group"
-              },
-              {
-                parameter: "inputGroupGrid",
-                icon: "uil uil-text",
-                label: "Input Group Grid"
-              },
+              // {
+              //   parameter: "inputGroup",
+              //   icon: "uil uil-text",
+              //   label: "Input Group"
+              // },
+              // {
+              //   parameter: "inputGroupGrid",
+              //   icon: "uil uil-text",
+              //   label: "Input Group Grid"
+              // },
               {
                 parameter: "switch",
                 icon: "uil-toggle-off",

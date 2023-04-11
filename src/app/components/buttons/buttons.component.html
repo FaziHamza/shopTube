@@ -4,7 +4,7 @@
   (mouseover)="borderColor = buttonData.hoverColor || ''" (mouseout)="bgColor = buttonData?.color || ''"
   (mouseout)="borderColor = buttonData?.textColor || ''" (mouseout)="hoverTextColor = buttonData?.textColor"
   [type]="buttonData?.isSubmit ? 'submit' : 'button'" [nzType]="buttonData.nztype"
-  *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkButton'" nz-button [nzSize]="buttonData.nzSize"
+  *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkbutton'" nz-button [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
   [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
   (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData.href,buttonData.btnType)]"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
@@ -13,7 +13,7 @@
     {{buttonData.title}}</span>
 </button>
 <!-- link  -->
-<div *ngIf="buttonData.type == 'linkButton'" class="pt-3">
+<div *ngIf="buttonData.type == 'linkbutton'" class="pt-3">
   <a nz-button nzType="link" [nzGhost]='buttonData.nzGhost' [ngStyle]="{ 'background-color': bgColor }"
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color" [nzSize]="buttonData.nzSize"
     [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [disabled]="buttonData.disabled"
