@@ -7,7 +7,7 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-<div *ngIf="data.isAddRow">
+<div *ngIf="data.isAddRow || true">
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
 </div>
@@ -119,7 +119,7 @@
   </tfoot>
 </nz-table>
 
-<div *ngIf="data.isAddRow">
+<div *ngIf="data.isAddRow || true">
   <button nz-button (click)="save()" nzType="primary">Save options</button>
 </div>
 <!-- {{data | json}} -->

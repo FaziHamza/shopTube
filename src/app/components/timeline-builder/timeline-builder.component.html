@@ -6,13 +6,12 @@
                 <st-main [mainData]="item.children"></st-main>
                 </nz-card></nz-timeline-item>
             <ng-template #characterIcon>
-                <span nz-icon [nzType]="item.dotIcon"></span>
+                <span nz-icon [nzType]="'user'"></span>
             </ng-template>
         </ng-container>
-
     </nz-timeline>
 
     <ng-template #pendingIcon>
-        <span nz-icon [nzType]="timelineData.mainIcon"></span>
+        <span nz-icon [nzType]="'star'"></span>
     </ng-template>
 </div>
