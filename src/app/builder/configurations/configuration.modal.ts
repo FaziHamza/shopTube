@@ -3957,12 +3957,12 @@ export class formFeildData {
       ]
     },
   ]
-  accordingFields: FormlyFieldConfig[] = [
+  sectionsFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         // {
-        //   key: 'accordingText',
+        //   key: 'sectionsText',
         //   type: 'input',
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   wrappers: ["formly-vertical-theme-wrapper"],
@@ -4207,7 +4207,7 @@ export class formFeildData {
       ]
     },
   ]
-  accordingHeaderFields: FormlyFieldConfig[] = [
+  headerFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
@@ -4323,7 +4323,7 @@ export class formFeildData {
       ]
     },
   ]
-  accordingBodyFields: FormlyFieldConfig[] = [
+  bodyFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
@@ -4360,7 +4360,7 @@ export class formFeildData {
       ]
     },
   ]
-  accordingFooterFields: FormlyFieldConfig[] = [
+  footerFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
