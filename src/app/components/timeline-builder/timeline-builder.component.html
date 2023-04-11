@@ -1,19 +1,20 @@
-<div class="pt-2">
-    <nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="pendingIcon" [nzReverse]="timelineData.reverse"
-        [nzMode]="timelineData.mode">
-        <nz-timeline-item *ngFor="let item of timelineData.children" [nzColor]="item.color" 
-            [nzPosition]="item.position"><nz-card>
-                <st-main [mainData]="item.children"></st-main>
-            </nz-card></nz-timeline-item>
-     
-    </nz-timeline>
-
-    <ng-template #pendingIcon>
-        <span nz-icon [nzType]="timelineData.mainIcon"></span>
-    </ng-template>
+<nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="pendingIcon" [nzReverse]="timelineData.reverse"
+    [nzMode]="timelineData.mode">
     <ng-container *ngFor="let item of timelineData.data">
+        <nz-timeline-item [nzColor]="item.timecolor" [nzDot]="characterIcon" [nzPosition]="item.position"
+            [nzLabel]="item.labelText"><nz-card>
+                <div style="color:#74788d">{{item.date}}</div>
+                <div style="font-size: 16px!important; margin-top: 1rem!important;">{{item.title}}</div>
+                <div style="color:#74788d">{{item.timeLineDescription}}</div>
+            </nz-card>
+        </nz-timeline-item>
         <ng-template #characterIcon>
             <span nz-icon [nzType]="item.dotIcon"></span>
         </ng-template>
     </ng-container>
-</div>
+
+</nz-timeline>
+
+<ng-template #pendingIcon>
+    <span nz-icon [nzType]="timelineData.mainIcon"></span>
+</ng-template>

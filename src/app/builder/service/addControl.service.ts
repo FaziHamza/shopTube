@@ -573,8 +573,8 @@ export class AddControlService {
       noResult: false,
       nzSimple: false,
       nzSize: 'default',
-        isNextChild: false,
-        nzShowSizeChanger: false,
+      isNextChild: false,
+      nzShowSizeChanger: false,
       showCheckbox: true,
       expandable: true,
       fixHeader: false,
@@ -697,8 +697,8 @@ export class AddControlService {
       pagination: 10,
       filter: false,
       sortable: false,
-        isNextChild: false,
-        delete: true,
+      isNextChild: false,
+      delete: true,
       update: false,
       create: false,
       children: [
@@ -812,43 +812,57 @@ export class AddControlService {
       mainIcon: "loading",
       reverse: false,
       labelText: '',
-        isNextChild: false,
-        mode: 'left',
+      isNextChild: false,
+      mode: 'left',
       data: [
         {
           title: "Timeline Event One",
           dotIcon: 'loading',
-          timecolor: 'green',
+          color: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event two",
           dotIcon: 'down',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event three",
           dotIcon: 'loading',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event One",
           dotIcon: 'loading',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event One",
           dotIcon: 'loading',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event One",
           dotIcon: 'loading',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
         {
           title: "Timeline Event One",
           dotIcon: 'loading',
           timecolor: 'green',
+          date: '11-Apr-2023',
+          timeLineDescription: 'description',
         },
       ],
     }
@@ -894,8 +908,8 @@ export class AddControlService {
     return {
       toastrType: "success",
       toasterTitle: "Title",
-        isNextChild: false,
-        duration: 3000,
+      isNextChild: false,
+      duration: 3000,
       placement: "topRight",
       closeIcon: "close-circle",
       description: "message",
@@ -908,8 +922,8 @@ export class AddControlService {
       clear: true,
       allowHalf: true,
       focus: true,
-        isNextChild: false,
-        icon: 'star',
+      isNextChild: false,
+      icon: 'star',
       showCount: 5,
       ngvalue: 0,
       disabled: false,
@@ -919,8 +933,8 @@ export class AddControlService {
   rangeSliderControl() {
     return {
       min: '0',
-        isNextChild: false,
-        max: '2',
+      isNextChild: false,
+      max: '2',
       disabled: false,
       showValue: false,
     }
@@ -937,8 +951,8 @@ export class AddControlService {
       notesLabel: "Notes",
       subtotalLabel: "Sub Total",
       dicountLabel: "Dicount",
-        isNextChild: true,
-        shippingLabel: "Shipping",
+      isNextChild: true,
+      shippingLabel: "Shipping",
       taxLabel: "Tax",
       termsLabel: "Terms",
       totalLabel: "Total",
@@ -950,8 +964,8 @@ export class AddControlService {
   affixControl() {
     return {
       affixType: 'affix-top',
-        isNextChild: false,
-        margin: 10,
+      isNextChild: false,
+      margin: 10,
       target: false,
     }
   }
@@ -960,8 +974,8 @@ export class AddControlService {
       prefixIcon: "like",
       isNextChild: false,
       suffixIcon: "like",
-      iconType:"outline",
-      iconSize:15,
+      iconType: "outline",
+      iconSize: 15,
       statisticArray: [
         {
           title: "Active Users",
@@ -1026,8 +1040,8 @@ export class AddControlService {
       modalTitle: "The is modal title",
       cancalButtontext: 'Cancel',
       centered: false,
-        isNextChild: false,
-        okBtnLoading: false,
+      isNextChild: false,
+      okBtnLoading: false,
       cancelBtnLoading: false,
       okBtnDisabled: false,
       cancelDisabled: false,
@@ -1042,8 +1056,8 @@ export class AddControlService {
   popConfirmControl() {
     return {
       btnLabel: "Open Popconfirm with Promise",
-        isNextChild: false,
-        arrowPointAtCenter: false,
+      isNextChild: false,
+      arrowPointAtCenter: false,
       content: 'Pop Confirm',
       trigger: 'hover',
       placement: 'top',
@@ -1060,8 +1074,8 @@ export class AddControlService {
       bgColor: "#87d068",
       color: "#f56a00",
       alt: "",
-        isNextChild: false,
-        gap: 0,
+      isNextChild: false,
+      gap: 0,
       size: 'default',
       shape: 'circle',
     }
@@ -1071,8 +1085,8 @@ export class AddControlService {
       count: 10,
       nzText: "",
       nzColor: "",
-        isNextChild: false,
-        nzStatus: "success",
+      isNextChild: false,
+      nzStatus: "success",
       status: false,
       standAlone: false,
       dot: true,
@@ -1088,8 +1102,8 @@ export class AddControlService {
   commentControl() {
     return {
       avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        isNextChild: false,
-        author: 'Han Solo',
+      isNextChild: false,
+      author: 'Han Solo',
     }
   }
   popOverControl() {
@@ -1100,8 +1114,8 @@ export class AddControlService {
       trigger: 'hover',
       placement: 'top',
       visible: false,
-        isNextChild: false,
-        mouseEnterDelay: 0,
+      isNextChild: false,
+      mouseEnterDelay: 0,
       mouseLeaveDelay: 0,
       backdrop: false,
     }
@@ -1154,8 +1168,8 @@ export class AddControlService {
     return {
       color: "red",
       mode: "closeable",
-        isNextChild: false,
-        checked: false,
+      isNextChild: false,
+      checked: false,
       options: [
         {
           title: 'Twitter',
@@ -1184,8 +1198,8 @@ export class AddControlService {
     return {
       delayTime: 1000,
       loaderText: "Loading...",
-        isNextChild: false,
-        simple: false,
+      isNextChild: false,
+      simple: false,
       spinning: true,
     }
   }
@@ -1197,8 +1211,8 @@ export class AddControlService {
       secondBoxTitle: 'Target',
       leftButtonLabel: 'to left',
       rightButtonLabel: 'to right',
-        isNextChild: false,
-        searchPlaceHolder: 'Search here...',
+      isNextChild: false,
+      searchPlaceHolder: 'Search here...',
       status: 'default',
       notFoundContentLabel: 'The list is empty',
       list: [
@@ -1263,8 +1277,8 @@ export class AddControlService {
       placeHolder: '',
       disabled: false,
       icon: false,
-        isNextChild: false,
-        width: true,
+      isNextChild: false,
+      width: true,
       hideUnMatched: false,
       status: 'default',
       checkable: false,
@@ -1304,8 +1318,8 @@ export class AddControlService {
       showIcon: false,
       draggable: false,
       multiple: false,
-        isNextChild: false,
-        expandAll: false,
+      isNextChild: false,
+      expandAll: false,
       expand: true,
       expandIcon: 'folder',
       closingexpandicon: 'file',
@@ -1436,8 +1450,8 @@ export class AddControlService {
     return {
       isActive: false, //true
       size: "default", //large, small
-        isNextChild: false,
-        buttonShape: "circle", //default ,round
+      isNextChild: false,
+      buttonShape: "circle", //default ,round
       avatarShape: "circle", //square
       shapeType: "paragraph",
     }
@@ -1617,16 +1631,16 @@ export class AddControlService {
       color: "#108ee9",
       duration: 3000,
       pauseOnHover: true,
-        isNextChild: false,
-        animate: true,
+      isNextChild: false,
+      animate: true,
       notificationType: 'default',
       placement: 'topRight',
     }
   }
   iconControl() {
     return {
-        isNextChild: false,
-        icon: 'star',
+      isNextChild: false,
+      icon: 'star',
       iconType: 'outline',
       iconSize: 15,
     }

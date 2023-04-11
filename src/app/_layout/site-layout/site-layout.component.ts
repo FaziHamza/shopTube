@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NzButtonSize } from 'ng-zorro-antd/button';
-import { MenuItem } from 'src/app/models/menu';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -9,7 +7,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./site-layout.component.scss']
 })
 export class SiteLayoutComponent implements OnInit {
-  @Input() menuBuiderData: any = [];
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
 

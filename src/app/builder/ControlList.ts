@@ -676,7 +676,7 @@ export const htmlTabsData = [
                 label: "PopConfirm"
               },
               {
-                parameter: "timelineAddnew",
+                parameter: "timeline",
                 icon: "uil-sliders-v-alt",
                 label: "Timeline"
               },

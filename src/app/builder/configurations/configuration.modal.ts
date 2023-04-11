@@ -5433,15 +5433,15 @@ export class formFeildData {
             label: 'MainIcon',
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'nodes',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Nodes',
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'nodes',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Nodes',
+        //   }
+        // },
         {
           key: 'mode',
           type: 'select',
@@ -5490,29 +5490,22 @@ export class formFeildData {
           fieldArray: {
             fieldGroup: [
               {
-                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
                 key: 'title',
                 type: 'input',
-                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Title',
                 }
               },
               {
-                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
                 key: 'dotIcon',
                 type: 'input',
-                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
-                  label: 'DotIcon',
-                }
+                  label: 'Icon',
+                },
               },
-
               {
-                key: 'color',
+                key: 'timecolor',
                 type: 'select',
-                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-                wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Color',
                   options: [
@@ -5534,7 +5527,21 @@ export class formFeildData {
                     },
                   ]
                 },
-              }
+              },
+              {
+                key: 'date',
+                type: 'input',
+                props: {
+                  label: 'Date',
+                }
+              },
+              {
+                key: 'timeLineDescription',
+                type: 'input',
+                props: {
+                  label: 'Description',
+                }
+              },
             ]
           }
         },
