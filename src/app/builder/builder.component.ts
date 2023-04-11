@@ -1342,7 +1342,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-
+    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -2387,7 +2387,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   notifyEmit(event: actionTypeFeild): void {
-
+    debugger
     if (event.type && event.type != "inputValidationRule") {
       this.selectedNode.title = event.form.title;
       this.selectedNode.className = event.form.className;
@@ -4227,7 +4227,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
-          this.selectedNode['nodes'] = event.form.nodes
+            // this.selectedNode['nodes'] = event.form.nodes
           this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
           if (event.tableDta) {
             this.selectedNode.data = event.tableDta;

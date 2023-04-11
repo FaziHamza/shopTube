@@ -560,15 +560,15 @@ export class BuilderClickButtonService {
 
   getTimelineConfig(node: any) {
     return {
-      dotIcon: node.dotIcon,
+      // dotIcon: node.dotIcon,
       labelText: node.labelText,
-      timecolor: node.timecolor,
+      // timecolor: node.timecolor,
       position: node.position,
       mode: node.mode,
       mainIcon: node.mainIcon,
       reverse: node.reverse,
       options: node.data,
-      nodes: node['nodes'],
+      // nodes: node['nodes'],
 
     }
   }
