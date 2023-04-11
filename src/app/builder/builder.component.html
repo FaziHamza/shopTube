@@ -12,10 +12,10 @@
         *ngFor="let item of moduleList"></nz-option>
     </nz-select>
   </div>
-  <div class="w-1/4 text-right">
-    <!-- <input type="color" (input)="setCustomColor($event)"> -->
-  </div>
-  <div class="w-1/3">
+  <!-- <div class="w-1/4 text-right">
+    <input type="color" (input)="setCustomColor($event)">
+  </div> -->
+  <div class="w-1/2">
     <div class="text-right">
       <button class="custom-color" nz-button nzType="primary">Preveiw</button>
       <button class="custom-color" nz-button nzType="primary" class="mx-2">Print</button>
@@ -27,6 +27,10 @@
         <button class="custom-color" nz-button nzType="primary"(click)="applyOfflineDb('next')">
           Forward
           <span nz-icon nzType="right"></span>
+        </button>
+        <button class="custom-color" nz-button nzType="primary"(click)="applyOfflineDb('delete')">
+          Delete
+          <span nz-icon nzType="delete"></span>
         </button>
       </nz-button-group>
       <!-- <button type="button" class="btn btn-warning ml-2" (click)="openProductInvoice('preview')"><i

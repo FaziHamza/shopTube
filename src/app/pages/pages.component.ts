@@ -220,54 +220,11 @@ export class PagesComponent implements OnInit {
     }
   }
   makeFaker() {
-
     let dataModelFaker: any = [];
     if (this.resData.length > 0) {
-      this.resData.forEach((element: any) => {
-        if (element.children != undefined) {
-          element.children.forEach((element2: any) => {
-
-            if (element2.children != undefined) {
-              element2.children.forEach((according: any) => {
-                according.children.forEach((accordingBody: any) => {
-                  if (accordingBody.type == 'accordingBody') {
-                    accordingBody.children.forEach((V2: any) => {
-                      if (V2) {
-                        if (V2.formly != undefined) {
-                          if (V2.formly[0].type == 'stepper' || V2.formly[0].type == 'dashonicTabs') {
-                            V2.children.forEach((step1: any) => {
-                              step1.children.forEach((step2: any) => {
-                                dataModelFaker[step2.formly[0].fieldGroup[0].key] = this.makeFakerData(step2);
-                              });
-                            });
-                          }
-                          else {//input field
-                            dataModelFaker[V2.formly[0].fieldGroup[0].key] = this.makeFakerData(V2);
-                          }
-                        } else if (V2.mainDashonicTabsConfig) {
-                          V2.children.forEach((element: any) => {
-                            element.children.forEach((element2: any) => {
-                              if (element2.chartCardConfig) {
-                                if (element2.chartCardConfig.length > 0) {
-                                  if (element2.formly) {
-                                    if (element2.formly[0].fieldGroup) {
-                                      dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
-                                    }
-                                  }
-                                }
-                              }
-                            });
-                          });
-                        }
-                      }
-                    });
-                  }
-                });
-              }
-              );
-            }
-          });
-        }
+      const filteredNodes = this.filterInputElements(this.resData);
+      filteredNodes.forEach(node => {
+        dataModelFaker[node.formly[0].fieldGroup[0].key] = this.makeFakerData(node);
       });
     }
     this.formlyModel = dataModelFaker;

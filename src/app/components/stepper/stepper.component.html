@@ -18,7 +18,9 @@
     </ng-container>
 
 </nz-steps>
-<st-main [mainData]="step.children[current].children"></st-main>
+<div class="pt-2">
+  <st-main [mainData]="step.children[current].children" ></st-main>
+</div>
 <div class="steps-action">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
         <span>Previous</span>

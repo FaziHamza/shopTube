@@ -20,6 +20,7 @@ import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { AddControlService } from './service/addControl.service';
 
 @Component({
   selector: 'st-builder',
@@ -74,6 +75,7 @@ export class BuilderComponent implements OnInit {
     private dataService: DataService,
     private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
+    private addControlService: AddControlService,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
@@ -166,7 +168,12 @@ export class BuilderComponent implements OnInit {
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
-  async applyOfflineDb(content: 'previous' | 'next') {
+  async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
+    if (content === 'delete') {
+      const nodes = await this.dataService.deleteDb(this.screenName);
+      alert('this Screen Delete db successfully!')
+      return;
+    }
     const nodes = await this.dataService.getNodes(this.screenName);
 
     if (this.oldIndex === undefined) {
@@ -312,6 +319,7 @@ export class BuilderComponent implements OnInit {
                 this.formlyModel = [];
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
                 this.updateNodes();
+                this.applyDefaultValue();
                 this.getJoiValidation(this.moduleId);
                 // if (res[0].menuData[0].children[1]) {
 
@@ -352,6 +360,14 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
+  applyDefaultValue() {
+    const filteredNodes = this.filterInputElements(this.nodes);
+    filteredNodes.forEach(node => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
+      if (formlyConfig)
+        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = formlyConfig;
+    });
+  }
   clearChildNode() {
     this.isSavedDb = false;
     if (this.screenPage) {
@@ -377,11 +393,11 @@ export class BuilderComponent implements OnInit {
       this.addControlToJson('pageHeader', null);
       this.addControlToJson('pageBody', null);
       this.selectedNode = this.sectionBageBody;
-      this.addControlToJson('according', null);
-      this.selectedNode = this.sectionAccording;
-      this.addControlToJson('accordingHeader', null);
-      this.addControlToJson('accordingBody', null);
-      this.addControlToJson('accordingFooter', null);
+      this.addControlToJson('sections', null);
+      this.selectedNode = this.sectionsections;
+      this.addControlToJson('header', null);
+      this.addControlToJson('body', null);
+      this.addControlToJson('footer', null);
       this.selectedNode = this.sectionAccorBody;
       this.addControlToJson('text', this.textJsonObj);
       this.selectedNode = newNode[0];
@@ -427,7 +443,7 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectForDropdown: any;
-  sectionAccording: TreeNode;
+  sectionsections: TreeNode;
   sectionBageBody: TreeNode;
   sectionAccorBody: TreeNode;
   stepperAdd: TreeNode;
@@ -439,54 +455,11 @@ export class BuilderComponent implements OnInit {
   formlyModel: any;
   faker: boolean = false;
   makeFaker() {
-
     let dataModelFaker: any = [];
-    if (this.faker == true) {
-
-
-    }
     if (this.nodes.length > 0) {
-      this.nodes.forEach((element: any) => {
-        if (element.children != undefined) {
-          element.children.forEach((element2: any) => {
-
-            if (element2.children != undefined) {
-              element2.children.forEach((according: any) => {
-                according.children.forEach((accordingBody: any) => {
-                  if (accordingBody.type == 'accordingBody') {
-                    accordingBody.children.forEach((V2: any) => {
-                      if (V2) {
-                        if (V2.formly != undefined) {
-                          if (V2.formly[0].type == 'stepper' || V2.formly[0].type == 'dashonicTabs') {
-                            V2.children.forEach((step1: any) => {
-                              step1.children.forEach((step2: any) => {
-                                dataModelFaker[step2.formly[0].fieldGroup[0].key] = this.makeFakerData(step2);
-                              });
-                            });
-                          }
-                          else {//input field
-                            dataModelFaker[V2.formly[0].fieldGroup[0].key] = this.makeFakerData(V2);
-                          }
-                        } else if (V2.mainDashonicTabsConfig) {
-                          V2.children.forEach((element: any) => {
-                            element.children.forEach((element2: any) => {
-                              if (element2.formly) {
-                                if (element2.formly[0].fieldGroup) {
-                                  dataModelFaker[element2.formly[0].fieldGroup[0].key] = this.makeFakerData(element2);
-                                }
-                              }
-                            });
-                          });
-                        }
-                      }
-                    });
-                  }
-                });
-              }
-              );
-            }
-          });
-        }
+      const filteredNodes = this.filterInputElements(this.nodes);
+      filteredNodes.forEach(node => {
+        dataModelFaker[node.formly[0].fieldGroup[0].key] = this.makeFakerData(node);
       });
     }
     this.formlyModel = dataModelFaker;
@@ -714,8 +687,8 @@ export class BuilderComponent implements OnInit {
   }
   //#region GetInputFormly
 
-  filterInputElements(data: ElementData[]): any[] {
-    const inputElements: ElementData[] = [];
+  filterInputElements(data: any): any[] {
+    const inputElements: any[] = [];
 
     function traverse(obj: any): void {
       if (Array.isArray(obj)) {
@@ -735,13 +708,6 @@ export class BuilderComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-
-  // const data: Element[] = [ / your data here / ];
-
-  // const inputElements = filterInputElements(data);
-  // console.log(inputElements);
-
-  //#endregion
 
   updateFormlyModel() {
     this.formlyModel = Object.assign({}, this.formlyModel)
@@ -769,7 +735,7 @@ export class BuilderComponent implements OnInit {
   makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
     for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
       for (let l = 0; l < inputType.length; l++) {
-        if (inputType[l].type == "button" || inputType[l].type == "linkButton" || inputType[l].type == "dropdownButton") {
+        if (inputType[l].type == "button" || inputType[l].type == "linkbutton" || inputType[l].type == "dropdownButton") {
           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
             inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
           } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
@@ -836,3301 +802,428 @@ export class BuilderComponent implements OnInit {
     }
     return inputType;
   }
-
-
+  columnApply(value: any) {
+    if (value == 'sections')
+      return 'w-full'
+    else if (value == 'body')
+      return 'px-6 pt-6 pb-10';
+    else if (value == 'buttonGroup')
+      return 'w-11/12';
+    else
+      return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
+  }
   addControlToJson(value: string, data?: any) {
-    if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban" || value == "timeline") {
+    if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
     let node = this.selectedNode;
-    // this.IsShowConfig = true;
-    if (value == 'page') {
-      const newNode = {
-        id: 'page_' + Guid.newGuid(),
-        key: "pages_" + Guid.newGuid(),
-        title: 'Page',
-        type: "page",
-        footer: false,
-        header: false,
-        expanded: true,
-        options: [
-          {
-            VariableName: ''
-          }
-        ],
-        highLight: false,
-        isNextChild: true,
-        formly: [
-          {
-            key: "pages_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'pageHeader') {
-      const newNode = {
-        id: 'pageheader_' + Guid.newGuid(),
-        key: "pageHeader_" + Guid.newGuid(),
-        title: 'Page Header',
-        type: "pageHeader",
-        headingSize: "text-xl",
-        footer: false,
-        header: true,
-        expanded: true,
-        isBordered: true,
-        highLight: false,
-        labelPosition: 'text-left',
-        alertPosition: 'topHeader',
-        isNextChild: true,
-        formly: [
-          {
-            key: "pageHeader_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'pageBody') {
-      const newNode = {
-        id: 'pagebody_' + Guid.newGuid(),
-        key: "pageBody_" + Guid.newGuid(),
-        title: 'Page Body',
-        type: "pageBody",
-        footer: false,
-        header: false,
-        expanded: true,
-        highLight: false,
-        isNextChild: true,
-        formly: [
-          {
-            key: "pageBody_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.sectionBageBody = newNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'pageFooter') {
-      const newNode = {
-        id: 'pagefooter_' + Guid.newGuid(),
-        key: "pageFooter_" + Guid.newGuid(),
+    let newNode: any = {
+      id: value.toLowerCase() + "_" + Guid.newGuid(),
+      key: value.toLowerCase() + "_" + Guid.newGuid(),
+      className: this.columnApply(value),
+      expanded: true,
+      type: value,
+      title: value, children: [], tooltip: '',
+      hideExpression: false, highLight: false,
+    };
 
-        title: 'Page Footer',
-        type: "pageFooter",
-        footer: false,
-        header: false,
-        expanded: true,
-        highLight: false,
-        isNextChild: true,
-        formly: [
-          {
-            key: "pageFooter_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'according') {
-      const newNode = {
-        id: 'according_' + Guid.newGuid(),
-        key: "according_" + Guid.newGuid(),
-        title: 'Section_1',
-        type: "according",
-        className: "w-full",
-        sectionClassName: "",
-        footer: false,
-        header: false,
-        borderColor: "",
-        expanded: true,
-        sectionDisabled: "editable",
-        labelPosition: "text-left",
-        highLight: false,
-        isNextChild: true,
-        repeatable: false,
-        isBordered: true,
-        size: 'default',
-        status: '',
-        // formly: [
-        //   {
-        //     key: "according_" + Guid.newGuid(),
-        //   }
-        // ],
-        children: [
-        ],
-      } as TreeNode;
-      this.sectionAccording = newNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'accordingHeader') {
-      const newNode = {
-        id: 'accordingheader_' + Guid.newGuid(),
-        key: "accordingHeader_" + Guid.newGuid(),
-        title: 'Header',
-        type: "accordingHeader",
-        footer: false,
-        headingSize: "",
-        header: true,
-        expanded: false,
-        highLight: false,
-        labelPosition: "text-left",
-        isNextChild: true,
-        // borderColor: "#000000",
-        backGroundColor: "#FFFFFF",
-        textColor: "#000000",
-        formly: [
-          {
-            key: "accordingHeader_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'accordingBody') {
-      const newNode = {
-        id: 'accordingbody_' + Guid.newGuid(),
-        key: "accordingBody_" + Guid.newGuid(),
-        title: 'Body',
-        type: "accordingBody",
-        className: "px-6 pt-6 pb-10",
-        // borderColor: "#000000",
-        backGroundColor: "#FFFFFF",
-        textColor: "#000000",
-        footer: false,
-        header: false,
-        expanded: true,
-        highLight: false,
-        isNextChild: true,
-        formly: [
-          {
-            key: "accordingBody_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.sectionAccorBody = newNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'accordingFooter') {
-      const newNode = {
-        id: 'accordingfooter_' + Guid.newGuid(),
-        title: 'Footer',
-        type: "accordingFooter",
-        key: "accordingFooter_" + Guid.newGuid(),
-        // borderColor: "#000000",
-        backGroundColor: "#FFFFFF",
-        textColor: "#000000",
-        footer: false,
-        header: false,
-        expanded: true,
-        highLight: false,
-        isNextChild: true,
-        formly: [
-          {
-            key: "accordingFooter_" + Guid.newGuid(),
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (data?.parameter == 'input') {
-      const newNode = {
-        id: 'common_' + Guid.newGuid(),
-        // key: data?.label + Guid.newGuid(),
-        title: data?.label,
-        expanded: true,
-        type: data?.configType,
-        className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
-        // type: data?.type,
-        formlyType: data?.parameter,
-        hideExpression: false,
-        formly: [
-          {
-            fieldGroup: [
+    switch (value) {
+      case "page":
+        newNode = { ...newNode, ...this.addControlService.getPageControl() };
+        break;
+      case "pageHeader":
+        newNode = { ...newNode, ...this.addControlService.getPageHeaderControl() };
+        break;
+      case "pageBody":
+        newNode = { ...newNode, ...this.addControlService.getPageBodyControl() };
+        this.sectionBageBody = newNode;
+        break;
+      case "pageFooter":
+        newNode = { ...newNode, ...this.addControlService.getPageFooterControl() };
+        break;
+      case "sections":
+        newNode = { ...newNode, ...this.addControlService.getSectionControl() };
+        this.sectionsections = newNode;
+        break;
+      case "header":
+        newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
+        break;
+      case "body":
+        newNode = { ...newNode, ...this.addControlService.getBodyControl() };
+        this.sectionAccorBody = newNode;
+        break;
+      case "footer":
+        newNode = { ...newNode, ...this.addControlService.getFooterControl() };
+        break;
+      case "buttonGroup":
+        newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
+        break;
+      case "insertButton":
+      case "updateButton":
+      case "deleteButton":
+        newNode = { ...newNode, ...this.addControlService.getInsertButtonControl() };
+        break;
+      case "dropdownButton":
+        newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
+        break;
+      case "cardWithComponents":
+        newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
+        break;
+      case "switch":
+        newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
+        break;
+      case "imageUpload":
+        newNode = { ...newNode, ...this.addControlService.getImageUploadControl() };
+        break;
+      case "progressBar":
+        newNode = { ...newNode, ...this.addControlService.getProgressBarControl() };
+        break;
+      case "video":
+        newNode = { ...newNode, ...this.addControlService.getVideoControl() };
+        break;
+      case "audio":
+        newNode = { ...newNode, ...this.addControlService.getAudioControl() };
+        break;
+      case "carouselCrossfade":
+        newNode = { ...newNode, ...this.addControlService.getCarouselCrossfadeControl() };
+        break;
+      case "calender":
+        newNode = { ...newNode, ...this.addControlService.getCalenderControl() };
+        break;
+      case "sharedMessagesChart":
+        newNode = { ...newNode, ...this.addControlService.getSharedMessagesChartControl() };
+        break;
+      case "alert":
+        newNode = { ...newNode, ...this.addControlService.getAlertControl() };
+        break;
+      case "simpleCardWithHeaderBodyFooter":
+        newNode = { ...newNode, ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl() };
+        break;
+      case "tabs":
+        newNode = { ...newNode, ...this.addControlService.getTabsControl() };
+        break;
+      case "mainTab":
+        newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
+        break;
+      case "mainStep":
+        newNode = { ...newNode, ...this.addControlService.getMainStepControl() };
+        break;
+      case "step":
+        newNode = { ...newNode, ...this.addControlService.getStepControl() };
+        break;
+      case "kanban":
+        newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
+        break;
+      case "kanbanTask":
+        newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
+        break;
+      case "linkbutton":
+        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
+        break;
+      case "simplecard":
+        newNode = { ...newNode, ...this.addControlService.simplecardControl() };
+        break;
+      case "chartcard":
+        newNode = { ...newNode, ...this.addControlService.chartcardControl() };
+        break;
+
+      case "sectionCard":
+        newNode = { ...newNode, ...this.addControlService.sectionCardControl() };
+        break;
+
+      case "widgetSectionCard":
+        newNode = { ...newNode, ...this.addControlService.widgetSectionCardControl() };
+        break;
+
+      case "donutChart":
+        newNode = { ...newNode, ...this.addControlService.donutChartControl() };
+        break;
+
+      case "browserChart":
+        newNode = { ...newNode, ...this.addControlService.browserChartControl() };
+        break;
+
+      case "browserCombineChart":
+        newNode = { ...newNode, ...this.addControlService.browserCombineChartControl() };
+        break;
+
+      case "donuteSaleChart":
+        newNode = { ...newNode, ...this.addControlService.donuteSaleChartControl() };
+        break;
+
+      case "salesAnalyticschart":
+        newNode = { ...newNode, ...this.addControlService.salesAnalyticschartControl() };
+        break;
+
+      case "heading":
+        newNode = { ...newNode, ...this.addControlService.headingControl() };
+        break;
+
+      case "paragraph":
+        newNode = { ...newNode, ...this.addControlService.paragraphControl() };
+        break;
+
+      case "htmlBlock":
+        newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
+        break;
+
+      case "textEditor":
+        newNode = { ...newNode, ...this.addControlService.textEditorControl() };
+        break;
+
+      case "editor_js":
+        newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
+        break;
+
+      case "breakTag":
+        newNode = { ...newNode, ...this.addControlService.breakTagControl() };
+        break;
+
+      case "multiFileUpload":
+        newNode = { ...newNode, ...this.addControlService.multiFileUploadControl() };
+        break;
+
+      case "gridList":
+        newNode = { ...newNode, ...this.addControlService.gridListControl() };
+        break;
+
+      case "column":
+        newNode = { ...newNode, ...this.addControlService.columnControl() };
+        break;
+
+      case "timeline":
+        newNode = { ...newNode, ...this.addControlService.timelineControl() };
+        break;
+
+      case "fixedDiv":
+        newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
+        break;
+
+      case "accordionButton":
+        newNode = { ...newNode, ...this.addControlService.accordionButtonControl() };
+        break;
+
+      case "divider":
+        newNode = { ...newNode, ...this.addControlService.dividerControl() };
+        break;
+
+      case "toastr":
+        newNode = { ...newNode, ...this.addControlService.toastrControl() };
+        break;
+
+      case "rate":
+        newNode = { ...newNode, ...this.addControlService.rateControl() };
+        break;
+
+      case "rangeSlider":
+        newNode = { ...newNode, ...this.addControlService.rangeSliderControl() };
+        break;
+
+      case "invoice":
+        newNode = { ...newNode, ...this.addControlService.invoiceControl() };
+        break;
+
+      case "affix":
+        newNode = { ...newNode, ...this.addControlService.affixControl() };
+        break;
+
+      case "statistic":
+        newNode = { ...newNode, ...this.addControlService.statisticControl() };
+        break;
+
+      case "backTop":
+        newNode = { ...newNode, ...this.addControlService.backTopControl() };
+        break;
+
+      case "anchor":
+        newNode = { ...newNode, ...this.addControlService.anchorControl() };
+        break;
+
+      case "modal":
+        newNode = { ...newNode, ...this.addControlService.modalControl() };
+        break;
+
+      case "popConfirm":
+        newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
+        break;
+
+      case "avatar":
+        newNode = { ...newNode, ...this.addControlService.avatarControl() };
+        break;
+
+      case "badge":
+        newNode = { ...newNode, ...this.addControlService.badgeControl() };
+        break;
+
+      case "comment":
+        newNode = { ...newNode, ...this.addControlService.commentControl() };
+        break;
+
+      case "popOver":
+        newNode = { ...newNode, ...this.addControlService.popOverControl() };
+        break;
+
+      case "description":
+        newNode = { ...newNode, ...this.addControlService.descriptionControl() };
+        break;
+
+      case "descriptionChild":
+        newNode = { ...newNode, ...this.addControlService.descriptionChildControl() };
+        break;
+
+      case "segmented":
+        newNode = { ...newNode, ...this.addControlService.segmentedControl() };
+        break;
+
+      case "result":
+        newNode = { ...newNode, ...this.addControlService.resultControl() };
+        break;
+
+      case "nzTag":
+        newNode = { ...newNode, ...this.addControlService.nzTagControl() };
+        break;
+
+      case "treeSelect":
+        newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
+        break;
+
+      case "transfer":
+        newNode = { ...newNode, ...this.addControlService.transferControl() };
+        break;
+
+      case "spin":
+        newNode = { ...newNode, ...this.addControlService.spinControl() };
+        break;
+
+      case "tree":
+        newNode = { ...newNode, ...this.addControlService.treeControl() };
+        break;
+
+      case "cascader":
+        newNode = { ...newNode, ...this.addControlService.cascaderControl() };
+        break;
+
+      case "drawer":
+        newNode = { ...newNode, ...this.addControlService.drawerControl() };
+        break;
+
+      case "skeleton":
+        newNode = { ...newNode, ...this.addControlService.skeletonControl() };
+        break;
+
+      case "empty":
+        newNode = { ...newNode, ...this.addControlService.emptyControl() };
+        break;
+
+      case "list":
+        newNode = { ...newNode, ...this.addControlService.listControl() };
+        break;
+
+      case "treeView":
+        newNode = { ...newNode, ...this.addControlService.treeViewControl() };
+        break;
+
+      case "message":
+        newNode = { ...newNode, ...this.addControlService.messageControl() };
+        break;
+
+      case "mentions":
+        newNode = { ...newNode, ...this.addControlService.mentionsControl() };
+        break;
+
+      case "notification":
+        newNode = { ...newNode, ...this.addControlService.notificationControl() };
+        break;
+
+      case "icon":
+        newNode = { ...newNode, ...this.addControlService.iconControl() };
+        break;
+      default:
+        if (data?.parameter === 'input') {
+          let formlyObj = {
+            type: data?.configType,
+            formlyType: data?.parameter,
+            hideExpression: false,
+            formly: [
               {
-                key: data?.configType + Guid.newGuid(),
-                type: data?.type,
-                defaultValue: "",
-                focus: false,
-                wrappers: this.getLastNodeWrapper("wrappers"),
-                props: {
-                  multiple: true,
-                  className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
-                  attributes: {
-                    autocomplete: 'off',
-                  },
-                  config: {
-                    getVariable: '',
-                    setVariable: '',
-                    addonLeft: '',
-                    addonRight: '',
-                    addonLeftIcon: '',
-                    addonrightIcon: '',
-                    status: '',
-                    size: 'default',
-                    border: false,
-                    firstBtnText: 'Now',
-                    secondBtnText: 'ok',
-                    minuteStep: 1,
-                    secondStep: 1,
-                    hoursStep: 1,
-                    use12Hours: false,
-                    icon: 'close',
-                    allowClear: false,
-                    step: 1,
-                    serveSearch: false,
-                    showArrow: false,
-                    showSearch: false,
-                    format: 'dd-MM-yyyy',
-                    optionHieght: 30,
-                    optionHoverSize: 10,
-                    suffixicon: '',
-                    prefixicon: '',
-                    wrapper: '',
-                    floatFieldClass: '',
-                    floatLabelClass: '',
-                    formatAlignment: 'ltr',
-                  },
-                  maxLength: 10000000,
-                  minLength: 1,
-                  type: data?.fieldType,
-                  labelPosition: "text-left",
-                  titleIcon: "",
-                  label: data?.label,
-                  placeholder: data?.label,
-                  tooltip: "",
-                  maskString: data?.maskString,
-                  // sufix: 'INV ',
-                  maskLabel: data?.maskLabel,
-                  // disabled: this.getLastNodeWrapper("disabled"),
-                  readonly: false,
-                  hidden: false,
-                  options: this.makeFormlyOptions(data?.options),
-                  keyup: (model: any) => {
-                    let currentVal = model.formControl.value;
-                    this.formlyModel[model.key] = model.formControl.value;
-                    this.checkConditionUIRule(model, currentVal);
-                  }
-                },
-              },
-            ]
-          },
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-      // this.makeFaker();
-    }
-    else if (value == "buttonGroup") {
-      const newNode = {
-        id: 'buttongroup_' + Guid.newGuid(),
-        title: 'buttonGroup',
-        type: "buttonGroup",
-        highLight: false,
-        isNextChild: true,
-        hideExpression: false,
-        className: "w-11/12",
-        key: "buttongroup_" + Guid.newGuid(),
-        btngroupformat: "text-left",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'insertButton') {
-      const newNode = {
-        id: 'insertbutton_' + Guid.newGuid(),
-        key: "insert" + Guid.newGuid(),
-        hideExpression: false,
-        title: 'insert_1',
-        type: "button",
-        actionType: "insert",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/3",
-        color: "",
-        hoverColor: "",
-        btnIcon: "upload",
-        tooltip: "",
-        format: "text-left",
-        disabled: false,
-        nzDanger: false,
-        nzBlock: false,
-        nztype: "default",
-        nzSize: "large",
-        nzShape: 'default',
-        iconType: 'outline',
-        nzLoading: false,
-        nzGhost: false,
-        iconSize: 15,
-        hoverTextColor: '',
-        textColor: '',
-        isSubmit: false, 
-        btnType: "",
-        href: "",
-        iconColor: '',
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'dropdownButton') {
-      const newNode = {
-        id: 'dropdownbutton_' + Guid.newGuid(),
-        title: 'dropdownButton_1',
-        hideExpression: false,
-        tooltip: "",
-        key: "button" + Guid.newGuid(),
-        type: "dropdownButton",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/3",
-        color: "",
-        hoverColor: "",
-        btnIcon: "down",
-        format: "text-left",
-        disabled: false,
-        nzDanger: false,
-        nzBlock: false,
-        nzSize: "default",
-        nzShape: 'default',
-        trigger: 'hover',
-        placement: 'bottomLeft',
-        visible: true,
-        clickHide: false,
-        nzLoading: false,
-        nzGhost: false,
-        iconType: 'outline',
-        nztype: "default",
-        textColor: "",
-        iconSize: 15,
-        hoverTextColor: '',
-        iconColor: '',
-        dropdownOptions: [
-          {
-            label: "Option 1",
-            link: "1",
-          },
-          {
-            label: "Option 2",
-            link: "2",
-          },
-          {
-            label: "Option 3",
-            link: "3",
-          },
-          {
-            label: "Option 4",
-            link: "4",
-          },
-        ],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'updateButton') {
-      const newNode = {
-        id: 'updatebutton_' + Guid.newGuid(),
-        key: "update" + Guid.newGuid(),
-        title: 'update_1',
-        type: "button",
-        hideExpression: false,
-        tooltip: "",
-        highLight: false,
-        isNextChild: false,
-        actionType: "update",
-        className: "w-1/3",
-        color: "",
-        hoverColor: "",
-        icon: "redo",
-        format: "text-left",
-        btnDisables: false,
-        nzDanger: false,
-        nzBlock: false,
-        nzType: "Primary",
-        nzSize: "default",
-        nzShape: 'default',
-        nzLoading: false,
-        nzGhost: false,
-        iconType: 'outline',
-        iconSize: 15,
-        hoverTextColor: '',
-        textColor: '',
-        isSubmit: false,
-        btnType: "",
-        href: "",
-        iconColor: '',
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'deleteButton') {
-      const newNode = {
-        id: 'deletebutton_' + Guid.newGuid(),
-        hideExpression: false,
-        tooltip: "",
-        key: "delete" + Guid.newGuid(),
-        title: 'delete_1',
-        type: "button",
-        highLight: false,
-        isNextChild: false,
-        actionType: "delete",
-        className: "w-1/3",
-        color: "",
-        hoverColor: "",
-        icon: "delete",
-        format: "text-left",
-        btnDisables: false,
-        nzDanger: false,
-        nzBlock: false,
-        nzType: "primary",
-        nzSize: "large",
-        nzShape: 'default',
-        nzLoading: false,
-        nzGhost: false,
-        iconType: 'outline',
-        iconSize: 15,
-        hoverTextColor: '',
-        textColor: '',
-        isSubmit: false,
-        btnType: "",
-        href: "",
-        iconColor: '',
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'cardWithComponents') {
-      const newNode = {
-        id: 'cardwithcomponents_' + Guid.newGuid(),
-        className: 'w-full',
-        hideExpression: false,
-        tooltip: "",
-        key: "cardWithComponents" + Guid.newGuid(),
-        title: 'Card With Components',
-        type: "cardWithComponents",
-        highLight: false,
-        isNextChild: true,
-        borderless: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'switch') {
-
-      const newNode = {
-        id: 'switch_' + Guid.newGuid(),
-        type: "switch",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/2",
-        hideExpression: false,
-        tooltip: "",
-        key: "switch" + Guid.newGuid(),
-        switchPosition: "left",
-        title: "Switch",
-        switchType: "defaultSwitch",
-        size: 'default',
-        checkedChildren: '',
-        unCheckedChildren: '',
-        disabled: false,
-        loading: false,
-        control: false,
-        model: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'imageUpload') {
-      const newNode = {
-        id: 'imageupload_' + Guid.newGuid(),
-        key: "imageUpload_" + Guid.newGuid(),
-        type: "imageUpload",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/2",
-        title: "Image Upload",
-        imageClass: "",
-        alt: "",
-        source: "https://cdn.pixabay.com/photo/2016/04/04/14/12/monitor-1307227__340.jpg",
-        imagHieght: 200,
-        imageWidth: 200,
-        base64Image: "",
-        hideExpression: false,
-        tooltip: "",
-        imagePreview: true,
-        keyboardKey: true,
-        zoom: 1.5,
-        rotate: 0,
-        zIndex: 1000,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'progressBar') {
-      const newNode = {
-        id: 'progressbar_' + Guid.newGuid(),
-        title: 'progressBar',
-        type: "progressBar",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/2",
-        hideExpression: false,
-        tooltip: "",
-        key: "progressBar" + Guid.newGuid(),
-        progressBarType: 'line',
-        percent: 30,
-        showInfo: true,
-        status: 'success',
-        strokeLineCap: 'round',
-        success: 30,
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'video') {
-      const newNode = {
-        id: 'video_' + Guid.newGuid(),
-        key: "video" + Guid.newGuid(),
-        title: 'Play Video Online',
-        type: "video",
-        highLight: false,
-        className: "w-1/2",
-        hideExpression: false,
-        isNextChild: false,
-        tooltip: "",
-        videoRatio: "ratio ratio-1x1",
-        videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'audio') {
-      const newNode = {
-        id: 'audio_' + Guid.newGuid(),
-        key: 'audio_' + Guid.newGuid(),
-        title: "Audio Example",
-        type: "audio",
-        highLight: false,
-        className: "w-1/2",
-        hideExpression: false,
-        isNextChild: false,
-        tooltip: "",
-        audioSrc: "https://pagalfree.com/musics/128-Rasiya%20-%20Brahmastra%20128%20Kbps.mp3",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'carouselCrossfade') {
-      const newNode = {
-        id: 'carouselcrossfade_' + Guid.newGuid(),
-        key: 'carouselCrossfade_' + Guid.newGuid(),
-        title: 'carouselCrossfade_1',
-        type: "carouselCrossfade",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/2",
-        hideExpression: false,
-        tooltip: "",
-        effect: "scrollx",
-        dotPosition: "bottom",
-        autoPlay: true,
-        autolPlaySpeed: 3000,
-        showDots: true,
-        enableSwipe: true,
-        carousalConfig: [
-          {
-            img: "assets/images/small/img-1.jpg",
-          },
-          {
-            img: "assets/images/small/img-2.jpg",
-          },
-          {
-            img: "assets/images/small/img-3.jpg",
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'calender') {
-      const TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
-      const newNode = {
-        id: 'calender_' + Guid.newGuid(),
-        key: 'calender_' + Guid.newGuid(),
-        title: 'calender_1',
-        type: "calender",
-        className: "w-full",
-        hideExpression: false,
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        view: 'prev,next today',
-        viewType: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-        // disabled: false,
-        weekends: true,
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        details: true,
-        options: [
-          {
-            id: 1,
-            title: 'All-day event',
-            start: TODAY_STR,
-            backgroundColor: '#fbe0e0',
-            textColor: '#ea5455',
-            color: '#EF6C00',
-            borderColor: '#ea5455'
-          },
-          {
-            id: 2,
-            title: 'Timed event',
-            start: TODAY_STR,
-            end: TODAY_STR,
-            backgroundColor: '#fbe0e0',
-            textColor: '#ea5455',
-            color: '#EF6C00',
-            borderColor: '#ea5455'
-          },
-          {
-            id: 3,
-            title: 'Timed event',
-            start: TODAY_STR,
-            end: TODAY_STR,
-            backgroundColor: '#fbe0e0',
-            textColor: '#ea5455',
-            color: '#EF6C00',
-            borderColor: '#ea5455'
-          }
-        ],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'sharedMessagesChart') {
-      const newNode = {
-        id: 'sharedMessagesChart_' + Guid.newGuid(),
-        key: 'sharedMessagesChart_' + Guid.newGuid(),
-        title: 'Task  Widget_1',
-        type: "sharedMessagesChart",
-        className: "w-1/2",
-        hideExpression: false,
-        highLight: false,
-        isNextChild: false,
-
-        tooltip: "",
-        labelIcon: "uil-shutter-alt",
-        heading: "Latest to do's",
-        headingIcon: "fas fa-exclamation-triangle",
-        headingColor: "text-warning",
-        subHeading: "Latest finished to do's",
-        subHeadingIcon: "fa fa-check",
-        subheadingColor: 'text-success',
-        link: '',
-        sharedMessagesConfig: [
-          {
-            message: "Bill's place for a.",
-            dateAndTime: "2022-11-05 04:21:01",
-            icon: "uil-pen",
-            icon1: "uil-times",
-          }
-        ],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'alert') {
-      const newNode = {
-        id: 'alert_' + Guid.newGuid(),
-        title: 'alert_1',
-        type: "alert",
-        className: "w-full",
-        hideExpression: false,
-        key: "alert_" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        alertColor: "bg-blue-200 text-blue-600",
-        text: "This is an alert—check it out!",
-        icon: "",
-        alertType: 'success',
-        banner: false,
-        showIcon: false,
-        closeable: false,
-        iconType: '',
-        description: '',
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'simplecardwithheaderbodyfooter') {
-      const newNode = {
-        id: 'simplecardwithheaderbodyfooter_' + Guid.newGuid(),
-        key: "simpleCardWithHeaderBodyFooter_" + Guid.newGuid(),
-        title: 'simpleCard_1',
-        type: "simpleCardWithHeaderBodyFooter",
-        hideExpression: false,
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: true,
-        tooltip: "",
-        textAlign: "text-left",
-        textSize: "h1",
-        headerText: "Card header",
-        bodyText: "card body",
-        footerText: "card footer",
-        link: '',
-        height: '100p',
-        borderless: false,
-        extra: '',
-        hover: false,
-        loading: false,
-        nztype: 'default',
-        size: 'default',
-        imageSrc: '',
-        imageAlt: '',
-        description: 'Description',
-        // bgColorHeader:'',
-        // bgColorBody:'',
-        // bgColorFooter:'',
-        bgColor: '',
-        footer: false,
-        footerBorder: true,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'tabs') {
-      const newNode = {
-        id: 'tabs_' + Guid.newGuid(),
-        key: 'tabs_' + Guid.newGuid(),
-        title: 'Tabs',
-        type: "tabs",
-        className: "w-full",
-        isNextChild: true,
-        highLight: false,
-        hideExpression: false,
-        disabled: false,
-        tooltip: '',
-        icon: 'star',
-        iconType: 'outline',
-        iconSize: 15,
-        iconColor: '',
-        children: [
-        ],
-      } as TreeNode;
-      this.chilAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'mainTab') {
-      const newNode = {
-        id: 'maintab_' + Guid.newGuid(),
-        key: 'mainTab_' + Guid.newGuid(),
-        title: 'Main Tab',
-        type: "mainTab",
-        isNextChild: true,
-        highLight: false,
-        className: "w-full",
-        tooltip: "",
-        hideExpression: false,
-        selectedIndex: 0,
-        animated: true,
-        size: 'default',
-        tabPosition: 'top',
-        tabType: 'line',
-        hideTabs: false,
-        nodes: "3",
-        centerd: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.ParentAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'mainStep') {
-      const newNode = {
-        id: 'mainstep_' + Guid.newGuid(),
-        key: 'mainStep_' + Guid.newGuid(),
-        title: 'Main Step',
-        type: "mainStep",
-        isNextChild: true,
-        highLight: false,
-        className: "w-full",
-        tooltip: "",
-        hideExpression: false,
-        stepperType: 'default',
-        selectedIndex: 0,
-        direction: 'horizontal',
-        placement: 'horizontal',
-        size: 'default',
-        status: 'process',
-        disabled: false,
-        nodes: "3",
-        children: [
-        ],
-      } as TreeNode;
-      this.ParentAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'step') {
-      const newNode = {
-        id: 'step_' + Guid.newGuid(),
-        key: 'step_' + Guid.newGuid(),
-        title: 'Step',
-        type: "step",
-        tooltip: "",
-        isNextChild: true,
-        highLight: false,
-        icon: 'star',
-        className: "w-full",
-        disabled: false,
-        description: "description",
-        status: '',
-        subtitle: '',
-        percentage: '',
-        iconColor: '',
-        iconType: 'outline',
-        iconSize: 15,
-        children: [
-        ],
-      } as TreeNode;
-      this.chilAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'kanban') {
-      const newNode = {
-        id: 'kanban' + Guid.newGuid(),
-        title: 'kanban',
-        type: "kanban",
-        highLight: false,
-        isNextChild: true,
-        hideExpression: false,
-        tooltip: "",
-        key: "kanban" + Guid.newGuid(),
-        className: "w-1/2",
-        text: "Kanban Board",
-        nodes: "3",
-        kambanChildren: [],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.ParentAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'kanbanTask') {
-      const newNode = {
-        id: 'kanbantask' + Guid.newGuid(),
-        title: 'kanbanTask',
-        type: "kanbanTask",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-
-        key: "kanbanTask" + Guid.newGuid(),
-        className: "w-1/2",
-        text: "KanbanTask",
-        // title: "Authentication Page Design",
-        date: "14 Oct, 2019",
-        content: "In enim justo rhoncus ut",
-        users: [
-          {
-            "name": "Emily Surface"
-          }
-        ],
-        status: "open",
-        variant: "bg-primary",
-        children: [
-        ],
-
-      } as TreeNode;
-      this.chilAdd = newNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'linkbutton') {
-      const newNode = {
-        id: 'linkbutton_' + Guid.newGuid(),
-        title: 'linkbutton_1',
-        type: "linkButton",
-        highLight: false,
-        isNextChild: false,
-        className: "w-1/4",
-        key: "button_" + Guid.newGuid(),
-        hideExpression: false,
-        tooltip: "",
-        color: "",
-        hoverColor: "",
-        target: "_blank",
-        btnType: "_blank",
-        href: "",
-        format: "text-left",
-        btnIcon: "",
-        nzSize: "default",
-        nzShape: 'default',
-        iconType: 'outline',
-        iconSize: 15,
-        iconColor: '',
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'simplecard') {
-      const newNode = {
-        id: "simplecard_" + Guid.newGuid(),
-        title: "card" + '_1',
-        type: "card",
-        className: "w-1/4",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        icon: "uil uil-list-ul",
-        name: "Total Tasks",
-        total: "21",
-        key: "simplecard_" + Guid.newGuid(),
-        link: "",
-
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'chartcard') {
-      const newNode = {
-        id: "chartcard" + Guid.newGuid(),
-        title: "chart" + '_1',
-        type: "chart",
-        className: "w-1/2",
-        key: "chart" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        "link": "",
-        chartFilterData: [],
-        section: [
-          {
-            "filtertype": "Monthly",
-            "price": "$46.34k",
-            "data": [
-              10,
-              20,
-              15,
-              40,
-              20,
-              50,
-              70,
-              60,
-              90,
-              70,
-              110
-            ],
-            "colors": [
-              "#E10E0E",
-            ],
-            "filterData": [
-              {
-                "heading": "TOTAL REVENUE",
-                "price": "$46.34k",
-                "subheading": "Earning this month",
-                "defaultfilter": "Monthly",
-                "refundsChart": {
-                  "series": [
-                    {
-                      "name": "Series A",
-                      "data": [
-                        10,
-                        20,
-                        15,
-                        40,
-                        20,
-                        50,
-                        70,
-                        60,
-                        90,
-                        70,
-                        110
-                      ]
-                    }
-                  ],
-                  "chart": {
-                    "height": 50,
-                    "type": "bar",
-                    "sparkline": {
-                      "enabled": true
+                fieldGroup: [
+                  {
+                    key: data?.configType + Guid.newGuid(),
+                    type: data?.type,
+                    defaultValue: "",
+                    focus: false,
+                    wrappers: this.getLastNodeWrapper("wrappers"),
+                    props: {
+                      multiple: true,
+                      className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+                      attributes: {
+                        autocomplete: 'off',
+                      },
+                      config: {
+                        getVariable: '',
+                        setVariable: '',
+                        addonLeft: '',
+                        addonRight: '',
+                        addonLeftIcon: '',
+                        addonrightIcon: '',
+                        status: '',
+                        size: 'default',
+                        border: false,
+                        firstBtnText: 'Now',
+                        secondBtnText: 'ok',
+                        minuteStep: 1,
+                        secondStep: 1,
+                        hoursStep: 1,
+                        use12Hours: false,
+                        icon: 'close',
+                        allowClear: false,
+                        step: 1,
+                        serveSearch: false,
+                        showArrow: false,
+                        showSearch: false,
+                        format: 'dd-MM-yyyy',
+                        optionHieght: 30,
+                        optionHoverSize: 10,
+                        suffixicon: '',
+                        prefixicon: '',
+                        wrapper: '',
+                        floatFieldClass: '',
+                        floatLabelClass: '',
+                        formatAlignment: 'ltr',
+                      },
+                      maxLength: 10000000,
+                      minLength: 1,
+                      type: data?.fieldType,
+                      labelPosition: "text-left",
+                      titleIcon: "",
+                      label: data?.label,
+                      placeholder: data?.label,
+                      tooltip: "",
+                      maskString: data?.maskString,
+                      // sufix: 'INV ',
+                      maskLabel: data?.maskLabel,
+                      // disabled: this.getLastNodeWrapper("disabled"),
+                      readonly: false,
+                      hidden: false,
+                      options: this.makeFormlyOptions(data?.options),
+                      keyup: (model: any) => {
+                        let currentVal = model.formControl.value;
+                        this.formlyModel[model.key] = model.formControl.value;
+                        this.checkConditionUIRule(model, currentVal);
+                      }
                     },
-                    "toolbar": {
-                      "show": false
-                    }
                   },
-                  "dataLabels": {
-                    "enabled": false
-                  },
-                  "stroke": {
-                    "curve": "smooth",
-                    "width": 2
-                  },
-                  "fill": {
-                    "type": "gradient",
-                    "gradient": {
-                      "shadeIntensity": 1,
-                      "inverseColors": false,
-                      "opacityFrom": 0.45,
-                      "opacityTo": 0.05,
-                      "stops": [
-                        50,
-                        100,
-                        100,
-                        100
-                      ]
-                    }
-                  },
-                  "colors": [
-                    "#E10E0E",
-                  ]
-                },
-                "filters": [
-                  {
-                    "filtertype": "Monthly"
-                  },
-                  {
-                    "filtertype": "Yearly"
-                  },
-                  {
-                    "filtertype": "Weekly"
-                  }
                 ]
               },
-            ]
-          },
-        ],
-
-        // formly: [
-        //   {
-        //     key: "inputfeildGen",
-        //     type: "input",
-        //     props: {
-        //       label: "Genaric Added",
-        // tooltip: {"content": ""},
-        //     },
-        //   }
-        // ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-
-    else if (value == 'sectionCard') {
-      const newNode = {
-        id: "sectioncard_" + Guid.newGuid(),
-        title: "Section_Chart" + '_1',
-        type: "sectionCard",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        "link": "",
-        "belowpercentage": 1,
-        "belowpercentageColor": "danger",
-        "key": "sectionCard_" + Guid.newGuid(),
-        "limit": 1,
-        section: [{
-          "icon": "fa-user",
-          "name": "Users",
-          "total": "2.2 k",
-          "percentage": "1.2",
-        }],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'widgetSectionCard') {
-      const newNode = {
-        id: "widgetsectioncard_" + Guid.newGuid(),
-        title: "Widget_Section_Card" + '_1',
-        type: "widgetSectionCard",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        "link": "",
-        "limit": 1,
-        "belowpercentage": 1,
-        "belowpercentageColor": "danger",
-        "key": "widgetSectionCard_" + Guid.newGuid(),
-
-        section: [
-          {
-            "name": "New Visitors",
-            "total": "1.2 k ",
-            "percentage": "0.2",
-            "data": [
-              21,
-              65,
-              32,
-              80,
-              42,
-              25, 90, 80, 10
             ],
-            "Chart": {
-              "series": [
-                {
-                  "name": "New Visitors",
-                  "data": [
-                    21,
-                    65,
-                    32,
-                    80,
-                    42,
-                    25, 90, 80, 10
-                  ]
-                }
-              ],
-              "chart": {
-                "height": 52,
-                "type": "area",
-                "sparkline": {
-                  "enabled": true
-                },
-                "toolbar": {
-                  "show": false
-                }
-              },
-              "dataLabels": {
-                "enabled": false
-              },
-              "stroke": {
-                "curve": "smooth",
-                "width": 2
-              },
-              "colors": [
-                "#038edc"
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradient": {
-                  "shadeIntensity": 1,
-                  "inverseColors": false,
-                  "opacityFrom": 0.45,
-                  "opacityTo": 0.05,
-                  "stops": [
-                    20,
-                    100,
-                    100,
-                    100
-                  ]
-                }
-              },
-              "tooltip": {
-                "fixed": {
-                  "enabled": false
-                },
-                "x": {
-                  "show": false
-                },
-                "marker": {
-                  "show": false
-                }
-              }
-            }
-          }],
-
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'donutChart') {
-      const newNode = {
-        id: "donutchart_" + Guid.newGuid(),
-        title: "donut_Chart" + '_1',
-        type: "donutChart",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-
-        tooltip: "",
-        link: "",
-        defaultColor: "bg-primary",
-        key: "donutChart_" + Guid.newGuid(),
-        section: [{
-          "chart": {
-            "height": 245,
-            "type": "donut"
-          },
-          plotOptions: {
-            pie: {
-              donut: {
-                size: "70%"
-              }
-            }
-          },
-          dataLabels: {
-            enabled: false
-          },
-          series: [
-            60,
-            35,
-            19,
-          ],
-          labels: [
-            "Social",
-            "Direct",
-            "Others",
-          ],
-          colors: [
-            "#038edc",
-            "#f5f6f8",
-            "#5fd0f3",
-          ],
-          legend: {
-            show: true,
-            position: "bottom",
-            horizontalAlign: "center",
-            verticalAlign: "middle",
-            floating: false,
-            fontSize: "14px",
-            offsetX: 0
           }
-        }],
+          newNode = { ...newNode, ...formlyObj };
+        }
+        break;
+    }
 
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'browserChart') {
-      const newNode = {
-        id: "browserchart_" + Guid.newGuid(),
-        title: "Browser_Chart" + '_1',
-        type: "browserCard",
-        link: "",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-
-        tooltip: "",
-        icon: "fa-chrome",
-        limit: 1,
-        belowpercentage: 100,
-        belowpercentageColor: "bg-danger",
-        key: "browserCard_" + Guid.newGuid(),
-        chart:
-          [
-            {
-              name: "Chrome",
-              percentage: 82,
-              min: "82",
-              max: "100",
-              bar: "82%"
-            },
-          ],
-
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'browserCombineChart') {
-      const newNode = {
-        id: "browsercombinechart_" + Guid.newGuid(),
-        title: "Browser_CombineChart" + '_1',
-        type: "browserCombineChart",
-        link: "",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-
-        tooltip: "",
-        icon: "fa-chrome",
-        limit: 1,
-        belowpercentage: 100,
-        belowpercentageColor: "bg-danger",
-        key: "browserCard_" + Guid.newGuid(),
-        numberofcolumns: "",
-        chart:
-          [
-            {
-              name: "Chrome",
-              percentage: 82,
-              min: "82",
-              max: "100",
-              bar: "82%"
-            },
-          ],
-
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'donuteSaleChart') {
-      const newNode = {
-        id: "donutesalechart_" + Guid.newGuid(),
-        title: "Sale_Donute_Chart" + '_1',
-        type: "donuteSaleChart",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        key: "donuteSaleChart_" + Guid.newGuid(),
-        thisTitle: "This Month",
-        lastTitle: "Last Month",
-        prevTitle: "From previous period",
-        thisValue: "$12,582",
-        lastValue: "$98,741",
-        prevValue: "25.2%",
-        growth: "+15%",
-        section: [
-          {
-            chart: {
-              height: 130,
-              type: "donut"
-            },
-            dataLabels: {
-              enabled: false
-            },
-            series: [
-              44,
-              25,
-              19
-            ],
-            labels: [
-              "Revenue",
-              "Expenses",
-              "Profit"
-            ],
-            colors: [
-              "#038edc",
-              "#dfe2e6",
-              "#5fd0f3"
-            ],
-            legend: {
-              show: false,
-              position: "bottom",
-              horizontalAlign: "center",
-              verticalAlign: "middle",
-              floating: false,
-              fontSize: "14px",
-              offsetX: 0
-            }
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'salesAnalyticschart') {
-      const newNode = {
-        id: "salesanalyticschart_" + Guid.newGuid(),
-        title: "sales_Analytics_chart" + '_1',
-        type: "salesAnalyticschart",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        key: "salesAnalyticschart_" + Guid.newGuid(),
-        firstTitle: "Income",
-        firstValue: "3.85k",
-        secondTitle: "Sales",
-        secondValue: "258",
-        thirdLabel: "Users",
-        thirdValue: "52k",
-        link: "",
-        section: [{
-          chartTitlesValues: [
-            {
-              value: "3.85k",
-            },
-            {
-              value: "258",
-            },
-            {
-              value: "52k",
-            }
-          ],
-          chart: {
-            height: 332,
-            type: "line",
-            stacked: false,
-            offsetY: -5,
-            toolbar: {
-              show: false
-            }
-          },
-          stroke: {
-            width: [
-              0,
-              0,
-              0,
-              1
-            ],
-            curve: "smooth"
-          },
-          plotOptions: {
-            bar: {
-              columnWidth: "40%"
-            }
-          },
-          colors: [
-            "#5fd0f3",
-            "#038edc",
-            "#51d28c",
-            "#51d28c"
-          ],
-          series: [
-            {
-              name: "Income",
-              title: "Income",
-              value: "3.85k",
-              type: "column",
-              data: [
-                23,
-                11,
-                22,
-                27,
-                13,
-                22,
-                37,
-                21,
-                44,
-                22,
-                30
-              ]
-            },
-            {
-              name: "Sales",
-              title: "Sales",
-              value: "258",
-              type: "column",
-              data: [
-                19,
-                8,
-                26,
-                21,
-                18,
-                36,
-                30,
-                28,
-                40,
-                39,
-                15
-              ]
-            },
-            {
-              name: "Conversation Ratio",
-              title: "",
-              value: "",
-              type: "area",
-              data: [
-                44,
-                55,
-                41,
-                67,
-                22,
-                43,
-                21,
-                41,
-                56,
-                27,
-                43
-              ]
-            },
-            {
-              name: "Users",
-              title: "Users",
-              value: "52k",
-              type: "line",
-              data: [
-                9,
-                11,
-                13,
-                12,
-                10,
-                8,
-                6,
-                9,
-                14,
-                17,
-                22
-              ]
-            }
-          ],
-          fill: {
-            opacity: [
-              0.85,
-              1,
-              0.25,
-              1
-            ],
-            gradient: {
-              inverseColors: false,
-              shade: "light",
-              type: "vertical",
-              opacityFrom: 0.85,
-              opacityTo: 0.55,
-              stops: [
-                0,
-                100,
-                100,
-                100
-              ]
-            }
-          },
-          labels: [
-            "01/01/2003",
-            "02/01/2003",
-            "03/01/2003",
-            "04/01/2003",
-            "05/01/2003",
-            "06/01/2003",
-            "07/01/2003",
-            "08/01/2003",
-            "09/01/2003",
-            "10/01/2003",
-            "11/01/2003"
-          ],
-          markers: {
-            "size": 0
-          },
-          xaxis: {
-            "type": "datetime"
-          },
-          yaxis: {
-            title: {
-              text: "Sales Analytics",
-              style: {
-                fontWeight: 500
-              }
-            }
-          },
-          tooltip: {
-            shared: true,
-            intersect: false,
-            y: "21 points"
-          },
-          grid: {
-            borderColor: "#f1f1f1",
-            padding: {
-              bottom: 15
-            }
-          }
-        }],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'heading') {
-      const newNode = {
-        id: "heading_" + Guid.newGuid(),
-        key: "heading_" + Guid.newGuid(),
-        title: "Heading" + '_1',
-        type: "heading",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        style: "font-weight:bold;",
-        textAlign: "text-left",
-        color: '#000000',
-        headingApi: "",
-        text: "Editor.js",
-        heading: 3,
-        fontstyle: 'font-normal',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'paragraph') {
-      const newNode = {
-        id: "paragraph_" + Guid.newGuid(),
-        key: "paragraph_" + Guid.newGuid(),
-        title: "Paragraph" + '_1',
-        type: "paragraph",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        hideExpression: false,
-        editable: false,
-        color: '',
-        fontstyle: 'font-normal',
-        text: 'A random paragraph generate when add paragraph componenet',
-        editableTooltip: '',
-        copyable: false,
-        copyTooltips: '',
-        ellipsis: false,
-        suffix: '',
-        disabled: false,
-        expandable: false,
-        ellipsisRows: 1,
-        nztype: 'default',
-        beforecopyIcon: '',
-        aftercopyIcon: '',
-        editableIcon: '',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'htmlBlock') {
-      const newNode = {
-        id: "htmlblock_" + Guid.newGuid(),
-        title: "Html Block" + '_1',
-        type: "paragraph",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        hideExpression: false,
-        key: "htmlBlock_" + Guid.newGuid(),
-        style: "font-weight:normal;",
-        textAlign: "text-align:left;",
-        fontSize: "font-weight:normal;text-align:left;",
-        api: "",
-        data: {
-          text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
-        },
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'textEditor') {
-      const newNode = {
-        id: "textEditor_" + Guid.newGuid(),
-        key: "textEditor" + Guid.newGuid(),
-        title: "Text Editor" + '_1',
-        type: "textEditor",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        editorJson: "",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'editor_js') {
-      const newNode = {
-        id: "editor_js_" + Guid.newGuid(),
-        key: "editor_js" + Guid.newGuid(),
-        title: "editor_js" + '_1',
-        type: "editor_js",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'breakTag') {
-      const newNode = {
-        id: "breaktag_" + Guid.newGuid(),
-        title: "breakTag" + '_1',
-        type: "breakTag",
-        className: "w-full",
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        hideExpression: false,
-        key: "breakTag_" + Guid.newGuid(),
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'multiFileUpload') {
-      const newNode = {
-        id: "multifileupload_" + Guid.newGuid(),
-        key: "multiFileUpload_" + Guid.newGuid(),
-        title: "multiFileUpload",
-        type: "multiFileUpload",
-        className: "w-1/2",
-        highLight: false,
-        isNextChild: false,
-        tooltip: "",
-        hideExpression: false,
-        uploadBtnLabel: "Click here to upload",
-        multiple: false,
-        disabled: false,
-        showDialogueBox: true,
-        showUploadlist: true,
-        onlyDirectoriesAllow: false,
-        uploadLimit: 10,
-        size: 30,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'gridList') {
-      const newNode = {
-        id: 'gridList_' + Guid.newGuid(),
-        className: "w-full",
-        title: 'Grid List' + '_1',
-        type: 'gridList',
-        link: '',
-        key: "gridList_" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        tableId: "gridList_" + Guid.newGuid(),
-        nzFooter: "This is footer",
-        nzTitle: "This is Title",
-        nzPaginationPosition: "bottom",
-        nzPaginationType: "default",
-        nzLoading: false,
-        nzFrontPagination: true,
-        nzShowPagination: true,
-        nzBordered: false,
-        showColumnHeader: true,
-        noResult: false,
-        nzSimple: false,
-        nzSize: 'default',
-        nzShowSizeChanger: false,
-        showCheckbox: true,
-        expandable: true,
-        fixHeader: false,
-        tableScroll: false,
-        fixedColumn: false,
-        sort: true,
-        filter: true,
-        isAddRow: true,
-        tableHeaders: [
-          {
-            name: 'Id',
-            key: 'Id',
-            sortOrder: null,
-            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-            sortDirections: ['ascend', 'descend', null],
-            filterMultiple: true,
-            show: true,
-            sum: false,
-            // listOfFilter: [
-            //   { text: 'Joe', value: 'Joe' },
-            //   { text: 'Jim', value: 'Jim', byDefault: true }
-            // ],
-            // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-          },
-          {
-            name: 'Name',
-            key: 'Name',
-            sortOrder: null,
-            sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-            sortDirections: ['ascend', 'descend', null],
-            filterMultiple: true,
-            show: true,
-            sum: false,
-            listOfFilter: [
-              // { text: 'Joe', value: 'Joe' },
-              // { text: 'Jim', value: 'Jim', byDefault: true }
-            ],
-            filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-          },
-          {
-            name: 'Age',
-            key: 'Age',
-            sortOrder: 'descend',
-            sortFn: (a: any, b: any) => a.age - b.age,
-            sortDirections: ['descend', null],
-            listOfFilter: [],
-            filterFn: null,
-            sum: false,
-            show: true,
-            filterMultiple: false
-          },
-          {
-            name: 'Address',
-            key: 'Address',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: any, b: any) => a.address.length - b.address.length,
-            filterMultiple: false,
-            show: true,
-            sum: false,
-            listOfFilter: [
-              { text: 'London', value: 'London' },
-              { text: 'Sidney', value: 'Sidney' }
-            ],
-            filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
-          }
-        ],
-        tableData: [
-          {
-            id: 1,
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            description: 'My name is John Brown, I am 2 years old, living in New York No',
-            checked: false,
-            expand: false,
-            children: [
-              {
-                id: 1,
-                name: 'test',
-              },
-              {
-                id: 2,
-                name: 'test2'
-              },
-            ]
-          },
-          {
-            id: 2,
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            description: 'My name is John Brown, I am 2 years old, living in New York No',
-            checked: false,
-            expand: false
-          },
-          {
-            id: 3,
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            description: 'My name is John Brown, I am 2 years old, living in New York No',
-            checked: false,
-            expand: false
-          },
-          {
-            id: 4,
-            name: 'Jim Red',
-            age: 32,
-            address: 'London No. 2 Lake Park',
-            description: 'My name is John Brown, I am 2 years old, living in New York No',
-            checked: false,
-            expand: false
-          }
-        ],
-        children: []
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'invoiceGrid') {
-      const newNode = {
-        id: 'invoicegrid_' + Guid.newGuid(),
-        title: 'Grid List' + '_1',
-        type: 'invoiceGrid',
-        link: '',
-        key: "invoiceGrid_" + Guid.newGuid(),
-        highLight: false,
-        isNextChild: false,
-        hideExpression: false,
-        className: "w-full",
-        pagination: 10,
-        filter: false,
-        sortable: false,
-        tooltip: "",
-        delete: true,
-        update: false,
-        create: false,
-        children: [
-          {
-            "id": "description",
-            "label": "description",
-            "type": "input",
-            "header": "description",
-            "name": "description",
-            "showColumn": true,
-            "filter": false,
-            "editorType": false,
-            "sortable": false,
-            "editor": {
-              "type": "text"
-            },
-            "children": []
-          },
-          {
-            "id": "quantity",
-            "label": "quantity",
-            "type": "input",
-            "header": "quantity",
-            "name": "quantity",
-            "showColumn": true,
-            "filter": false,
-            "sortable": false,
-            "editorType": false,
-            "editor": {
-              "type": "text"
-            },
-            "children": []
-          },
-          {
-            "id": "price",
-            "label": "price",
-            "type": "input",
-            "header": "price",
-            "name": "price",
-            "showColumn": true,
-            "filter": false,
-            "sortable": false,
-            "editorType": false,
-            "editor": {
-              "type": "text"
-            },
-            "children": []
-          },
-          {
-            "id": "amount",
-            "label": "amount",
-            "type": "input",
-            "header": "amount",
-            "name": "amount",
-            "showColumn": true,
-            "filter": false,
-            "sortable": false,
-            "editorType": false,
-            "editor": {
-              "type": "text"
-            },
-            "children": []
-          }
-        ],
-        rowData: [
-          {
-            id: 1,
-            "description": "aa",
-            "quantity": 10,
-            "price": 10,
-            "amount": 100,
-          },
-          {
-
-            "description": "bb",
-            "quantity": 10,
-            "price": 10,
-            "amount": 100,
-          },
-          {
-            "description": "cc",
-            "quantity": 10,
-            "price": 10,
-            "amount": 100,
-          },
-          {
-            "description": "baby_ruth",
-            "quantity": 10,
-            "price": 10,
-            "amount": 100,
-          },
-        ],
-        columnData: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'column') {
-      const newNode = {
-        id: "column " + Math.random().toFixed(3),
-        key: "column " + Math.random().toFixed(3),
-        title: 'Column' + '_1',
-        type: "input",
-        isNextChild: false,
-        gridList: [
-          {
-            header: "Id " + Math.random().toFixed(3),
-            name: "id " + Math.random().toFixed(3),
-            textArea: ""
-          }
-        ],
-        children: []
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'timeline') {
-      const newNode = {
-        id: 'timeline_' + Guid.newGuid(),
-        key: 'timeline_' + Guid.newGuid(),
-        title: 'timeline_1',
-        type: "timeline",
-        tooltip: "",
-        className: "w-full",
-        highLight: false,
-        isNextChild: true,
-        hideExpression: false,
-        pendingText: "Recording...",
-        mainIcon: "loading",
-        reverse: false,
-        labelText: '',
-        mode: 'left',
-        nodes: 3,
-        data: [
-          {
-            title: "Timeline Event One",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event two",
-            dotIcon: 'down',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event three",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event One",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event One",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event One",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-          {
-            title: "Timeline Event One",
-            dotIcon: 'loading',
-            timecolor: 'green',
-          },
-        ],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.ParentAdd = newNode
-      this.addNode(node, newNode);
-    }
-    else if (value == 'timelineChild') {
-      const newNode = {
-        id: 'timelineChild_' + Guid.newGuid(),
-        key: 'timelinechild_' + Guid.newGuid(),
-        title: 'timelineChild_1',
-        type: "timelineChild",
-        tooltip: "",
-        className: "w-full",
-        highLight: false,
-        isNextChild: true,
-        hideExpression: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.chilAdd = newNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'fixedDiv') {
-      const newNode = {
-        id: 'fixeddiv_' + Guid.newGuid(),
-        key: "fixeddiv" + Guid.newGuid(),
-        title: 'FixedDiv_1',
-        type: "fixedDiv",
-        tooltip: "",
-        isNextChild: true,
-        hideExpression: false,
-        fixedDivConfig: [
-          {
-            key: "fixedDiv" + Guid.newGuid(),
-
-          }
-        ],
-        fixedDivChild: [],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'accordionButton') {
-      const newNode = {
-        id: 'accordionButton_' + Guid.newGuid(),
-        key: 'accordionbutton_' + Guid.newGuid(),
-        title: 'accordionButton',
-        type: "accordionButton",
-        highLight: false,
-        isNextChild: true,
-        className: "w-full",
-        hideExpression: false,
-        tooltip: "",
-        nzBordered: true,
-        nzGhost: false,
-        nzExpandIconPosition: "left",
-        nzDisabled: false,
-        nzExpandedIcon: '',
-        nzShowArrow: true,
-        extra: '',
-        iconColor: '',
-        iconType: 'outline',
-        iconSize: 15,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'divider') {
-      const newNode = {
-        className: "w-1/4",
-        id: 'divider_' + Guid.newGuid(),
-        title: 'Divider_1',
-        type: "divider",
-        highLight: false,
-        isNextChild: true,
-        hideExpression: false,
-        tooltip: "",
-        text: "Divider",
-        key: "divider" + Guid.newGuid(),
-        dividerClassName: "w-1/4",
-        dividerText: "Divider",
-        icon: "plus",
-        dashed: false,
-        dividerType: "horizontal",
-        orientation: "center",
-        dividerFormat: "1px solid rgba(0,0,0,.06)",
-        plain: false,
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'toastr') {
-      const newNode = {
-        id: 'toastr_' + Guid.newGuid(),
-        key: 'toastr_' + Guid.newGuid(),
-        title: 'toastr_1',
-        type: "toastr",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        toastrType: "success",
-        toasterTitle: "Title",
-        duration: 3000,
-        placement: "topRight",
-        closeIcon: "close-circle",
-        description: "message",
-        animate: true,
-        pauseOnHover: true,
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'rate') {
-      const newNode = {
-        id: 'rate_' + Guid.newGuid(),
-        key: 'rate_' + Guid.newGuid(),
-        title: 'rate_1',
-        type: "rate",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        clear: true,
-        allowHalf: true,
-        focus: true,
-        icon: 'star',
-        showCount: 5,
-        ngvalue: 0,
-        disabled: false,
-        options: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'rangeSlider') {
-      const newNode = {
-        id: 'rangeslider_' + Guid.newGuid(),
-        key: 'rangeSlider_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'rangeSlider',
-        type: "rangeSlider",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        // sliderType:'simple',
-        min: '0',
-        max: '2',
-        disabled: false,
-        showValue: false,
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'invoice') {
-      const newNode = {
-        id: 'invoice_' + Guid.newGuid(),
-        key: 'invoice_' + Guid.newGuid(),
-        className: "w-full",
-        title: 'Invoice',
-        type: "invoice",
-        isNextChild: true,
-        hideExpression: false,
-        tooltip: "",
-        invoiceNumberLabel: "Invoice Number",
-        poNumber: "PO Number",
-        datelabel: "Date Label",
-        paymentTermsLabel: "Payment Terms",
-        billToLabel: "Bill To ",
-        dueDateLabel: "Due Date ",
-        shipToLabel: "Ship To",
-        notesLabel: "Notes",
-        subtotalLabel: "Sub Total",
-        dicountLabel: "Dicount",
-        shippingLabel: "Shipping",
-        taxLabel: "Tax",
-        termsLabel: "Terms",
-        totalLabel: "Total",
-        amountpaidLabel: "Amount Paid",
-        balanceDueLabel: "Balance Due",
-        invoiceChild: [],
-        children: [
-        ],
-
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'affix') {
-      const newNode = {
-        id: 'affix_' + Guid.newGuid(),
-        key: 'affix_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Affix',
-        type: "affix",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        affixType: 'affix-top',
-        margin: 10,
-        target: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'statistic') {
-      const newNode = {
-        id: 'statistic_' + Guid.newGuid(),
-        key: 'statistic_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Statistic',
-        type: "statistic",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        prefixIcon: "like",
-        suffixIcon: "like",
-        iconType: 'outline',
-        iconSize: 15,
-        iconColor: '',
-        statisticArray: [
-          {
-            title: "Active Users",
-            value: 1949101,
-          },
-          {
-            title: "Account Balance (CNY)",
-            value: 2019.111,
-          },
-        ],
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'backTop') {
-      const newNode = {
-        id: 'backTop_' + Guid.newGuid(),
-        key: 'backTop_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Back Top',
-        type: "backTop",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        description: "Scroll down to see the bottom-right",
-        visibleafter: '',
-        target: false,
-        duration: '',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'anchor') {
-      const newNode = {
-        id: 'anchor_' + Guid.newGuid(),
-        key: 'anchor_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Anchor',
-        type: "anchor",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        affix: true,
-        offSetTop: 5,
-        showInkInFixed: true,
-        bond: 5,
-        target: false,
-        options: [
-          {
-            nzTitle: "Basic demo",
-            nzHref: "#components-anchor-demo-basic",
-            children: [],
-          },
-          {
-            nzTitle: "Static demo",
-            nzHref: "#components-anchor-demo-static",
-            children: [],
-          },
-          {
-            nzHref: "#api",
-            nzTitle: "API",
-            children: [
-              {
-                nzHref: "#nz-anchor",
-                nzTitle: "nz-anchor",
-              },
-              {
-                nzHref: "#nz-link",
-                nzTitle: "nz-link",
-              },
-            ]
-          },
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'modal') {
-      const newNode = {
-        id: 'modal_' + Guid.newGuid(),
-        key: 'modal_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Modal',
-        type: "modal",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        btnLabel: "Show Modal",
-        modalContent: "Content",
-        modalTitle: "The is modal title",
-        cancalButtontext: 'Cancel',
-        centered: false,
-        okBtnLoading: false,
-        cancelBtnLoading: false,
-        okBtnDisabled: false,
-        cancelDisabled: false,
-        ecsModalCancel: true,
-        okBtnText: 'Ok',
-        closeIcon: 'close',
-        width: 250,
-        showCloseIcon: true,
-        zIndex: 1000,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'popConfirm') {
-      const newNode = {
-        id: 'popConfirm_' + Guid.newGuid(),
-        key: 'popConfirm_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Pop Confirm',
-        type: "popConfirm",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        btnLabel: "Open Popconfirm with Promise",
-        arrowPointAtCenter: false,
-        content: 'Pop Confirm',
-        trigger: 'hover',
-        placement: 'top',
-        visible: false,
-        mouseEnterDelay: 0,
-        mouseLeaveDelay: 0,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'avatar') {
-      const newNode = {
-        id: 'avatar_' + Guid.newGuid(),
-        className: "w-1/2",
-        key: "avatar_" + Guid.newGuid(),
-        title: 'Avatar',
-        type: "avatar",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        icon: "",
-        text: "",
-        src: "//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        bgColor: "#87d068",
-        color: "#f56a00",
-        alt: "",
-        gap: 0,
-        size: 'default',
-        shape: 'circle',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'badge') {
-      const newNode = {
-        id: 'badge_' + Guid.newGuid(),
-        key: 'badge_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Badge',
-        type: "badge",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        count: 10,
-        nzText: "",
-        nzColor: "",
-        nzStatus: "success",
-        status: false,
-        standAlone: false,
-        dot: true,
-        showDot: true,
-        overflowCount: '',
-        showZero: false,
-        nztype: 'count',
-        size: '',
-        icon: 'clock-circle',
-        offset: '',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'comment') {
-      const newNode = {
-        id: 'comment_' + Guid.newGuid(),
-        key: 'comment_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Comment',
-        type: "comment",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        author: 'Han Solo',
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'popOver') {
-      const newNode = {
-        id: 'popover_' + Guid.newGuid(),
-        key: 'popover_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Pop Over',
-        type: "popOver",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        btnLabel: "Hover me",
-        content: "Content",
-        arrowPointAtCenter: false,
-        trigger: 'hover',
-        placement: 'top',
-        visible: false,
-        mouseEnterDelay: 0,
-        mouseLeaveDelay: 0,
-        backdrop: false,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'description') {
-      const newNode = {
-        id: 'description_' + Guid.newGuid(),
-        key: 'description_' + Guid.newGuid(),
-        type: "description",
-        title: 'Description',
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: true,
-        btnText: "Edit",
-        size: "default",
-        isBordered: true,
-        formatter: "horizontal",
-        isColon: false,
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'descriptionChild') {
-      const newNode = {
-        id: 'descriptionChild_' + Guid.newGuid(),
-        key: 'descriptionchild_' + Guid.newGuid(),
-        title: 'descriptionchild',
-        type: "descriptionChild",
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        nzSpan: 2,
-        // title: "title",
-        content: "content",
-        nzStatus: "processing",
-        isBadeg: true,
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'segmented') {
-      const newNode = {
-        id: 'segmented_' + Guid.newGuid(),
-        key: 'segmented_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Segmented',
-        type: "segmented",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        options: [
-          { label: 'Daily' },
-          { label: 'Weekly' },
-          { label: 'Monthly' },
-          { label: 'Quarterly' },
-          { label: 'Yearly' },
-        ],
-        block: true,
-        disabled: false,
-        size: 'default',
-        defaultSelectedIndex: 1,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'result') {
-      const newNode = {
-        id: 'result_' + Guid.newGuid(),
-        key: 'result_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'result',
-        type: "result",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        status: "success",
-        resultTitle: "Successfully Purchased Cloud Server ECS!",
-        subTitle: "Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait.",
-        btnLabel: "Done",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'nzTag') {
-      const newNode = {
-        id: 'nzTag_' + Guid.newGuid(),
-        key: 'nztag_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Tag',
-        type: "nzTag",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        color: "red",
-        mode: "closeable",
-        checked: false,
-        options: [
-          {
-            title: 'Twitter',
-            icon: 'twitter',
-            tagColor: 'blue',
-          },
-          {
-            title: 'Youtube',
-            icon: 'youtube',
-            tagColor: 'red',
-          },
-          {
-            title: 'Facebook',
-            icon: 'facebook',
-            tagColor: 'blue',
-          },
-          {
-            title: 'LinkedIn',
-            icon: 'linkedin',
-            tagColor: 'blue',
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'spin') {
-      const newNode = {
-        id: 'spin_' + Guid.newGuid(),
-        key: 'spin_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Spin',
-        type: "spin",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        size: "default",
-        delayTime: 1000,
-        loaderText: "Loading...",
-        simple: false,
-        spinning: true,
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'transfer') {
-      const newNode = {
-        id: 'transfer_' + Guid.newGuid(),
-        key: 'transfer_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'transfer',
-        type: "transfer",
-        isNextChild: false,
-        tooltip: "",
-        hideExpression: false,
-        disabled: false,
-        showSearch: true,
-        firstBoxTitle: 'Source',
-        secondBoxTitle: 'Target',
-        leftButtonLabel: 'to left',
-        rightButtonLabel: 'to right',
-        searchPlaceHolder: 'Search here...',
-        status: 'default',
-        notFoundContentLabel: 'The list is empty',
-        list: [
-          {
-            key: '1',
-            title: 'content 1',
-            direction: 'right',
-          },
-          {
-            key: '2',
-            title: 'content 2',
-            direction: undefined,
-          },
-          {
-            key: '3',
-            title: 'content 3',
-            description: 'description',
-            direction: 'right',
-          },
-          {
-            key: '4',
-            title: 'content 4',
-            direction: undefined,
-          },
-          {
-            key: '5',
-            title: 'content 5',
-            direction: 'right',
-          },
-          {
-            key: '6',
-            title: 'content 6',
-            direction: undefined,
-          },
-          {
-            key: '7',
-            title: 'content 7',
-            direction: 'right',
-          },
-          {
-            key: '8',
-            title: 'content 8',
-            direction: 'undefined',
-          },
-          {
-            key: '9',
-            title: 'content 9',
-            direction: 'right',
-          },
-          {
-            key: '10',
-            title: 'content 10',
-            direction: undefined,
-          },
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'treeSelect') {
-      const newNode = {
-        id: 'treeSelect_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'tree Select',
-        type: "treeSelect",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        expandKeys: ['100', '1001'],
-        showSearch: false,
-        placeHolder: '',
-        disabled: false,
-        icon: false,
-        width: true,
-        hideUnMatched: false,
-        status: 'default',
-        checkable: false,
-        showExpand: true,
-        showLine: false,
-        defaultExpandAll: false,
-        size: 'default',
-        key: '100',
-        nodes: [
-          {
-            title: 'parent 1',
-            key: '100',
-            children: [
-              {
-                title: 'parent 1-0',
-                key: '1001',
-                children: [
-                  { title: 'leaf 1-0-0', key: '10010', isLeaf: true },
-                  { title: 'leaf 1-0-1', key: '10011', isLeaf: true }
-                ]
-              },
-              {
-                title: 'parent 1-1',
-                key: '1002',
-                children: [{ title: 'leaf 1-1-0', key: '10020', isLeaf: true }]
-              }
-            ]
-          }
-        ],
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'tree') {
-      const newNode = {
-        id: 'tree_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'tree',
-        type: "tree",
-        isNextChild: false,
-        hideExpression: false,
-        tooltip: "",
-        checkable: false,
-        blockNode: false,
-        showLine: false,
-        showIcon: false,
-        draggable: false,
-        multiple: false,
-        expandAll: false,
-        expand: true,
-        expandIcon: 'folder',
-        closingexpandicon: 'file',
-        nodes: [
-          {
-            title: '0-0',
-            key: '0-0',
-            expanded: true,
-            children: [
-              {
-                title: '0-0-0',
-                key: '0-0-0',
-                children: [
-                  { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
-                  { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
-                  { title: '0-0-0-2', key: '0-0-0-2', isLeaf: true }
-                ]
-              },
-              {
-                title: '0-0-1',
-                key: '0-0-1',
-                children: [
-                  { title: '0-0-1-0', key: '0-0-1-0', isLeaf: true },
-                  { title: '0-0-1-1', key: '0-0-1-1', isLeaf: true },
-                  { title: '0-0-1-2', key: '0-0-1-2', isLeaf: true }
-                ]
-              },
-              {
-                title: '0-0-2',
-                key: '0-0-2',
-                isLeaf: true
-              }
-            ]
-          },
-          {
-            title: '0-1',
-            key: '0-1',
-            children: [
-              { title: '0-1-0-0', key: '0-1-0-0', isLeaf: true },
-              { title: '0-1-0-1', key: '0-1-0-1', isLeaf: true },
-              { title: '0-1-0-2', key: '0-1-0-2', isLeaf: true }
-            ]
-          },
-          {
-            title: '0-2',
-            key: '0-2',
-            isLeaf: true
-          }
-        ],
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'cascader') {
-      const newNode = {
-        id: 'cascader_' + Guid.newGuid(),
-        key: 'cascader_' + Guid.newGuid(),
-        className: "w-1/2",
-        title: 'Cascader',
-        type: "cascader",
-        isNextChild: false,
-        hideExpression: false,
-        expandTrigger: 'hover',
-        placeHolder: 'Please select',
-        size: 'default',
-        status: 'default',
-        expandIcon: 'down',
-        showInput: true,
-        disabled: false,
-        options: [
-          {
-            value: 'zhejiang',
-            label: 'Zhejiang',
-            children: [
-              {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                  {
-                    value: 'xihu',
-                    label: 'West Lake',
-                    isLeaf: true
-                  }
-                ]
-              },
-              {
-                value: 'ningbo',
-                label: 'Ningbo',
-                isLeaf: true
-              }
-            ]
-          },
-          {
-            value: 'jiangsu',
-            label: 'Jiangsu',
-            children: [
-              {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                  {
-                    value: 'zhonghuamen',
-                    label: 'Zhong Hua Men',
-                    isLeaf: true
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'drawer') {
-      const newNode = {
-        id: 'drawer_' + Guid.newGuid(),
-        key: 'drawer_' + Guid.newGuid(),
-        type: "drawer",
-        title: 'Drawer',
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        color: "bg-blue-500",
-        btnText: "Open Drawer",
-        isClosable: true,
-        icon: "close",
-        extra: "extra",
-        // isMask: true,
-        // isMaskClosable: true,
-        // isCloseOnNavigation: true,
-        isKeyboard: true,
-        // maskStyle: {},
-        // bodyStyle: {},
-        // title: "Basic Drawer",
-        footerText: "",
-        isVisible: false,
-        placement: "right",
-        size: "default",
-        width: 500,
-        height: 500,
-        offsetX: 0,
-        offsetY: 0,
-        wrapClassName: "",
-        zIndex: 1,
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum blanditiis sunt unde quisquam architecto. Nesciunt eum consequatur suscipit obcaecati. Aliquam repudiandae neque ratione natus doloribus ab excepturi, a modi voluptate!',
-        // onClose: "right",//function
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'skeleton') {
-      const newNode = {
-        id: 'skeleton_' + Guid.newGuid(),
-        key: 'skeleton_' + Guid.newGuid(),
-        type: "skeleton",
-        title: 'Skeleton',
-        className: "w-1/2",
-        tooltip: "",
-        isNextChild: false,
-        hideExpression: false,
-
-        isActive: false, //true
-        size: "default", //large, small
-        buttonShape: "circle", //default ,round
-        avatarShape: "circle", //square
-        shapeType: "paragraph",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'empty') {
-      const newNode = {
-        id: 'empty_' + Guid.newGuid(),
-        key: 'empty_' + Guid.newGuid(),
-        type: "empty",
-        title: 'Empty',
-        className: "w-1/2",
-        tooltip: "",
-        isNextChild: false,
-        hideExpression: false,
-        icon: "https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg",
-        content: "contentTpl",
-        text: "Description",
-        link: "#API",
-        btnText: "Create Now",
-        color: "bg-blue-600",
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'list') {
-      const newNode = {
-        id: 'list_' + Guid.newGuid(),
-        key: 'list_' + Guid.newGuid(),
-        type: "list",
-        title: 'List with Load More',
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        headerText: "this is Header",
-        footerText: "this is footer",
-        formatter: "vertical",
-        size: "default",
-        isBordered: true,
-        isSplit: false,
-        isEdit: true,
-        isUpdate: false,
-        isDelete: true,
-        isLoad: false,
-        loadText: "Loading more",
-        options: [
-          {
-            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            name: "Mr Felicíssimo Porto",
-            lastNameHref: "https://ng.ant.design",
-            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
-            email: "felicissimo.porto@example.com",
-            gender: "male",
-            content: "Content",
-            nat: "BR",
-            isLoading: false,
-          },
-          {
-            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            name: "Miss Léane Muller",
-            lastNameHref: "https://ng.ant.design",
-            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
-            email: "leane.muller@example.com",
-            gender: "female",
-            content: "Content",
-            nat: "FR",
-            loading: false,
-          },
-          {
-            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            name: "Mrs کیمیا موسوی",
-            lastNameHref: "https://ng.ant.design",
-            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
-            email: "khymy.mwswy@example.com",
-            gender: "female",
-            content: "Content",
-            nat: "IR",
-            loading: false,
-          },
-          {
-            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            name: "Mr Antonin Fabre",
-            lastNameHref: "https://ng.ant.design",
-            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
-            email: "antonin.fabre@example.com",
-            gender: "male",
-            content: "Content",
-            nat: "FR",
-            loading: true,
-          },
-          {
-            avater: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            name: "Mr Jivan Ronner",
-            lastNameHref: "https://ng.ant.design",
-            description: "Ant Design, a design language for background applications, is refined by Ant UED Team",
-            email: "jivan.ronner@example.com",
-            gender: "male",
-            content: "Content",
-            nat: "NL",
-            loading: false,
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'treeView') {
-      const newNode = {
-        id: 'treeView_' + Guid.newGuid(),
-        key: 'treeView_' + Guid.newGuid(),
-        type: "treeView",
-        title: 'Tree View',
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        isBlockNode: true,
-        isDraggable: true,
-        isShowLine: true,
-        isCheckable: false,
-        isMultiple: false,
-        isExpandAll: false,
-        nodes: [
-          {
-            title: 'parent 1',
-            key: '100',
-            expanded: true,
-            children: [
-              {
-                title: 'parent 1-0',
-                key: '1001',
-                expanded: true,
-                children: [
-                  { title: 'leaf', key: '10010', isLeaf: true },
-                  { title: 'leaf', key: '10011', isLeaf: true },
-                  { title: 'leaf', key: '10012', isLeaf: true }
-                ]
-              },
-              {
-                title: 'parent 1-1',
-                key: '1002',
-                children: [{ title: 'leaf', key: '10020', isLeaf: true }]
-              },
-              {
-                title: 'parent 1-2',
-                key: '1003',
-                children: [
-                  { title: 'leaf', key: '10030', isLeaf: true },
-                  { title: 'leaf', key: '10031', isLeaf: true }
-                ]
-              }
-            ]
-          }
-        ],
-        children: [
-        ],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'mentions') {
-      const newNode = {
-        id: 'mentions_' + Guid.newGuid(),
-        key: 'mentions_' + Guid.newGuid(),
-        type: "mentions",
-        // title: 'Mention',
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        options: [
-          {
-            label: 'afc163'
-          },
-          {
-            label: 'benjycui'
-          },
-          {
-            label: 'yiminghe'
-          },
-          {
-            label: 'RaoHai'
-          },
-          {
-            label: '中文'
-          },
-        ],
-        title: "mention",
-        placeholder: "enter sugestion",
-        rows: "1",
-        loading: false,
-        disabled: false,
-        noneData: '',
-        status: 'default',
-        prefix: '',
-        position: 'top',
-
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'message') {
-      const newNode = {
-        id: 'message_' + Guid.newGuid(),
-        key: 'message_' + Guid.newGuid(),
-        title: 'Message',
-        type: "message",
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        content: "this message is disappeard after 10 seconds",
-        duration: 10000,
-        messageType: "success",
-        pauseOnHover: true,
-        animate: true,
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'notification') {
-      const newNode = {
-        id: 'notification_' + Guid.newGuid(),
-        key: 'notification_' + Guid.newGuid(),
-        title: 'Notification',
-        type: "notification",
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        // title: "Notification Title",
-        content: "A function will be be called after the notification is closed (automatically after the 'duration' time of manually).",
-        isSmile: true,
-        icon: "smile",
-        color: "#108ee9",
-        duration: 3000,
-        pauseOnHover: true,
-        animate: true,
-        notificationType: 'default',
-        placement: 'topRight',
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
-    else if (value == 'icon') {
-      const newNode = {
-        id: 'icon_' + Guid.newGuid(),
-        key: 'icon' + Guid.newGuid(),
-        title: 'Icon',
-        type: "icon",
-        className: "w-1/2",
-        tooltip: "",
-        hideExpression: false,
-        isNextChild: false,
-        icon: 'star',
-        iconColor: '',
-        iconType: 'outline',
-        iconSize: 15,
-        children: [],
-      } as TreeNode;
-      this.addNode(node, newNode);
-    }
+    this.addNode(node, newNode);
     this.updateNodes();
-
-    // this.controlListClose();
-    // if (this.screenName)
-    // this.saveOldJson();
   }
   makeFormlyOptions(option: any) {
     if (option) {
@@ -4162,64 +1255,18 @@ export class BuilderComponent implements OnInit {
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
-    // if (dataType == 'wrappers') {
-    //   return wrapperName;
-    // } else if (dataType == 'disabled') {
-    //   return false;
-    // }
     let disabledProperty: any;
-    if (this.selectedNode.children) {
-      for (let j = 0; j < this.selectedNode.children.length; j++) {
-        if (this.selectedNode.children[j].formlyType != undefined) {
-          if (this.selectedNode.children[j].formlyType == 'input') {
-            wrapperName = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-            disabledProperty = this.selectedNode.children[j].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-          }
-          else if (this.selectedNode.children[j].type == 'tabsMain') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-          else if (this.selectedNode.children[j].type == 'stepperMain') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-          else if (this.selectedNode.children[j].type == 'mainDashonicTabs') {
-            this.selectedNode.children[j].children?.forEach(element => {
-              element.children?.forEach(elementV1 => {
-                wrapperName = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-                disabledProperty = elementV1.formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
-              });
-            });
-          }
-        }
-      }
+    const filteredNodes = this.filterInputElements(this.selectedNode);
+    for (let index = 0; index < filteredNodes.length; index++) {
+      wrapperName = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+      disabledProperty = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
+      break;
     }
     if (dataType == 'wrappers') {
       return wrapperName;
     } else if (dataType == 'disabled') {
       return disabledProperty;
     }
-  }
-  addNextChildProperty(data: any) {
-
-    if (!data.isNextChild) {
-      if (data.type != "page" && data.type != "pageHeader" && data.type != "pageBody" && data.type != "pageFooter" && data.type != "according" && data.type != "accordingHeader" && data.type != "accordingBody" && data.type != "accordingFooter" && data.type != "stepperMain" && data.type != "stepper" && data.type != "buttonGroup" && data.type != "dashonicTabs" && data.type != "mainDashonicTabs" && data.type != "kanban" && data.type != "kanbanTask" && data.type != "fixedDiv" && data.type != "accordionButton") {
-        data["isNextChild"] = [],
-          data.isNextChild = false;
-      } else {
-        data["isNextChild"] = [],
-          data.isNextChild = true;
-      }
-    }
-    return data;
   }
   closeConfigurationList() {
     this.IsShowConfig = false;
@@ -4237,21 +1284,13 @@ export class BuilderComponent implements OnInit {
     this.selectedNode = node;
     this.selectdParentNode = parent;
     // this.highlightSelect(this.selectedNode.id,true)
+    // this.clickButton(node?.title);
     this.clickButton(node?.type);
     this.dataSharedService.nodes = this.nodes;
     this.dataSharedService.screenModule = this.screenModule;
     this.dataSharedService.selectedNode = this.selectedNode;
     this.dataSharedService.screenName = this.screenName;
 
-  }
-  applyHighLight(data: boolean, element: any) {
-
-    if (element.highLight) {
-      element["highLight"] = data;
-    } else {
-      element["highLight"] = data;
-    }
-    return element;
   }
   applySize() {
 
@@ -4272,67 +1311,6 @@ export class BuilderComponent implements OnInit {
       this.sizes = [1, 99, 0]
     }
   }
-
-  addPropertieInOldScreens(propertyName: any, propertyType: any) {
-    if (propertyType == "isShow") {
-      if (propertyName == undefined) {
-        propertyName = true;
-      }
-    }
-    else if (propertyType == "repeat" || propertyType == "repeatable" || propertyType == "hideExpression") {
-      if (propertyName == undefined) {
-        propertyName = false;
-      }
-    }
-    else if (propertyType == "icon") {
-      if (propertyName == undefined) {
-        propertyName = [];
-      }
-    }
-    else if (propertyType == "padding") {
-      if (propertyName == undefined) {
-        propertyName = '';
-      }
-    }
-    else if (propertyType == "paddingRight" || propertyType == "paddingTop" || propertyType == "paddingBottom") {
-      if (propertyName == undefined) {
-        propertyName = 0;
-      }
-    }
-    else if (propertyType == "styleConfig") {
-      if (propertyName.styleConfig == undefined) {
-        propertyName["styleConfig"] = [{}]
-      }
-    }
-    else if (propertyType == "style") {
-      if (propertyName.style == undefined) {
-        propertyName[""] = {}
-      }
-    }
-    else if (propertyType == "addonLeft") {
-      if (propertyName.addonLeft == undefined) {
-        propertyName["addonLeft"] = {};
-        propertyName.addonLeft["text"] = "";
-        propertyName = propertyName.addonLeft.text;
-      } else {
-        propertyName = propertyName.addonLeft.text;
-      }
-    }
-    else if (propertyType == "addonRight") {
-      if (propertyName.addonRight == undefined) {
-        propertyName["addonRight"] = {};
-        propertyName.addonRight["text"] = "";
-        propertyName = propertyName.addonRight.text;
-      } else {
-        propertyName = propertyName.addonRight.text;
-      }
-    }
-    return propertyName;
-  };
-
-
-
-
 
   clickButton(type: any) {
 
@@ -4727,7 +1705,6 @@ export class BuilderComponent implements OnInit {
       case "heading":
 
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
-        // configObj.padding = this.addPropertieInOldScreens(this.selectedNode.padding, "padding"),
         this.fieldData.formData = _formFieldData.headingFields;
         break;
 
@@ -4813,7 +1790,7 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.accordionButtonFields);
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
-      case "linkButton":
+      case "linkbutton":
         configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.linkButtonFields);
         this.fieldData.formData = _formFieldData.linkButtonFields;
@@ -4841,7 +1818,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
-      case "according":
+      case "sections":
         if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
           // this.fieldData.commonData[0].fieldGroup[4] = {
           //   className: "w-1/2",
@@ -4871,19 +1848,19 @@ export class BuilderComponent implements OnInit {
           //   }
           // };
           configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.accordingFields;
+        this.fieldData.formData = _formFieldData.sectionsFields;
         break;
-      case "accordingHeader":
+      case "header":
         configObj = { ...configObj, ...this.clickButtonService.getSectionHeaderConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.accordingHeaderFields;
+        this.fieldData.formData = _formFieldData.headerFields;
         break;
-      case "accordingFooter":
+      case "footer":
         configObj = { ...configObj, ...this.clickButtonService.getSectionFooterConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.accordingFooterFields;
+        this.fieldData.formData = _formFieldData.footerFields;
         break;
-      case "accordingBody":
+      case "body":
         configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.accordingBodyFields;
+        this.fieldData.formData = _formFieldData.bodyFields;
         break;
       case "step":
         configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
@@ -4986,41 +1963,6 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  // define function to handle button group
-  handleButtonGroup(element: any, id: any) {
-    if (id == element.id) {
-      if (element.children.length > 0)
-        element.highLight = true;
-    }
-    else {
-      if (element.children.length > 0)
-        element.highLight = false;
-    }
-  }
-
-  // define function to handle formly fields
-  handleFormly(element: any, id: any) {
-    if (!element) return;
-
-    if (element.formly != undefined) {
-      if (element.type == "stepperMain") {
-        if (id == element.id)
-          element.children[0].highLight = true;
-        else
-          element.children[0].highLight = false;
-      } else {
-        var className = element.formly[0].fieldGroup[0].className;
-        if (id == element.id) {
-          if (!className.includes("highLight")) {
-            element.formly[0].fieldGroup[0].className = className + " highLight";
-          }
-        }
-        else {
-          element.formly[0].fieldGroup[0].className = className.replace("highLight", "");
-        }
-      }
-    }
-  }
   highlightSelect(id: any, highlightOrNot: boolean) {
     this.applyOrRemoveHighlight(this.nodes[0], id, highlightOrNot);
     this.nodes.at(0)?.children?.forEach((element: any) => {
@@ -5051,11 +1993,11 @@ export class BuilderComponent implements OnInit {
   addSection() {
     this.sectionBageBody = this.nodes[0].children[1];
     this.selectedNode = this.sectionBageBody,
-      this.addControlToJson('according', null);
-    this.selectedNode = this.sectionAccording;
-    this.addControlToJson('accordingHeader', null);
-    this.addControlToJson('accordingBody', null);
-    this.addControlToJson('accordingFooter', null);
+      this.addControlToJson('sections', null);
+    this.selectedNode = this.sectionsections;
+    this.addControlToJson('header', null);
+    this.addControlToJson('body', null);
+    this.addControlToJson('footer', null);
     this.selectedNode = this.sectionAccorBody;
     this.addControlToJson('text', this.textJsonObj);
   }
@@ -5105,7 +2047,7 @@ export class BuilderComponent implements OnInit {
   //                 //   this.nodes[index].children[1].children[a].id = Guid.newGuid();
   //                 //   this.nodes[index].children[1].children[a].formly[0].key = Guid.newGuid();
   //                 // }
-  //                 if (element.children[i].type == 'accordingBody') {
+  //                 if (element.children[i].type == 'body') {
   //                   element.children[i].id = element.children[i].id + Guid.newGuid();
   //                   element.children[i].formly[0].key = element.children[i].formly[0].key + Guid.newGuid();
   //                   for (let a = 0; a < element.children[i].children.length; a++) {
@@ -5254,7 +2196,7 @@ export class BuilderComponent implements OnInit {
 
     let parent = node?.parentNode?.origin;
     node = node.origin;
-    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
+    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'header' && node.type != 'body' && node.type != 'footer') {
       let newNode = JSON.parse(JSON.stringify(node));
       newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
@@ -5861,6 +2803,7 @@ export class BuilderComponent implements OnInit {
             props.label = event.form.title;
             props['key'] = event.form.key;
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
+            this.updateFormlyModel();
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
@@ -6347,7 +3290,7 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-      case "linkButton":
+      case "linkbutton":
 
         if (this.selectedNode) {
           this.selectedNode.btnIcon = event.form.icon;
@@ -6928,7 +3871,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.footer = event.form.footer;
         }
         break;
-      case "according":
+      case "sections":
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
@@ -7001,7 +3944,7 @@ export class BuilderComponent implements OnInit {
           this.clickBack();
         }
         break;
-      case "accordingHeader":
+      case "header":
         if (this.selectedNode.id) {
           this.selectedNode.headingSize = event.form.headingSize;
           // this.selectedNode.borderColor = event.form.borderColor;
@@ -7014,7 +3957,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "accordingBody":
+      case "body":
         if (this.selectedNode.id) {
           // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
@@ -7022,7 +3965,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case "accordingFooter":
+      case "footer":
         if (this.selectedNode.id) {
           // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
@@ -7252,7 +4195,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
-            this.selectedNode['nodes'] = event.form.nodes
+          this.selectedNode['nodes'] = event.form.nodes
           this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
           if (event.tableDta) {
             this.selectedNode.data = event.tableDta;
@@ -7440,7 +4383,6 @@ export class BuilderComponent implements OnInit {
     }
     return fieldGroup;
   }
-
   functionName: any;
   mainTemplate() {
     this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
