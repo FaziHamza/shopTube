@@ -960,6 +960,8 @@ export class AddControlService {
       prefixIcon: "like",
       isNextChild: false,
       suffixIcon: "like",
+      iconType:"outline",
+      iconSize:15,
       statisticArray: [
         {
           title: "Active Users",

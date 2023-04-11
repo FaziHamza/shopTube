@@ -9,11 +9,11 @@ export class BuilderClickButtonService {
     return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, };
   }
   getcardWithComponentsConfig(node: any) {
-    return { borderless: node.borderless};
+    return { borderless: node.borderless };
   }
   getIconConfig(node: any) {
     debugger
-    return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'] , iconColor: node['iconColor'] };
+    return { icon: node.icon, iconType: node.iconType, iconSize: node['iconSize'], iconColor: node['iconColor'] };
   }
   getAnchorConfig(node: any) {
     return { affix: node.affix, offSetTop: node.offSetTop, showInkInFixed: node.showInkInFixed, target: node.target, bond: node.bond };
@@ -110,7 +110,7 @@ export class BuilderClickButtonService {
     return { avatar: node.avatar, author: node.author };
   }
   getRateFieldsConfig(node: any) {
-    
+
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
@@ -158,7 +158,7 @@ export class BuilderClickButtonService {
     return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement };
   }
   getStatisticConfig(node: any) {
-    return { icon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray , iconType: node['iconType'] , iconSize: node['iconSize'] , iconColor: node['iconColor']};
+    return { icon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray, iconType: node['iconType'], iconSize: node['iconSize'], iconColor: node['iconColor'] };
   }
 
   getlistConfig(node: any) {
@@ -572,6 +572,14 @@ export class BuilderClickButtonService {
 
     }
   }
+  getTimelineChildConfig(node: any) {
+    return {
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+      icon: node['icon'],
+    }
+  }
 
   getSimpleCardWithHeaderBodyFooterConfig(node: any) {
     return {
@@ -904,7 +912,7 @@ export class BuilderClickButtonService {
     }
   }
   getSectionConfig(node: any) {
-    
+
     if (node.children[1].children.length > 0) {
       if (node.children[1].children[0].formly) {
         return {

@@ -374,6 +374,7 @@ export class BuilderComponent implements OnInit {
       this.formlyModel = [];
       const newNode = [{
         id: 'page',
+        key:'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
         footer: false,
@@ -813,19 +814,41 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
+    debugger
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
     let node = this.selectedNode;
-    let newNode: any = {
-      id: value.toLowerCase() + "_" + Guid.newGuid(),
-      key: value.toLowerCase() + "_" + Guid.newGuid(),
-      className: this.columnApply(value),
-      expanded: true,
-      type: value,
-      title: value, children: [], tooltip: '',
-      hideExpression: false, highLight: false,
-    };
+    let newNode: any = {};
+    if (data?.parameter == 'input') {
+      newNode = {
+        id: value.toLowerCase() + "_" + Guid.newGuid(),
+        className: this.columnApply(value),
+        expanded: true,
+        type: value,
+        title: value, 
+        children: [], 
+        tooltip: '',
+        hideExpression: false, 
+        highLight: false,
+      }
+    } 
+    else {
+      newNode = {
+        key: value.toLowerCase() + "_" + Guid.newGuid(),
+        id: value.toLowerCase() + "_" + Guid.newGuid(),
+        className: this.columnApply(value),
+        expanded: true,
+        type: value,
+        title: value, 
+        children: [], 
+        tooltip: '',
+        hideExpression: false, 
+        highLight: false,
+      }
+    }
+
+
 
     switch (value) {
       case "page":
@@ -901,15 +924,19 @@ export class BuilderComponent implements OnInit {
         break;
       case "tabs":
         newNode = { ...newNode, ...this.addControlService.getTabsControl() };
+        this.chilAdd = newNode
         break;
       case "mainTab":
         newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
+        this.ParentAdd = newNode
         break;
       case "mainStep":
         newNode = { ...newNode, ...this.addControlService.getMainStepControl() };
+        this.ParentAdd = newNode
         break;
       case "step":
         newNode = { ...newNode, ...this.addControlService.getStepControl() };
+        this.chilAdd = newNode
         break;
       case "kanban":
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
@@ -993,10 +1020,12 @@ export class BuilderComponent implements OnInit {
 
       case "timeline":
         newNode = { ...newNode, ...this.addControlService.timelineControl() };
+        this.ParentAdd = newNode;
         break;
 
       case "fixedDiv":
         newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
+        this.chilAdd = newNode;
         break;
 
       case "accordionButton":
@@ -1144,11 +1173,12 @@ export class BuilderComponent implements OnInit {
             type: data?.configType,
             formlyType: data?.parameter,
             hideExpression: false,
+            title: data?.label,
             formly: [
               {
                 fieldGroup: [
                   {
-                    key: data?.configType + Guid.newGuid(),
+                    key: data?.configType.toLowerCase() + "_" + Guid.newGuid(),
                     type: data?.type,
                     defaultValue: "",
                     focus: false,
@@ -1221,7 +1251,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
     }
-
     this.addNode(node, newNode);
     this.updateNodes();
   }
@@ -1355,7 +1384,8 @@ export class BuilderComponent implements OnInit {
     const selectedNode = this.selectedNode;
     let configObj: any = {
       id: selectedNode.id as string, className: selectedNode.className,
-      key: selectedNode.key, title: selectedNode.title,
+      key: selectedNode.key,
+      title: selectedNode.title,
       tooltip: selectedNode.tooltip,
       hideExpression: selectedNode.hideExpression
     };
@@ -1720,12 +1750,12 @@ export class BuilderComponent implements OnInit {
       case "search":
       case "radiobutton":
       case "checkbox":
-      case "url":
       case "datetime":
       case "time":
       case "timepicker":
       case "date":
       case "month":
+      case "year":
       case "decimal":
       case "week":
       case "color":
@@ -2244,12 +2274,13 @@ export class BuilderComponent implements OnInit {
     else if (type == "kanabnAddNew")
       this.addChildControls();
     else if (type == "timelineAddnew")
-      this.addChildControls('timeline', 'timelineChild');
+      this.addChildControlsWithSubChild('timeline', 'timelineChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
       this.formDataFromApi(type);
     else if (type == "addSection")
       this.addSection();
   }
+
   addChildControls(parent?: any, child?: any) {
     this.addControlToJson(parent);
     this.selectedNode = this.ParentAdd;
@@ -2782,6 +2813,7 @@ export class BuilderComponent implements OnInit {
       case "time":
       case "timepicker":
       case "month":
+      case "year":
       case "week":
       case "datetime":
       case "date":
@@ -2789,7 +2821,7 @@ export class BuilderComponent implements OnInit {
       case "autoComplete":
       case "number":
       case "customMasking":
-
+        case "url":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
@@ -4313,6 +4345,7 @@ export class BuilderComponent implements OnInit {
     }
 
   }
+
 
 
   searchControll() {
