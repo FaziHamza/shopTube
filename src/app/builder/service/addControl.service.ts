@@ -114,6 +114,7 @@ export class AddControlService {
       textColor: '',
       isSubmit: false, btnType: "",
       href: "",
+      dataTable:"",
     }
   }
   getDropdownButtonControl() {
@@ -140,6 +141,7 @@ export class AddControlService {
       textColor: "",
       iconSize: 15,
       hoverTextColor: '',
+      dataTable:'',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -432,6 +434,7 @@ export class AddControlService {
       nzShape: 'default',
       iconType: 'outline',
       iconSize: 15,
+      dataTable:'',
     }
   }
   simplecardControl() {
@@ -492,6 +495,7 @@ export class AddControlService {
       text: "Editor.js",
       heading: 3,
       fontstyle: 'font-normal',
+      link:'',
     }
   }
   paragraphControl() {
@@ -513,18 +517,12 @@ export class AddControlService {
       beforecopyIcon: '',
       aftercopyIcon: '',
       editableIcon: '',
+      link:'',
     }
   }
   htmlBlockControl() {
     return {
-      style: "font-weight:normal;",
-      textAlign: "text-align:left;",
-      isNextChild: false,
-      fontSize: "font-weight:normal;text-align:left;",
-      api: "",
-      data: {
-        text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
-      },
+      data:'' ,
     }
   }
   textEditorControl() {

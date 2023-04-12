@@ -1,4 +1,4 @@
-<div [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? 'height' : ''">
+<div [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? ' height ' : ''">
   <ng-container *ngIf="to.type != 'number' && to.config?.wrapper != 'floating_standard'">
     <ng-container *ngIf="to.type != 'textarea' &&  !to.config?.floatingInput">
       <nz-input-group
@@ -31,7 +31,7 @@
       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder" [nzStatus]="to.config?.status"
       [formControl]="formControl" [nzSize]="to.config?.size" [nzBorderless]="to.config?.border" />
-    <label for="floating_standard"
+    <label
       class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{to.label}}</label>
   </div>
   <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>

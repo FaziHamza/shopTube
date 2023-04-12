@@ -94,6 +94,11 @@ export class BuilderService {
       this.baseUrl + api
     );
   }
+  genericApisPost(api: any , data : any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + api , data
+    );
+  }
   jsonGridBusinessRuleGet(moduleId: any): Observable<any[]> {
     return this.http.get<any[]>(
       this.baseUrl + "jsonGridBusinessRule?moduleId=" + moduleId

@@ -49,5 +49,13 @@ export * from "./videos/videos.component"
 export * from "./calendar/calendar.component"
 export * from "./icon/icon.component"
 export * from "./buttons/buttons.component"
+export * from "./kanban/board/board/board.component"
+export * from "./kanban/board/card/detail/detail.component"
+export * from "./kanban/board/card/summary/summary.component"
+export * from "./kanban/board/list/list.component"
+export * from "./kanban/common/context-menu/context-menu.component"
+export * from "./kanban/common/header/header.component"
+export * from "./kanban/directives/content-edit.directive"
+export * from "./html-block/html-block.component"
 
 

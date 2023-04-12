@@ -1,6 +1,6 @@
 <div class="m-1" *ngIf="softIconList.type != 'buttonGroup'">
   <div class={{softIconList.format}}>
-    <st-buttons [buttonData]="softIconList"></st-buttons>
+    <st-buttons (notify)="saveData($event)" [buttonData]="softIconList"></st-buttons>
   </div>
   <span nz-tooltip *ngIf="softIconList.tooltip" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
       nzType="question-circle" nzTheme="twotone"></span></span>
@@ -11,7 +11,7 @@
   <div class={{softIconList.btngroupformat}}>
     <nz-button-group>
       <div *ngFor="let item of softIconList.children">
-        <st-buttons [buttonData]="item"></st-buttons>
+        <st-buttons (notify)="saveData($event)" [buttonData]="item"></st-buttons>
         <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
             nzTheme="twotone"></span></span>
       </div>
