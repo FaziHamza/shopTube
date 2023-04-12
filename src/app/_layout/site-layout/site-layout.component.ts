@@ -44,14 +44,14 @@ export class SiteLayoutComponent implements OnInit {
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
-    window.onresize = () => {
-      this.controlMenu();
-    };
-    this.controlMenu();
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
     }
+    window.onresize = () => {
+      this.controlMenu();
+    };
+    this.controlMenu();
   }
   toggleCollapsed(): void {
 
@@ -296,6 +296,7 @@ export class SiteLayoutComponent implements OnInit {
     arrayList = this.selectedTheme.allMenuItems;
     // this.selectedTheme.allMenuItems = [];
     this.selectedTheme.newMenuArray = [];
+    this.selectedTheme.newMenuArray = [];
     if (this.selectedTheme.allMenuItems.length > 7 && this.selectedTheme.layout == 'horizental') {
       this.selectedTheme.newMenuArray = [{
         label: "More",
@@ -329,6 +330,7 @@ export class SiteLayoutComponent implements OnInit {
         if (!res[0].selectedTheme.showMenu) {
           this.selectedTheme['showMenu'] = true;
         }
+        this.makeMenuData();
         // this.menuItems.forEach((e: any) => {
         //   e["menuIcon"] = "up"
         // });

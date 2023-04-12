@@ -308,6 +308,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'dataTable',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Data Table'
+          }
+        },
+        {
           key: 'redirect',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -840,6 +849,15 @@ export class formFeildData {
             ]
           },
         },
+        // {
+        //   key: 'dataTable',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Data Table'
+        //   }
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
@@ -1076,6 +1094,15 @@ export class formFeildData {
             label: 'Link'
           }
         },
+        // {
+        //   key: 'dataTable',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Data Table'
+        //   }
+        // },
         {
           key: 'nzSize',
           type: 'select',
@@ -2740,11 +2767,19 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'link',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Link',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'headingApi',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-
             label: 'Heading Api',
           }
         },
@@ -2898,6 +2933,15 @@ export class formFeildData {
               },
             ]
           },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'link',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Link',
+          }
         },
         {
           key: 'editable',

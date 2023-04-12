@@ -1,5 +1,5 @@
 <button
-  [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || '' }"
+  [ngStyle]="{ 'background-color': bgColor || buttonData?.color , 'color':hoverTextColor || buttonData.textColor , 'border-color':borderColor || buttonData.textColor }"
   (mouseover)="bgColor = buttonData?.hoverColor" (mouseover)="hoverTextColor = buttonData.hoverTextColor || ''"
   (mouseover)="borderColor = buttonData.hoverColor || ''" (mouseout)="bgColor = buttonData?.color || ''"
   (mouseout)="borderColor = buttonData?.textColor || ''" (mouseout)="hoverTextColor = buttonData?.textColor"
@@ -7,10 +7,10 @@
   *ngIf="buttonData.type != 'dropdownButton' && buttonData.type != 'linkbutton'" nz-button [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
   [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
-  (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData.href,buttonData.btnType)]"><span *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType"
-      [icon]="buttonData.btnIcon" [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon></span>
-  <span *ngIf="buttonData.title">
-    {{buttonData.title}}</span>
+  (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData) ,saveData(buttonData)]"><span
+    *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
+      [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon><span *ngIf="buttonData.title">
+      {{buttonData.title}}</span></span>
 </button>
 <!-- link  -->
 <div *ngIf="buttonData.type == 'linkbutton'" class="pt-3">
@@ -18,7 +18,7 @@
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color" [nzSize]="buttonData.nzSize"
     [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [disabled]="buttonData.disabled"
     [nzDanger]='buttonData.nzDanger' [class]='[buttonData.color, buttonData.hoverColor]'
-    (click)="pagesRoute(buttonData.href,buttonData.btnType)">
+    (click)="pagesRoute(buttonData)">
     <span><st-icon *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
         [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon>
       {{buttonData.title}}

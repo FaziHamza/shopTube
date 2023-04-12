@@ -7,6 +7,8 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { BuilderService } from '../services/builder.service';
 import { TreeNode } from '../models/treeNode';
 import { ElementData } from '../models/element';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-main',
@@ -30,8 +32,9 @@ export class MainComponent implements OnInit {
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
   joiValidationData: TreeNode[] = [];
+  requestSubscription: Subscription;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
-    private builderService: BuilderService) { }
+    private builderService: BuilderService, private toastr: NzMessageService,) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -45,8 +48,7 @@ export class MainComponent implements OnInit {
     // this.joiService.submit();
     this.formlyModel = this.form.value;
     this.joiValidation();
-    if(this.validationCheckStatus.length  === 0)
-    {
+    if (this.validationCheckStatus.length === 0) {
       this.form.value;
       console.log(this.form.value);
       this.dataModel
@@ -92,7 +94,7 @@ export class MainComponent implements OnInit {
   }
   joiValidation() {
 
-    let jsonScreenRes : any = [];
+    let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.mainData.length; j++) {
         if (this.mainData[j].formlyType != undefined) {
@@ -125,7 +127,7 @@ export class MainComponent implements OnInit {
               const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
               const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
               const schema = {
-                  [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
+                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
               };
               this.ruleObj = schema;
             }
@@ -160,8 +162,8 @@ export class MainComponent implements OnInit {
                 V2.formly[0].fieldGroup[index].props.error = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label)
             }
           }
-          if(V2.formly[0].fieldGroup[index].props.error)
-             this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props.error);
+          if (V2.formly[0].fieldGroup[index].props.error)
+            this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props.error);
         }
       });
       // this.cd.detectChanges();
@@ -188,5 +190,22 @@ export class MainComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-
+  saveData(data: any) {
+    debugger
+    if (data.isSubmit) {
+      if (data.dataTable) {
+        this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
+          next: (res) => {
+            this.toastr.success("Data saved!", { nzDuration: 3000 });
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          }
+        });
+      }else{
+        this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    }
+  }
 }
