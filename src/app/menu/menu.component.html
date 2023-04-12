@@ -1,7 +1,10 @@
 <div class="flex flex-wrap">
   <div class="w-3/4">
     <div class="ml-12 p-4">
-      <button nz-button class="mobile-toggle mr-4" (click)="collapse()" nzType="primary">
+      <button nz-button class="mobile-toggle mr-4 ml-4" (click)="collapse('mobile')" nzType="primary">
+        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+      </button>
+      <button nz-button class="mr-4 ml-4 desktop-toggle" (click)="collapse('desktop')" nzType="primary">
         <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
       </button>
       <button

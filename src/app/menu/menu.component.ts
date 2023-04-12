@@ -27,10 +27,15 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
+    debugger
     this.selectedApp = moduleName;
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
-        this.notify.emit(res[0]);
+        let obj ={
+          emitData : res[0],
+          screenType : ''
+        };
+        this.notify.emit(obj);
       }
       else {
         this.notification.create(
@@ -41,8 +46,12 @@ export class MenuComponent implements OnInit {
       }
     }));
   }
-  collapse(){
+  collapse(screenType : any){
     this.isCollapsed = !this.isCollapsed;
-    this.notify.emit(this.isCollapsed);
+    let obj ={
+      emitData : this.isCollapsed,
+      screenType : screenType
+    };
+    this.notify.emit(obj);
   }
 }

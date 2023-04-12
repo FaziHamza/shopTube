@@ -183,9 +183,9 @@ export class MenuBuilderComponent implements OnInit {
       if (res.length > 0) {
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
-        if(res[0].selectedTheme){
-        this.selectedTheme = res[0].selectedTheme;
-        }else{
+        if (res[0].selectedTheme) {
+          this.selectedTheme = res[0].selectedTheme;
+        } else {
           this.selectedTheme = {
             topHeaderMenu: 'w-1/6',
             topHeader: 'w-10/12',
@@ -551,8 +551,8 @@ export class MenuBuilderComponent implements OnInit {
       });
       this.nodes.splice(idx + 1, 0, newNode);
     }
-    if(parent){
-      if(parent.type == 'mainTab' || parent.type == 'dropdown'){
+    if (parent) {
+      if (parent.type == 'mainTab' || parent.type == 'dropdown') {
         parent.nodes = parent.children.length;
       }
     }
@@ -576,8 +576,8 @@ export class MenuBuilderComponent implements OnInit {
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
     }
-    if(parent){
-      if(parent.type == 'mainTab' || parent.type == 'dropdown'){
+    if (parent) {
+      if (parent.type == 'mainTab' || parent.type == 'dropdown') {
         parent.nodes = parent.children.length;
       }
     }
@@ -1128,7 +1128,7 @@ export class MenuBuilderComponent implements OnInit {
         this.selectedTheme.isTwoColumnCollapsed = false;
         this.selectedTheme.menuColumn = 'w-1/12';
         this.selectedTheme.topHeaderMenu = 'w-1/6'
-      this.selectedTheme.topHeader = 'w-10/12';
+        this.selectedTheme.topHeader = 'w-10/12';
         this.selectedTheme.layoutWidth = '';
         if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
           this.selectedTheme.rowClass = 'w-10/12';
@@ -1215,9 +1215,9 @@ export class MenuBuilderComponent implements OnInit {
         subMenu: []
       }]
 
-      const withOutTitle = this.nodes.filter((a:any)=>a.isTitle != true);
+      const withOutTitle = this.nodes.filter((a: any) => a.isTitle != true);
       this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;

@@ -716,6 +716,11 @@ a.fc-event:hover {
     display: none !important;
   }
 }
+@media screen and (max-width: 790px) {
+  .desktop-toggle {
+    display: none !important;
+  }
+}
 
 // @media screen and (min-width: 1132) {
 //   .show-mbl-screen {

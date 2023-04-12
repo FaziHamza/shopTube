@@ -45,7 +45,7 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     window.onresize = () => {
-      this.controlMenu();
+      // this.controlMenu();
     };
     // this.controlMenu();
     if (!this.selectedTheme) {
@@ -209,20 +209,37 @@ export class SiteLayoutComponent implements OnInit {
 
   notifyEmit(data: any) {
     debugger
-    if (typeof data === 'boolean') {
-      this.selectedTheme.showMenu = data;
-      this.selectedTheme.rowClass = 'w-full';
-      let newData = JSON.parse(JSON.stringify(this.selectedTheme));
-      this.selectedTheme = newData;
+    if (data.screenType) {
+      if (data.screenType == 'desktop') {
+        this.selectedTheme.showMenu =  true;
+        this.selectedTheme.isCollapsed = data.emitData;
+        if (this.selectedTheme.isCollapsed) {
+          this.selectedTheme.topHeaderMenu = 'w-1/12';
+          this.selectedTheme.topHeader = 'w-full';
+          this.selectedTheme.menuColumn = 'w-1/12';
+          this.selectedTheme.rowClass = 'w-11/12';
+        } 
+        else {
+          this.selectedTheme.menuColumn = 'w-1/6';
+          this.selectedTheme.rowClass = 'w-10/12';
+          this.selectedTheme.topHeaderMenu = 'w-1/6';
+          this.selectedTheme.topHeader = 'w-10/12';
+        }
 
+      } else if (data.screenType == 'mobile') {
+        this.selectedTheme.showMenu = data.emitData;
+      }
+      // let newData = JSON.parse(JSON.stringify(this.selectedTheme));
+      // this.selectedTheme = this.selectedTheme;
     }
     else {
-      if (data.selectedTheme) {
-        this.selectedTheme = data.selectedTheme
-      } else {
+      if (data.emitData.selectedTheme) {
+        this.selectedTheme = data.emitData.selectedTheme
+      }
+      else {
         this.selectedTheme = this.newSelectedTheme;
       }
-      this.selectedTheme.allMenuItems = data.menuData;
+      this.selectedTheme.allMenuItems = data.emitData.menuData;
       // this.newMenuArrayFunc();
       this.makeMenuData();
     }
@@ -320,20 +337,20 @@ export class SiteLayoutComponent implements OnInit {
         this.newSelectedTheme.allMenuItems = [];
     })
   }
-  controlMenu() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 789) {
-      // this.selectedTheme.isCollapsed = true;
-      this.selectedTheme.showMenu = false;
-      this.selectedTheme.rowClass = 'w-full';
-      // this.selectedTheme.isCollapsed = true;
-    } else {
-      // this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.rowClass = 'w-10/12';
-      this.selectedTheme.showMenu = true;
-      // this.selectedTheme.topHeaderMenu = 'w-1/6';
-      // this.selectedTheme.topHeader = 'w-10/12';
-    }
-  }
+  // controlMenu() {
+  //   const screenWidth = window.innerWidth;
+  //   if (screenWidth <= 789) {
+  //     // this.selectedTheme.isCollapsed = true;
+  //     this.selectedTheme.showMenu = false;
+  //     this.selectedTheme.rowClass = 'w-full';
+  //     // this.selectedTheme.isCollapsed = true;
+  //   } else {
+  //     // this.selectedTheme.isCollapsed = false;
+  //     this.selectedTheme.rowClass = 'w-10/12';
+  //     this.selectedTheme.showMenu = true;
+  //     // this.selectedTheme.topHeaderMenu = 'w-1/6';
+  //     // this.selectedTheme.topHeader = 'w-10/12';
+  //   }
+  // }
 }
 
