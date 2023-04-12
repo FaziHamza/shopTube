@@ -155,6 +155,7 @@ export class MenuBuilderComponent implements OnInit {
       allMenuItems: [],
     }
     this.jsonModuleSetting();
+    
   }
   LayerShow() {
     if (this.IslayerVisible)

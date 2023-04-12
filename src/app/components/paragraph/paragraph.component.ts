@@ -1,17 +1,23 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'st-paragraph',
-  templateUrl:'./paragraph.component.html',
+  templateUrl: './paragraph.component.html',
   styleUrls: ['./paragraph.component.scss']
 })
 export class ParagraphComponent implements OnInit {
-@Input() data:any;
+  @Input() data: any;
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+  pageRoute(link: any) {
+    if (link) {
+      this.router.navigate(['/pages/' + link]);
+    }
   }
 
 
