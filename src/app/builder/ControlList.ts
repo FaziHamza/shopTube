@@ -765,42 +765,42 @@ export const htmlTabsData = [
                 icon: "uil-key-skeleton-alt",
                 content: "assets/images/small/login-Template.jpg",
                 name: "login",
-                label: "Loging Template"
+                label: "Login"
               },
               {
                 parameter: "loremIpsum",
                 icon: "uil uil-text",
                 content: "assets/images/small/lorem-ipsum.jpg",
                 name: "loremIpsum",
-                label: "Lorem Ipsum Template"
+                label: "Lorem Ipsum"
               },
               {
                 parameter: "dashnoicPricingTabletemplate",
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/dashonic-Pricing-Table.PNG",
                 name: "dashnoicPricingTabletemplate",
-                label: "Pricing Table Template"
+                label: "Pricing Table"
               },
               {
                 parameter: "pricingtemplate",
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/price-Template.jpg",
                 name: "pricingtemplate",
-                label: "Pricing Template"
+                label: "Pricing"
               },
               {
                 parameter: "registerTemplate",
                 icon: "uil-document-layout-left",
                 content: "assets/images/small/register-Template.jpg",
                 name: "registerTemplate",
-                label: "Register Template"
+                label: "Register"
               },
               {
                 parameter: "signUpTemplate",
                 icon: "uil-sign-in-alt",
                 content: "assets/images/small/sign-Up.jpg",
                 name: "signUpTemplate",
-                label: "SignUp Template"
+                label: "SignUp"
               },
               {
                 parameter: "profiletemplate",

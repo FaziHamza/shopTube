@@ -766,20 +766,23 @@ export class formFeildData {
             label: 'Button Type',
             options: [
               {
-                label: 'large',
-                value: 'large'
-              },
-              {
-                label: 'small',
-                value: 'small'
-              },
-              {
-                label: 'default',
+                label: 'Default',
                 value: 'default'
+              },
+              {
+                label: 'Primary',
+                value: 'primary'
+              },
+              {
+                label: 'Dashed',
+                value: 'dashed'
+              },
+              {
+                label: 'Text',
+                value: 'text'
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'trigger',
@@ -800,7 +803,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'placement',
@@ -837,7 +839,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -990,7 +991,6 @@ export class formFeildData {
               // },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'color',
@@ -1034,7 +1034,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'nzShape',
@@ -1058,7 +1057,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         // {
         //   key: 'btnIcon',
@@ -1100,7 +1098,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'Vertical'
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1597,7 +1594,7 @@ export class formFeildData {
               {
                 label: 'Donut Chart',
                 value: 'donutChart'
-              }
+              } 
             ]
           },
           // defaultValue: 'donutChart'
@@ -2901,7 +2898,6 @@ export class formFeildData {
               },
             ]
           },
-
         },
         {
           key: 'editable',
@@ -5477,6 +5473,21 @@ export class formFeildData {
           props: {
             label: 'Reverse'
           },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'api',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Api',
+            options: [
+              {
+                label: 'Api',
+                value: 'timeLine'
+              },
+            ]
+          }
         },
         {
           key: 'options',
@@ -10976,6 +10987,23 @@ export class formFeildData {
             label: 'Show target div',
           },
           defaultValue: false
+        },
+      ]
+    },
+  ];
+  htmlBlockFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full",
+          key: 'data',
+          type: 'textarea',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Data',
+            rows: 3
+          }
         },
       ]
     },

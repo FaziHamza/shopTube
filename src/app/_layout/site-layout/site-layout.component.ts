@@ -45,9 +45,9 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     window.onresize = () => {
-      // this.controlMenu();
+      this.controlMenu();
     };
-    // this.controlMenu();
+    this.controlMenu();
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
@@ -337,20 +337,20 @@ export class SiteLayoutComponent implements OnInit {
         this.newSelectedTheme.allMenuItems = [];
     })
   }
-  // controlMenu() {
-  //   const screenWidth = window.innerWidth;
-  //   if (screenWidth <= 789) {
-  //     // this.selectedTheme.isCollapsed = true;
-  //     this.selectedTheme.showMenu = false;
-  //     this.selectedTheme.rowClass = 'w-full';
-  //     // this.selectedTheme.isCollapsed = true;
-  //   } else {
-  //     // this.selectedTheme.isCollapsed = false;
-  //     this.selectedTheme.rowClass = 'w-10/12';
-  //     this.selectedTheme.showMenu = true;
-  //     // this.selectedTheme.topHeaderMenu = 'w-1/6';
-  //     // this.selectedTheme.topHeader = 'w-10/12';
-  //   }
-  // }
+  controlMenu() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 789) {
+      // this.selectedTheme.isCollapsed = true;
+      this.selectedTheme.showMenu = false;
+      this.selectedTheme.rowClass = 'w-full';
+      // this.selectedTheme.isCollapsed = true;
+    } else {
+      // this.selectedTheme.isCollapsed = false;
+      this.selectedTheme.rowClass = 'w-10/12';
+      this.selectedTheme.showMenu = true;
+      // this.selectedTheme.topHeaderMenu = 'w-1/6';
+      // this.selectedTheme.topHeader = 'w-10/12';
+    }
+  }
 }
 

@@ -49,5 +49,6 @@ export * from "./videos/videos.component"
 export * from "./calendar/calendar.component"
 export * from "./icon/icon.component"
 export * from "./buttons/buttons.component"
+export * from "./html-block/html-block.component"
 
 

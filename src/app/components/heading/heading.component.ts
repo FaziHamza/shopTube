@@ -13,4 +13,8 @@ export class HeadingComponent implements OnInit {
 
   }
 
+  pageRoute(link : any){
+    
+  }
+
 }

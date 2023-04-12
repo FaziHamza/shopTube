@@ -21,7 +21,7 @@ import {
   InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
   NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
   SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-  TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,IconComponent,ButtonsComponent
+  TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,IconComponent,ButtonsComponent,HtmlBlockComponent
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
@@ -56,7 +56,7 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,
-    SanitizePipe,IconComponent,ButtonsComponent ,EditorJsWrapperComponent
+    SanitizePipe,IconComponent,ButtonsComponent ,EditorJsWrapperComponent, HtmlBlockComponent
   ],
   exports: [
     FormsModule,
@@ -71,7 +71,7 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,IconComponent,ButtonsComponent,
-    EditorJsWrapperComponent
+    EditorJsWrapperComponent,HtmlBlockComponent
   ],
   providers: [
   ],

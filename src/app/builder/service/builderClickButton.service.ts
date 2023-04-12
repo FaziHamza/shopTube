@@ -230,6 +230,11 @@ export class BuilderClickButtonService {
       expandAll: node.expandAll,
     }
   }
+  htmlBlockConfig(node: any) {
+    return {
+      data: node.data,
+    }
+  }
 
   getAffixConfig(node: any) {
     return {

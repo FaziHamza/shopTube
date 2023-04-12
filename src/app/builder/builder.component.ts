@@ -1430,6 +1430,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeFields;
         break;
+        case "htmlBlock":
+        configObj = { ...configObj, ...this.clickButtonService.htmlBlockConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.htmlBlockFields;
+        break;
       case "modal":
         configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.modalFields;
@@ -2575,6 +2579,11 @@ export class BuilderComponent implements OnInit {
               }
             })
           }
+        }
+        break;
+        case "htmlBlock":
+        if (this.selectedNode) {
+          this.selectedNode.data = event.form.data;
         }
         break;
       case "modal":
@@ -4228,9 +4237,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
             // this.selectedNode['nodes'] = event.form.nodes
-          this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
+          // this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
           if (event.tableDta) {
-            this.selectedNode.data = event.tableDta;
+            this.selectedNode.nodes = event.tableDta;
           }
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({

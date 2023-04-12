@@ -3,8 +3,8 @@
   <nz-header  [dir]="selectedTheme?.layout" nz-menu [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'" >
     <div class="flex flex-wrap">
       <div class="layout-topbar-icon" [ngClass]='selectedTheme.topHeaderMenu' >
-        <!-- <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
-        <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
+        <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
+        <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
       </div>
       <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
       [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'

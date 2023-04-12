@@ -517,14 +517,7 @@ export class AddControlService {
   }
   htmlBlockControl() {
     return {
-      style: "font-weight:normal;",
-      textAlign: "text-align:left;",
-      isNextChild: false,
-      fontSize: "font-weight:normal;text-align:left;",
-      api: "",
-      data: {
-        text: "Lorem ipsum Hi  sit amet consectetur adipisicing elit. Dolorum minus aliquid earum voluptatum eum quis vero facere, veritatis nisi porro minima sed harum aperiam! Voluptas distinctio consequuntur ipsa enim obcaecati"
-      },
+      data:'' ,
     }
   }
   textEditorControl() {

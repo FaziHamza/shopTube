@@ -725,12 +725,22 @@
                 </ng-container>
             </ng-template>
             <ng-template #seventyFour>
-                <ng-container *ngIf="item.type == 'icon'">
+                <ng-container *ngIf="item.type == 'icon' else seventyFive">
                     <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}"
                         *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
                         <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"></st-icon>
+                    </div>
+                </ng-container>
+            </ng-template>
+            <ng-template #seventyFive>
+                <ng-container *ngIf="item.type == 'htmlBlock'">
+                    <div style="padding: 2%" [ngClass]="{'highLight': item.highLight == true}"
+                        *ngIf="!item.hideExpression">
+                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                                nzType="question-circle" nzTheme="twotone"></span></span>
+                        <st-html-block [htmlBlockData]="item.data" ></st-html-block>
                     </div>
                 </ng-container>
             </ng-template>
