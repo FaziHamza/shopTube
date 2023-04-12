@@ -8635,6 +8635,14 @@ export class formFeildData {
                 }
               },
               {
+                key: 'dataType',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Data Type'
+                }
+              },
+              {
                 className: "ml-2",
                 key: 'show',
                 type: 'checkbox',

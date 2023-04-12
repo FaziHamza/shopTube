@@ -559,6 +559,7 @@ export class AddControlService {
     }
   }
   gridListControl() {
+    debugger
     return {
       tableId: "gridList_" + Guid.newGuid(),
       nzFooter: "This is footer",
@@ -592,6 +593,7 @@ export class AddControlService {
           sortDirections: ['ascend', 'descend', null],
           filterMultiple: true,
           show: true,
+          dataType: "input",
           sum: false,
           // listOfFilter: [
           //   { text: 'Joe', value: 'Joe' },
@@ -608,6 +610,7 @@ export class AddControlService {
           filterMultiple: true,
           show: true,
           sum: false,
+          dataType: "input",
           listOfFilter: [
             // { text: 'Joe', value: 'Joe' },
             // { text: 'Jim', value: 'Jim', byDefault: true }
@@ -624,6 +627,7 @@ export class AddControlService {
           filterFn: null,
           sum: false,
           show: true,
+          dataType: "select",
           filterMultiple: false
         },
         {
@@ -635,6 +639,7 @@ export class AddControlService {
           filterMultiple: false,
           show: true,
           sum: false,
+          dataType: "input",
           listOfFilter: [
             { text: 'London', value: 'London' },
             { text: 'Sidney', value: 'Sidney' }

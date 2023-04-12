@@ -37,14 +37,21 @@
         <tr [ngStyle]="{'background': item?.color}">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-          <ng-container *ngFor="let header of key">
+          <ng-container *ngFor="let header of key; let index = index">
 
             <td [nzEllipsis]="true"
               *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
-              <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
-                {{item[header.name]}}
+              <div *ngIf="tableHeaders[index].dataType !='select'">
+                <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
+                  {{item[header.name]}}
+                </div>
+                <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
               </div>
-              <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
+              <nz-select *ngIf="tableHeaders[index].dataType =='select'" style="width: 100px"
+                nzPlaceHolder="Select Colors" [(ngModel)]="item[header.name]">
+                <nz-option *ngFor="let option of selectList" [nzLabel]="option.key" [nzValue]="option.value">
+                </nz-option>
+              </nz-select>
             </td>
             <td *ngIf="header.name == 'headerButton'">
               <button (click)="showModal('Header')" type="button"

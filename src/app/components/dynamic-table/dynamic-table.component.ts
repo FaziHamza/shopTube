@@ -10,7 +10,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./dynamic-table.component.scss']
 })
 export class DynamicTableComponent implements OnInit {
-
+  @Input() itemData: any;
   @Input() tableId: any;
   @Input() checkType: boolean;
   @Input() tableData: any;
@@ -28,6 +28,12 @@ export class DynamicTableComponent implements OnInit {
   scrollY: string | null = null;
   @Input() screenId: any;
   @Input() dataModel: any;
+  selectList = [
+    { key: "Faizan", value: "Faizan" },
+    { key: "Arfan", value: "Arfan" },
+    { key: "Zubair", value: "Zubair" },
+    { key: "Husnain", value: "Husnain" },
+  ];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService) {
     // this.getHeader();
   }
@@ -327,7 +333,7 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    
+
     const firstObjectKeys = Object.keys(this.tableData[0]);
     this.key = firstObjectKeys.map(key => ({ name: key }));
     this.key = this.key.filter((header: any) => header.name !== 'color');

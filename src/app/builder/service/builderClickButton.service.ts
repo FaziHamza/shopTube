@@ -93,10 +93,12 @@ export class BuilderClickButtonService {
       sortOrder: node.sortOrder,
       fixedColumn: node.fixedColumn,
       options: node?.tableHeaders.map((obj: any) => {
+        debugger
         return {
           name: obj.name,
           key: obj.key,
           show: obj.show,
+          dataType: obj.dataType,
           sum: obj.sum,
           headerButton: '',
           footerButton: '',
