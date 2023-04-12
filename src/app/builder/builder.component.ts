@@ -826,13 +826,13 @@ export class BuilderComponent implements OnInit {
         className: this.columnApply(value),
         expanded: true,
         type: value,
-        title: value, 
-        children: [], 
+        title: value,
+        children: [],
         tooltip: '',
-        hideExpression: false, 
+        hideExpression: false,
         highLight: false,
       }
-    } 
+    }
     else {
       newNode = {
         key: value.toLowerCase() + "_" + Guid.newGuid(),
@@ -840,10 +840,10 @@ export class BuilderComponent implements OnInit {
         className: this.columnApply(value),
         expanded: true,
         type: value,
-        title: value, 
-        children: [], 
+        title: value,
+        children: [],
         tooltip: '',
-        hideExpression: false, 
+        hideExpression: false,
         highLight: false,
       }
     }
@@ -2272,7 +2272,7 @@ export class BuilderComponent implements OnInit {
     else if (type == "stepperAddNew")
       this.addChildControlsWithSubChild('mainStep', 'step');
     else if (type == "kanabnAddNew")
-      this.addChildControls();
+      this.addChildControls('kanban','kanbanTask');
     else if (type == "timelineAddnew")
       this.addChildControlsWithSubChild('timeline', 'timelineChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
@@ -4383,17 +4383,11 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
-            if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-              this.selectedNode.size = 'default';
-              // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
-            }
-            if (fieldGroup[0].props.config['addonRight'] != '' || fieldGroup[0].props.config['addonLeft'] != '' || fieldGroup[0].props.config['prefixicon'] != '' || fieldGroup[0].props.config['suffixicon'] != '') {
-              // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
-              fieldGroup[0].props.config['addonRight'] = '';
-              fieldGroup[0].props.config['addonLeft'] = '';
-              fieldGroup[0].props.config['prefixicon'] = '';
-              fieldGroup[0].props.config['suffixicon'] = '';
-            }
+            fieldGroup[0].props.config.size = 'default';
+            fieldGroup[0].props.config['addonRight'] = '';
+            fieldGroup[0].props.config['addonLeft'] = '';
+            fieldGroup[0].props.config['prefixicon'] = '';
+            fieldGroup[0].props.config['suffixicon'] = '';
             fieldGroup[0].props.placeholder = " ";
           }
           if (formValues.wrappers == 'floating_filled') {

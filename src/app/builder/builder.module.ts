@@ -11,8 +11,6 @@ import { NgZorroAntdModule } from "../zorro/ng-zorro-antd.module";
 import { FormlyNgZorroAntdModule } from "@ngx-formly/ng-zorro-antd";
 import { NgxMaskModule } from "ngx-mask";
 import { FormlyModule } from "@ngx-formly/core";
-import { NgxDropzoneModule } from "ngx-dropzone";
-import { DragDropModule } from "@angular/cdk/drag-drop";
 import { formlyCustomeConfig } from "../formlyConfig";
 import { ShareModule } from "../shared/share.module";
 import { CommonModule } from "@angular/common";
