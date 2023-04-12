@@ -450,22 +450,23 @@ export class UIRuleComponent implements OnInit {
     } else {
       if (selectedNode[0] && selectedNode[0].children) {
         for (let i = 0; i < selectedNode[0].children.length; i++) {
-          if (selectedNode[0].children[i].formly[0].key == key) {
-            console.log(selectedNode[0].children[i]);
-            return selectedNode[0].children[i];
+          if (selectedNode[0].children[i]?.formly) {
+            if (selectedNode[0].children[i]?.formly[0]?.key == key)
+              return selectedNode[0].children[i];
           } else {
             for (let j = 0; j < selectedNode[0].children[i].children.length; j++) {
-              if(selectedNode[0].children[i].children[j].formly)
-              if (selectedNode[0].children[i].children[j].formly[0].key == key) {
-                console.log(selectedNode[0].children[i].children[j]);
-                return selectedNode[0].children[i].children[j];
+              if (selectedNode[0].children[i].children[j].formly) {
+                if (selectedNode[0].children[i].children[j].formly[0].key == key)
+                  return selectedNode[0].children[i].children[j];
               } else if (j == selectedNode[0].children[i].children.length - 1) {
                 for (let k = 0; k < selectedNode[0].children[i].children[j].children.length; k++) {
                   let isSelectedKey = true;
-                  if (selectedNode[0].children[i].children[j].children[k].formly[0].key == key) {
-                    console.log(selectedNode[0].children[i].children[j].children[k]);
-                    isSelectedKey = false;
-                    return selectedNode[0].children[i].children[j].children[k];
+                  if (selectedNode[0].children[i].children[j].children[k].formly) {
+                    if (selectedNode[0].children[i].children[j].children[k].formly[0].key == key) {
+                      console.log(selectedNode[0].children[i].children[j].children[k]);
+                      isSelectedKey = false;
+                      return selectedNode[0].children[i].children[j].children[k];
+                    }
                   }
                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children.length > 0) {
                     for (let l = 0; l < selectedNode[0].children[i].children[j].children[k].children.length; l++) {
