@@ -1,10 +1,13 @@
-<ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
-  <nz-radio-group
+<ng-container  *ngIf="to.config?.wrapper != 'floating_standard'">
+  <div class="relative z-0">
+    <nz-radio-group
     [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
     [formControl]="formControl">
     <label *ngFor="let item of list" nz-radio [nzValue]="item.value">{{item.label}}</label>
   </nz-radio-group>
-  <!-- <label [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>  -->
+  <label *ngIf="to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_filled'" [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+  </div>
+
 </ng-container>
 <div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
   <nz-radio-group

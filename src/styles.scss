@@ -747,3 +747,145 @@ a.fc-event:hover {
 // .ant-input:focus{
 //   border-color: transparent;
 // }
+.floating_outlined  {
+  .ant-input-group .ant-input:focus, .ant-input-group .ant-input:hover{
+    outline: none !important;
+  }
+  .ant-picker-focused, .ant-picker:hover{
+    outline: none !important;
+  }
+  // .checkBox{
+  //   border-radius: 7px;
+  //   border: 1px solid #d9d9d9;
+  // }
+  nz-checkbox-wrapper{
+    border-radius: 7px;
+    border: 1px solid #d9d9d9;
+  }
+  // nz-checkbox-wrapper{
+  //   padding: 0px 0px 5px 8px;
+  // }
+  nz-radio-group{
+    border-radius: 7px;
+    border: 1px solid #d9d9d9;
+  }
+  .ng-star-inserted{
+    outline: none !important;
+    st-multi-select{
+      nz-select{
+        padding: 0px;
+      }
+      .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        height: 48px;
+        border-radius: 7px;
+      }
+    }
+    dynamic-select{
+      nz-select{
+        padding: 0px;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        height: 48px;
+        border-radius: 7px;
+      }
+    }
+    // border-bottom-right-radius: 0 !important;
+  }
+}
+
+.floating_filled  {
+  .ant-input-group .ant-input-affix-wrapper:not(:last-child), .height .ant-input-group-addon:first-child, .height .ant-input-group-addon:first-child .ant-select .ant-select-selector, .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input, .height .ant-input-group > .ant-input:first-child, .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .ant-input-group .ant-input:focus, .ant-input-group .ant-input:hover{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    outline: none !important;
+  }
+  .ant-picker-focused, .ant-picker:hover{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    outline: none !important;
+  }
+  // nz-checkbox-wrapper{
+  //   padding: 0px 0px 9px 8px;
+  // }
+  .ng-star-inserted{
+    outline: none !important;
+    st-multi-select{
+      nz-select{
+        padding-top: 3px;
+        padding-bottom: 0px;
+      }
+      .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        background: #f9fafb;
+        border: none;
+        padding-top: 19px;
+      }
+    }
+    dynamic-select{
+      nz-select{
+        padding-top: 8px;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        background: #f9fafb;
+        border: none;
+        padding-top: 7px;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector:focus{
+        border-color: transparent;
+      }
+    }
+  }
+}
+.floating_standard{
+  .ant-input{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    outline: none !important;
+  }
+
+  .ant-input-group .ant-input:focus, .ant-input-group .ant-input:hover{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    outline: none !important;
+  }
+  .ant-picker-focused, .ant-picker:hover{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    outline: none !important;
+  }
+  nz-checkbox-wrapper{
+    padding-top: 9px;
+  }
+  nz-radio-group{
+    padding-top: 9px;
+  }
+  .ng-star-inserted{
+    outline: none !important;
+    st-multi-select{
+      nz-select{
+        padding-top: 3px;
+        padding-bottom: 0px;
+      }
+      .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        border: none;
+        padding-top: 8px;
+      }
+    }
+    dynamic-select{
+      nz-select{
+        padding-top: 3px;
+        padding-bottom: 5px;
+      }
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        border: none;
+      }
+    }
+  }
+}
+// input :focus-visible{
+//   border: none !important;
+// }

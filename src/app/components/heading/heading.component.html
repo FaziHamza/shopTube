@@ -1,6 +1,6 @@
 <!-- <p [class]="[headingData.heading, headingData.fontstyle]" [style.color]="headingData.color">{{headingData.text}}</p> -->
 
-<div [class]="headingData.textAlign">
+<div [class]="headingData.textAlign" (click)="pageRoute(headingData.link)">
     <h1 nz-typography *ngIf="headingData.heading === 1" [class]="headingData.fontstyle"
         [style.color]="headingData.color">{{headingData.text}}</h1>
     <h2 nz-typography *ngIf="headingData.heading === 2" [class]="headingData.fontstyle"

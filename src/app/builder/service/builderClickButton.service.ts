@@ -232,6 +232,11 @@ export class BuilderClickButtonService {
       expandAll: node.expandAll,
     }
   }
+  htmlBlockConfig(node: any) {
+    return {
+      data: node.data,
+    }
+  }
 
   getAffixConfig(node: any) {
     return {
@@ -705,6 +710,7 @@ export class BuilderClickButtonService {
       fontstyle: node.fontstyle,
       color: node.color,
       heading: node.heading,
+      link:node.link,
     }
   }
 
@@ -726,6 +732,8 @@ export class BuilderClickButtonService {
       editableIcon: node.editableIcon,
       color: node.color,
       fontstyle: node.fontstyle,
+      heading: node.heading,
+      link:node.link,
     }
   }
 
@@ -819,6 +827,7 @@ export class BuilderClickButtonService {
       textColor: node['textColor'],
       isSubmit: node['isSubmit'],
       iconColor: node['iconColor'],
+      dataTable: node['dataTable'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -849,6 +858,7 @@ export class BuilderClickButtonService {
       iconSize: node['iconSize'],
       hoverTextColor: node['hoverTextColor'],
       iconColor: node['iconColor'],
+      dataTable: node['dataTable'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -887,6 +897,7 @@ export class BuilderClickButtonService {
       iconType: node['iconType'],
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
+      dataTable: node['dataTable'],
     }
   }
   getBtnGroupConfig(node: any) {

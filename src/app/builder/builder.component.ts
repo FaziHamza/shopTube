@@ -826,13 +826,13 @@ export class BuilderComponent implements OnInit {
         className: this.columnApply(value),
         expanded: true,
         type: value,
-        title: value, 
-        children: [], 
+        title: value,
+        children: [],
         tooltip: '',
-        hideExpression: false, 
+        hideExpression: false,
         highLight: false,
       }
-    } 
+    }
     else {
       newNode = {
         key: value.toLowerCase() + "_" + Guid.newGuid(),
@@ -840,10 +840,10 @@ export class BuilderComponent implements OnInit {
         className: this.columnApply(value),
         expanded: true,
         type: value,
-        title: value, 
-        children: [], 
+        title: value,
+        children: [],
         tooltip: '',
-        hideExpression: false, 
+        hideExpression: false,
         highLight: false,
       }
     }
@@ -1216,7 +1216,7 @@ export class BuilderComponent implements OnInit {
                         optionHoverSize: 10,
                         suffixicon: '',
                         prefixicon: '',
-                        wrapper: '',
+                        wrapper: this.getLastNodeWrapper("configWrapper"),
                         floatFieldClass: '',
                         floatLabelClass: '',
                         formatAlignment: 'ltr',
@@ -1284,17 +1284,23 @@ export class BuilderComponent implements OnInit {
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
+    let wrapper: any = 'form-field-horizontal'
     let disabledProperty: any;
     const filteredNodes = this.filterInputElements(this.selectedNode);
     for (let index = 0; index < filteredNodes.length; index++) {
       wrapperName = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
+      wrapper = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers[0];
       disabledProperty = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
       break;
     }
     if (dataType == 'wrappers') {
       return wrapperName;
-    } else if (dataType == 'disabled') {
+    } 
+    else if (dataType == 'disabled') {
       return disabledProperty;
+    }
+    else if (dataType == 'configWrapper') {
+      return wrapper;
     }
   }
   closeConfigurationList() {
@@ -1429,6 +1435,10 @@ export class BuilderComponent implements OnInit {
       case "tree":
         configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeFields;
+        break;
+        case "htmlBlock":
+        configObj = { ...configObj, ...this.clickButtonService.htmlBlockConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.htmlBlockFields;
         break;
       case "modal":
         configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
@@ -2272,7 +2282,7 @@ export class BuilderComponent implements OnInit {
     else if (type == "stepperAddNew")
       this.addChildControlsWithSubChild('mainStep', 'step');
     else if (type == "kanabnAddNew")
-      this.addChildControls();
+      this.addChildControls('kanban','kanbanTask');
     else if (type == "timelineAddnew")
       this.addChildControlsWithSubChild('timeline', 'timelineChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
@@ -2575,6 +2585,11 @@ export class BuilderComponent implements OnInit {
               }
             })
           }
+        }
+        break;
+        case "htmlBlock":
+        if (this.selectedNode) {
+          this.selectedNode.data = event.form.data;
         }
         break;
       case "modal":
@@ -3312,6 +3327,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['textColor'] = event.form.textColor;
           this.selectedNode['isSubmit'] = event.form.isSubmit;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          this.selectedNode['dataTable'] = event.form.dataTable;
         }
         break;
 
@@ -3341,6 +3357,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          // this.selectedNode['dataTable'] = event.form.dataTable;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
           // }
@@ -3372,6 +3389,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          this.selectedNode['dataTable'] = event.form.dataTable;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -3800,6 +3818,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
           this.selectedNode.textAlign = event.form.textAlign;
           this.selectedNode.headingColor = event.form.headingColor;
+          this.selectedNode.link = event.form.link;
           if (event.form.headingApi) {
             this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
               next: (res) => {
@@ -3834,6 +3853,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.editableIcon = event.form.editableIcon;
           this.selectedNode.color = event.form.color;
           this.selectedNode.fontstyle = event.form.fontstyle;
+          this.selectedNode.link = event.form.link;
           // if (event.form.api) {
           //   this.builderService.genericApis(event.form.api).subscribe((res => {
           //     this.updateNodes()
@@ -4227,8 +4247,8 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
-            // this.selectedNode['nodes'] = event.form.nodes
-          this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
+            this.selectedNode['data'] = event.form.options;
+          // this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
           if (event.tableDta) {
             this.selectedNode.data = event.tableDta;
           }
@@ -4383,17 +4403,11 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].props.config['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
-            if (fieldGroup[0].props.config.size == 'small' || fieldGroup[0].props.config.size == 'large') {
-              this.selectedNode.size = 'default';
-              // this.toastr.error('Small and large size are not allowed in case of floating wrappers so by default its default size', { nzDuration: 3000 });
-            }
-            if (fieldGroup[0].props.config['addonRight'] != '' || fieldGroup[0].props.config['addonLeft'] != '' || fieldGroup[0].props.config['prefixicon'] != '' || fieldGroup[0].props.config['suffixicon'] != '') {
-              // this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
-              fieldGroup[0].props.config['addonRight'] = '';
-              fieldGroup[0].props.config['addonLeft'] = '';
-              fieldGroup[0].props.config['prefixicon'] = '';
-              fieldGroup[0].props.config['suffixicon'] = '';
-            }
+            fieldGroup[0].props.config.size = 'default';
+            fieldGroup[0].props.config['addonRight'] = '';
+            fieldGroup[0].props.config['addonLeft'] = '';
+            fieldGroup[0].props.config['prefixicon'] = '';
+            fieldGroup[0].props.config['suffixicon'] = '';
             fieldGroup[0].props.placeholder = " ";
           }
           if (formValues.wrappers == 'floating_filled') {

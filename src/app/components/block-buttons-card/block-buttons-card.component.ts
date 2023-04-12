@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input,  Output } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
@@ -16,6 +16,7 @@ export class BlockButtonsCardComponent {
   bgColor: any;
   hoverTextColor: any;
   @Input() softIconList: any;
+  @Output() notify: EventEmitter<any> = new EventEmitter();
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];
@@ -94,5 +95,9 @@ export class BlockButtonsCardComponent {
   changeColor(bgColor: any, hoverColor: any) {
 
     bgColor = hoverColor;
+  }
+  saveData(data : any){
+    debugger
+    this.notify.emit(data);
   }
 }
