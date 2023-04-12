@@ -49,6 +49,7 @@ export class RepeatInputComponent extends FieldType<FieldTypeConfig> {
     }
   }
   ngOnDestroy(){
-    this.subscription.unsubscribe();
+    if(this.subscription)
+     this.subscription.unsubscribe();
   }
 }

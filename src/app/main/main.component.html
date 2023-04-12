@@ -300,6 +300,7 @@
                         *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
+                                <st-board></st-board>
                         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                     </div>
                 </ng-container>
@@ -333,7 +334,7 @@
             <ng-template #thirtySix>
                 <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
                     <div
-                        [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : '')">
+                        [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
                         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                             <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                             </formly-form>

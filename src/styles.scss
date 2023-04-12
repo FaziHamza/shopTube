@@ -747,3 +747,24 @@ a.fc-event:hover {
 // .ant-input:focus{
 //   border-color: transparent;
 // }
+.floating_filled  {
+  .ant-input-group .ant-input-affix-wrapper:not(:last-child), .height .ant-input-group-addon:first-child, .height .ant-input-group-addon:first-child .ant-select .ant-select-selector, .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input, .height .ant-input-group > .ant-input:first-child, .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector{
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+  }
+}
+.floating_standard  {
+  .ng-star-inserted{
+    padding-top: 1%;
+    input{
+      border-right: none !important;
+    }
+    label{
+      padding-top: 2%;
+    }
+    // border-bottom-right-radius: 0 !important;
+  }
+}
+input :focus-visible{
+  border: none !important;
+}
