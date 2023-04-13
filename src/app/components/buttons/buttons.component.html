@@ -8,7 +8,7 @@
   [disabled]="buttonData.disabled" [nzShape]="buttonData.nzShape" [nzGhost]='buttonData.nzGhost'
   [nzLoading]='buttonData.nzLoading' [nzBlock]='buttonData.nzBlock' [nzDanger]='buttonData.nzDanger'
   (click)="[getButtonType(buttonData?.type), pagesRoute(buttonData) ,saveData(buttonData)]"><span
-    *ngIf="buttonData.btnIcon"><st-icon [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
+   ><st-icon  *ngIf="buttonData.btnIcon" [type]="buttonData.iconType" [icon]="buttonData.btnIcon"
       [size]="buttonData?.iconSize" [color]="buttonData?.iconColor"></st-icon><span [class]="buttonData.btnLabelPaddingClass"
       *ngIf="buttonData.title">
       {{buttonData.title}}</span></span>
