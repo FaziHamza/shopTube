@@ -255,20 +255,16 @@ export class formFeildData {
             label: 'Size',
             options: [
               {
-                label: 'Default',
+                label: 'large',
+                value: 'large'
+              },
+              {
+                label: 'small',
+                value: 'small'
+              },
+              {
+                label: 'default',
                 value: 'default'
-              },
-              {
-                label: 'Primary',
-                value: 'primary'
-              },
-              {
-                label: 'Dashed',
-                value: 'dashed'
-              },
-              {
-                label: 'Text',
-                value: 'text'
               },
             ]
           },
@@ -8332,11 +8328,11 @@ export class formFeildData {
             options: [
               {
                 label: 'rounded-circle',
-                value: 'rounded-full'
+                value: 'h-auto max-w-full rounded-full'
               },
               {
                 label: 'rounded',
-                value: 'rounded-lg'
+                value: 'h-auto max-w-full rounded-lg'
               },
             ]
           },

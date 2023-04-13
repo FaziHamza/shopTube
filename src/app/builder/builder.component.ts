@@ -2996,6 +2996,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.alt = event.form.alt;
           this.selectedNode.size = event.form.size;
           this.selectedNode.shape = event.form.shape;
+          this.selectedNode.src = event.form.src;
           if (event.form.src) {
             this.selectedNode.src = event.form.src;
           }
@@ -3938,7 +3939,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.isBordered = event.form.isBordered;
           this.selectedNode?.children?.[1]?.children?.forEach(res => {
             if (res) {
-
               if (res.formly != undefined) {
                 if (res.type != "mainStep" && res.type != "mainTab") {
                   // res['wrappers'] = [];
@@ -3969,6 +3969,16 @@ export class BuilderComponent implements OnInit {
                   }
                   if (element.formly) {
                     element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
+                  }
+                  if (element.children.length) {
+                    element.children?.forEach((element: any) => {
+                      if (event.form.sectionClassName) {
+                        element['className'] = event.form.sectionClassName
+                      }
+                      if (element.formly) {
+                        element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
+                      }
+                    });
                   }
                 });
               }
