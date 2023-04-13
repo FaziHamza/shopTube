@@ -374,7 +374,7 @@ export class BuilderComponent implements OnInit {
       this.formlyModel = [];
       const newNode = [{
         id: 'page',
-        key:'page_' + Guid.newGuid(),
+        key: 'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
         footer: false,
@@ -889,6 +889,9 @@ export class BuilderComponent implements OnInit {
       case "dropdownButton":
         newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
         break;
+      case "linkbutton":
+        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
+        break;
       case "cardWithComponents":
         newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
         break;
@@ -943,9 +946,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "kanbanTask":
         newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
-        break;
-      case "linkbutton":
-        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
         break;
       case "simplecard":
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
@@ -1295,7 +1295,7 @@ export class BuilderComponent implements OnInit {
     }
     if (dataType == 'wrappers') {
       return wrapperName;
-    } 
+    }
     else if (dataType == 'disabled') {
       return disabledProperty;
     }
@@ -1436,7 +1436,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeFields;
         break;
-        case "htmlBlock":
+      case "htmlBlock":
         configObj = { ...configObj, ...this.clickButtonService.htmlBlockConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.htmlBlockFields;
         break;
@@ -2282,7 +2282,7 @@ export class BuilderComponent implements OnInit {
     else if (type == "stepperAddNew")
       this.addChildControlsWithSubChild('mainStep', 'step');
     else if (type == "kanabnAddNew")
-      this.addChildControls('kanban','kanbanTask');
+      this.addChildControls('kanban', 'kanbanTask');
     else if (type == "timelineAddnew")
       this.addChildControlsWithSubChild('timeline', 'timelineChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
@@ -2587,7 +2587,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "htmlBlock":
+      case "htmlBlock":
         if (this.selectedNode) {
           this.selectedNode.data = event.form.data;
         }
@@ -2836,7 +2836,7 @@ export class BuilderComponent implements OnInit {
       case "autoComplete":
       case "number":
       case "customMasking":
-        case "url":
+      case "url":
         if (this.selectedNode) {
           this.selectedNode.title = event.form.title;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
@@ -3328,6 +3328,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isSubmit'] = event.form.isSubmit;
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode['dataTable'] = event.form.dataTable;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
         }
         break;
 
@@ -3357,6 +3358,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
           // this.selectedNode['dataTable'] = event.form.dataTable;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
@@ -3390,6 +3392,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode['dataTable'] = event.form.dataTable;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -4247,7 +4250,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.pendingText = event.form.pendingText,
             this.selectedNode.reverse = event.form.reverse,
             this.selectedNode.mode = event.form.mode
-            this.selectedNode['data'] = event.form.options;
+          this.selectedNode['data'] = event.form.options;
           // this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
           if (event.tableDta) {
             this.selectedNode.data = event.tableDta;

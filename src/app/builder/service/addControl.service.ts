@@ -115,6 +115,7 @@ export class AddControlService {
       isSubmit: false, btnType: "",
       href: "",
       dataTable:"",
+      btnLabelPaddingClass:'',
     }
   }
   getDropdownButtonControl() {
@@ -142,6 +143,7 @@ export class AddControlService {
       iconSize: 15,
       hoverTextColor: '',
       dataTable:'',
+      btnLabelPaddingClass:'',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -435,6 +437,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       dataTable:'',
+      btnLabelPaddingClass:'',
     }
   }
   simplecardControl() {

@@ -299,6 +299,15 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
+        {
           key: 'href',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -313,7 +322,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Data Table'
+            label: 'Save Api'
           }
         },
         {
@@ -394,7 +403,6 @@ export class formFeildData {
           props: {
             label: 'Submit',
           },
-          defaultValue: false
         },
 
       ]
@@ -849,6 +857,15 @@ export class formFeildData {
             ]
           },
         },
+        {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
         // {
         //   key: 'dataTable',
         //   type: 'input',
@@ -1103,6 +1120,15 @@ export class formFeildData {
         //     label: 'Data Table'
         //   }
         // },
+        {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
         {
           key: 'nzSize',
           type: 'select',

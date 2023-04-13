@@ -353,6 +353,7 @@ export interface TreeNode {
   btnIcon?: any,
   href?: any,
   btnType?: any,
+  btnLabelPaddingClass?: any,
   dataTable?: any,
   link?: string,
   forCommomComponentCondition?: string,

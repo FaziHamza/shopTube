@@ -828,6 +828,7 @@ export class BuilderClickButtonService {
       isSubmit: node['isSubmit'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -859,6 +860,7 @@ export class BuilderClickButtonService {
       hoverTextColor: node['hoverTextColor'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -898,6 +900,7 @@ export class BuilderClickButtonService {
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getBtnGroupConfig(node: any) {
