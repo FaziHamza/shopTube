@@ -1,15 +1,21 @@
 
-<div class="list col custom-col list-drag-component"  (dragover)="allowCardReplacement($event)" (drop)="dropCard($event)"  id="list-{{listIndex}}"  >
-  <st-context-menu (contextAction)="delete()" ></st-context-menu>
-  <p class="list-name"  [(appContentEdit)]="list.name"></p>
-
+<nz-card style="background-color: #eaedf2;" (dragover)="allowCardReplacement($event)" (drop)="dropCard($event)"  id="list-{{listIndex}}"  >
+  <div style="display: flex; justify-content: space-between; padding-bottom: 4%;">
+    <div>
+      <p class="list-name" [(appContentEdit)]="list.name"></p>
+    </div>
+    <div>
+      <span style="color:red" nz-icon nzType="delete" nzTheme="outline" (click)="delete()"></span>
+      <!-- <st-context-menu (contextAction)="delete()"></st-context-menu> -->
+    </div>
+  </div>
+  
+ 
   <!-- List Card Starts -->
   <div    id="list-one"  >
     <st-card-summary  *ngFor="let card of this.list.cards;let i = index" [card]="card" [listIndex]="listIndex" [cardIndex]="i" attr.cardIndex="{{i}}" ></st-card-summary>
   </div>
   <!-- List Card Ends -->
-  <h6 class="text-center add-new-card" (click)="addNewCard()" >Add new card...</h6>
-
-
-
-</div>
+  <button nz-button nzType="primary" nzBlock (click)="addNewCard()"><span nz-icon nzType="plus" nzTheme="outline"></span>Add new</button>
+  <!-- <h6 class="text-center add-new-card" (click)="addNewCard()" >Add new card...</h6> -->
+</nz-card>

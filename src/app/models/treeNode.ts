@@ -291,6 +291,8 @@ export interface TreeNode {
   audioSrc?: any,
   dataOnly?: any,
   nodes?: any,
+  maxLength?: any,
+  showAddbtn?: any,
   centerd?: any,
   widgetSecondCard?: builderConfig[],
   widgetSectionCard?: builderConfig[],

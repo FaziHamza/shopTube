@@ -403,9 +403,11 @@ export class AddControlService {
   }
   getKanbanControl() {
     return {
-      nodes: "3",
+      nodes: 3,
+      maxLength:10,
+      showAddbtn:true,
       isNextChild: true,
-      kambanChildren: [],
+      kanbanSave: [],
     }
   }
   getKanbanTaskControl() {

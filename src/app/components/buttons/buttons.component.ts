@@ -70,9 +70,6 @@ export class ButtonsComponent implements OnInit {
     // else if(type == 'delete')
     //   this.deleteData('delete')
   }
-  change(value: boolean): void {
-    console.log(value);
-  }
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisible = false;
@@ -82,13 +79,23 @@ export class ButtonsComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  changeColor(bgColor: any, hoverColor: any) {
-
-    bgColor = hoverColor;
+  handleButtonClick(buttonData : any): void {
+    this.getButtonType(buttonData.type);
+    this.pagesRoute(buttonData);
+    this.notify.emit(buttonData);
   }
-  saveData(data: any) {
-    debugger
-    this.notify.emit(data);
+  
+  handleButtonMouseOver(buttonData : any): void {
+    this.bgColor = buttonData.hoverColor || '';
+    this.hoverTextColor = buttonData.hoverTextColor || '';
+    this.borderColor = buttonData.hoverColor || '';
   }
+  
+  handleButtonMouseOut(buttonData : any): void {
+    this.bgColor = buttonData.color || '';
+    this.hoverTextColor = buttonData.textColor || '';
+    this.borderColor = buttonData.textColor || '';
+  }
+  
 
 }

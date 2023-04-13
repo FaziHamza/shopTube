@@ -122,8 +122,10 @@
             <ng-template #fifteen>
                 <ng-container *ngIf="item.type =='cardWithComponents'; else sixteen">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <nz-card [nzTitle]="item.title" [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
+                        <nz-card [nzTitle]="item.title" class="p-0" [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
+                            <div class="pt-2">
                             <st-main [mainData]="item.children"></st-main>
+                            </div>
                         </nz-card>
                     </div>
                 </ng-container>
@@ -298,7 +300,7 @@
                         *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
-                                <st-board></st-board>
+                                <st-board [kanbanData]="item"></st-board>
                         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                     </div>
                 </ng-container>

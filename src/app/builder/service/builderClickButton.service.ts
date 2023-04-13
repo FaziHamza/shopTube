@@ -453,7 +453,8 @@ export class BuilderClickButtonService {
   getKanbanConfig(node: any) {
     return {
       nodes: node.nodes,
-      tooltip: node?.tooltip,
+      maxLength: node.maxLength,
+      showAddbtn: node.showAddbtn,
     }
   }
 

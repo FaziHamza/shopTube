@@ -1,17 +1,19 @@
-<div  style="max-width:inherit;width:auto;height:100%;">
+<button *ngIf="this.kanbanData.showAddbtn" nz-button nzType="primary" (click)="addList()" [disabled]="kanbanData.maxLength  <= lists.length ? true : false"><span nz-icon nzType="plus" nzTheme="outline"></span>Add
+  new</button>
+<button class="ml-2" nz-button nzType="primary" (click)="saveBoard()"><span nz-icon nzType="save" nzTheme="outline"></span>Save</button>
+<nz-card class="overflow-x-auto mt-2 card">
   <!-- <div class="row">
     <div class="col-11"></div>
     <div class="col"><button (click)="saveBoard()">Save</button></div>
   </div> -->
-  <div class="flex flex-wrap" style="height:inherit;">
-    <st-lists  class="w-1/2 p-1" *ngFor="let list of lists;let i = index" [list]="list" [listIndex]="i"
-              (moveCardAcrossList)="moveCardAcrossList($event)"
-              (deleteList)="deleteList($event)"
-              attr.listIndex="{{i}}"
-    ></st-lists>
-    <div class="col custom-col"
-         style="margin:10px;padding:15px;padding-top:15px;padding-bottom:15px;">
-      <h6 class="text-center add-new-list" (click)="addList()">Add new item...</h6>
+  <div class="flex flex-nowrap flex-row ">
+    <div class="p-1" *ngFor="let list of lists;let i = index">
+      <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)"
+        (deleteList)="deleteList($event)" attr.listIndex="{{i}}"></st-lists>
     </div>
   </div>
-</div>
+  <!-- <div class="" style="margin:10px;padding:15px;padding-top:15px;padding-bottom:15px;">
+    <h6 class="text-center add-new-list" *ngIf="kanbanData.showAddbtn && lists.length < kanbanData.maxLength"
+      (click)="addList()">Add new item...</h6>
+  </div> -->
+</nz-card>

@@ -4069,9 +4069,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "kanban":
         if (this.selectedNode.id) {
-          this.selectedNode.text = event.form.title;
           this.selectedNode.nodes = event.form.nodes;
-          this.updateNodes();
+          this.selectedNode.maxLength = event.form.maxLength;
+          this.selectedNode.showAddbtn = event.form.showAddbtn;
         }
         break;
       case "kanbanTask":

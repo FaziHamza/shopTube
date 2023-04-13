@@ -714,7 +714,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
-            label: 'Background color on hover'
+            label: 'Bg color on hover'
           }
         },
         // {
@@ -955,7 +955,6 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full",
-          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             style: "margin-top: 6%;",
             canAdd: true,
@@ -5867,15 +5866,32 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-
+        // {
+        //   key: 'nodes',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Nodes',
+        //   },
+        // },
         {
-          key: 'nodes',
+          key: 'maxLength',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Nodes',
+            type: 'number',
+            label: 'Max',
+          },
+        },
+        {
+          key: 'showAddbtn',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Button',
           },
         },
       ]

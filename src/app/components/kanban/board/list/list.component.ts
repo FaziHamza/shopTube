@@ -10,7 +10,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./list.component.scss']
 })
 export class ListsComponent implements OnInit {
-
+  @Input() kanban : any;
   @Input() list: ListInterface;
   @Input() listIndex: number;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
@@ -26,7 +26,7 @@ export class ListsComponent implements OnInit {
   }
 
   addNewCard() {
-    const card = new Card(this.cardCount++ + '', 'header' + this.cardCount, 'summary' + this.cardCount, 'sample desc');
+    const card = new Card(this.cardCount++ + '', 'header ' + this.cardCount, 'summary ' + this.cardCount, 'sample desc');
     this.list.cards.push(card);
     this.newCardAdded.emit(card);
   }
