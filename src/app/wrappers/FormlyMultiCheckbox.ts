@@ -14,7 +14,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   </div>
 
 </nz-checkbox-wrapper>
-<label [ngClass]="to.config?.floatLabelClass" *ngIf='list.length == 0' [nzDisabled]='to.disabled'  nz-checkbox style="width: 100%;" ></label>
+<label [ngClass]="to.config?.floatLabelClass" *ngIf='list.length == 0' [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox style="width: 100%;" ></label>
 <label *ngIf="to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' || to.config?.wrapper == 'floating_filled'"
 [ngClass]=" to.config?.floatLabelClass">
 {{to.label}}

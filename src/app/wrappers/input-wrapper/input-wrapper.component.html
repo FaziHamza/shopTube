@@ -36,6 +36,6 @@
   </div>
   <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
   <ng-template #suffixTemplateInfo>
-    <span nz-icon [nzType]="to.config?.prefixicon"></span>
+    <span nz-icon [nzType]="to.config?.prefixicon" (click)="showPassword(to)"></span>
   </ng-template>
 </div>

@@ -255,20 +255,16 @@ export class formFeildData {
             label: 'Size',
             options: [
               {
-                label: 'Default',
+                label: 'large',
+                value: 'large'
+              },
+              {
+                label: 'small',
+                value: 'small'
+              },
+              {
+                label: 'default',
                 value: 'default'
-              },
-              {
-                label: 'Primary',
-                value: 'primary'
-              },
-              {
-                label: 'Dashed',
-                value: 'dashed'
-              },
-              {
-                label: 'Text',
-                value: 'text'
               },
             ]
           },
@@ -299,6 +295,15 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
+        {
           key: 'href',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -313,7 +318,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Data Table'
+            label: 'Save Api'
           }
         },
         {
@@ -394,7 +399,6 @@ export class formFeildData {
           props: {
             label: 'Submit',
           },
-          defaultValue: false
         },
 
       ]
@@ -706,7 +710,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "color",
-            label: 'Background color on hover'
+            label: 'Bg color on hover'
           }
         },
         // {
@@ -849,6 +853,15 @@ export class formFeildData {
             ]
           },
         },
+        {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
         // {
         //   key: 'dataTable',
         //   type: 'input',
@@ -938,7 +951,6 @@ export class formFeildData {
           key: 'options',
           type: 'repeatSection',
           className: "w-full",
-          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             style: "margin-top: 6%;",
             canAdd: true,
@@ -1103,6 +1115,15 @@ export class formFeildData {
         //     label: 'Data Table'
         //   }
         // },
+        {
+          key: 'btnLabelPaddingClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Padding'
+          }
+        },
         {
           key: 'nzSize',
           type: 'select',
@@ -2363,6 +2384,22 @@ export class formFeildData {
           }
         },
 
+      ]
+    },
+  ]
+  divFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'divClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Div Class',
+          }
+        },
       ]
     },
   ]
@@ -5841,15 +5878,32 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
-
+        // {
+        //   key: 'nodes',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Nodes',
+        //   },
+        // },
         {
-          key: 'nodes',
+          key: 'maxLength',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Nodes',
+            type: 'number',
+            label: 'Max',
+          },
+        },
+        {
+          key: 'showAddbtn',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Button',
           },
         },
       ]
@@ -8290,11 +8344,11 @@ export class formFeildData {
             options: [
               {
                 label: 'rounded-circle',
-                value: 'rounded-full'
+                value: 'h-auto max-w-full rounded-full'
               },
               {
                 label: 'rounded',
-                value: 'rounded-lg'
+                value: 'h-auto max-w-full rounded-lg'
               },
             ]
           },

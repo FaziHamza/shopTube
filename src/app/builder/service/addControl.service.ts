@@ -53,6 +53,8 @@ export class AddControlService {
       isBordered: true,
       size: 'default',
       status: '',
+      wrapper:'',
+      formatAlignment:'',
     }
   }
   getHeaderControl() {
@@ -114,7 +116,8 @@ export class AddControlService {
       textColor: '',
       isSubmit: false, btnType: "",
       href: "",
-      dataTable: "",
+      dataTable:"",
+      btnLabelPaddingClass:'',
     }
   }
   getDropdownButtonControl() {
@@ -141,7 +144,8 @@ export class AddControlService {
       textColor: "",
       iconSize: 15,
       hoverTextColor: '',
-      dataTable: '',
+      dataTable:'',
+      btnLabelPaddingClass:'',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -401,9 +405,11 @@ export class AddControlService {
   }
   getKanbanControl() {
     return {
-      nodes: "3",
+      nodes: 3,
+      maxLength:10,
+      showAddbtn:true,
       isNextChild: true,
-      kambanChildren: [],
+      kanbanSave: [],
     }
   }
   getKanbanTaskControl() {
@@ -434,7 +440,8 @@ export class AddControlService {
       nzShape: 'default',
       iconType: 'outline',
       iconSize: 15,
-      dataTable: '',
+      dataTable:'',
+      btnLabelPaddingClass:'',
     }
   }
   simplecardControl() {
@@ -457,7 +464,13 @@ export class AddControlService {
   }
   widgetSectionCardControl() {
     return {
-
+   
+    }
+  }
+  divControl() {
+    return {
+      isNextChild: true,
+      divClass :'',
     }
   }
   donutChartControl() {

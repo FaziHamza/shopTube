@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input , OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./buttons.component.scss']
 })
 export class ButtonsComponent implements OnInit {
-  @Input() buttonData : any;
+  @Input() buttonData: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
   dataSrc: any;
   isShow: Boolean = false;
   color: "hover:bg-[#000000]";
-  borderColor:any;
+  borderColor: any;
   isVisible = false;
   nodes: TreeNode[];
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
@@ -28,31 +28,39 @@ export class ButtonsComponent implements OnInit {
     // this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor :'';
+    this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
 
     // this.buttonData['textColor'] = this.buttonData?.textColor ? this.buttonData?.textColor :'#000000';
   }
 
-  pagesRoute(data : any): void {
-    let url = window.location.origin;
-    if (data.href && !data.isSubmit) {
-      if (data.btnType == 'modal') {
-        this.employeeService.jsonBuilderSetting(data.href).subscribe(((res: any) => {
+  pagesRoute(data: any): void {
+    if (data.isSubmit) {
+      return;
+    }
+
+    if (!data.href) {
+      this.toastr.error('Link is required', { nzDuration: 3000 });
+      return;
+    }
+
+    switch (data.btnType) {
+      case 'modal':
+        this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
           if (res.length > 0) {
             this.nodes = res[0].menuData;
             this.isVisible = true;
           }
-        }));
-      } else if (data.btnType == '_blank') {
-        window.open('/pages/' + data.href)
-      } else if (data.btnType == '') {
+        });
+        break;
+      case '_blank':
+        window.open('/pages/' + data.href);
+        break;
+      case '':
         this.router.navigate(['/pages/' + data.href]);
-      }
-    } else {
-      this.toastr.error('Link is required', { nzDuration: 3000 });
+        break;
     }
-
   }
+
   getButtonType(type: any) {
     console.log(type);
     // if(type == 'insert')
@@ -61,9 +69,6 @@ export class ButtonsComponent implements OnInit {
     //   this.updateData('update')
     // else if(type == 'delete')
     //   this.deleteData('delete')
-  }
-  change(value: boolean): void {
-    console.log(value);
   }
   handleOk(): void {
     console.log('Button ok clicked!');
@@ -74,13 +79,23 @@ export class ButtonsComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  changeColor(bgColor: any, hoverColor: any) {
-
-    bgColor = hoverColor;
+  handleButtonClick(buttonData : any): void {
+    this.getButtonType(buttonData.type);
+    this.pagesRoute(buttonData);
+    this.notify.emit(buttonData);
   }
-  saveData(data : any){
-    debugger
-    this.notify.emit(data);
+  
+  handleButtonMouseOver(buttonData : any): void {
+    this.bgColor = buttonData.hoverColor || '';
+    this.hoverTextColor = buttonData.hoverTextColor || '';
+    this.borderColor = buttonData.hoverColor || '';
   }
+  
+  handleButtonMouseOut(buttonData : any): void {
+    this.bgColor = buttonData.color || '';
+    this.hoverTextColor = buttonData.textColor || '';
+    this.borderColor = buttonData.textColor || '';
+  }
+  
 
 }

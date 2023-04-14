@@ -64,8 +64,9 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
   requestSubscription: Subscription;
-
-
+  previewJsonModal: boolean = false;
+  previewJsonData: any = '';
+  searchValue: any = '';
 
 
   constructor(public builderService: BuilderService,
@@ -889,6 +890,9 @@ export class BuilderComponent implements OnInit {
       case "dropdownButton":
         newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
         break;
+      case "linkbutton":
+        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
+        break;
       case "cardWithComponents":
         newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
         break;
@@ -944,9 +948,6 @@ export class BuilderComponent implements OnInit {
       case "kanbanTask":
         newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
         break;
-      case "linkbutton":
-        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
-        break;
       case "simplecard":
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
         break;
@@ -960,6 +961,9 @@ export class BuilderComponent implements OnInit {
 
       case "widgetSectionCard":
         newNode = { ...newNode, ...this.addControlService.widgetSectionCardControl() };
+        break;
+      case "div":
+        newNode = { ...newNode, ...this.addControlService.divControl() };
         break;
 
       case "donutChart":
@@ -1347,6 +1351,7 @@ export class BuilderComponent implements OnInit {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
+    // this.isActiveShow = node.origin.id;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -1723,7 +1728,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getWidgetSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.widgetSectionChartFields;
         break;
-
+      case "div":
+        configObj = { ...configObj, ...this.clickButtonService.divConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.divFields;
+        break;
       case "sectionCard":
         configObj = { ...configObj, ...this.clickButtonService.getSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.SectionChartFields;
@@ -2929,10 +2937,15 @@ export class BuilderComponent implements OnInit {
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
+            if (fieldGroup[0]['key'] != event.form.key) {
+              if (fieldGroup[0] && fieldGroup[0].key)
+                this.formlyModel[event.form.key] = this.formlyModel[fieldGroup[0]['key'] as string];
+            }
+            fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
-            props['key'] = event.form.key;
+            // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             this.updateFormlyModel();
             props['className'] = event.form.className;
@@ -3080,6 +3093,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.alt = event.form.alt;
           this.selectedNode.size = event.form.size;
           this.selectedNode.shape = event.form.shape;
+          this.selectedNode.src = event.form.src;
           if (event.form.src) {
             this.selectedNode.src = event.form.src;
           }
@@ -3412,6 +3426,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isSubmit'] = event.form.isSubmit;
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode['dataTable'] = event.form.dataTable;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
         }
         break;
 
@@ -3441,12 +3456,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
           // this.selectedNode['dataTable'] = event.form.dataTable;
           // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
           //   this.selectedNode.btnType = "modal";
           // }
           this.updateNodes();
 
+        }
+        break;
+      case "div":
+        if (this.selectedNode) {
+          this.selectedNode.divClass = event.form.divClass;
         }
         break;
       case "dropdownButton":
@@ -3474,6 +3495,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode['dataTable'] = event.form.dataTable;
+          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
           if (event.tableDta) {
             this.selectedNode.dropdownOptions = event.tableDta;
           }
@@ -4008,6 +4030,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "sections":
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
@@ -4017,67 +4040,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.status = event.form.status;
           this.selectedNode.isBordered = event.form.isBordered;
-          this.selectedNode?.children?.[1]?.children?.forEach(res => {
-            if (res) {
-
-              if (res.formly != undefined) {
-                if (res.type != "mainStep" && res.type != "mainTab") {
-                  // res['wrappers'] = [];
-                  // res.wrappers.push(event.form.wrappers);
-                  res['dataOnly'] = event.form.disabled;
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  res.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.formly[0].fieldGroup);
-                }
-              }
-              if (res.type == "mainStep") {
-                res.children?.forEach((element: any) => {
-                  element.children.forEach((elementV1: any) => {
-                    if (event.form.sectionClassName) {
-                      res['className'] = event.form.sectionClassName
-                    }
-                    if (elementV1.formly) {
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    }
-                  });
-                });
-              }
-              if (res.type == "cardWithComponents") {
-                res.children?.forEach((element: any) => {
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  if (element.formly) {
-                    element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
-                  }
-                });
-              }
-              if (res.type == "mainTab") {
-                res.children?.forEach((element: any) => {
-                  element.children.forEach((elementV1: any) => {
-                    if (event.form.sectionClassName) {
-                      res['className'] = event.form.sectionClassName
-                    }
-                    if (elementV1.formly) {
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    }
-                  });
-                });
-              }
-              if (res.type == "accordionButton") {
-                res?.children?.forEach((elementV1: any) => {
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  if (elementV1.formly) {
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                  }
-                });
-              }
-            }
-          })
-          this.clickBack();
+          this.selectedNode.formatAlignment = event.form.formatAlignment;
+          const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
+          filteredNodes.forEach(node => {
+            node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
+          });
+          if (this.selectedNode.wrappers != event.form.wrappers) {
+            this.selectedNode.wrappers = event.form.wrappers;
+            this.clickBack();
+          }
         }
         break;
       case "header":
@@ -4150,9 +4121,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "kanban":
         if (this.selectedNode.id) {
-          this.selectedNode.text = event.form.title;
           this.selectedNode.nodes = event.form.nodes;
-          this.updateNodes();
+          this.selectedNode.maxLength = event.form.maxLength;
+          this.selectedNode.showAddbtn = event.form.showAddbtn;
         }
         break;
       case "kanbanTask":
@@ -4757,5 +4728,72 @@ export class BuilderComponent implements OnInit {
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);
   }
+
+  selectedDownloadJson() {
+    var currentData = this.jsonParse(this.jsonStringifyWithObject(this.selectedNode));
+    const blob = new Blob([JSON.stringify(currentData)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    if (this.selectedNode.title) {
+      a.download = this.selectedNode.title+'.';
+    }else{
+      a.download = 'file.';
+    }
+    document.body.appendChild(a);
+    a.click();
+  }
+  selectedJsonUpload(event: any) {
+    let contents
+    event;
+    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        contents = reader.result as string;
+        var makeData = JSON.parse(contents);
+        var currentData = JSON.parse(
+          JSON.stringify(makeData.menuData, function (key, value) {
+            if (typeof value == 'function') {
+              return value.toString();
+            } else {
+              return value;
+            }
+          }) || '{}');
+        if (this.selectedNode.children) {
+          this.selectedNode.children.push(makeData);
+          this.updateNodes();
+        }
+
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+  previewJson(node: any) {
+    this.selectedNode = node.origin;
+    // this.previewJsonData = node;
+    this.previewJsonModal = true;
+    this.isActiveShow = node.origin.id;
+  }
+  handleCancel(): void {
+    this.previewJsonModal = false;
+  }
+  handleOk(): void {
+    this.previewJsonModal = false;
+  }
+
+  // findDollarSign(node: any) {
+  //   if (node.type === 'paragraph' && node.text && node.text.includes('$')) {
+  //     return true;
+  //   }
+
+  //   if (node.children) {
+  //     for (const child of node.children) {
+  //       if (this.findDollarSign(child)) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
+
 }
 

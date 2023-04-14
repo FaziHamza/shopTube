@@ -453,7 +453,8 @@ export class BuilderClickButtonService {
   getKanbanConfig(node: any) {
     return {
       nodes: node.nodes,
-      tooltip: node?.tooltip,
+      maxLength: node.maxLength,
+      showAddbtn: node.showAddbtn,
     }
   }
 
@@ -657,6 +658,11 @@ export class BuilderClickButtonService {
       options: node.section,
     }
   }
+  divConfig(node: any) {
+    return {
+      divClass: node?.divClass,
+    }
+  }
 
   getSectionCardConfig(node: any) {
     return {
@@ -828,6 +834,7 @@ export class BuilderClickButtonService {
       isSubmit: node['isSubmit'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getDropdownButtonConfig(node: any) {
@@ -859,6 +866,7 @@ export class BuilderClickButtonService {
       hoverTextColor: node['hoverTextColor'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getAccordionButtonConfig(node: any) {
@@ -898,6 +906,7 @@ export class BuilderClickButtonService {
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
       dataTable: node['dataTable'],
+      btnLabelPaddingClass: node['btnLabelPaddingClass'],
     }
   }
   getBtnGroupConfig(node: any) {
@@ -925,45 +934,21 @@ export class BuilderClickButtonService {
     }
   }
   getSectionConfig(node: any) {
-
-    if (node.children[1].children.length > 0) {
-      if (node.children[1].children[0].formly) {
-        return {
-          title: node.title,
-          disabled: node.sectionDisabled,
-          borderColor: node.borderColor,
-          className: node.className,
-          labelPosition: node.labelPosition,
-          repeatable: node.repeatable,
-          size: node.size,
-          status: node.status,
-          sectionClassName: node.sectionClassName,
-          isBordered: node.isBordered,
-          wrappers: node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers == undefined ? "" : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].wrappers?.at(0),
-          formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
-        }
-      }
-      else {
-        return {
-          title: node.title,
-          disabled: node.sectionDisabled,
-          className: node.className,
-          borderColor: node.borderColor,
-          titlePosition: node.labelPosition,
-          repeatable: node.repeatable,
-          isBordered: node.isBordered,
-        }
-      }
-    } else {
-      return {
-        title: node.title,
-        disabled: node.sectionDisabled,
-        className: node.className,
-        borderColor: node.borderColor,
-        titlePosition: node.labelPosition,
-        repeatable: node.repeatable,
-        isBordered: node.isBordered,
-      }
+    debugger
+    return {
+      title: node.title,
+      disabled: node.sectionDisabled,
+      borderColor: node.borderColor,
+      className: node.className,
+      labelPosition: node.labelPosition,
+      repeatable: node.repeatable,
+      size: node.size,
+      status: node.status,
+      sectionClassName: node.sectionClassName,
+      isBordered: node.isBordered,
+      wrappers: node['wrappers'],
+      formatAlignment: node['formatAlignment'],
+      // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
     }
   }
   getSectionFooterConfig(node: any) {

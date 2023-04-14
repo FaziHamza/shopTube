@@ -1076,15 +1076,15 @@ export const htmlTabsData = [
               // },
 
               {
-                parameter: "kanabnAddNew",
+                parameter: "kanban",
                 icon: "uil uil-file-alt",
-                label: "kanabn"
+                label: "kanban"
               },
-              {
-                parameter: "kanbanTask",
-                icon: "uil uil-file-alt",
-                label: "Kanban Task"
-              },
+              // {
+              //   parameter: "kanbanTask",
+              //   icon: "uil uil-file-alt",
+              //   label: "Kanban Task"
+              // },
 
 
               {
@@ -1164,18 +1164,20 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-search-plus",
                 label: "Search",
-                type: 'ng-search',
-                configType: 'search', fieldType: 'ng-search',
-                // maskString: "",
-                // maskLabel: "",
-                options: true,
+                type: 'autoComplete',
+                configType:'autoComplete',fieldType: 'autoComplete',
+                 options:true,
               },
               {
                 parameter: "fixedDiv",
                 icon: "uil-square-full",
                 label: "Fixed Div"
               },
-
+              {
+                parameter: "div",
+                icon: "uil-square-full",
+                label: "Div"
+              },
               {
                 parameter: "input",
                 icon: "uil uil-images",
