@@ -98,7 +98,8 @@
                 </ng-container>
             </ng-template>
             <ng-template #twelth>
-                <ng-container *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
+                <ng-container
+                    *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
                     <div *ngIf="!item.hideExpression">
                         <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
                         </st-block-buttons-card>
@@ -108,23 +109,25 @@
             <ng-template #thirteenth>
                 <ng-container *ngIf="item.type =='htmlBlock'; else forteenth">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-html-block [htmlBlockData]="item.data" ></st-html-block>
+                        <st-html-block [htmlBlockData]="item.data"></st-html-block>
                     </div>
                 </ng-container>
             </ng-template>
             <ng-template #forteenth>
                 <ng-container *ngIf="item.type =='icon'; else fifteen">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"></st-icon>
+                        <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                            [color]="item.iconColor"></st-icon>
                     </div>
                 </ng-container>
             </ng-template>
             <ng-template #fifteen>
                 <ng-container *ngIf="item.type =='cardWithComponents'; else sixteen">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <nz-card [nzTitle]="item.title" class="p-0" [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
+                        <nz-card [nzTitle]="item.title" class="p-0"
+                            [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
                             <div class="pt-2">
-                            <st-main [mainData]="item.children"></st-main>
+                                <st-main [mainData]="item.children"></st-main>
                             </div>
                         </nz-card>
                     </div>
@@ -300,7 +303,7 @@
                         *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
-                                <st-board [kanbanData]="item"></st-board>
+                        <st-board [kanbanData]="item"></st-board>
                         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                     </div>
                 </ng-container>
@@ -310,23 +313,12 @@
                     <div class="div_button bg-blue-500" *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
-                        <div *ngFor="let data of item.fixedDivChild">
-                            <ng-container *ngIf="data.type == 'button';else second">
+                        <div *ngFor="let data of item.children">
+                            <ng-container
+                                *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
                                 <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
                                 </st-block-buttons-card>
                             </ng-container>
-                            <ng-template #second>
-                                <ng-container *ngIf="data.type == 'linkButton';else third">
-                                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
-                                    </st-block-buttons-card>
-                                </ng-container>
-                            </ng-template>
-                            <ng-template #third>
-                                <ng-container *ngIf="data.type == 'buttonGroup'">
-                                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
-                                    </st-block-buttons-card>
-                                </ng-container>
-                            </ng-template>
                         </div>
                     </div>
                 </ng-container>
@@ -697,7 +689,7 @@
                 </ng-container>
             </ng-template>
             <ng-template #seventyOne>
-                <ng-container *ngIf="item.type == 'notification' else seventyTwo">
+                <ng-container *ngIf="item.type == 'notification'; else seventyTwo">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
@@ -706,11 +698,22 @@
                 </ng-container>
             </ng-template>
             <ng-template #seventyTwo>
-                <ng-container *ngIf="item.type == 'tree'">
+                <ng-container *ngIf="item.type == 'tree' else seventyThree">
                     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                         <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                                 nzType="question-circle" nzTheme="twotone"></span></span>
                         <st-tree [treeData]="item"></st-tree>
+                    </div>
+                </ng-container>
+            </ng-template>
+            <ng-template #seventyThree>
+                <ng-container *ngIf="item.type == 'div'">
+                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                                nzType="question-circle" nzTheme="twotone"></span></span>
+                        <div [class]="item.divClass">
+                            <st-main [mainData]="item.children"></st-main>
+                        </div>
                     </div>
                 </ng-container>
             </ng-template>

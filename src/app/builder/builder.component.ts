@@ -961,6 +961,9 @@ export class BuilderComponent implements OnInit {
       case "widgetSectionCard":
         newNode = { ...newNode, ...this.addControlService.widgetSectionCardControl() };
         break;
+      case "div":
+        newNode = { ...newNode, ...this.addControlService.divControl() };
+        break;
 
       case "donutChart":
         newNode = { ...newNode, ...this.addControlService.donutChartControl() };
@@ -1687,7 +1690,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getWidgetSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.widgetSectionChartFields;
         break;
-
+      case "div":
+        configObj = { ...configObj, ...this.clickButtonService.divConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.divFields;
+        break;
       case "sectionCard":
         configObj = { ...configObj, ...this.clickButtonService.getSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.SectionChartFields;
@@ -3368,6 +3374,11 @@ export class BuilderComponent implements OnInit {
 
         }
         break;
+      case "div":
+        if (this.selectedNode) {
+          this.selectedNode.divClass = event.form.divClass;
+        }
+        break;
       case "dropdownButton":
 
         if (this.selectedNode) {
@@ -3928,6 +3939,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "sections":
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
@@ -3937,76 +3949,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.status = event.form.status;
           this.selectedNode.isBordered = event.form.isBordered;
-          this.selectedNode?.children?.[1]?.children?.forEach(res => {
-            if (res) {
-              if (res.formly != undefined) {
-                if (res.type != "mainStep" && res.type != "mainTab") {
-                  // res['wrappers'] = [];
-                  // res.wrappers.push(event.form.wrappers);
-                  res['dataOnly'] = event.form.disabled;
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  res.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, res.formly[0].fieldGroup);
-                }
-              }
-              if (res.type == "mainStep") {
-                res.children?.forEach((element: any) => {
-                  element.children.forEach((elementV1: any) => {
-                    if (event.form.sectionClassName) {
-                      res['className'] = event.form.sectionClassName
-                    }
-                    if (elementV1.formly) {
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    }
-                  });
-                });
-              }
-              if (res.type == "cardWithComponents") {
-                res.children?.forEach((element: any) => {
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  if (element.formly) {
-                    element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
-                  }
-                  if (element.children.length) {
-                    element.children?.forEach((element: any) => {
-                      if (event.form.sectionClassName) {
-                        element['className'] = event.form.sectionClassName
-                      }
-                      if (element.formly) {
-                        element.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, element.formly[0].fieldGroup);
-                      }
-                    });
-                  }
-                });
-              }
-              if (res.type == "mainTab") {
-                res.children?.forEach((element: any) => {
-                  element.children.forEach((elementV1: any) => {
-                    if (event.form.sectionClassName) {
-                      res['className'] = event.form.sectionClassName
-                    }
-                    if (elementV1.formly) {
-                      elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                    }
-                  });
-                });
-              }
-              if (res.type == "accordionButton") {
-                res?.children?.forEach((elementV1: any) => {
-                  if (event.form.sectionClassName) {
-                    res['className'] = event.form.sectionClassName
-                  }
-                  if (elementV1.formly) {
-                    elementV1.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, elementV1.formly[0].fieldGroup);
-                  }
-                });
-              }
-            }
-          })
-          this.clickBack();
+          this.selectedNode.formatAlignment = event.form.formatAlignment;
+          const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
+          filteredNodes.forEach(node => {
+            node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
+          });
+          if (this.selectedNode.wrappers != event.form.wrappers) {
+            this.selectedNode.wrappers = event.form.wrappers;
+            this.clickBack();
+          }
         }
         break;
       case "header":
