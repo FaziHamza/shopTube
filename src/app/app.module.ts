@@ -38,11 +38,7 @@ import { ModuleListComponent } from './Builder-module/module-list/module-list.co
 import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { BoardComponent } from './components/kanban/board/board/board.component';
-import { DetailComponent } from './components/kanban/board/card/detail/detail.component';
-import { SummaryComponent } from './components/kanban/board/card/summary/summary.component';
-import { ContextMenuComponent } from './components/kanban/common/context-menu/context-menu.component';
-import { HeaderComponent } from './components/kanban/common/header/header.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -89,7 +85,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     ShareModule,
-
+    GoogleChartsModule
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

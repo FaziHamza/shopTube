@@ -1,10 +1,10 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table *ngIf='this.form.value?.options.length' [tableId]='tableId' [checkType]='true' [tableData]='this.form.value?.options'></dynamic-table>
+ <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData'></dynamic-table>
   `,
   styles: [
     `
@@ -24,11 +24,13 @@ import { Guid } from '../models/guid';
 })
 export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
+  formData: any = "";
   ngOnInit(): void {
-   debugger 
+    debugger
     this.tableId = this.field.key + Guid.newGuid();
-    this.form.value?.options
+    const key = Array.isArray(this.field.key) ? this.field.key[0] : this.field.key;
+    if (key)
+      this.formData = this.form.value[key];
   }
-
 }
 

@@ -162,11 +162,11 @@ export const htmlTabsData = [
                 icon: "uil-check-square",
                 label: "Checkbox",
                 type: 'checkbox',
-                configType:'checkbox',
+                configType: 'checkbox',
                 fieldType: 'checkbox',
                 // maskString: "",
                 // maskLabel: ""
-                options:true,
+                options: true,
               },
               {
                 parameter: "mentions",
@@ -194,7 +194,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Decimal",
                 type: 'input',
-                configType:'decimal',fieldType: 'decimal',
+                configType: 'decimal', fieldType: 'decimal',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -203,7 +203,7 @@ export const htmlTabsData = [
                 icon: "uil uil-fast-mail",
                 label: "Email",
                 type: 'input',
-                configType:'input',fieldType: 'input',
+                configType: 'input', fieldType: 'input',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -213,7 +213,7 @@ export const htmlTabsData = [
                 icon: "uil uil-text",
                 label: "Input",
                 type: 'input',
-                configType:'input',fieldType: 'input',
+                configType: 'input', fieldType: 'input',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -246,8 +246,8 @@ export const htmlTabsData = [
                 icon: "uil uil-list-ul",
                 label: "Multi Select",
                 type: 'muliselect',
-                configType:'multiselect',fieldType: 'multiselect',
-                options:true,
+                configType: 'multiselect', fieldType: 'multiselect',
+                options: true,
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -256,8 +256,8 @@ export const htmlTabsData = [
                 icon: "uil uil-list-ul",
                 label: "Autocomplete",
                 type: 'autoComplete',
-                configType:'autoComplete',fieldType: 'autoComplete',
-                options:true,
+                configType: 'autoComplete', fieldType: 'autoComplete',
+                options: true,
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -276,7 +276,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "number",
                 type: 'number',
-                configType:'number',fieldType: 'number',
+                configType: 'number', fieldType: 'number',
                 // maskString: "",
               },
 
@@ -285,19 +285,19 @@ export const htmlTabsData = [
                 icon: "uil uil-key-skeleton-alt",
                 label: "Password",
                 type: 'input',
-                configType:'input',fieldType: 'password',
+                configType: 'input', fieldType: 'password',
                 // maskString: "",
-                 // maskLabel: ""
+                // maskLabel: ""
               },
               {
                 parameter: "input",
                 icon: "uil uil-bitcoin-sign",
                 label: "Radio Button",
                 type: 'radio',
-                configType:'radiobutton',fieldType: 'radio',
+                configType: 'radiobutton', fieldType: 'radio',
                 // maskString: "",
-                 // maskLabel: "",
-                 options:true,
+                // maskLabel: "",
+                options: true,
               },
 
               {
@@ -305,10 +305,10 @@ export const htmlTabsData = [
                 icon: "uil uil-dice-one pr-1",
                 label: "Select One",
                 type: 'select',
-                configType:'repeatSection',fieldType: 'Select',
+                configType: 'repeatSection', fieldType: 'Select',
                 // maskString: "",
-                 // maskLabel: "",
-                 options:true,
+                // maskLabel: "",
+                options: true,
               },
 
               {
@@ -316,18 +316,18 @@ export const htmlTabsData = [
                 icon: "uil uil-phone-alt",
                 label: "Telephone",
                 type: 'input',
-                configType:'telephone',fieldType: 'tel',
+                configType: 'telephone', fieldType: 'tel',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "input",
                 icon: "uil uil-text",
                 label: "Textarea",
                 type: 'textarea',
-                configType:'textarea',fieldType: 'textarea',
+                configType: 'textarea', fieldType: 'textarea',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
 
             ]
@@ -349,73 +349,73 @@ export const htmlTabsData = [
                 icon: "uil uil-calender",
                 label: "Date Range",
                 type: 'rangePicker',
-                configType:'date',fieldType: 'date',
+                configType: 'date', fieldType: 'date',
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Week Range",
                 type: 'rangePicker',
-                configType:'week',fieldType: 'week',
+                configType: 'week', fieldType: 'week',
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Month Range",
                 type: 'rangePicker',
-                configType:'month',fieldType: 'month',
+                configType: 'month', fieldType: 'month',
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "year Range",
                 type: 'rangePicker',
-                configType:'year',fieldType: 'year',
+                configType: 'year', fieldType: 'year',
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Date Picker",
                 type: 'zorro-datePicker',
-                configType:'date',fieldType: 'date',
+                configType: 'date', fieldType: 'date',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Month Picker",
                 type: 'zorro-datePicker',
-                configType:'month',fieldType: 'month',
+                configType: 'month', fieldType: 'month',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Year Picker",
                 type: 'zorro-datePicker',
-                configType:'year',fieldType: 'year',
+                configType: 'year', fieldType: 'year',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "week Picker",
                 type: 'zorro-datePicker',
-                configType:'week',fieldType: 'week',
+                configType: 'week', fieldType: 'week',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "Date & Time",
                 type: 'input',
-                configType:'datetime',fieldType: 'datetime-local',
+                configType: 'datetime', fieldType: 'datetime-local',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               // {
               //   parameter: "input",
@@ -467,9 +467,9 @@ export const htmlTabsData = [
                 icon: "uil uil-calender",
                 label: "Time Picker",
                 type: 'zorro-timePicker',
-                configType:'timepicker',fieldType: 'timepicker',
+                configType: 'timepicker', fieldType: 'timepicker',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
             ]
           },
@@ -483,7 +483,7 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "4 digit Group",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "0,0000,0000,0000",
                 maskLabel: "x,xxxx,xxxx,xxxx",
               },
@@ -492,7 +492,7 @@ export const htmlTabsData = [
                 icon: "uil uil-users-alt",
                 label: "CNPJ",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "00.000.000/0000-00",
                 maskLabel: "xx.xxx.xxx/xxxx-xx",
               },
@@ -501,7 +501,7 @@ export const htmlTabsData = [
                 icon: "uil uil-calendar-alt",
                 label: "Date Masking",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "00/00/0000",
                 maskLabel: "dd/mm/yyyy",
               },
@@ -528,7 +528,7 @@ export const htmlTabsData = [
                 icon: "uil uil-server",
                 label: "IP Address",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "099.099.099.099",
                 maskLabel: "xxx.xxx.xxx.xxx",
               },
@@ -537,7 +537,7 @@ export const htmlTabsData = [
                 icon: "uil-money-withdrawal",
                 label: "Money",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "000.000.000.000.000,00",
                 maskLabel: "Your money",
               },
@@ -546,7 +546,7 @@ export const htmlTabsData = [
                 icon: "uil uil-phone-alt",
                 label: "São Paulo Celphones",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "0000-0000",
                 maskLabel: "xxxx-xxxx",
               },
@@ -555,7 +555,7 @@ export const htmlTabsData = [
                 icon: "uil uil-phone-alt",
                 label: "Telephone Masking",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "0000-0000",
                 maskLabel: "xxxx-xxxx ",
               },
@@ -564,7 +564,7 @@ export const htmlTabsData = [
                 icon: "uil uil-phone-alt",
                 label: "Telephone with Code",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "0000-0000",
                 maskLabel: "xxxx-xxxx",
               },
@@ -573,7 +573,7 @@ export const htmlTabsData = [
                 icon: "uil uil-clock",
                 label: "Time Masking",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "00:00:00",
                 maskLabel: "hh:mm:ss",
               },
@@ -582,7 +582,7 @@ export const htmlTabsData = [
                 icon: "uil uil-phone-alt",
                 label: "US Telephone",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "0000-0000",
                 maskLabel: "xxxx-xxxx",
               },
@@ -591,7 +591,7 @@ export const htmlTabsData = [
                 icon: "uil-map-pin",
                 label: "Zip Code",
                 type: 'custom',
-                configType:'customMasking',fieldType: 'custom',
+                configType: 'customMasking', fieldType: 'custom',
                 maskString: "00000-000",
                 maskLabel: "xxxxx-xxx",
               },
@@ -727,6 +727,66 @@ export const htmlTabsData = [
                 parameter: "sharedMessagesChart",
                 icon: "uil uil-file-alt",
                 label: "Task Widget"
+              },
+              {
+                parameter: "barChart",
+                icon: "uil uil-file-alt",
+                label: "Bar Chart"
+              },
+              {
+                parameter: "pieChart",
+                icon: "uil uil-file-alt",
+                label: "Pie Chart"
+              },
+              {
+                parameter: "bubbleChart",
+                icon: "uil uil-file-alt",
+                label: "Bubble Chart"
+              },
+              {
+                parameter: "candlestickChart",
+                icon: "uil uil-file-alt",
+                label: "Candlestick Chart"
+              },
+              {
+                parameter: "columnChart",
+                icon: "uil uil-file-alt",
+                label: "Column Chart"
+              },
+              {
+                parameter: "ganttChart",
+                icon: "uil uil-file-alt",
+                label: "Gantt Chart"
+              },
+              {
+                parameter: "geoChart",
+                icon: "uil uil-file-alt",
+                label: "Geo Chart"
+              },
+              {
+                parameter: "histogramChart",
+                icon: "uil uil-file-alt",
+                label: "Histogram Chart"
+              },
+              {
+                parameter: "lineChart",
+                icon: "uil uil-file-alt",
+                label: "Line Chart"
+              },
+              {
+                parameter: "sankeyChart",
+                icon: "uil uil-file-alt",
+                label: "Sankey Chart"
+              },
+              {
+                parameter: "scatterChart",
+                icon: "uil uil-file-alt",
+                label: "Scatter Chart"
+              },
+              {
+                parameter: "timelineChart",
+                icon: "uil uil-file-alt",
+                label: "Timeline Chart"
               },
             ]
           },
@@ -912,7 +972,7 @@ export const htmlTabsData = [
           },
         ]
       },
-   {
+      {
         label: "Feedback",
         children: [
           {
@@ -1001,7 +1061,7 @@ export const htmlTabsData = [
                 label: "Break Tag"
               },
 
-                // {
+              // {
               //   parameter: "carouselCrossfade",
               //   icon: "uil-sliders-v-alt",
               //   label: "Slider"
@@ -1081,9 +1141,9 @@ export const htmlTabsData = [
                 icon: "uil uil-calender",
                 label: "URL",
                 type: 'input',
-                configType:'url',fieldType: 'url',
+                configType: 'url', fieldType: 'url',
                 // maskString: "",
-                 // maskLabel: "",
+                // maskLabel: "",
               },
               {
                 parameter: "dashonictabsAddNew",
@@ -1095,20 +1155,20 @@ export const htmlTabsData = [
                 icon: "uil uil-location-point",
                 label: "Tags",
                 type: 'tag',
-                configType:'tag',fieldType: 'tag',
+                configType: 'tag', fieldType: 'tag',
                 // maskString: "",
-                 // maskLabel: "",
-                 options:true,
+                // maskLabel: "",
+                options: true,
               },
               {
                 parameter: "input",
                 icon: "uil uil-search-plus",
                 label: "Search",
                 type: 'ng-search',
-                configType:'search',fieldType: 'ng-search',
+                configType: 'search', fieldType: 'ng-search',
                 // maskString: "",
-                 // maskLabel: "",
-                 options:true,
+                // maskLabel: "",
+                options: true,
               },
               {
                 parameter: "fixedDiv",
@@ -1121,7 +1181,7 @@ export const htmlTabsData = [
                 icon: "uil uil-images",
                 label: "image Uploader",
                 type: 'input',
-                configType:'image',fieldType: 'file',
+                configType: 'image', fieldType: 'file',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -1130,7 +1190,7 @@ export const htmlTabsData = [
                 icon: "uil uil-images",
                 label: "Repeat Input",
                 type: 'repeat',
-                configType:'input',fieldType: 'input',
+                configType: 'input', fieldType: 'input',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -1139,7 +1199,7 @@ export const htmlTabsData = [
                 icon: "uil uil-bullseye",
                 label: "Color",
                 type: 'input',
-                configType:'color',fieldType: 'color',
+                configType: 'color', fieldType: 'color',
                 // maskString: "",
                 // maskLabel: ""
               },

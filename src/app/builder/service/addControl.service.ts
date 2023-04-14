@@ -114,7 +114,7 @@ export class AddControlService {
       textColor: '',
       isSubmit: false, btnType: "",
       href: "",
-      dataTable:"",
+      dataTable: "",
     }
   }
   getDropdownButtonControl() {
@@ -141,7 +141,7 @@ export class AddControlService {
       textColor: "",
       iconSize: 15,
       hoverTextColor: '',
-      dataTable:'',
+      dataTable: '',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -434,7 +434,7 @@ export class AddControlService {
       nzShape: 'default',
       iconType: 'outline',
       iconSize: 15,
-      dataTable:'',
+      dataTable: '',
     }
   }
   simplecardControl() {
@@ -495,7 +495,7 @@ export class AddControlService {
       text: "Editor.js",
       heading: 3,
       fontstyle: 'font-normal',
-      link:'',
+      link: '',
     }
   }
   paragraphControl() {
@@ -517,12 +517,12 @@ export class AddControlService {
       beforecopyIcon: '',
       aftercopyIcon: '',
       editableIcon: '',
-      link:'',
+      link: '',
     }
   }
   htmlBlockControl() {
     return {
-      data:'' ,
+      data: '',
     }
   }
   textEditorControl() {
@@ -1646,6 +1646,319 @@ export class AddControlService {
       icon: 'star',
       iconType: 'outline',
       iconSize: 15,
+    }
+  }
+  barChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      tableHeaders: [
+        { name: 'City' },
+        { name: '2010 Population' },
+        { name: '2000 Population' }
+      ],
+      options: {
+        // title: 'Population of the largest US cities',
+        // chartArea: { width: 550,
+        //   height: 400 },
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'City'
+        },
+        colors: ['#1b9e77', '#d95f02']
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  pieChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'PHP', value: 10 },
+        { name: 'Node', value: 5 },
+        { name: 'JQuery', value: 25 },
+        { name: '.Net', value: 17 },
+        { name: 'Java', value: 43 }
+      ],
+      width: 550,
+      height: 400,
+    }
+  }
+  bubbleChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
+        { id: 'A', x: 80, y: 167, temprature: 120 },
+        { id: 'B', x: 79, y: 136, temprature: 130 },
+        { id: 'C', x: 78, y: 184, temprature: 50 },
+        { id: 'D', x: 72, y: 278, temprature: 230 },
+        { id: 'E', x: 81, y: 200, temprature: 210 },
+        { id: 'F', x: 72, y: 170, temprature: 100 },
+        { id: 'G', x: 68, y: 477, temprature: 80 }
+      ],
+      options: {
+        title: 'Bubble Chart Example',
+        // width: 600,
+        // height: 400,
+        bubble: {
+          textStyle: {
+            fontSize: 11
+          }
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  candlestickChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'Mon', value: 20, value1: 28, value2: 38, value3: 45 },
+        { name: 'Tue', value: 31, value1: 38, value2: 55, value3: 66 },
+        { name: 'Wed', value: 50, value1: 55, value2: 77, value3: 80 },
+        { name: 'Thu', value: 77, value1: 77, value2: 66, value3: 50 },
+        { name: 'Fri', value: 68, value1: 66, value2: 22, value3: 15 }
+      ],
+      options: {
+        legend: 'none'
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  columnChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  ganttChartControl() {
+    return {
+      isNextChild: false,
+      tableData:
+        [
+          { taskID: "Research", taskName: 'Find sources', resource: null, startDate: '2015, 0, 1', endDate: '2015, 0, 5', duration: null, percentComplete: 100, dependencies: null },
+          { taskID: "Write", taskName: 'Write paper', resource: null, startDate: null, endDate: '2015, 0, 9', duration: 3, percentComplete: 25, dependencies: 'Research,Outline' },
+          { taskID: "Cite", taskName: 'Create bibliography', resource: null, startDate: null, endDate: '2015, 0, 7', duration: 1, percentComplete: 20, dependencies: 'Research' },
+          { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate: null, endDate: '2015, 0, 10', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
+          { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate: null, endDate: '2015, 0, 6', duration: 1, percentComplete: 100, dependencies: 'Research' },
+        ],
+
+      columns: ['taskID', 'taskName', 'Resource', 'startDate', 'endDate', 'duration', 'percentComplete', 'dependencies'],
+      isCriticalPath: false,//if true then criticalPathStyle apply
+      stroke: '#e64a19',
+      strokeWidth: 5,
+      angle: 100,
+      arrowWidth: 5,
+      color: 'green',
+      radius: 0,
+      innerGridTrack: '#fff3e0',
+      innerGridDarkTrack: '#ffcc80',
+      width: 550,
+      height: 400,
+    }
+  }
+  geoChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  histogramChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  lineChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  sankeyChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  scatterChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  timelineChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+      ],
+      columns: ['City', '2010 Population', '2000 Population'],
+      options: {
+        title: 'Population of Largest U.S. Cities',
+        subtitle: 'Based on most recent and previous census data',
+        colors: ['#1b9e77', '#d95f02'],
+        hAxis: {
+          title: 'Total Population',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'City',
+        }
+      },
+      width: 550,
+      height: 400,
     }
   }
 }

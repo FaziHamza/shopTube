@@ -495,4 +495,14 @@ export interface TreeNode {
   suffixIcon?: any,
   statisticArray?: any,
   iconColor?: any,
+
+  //
+  isCriticalPath?: any,
+  stroke?: any,
+  strokeWidth?: any,
+  angle?: any,
+  arrowWidth?: any,
+  radius?: any,
+  innerGridTrack?: any,
+  innerGridDarkTrack?: any,
 }

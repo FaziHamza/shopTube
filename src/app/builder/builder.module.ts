@@ -14,6 +14,7 @@ import { FormlyModule } from "@ngx-formly/core";
 import { formlyCustomeConfig } from "../formlyConfig";
 import { ShareModule } from "../shared/share.module";
 import { CommonModule } from "@angular/common";
+import { GoogleChartsModule } from "angular-google-charts";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CommonModule } from "@angular/common";
     FormlyModule.forRoot(formlyCustomeConfig),
     BuilderRoutingModule,
     ShareModule,
+    GoogleChartsModule 
   ],
 })
 
