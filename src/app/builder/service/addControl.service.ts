@@ -53,6 +53,8 @@ export class AddControlService {
       isBordered: true,
       size: 'default',
       status: '',
+      wrapper:'',
+      formatAlignment:'',
     }
   }
   getHeaderControl() {
@@ -462,7 +464,13 @@ export class AddControlService {
   }
   widgetSectionCardControl() {
     return {
-
+   
+    }
+  }
+  divControl() {
+    return {
+      isNextChild: true,
+      divClass :'',
     }
   }
   donutChartControl() {

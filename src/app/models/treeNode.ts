@@ -341,6 +341,7 @@ export interface TreeNode {
   isTitle?: boolean,
   textColor?: string,
   repeat?: any,
+  divClass?: any,
   color?: string,
   hoverColor?: string,
   icon?: any,

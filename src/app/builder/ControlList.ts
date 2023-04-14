@@ -1113,7 +1113,11 @@ export const htmlTabsData = [
                 icon: "uil-square-full",
                 label: "Fixed Div"
               },
-
+              {
+                parameter: "div",
+                icon: "uil-square-full",
+                label: "Div"
+              },
               {
                 parameter: "input",
                 icon: "uil uil-images",

@@ -961,6 +961,9 @@ export class BuilderComponent implements OnInit {
       case "widgetSectionCard":
         newNode = { ...newNode, ...this.addControlService.widgetSectionCardControl() };
         break;
+      case "div":
+        newNode = { ...newNode, ...this.addControlService.divControl() };
+        break;
 
       case "donutChart":
         newNode = { ...newNode, ...this.addControlService.donutChartControl() };
@@ -1687,7 +1690,10 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getWidgetSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.widgetSectionChartFields;
         break;
-
+      case "div":
+        configObj = { ...configObj, ...this.clickButtonService.divConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.divFields;
+        break;
       case "sectionCard":
         configObj = { ...configObj, ...this.clickButtonService.getSectionCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.SectionChartFields;
@@ -3368,6 +3374,11 @@ export class BuilderComponent implements OnInit {
 
         }
         break;
+      case "div":
+        if (this.selectedNode) {
+          this.selectedNode.divClass = event.form.divClass;
+        }
+        break;
       case "dropdownButton":
 
         if (this.selectedNode) {
@@ -3928,6 +3939,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "sections":
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sectionClassName = event.form.sectionClassName;
           this.selectedNode.sectionDisabled = event.form.disabled;
@@ -3937,11 +3949,15 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.status = event.form.status;
           this.selectedNode.isBordered = event.form.isBordered;
+          this.selectedNode.formatAlignment = event.form.formatAlignment;
           const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
           filteredNodes.forEach(node => {
             node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
           });
-          this.clickBack();
+          if (this.selectedNode.wrappers != event.form.wrappers) {
+            this.selectedNode.wrappers = event.form.wrappers;
+            this.clickBack();
+          }
         }
         break;
       case "header":

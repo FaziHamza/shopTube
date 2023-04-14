@@ -10,3 +10,16 @@ nz-badge {
     display: inline-block;
     vertical-align: middle;
 }
+
+.div_button {
+    position: fixed;
+    bottom: 0px;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    // padding: 0px 15px;
+    box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
+    background: #fff;
+    width: calc(100% - 0px);
+    z-index: 5;
+}
