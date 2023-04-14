@@ -64,8 +64,9 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
   requestSubscription: Subscription;
-
-
+  previewJsonModal: boolean = false;
+  previewJsonData: any = '';
+  searchValue: any = '';
 
 
   constructor(public builderService: BuilderService,
@@ -1314,6 +1315,7 @@ export class BuilderComponent implements OnInit {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
+    // this.isActiveShow = node.origin.id;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -2851,10 +2853,15 @@ export class BuilderComponent implements OnInit {
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
+            if (fieldGroup[0]['key'] != event.form.key) {
+              if (fieldGroup[0] && fieldGroup[0].key)
+                this.formlyModel[event.form.key] = this.formlyModel[fieldGroup[0]['key'] as string];
+            }
+            fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
-            props['key'] = event.form.key;
+            // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             this.updateFormlyModel();
             props['className'] = event.form.className;
@@ -4522,5 +4529,72 @@ export class BuilderComponent implements OnInit {
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);
   }
+
+  selectedDownloadJson() {
+    var currentData = this.jsonParse(this.jsonStringifyWithObject(this.selectedNode));
+    const blob = new Blob([JSON.stringify(currentData)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    if (this.selectedNode.title) {
+      a.download = this.selectedNode.title+'.';
+    }else{
+      a.download = 'file.';
+    }
+    document.body.appendChild(a);
+    a.click();
+  }
+  selectedJsonUpload(event: any) {
+    let contents
+    event;
+    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        contents = reader.result as string;
+        var makeData = JSON.parse(contents);
+        var currentData = JSON.parse(
+          JSON.stringify(makeData.menuData, function (key, value) {
+            if (typeof value == 'function') {
+              return value.toString();
+            } else {
+              return value;
+            }
+          }) || '{}');
+        if (this.selectedNode.children) {
+          this.selectedNode.children.push(makeData);
+          this.updateNodes();
+        }
+
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+  previewJson(node: any) {
+    this.selectedNode = node.origin;
+    // this.previewJsonData = node;
+    this.previewJsonModal = true;
+    this.isActiveShow = node.origin.id;
+  }
+  handleCancel(): void {
+    this.previewJsonModal = false;
+  }
+  handleOk(): void {
+    this.previewJsonModal = false;
+  }
+
+  // findDollarSign(node: any) {
+  //   if (node.type === 'paragraph' && node.text && node.text.includes('$')) {
+  //     return true;
+  //   }
+
+  //   if (node.children) {
+  //     for (const child of node.children) {
+  //       if (this.findDollarSign(child)) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
+
 }
 
