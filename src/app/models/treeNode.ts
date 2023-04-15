@@ -100,6 +100,7 @@ export interface TreeNode {
   fontSize?: any;
   textAlign?: any;
   borderless?: any;
+  videoSrc?: any;
   hover?: any;
   nztype?: any;
   isSubmit?: any;
@@ -197,6 +198,7 @@ export interface TreeNode {
   viewType?: string,
   view?: string,
   tooltip?: any,
+  tooltipWithoutIcon?: any,
   labelText?: any,
   pendingText?: any,
   mainIcon?: any,
@@ -428,6 +430,7 @@ export interface TreeNode {
   control?: any;
   model?: any;
   height?: any;
+  allowfullscreen?: any;
   offsetX?: number;
   offsetY?: number;
   wrapClassName?: string;

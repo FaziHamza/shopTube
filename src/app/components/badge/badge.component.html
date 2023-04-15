@@ -1,5 +1,7 @@
-<!-- {{badgeData | json}} -->
-<nz-badge *ngIf="badgeData.nztype == 'count'"
+<div style="display: flex;">
+ <p *ngIf="badgeData.title" class="pr-2">{{badgeData.title}}</p>
+ <div>
+  <nz-badge *ngIf="badgeData.nztype == 'count'"
 [nzCount]="badgeData.count"
 [nzColor]='badgeData.nzColor' 
 [nzStatus]='badgeData.status == true? badgeData.nzStatus:""'
@@ -9,11 +11,6 @@
 [nzText]="badgeData.nzText"
 [nzTitle]="badgeData.title"
 ></nz-badge>
-<!-- <nz-badge *ngIf="badgeData.nztype == 'count'"
-    [nzCount]="5"
-    ><a class="head-example"></a>
-   
-    ><a class="head-example"></a></nz-badge> -->
 
 <nz-badge  *ngIf="badgeData.nztype == 'icon'"
 [nzCount]="iconTemplate"
@@ -25,7 +22,6 @@
 [nzSize]="badgeData.size"
 [nzTitle]="badgeData.title"
 [nzText]="badgeData.nzText"
-
 ></nz-badge>
 
   <ng-template #iconTemplate>
@@ -50,3 +46,5 @@ nzShowDot
   [nzText]="badgeData.nzText" 
   [nzColor]='badgeData.nzColor'>
   </nz-ribbon>
+ </div>
+</div>

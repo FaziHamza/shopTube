@@ -525,15 +525,16 @@ export class BuilderClickButtonService {
 
   getVideoConfig(node: any) {
     return {
-      videoRatio: node.videoConfig[0]?.videoRatio,
-      videoSrc: node.videoConfig[0]?.videoSrc,
+      // videoRatio: node.videoRatio,
+      videoSrc: node.videoSrc,
+      width: node.width,
+      height: node.height,
     }
   }
 
   getAudioConfig(node: any) {
     return {
       audioSrc: node.audioSrc,
-      link: "",
     }
   }
 

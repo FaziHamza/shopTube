@@ -92,10 +92,10 @@
 [nzControl]="field.control"
 ></nz-switch> -->
 <!-- {{switchData | json}} -->
-<span *ngIf="switchData?.tooltip" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
+<span *ngIf="switchData?.tooltip && !switchData?.tooltipWithoutIcon" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
-<div>
-        <p>
+<div style="display: flex;">
+        <p *ngIf="switchData.title" class="pr-2">
                 {{switchData.title}}
         </p>
         <nz-switch [(ngModel)]="switchData.model" [nzSize]="switchData.size"

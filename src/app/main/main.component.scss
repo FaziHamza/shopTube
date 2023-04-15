@@ -23,3 +23,7 @@ nz-badge {
     width: calc(100% - 0px);
     z-index: 5;
 }
+
+.ant-picker-range.ant-picker-small .ant-picker-active-bar, .ant-tag>.anticon+span, .ant-tag>span+.anticon {
+    margin-left: 0px !important;
+}

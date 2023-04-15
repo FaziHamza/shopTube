@@ -145,16 +145,18 @@
                     </div>
                     <span *ngIf="screenPage">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
-                        <span nz-icon nzType="copy" nzTheme="outline"></span>
+                        <span nz-icon nzType="copy" nzTooltipTitle="copy" nzTheme="outline" nz-tooltip></span>
                       </span>
                       <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
-                        <span nz-icon nzType="sliders" nzTheme="outline"></span>
+                        <span nz-icon nzType="sliders" nzTooltipTitle="Configuration" nzTheme="outline"
+                          nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="remove(node, node)">
-                        <span nz-icon nzType="delete" nzTheme="outline"></span>
+                        <span nz-icon nzType="delete" nzTooltipTitle="Delete" nzTheme="outline" nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="previewJson(node)">
-                        <span nz-icon nzType="fullscreen" nzTheme="outline"></span>
+                        <span nz-icon nzType="fullscreen" nzTooltipTitle="Preview Json" nzTheme="outline"
+                          nz-tooltip></span>
                       </label>
                     </span>
                   </div>
@@ -407,7 +409,6 @@
       </as-split-area>
     </as-split>
   </div>
-
 </nz-card>
 <nz-modal [nzWidth]="'800px'" [(nzVisible)]="previewJsonModal" nzTitle="Selected Json" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">

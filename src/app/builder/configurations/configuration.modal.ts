@@ -336,7 +336,11 @@ export class formFeildData {
               {
                 label: 'Current Page',
                 value: ''
-              }
+              },
+              {
+                label: 'Modal',
+                value: 'modal'
+              },
             ]
           },
           defaultValue: ''
@@ -5644,14 +5648,31 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
+        // {
+        //   key: 'title',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Video Title',
+        //   },
+        // },
         {
-          key: 'title',
+          key: 'width',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Video Title',
+            label: 'width',
+          },
+        },
+        {
+          key: 'height',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'height',
           },
         },
         // {
@@ -9216,8 +9237,16 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
-            label: 'Tooltip',
+            label: 'Tooltip With Icon',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipWithoutIcon',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Without Icon',
           }
         },
         {
@@ -9434,7 +9463,16 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Tooltip',
+            label: 'Tooltip With Icon',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipWithoutIcon',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Without Icon',
           }
         },
         {

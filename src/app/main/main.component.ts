@@ -57,17 +57,19 @@ export class MainComponent implements OnInit {
   handleIndexChange(e: number): void {
     console.log(e);
   }
-  onClose(): void {
+  onClose(data : any , index : any): void {
+    debugger
+    data.options = data.options.filter((_ : any, i : any) => i != index);
     console.log('tag was closed.');
   }
-  handleChange(checked: boolean, tag: string): void {
-    if (checked) {
-      this.selectedTags.push(tag);
-    } else {
-      this.selectedTags = this.selectedTags.filter(t => t !== tag);
-    }
-    console.log('You are interested in: ', this.selectedTags);
-  }
+  // handleChange(checked: boolean, tag: string): void {
+  //   if (checked) {
+  //     this.selectedTags.push(tag);
+  //   } else {
+  //     this.selectedTags = this.selectedTags.filter(t => t !== tag);
+  //   }
+  //   console.log('You are interested in: ', this.selectedTags);
+  // }
   imagePreview(data: any) {
     let image = '';
     if (data.source) {

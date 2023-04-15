@@ -1,28 +1,26 @@
 <div class="m-1" *ngIf="softIconList.type != 'buttonGroup'">
-  <div class={{softIconList.format}}>
-    <st-buttons (notify)="saveData($event)" [buttonData]="softIconList"></st-buttons>
+  <div style="display: flex;">
+    <div class={{softIconList.format}}>
+      <st-buttons (notify)="saveData($event)" [buttonData]="softIconList"></st-buttons>
+    </div>
+    <span class="pt-2 pl-1" nz-tooltip *ngIf="softIconList.tooltip && !softIconList?.tooltipWithoutIcon || false" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
+        nzType="question-circle" nzTheme="twotone"></span></span>
   </div>
-  <span nz-tooltip *ngIf="softIconList.tooltip" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
-      nzType="question-circle" nzTheme="twotone"></span></span>
 </div>
 <div *ngIf="softIconList.type == 'buttonGroup' && softIconList.children.length">
-  <span nz-tooltip *ngIf="softIconList.tooltip" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
-      nzType="question-circle" nzTheme="twotone"></span></span>
   <div class={{softIconList.btngroupformat}}>
-    <nz-button-group>
-      <div *ngFor="let item of softIconList.children">
-        <st-buttons (notify)="saveData($event)" [buttonData]="item"></st-buttons>
-        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-            nzTheme="twotone"></span></span>
-      </div>
-    </nz-button-group>
+    <div style="display: flex;">
+      <nz-button-group>
+        <div *ngFor="let item of softIconList.children">
+          <st-buttons (notify)="saveData($event)" [buttonData]="item"></st-buttons>
+          <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
+              nzTheme="twotone"></span></span>
+        </div>
+      </nz-button-group>
+      <span class="pt-2 pl-1" nz-tooltip *ngIf="softIconList.tooltip && !softIconList?.tooltipWithoutIcon || false" [nzTooltipTitle]='softIconList.tooltip'><span nz-icon
+        nzType="question-circle" nzTheme="twotone"></span></span>
+    </div>
   </div>
 </div>
 
 
-<!-- Modal -->
-<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <st-pages [resData]="nodes" *ngIf="nodes.length"></st-pages>
-  </ng-container>
-</nz-modal>

@@ -215,7 +215,9 @@ export class AddControlService {
   getVideoControl() {
     return {
       isNextChild: false,
-      videoRatio: "ratio ratio-1x1",
+      width: '200',
+      height: '200',
+      // videoRatio: "ratio ratio-1x1",
       videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
     }
   }

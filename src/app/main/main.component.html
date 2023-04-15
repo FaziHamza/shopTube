@@ -2,829 +2,516 @@
     <div class="card-content  flex flex-wrap">
         <div class="{{!item.hideExpression   ? item.className : ''}}"
             *ngFor="let item of mainData ; index as i; last as isLast">
-            <ng-container *ngIf="item.type == 'multiFileUpload';else one">
-                <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                    <div *ngIf="item.tooltip" style="text-align: right;">
-                        <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                nzTheme="twotone"></span></span>
-                    </div>
-                    <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
-                </div>
-            </ng-container>
-            <ng-template #one>
-                <ng-container *ngIf="item.type == 'chart';else second">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart' "></st-sales-card>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #second>
-                <ng-container *ngIf="item.type == 'sectionCard';else third">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-growth-percentage-card [widgetSecondCard]="item">
-                    </st-growth-percentage-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #third>
-                <ng-container *ngIf="item.type == 'widgetSectionCard';else fourth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-growth-graph-card [allChart]=" item">
-                    </st-growth-graph-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourth>
-                <ng-container *ngIf="item.type == 'browserCard';else fifth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-visitor-browser-card [browserdata]="item">
-                    </st-visitor-browser-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fifth>
-                <ng-container *ngIf="item.type == 'donutChart';else sixth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-visitor-source-card [donutChart]="item">
-                    </st-visitor-source-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixth>
-                <ng-container *ngIf="item.type == 'donuteSaleChart';else seventh">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-sale-donute-card [saleDonutChart]="item">
-                    </st-sale-donute-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventh>
-                <ng-container *ngIf="item.type == 'salesAnalyticschart';else eight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-sale-analytics-card [analyticsChart]="item">
-                    </st-sale-analytics-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eight>
-                <ng-container *ngIf="item.type == 'card';else tenth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-task-detail-card [widgetcard]="item"></st-task-detail-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #tenth>
-                <ng-container *ngIf="item.type == 'heading'; else eleventh">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <div *ngIf="item.tooltip" style="text-align: right;">
-                                <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                        nzTheme="twotone"></span></span>
-                            </div>
-                        </div>
-                        <st-heading [headingData]="item"></st-heading>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eleventh>
-                <ng-container *ngIf="item.type =='paragraph' ; else twelth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
+            <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
+                    <div *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton' 
+                && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert' 
+                && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js'">
+                        <div *ngIf="item.tooltip && !item?.tooltipWithoutIcon || false" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>
                         </div>
-                        <st-paragraph [data]="item"></st-paragraph>
                     </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twelth>
-                <ng-container
-                    *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
-                    <div *ngIf="!item.hideExpression">
-                        <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
-                        </st-block-buttons-card>
+                    <div  *ngIf="item.type == 'multiFileUpload';else one">
+                        <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
                     </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirteenth>
-                <ng-container *ngIf="item.type =='htmlBlock'; else forteenth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-html-block [htmlBlockData]="item.data"></st-html-block>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #forteenth>
-                <ng-container *ngIf="item.type =='icon'; else fifteen">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                            [color]="item.iconColor"></st-icon>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fifteen>
-                <ng-container *ngIf="item.type =='cardWithComponents'; else sixteen">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <nz-card [nzTitle]="item.title" class="p-0"
-                            [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
-                            <div class="pt-2">
+                    <ng-template #one>
+                        <div *ngIf="item.type == 'chart';else second">
+                            <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart' "></st-sales-card>
+                        </div>
+                    </ng-template>
+                    <ng-template #second>
+                        <div *ngIf="item.type == 'sectionCard';else third">
+                            <!-- <st-growth-percentage-card [widgetSecondCard]="item">
+                        </st-growth-percentage-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #third>
+                        <div *ngIf="item.type == 'widgetSectionCard';else fourth">
+                            <!-- <st-growth-graph-card [allChart]=" item">
+                        </st-growth-graph-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #fourth>
+                        <div *ngIf="item.type == 'browserCard';else fifth">
+                            <!-- <st-visitor-browser-card [browserdata]="item">
+                        </st-visitor-browser-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #fifth>
+                        <div *ngIf="item.type == 'donutChart';else sixth">
+                            <!-- <st-visitor-source-card [donutChart]="item">
+                        </st-visitor-source-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #sixth>
+                        <div *ngIf="item.type == 'donuteSaleChart';else seventh">
+                            <!-- <st-sale-donute-card [saleDonutChart]="item">
+                        </st-sale-donute-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #seventh>
+                        <div *ngIf="item.type == 'salesAnalyticschart';else eight">
+                            <!-- <st-sale-analytics-card [analyticsChart]="item">
+                        </st-sale-analytics-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #eight>
+                        <div *ngIf="item.type == 'card';else tenth">
+                            <!-- <st-task-detail-card [widgetcard]="item"></st-task-detail-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #tenth>
+                        <div *ngIf="item.type == 'heading'; else eleventh">
+                            <st-heading [headingData]="item"></st-heading>
+                        </div>
+                    </ng-template>
+                    <ng-template #eleventh>
+                        <div *ngIf="item.type =='paragraph' ; else twelth">
+                            <st-paragraph [data]="item"></st-paragraph>
+                        </div>
+                    </ng-template>
+                    <ng-template #twelth>
+                        <div
+                            *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
+                            <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+                            </st-block-buttons-card>
+                        </div>
+                    </ng-template>
+                    <ng-template #thirteenth>
+                        <div *ngIf="item.type =='htmlBlock'; else forteenth">
+                            <st-html-block [htmlBlockData]="item.data"></st-html-block>
+                        </div>
+                    </ng-template>
+                    <ng-template #forteenth>
+                        <div *ngIf="item.type =='icon'; else fifteen">
+                            <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                                [color]="item.iconColor"></st-icon>
+                        </div>
+                    </ng-template>
+                    <ng-template #fifteen>
+                        <div  *ngIf="item.type =='cardWithComponents'; else sixteen">
+                            <nz-card [nzTitle]="item.title"
+                                [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
                                 <st-main [mainData]="item.children"></st-main>
-                            </div>
-                        </nz-card>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixteen>
-                <ng-container *ngIf="item.type =='gridList';else seventeen">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                            </nz-card>
                         </div>
-                        <dynamic-table [tableId]='item.tableId' [checkType]="false" [tableData]='item.tableData'
-                            [tableHeaders]='item.tableHeaders' [dataModel]="dataModel" [screenId]="screenId"
-                            [data]="item" [screenName]="screenName"></dynamic-table>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventeen>
-                <ng-container *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-table></st-table>
-                        <!-- <st-tui-grid [gridData]="item"></st-tui-grid> -->
-
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eighteen>
-                <ng-container *ngIf="item.type == 'progressBar'; else ninteen">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-progressbars [progressBarData]="item"></st-progressbars>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #ninteen>
-                <ng-container *ngIf="item.type == 'divider' ; else twenty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span class="text-right" nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span
-                                nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-divider [dividerData]="item"></st-divider>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twenty>
-                <ng-container *ngIf="item.type == 'video'; else twentyone">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-videos [videoData]="item"></st-videos>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentyone>
-                <ng-container *ngIf="item.type == 'audio' ;else twentytwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-audio [audioData]="item"></st-audio>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentytwo>
-                <ng-container *ngIf="item.type == 'browserCombineChart' ;else twentythree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <!-- <st-browser-combine-chart
-                        [browserCombinechartData]="item"></st-browser-combine-chart> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentythree>
-                <ng-container *ngIf="item.type == 'calender' ;else twentyfour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-calendar [calenderData]="item"></st-calendar>
-
-                        <!-- <st-tui-calendar [calendarData]="item"></st-tui-calendar> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentyfour>
-                <ng-container *ngIf="item.type == 'sharedMessagesChart' ;else twentyfive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-shared-messages-card [sharedMessagesData]="item"></st-shared-messages-card> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentyfive>
-                <ng-container *ngIf="item.type == 'alert' ;else twentysix">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-new-alerts [alertData]="item"></st-new-alerts>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentysix>
-                <ng-container *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-simple-card-with-header-body-footer [cardData]="item">
-                        </st-simple-card-with-header-body-footer>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentyseven>
-                <ng-container *ngIf="item.type == 'mainTab' else twentyeight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-tabs [tabs]="item"></st-tabs>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentyeight>
-                <ng-container *ngIf="item.type == 'timeline' ;else twentynine">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-timeline-builder [timelineData]="item"></st-timeline-builder>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #twentynine>
-                <ng-container *ngIf="item.type == 'multiFileUpload' ;else thirty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-
-                        <!-- <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirty>
-                <ng-container *ngIf="item.type == 'inputFields';else thirtyOne">
-                    <!-- <div *ngFor="let items of item.children">
-                    <form [formGroup]="form">
-                        <formly-form [fields]="items.formly" [(model)]="dataModel" [form]="form">
-                        </formly-form>
-                        <button *ngIf="isLast" nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
-                        <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button>
-                    </form>
-                </div> -->
-                </ng-container>
-
-            </ng-template>
-            <ng-template #thirtyOne>
-                <ng-container *ngIf="item.type == 'mainStep'; else thirtyTwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div style="text-align: right;">
-                            <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                    nzType="question-circle" nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #sixteen>
+                        <div *ngIf="item.type =='gridList';else seventeen">
+                            <dynamic-table [tableId]='item.tableId' [checkType]="false" [tableData]='item.tableData'
+                                [tableHeaders]='item.tableHeaders' [dataModel]="dataModel" [screenId]="screenId"
+                                [data]="item" [screenName]="screenName"></dynamic-table>
                         </div>
-                        <st-stepper [step]="item">
-                        </st-stepper>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyTwo>
-                <ng-container *ngIf="item.type == 'accordionButton'; else thirtyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-accordion-button [accordionData]="item"></st-accordion-button>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyThree>
-                <ng-container *ngIf="item.type == 'switch'; else thirtyforth">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-switch [switchData]="item"></st-switch>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyforth>
-                <ng-container *ngIf="item.type == 'kanban' ; else thirtyfifth">
-                    <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true}"
-                        *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-board [kanbanData]="item"></st-board>
-                        <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyfifth>
-                <ng-container *ngIf="item.type == 'fixedDiv'; else thirtySix">
-                    <div class="div_button bg-blue-500" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <div *ngFor="let data of item.children">
-                            <ng-container
-                                *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
-                                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
-                                </st-block-buttons-card>
-                            </ng-container>
+                    </ng-template>
+                    <ng-template #seventeen>
+                        <div *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
+                            <st-table></st-table>
+                            <!-- <st-tui-grid [gridData]="item"></st-tui-grid> -->
+
                         </div>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtySix>
-                <ng-container *ngIf="item.formlyType == 'input'; else thirtySeven">
-                    <div
-                        [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
-                        <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                            <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
+                    </ng-template>
+                    <ng-template #eighteen>
+                        <div *ngIf="item.type == 'progressBar'; else ninteen">
+                            <st-progressbars [progressBarData]="item"></st-progressbars>
+                        </div>
+                    </ng-template>
+                    <ng-template #ninteen>
+                        <div *ngIf="item.type == 'divider' ; else twenty">
+                            <st-divider [dividerData]="item"></st-divider>
+                        </div>
+                    </ng-template>
+                    <ng-template #twenty>
+                        <div  *ngIf="item.type == 'video'; else twentyone">
+                            <st-videos [videoData]="item"></st-videos>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentyone>
+                        <div *ngIf="item.type == 'audio' ;else twentytwo">
+                            <st-audio [audioData]="item"></st-audio>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentytwo>
+                        <div *ngIf="item.type == 'browserCombineChart' ;else twentythree">
+                            <!-- <st-browser-combine-chart
+                            [browserCombinechartData]="item"></st-browser-combine-chart> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #twentythree>
+                        <div *ngIf="item.type == 'calender' ;else twentyfour">
+                            <nz-card>
+                                <st-calendar [calenderData]="item"></st-calendar>
+                            </nz-card>
+
+                            <!-- <st-tui-calendar [calendarData]="item"></st-tui-calendar> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #twentyfour>
+                        <div *ngIf="item.type == 'sharedMessagesChart' ;else twentyfive">
+                            <!-- <st-shared-messages-card [sharedMessagesData]="item"></st-shared-messages-card> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #twentyfive>
+                        <div  *ngIf="item.type == 'alert' ;else twentysix">
+                            <st-new-alerts [alertData]="item"></st-new-alerts>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentysix>
+                        <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
+                            <st-simple-card-with-header-body-footer [cardData]="item">
+                            </st-simple-card-with-header-body-footer>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentyseven>
+                        <div *ngIf="item.type == 'mainTab' else twentyeight">
+                            <st-tabs [tabs]="item"></st-tabs>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentyeight>
+                        <div *ngIf="item.type == 'timeline' ;else twentynine">
+                            <st-timeline-builder [timelineData]="item"></st-timeline-builder>
+                        </div>
+                    </ng-template>
+                    <ng-template #twentynine>
+                        <div *ngIf="item.type == 'multiFileUpload' ;else thirty">
+
+                            <!-- <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #thirty>
+                        <div *ngIf="item.type == 'inputFields';else thirtyOne">
+                            <!-- <div *ngFor="let items of item.children">
+                        <form [formGroup]="form">
+                            <formly-form [fields]="items.formly" [(model)]="dataModel" [form]="form">
                             </formly-form>
+                            <button *ngIf="isLast" nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
+                            <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button>
+                        </form>
+                    </div> -->
                         </div>
-                        <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button> -->
-                    </div>
-                    <div *ngIf="isLast">
-                        <!-- <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
-                                nzTheme="outline"></span>Submit</button> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtySeven>
-                <ng-container *ngIf="item.type == 'textEditor'; else thirtyEight">
-                    <div style='margin-top: 1%; margin-bottom: 1%;' [ngClass]="{'highLight': item.highLight == true} "
-                        *ngIf="!item.hideExpression">
-                        <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
-                            [data]="item.editorJson"></st-editor-js-wrapper>
-                        <!-- <pre>{{ item.editorJson | json }}</pre> -->
-                        <!-- <st-editors [editorData]="item"></st-editors> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyEight>
-                <ng-container *ngIf="item.type == 'breakTag' ; else thirtyNine">
-                    <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                            nzType="question-circle" nzTheme="twotone"></span></span>
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <br>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #thirtyNine>
-                <ng-container *ngIf="item.type == 'carouselCrossfade' ; else fourty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div class="p-2">
-                            <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                    nzType="question-circle" nzTheme="twotone"></span></span>
-                            <st-carousel-crossfade-card [carouselslides]="item"></st-carousel-crossfade-card>
+
+                    </ng-template>
+                    <ng-template #thirtyOne>
+                        <div *ngIf="item.type == 'mainStep'; else thirtyTwo">
+                            <st-stepper [step]="item">
+                            </st-stepper>
                         </div>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourty>
-                <ng-container *ngIf="item.type == 'toastr' ; else fourtyOne">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-builder-toater [toastrData]="item"></st-builder-toater>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyOne>
-                <ng-container *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <st-rang-inputs [rangSlider]="item"></st-rang-inputs>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyTwo>
-                <ng-container *ngIf="item.type == 'editor_js' ; else fourtyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <!-- <st-editor-js></st-editor-js> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyThree>
-                <ng-container *ngIf="item.type == 'imageUpload' ; else fourtyFour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <button nz-button nzType="primary" *ngIf="item.imagePreview"
-                            (click)="imagePreview(item)">Preview</button>
-                        <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
-                            [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
-                            [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
-                        <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                            [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
-                            [alt]='item.alt' [nzFallback]="item.fallback" />
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyFour>
-                <ng-container *ngIf="item.type == 'invoice' ; else fourtyFive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-invoice-template [invoiceData]="item"></st-invoice-template>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyFive>
-                <ng-container *ngIf="item.type == 'affix' ; else fourtysix">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-affix [affixData]="item"></st-affix>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtysix>
-                <ng-container *ngIf="item.type == 'transfer' ; else fourtyseven">
-                    <div [ngClass]="{'highLight': item.highLight, 'pt-1': true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #thirtyTwo>
+                        <div *ngIf="item.type == 'accordionButton'; else thirtyThree">
+                            <st-accordion-button [accordionData]="item"></st-accordion-button>
                         </div>
-                        <st-transfer [transferData]="item"></st-transfer>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyseven>
-                <ng-container *ngIf="item.type == 'treeSelect' ; else fourtyeight">
-                    <div [ngClass]="{'highLight': item.highLight, 'pt-1': true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #thirtyThree>
+                        <div *ngIf="item.type == 'switch'; else thirtyforth">
+                            <st-switch [switchData]="item"></st-switch>
                         </div>
-                        <st-tree-select [treeSelectData]="item"></st-tree-select>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyeight>
-                <ng-container *ngIf="item.type == 'cascader' ; else fourtyNine">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #thirtyforth>
+                        <div  *ngIf="item.type == 'kanban' ; else thirtyfifth">
+                            <st-board [kanbanData]="item"></st-board>
+                            <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                         </div>
-                        <st-cascader [cascaderData]="item"></st-cascader>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fourtyNine>
-                <ng-container *ngIf="item.type == 'avatar' ; else fifty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-avatar [avatarData]="item"></st-avatar>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fifty>
-                <ng-container *ngIf="item.type == 'badge' ; else fiftyOne">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
-                        </div>
-                        <st-badge [badgeData]="item"></st-badge>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyOne>
-                <ng-container *ngIf="item.type == 'comment' ; else fiftyTwo">
-                    <ng-container *ngIf="item.hideExpression == false">
-                        <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-comment [commentData]="item"></st-comment>
-                    </ng-container>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyTwo>
-                <ng-container *ngIf="item.type == 'popOver' ; else fiftyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
-                            [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement"
-                            [nzPopoverVisible]="item.visible" [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
-                            [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay" nz-button nz-popover nzType="primary"
-                            [nzPopoverTitle]="item.title" [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyThree>
-                <ng-container *ngIf="item.type == 'segmented'; else fiftyFour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
-                        </div>
-                        <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size"
-                            [(ngModel)]="item.defaultSelectedIndex" [nzOptions]="item.options"
-                            (nzValueChange)="handleIndexChange($event)"></nz-segmented>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyFour>
-                <ng-container *ngIf="item.type == 'nzTag' ; else fiftyFive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div style="padding-top: 7%;">
-                            <div *ngIf="item.tooltip" style="text-align: right;">
-                                <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                        nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #thirtyfifth>
+                        <div *ngIf="item.type == 'fixedDiv'; else thirtySix">
+                            <div *ngFor="let data of item.children">
+                                <div
+                                    *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
+                                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
+                                    </st-block-buttons-card>
+                                </div>
                             </div>
-                            <nz-tag *ngFor="let child of item.options" [nzColor]='child.tagColor' [nzMode]="item.mode"
-                                [nzChecked]="item.checked" (nzOnClose)="onClose()"><span nz-icon
-                                    [nzType]='child.icon'></span>
+                        </div>
+                    </ng-template>
+                    <ng-template #thirtySix>
+                        <div *ngIf="item.formlyType == 'input'; else thirtySeven">
+                            <div
+                                [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
+                                <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
+                                </formly-form>
+                            </div>
+                            <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button> -->
+                            <div *ngIf="isLast">
+                                <!-- <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
+                                    nzTheme="outline"></span>Submit</button> -->
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #thirtySeven>
+                        <div *ngIf="item.type == 'textEditor'; else thirtyEight">
+                            <nz-card >
+                                <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
+                                    [data]="item.editorJson"></st-editor-js-wrapper>
+                            </nz-card>
+                            <!-- <pre>{{ item.editorJson | json }}</pre> -->
+                            <!-- <st-editors [editorData]="item"></st-editors> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #thirtyEight>
+                        <div *ngIf="item.type == 'breakTag' ; else thirtyNine">
+                            <br>
+                        </div>
+                    </ng-template>
+                    <ng-template #thirtyNine>
+                        <div *ngIf="item.type == 'carouselCrossfade' ; else fourty">
+                            <div >
+                                <st-carousel-crossfade-card [carouselslides]="item"></st-carousel-crossfade-card>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourty>
+                        <div *ngIf="item.type == 'toastr' ; else fourtyOne">
+                            <st-builder-toater [toastrData]="item"></st-builder-toater>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyOne>
+                        <div *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
+                            <st-rang-inputs [rangSlider]="item"></st-rang-inputs>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyTwo>
+                        <div *ngIf="item.type == 'editor_js' ; else fourtyThree">
+                            <!-- <st-editor-js></st-editor-js> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyThree>
+                        <div  *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+                            <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
+                                (click)="imagePreview(item)">Preview</button>
+                            <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
+                                [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
+                                [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+                            <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
+                                [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
+                                [alt]='item.alt' [nzFallback]="item.fallback" />
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyFour>
+                        <div *ngIf="item.type == 'invoice' ; else fourtyFive">
+                            <st-invoice-template [invoiceData]="item"></st-invoice-template>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyFive>
+                        <div *ngIf="item.type == 'affix' ; else fourtysix">
+                            <st-affix [affixData]="item"></st-affix>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtysix>
+                        <div *ngIf="item.type == 'transfer' ; else fourtyseven">
+                            <st-transfer [transferData]="item"></st-transfer>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyseven>
+                        <div *ngIf="item.type == 'treeSelect' ; else fourtyeight">
+                            <st-tree-select [treeSelectData]="item"></st-tree-select>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyeight>
+                        <div *ngIf="item.type == 'cascader' ; else fourtyNine">
+                            <st-cascader [cascaderData]="item"></st-cascader>
+                        </div>
+                    </ng-template>
+                    <ng-template #fourtyNine>
+                        <div *ngIf="item.type == 'avatar' ; else fifty">
+                            <st-avatar [avatarData]="item"></st-avatar>
+                        </div>
+                    </ng-template>
+                    <ng-template #fifty>
+                        <div *ngIf="item.type == 'badge' ; else fiftyOne">
+                            <st-badge [badgeData]="item"></st-badge>
+                        </div>
+                    </ng-template>
+                    <ng-template #fiftyOne>
+                        <div *ngIf="item.type == 'comment' ; else fiftyTwo">
+                            <st-comment [commentData]="item"></st-comment>
+                        </div>
+                    </ng-template>
+                    <ng-template #fiftyTwo>
+                        <div  *ngIf="item.type == 'popOver' ; else fiftyThree">
+                            <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
+                                [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement"
+                                [nzPopoverVisible]="item.visible" [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
+                                [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay" nz-button nz-popover nzType="primary"
+                                [nzPopoverTitle]="item.title"
+                                [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
+                        </div>
+                    </ng-template>
+                    <ng-template #fiftyThree>
+                        <div clas="p-1" *ngIf="item.type == 'segmented'; else fiftyFour">
+                            <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size"
+                                [(ngModel)]="item.defaultSelectedIndex" [nzOptions]="item.options"
+                                (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+                        </div>
+                    </ng-template>
+                    <ng-template #fiftyFour>
+                        <div  *ngIf="item.type == 'tag' ; else fiftyFive">
+                            <nz-tag *ngFor="let child of item.options ; index as i" [nzColor]='child.tagColor'
+                                [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)"><span
+                                    nz-icon [nzType]='child.icon'></span>
                                 <span>{{child.title}}</span></nz-tag>
                         </div>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyFive>
-                <ng-container *ngIf="item.type == 'spin' ; else fiftySix">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf="item.tooltip" [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <nz-spin [nzSimple]="item.simple" [nzSpinning]="item.spinning" [nzSize]='item.size'
-                            [nzDelay]="item.delayTime" [nzTip]='item.loaderText'></nz-spin>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftySix>
-                <ng-container *ngIf="item.type == 'rate' ; else fiftySeven">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #fiftyFive>
+                        <div *ngIf="item.type == 'spin' ; else fiftySix">
+                            <nz-spin [nzSimple]="item.simple" [nzSpinning]="item.spinning" [nzSize]='item.size'
+                                [nzDelay]="item.delayTime" [nzTip]='item.loaderText'></nz-spin>
                         </div>
-                        <st-rate [rateData]="item"></st-rate>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftySeven>
-                <ng-container *ngIf="item.type == 'modal' ; else fiftyEight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #fiftySix>
+                        <div  *ngIf="item.type == 'rate' ; else fiftySeven">
+                            <st-rate [rateData]="item"></st-rate>
                         </div>
-                        <st-modal [modalData]="item"></st-modal>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyEight>
-                <ng-container *ngIf="item.type == 'popConfirm' ; else fiftyNine">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #fiftySeven>
+                        <div  *ngIf="item.type == 'modal' ; else fiftyEight">
+                            <st-modal [modalData]="item"></st-modal>
                         </div>
-                        <st-popconfirm [popConfirmData]="item"></st-popconfirm>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #fiftyNine>
-                <ng-container *ngIf="item.type == 'description' ; else sixty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #fiftyEight>
+                        <div  *ngIf="item.type == 'popConfirm' ; else fiftyNine">
+                            <st-popconfirm [popConfirmData]="item"></st-popconfirm>
                         </div>
-                        <st-description [descriptionData]="item"></st-description>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixty>
-                <ng-container *ngIf="item.type == 'result' ; else sixtyOne">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span *ngIf="item.tooltip" nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-result [resulData]="item"></st-result>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyOne>
-                <ng-container *ngIf="item.type == 'anchor' ; else sixtyTwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #fiftyNine>
+                        <div *ngIf="item.type == 'description' ; else sixty">
+                            <st-description [descriptionData]="item"></st-description>
                         </div>
-                        <st-anchor [anchorData]="item"></st-anchor>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyTwo>
-                <ng-container *ngIf="item.type == 'backTop' ; else sixtyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #sixty>
+                        <div *ngIf="item.type == 'result' ; else sixtyOne">
+                            <st-result [resulData]="item"></st-result>
                         </div>
-                        <st-back-top [backTopData]="item"></st-back-top>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyThree>
-                <ng-container *ngIf="item.type == 'statistic' ; else sixtyFour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <div *ngIf="item.tooltip" style="text-align: right;">
-                            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                                    nzTheme="twotone"></span></span>
+                    </ng-template>
+                    <ng-template #sixtyOne>
+                        <div *ngIf="item.type == 'anchor' ; else sixtyTwo">
+                            <st-anchor [anchorData]="item"></st-anchor>
                         </div>
-                        <st-statistic [statisticData]="item"></st-statistic>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyFour>
-                <ng-container *ngIf="item.type == 'drawer' else sixtyFive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-drawer [drawerData]="item"></st-drawer>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyFive>
-                <ng-container *ngIf="item.type == 'skeleton' else sixtySix">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-skeleton [skeltonData]="item"></st-skeleton>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtySix>
-                <ng-container *ngIf="item.type == 'empty' else sixtySeven">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-empty [emptyData]="item"></st-empty>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtySeven>
-                <ng-container *ngIf="item.type == 'list' else sixtyEight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-list [listData]="item"></st-list>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyEight>
-                <ng-container *ngIf="item.type == 'treeView' else sixtyNine">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <!-- <st-tree-view [treeListData]="item"></st-tree-view> -->
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #sixtyNine>
-                <ng-container *ngIf="item.type == 'mentions' else seventy">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-mention [mentionData]="item"></st-mention>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventy>
-                <ng-container *ngIf="item.type == 'message' else seventyOne">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-message [messageData]="item"></st-message>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyOne>
-                <ng-container *ngIf="item.type == 'notification'; else seventyTwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-notification [notificationData]="item"></st-notification>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyTwo>
-                <ng-container *ngIf="item.type == 'tree'; else seventyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-tree [treeData]="item"></st-tree>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyThree>
-                <ng-container *ngIf="item.type == 'barChart' else seventyFour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-bar-chart [charts]="item"></st-bar-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyFour>
-                <ng-container *ngIf="item.type == 'pieChart' else seventyFive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-pie-chart [charts]="item"></st-pie-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyFive>
-                <ng-container *ngIf="item.type == 'bubbleChart' else seventySix">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-bubble-chart [charts]="item"></st-bubble-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventySix>
-                <ng-container *ngIf="item.type == 'candlestickChart' else seventySeven">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-candlestick-chart [charts]="item"></st-candlestick-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventySeven>
-                <ng-container *ngIf="item.type == 'columnChart' else seventyEight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-column-chart [charts]="item"></st-column-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyEight>
-                <ng-container *ngIf="item.type == 'ganttChart' else seventyNine">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-gantt-chart [charts]="item"></st-gantt-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #seventyNine>
-                <ng-container *ngIf="item.type == 'geoChart' else eighty">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-geo-chart [charts]="item"></st-geo-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eighty>
-                <ng-container *ngIf="item.type == 'histogramChart' else eightyOne">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-histogram-chart [charts]="item"></st-histogram-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eightyOne>
-                <ng-container *ngIf="item.type == 'lineChart' else eightyTwo">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-line-chart [charts]="item"></st-line-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eightyTwo>
-                <ng-container *ngIf="item.type == 'sankeyChart'; else eightyThree">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-sankey-chart [charts]="item"></st-sankey-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eightyThree>
-                <ng-container *ngIf="item.type == 'scatterChart'; else eightyFour">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-scatter-chart [charts]="item"></st-scatter-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eightyFour>
-                <ng-container *ngIf="item.type == 'timelineChart'; else eightyFive">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <st-timeline-chart [charts]="item"></st-timeline-chart>
-                    </div>
-                </ng-container>
-            </ng-template>
-            <ng-template #eightyFive>
-                <ng-container *ngIf="item.type == 'div'">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType="question-circle" nzTheme="twotone"></span></span>
-                        <div [class]="item.divClass">
-                            <st-main [mainData]="item.children"></st-main>
+                    </ng-template>
+                    <ng-template #sixtyTwo>
+                        <div *ngIf="item.type == 'backTop' ; else sixtyThree">
+                            <st-back-top [backTopData]="item"></st-back-top>
                         </div>
-                    </div>
-                </ng-container>
-            </ng-template>
+                    </ng-template>
+                    <ng-template #sixtyThree>
+                        <div *ngIf="item.type == 'statistic' ; else sixtyFour">
+                            <st-statistic [statisticData]="item"></st-statistic>
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtyFour>
+                        <div  *ngIf="item.type == 'drawer' else sixtyFive">
+                            <st-drawer [drawerData]="item"></st-drawer>
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtyFive>
+                        <div *ngIf="item.type == 'skeleton' else sixtySix">
+                            <st-skeleton [skeltonData]="item"></st-skeleton>
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtySix>
+                        <div *ngIf="item.type == 'empty' else sixtySeven">
+                            <st-empty [emptyData]="item"></st-empty>
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtySeven>
+                        <div  *ngIf="item.type == 'list' else sixtyEight">
+                            <st-list [listData]="item"></st-list>
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtyEight>
+                        <div *ngIf="item.type == 'treeView' else sixtyNine">
+                            <!-- <st-tree-view [treeListData]="item"></st-tree-view> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #sixtyNine>
+                        <div *ngIf="item.type == 'mentions' else seventy">
+                            <st-mention [mentionData]="item"></st-mention>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventy>
+                        <div  *ngIf="item.type == 'message' else seventyOne">
+                            <st-message [messageData]="item"></st-message>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyOne>
+                        <div  *ngIf="item.type == 'notification'; else seventyTwo">
+                            <st-notification [notificationData]="item"></st-notification>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyTwo>
+                        <div *ngIf="item.type == 'tree'; else seventyThree">
+                            <st-tree [treeData]="item"></st-tree>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyThree>
+                        <div *ngIf="item.type == 'barChart' else seventyFour">
+                            <st-bar-chart [charts]="item"></st-bar-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyFour>
+                        <div *ngIf="item.type == 'pieChart' else seventyFive">
+                            <st-pie-chart [charts]="item"></st-pie-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyFive>
+                        <div *ngIf="item.type == 'bubbleChart' else seventySix">
+                            <st-bubble-chart [charts]="item"></st-bubble-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventySix>
+                        <div *ngIf="item.type == 'candlestickChart' else seventySeven">
+                            <st-candlestick-chart [charts]="item"></st-candlestick-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventySeven>
+                        <div *ngIf="item.type == 'columnChart' else seventyEight">
+                            <st-column-chart [charts]="item"></st-column-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyEight>
+                        <div *ngIf="item.type == 'ganttChart' else seventyNine">
+                            <st-gantt-chart [charts]="item"></st-gantt-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #seventyNine>
+                        <div *ngIf="item.type == 'geoChart' else eighty">
+                            <st-geo-chart [charts]="item"></st-geo-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eighty>
+                        <div *ngIf="item.type == 'histogramChart' else eightyOne">
+                            <st-histogram-chart [charts]="item"></st-histogram-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyOne>
+                        <div *ngIf="item.type == 'lineChart' else eightyTwo">
+                            <st-line-chart [charts]="item"></st-line-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyTwo>
+                        <div *ngIf="item.type == 'sankeyChart'; else eightyThree">
+                            <st-sankey-chart [charts]="item"></st-sankey-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyThree>
+                        <div *ngIf="item.type == 'scatterChart'; else eightyFour">
+                            <st-scatter-chart [charts]="item"></st-scatter-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyFour>
+                        <div  *ngIf="item.type == 'timelineChart'; else eightyFive">
+                            <st-timeline-chart [charts]="item"></st-timeline-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyFive>
+                        <div *ngIf="item.type == 'div'">
+                            <div [class]="item.divClass">
+                                <st-main [mainData]="item.children"></st-main>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
         </div>
     </div>
 </form>

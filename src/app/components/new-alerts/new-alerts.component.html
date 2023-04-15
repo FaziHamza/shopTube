@@ -1,5 +1,5 @@
 <ng-container class="mt-1">
-    <span *ngIf="alertData?.tooltip" nz-tooltip [nzTooltipTitle]="alertData.tooltip">
+    <span *ngIf="alertData?.tooltip && !alertData?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="alertData.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
       </span>
     <nz-alert [nzType]='alertData.alertType' style="color:red" [class]="alertData.alertColor" nzMessage={{alertData.text}} [nzBanner]="alertData.banner"

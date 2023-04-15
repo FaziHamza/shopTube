@@ -8,9 +8,9 @@ import { FieldWrapper } from '@ngx-formly/core';
   <label [attr.for]="id" class="w-1/3 py-2 col-form-label column-form-label {{to.labelPosition}}" *ngIf="to.label">
     <span nz-icon [nzType]="to.titleIcon" nzTheme="outline"></span>
     <span *ngIf="to.required">*</span>{{to.label}}
-    <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
-      <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
-    </span>
+    <span *ngIf="to?.tooltip && !to?.config?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to.tooltip">
+          <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+        </span>
   </label>
   <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px" >
     <ng-template #fieldComponent></ng-template>

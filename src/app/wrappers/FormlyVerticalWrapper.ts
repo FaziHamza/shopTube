@@ -11,7 +11,7 @@ import { FieldWrapper } from '@ngx-formly/core';
           <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span>
           <span *ngIf="to.required">*</span>{{to.label}}
         </span>
-        <span *ngIf="to?.tooltip" nz-tooltip [nzTooltipTitle]="to.tooltip">
+        <span *ngIf="to?.tooltip && !to?.config?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to.tooltip">
           <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
         </span>
       </label>

@@ -544,7 +544,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-phone-alt",
-                label: "São Paulo Celphones",
+                label: "São Paulo",
                 type: 'custom',
                 configType: 'customMasking', fieldType: 'custom',
                 maskString: "0000-0000",
@@ -666,9 +666,9 @@ export const htmlTabsData = [
                 label: "New List"
               },
               {
-                parameter: "nzTag",
+                parameter: "tag",
                 icon: "uil-file-copy-alt",
-                label: "NZ Tag"
+                label: "Tag"
               },
               {
                 parameter: "popConfirm",
@@ -1150,16 +1150,16 @@ export const htmlTabsData = [
                 icon: "uil uil-search-plus",
                 label: "Tabs"
               },
-              {
-                parameter: "input",
-                icon: "uil uil-location-point",
-                label: "Tags",
-                type: 'tag',
-                configType: 'tag', fieldType: 'tag',
-                // maskString: "",
-                // maskLabel: "",
-                options: true,
-              },
+              // {
+              //   parameter: "input",
+              //   icon: "uil uil-location-point",
+              //   label: "Tags",
+              //   type: 'tag',
+              //   configType: 'tag', fieldType: 'tag',
+              //   // maskString: "",
+              //   // maskLabel: "",
+              //   options: true,
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-search-plus",

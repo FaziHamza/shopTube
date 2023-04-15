@@ -762,7 +762,7 @@ export class BuilderComponent implements OnInit {
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
           }
         } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
-          inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
+          inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
           inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||
           inputType[l].type == "treeSelect" || inputType[l].type == "switch" || inputType[l].type == "avatar" ||
           inputType[l].type == "badge" || inputType[l].type == "treeView" || inputType[l].type == "carouselCrossfade" ||
@@ -805,7 +805,7 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
   columnApply(value: any) {
-    if (value == 'sections')
+    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton')
       return 'w-full'
     else if (value == 'body')
       return 'px-6 pt-6 pb-10';
@@ -1112,7 +1112,7 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.resultControl() };
         break;
 
-      case "nzTag":
+      case "tag":
         newNode = { ...newNode, ...this.addControlService.nzTagControl() };
         break;
 
@@ -1434,6 +1434,7 @@ export class BuilderComponent implements OnInit {
       key: selectedNode.key,
       title: selectedNode.title,
       tooltip: selectedNode.tooltip,
+      tooltipWithoutIcon: selectedNode['tooltipWithoutIcon'],
       hideExpression: selectedNode.hideExpression
     };
 
@@ -1528,7 +1529,7 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.statisticFields);
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
-      case "nzTag":
+      case "tag":
         configObj = { ...configObj, ...this.clickButtonService.getnzTagConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.nzTagFields;
         break;
@@ -1800,7 +1801,7 @@ export class BuilderComponent implements OnInit {
       case "tags":
       case "repeatSection":
       case "multiselect":
-      case "tag":
+      // case "tag":
       case "search":
       case "radiobutton":
       case "checkbox":
@@ -1845,7 +1846,7 @@ export class BuilderComponent implements OnInit {
             break;
           case "repeatSection":
           case "multiselect":
-          case "tag":
+          // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -2494,6 +2495,7 @@ export class BuilderComponent implements OnInit {
       this.selectedNode.title = event.form.title;
       this.selectedNode.className = event.form.className;
       this.selectedNode.tooltip = event.form.tooltip;
+      this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
       this.selectedNode.hideExpression = event.form.hideExpression;
       this.selectedNode['id'] = event.form?.id;
       this.selectedNode['key'] = event.form?.key;
@@ -2525,6 +2527,13 @@ export class BuilderComponent implements OnInit {
       case "cardWithComponents":
         if (this.selectedNode) {
           this.selectedNode.borderless = event.form.borderless;
+        }
+        break;
+        case "video":
+        if (this.selectedNode) {
+          this.selectedNode.videoSrc = event.form.videoSrc;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
         }
         break;
       case "icon":
@@ -2771,7 +2780,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "nzTag":
+      case "tag":
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.mode = event.form.mode;
@@ -2906,7 +2915,7 @@ export class BuilderComponent implements OnInit {
       case "select":
       case "repeatSection":
       case "multiselect":
-      case "tag":
+      // case "tag":
       case "search":
       case "radiobutton":
       case "checkbox":
@@ -2993,6 +3002,7 @@ export class BuilderComponent implements OnInit {
             props.config['hoursStep'] = event.form.hoursStep;
             props.config['use12Hours'] = event.form.use12Hours;
             props.config['icon'] = event.form.icon;
+            props.config['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
             props.config['setVariable'] = event.form?.setVariable;
             props.config['getVariable'] = event.form?.getVariable;
             props['readonly'] = event.form.readonly;
@@ -4241,7 +4251,8 @@ export class BuilderComponent implements OnInit {
       case "audio":
         if (this.selectedNode.id) {
           this.selectedNode.audioSrc = event.form.audioSrc;
-          this.updateNodes()
+          this.updateNodes();
+          // this.clickBack();
         }
         break;
       case "carouselCrossfade":
