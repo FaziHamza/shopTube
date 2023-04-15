@@ -509,4 +509,10 @@ export interface TreeNode {
   radius?: any,
   innerGridTrack?: any,
   innerGridDarkTrack?: any,
+  region?: any,
+  colorAxis?: any,
+  legend?: any,
+  histogram?: any,
+  hAxis?: any,
+  vAxis?: any
 }

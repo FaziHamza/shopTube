@@ -53,8 +53,8 @@ export class AddControlService {
       isBordered: true,
       size: 'default',
       status: '',
-      wrapper:'',
-      formatAlignment:'',
+      wrapper: '',
+      formatAlignment: '',
     }
   }
   getHeaderControl() {
@@ -116,8 +116,8 @@ export class AddControlService {
       textColor: '',
       isSubmit: false, btnType: "",
       href: "",
-      dataTable:"",
-      btnLabelPaddingClass:'',
+      dataTable: "",
+      btnLabelPaddingClass: '',
     }
   }
   getDropdownButtonControl() {
@@ -144,8 +144,8 @@ export class AddControlService {
       textColor: "",
       iconSize: 15,
       hoverTextColor: '',
-      dataTable:'',
-      btnLabelPaddingClass:'',
+      dataTable: '',
+      btnLabelPaddingClass: '',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -406,8 +406,8 @@ export class AddControlService {
   getKanbanControl() {
     return {
       nodes: 3,
-      maxLength:10,
-      showAddbtn:true,
+      maxLength: 10,
+      showAddbtn: true,
       isNextChild: true,
       kanbanSave: [],
     }
@@ -440,8 +440,8 @@ export class AddControlService {
       nzShape: 'default',
       iconType: 'outline',
       iconSize: 15,
-      dataTable:'',
-      btnLabelPaddingClass:'',
+      dataTable: '',
+      btnLabelPaddingClass: '',
     }
   }
   simplecardControl() {
@@ -464,13 +464,13 @@ export class AddControlService {
   }
   widgetSectionCardControl() {
     return {
-   
+
     }
   }
   divControl() {
     return {
       isNextChild: true,
-      divClass :'',
+      divClass: '',
     }
   }
   donutChartControl() {
@@ -1810,26 +1810,19 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { label: 'Country', value: 'Popularity' },
+        { label: 'Germany', value: 200 },
+        { label: 'United States', value: 300 },
+        { label: 'Brazil', value: 400 },
+        { label: 'Canada', value: 500 },
+        { label: 'France', value: 600 },
+        { label: 'RU', value: 700 },
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
-      options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
-      },
+      region: '002', // Africa
+      colorAxis: ['#00853f', 'black', '#e31b23'],
+      bgColor: '#81d4fa',
+      color: '#f8bbd0',
+      defaultColor: '#f5f5f5',
       width: 550,
       height: 400,
     }
@@ -1838,26 +1831,50 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { label: 'Dinosaur', value: 'Length' },
+        { label: 'Acrocanthosaurus (top-spined lizard)', value: 12.2 },
+        { label: 'Albertosaurus (Alberta lizard)', value: 9.1 },
+        { label: 'Allosaurus (other lizard)', value: 12.2 },
+        { label: 'Apatosaurus (deceptive lizard)', value: 22.9 },
+        { label: 'Archaeopteryx (ancient wing)', value: 0.9 },
+        { label: 'Argentinosaurus (Argentina lizard)', value: 36.6 },
+        { label: 'Baryonyx (heavy claws)', value: 9.1 },
+        { label: 'Brachiosaurus (arm lizard)', value: 30.5 },
+        { label: 'Ceratosaurus (horned lizard)', value: 6.1 },
+        { label: 'Coelophysis (hollow form)', value: 2.7 },
+        { label: 'Compsognathus (elegant jaw)', value: 0.9 },
+        { label: 'Deinonychus (terrible claw)', value: 2.7 },
+        { label: 'Diplodocus (double beam)', value: 27.1 },
+        { label: 'Dromicelomimus (emu mimic)', value: 3.4 },
+        { label: 'Gallimimus (fowl mimic)', value: 5.5 },
+        { label: 'Mamenchisaurus (Mamenchi lizard)', value: 21.0 },
+        { label: 'Megalosaurus (big lizard)', value: 7.9 },
+        { label: 'Microvenator (small hunter)', value: 1.2 },
+        { label: 'Ornithomimus (bird mimic)', value: 4.6 },
+        { label: 'Oviraptor (egg robber)', value: 1.5 },
+        { label: 'Plateosaurus (flat lizard)', value: 7.9 },
+        { label: 'Sauronithoides (narrow-clawed lizard)', value: 2.0 },
+        { label: 'Seismosaurus (tremor lizard)', value: 45.7 },
+        { label: 'Spinosaurus (spiny lizard)', value: 12.2 },
+        { label: 'Supersaurus (super lizard)', value: 30.5 },
+        { label: 'Tyrannosaurus (tyrant lizard)', value: 15.2 },
+        { label: 'Ultrasaurus (ultra lizard)', value: 30.5 },
+        { label: 'Velociraptor (swift robber)', value: 1.8 }
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
-      options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
+      legend: { position: 'none' },
+      colors: ['green'],
+      // colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
+
+      histogram: {
+        lastBucketPercentile: 5,
+        bucketSize: 0.01,
+        maxNumBuckets: 400,
+        minValue: -1,
+        maxValue: 1
       },
+      vAxis: { scaleType: 'mirrorLog' },
+      hAxis: {},
+      bar: { gap: 0 },
       width: 550,
       height: 400,
     }
@@ -1866,26 +1883,22 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { id: 1, col1: 37.8, col2: 80.8, col3: 41.8 },
+        { id: 2, col1: 30.9, col2: 69.5, col3: 32.4 },
+        { id: 3, col1: 25.4, col2: 57, col3: 25.7 },
+        { id: 4, col1: 11.7, col2: 18.8, col3: 10.5 },
+        { id: 5, col1: 11.9, col2: 17.6, col3: 10.4 },
+        { id: 6, col1: 8.8, col2: 13.6, col3: 7.7 },
+        { id: 7, col1: 7.6, col2: 12.3, col3: 9.6 },
+        { id: 8, col1: 12.3, col2: 29.2, col3: 10.6 },
+        { id: 9, col1: 16.9, col2: 42.9, col3: 14.8 },
+        { id: 10, col1: 12.8, col2: 30.9, col3: 11.6 },
+        { id: 11, col1: 5.3, col2: 7.9, col3: 4.7 },
+        { id: 12, col1: 6.6, col2: 8.4, col3: 5.2 },
+        { id: 13, col1: 4.8, col2: 6.3, col3: 3.6 },
+        { id: 14, col1: 4.2, col2: 6.2, col3: 3.4 },
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
-      options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
-      },
+      subtitle: 'Based on most recent and previous census data',
       width: 550,
       height: 400,
     }
@@ -1894,25 +1907,54 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { label: 'Brazil', link: 'Portugal', value: 5 },
+        { label: 'Brazil', link: 'France', value: 1 },
+        { label: 'Brazil', link: 'Spain', value: 1 },
+        { label: 'Brazil', link: 'England', value: 1 },
+        { label: 'Canada', link: 'Portugal', value: 1 },
+        { label: 'Canada', link: 'France', value: 5 },
+        { label: 'Canada', link: 'England', value: 1 },
+        { label: 'Mexico', link: 'Portugal', value: 1 },
+        { label: 'Mexico', link: 'France', value: 1 },
+        { label: 'Mexico', link: 'Spain', value: 5 },
+        { label: 'Mexico', link: 'England', value: 1 },
+        { label: 'USA', link: 'Portugal', value: 1 },
+        { label: 'USA', link: 'France', value: 1 },
+        { label: 'USA', link: 'Spain', value: 1 },
+        { label: 'USA', link: 'England', value: 5 },
+        { label: 'Portugal', link: 'Angola', value: 2 },
+        { label: 'Portugal', link: 'Senegal', value: 1 },
+        { label: 'Portugal', link: 'Morocco', value: 1 },
+        { label: 'Portugal', link: 'South Africa', value: 3 },
+        { label: 'France', link: 'Angola', value: 1 },
+        { label: 'France', link: 'Senegal', value: 3 },
+        { label: 'France', link: 'Mali', value: 3 },
+        { label: 'France', link: 'Morocco', value: 3 },
+        { label: 'France', link: 'South Africa', value: 1 },
+        { label: 'Spain', link: 'Senegal', value: 1 },
+        { label: 'Spain', link: 'Morocco', value: 3 },
+        { label: 'Spain', link: 'South Africa', value: 1 },
+        { label: 'England', link: 'Angola', value: 1 },
+        { label: 'England', link: 'Senegal', value: 1 },
+        { label: 'England', link: 'Morocco', value: 2 },
+        { label: 'England', link: 'South Africa', value: 7 },
+        { label: 'South Africa', link: 'China', value: 5 },
+        { label: 'South Africa', link: 'India', value: 1 },
+        { label: 'South Africa', link: 'Japan', value: 3 },
+        { label: 'Angola', link: 'China', value: 5 },
+        { label: 'Angola', link: 'India', value: 1 },
+        { label: 'Angola', link: 'Japan', value: 3 },
+        { label: 'Senegal', link: 'China', value: 5 },
+        { label: 'Senegal', link: 'India', value: 1 },
+        { label: 'Senegal', link: 'Japan', value: 3 },
+        { label: 'Mali', link: 'China', value: 5 },
+        { label: 'Mali', link: 'India', value: 1 },
+        { label: 'Mali', link: 'Japan', value: 3 },
+        { label: 'Morocco', link: 'China', value: 5 },
+        { label: 'Morocco', link: 'India', value: 1 },
+        { label: 'Morocco', link: 'Japan', value: 3 }
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
       options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
       },
       width: 550,
       height: 400,
@@ -1922,26 +1964,25 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { id: 0, value: 67 }, { id: 1, value: 88 }, { id: 2, value: 77 },
+        { id: 3, value: 93 }, { id: 4, value: 85 }, { id: 5, value: 91 },
+        { id: 6, value: 71 }, { id: 7, value: 78 }, { id: 8, value: 93 },
+        { id: 9, value: 80 }, { id: 10, value: 82 }, { id: 0, value: 75 },
+        { id: 5, value: 80 }, { id: 3, value: 90 }, { id: 1, value: 72 },
+        { id: 5, value: 75 }, { id: 6, value: 68 }, { id: 7, value: 98 },
+        { id: 3, value: 82 }, { id: 9, value: 94 }, { id: 2, value: 79 },
+        { id: 2, value: 95 }, { id: 2, value: 86 }, { id: 3, value: 67 },
+        { id: 4, value: 60 }, { id: 2, value: 80 }, { id: 6, value: 92 },
+        { id: 2, value: 81 }, { id: 8, value: 79 }, { id: 9, value: 83 },
+        { id: 3, value: 75 }, { id: 1, value: 80 }, { id: 3, value: 71 },
+        { id: 3, value: 89 }, { id: 4, value: 92 }, { id: 5, value: 85 },
+        { id: 6, value: 92 }, { id: 7, value: 78 }, { id: 6, value: 95 },
+        { id: 3, value: 81 }, { id: 0, value: 64 }, { id: 4, value: 85 },
+        { id: 2, value: 83 }, { id: 3, value: 96 }, { id: 4, value: 77 },
+        { id: 5, value: 89 }, { id: 4, value: 89 }, { id: 7, value: 84 },
+        { id: 4, value: 92 }, { id: 9, value: 98 }
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
-      options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
-      },
+      subtitle: 'based on hours studied',
       width: 550,
       height: 400,
     }
