@@ -44,6 +44,7 @@
     "@ngx-formly/core": "^6.0.0",
     "@ngx-formly/ng-zorro-antd": "^6.1.1",
     "ang-jsoneditor": "^1.10.5",
+    "angular-google-charts": "^2.2.3",
     "angular-split": "^14.1.0",
     "crypto-js": "^4.1.1",
     "dexie": "^3.2.3",

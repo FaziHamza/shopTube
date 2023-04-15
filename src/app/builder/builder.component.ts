@@ -1171,6 +1171,42 @@ export class BuilderComponent implements OnInit {
       case "icon":
         newNode = { ...newNode, ...this.addControlService.iconControl() };
         break;
+      case "barChart":
+        newNode = { ...newNode, ...this.addControlService.barChartControl() };
+        break;
+      case "pieChart":
+        newNode = { ...newNode, ...this.addControlService.pieChartControl() };
+        break;
+      case "bubbleChart":
+        newNode = { ...newNode, ...this.addControlService.bubbleChartControl() };
+        break;
+      case "candlestickChart":
+        newNode = { ...newNode, ...this.addControlService.candlestickChartControl() };
+        break;
+      case "columnChart":
+        newNode = { ...newNode, ...this.addControlService.columnChartControl() };
+        break;
+      case "ganttChart":
+        newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
+        break;
+      case "geoChart":
+        newNode = { ...newNode, ...this.addControlService.geoChartControl() };
+        break;
+      case "histogramChart":
+        newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
+        break;
+      case "lineChart":
+        newNode = { ...newNode, ...this.addControlService.lineChartControl() };
+        break;
+      case "sankeyChart":
+        newNode = { ...newNode, ...this.addControlService.sankeyChartControl() };
+        break;
+      case "scatterChart":
+        newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
+        break;
+      case "timelineChart":
+        newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
+        break;
       default:
         if (data?.parameter === 'input') {
           let formlyObj = {
@@ -1922,6 +1958,54 @@ export class BuilderComponent implements OnInit {
       case "tabsMain":
         configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mainTabFields;
+        break;
+      case "barChart":
+        configObj = { ...configObj, ...this.clickButtonService.getBarChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.barChartFields;
+        break;
+      case "pieChart":
+        configObj = { ...configObj, ...this.clickButtonService.getPieChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pieChartFields;
+        break;
+      case "bubbleChart":
+        configObj = { ...configObj, ...this.clickButtonService.getBubbleChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.bubbleChartFields;
+        break;
+      case "candlestickChart":
+        configObj = { ...configObj, ...this.clickButtonService.getCandlestickChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.candlestickChartFields;
+        break;
+      case "columnChart":
+        configObj = { ...configObj, ...this.clickButtonService.getColumnChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.columnChartFields;
+        break;
+      case "ganttChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "geoChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "histogramChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "lineChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "sankeyChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "scatterChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "timelineChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
         break;
       default:
         break;
@@ -4271,7 +4355,122 @@ export class BuilderComponent implements OnInit {
           this.updateNodes()
         }
         break;
-
+      case "barChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "pieChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "bubbleChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "candlestickChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "columnChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "ganttChart":
+        if (this.selectedNode) {
+          this.selectedNode.isCriticalPath = event.form.isCriticalPath;
+          this.selectedNode.stroke = event.form.stroke;
+          this.selectedNode.strokeWidth = event.form.strokeWidth;
+          this.selectedNode.angle = event.form.angle;
+          this.selectedNode.arrowWidth = event.form.arrowWidth;
+          this.selectedNode.radius = event.form.radius;
+          this.selectedNode.innerGridTrack = event.form.innerGridTrack;
+          this.selectedNode.innerGridDarkTrack = event.form.innerGridDarkTrack;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "geoChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "histogramChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "lineChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "sankeyChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "scatterChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "timelineChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
       default:
         break;
 

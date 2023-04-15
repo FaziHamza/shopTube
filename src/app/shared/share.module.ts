@@ -21,13 +21,19 @@ import {
   InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
   NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
   SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-  TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,IconComponent,ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective,HtmlBlockComponent
+  TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent, IconComponent,
+  ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
+  BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
+  GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
+  TimelineChartComponent,
+
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   imports:
@@ -43,6 +49,7 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
       FormlyModule.forRoot(formlyCustomeConfig),
       FullCalendarModule,
       RouterModule,
+      GoogleChartsModule
     ],
   declarations: [
     GenericFieldComponent,
@@ -55,10 +62,14 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
     InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,CalendarComponent,
-    SanitizePipe,IconComponent,ButtonsComponent ,EditorJsWrapperComponent,
-    BoardComponent,DetailComponent,SummaryComponent,ContextMenuComponent,HeaderComponent,ListsComponent, HtmlBlockComponent,
-    ContentEditDirective,
+    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,
+    SanitizePipe, IconComponent, ButtonsComponent, EditorJsWrapperComponent,
+    BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, HtmlBlockComponent,
+    ContentEditDirective, BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,
+    GanttChartComponent,GeoChartComponent, HistogramChartComponent,LineChartComponent,
+    SankeyChartComponent,
+    ScatterChartComponent,
+    TimelineChartComponent,
   ],
   exports: [
     FormsModule,
@@ -72,7 +83,7 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
     InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent,IconComponent,ButtonsComponent,
+    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, IconComponent, ButtonsComponent,
     EditorJsWrapperComponent,
     BoardComponent,
     DetailComponent,
@@ -82,7 +93,20 @@ import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/e
     ListsComponent,
     ContentEditDirective,
     EditorJsWrapperComponent,
-    HtmlBlockComponent
+    HtmlBlockComponent,
+    BarChartComponent,
+    PieChartComponent,
+    BubbleChartComponent,
+    CandlestickChartComponent,
+    ColumnChartComponent,
+    GanttChartComponent,
+    GeoChartComponent,
+    GeoChartComponent,
+    HistogramChartComponent,
+    LineChartComponent,
+    SankeyChartComponent,
+    ScatterChartComponent,
+    TimelineChartComponent,
   ],
   providers: [
   ],

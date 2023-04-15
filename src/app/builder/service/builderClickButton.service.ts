@@ -1067,4 +1067,56 @@ export class BuilderClickButtonService {
       icon: node.icon,
     }
   }
+  getBarChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+      // tableHeaders: node?.tableHeaders
+    };
+  }
+  getPieChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getBubbleChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getCandlestickChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getColumnChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getGanttChartConfig(node: any) {
+    return {
+      isCriticalPath: node?.isCriticalPath,
+      stroke: node?.stroke,
+      strokeWidth: node?.strokeWidth,
+      color: node?.color,
+      angle: node?.angle,
+      arrowWidth: node?.arrowWidth,
+      radius: node?.radius,
+      innerGridTrack: node?.innerGridTrack,
+      innerGridDarkTrack: node?.innerGridDarkTrack,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
 }
