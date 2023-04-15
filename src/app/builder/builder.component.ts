@@ -64,8 +64,9 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
   requestSubscription: Subscription;
-
-
+  previewJsonModal: boolean = false;
+  previewJsonData: any = '';
+  searchValue: any = '';
 
 
   constructor(public builderService: BuilderService,
@@ -1170,6 +1171,42 @@ export class BuilderComponent implements OnInit {
       case "icon":
         newNode = { ...newNode, ...this.addControlService.iconControl() };
         break;
+      case "barChart":
+        newNode = { ...newNode, ...this.addControlService.barChartControl() };
+        break;
+      case "pieChart":
+        newNode = { ...newNode, ...this.addControlService.pieChartControl() };
+        break;
+      case "bubbleChart":
+        newNode = { ...newNode, ...this.addControlService.bubbleChartControl() };
+        break;
+      case "candlestickChart":
+        newNode = { ...newNode, ...this.addControlService.candlestickChartControl() };
+        break;
+      case "columnChart":
+        newNode = { ...newNode, ...this.addControlService.columnChartControl() };
+        break;
+      case "ganttChart":
+        newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
+        break;
+      case "geoChart":
+        newNode = { ...newNode, ...this.addControlService.geoChartControl() };
+        break;
+      case "histogramChart":
+        newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
+        break;
+      case "lineChart":
+        newNode = { ...newNode, ...this.addControlService.lineChartControl() };
+        break;
+      case "sankeyChart":
+        newNode = { ...newNode, ...this.addControlService.sankeyChartControl() };
+        break;
+      case "scatterChart":
+        newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
+        break;
+      case "timelineChart":
+        newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
+        break;
       default:
         if (data?.parameter === 'input') {
           let formlyObj = {
@@ -1314,6 +1351,7 @@ export class BuilderComponent implements OnInit {
       parent = parent?.parentNode?.origin;
       node = node.origin;
     }
+    // this.isActiveShow = node.origin.id;
     this.searchControllData = [];
     this.IsConfigurationVisible = true;
     this.controlListvisible = false;
@@ -1920,6 +1958,54 @@ export class BuilderComponent implements OnInit {
       case "tabsMain":
         configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mainTabFields;
+        break;
+      case "barChart":
+        configObj = { ...configObj, ...this.clickButtonService.getBarChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.barChartFields;
+        break;
+      case "pieChart":
+        configObj = { ...configObj, ...this.clickButtonService.getPieChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.pieChartFields;
+        break;
+      case "bubbleChart":
+        configObj = { ...configObj, ...this.clickButtonService.getBubbleChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.bubbleChartFields;
+        break;
+      case "candlestickChart":
+        configObj = { ...configObj, ...this.clickButtonService.getCandlestickChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.candlestickChartFields;
+        break;
+      case "columnChart":
+        configObj = { ...configObj, ...this.clickButtonService.getColumnChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.columnChartFields;
+        break;
+      case "ganttChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "geoChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "histogramChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "lineChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "sankeyChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "scatterChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
+        break;
+      case "timelineChart":
+        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.ganttChartFields;
         break;
       default:
         break;
@@ -2851,10 +2937,15 @@ export class BuilderComponent implements OnInit {
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
+            if (fieldGroup[0]['key'] != event.form.key) {
+              if (fieldGroup[0] && fieldGroup[0].key)
+                this.formlyModel[event.form.key] = this.formlyModel[fieldGroup[0]['key'] as string];
+            }
+            fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             props.label = event.form.title;
-            props['key'] = event.form.key;
+            // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
             this.updateFormlyModel();
             props['className'] = event.form.className;
@@ -4264,7 +4355,122 @@ export class BuilderComponent implements OnInit {
           this.updateNodes()
         }
         break;
-
+      case "barChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "pieChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "bubbleChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "candlestickChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "columnChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+      case "ganttChart":
+        if (this.selectedNode) {
+          this.selectedNode.isCriticalPath = event.form.isCriticalPath;
+          this.selectedNode.stroke = event.form.stroke;
+          this.selectedNode.strokeWidth = event.form.strokeWidth;
+          this.selectedNode.angle = event.form.angle;
+          this.selectedNode.arrowWidth = event.form.arrowWidth;
+          this.selectedNode.radius = event.form.radius;
+          this.selectedNode.innerGridTrack = event.form.innerGridTrack;
+          this.selectedNode.innerGridDarkTrack = event.form.innerGridDarkTrack;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "geoChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "histogramChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "lineChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "sankeyChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "scatterChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
+        case "timelineChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+          }
+        }
+        break;
       default:
         break;
 
@@ -4522,5 +4728,72 @@ export class BuilderComponent implements OnInit {
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);
   }
+
+  selectedDownloadJson() {
+    var currentData = this.jsonParse(this.jsonStringifyWithObject(this.selectedNode));
+    const blob = new Blob([JSON.stringify(currentData)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    if (this.selectedNode.title) {
+      a.download = this.selectedNode.title+'.';
+    }else{
+      a.download = 'file.';
+    }
+    document.body.appendChild(a);
+    a.click();
+  }
+  selectedJsonUpload(event: any) {
+    let contents
+    event;
+    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        contents = reader.result as string;
+        var makeData = JSON.parse(contents);
+        var currentData = JSON.parse(
+          JSON.stringify(makeData.menuData, function (key, value) {
+            if (typeof value == 'function') {
+              return value.toString();
+            } else {
+              return value;
+            }
+          }) || '{}');
+        if (this.selectedNode.children) {
+          this.selectedNode.children.push(makeData);
+          this.updateNodes();
+        }
+
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+  previewJson(node: any) {
+    this.selectedNode = node.origin;
+    // this.previewJsonData = node;
+    this.previewJsonModal = true;
+    this.isActiveShow = node.origin.id;
+  }
+  handleCancel(): void {
+    this.previewJsonModal = false;
+  }
+  handleOk(): void {
+    this.previewJsonModal = false;
+  }
+
+  // findDollarSign(node: any) {
+  //   if (node.type === 'paragraph' && node.text && node.text.includes('$')) {
+  //     return true;
+  //   }
+
+  //   if (node.children) {
+  //     for (const child of node.children) {
+  //       if (this.findDollarSign(child)) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
+
 }
 
