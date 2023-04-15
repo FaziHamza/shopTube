@@ -427,7 +427,7 @@
             </ng-template>
             <ng-template #fourtysix>
                 <ng-container *ngIf="item.type == 'transfer' ; else fourtyseven">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                    <div [ngClass]="{'highLight': item.highLight, 'pt-1': true}" *ngIf="!item.hideExpression">
                         <div *ngIf="item.tooltip" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>
@@ -438,7 +438,7 @@
             </ng-template>
             <ng-template #fourtyseven>
                 <ng-container *ngIf="item.type == 'treeSelect' ; else fourtyeight">
-                    <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+                    <div [ngClass]="{'highLight': item.highLight, 'pt-1': true}" *ngIf="!item.hideExpression">
                         <div *ngIf="item.tooltip" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>

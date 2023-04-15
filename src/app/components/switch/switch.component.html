@@ -94,13 +94,14 @@
 <!-- {{switchData | json}} -->
 <span *ngIf="switchData?.tooltip" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
-<nz-switch
-[(ngModel)]="switchData.model"
- [nzSize]="switchData.size"
-[nzCheckedChildren]="switchData.checkedChildren"
-[nzUnCheckedChildren]="switchData.unCheckedChildren"
-[nzDisabled]="switchData.disabled"
-[nzLoading]="switchData.loading"
-[nzControl]="switchData.control"
-></nz-switch>
+<div>
+        <p>
+                {{switchData.title}}
+        </p>
+        <nz-switch [(ngModel)]="switchData.model" [nzSize]="switchData.size"
+                [nzCheckedChildren]="switchData.checkedChildren" [nzUnCheckedChildren]="switchData.unCheckedChildren"
+                [nzDisabled]="switchData.disabled" [nzLoading]="switchData.loading"
+                [nzControl]="switchData.control"></nz-switch>
+</div>
+
 <!-- <span class="switch-label">{{field.props?.label}}</span> -->

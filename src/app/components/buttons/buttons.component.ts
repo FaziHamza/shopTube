@@ -39,7 +39,7 @@ export class ButtonsComponent implements OnInit {
     }
 
     if (!data.href) {
-      this.toastr.error('Link is required', { nzDuration: 3000 });
+      // this.toastr.error('Link is required', { nzDuration: 3000 });
       return;
     }
 
