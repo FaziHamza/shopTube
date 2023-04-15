@@ -1120,4 +1120,51 @@ export class BuilderClickButtonService {
       tableData: node?.tableData
     };
   }
+  getGeoChartConfig(node: any) {
+    return {
+      defaultColor: node?.defaultColor,
+      datalessRegionColor: node?.datalessRegionColor,
+      bgColor: node?.bgColor,
+      color: node?.color,
+      region: node?.region,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getHistogramChartConfig(node: any) {
+    return {
+      // legend: node?.legend,
+      // color: node?.color,
+      // histogram: node?.histogram,
+      // hAxis: node?.hAxis,
+      // vAxis: node?.vAxis,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getLineChartConfig(node: any) {
+    return {
+      subtitle: node?.subtitle,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getSankeyChartConfig(node: any) {
+    return {
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getScatterChartConfig(node: any) {
+    return {
+      subtitle: node?.subtitle,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
 }

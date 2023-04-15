@@ -1985,24 +1985,24 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.ganttChartFields;
         break;
       case "geoChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getGeoChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.geoChartFields;
         break;
       case "histogramChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getHistogramChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.histogramChartFields;
         break;
       case "lineChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getLineChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.lineChartFields;
         break;
       case "sankeyChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getSankeyChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.sankeyChartFields;
         break;
       case "scatterChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getScatterChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.scatterChartFields;
         break;
       case "timelineChart":
         configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
@@ -4430,6 +4430,11 @@ export class BuilderComponent implements OnInit {
         break;
         case "geoChart":
         if (this.selectedNode) {
+          this.selectedNode.region = event.form.region;
+          // this.selectedNode.colorAxis = event.form.colorAxis;
+          this.selectedNode.bgColor = event.form.bgColor;
+          this.selectedNode.color = event.form.color;
+          this.selectedNode.defaultColor = event.form.defaultColor;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
@@ -4439,6 +4444,11 @@ export class BuilderComponent implements OnInit {
         break;
         case "histogramChart":
         if (this.selectedNode) {
+          // this.selectedNode.legend = event.form.legend;
+          // this.selectedNode.color = event.form.color;
+          // this.selectedNode.histogram = event.form.histogram;
+          // this.selectedNode.hAxis = event.form.hAxis;
+          // this.selectedNode.vAxis = event.form.vAxis;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
@@ -4448,6 +4458,7 @@ export class BuilderComponent implements OnInit {
         break;
         case "lineChart":
         if (this.selectedNode) {
+          this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
@@ -4466,6 +4477,7 @@ export class BuilderComponent implements OnInit {
         break;
         case "scatterChart":
         if (this.selectedNode) {
+          this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
