@@ -445,7 +445,7 @@
                     </ng-template>
                     <ng-template #seventyThree>
                         <div *ngIf="item.type == 'barChart' else seventyFour">
-                            <st-bar-chart [charts]="item"></st-bar-chart>
+                            <st-bar-chart [charts]="item" [chartData]="item.tableData"></st-bar-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyFour>

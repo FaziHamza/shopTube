@@ -11177,7 +11177,34 @@ export class formFeildData {
           },
         },
         {
-          template: '<div class="bold-label mt-3">Data</div>',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'vAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'vAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Colors',
+          },
+        },
+        {
+          template: '<br/><div class="bold-label mt-3">Data</div>',
         },
         {
           key: 'tableData',
