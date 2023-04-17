@@ -454,50 +454,10 @@ export class AddControlService {
       total: "21",
     }
   }
-  chartcardControl() {
-    return {
-
-    }
-  }
-  sectionCardControl() {
-    return {
-
-    }
-  }
-  widgetSectionCardControl() {
-    return {
-
-    }
-  }
   divControl() {
     return {
       isNextChild: true,
       divClass: '',
-    }
-  }
-  donutChartControl() {
-    return {
-
-    }
-  }
-  browserChartControl() {
-    return {
-
-    }
-  }
-  browserCombineChartControl() {
-    return {
-
-    }
-  }
-  donuteSaleChartControl() {
-    return {
-
-    }
-  }
-  salesAnalyticschartControl() {
-    return {
-
     }
   }
   headingControl() {
@@ -1714,7 +1674,7 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
+        // { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
         { id: 'A', x: 80, y: 167, temprature: 120 },
         { id: 'B', x: 79, y: 136, temprature: 130 },
         { id: 'C', x: 78, y: 184, temprature: 50 },
@@ -1758,7 +1718,7 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        // { name: 'City', value: '2010 Population', value2: '2000 Population' },
         { name: 'New York City, NY', value: 8175000, value2: 8008000 },
         { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
         { name: 'Chicago, IL', value: 2695000, value2: 2896000 },

@@ -615,97 +615,11 @@ export class BuilderClickButtonService {
       footerBorder: node['footerBorder'],
     }
   }
-
-  getSharedMessagesChartConfig(node: any) {
-    return {
-      titleIcon: node?.labelIcon,
-      heading: node?.heading,
-      headingIcon: node?.headingIcon,
-      headingColor: node?.headingColor,
-      subHeading: node?.subHeading,
-      subHeadingIcon: node?.subHeadingIcon,
-      subheadingColor: node?.subheadingColor,
-      tooltip: node?.tooltip,
-      link: node?.link,
-      options: node?.sharedMessagesConfig,
-    }
-  }
-
-  getBrowserCardConfig(node: any) {
-    return {
-      icon: node.icon,
-      options: node.chart,
-      limit: node?.limit,
-      defaultColor: node?.defaultColor,
-      belowpercentage: node?.belowpercentage,
-      below_percentage_color: node?.belowpercentageColor,
-    }
-  }
-  getBrowserCombineChartConfig(node: any) {
-    return {
-      icon: node.icon,
-      options: node.chart,
-      limit: node?.limit,
-      defaultColor: node?.defaultColor,
-      belowpercentage: node?.belowpercentage,
-      below_percentage_color: node?.belowpercentageColor,
-    }
-  }
-  getWidgetSectionCardConfig(node: any) {
-    return {
-      limit: node?.limit,
-      percentage: node?.belowpercentage,
-      below_percentage_color: node?.belowpercentageColor,
-      options: node.section,
-    }
-  }
   divConfig(node: any) {
     return {
       divClass: node?.divClass,
     }
   }
-
-  getSectionCardConfig(node: any) {
-    return {
-      limit: node?.limit,
-      key: node?.key,
-      percentage: node?.belowpercentage,
-      below_percentage_color: node?.belowpercentageColor,
-      options: node?.section,
-    }
-  }
-
-  getChartConfig(node: any) {
-    return {
-      options: node?.section,
-      sub_title: node.section[0].filterData[0].subheading,
-    }
-  }
-
-  getDonutChartConfig(node: any) {
-    return {
-      options: '',
-    }
-  }
-
-  getDonuteSaleChartConfig(node: any) {
-    return {
-      link: node.link,
-      thisTitle: node.thisTitle,
-      lastTitle: node.lastTitle,
-      prevTitle: node.prevTitle,
-      // options1: node.,
-      options: '',
-    }
-  }
-
-  getSalesAnalyticschartConfig(node: any) {
-    return {
-      options: '',
-    }
-  }
-
-
   getHeadingConfig(node: any) {
 
     return {
