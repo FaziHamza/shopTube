@@ -215,9 +215,7 @@ export class AddControlService {
   getVideoControl() {
     return {
       isNextChild: false,
-      width: '200',
-      height: '200',
-      // videoRatio: "ratio ratio-1x1",
+      videoRatio: "ratio ratio-1x1",
       videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
     }
   }
@@ -1680,7 +1678,7 @@ export class AddControlService {
         { name: '2000 Population' }
       ],
       options: {
-        // title: 'Population of the largest US cities',
+        title: 'Population of the largest US cities',
         // chartArea: { width: 550,
         //   height: 400 },
         hAxis: {

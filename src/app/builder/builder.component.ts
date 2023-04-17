@@ -21,6 +21,7 @@ import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
+import { ChartType } from 'angular-google-charts';
 
 @Component({
   selector: 'st-builder',
@@ -4374,6 +4375,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
+            this.selectedNode.options = {
+              title: event.form.title,
+              hAxis: {
+                title: event.form.hAxis,
+                minValue: 0
+              },
+              vAxis: {
+                title: event.form.vAxis
+              },
+              colors: event.form.color
+            };
           }
         }
         break;

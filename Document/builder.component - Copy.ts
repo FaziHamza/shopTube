@@ -761,7 +761,7 @@ export class BuilderComponent implements OnInit {
             inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
           }
         } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
-          inputType[l].type == "nzTag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
+          inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
           inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||
           inputType[l].type == "treeSelect" || inputType[l].type == "switch" || inputType[l].type == "avatar" ||
           inputType[l].type == "badge" || inputType[l].type == "treeView" || inputType[l].type == "carouselCrossfade" ||
@@ -3426,13 +3426,13 @@ export class BuilderComponent implements OnInit {
       } as TreeNode;
       this.addNode(node, newNode);
     }
-    else if (value == 'nzTag') {
+    else if (value == 'tag') {
       const newNode = {
-        id: 'nzTag_' + Guid.newGuid(),
-        key: 'nzTag_' + Guid.newGuid(),
+        id: 'tag_' + Guid.newGuid(),
+        key: 'tag_' + Guid.newGuid(),
         className: "w-1/2",
         title: 'Tag',
-        type: "nzTag",
+        type: "tag",
         isNextChild: false,
         hideExpression: false,
         tooltip: "",
@@ -4286,9 +4286,9 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
-      case "nzTag":
-        configObj = { ...configObj, ...this.clickButtonService.getnzTagConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.nzTagFields;
+      case "tag":
+        configObj = { ...configObj, ...this.clickButtonService.gettagConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.tagFields;
         break;
       case "message":
         configObj = { ...configObj, ...this.clickButtonService.getMessageConfig(selectedNode) };
@@ -5510,7 +5510,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "nzTag":
+      case "tag":
         if (this.selectedNode) {
           this.selectedNode.color = event.form.color;
           this.selectedNode.mode = event.form.mode;

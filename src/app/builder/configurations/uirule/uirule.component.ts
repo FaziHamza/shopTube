@@ -52,7 +52,7 @@ export class UIRuleComponent implements OnInit {
         this.targetList.push(objTargetList);
       }
       else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
-        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
+        inputType.type == "tag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
         inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
         inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
         inputType.type == "badge" || inputType.type == "treeView" || inputType.type == "carouselCrossfade" ||
@@ -220,7 +220,7 @@ export class UIRuleComponent implements OnInit {
           });
         }
       } else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
-        inputType.type == "nzTag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
+        inputType.type == "tag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
         inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
         inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
         inputType.type == "badge" || inputType.type == "treeView" || inputType.type == "carouselCrossfade" ||
