@@ -14,7 +14,7 @@ export class CandlestickChartComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    this.chartData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+    this.charts.tableData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
   }
 
 }

@@ -1740,6 +1740,7 @@ export class AddControlService {
   candlestickChartControl() {
     return {
       isNextChild: false,
+      chartData:[],
       tableData: [
         { name: 'Mon', value: 20, value1: 28, value2: 38, value3: 45 },
         { name: 'Tue', value: 31, value1: 38, value2: 55, value3: 66 },

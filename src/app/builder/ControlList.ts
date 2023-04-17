@@ -324,7 +324,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-text",
                 label: "Textarea",
-                type: 'textarea',
+                type: 'input',
                 configType: 'textarea', fieldType: 'textarea',
                 // maskString: "",
                 // maskLabel: "",
