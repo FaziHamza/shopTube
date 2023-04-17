@@ -299,7 +299,13 @@ object {
     padding: 13px !important;
     height: 51px !important;
   }
-
+  // textarea.ant-input{
+  //   min-height: 100px;
+  // }
+  // label[for*="textarea"] {
+  //   /* Apply styles for labels associated with a textarea */
+  //   height: 100px !important;
+  // }
   .mt-1 {
     margin-top: 0px !important;
   }
@@ -892,5 +898,5 @@ a.fc-event:hover {
 .font{
   font-size: 18px!important;
   color:#74788d;
-  
+
 }

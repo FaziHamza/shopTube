@@ -1,5 +1,5 @@
 <div class="m-1" *ngIf="softIconList.type != 'buttonGroup'">
-  <div style="display: flex;">
+  <div [ngStyle]="{'display' : !softIconList.nzBlock ? 'flex' : ''}">
     <div class={{softIconList.format}}>
       <st-buttons (notify)="saveData($event)" [buttonData]="softIconList"></st-buttons>
     </div>

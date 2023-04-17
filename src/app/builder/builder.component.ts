@@ -21,6 +21,7 @@ import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
+import { ChartType } from 'angular-google-charts';
 
 @Component({
   selector: 'st-builder',
@@ -951,41 +952,9 @@ export class BuilderComponent implements OnInit {
       case "simplecard":
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
         break;
-      case "chartcard":
-        newNode = { ...newNode, ...this.addControlService.chartcardControl() };
-        break;
-
-      case "sectionCard":
-        newNode = { ...newNode, ...this.addControlService.sectionCardControl() };
-        break;
-
-      case "widgetSectionCard":
-        newNode = { ...newNode, ...this.addControlService.widgetSectionCardControl() };
-        break;
       case "div":
         newNode = { ...newNode, ...this.addControlService.divControl() };
         break;
-
-      case "donutChart":
-        newNode = { ...newNode, ...this.addControlService.donutChartControl() };
-        break;
-
-      case "browserChart":
-        newNode = { ...newNode, ...this.addControlService.browserChartControl() };
-        break;
-
-      case "browserCombineChart":
-        newNode = { ...newNode, ...this.addControlService.browserCombineChartControl() };
-        break;
-
-      case "donuteSaleChart":
-        newNode = { ...newNode, ...this.addControlService.donuteSaleChartControl() };
-        break;
-
-      case "salesAnalyticschart":
-        newNode = { ...newNode, ...this.addControlService.salesAnalyticschartControl() };
-        break;
-
       case "heading":
         newNode = { ...newNode, ...this.addControlService.headingControl() };
         break;
@@ -1261,6 +1230,7 @@ export class BuilderComponent implements OnInit {
                         floatLabelClass: '',
                         formatAlignment: 'ltr',
                       },
+                      rows: 1,
                       maxLength: 10000000,
                       minLength: 1,
                       type: data?.fieldType,
@@ -1318,9 +1288,6 @@ export class BuilderComponent implements OnInit {
     if (node.children)
       node.children.push(newNode);
     this.toastr.success('Control Added', { nzDuration: 3000 });
-    // this.dropTargetIds = [];
-    // this.formlyService.templateNode = JSON.parse(JSON.stringify(this.formlyService.nodes));
-    // this.formlyService.prepareDragDrop(this.formlyService.templateNode, this.selectedNode);
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
@@ -1708,87 +1675,11 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getSimpleCardWithHeaderBodyFooterConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
         break;
-
-      case "sharedMessagesChart":
-        configObj = { ...configObj, ...this.clickButtonService.getSharedMessagesChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.sharedMessagesChartFeilds;
-        break;
-
-      case "browserCard":
-
-        configObj = { ...configObj, ...this.clickButtonService.getBrowserCardConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.browserChartFields;
-        break;
-
-      case "browserCombineChart":
-        configObj = { ...configObj, ...this.clickButtonService.getBrowserCombineChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.browserComibeChartFields;
-        break;
-
-      case "widgetSectionCard":
-        configObj = { ...configObj, ...this.clickButtonService.getWidgetSectionCardConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.widgetSectionChartFields;
-        break;
       case "div":
         configObj = { ...configObj, ...this.clickButtonService.divConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.divFields;
         break;
-      case "sectionCard":
-        configObj = { ...configObj, ...this.clickButtonService.getSectionCardConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.SectionChartFields;
-        break;
-
-      case "chart":
-        configObj = { ...configObj, ...this.clickButtonService.getChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.chartFields;
-        break;
-
-      case "donutChart":
-        var seriesDataV1 = [];
-        for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
-          var series = { "series": 90, "title": "abc", "color": "ds" };
-          series["series"] = this.selectedNode.section[0].series[k];
-          series["title"] = this.selectedNode.section[0].titles[k];
-          series["color"] = this.selectedNode.section[0].colors[k];
-          seriesDataV1.push(series);
-        }
-        configObj = { ...configObj, ...this.clickButtonService.getDonutChartConfig(selectedNode) };
-        configObj.options = seriesDataV1,
-          this.fieldData.formData = _formFieldData.chartFields;
-        break;
-
-      case "donuteSaleChart":
-        var seriesDataV1 = [];
-        for (let k = 0; k < this.selectedNode.section[0].series.length; k++) {
-          var series = { "series": 90, "title": "abc", "color": "ds" };
-          series["series"] = this.selectedNode.section[0].series[k];
-          series["title"] = this.selectedNode.section[0].titles[k];
-          series["color"] = this.selectedNode.section[0].colors[k];
-          seriesDataV1.push(series);
-        }
-        configObj = { ...configObj, ...this.clickButtonService.getDonuteSaleChartConfig(selectedNode) };
-        configObj.options = seriesDataV1,
-          this.fieldData.formData = _formFieldData.donutSaleChartFields;
-        break;
-
-      case "salesAnalyticschart":
-        var series1Obj = [];
-        for (let i = 0; i < this.selectedNode.section[0].series.length; i++) {
-          series1Obj.push(this.selectedNode.section[0].series[i]);
-        }
-        configObj = { ...configObj, ...this.clickButtonService.getSalesAnalyticschartConfig(selectedNode) };
-        //   configObj.option = series1Obj;
-        //   for (let i = 0; i < node.section[0].series.length; i++) {
-        //     configObj.options[i].name1 = node.section[0].series[i].title;
-        //     configObj.options[i].value = node.section[0].series[i].value;
-        //  }
-
-        this.fieldData.formData = _formFieldData.saleAnalyticsChartFields;
-
-        break;
-
       case "heading":
-
         configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.headingFields;
         break;
@@ -1846,7 +1737,7 @@ export class BuilderComponent implements OnInit {
             break;
           case "repeatSection":
           case "multiselect":
-          // case "tag":
+            // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -2529,7 +2420,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.borderless = event.form.borderless;
         }
         break;
-        case "video":
+      case "video":
         if (this.selectedNode) {
           this.selectedNode.videoSrc = event.form.videoSrc;
           this.selectedNode.width = event.form.width;
@@ -2973,6 +2864,7 @@ export class BuilderComponent implements OnInit {
             props['titleIcon'] = event.form.titleIcon;
             props['maskString'] = event.form.maskString;
             props['masktitle'] = event.form.masktitle;
+            props['rows'] = event.form.rows;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
@@ -3589,337 +3481,6 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-
-      case "donutChart":
-        if (this.selectedNode) {
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.section[0].series = [];
-          this.selectedNode.section[0].labels = [];
-          this.selectedNode.section[0].colors = [];
-          for (let k = 0; k < event.form.options.length; k++) {
-            this.selectedNode.section[0].series.push(event.form.options[k].series);
-            this.selectedNode.section[0].labels.push(event.form.options[k].label);
-            this.selectedNode.section[0].colors.push(event.form.options[k].color);
-          }
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api != undefined) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  for (let h = 0; h < event.form.options.length; h++) {
-                    if (event.form.options[index].api != undefined) {
-                      this.selectedNode.section[0].series[index] = res.series[0];
-                      this.selectedNode.section[0].labels[index] = res.labels[0];
-                      this.selectedNode.section[0].colors[index] = res.colors[0];
-                      this.updateNodes();
-                    }
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.visitordonutChart().subscribe({
-              next: (res) => {
-                this.selectedNode.section = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            });
-          }
-        }
-        break;
-
-      case "donutSaleChart":
-        if (this.selectedNode) {
-          this.selectedNode.thisTitle = event.form.thisTitle;
-          this.selectedNode.lastTitle = event.form.lastTitle;
-          this.selectedNode.prevTitle = event.form.prevTitle;
-          this.selectedNode.section[0].series = [];
-          this.selectedNode.section[0].labels = [];
-          this.selectedNode.section[0].colors = [];
-          for (let k = 0; k < event.form.options.length; k++) {
-            this.selectedNode.section[0].series.push(event.form.options[k].series);
-            this.selectedNode.section[0].labels.push(event.form.options[k].label);
-            this.selectedNode.section[0].colors.push(event.form.options[k].color);
-          }
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api != undefined) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  if (event.form.options[index].api != undefined) {
-                    // this.selectedNode.saledDonutChart[index].labels = res.labels;
-                    // this.selectedNode.saledDonutChart[index].series = res.series;
-                    // this.selectedNode.saledDonutChart[index].colors = res.colors;
-                    this.selectedNode.thisValue = res.thisValue;
-                    this.selectedNode.lastValue = res.lastValue;
-                    this.selectedNode.prevValue = res.prevValue;
-                    this.selectedNode.growth = res.growth;
-                    this.updateNodes();
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("donutChart").subscribe({
-              next: (res) => {
-                this.selectedNode.section = res;
-                this.updateNodes()
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            });
-          }
-        }
-        break;
-
-      case "browserCard":
-
-        if (this.selectedNode) {
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.limit = event.form.limit;
-          this.selectedNode.defaultColor = event.form.defaultColor;
-          this.selectedNode.belowpercentage = event.form.belowpercentage;
-          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api != undefined) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  for (let h = 0; h < event.form.options.length; h++) {
-                    if (event.form.options[index].api != undefined) {
-                      this.selectedNode.chart[index].percentage = res.min;
-                      this.selectedNode.chart[index].min = res.min;
-                      this.selectedNode.chart[index].bar = res.min + "%";
-                      this.updateNodes();
-                    }
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("browserdata").subscribe({
-              next: (res) => {
-                this.selectedNode.chart = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-        }
-        break;
-
-      case "browserCombineChart":
-
-        if (this.selectedNode) {
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.limit = event.form.limit;
-          this.selectedNode.defaultColor = event.form.defaultColor;
-          this.selectedNode.belowpercentage = event.form.belowpercentage;
-          this.selectedNode.numberofcolumns = event.form.numberofcolumns;
-          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api != undefined) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  for (let h = 0; h < event.form.options.length; h++) {
-                    if (event.form.options[index].api != undefined) {
-                      this.selectedNode.chart[index].percentage = res.min;
-                      this.selectedNode.chart[index].min = res.min;
-                      this.selectedNode.chart[index].bar = res.min + "%";
-                      this.updateNodes();
-                    }
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("browserdata").subscribe({
-              next: (res) => {
-                this.selectedNode.chart = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-        }
-        break;
-
-      case "salesAnalyticsChart":
-        if (this.selectedNode) {
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.section[0].series = event.form.options;
-          for (let index = 0; index < this.selectedNode.section[0].series.length; index++) {
-            if (this.selectedNode.section[0].series[index].type != event.form.options[index].type) {
-              this.selectedNode.section[0].series[index].type = event.form.options[index]?.type;
-            }
-          }
-          for (let i = 0; i < this.selectedNode.section[0].chartTitlesValues.length; i++) {
-            this.selectedNode.section[0].chartTitlesValues[i].value = event.form.options[i].value;
-            this.selectedNode.section[0].series[i].title = event.form.options[i].name1;
-          }
-          this.selectedNode.section[0].series = event.form.options;
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("analyticsChart").subscribe({
-              next: (res) => {
-                this.selectedNode.section[0].chart = res.chart;
-                this.selectedNode.section[0].stroke = res.stroke;
-                this.selectedNode.section[0].plotOptions = res.plotOptions;
-                this.selectedNode.section[0].colors = res.colors;
-                for (let j = 0; j < res.series.length; j++) {
-                  this.selectedNode.section[0].series[j].name = res.series[j].name;
-                  this.selectedNode.section[0].series[j].title = res.series[j].name;
-                  this.selectedNode.section[0].series[j].data = res.series[j].data;
-                }
-                this.selectedNode.section[0].fill = res.fill;
-                this.selectedNode.section[0].labels = res.labels;
-                this.selectedNode.section[0].markers = res.markers;
-                this.selectedNode.section[0].xaxis = res.xaxis;
-                this.selectedNode.section[0].yaxis = res.yaxis;
-                this.selectedNode.section[0].tooltip = res.tooltip;
-                this.selectedNode.section[0].grid = res.grid;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-        }
-        break;
-
-      case "widgetSectionChart":
-        if (this.selectedNode) {
-          this.selectedNode.limit = event.form.limit;
-          this.selectedNode.belowpercentage = event.form.percentage;
-          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
-          // for (let i = 0; i < event.form.options.length; i++) {
-          //   this.selectedNode.section[i].name = event.form.options[i].name
-          //   this.selectedNode.section[i].total = event.form.options[i].total
-          //   this.selectedNode.section[i].percentage = event.form.options[i].percentage
-          //   var data : any = [];
-          //   data.push(event.form.options[i].data)
-          //   this.selectedNode.section[i].data = data
-          // };
-          // this.selectedNode.section = event.form.options;
-          this.selectedNode.link = event.form.link;
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  this.selectedNode.section = '';
-                  for (let h = 0; h < event.form.options.length; h++) {
-                    if (event.form.options[index].api != undefined) {
-                      this.selectedNode.section[index].total = res.total;
-                      this.selectedNode.section[index].percentage = res.percentage;
-                      this.selectedNode.section[index].data = res.Chart.series[0].data;
-                      this.selectedNode.section[index].Chart = res.Chart;
-                      this.updateNodes();
-                    }
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("widgetChart").subscribe({
-              next: (res) => {
-                this.selectedNode.section = res;
-                for (let index = 0; index < res.length; index++) {
-                  this.selectedNode.section[index].data = res[index].Chart.series[0].data;
-                }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-            event.form.link = "";
-          }
-        }
-        break;
-
-      case "SectionChart":
-        if (this.selectedNode) {
-          this.selectedNode.limit = event.form.limit;
-          this.selectedNode.belowpercentage = event.form.percentage;
-          this.selectedNode.section.icon = event.form.options;
-          this.selectedNode.section.name = event.form.options;
-          this.selectedNode.section.percentage = event.form.options;
-          this.selectedNode.section.total = event.form.options;
-          this.selectedNode.belowpercentageColor = event.form.below_percentage_color;
-          this.selectedNode.link = event.form.link;
-          for (let index = 0; index < event.form.options.length; index++) {
-            if (event.form.options[index].api != undefined) {
-              this.requestSubscription = this.builderService.genericApis(event.form.options[index].api).subscribe({
-                next: (res) => {
-                  for (let h = 0; h < event.form.options.length; h++) {
-                    if (event.form.options[index].api != undefined) {
-                      this.selectedNode.section[index].total = res.total;
-                      this.selectedNode.section[index].percentage = res.percentage;
-                      this.updateNodes();
-                    }
-                  }
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
-            }
-          }
-          if (this.selectedNode.link != undefined) {
-            this.requestSubscription = this.builderService.genericApis("widgetSecondCard").subscribe({
-              next: (res) => {
-                this.selectedNode.section = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-            event.form.link = "";
-          }
-        }
-        break;
-
       case "heading":
         if (this.selectedNode) {
           this.selectedNode.heading = event.form.heading,
@@ -4214,40 +3775,6 @@ export class BuilderComponent implements OnInit {
           this.updateNodes()
         }
         break;
-
-      case "sharedMessagesChart":
-
-        if (this.selectedNode.id) {
-          this.selectedNode.labelIcon = event.form.labelIcon;
-          this.selectedNode.heading = event.form.heading;
-          this.selectedNode.headingIcon = event.form.headingIcon;
-          this.selectedNode.headingColor = event.form.headingColor;
-          this.selectedNode.subHeading = event.form.subHeading;
-          this.selectedNode.subHeadingIcon = event.form.subHeadingIcon;
-          this.selectedNode.subheadingColor = event.form.subheadingColor;
-          this.selectedNode.link = event.form.link;
-          for (let index = 0; index < this.selectedNode.sharedMessagesConfig[0].length; index++) {
-            this.selectedNode.sharedMessagesConfig[0].message = event.form.options.message;
-            this.selectedNode.sharedMessagesConfig[0].dateAndTime = event.form.options.dateAndTime;
-            this.selectedNode.sharedMessagesConfig[0].icon = event.form.options.icon;
-            this.selectedNode.sharedMessagesConfig[0].icon1 = event.form.options.icon1;
-          }
-          if (event.form.api != undefined) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                this.selectedNode.sharedMessagesConfig = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          this.updateNodes()
-        }
-        break;
-
       case "audio":
         if (this.selectedNode.id) {
           this.selectedNode.audioSrc = event.form.audioSrc;
@@ -4370,8 +3897,21 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            title: event.form.title,
+            hAxis: {
+              title: event.form.hAxis,
+              minValue: 0
+            },
+            vAxis: {
+              title: event.form.vAxis
+            },
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
+          };
+
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
           }
         }
         break;
@@ -4398,7 +3938,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.tableData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+          }else{
+            this.selectedNode.tableData = event.form.options.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
           }
         }
         break;
@@ -4428,7 +3970,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "geoChart":
+      case "geoChart":
         if (this.selectedNode) {
           this.selectedNode.region = event.form.region;
           // this.selectedNode.colorAxis = event.form.colorAxis;
@@ -4442,7 +3984,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "histogramChart":
+      case "histogramChart":
         if (this.selectedNode) {
           // this.selectedNode.legend = event.form.legend;
           // this.selectedNode.color = event.form.color;
@@ -4456,7 +3998,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "lineChart":
+      case "lineChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4466,7 +4008,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "sankeyChart":
+      case "sankeyChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4475,7 +4017,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "scatterChart":
+      case "scatterChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4485,7 +4027,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "timelineChart":
+      case "timelineChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4758,8 +4300,8 @@ export class BuilderComponent implements OnInit {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     if (this.selectedNode.title) {
-      a.download = this.selectedNode.title+'.';
-    }else{
+      a.download = this.selectedNode.title + '.';
+    } else {
       a.download = 'file.';
     }
     document.body.appendChild(a);

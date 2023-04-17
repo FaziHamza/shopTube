@@ -215,9 +215,7 @@ export class AddControlService {
   getVideoControl() {
     return {
       isNextChild: false,
-      width: '200',
-      height: '200',
-      // videoRatio: "ratio ratio-1x1",
+      videoRatio: "ratio ratio-1x1",
       videoSrc: "https://www.youtube.com/embed/1y_kfWUCFDQ",
     }
   }
@@ -454,50 +452,10 @@ export class AddControlService {
       total: "21",
     }
   }
-  chartcardControl() {
-    return {
-
-    }
-  }
-  sectionCardControl() {
-    return {
-
-    }
-  }
-  widgetSectionCardControl() {
-    return {
-
-    }
-  }
   divControl() {
     return {
       isNextChild: true,
       divClass: '',
-    }
-  }
-  donutChartControl() {
-    return {
-
-    }
-  }
-  browserChartControl() {
-    return {
-
-    }
-  }
-  browserCombineChartControl() {
-    return {
-
-    }
-  }
-  donuteSaleChartControl() {
-    return {
-
-    }
-  }
-  salesAnalyticschartControl() {
-    return {
-
     }
   }
   headingControl() {
@@ -1680,7 +1638,7 @@ export class AddControlService {
         { name: '2000 Population' }
       ],
       options: {
-        // title: 'Population of the largest US cities',
+        title: 'Population of the largest US cities',
         // chartArea: { width: 550,
         //   height: 400 },
         hAxis: {
@@ -1706,6 +1664,26 @@ export class AddControlService {
         { name: '.Net', value: 17 },
         { name: 'Java', value: 43 }
       ],
+      options: {
+        title: 'My Daily Activities',
+        is3D: true,
+        pieHole: 0.4,
+        // pieSliceTextStyle: {
+        //   color: 'black',
+        // },
+        // pieSliceText: 'label',
+        // pieStartAngle: 100,
+        // slices: {  4: {offset: 0.2},
+        //           12: {offset: 0.3},
+        //           14: {offset: 0.4},
+        //           15: {offset: 0.5},
+        // },
+        // // slices: {
+        // //   0: { color: 'yellow' },
+        // //   1: { color: 'transparent' }
+        // // },
+        // sliceVisibilityThreshold: .2
+      },
       width: 550,
       height: 400,
     }
@@ -1714,7 +1692,7 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
+        // { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
         { id: 'A', x: 80, y: 167, temprature: 120 },
         { id: 'B', x: 79, y: 136, temprature: 130 },
         { id: 'C', x: 78, y: 184, temprature: 50 },
@@ -1740,6 +1718,7 @@ export class AddControlService {
   candlestickChartControl() {
     return {
       isNextChild: false,
+      chartData:[],
       tableData: [
         { name: 'Mon', value: 20, value1: 28, value2: 38, value3: 45 },
         { name: 'Tue', value: 31, value1: 38, value2: 55, value3: 66 },
@@ -1758,7 +1737,7 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
+        // { name: 'City', value: '2010 Population', value2: '2000 Population' },
         { name: 'New York City, NY', value: 8175000, value2: 8008000 },
         { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
         { name: 'Chicago, IL', value: 2695000, value2: 2896000 },

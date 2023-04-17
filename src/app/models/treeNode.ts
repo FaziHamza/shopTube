@@ -518,4 +518,6 @@ export interface TreeNode {
   histogram?: any,
   hAxis?: any,
   vAxis?: any
+  chartData?: any,
+  chartOptions?: any
 }
