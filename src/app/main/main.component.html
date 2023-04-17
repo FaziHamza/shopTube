@@ -12,7 +12,7 @@
                                     nzTheme="twotone"></span></span>
                         </div>
                     </div>
-                    <div  *ngIf="item.type == 'multiFileUpload';else one">
+                    <div *ngIf="item.type == 'multiFileUpload';else one">
                         <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
                     </div>
                     <ng-template #one>
@@ -90,7 +90,7 @@
                         </div>
                     </ng-template>
                     <ng-template #fifteen>
-                        <div  *ngIf="item.type =='cardWithComponents'; else sixteen">
+                        <div *ngIf="item.type =='cardWithComponents'; else sixteen">
                             <nz-card [nzTitle]="item.title"
                                 [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
                                 <st-main [mainData]="item.children"></st-main>
@@ -122,7 +122,7 @@
                         </div>
                     </ng-template>
                     <ng-template #twenty>
-                        <div  *ngIf="item.type == 'video'; else twentyone">
+                        <div *ngIf="item.type == 'video'; else twentyone">
                             <st-videos [videoData]="item"></st-videos>
                         </div>
                     </ng-template>
@@ -152,7 +152,7 @@
                         </div>
                     </ng-template>
                     <ng-template #twentyfive>
-                        <div  *ngIf="item.type == 'alert' ;else twentysix">
+                        <div *ngIf="item.type == 'alert' ;else twentysix">
                             <st-new-alerts [alertData]="item"></st-new-alerts>
                         </div>
                     </ng-template>
@@ -208,7 +208,7 @@
                         </div>
                     </ng-template>
                     <ng-template #thirtyforth>
-                        <div  *ngIf="item.type == 'kanban' ; else thirtyfifth">
+                        <div *ngIf="item.type == 'kanban' ; else thirtyfifth">
                             <st-board [kanbanData]="item"></st-board>
                             <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
                         </div>
@@ -240,7 +240,7 @@
                     </ng-template>
                     <ng-template #thirtySeven>
                         <div *ngIf="item.type == 'textEditor'; else thirtyEight">
-                            <nz-card >
+                            <nz-card>
                                 <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
                                     [data]="item.editorJson"></st-editor-js-wrapper>
                             </nz-card>
@@ -255,7 +255,7 @@
                     </ng-template>
                     <ng-template #thirtyNine>
                         <div *ngIf="item.type == 'carouselCrossfade' ; else fourty">
-                            <div >
+                            <div>
                                 <st-carousel-crossfade-card [carouselslides]="item"></st-carousel-crossfade-card>
                             </div>
                         </div>
@@ -276,7 +276,7 @@
                         </div>
                     </ng-template>
                     <ng-template #fourtyThree>
-                        <div  *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+                        <div *ngIf="item.type == 'imageUpload' ; else fourtyFour">
                             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                                 (click)="imagePreview(item)">Preview</button>
                             <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
@@ -328,7 +328,7 @@
                         </div>
                     </ng-template>
                     <ng-template #fiftyTwo>
-                        <div  *ngIf="item.type == 'popOver' ; else fiftyThree">
+                        <div *ngIf="item.type == 'popOver' ; else fiftyThree">
                             <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
                                 [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement"
                                 [nzPopoverVisible]="item.visible" [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
@@ -345,7 +345,7 @@
                         </div>
                     </ng-template>
                     <ng-template #fiftyFour>
-                        <div  *ngIf="item.type == 'tag' ; else fiftyFive">
+                        <div *ngIf="item.type == 'tag' ; else fiftyFive">
                             <nz-tag *ngFor="let child of item.options ; index as i" [nzColor]='child.tagColor'
                                 [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)"><span
                                     nz-icon [nzType]='child.icon'></span>
@@ -359,17 +359,17 @@
                         </div>
                     </ng-template>
                     <ng-template #fiftySix>
-                        <div  *ngIf="item.type == 'rate' ; else fiftySeven">
+                        <div *ngIf="item.type == 'rate' ; else fiftySeven">
                             <st-rate [rateData]="item"></st-rate>
                         </div>
                     </ng-template>
                     <ng-template #fiftySeven>
-                        <div  *ngIf="item.type == 'modal' ; else fiftyEight">
+                        <div *ngIf="item.type == 'modal' ; else fiftyEight">
                             <st-modal [modalData]="item"></st-modal>
                         </div>
                     </ng-template>
                     <ng-template #fiftyEight>
-                        <div  *ngIf="item.type == 'popConfirm' ; else fiftyNine">
+                        <div *ngIf="item.type == 'popConfirm' ; else fiftyNine">
                             <st-popconfirm [popConfirmData]="item"></st-popconfirm>
                         </div>
                     </ng-template>
@@ -399,7 +399,7 @@
                         </div>
                     </ng-template>
                     <ng-template #sixtyFour>
-                        <div  *ngIf="item.type == 'drawer' else sixtyFive">
+                        <div *ngIf="item.type == 'drawer' else sixtyFive">
                             <st-drawer [drawerData]="item"></st-drawer>
                         </div>
                     </ng-template>
@@ -414,7 +414,7 @@
                         </div>
                     </ng-template>
                     <ng-template #sixtySeven>
-                        <div  *ngIf="item.type == 'list' else sixtyEight">
+                        <div *ngIf="item.type == 'list' else sixtyEight">
                             <st-list [listData]="item"></st-list>
                         </div>
                     </ng-template>
@@ -429,12 +429,12 @@
                         </div>
                     </ng-template>
                     <ng-template #seventy>
-                        <div  *ngIf="item.type == 'message' else seventyOne">
+                        <div *ngIf="item.type == 'message' else seventyOne">
                             <st-message [messageData]="item"></st-message>
                         </div>
                     </ng-template>
                     <ng-template #seventyOne>
-                        <div  *ngIf="item.type == 'notification'; else seventyTwo">
+                        <div *ngIf="item.type == 'notification'; else seventyTwo">
                             <st-notification [notificationData]="item"></st-notification>
                         </div>
                     </ng-template>
@@ -445,7 +445,8 @@
                     </ng-template>
                     <ng-template #seventyThree>
                         <div *ngIf="item.type == 'barChart' else seventyFour">
-                            <st-bar-chart [charts]="item" [chartData]="item.tableData"></st-bar-chart>
+                            <st-bar-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-bar-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyFour>
@@ -499,7 +500,7 @@
                         </div>
                     </ng-template>
                     <ng-template #eightyFour>
-                        <div  *ngIf="item.type == 'timelineChart'; else eightyFive">
+                        <div *ngIf="item.type == 'timelineChart'; else eightyFive">
                             <st-timeline-chart [charts]="item"></st-timeline-chart>
                         </div>
                     </ng-template>

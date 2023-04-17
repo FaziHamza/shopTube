@@ -1664,6 +1664,26 @@ export class AddControlService {
         { name: '.Net', value: 17 },
         { name: 'Java', value: 43 }
       ],
+      options: {
+        title: 'My Daily Activities',
+        is3D: true,
+        pieHole: 0.4,
+        // pieSliceTextStyle: {
+        //   color: 'black',
+        // },
+        // pieSliceText: 'label',
+        // pieStartAngle: 100,
+        // slices: {  4: {offset: 0.2},
+        //           12: {offset: 0.3},
+        //           14: {offset: 0.4},
+        //           15: {offset: 0.5},
+        // },
+        // // slices: {
+        // //   0: { color: 'yellow' },
+        // //   1: { color: 'transparent' }
+        // // },
+        // sliceVisibilityThreshold: .2
+      },
       width: 550,
       height: 400,
     }

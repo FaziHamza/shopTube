@@ -1737,7 +1737,7 @@ export class BuilderComponent implements OnInit {
             break;
           case "repeatSection":
           case "multiselect":
-          // case "tag":
+            // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -2420,7 +2420,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.borderless = event.form.borderless;
         }
         break;
-        case "video":
+      case "video":
         if (this.selectedNode) {
           this.selectedNode.videoSrc = event.form.videoSrc;
           this.selectedNode.width = event.form.width;
@@ -3897,20 +3897,21 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            title: event.form.title,
+            hAxis: {
+              title: event.form.hAxis,
+              minValue: 0
+            },
+            vAxis: {
+              title: event.form.vAxis
+            },
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
+          };
+
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
             this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
-            this.selectedNode.options = {
-              title: event.form.title,
-              hAxis: {
-                title: event.form.hAxis,
-                minValue: 0
-              },
-              vAxis: {
-                title: event.form.vAxis
-              },
-              colors: event.form.color
-            };
           }
         }
         break;
@@ -3969,7 +3970,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "geoChart":
+      case "geoChart":
         if (this.selectedNode) {
           this.selectedNode.region = event.form.region;
           // this.selectedNode.colorAxis = event.form.colorAxis;
@@ -3983,7 +3984,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "histogramChart":
+      case "histogramChart":
         if (this.selectedNode) {
           // this.selectedNode.legend = event.form.legend;
           // this.selectedNode.color = event.form.color;
@@ -3997,7 +3998,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "lineChart":
+      case "lineChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4007,7 +4008,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "sankeyChart":
+      case "sankeyChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4016,7 +4017,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "scatterChart":
+      case "scatterChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4026,7 +4027,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "timelineChart":
+      case "timelineChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4299,8 +4300,8 @@ export class BuilderComponent implements OnInit {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     if (this.selectedNode.title) {
-      a.download = this.selectedNode.title+'.';
-    }else{
+      a.download = this.selectedNode.title + '.';
+    } else {
       a.download = 'file.';
     }
     document.body.appendChild(a);
