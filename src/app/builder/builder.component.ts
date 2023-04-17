@@ -21,6 +21,7 @@ import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
+import { ChartType } from 'angular-google-charts';
 
 @Component({
   selector: 'st-builder',
@@ -1229,6 +1230,7 @@ export class BuilderComponent implements OnInit {
                         floatLabelClass: '',
                         formatAlignment: 'ltr',
                       },
+                      rows: 1,
                       maxLength: 10000000,
                       minLength: 1,
                       type: data?.fieldType,
@@ -2862,6 +2864,7 @@ export class BuilderComponent implements OnInit {
             props['titleIcon'] = event.form.titleIcon;
             props['maskString'] = event.form.maskString;
             props['masktitle'] = event.form.masktitle;
+            props['rows'] = event.form.rows;
             if (props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_filled' || props.config.wrapper != 'floating_standard') {
               props.config['addonRight'] = event.form.addonRight;
               props.config['addonLeft'] = event.form.addonLeft;
@@ -3896,6 +3899,18 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
+            this.selectedNode.options = {
+              title: event.form.title,
+              hAxis: {
+                title: event.form.hAxis,
+                minValue: 0
+              },
+              vAxis: {
+                title: event.form.vAxis
+              },
+              colors: event.form.color
+            };
           }
         }
         break;
@@ -3922,7 +3937,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.tableData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+          }else{
+            this.selectedNode.tableData = event.form.options.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
           }
         }
         break;

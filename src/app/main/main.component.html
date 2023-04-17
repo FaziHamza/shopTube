@@ -6,7 +6,7 @@
                 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
                     <div *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton' 
                 && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert' 
-                && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js'">
+                && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input'" >
                         <div *ngIf="item.tooltip && !item?.tooltipWithoutIcon || false" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>
@@ -445,7 +445,7 @@
                     </ng-template>
                     <ng-template #seventyThree>
                         <div *ngIf="item.type == 'barChart' else seventyFour">
-                            <st-bar-chart [charts]="item"></st-bar-chart>
+                            <st-bar-chart [charts]="item" [chartData]="item.tableData"></st-bar-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyFour>

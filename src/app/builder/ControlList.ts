@@ -324,7 +324,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-text",
                 label: "Textarea",
-                type: 'textarea',
+                type: 'input',
                 configType: 'textarea', fieldType: 'textarea',
                 // maskString: "",
                 // maskLabel: "",
@@ -727,67 +727,7 @@ export const htmlTabsData = [
                 parameter: "sharedMessagesChart",
                 icon: "uil uil-file-alt",
                 label: "Task Widget"
-              },
-              {
-                parameter: "barChart",
-                icon: "uil uil-file-alt",
-                label: "Bar Chart"
-              },
-              {
-                parameter: "pieChart",
-                icon: "uil uil-file-alt",
-                label: "Pie Chart"
-              },
-              {
-                parameter: "bubbleChart",
-                icon: "uil uil-file-alt",
-                label: "Bubble Chart"
-              },
-              {
-                parameter: "candlestickChart",
-                icon: "uil uil-file-alt",
-                label: "Candlestick Chart"
-              },
-              {
-                parameter: "columnChart",
-                icon: "uil uil-file-alt",
-                label: "Column Chart"
-              },
-              {
-                parameter: "ganttChart",
-                icon: "uil uil-file-alt",
-                label: "Gantt Chart"
-              },
-              {
-                parameter: "geoChart",
-                icon: "uil uil-file-alt",
-                label: "Geo Chart"
-              },
-              {
-                parameter: "histogramChart",
-                icon: "uil uil-file-alt",
-                label: "Histogram Chart"
-              },
-              {
-                parameter: "lineChart",
-                icon: "uil uil-file-alt",
-                label: "Line Chart"
-              },
-              {
-                parameter: "sankeyChart",
-                icon: "uil uil-file-alt",
-                label: "Sankey Chart"
-              },
-              {
-                parameter: "scatterChart",
-                icon: "uil uil-file-alt",
-                label: "Scatter Chart"
-              },
-              {
-                parameter: "timelineChart",
-                icon: "uil uil-file-alt",
-                label: "Timeline Chart"
-              },
+              }
             ]
           },
         ]
@@ -929,45 +869,105 @@ export const htmlTabsData = [
             icon: "fa fa-chevron-down",
             children: [
               {
-                parameter: "browserChart",
+                parameter: "barChart",
                 icon: "uil uil-file-alt",
-                label: "Browser Chart"
+                label: "Bar Chart"
               },
+              {
+                parameter: "pieChart",
+                icon: "uil uil-file-alt",
+                label: "Pie Chart"
+              },
+              // {
+              //   parameter: "bubbleChart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Bubble Chart"
+              // },
+              {
+                parameter: "candlestickChart",
+                icon: "uil uil-file-alt",
+                label: "Candlestick Chart"
+              },
+              // {
+              //   parameter: "columnChart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Column Chart"
+              // },
+              {
+                parameter: "ganttChart",
+                icon: "uil uil-file-alt",
+                label: "Gantt Chart"
+              },
+              {
+                parameter: "geoChart",
+                icon: "uil uil-file-alt",
+                label: "Geo Chart"
+              },
+              {
+                parameter: "histogramChart",
+                icon: "uil uil-file-alt",
+                label: "Histogram Chart"
+              },
+              {
+                parameter: "lineChart",
+                icon: "uil uil-file-alt",
+                label: "Line Chart"
+              },
+              {
+                parameter: "sankeyChart",
+                icon: "uil uil-file-alt",
+                label: "Sankey Chart"
+              },
+              {
+                parameter: "scatterChart",
+                icon: "uil uil-file-alt",
+                label: "Scatter Chart"
+              },
+              {
+                parameter: "timelineChart",
+                icon: "uil uil-file-alt",
+                label: "Timeline Chart"
+              },
+              // {
+              //   parameter: "browserChart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Browser Chart"
+              // },
               // {
               //   parameter: "browserCombineChart",
               //   icon: "uil uil-file-alt",
               //   label: "Browser Combine Chart"
               // },
-              {
-                parameter: "chartcard",
-                icon: "uil uil-file-alt",
-                label: "Chart"
-              },
-              {
-                parameter: "salesAnalyticschart",
-                icon: "uil uil-file-alt",
-                label: "Sales Analytical Chart"
-              },
-              {
-                parameter: "donuteSaleChart",
-                icon: "uil uil-file-alt",
-                label: "Sale Donut Chart"
-              },
-              {
-                parameter: "sectionCard",
-                icon: "uil uil-file-alt",
-                label: "Section Chart"
-              },
-              {
-                parameter: "donutChart",
-                icon: "uil uil-file-alt",
-                label: "Visitor Donut Chart"
-              },
-              {
-                parameter: "widgetSectionCard",
-                icon: "uil uil-file-alt",
-                label: "Widget Section Chart"
-              },
+              // {
+              //   parameter: "chartcard",
+              //   icon: "uil uil-file-alt",
+              //   label: "Chart"
+              // },
+              // {
+              //   parameter: "salesAnalyticschart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Sales Analytical Chart"
+              // },
+              // {
+              //   parameter: "donuteSaleChart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Sale Donut Chart"
+              // },
+              // {
+              //   parameter: "sectionCard",
+              //   icon: "uil uil-file-alt",
+              //   label: "Section Chart"
+              // },
+              // {
+              //   parameter: "donutChart",
+              //   icon: "uil uil-file-alt",
+              //   label: "Visitor Donut Chart"
+              // },
+              // {
+              //   parameter: "widgetSectionCard",
+              //   icon: "uil uil-file-alt",
+              //   label: "Widget Section Chart"
+              // },
             ]
           },
         ]

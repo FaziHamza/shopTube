@@ -7,13 +7,24 @@ import { ChartType, Formatter } from 'angular-google-charts';
 })
 export class BarChartComponent implements OnInit {
   @Input() charts: any;
-  chartData: any;
+  @Input() chartData: any;
+  // @Input() options: any;
   chartType = ChartType.Bar;
   chartColumns: any;
   constructor() { }
   ngOnInit(): void {
     debugger
     this.chartData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value2]);
-    // this.chartColumns = this.charts.tableHeaders.map((data: any) => [data.name]);
+    // this.options= {
+    //   title: this.charts.title,
+    //   hAxis: {
+    //     title: this.charts.hAxistitle,
+    //     minValue: 0
+    //   },
+    //   vAxis: {
+    //     title: this.charts.vAxistitle
+    //   },
+    //   colors: this.charts.color
+    // }
   }
 }
