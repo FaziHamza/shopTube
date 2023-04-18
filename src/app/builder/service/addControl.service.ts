@@ -1658,31 +1658,30 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'PHP', value: 10 },
-        { name: 'Node', value: 5 },
-        { name: 'JQuery', value: 25 },
-        { name: '.Net', value: 17 },
-        { name: 'Java', value: 43 }
+        { name: 'Assamese', value: 13 }, { name: 'Bengali', value: 83 }, { name: 'Bodo', value: 1.4 },
+        { name: 'Dogri', value: 2.3 }, { name: 'Gujarati', value: 46 }, { name: 'Hindi', value: 300 },
+        { name: 'Kannada', value: 38 }, { name: 'Kashmiri', value: 5.5 }, { name: 'Konkani', value: 5 },
+        { name: 'Maithili', value: 20 }, { name: 'Malayalam', value: 33 }, { name: 'Manipuri', value: 1.5 },
+        { name: 'Marathi', value: 72 }, { name: 'Nepali', value: 2.9 }, { name: 'Oriya', value: 33 },
+        { name: 'Punjabi', value: 29 }, { name: 'Sanskrit', value: 0.01 }, { name: 'Santhali', value: 6.5 },
+        { name: 'Sindhi', value: 2.5 }, { name: 'Tamil', value: 61 }, { name: 'Telugu', value: 74 }, { name: 'Urdu', value: 52 }
       ],
       options: {
         title: 'My Daily Activities',
-        is3D: true,
-        pieHole: 0.4,
+        is3D: false,
+        pieHole: 0,
         // pieSliceTextStyle: {
         //   color: 'black',
         // },
         // pieSliceText: 'label',
-        // pieStartAngle: 100,
-        // slices: {  4: {offset: 0.2},
-        //           12: {offset: 0.3},
-        //           14: {offset: 0.4},
-        //           15: {offset: 0.5},
+        pieStartAngle: 0,
+        // slices: {
+        //   4: { offset: 0.2 },
+        //   12: { offset: 0.3 },
+        //   14: { offset: 0.4 },
+        //   15: { offset: 0.5 },
         // },
-        // // slices: {
-        // //   0: { color: 'yellow' },
-        // //   1: { color: 'transparent' }
-        // // },
-        // sliceVisibilityThreshold: .2
+        sliceVisibilityThreshold: 0
       },
       width: 550,
       height: 400,
@@ -1718,7 +1717,7 @@ export class AddControlService {
   candlestickChartControl() {
     return {
       isNextChild: false,
-      chartData:[],
+      chartData: [],
       tableData: [
         { name: 'Mon', value: 20, value1: 28, value2: 38, value3: 45 },
         { name: 'Tue', value: 31, value1: 38, value2: 55, value3: 66 },
@@ -1879,7 +1878,12 @@ export class AddControlService {
         { id: 13, col1: 4.8, col2: 6.3, col3: 3.6 },
         { id: 14, col1: 4.2, col2: 6.2, col3: 3.4 },
       ],
-      subtitle: 'Based on most recent and previous census data',
+      options: {
+        chart: {
+          title: "Line Chart",
+          subtitle: 'Based on most recent and previous census data',
+        },
+      },
       width: 550,
       height: 400,
     }
@@ -1963,7 +1967,19 @@ export class AddControlService {
         { id: 5, value: 89 }, { id: 4, value: 89 }, { id: 7, value: 84 },
         { id: 4, value: 92 }, { id: 9, value: 98 }
       ],
-      subtitle: 'based on hours studied',
+      options: {
+        width: 800,
+        height: 500,
+        chart: {
+          title: "Pie Chart",
+          subtitle: 'based on hours studied',
+        },
+        axes: {
+          x: {
+            0: { side: 'top' }
+          }
+        }
+      },
       width: 550,
       height: 400,
     }
@@ -1972,25 +1988,95 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { label: 'Magnolia Room', value: 'CSS Fundamentals', startDate: '0, 0, 0, 12, 0, 0', endDate: '0, 0, 0, 14, 0, 0' },
+        { label: 'Magnolia Room', value: 'Intro JavaScript', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
+        { label: 'Magnolia Room', value: 'Advanced JavaScript', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 19, 0, 0' },
+        { label: 'Gladiolus Room', value: 'Intermediate Perl', startDate: '0, 0, 0, 12, 30, 0', endDate: '0, 0, 0, 14, 0, 0' },
+        { label: 'Gladiolus Room', value: 'Advanced Perl', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
+        { label: 'Gladiolus Room', value: 'Applied Perl', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 18, 0, 0' },
+        { label: 'Petunia Room', value: 'Google Charts', startDate: '0, 0, 0, 12, 30, 0', endDate: '0, 0, 0, 14, 0, 0' },
+        { label: 'Petunia Room', value: 'Closure', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
+        { label: 'Petunia Room', value: 'App Engine', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 18, 30, 0' }
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
       options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
+        timeline: {
+          showRowLabels: false,
+          colorByRowLabel: true,
+          singleColor: '#8d8',
+          rowLabelStyle: { fontName: 'Helvetica', fontSize: 24, color: '#603913' },
+          barLabelStyle: { fontName: 'Garamond', fontSize: 14 }
         },
+        backgroundColor: '#ffd',
+        alternatingRowStyle: false,
+        colors: ['#cbb69d', '#603913', '#c69c6e'],
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  areaChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { label: '2013', col1: 1000, col2: 400, col3: 400, col4: 400 },
+        { label: '2014', col1: 1170, col2: 460, col3: 460, col4: 460 },
+        { label: '2015', col1: 660, col2: 1120, col3: 1120, col4: 1120 },
+        { label: '2016', col1: 1030, col2: 540, col3: 540, col4: 540 }
+      ],
+      options: {
+        title: 'Company Performance',
+        isStacked: 'relative',
+        legend: { position: 'top', maxLines: 3 },
+        selectionMode: 'multiple',
+        tooltip: { trigger: 'selection' },
+        hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+        vAxis: { minValue: 0 }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  comboChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { label: '2004/05', col1: 165, col2: 938, col3: 522, col4: 998, col5: 450, col6: 614.6 },
+        { label: '2005/06', col1: 135, col2: 1120, col3: 599, col4: 1268, col5: 288, col6: 682 },
+        { label: '2006/07', col1: 157, col2: 1167, col3: 587, col4: 807, col5: 397, col6: 623 },
+        { label: '2007/08', col1: 139, col2: 1110, col3: 615, col4: 968, col5: 215, col6: 609.4 },
+        { label: '2008/09', col1: 136, col2: 691, col3: 629, col4: 1026, col5: 366, col6: 569.6 }
+      ],
+      options: {
+        title: 'Monthly Coffee Production by Country',
+        vAxis: { title: 'Cups' },
+        hAxis: { title: 'Month' },
+        seriesType: 'bars',
+        series: { 5: { type: 'line' } }
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  steppedAreaChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { label: 'Alfred Hitchcock (1935)', value1: 8.4, value2: 7.9, value3: 5.3, value4: 8.9 },
+        { label: 'Ralph Thomas (1959)', value1: 6.9, value2: 6.5, value3: 9.5, value4: 3.5 },
+        { label: 'Don Sharp (1978)', value1: 6.5, value2: 6.4, value3: 2.4, value4: 4.4 },
+        { label: 'James Hawes (2008)', value1: 4.4, value2: 6.2, value3: 3.2, value4: 5.2 }
+      ],
+      options: {
+        backgroundColor: '#ddd',
+        legend: { position: 'bottom' },
+        connectSteps: false,
+        colors: ['#4374E0', '#53A8FB', '#F1CA3A', '#E49307'],
+        isStacked: true,
         vAxis: {
-          title: 'City',
-        }
+          minValue: 0,
+          ticks: [0, .3, .6, .9, 1]
+        },
+        selectionMode: 'multiple',
       },
       width: 550,
       height: 400,

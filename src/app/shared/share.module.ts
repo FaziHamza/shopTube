@@ -25,7 +25,7 @@ import {
   ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
-  TimelineChartComponent,
+  TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -67,7 +67,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, HtmlBlockComponent,
     ContentEditDirective, BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,
     GanttChartComponent,GeoChartComponent, HistogramChartComponent,LineChartComponent,
-    SankeyChartComponent,
+    SankeyChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent,
     ScatterChartComponent,
     TimelineChartComponent,
   ],
@@ -107,6 +107,9 @@ import { GoogleChartsModule } from 'angular-google-charts';
     SankeyChartComponent,
     ScatterChartComponent,
     TimelineChartComponent,
+    AreaChartComponent,
+    ComboChartComponent,
+    SteppedAreaChartComponent
   ],
   providers: [
   ],

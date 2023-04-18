@@ -878,21 +878,21 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Pie Chart"
               },
-              // {
-              //   parameter: "bubbleChart",
-              //   icon: "uil uil-file-alt",
-              //   label: "Bubble Chart"
-              // },
+              {
+                parameter: "bubbleChart",
+                icon: "uil uil-file-alt",
+                label: "Bubble Chart"
+              },
               {
                 parameter: "candlestickChart",
                 icon: "uil uil-file-alt",
                 label: "Candlestick Chart"
               },
-              // {
-              //   parameter: "columnChart",
-              //   icon: "uil uil-file-alt",
-              //   label: "Column Chart"
-              // },
+              {
+                parameter: "columnChart",
+                icon: "uil uil-file-alt",
+                label: "Column Chart"
+              },
               {
                 parameter: "ganttChart",
                 icon: "uil uil-file-alt",
@@ -922,6 +922,21 @@ export const htmlTabsData = [
                 parameter: "scatterChart",
                 icon: "uil uil-file-alt",
                 label: "Scatter Chart"
+              },
+              {
+                parameter: "areaChart",
+                icon: "uil uil-file-alt",
+                label: "Area Chart"
+              },
+              {
+                parameter: "comboChart",
+                icon: "uil uil-file-alt",
+                label: "Combo Chart"
+              },
+              {
+                parameter: "steppedAreaChart",
+                icon: "uil uil-file-alt",
+                label: "Stepped Area Chart"
               },
               {
                 parameter: "timelineChart",

@@ -4,9 +4,10 @@
             *ngFor="let item of mainData ; index as i; last as isLast">
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
-                    <div *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton' 
+                    <div
+                        *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton' 
                 && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert' 
-                && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input'" >
+                && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input'">
                         <div *ngIf="item.tooltip && !item?.tooltipWithoutIcon || false" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
                                     nzTheme="twotone"></span></span>
@@ -451,12 +452,14 @@
                     </ng-template>
                     <ng-template #seventyFour>
                         <div *ngIf="item.type == 'pieChart' else seventyFive">
-                            <st-pie-chart [charts]="item"></st-pie-chart>
+                            <st-pie-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-pie-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyFive>
                         <div *ngIf="item.type == 'bubbleChart' else seventySix">
-                            <st-bubble-chart [charts]="item"></st-bubble-chart>
+                            <st-bubble-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-bubble-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventySix>
@@ -486,29 +489,66 @@
                     </ng-template>
                     <ng-template #eightyOne>
                         <div *ngIf="item.type == 'lineChart' else eightyTwo">
-                            <st-line-chart [charts]="item"></st-line-chart>
+                            <st-line-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-line-chart>
                         </div>
                     </ng-template>
                     <ng-template #eightyTwo>
                         <div *ngIf="item.type == 'sankeyChart'; else eightyThree">
-                            <st-sankey-chart [charts]="item"></st-sankey-chart>
+                            <st-sankey-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-sankey-chart>
                         </div>
                     </ng-template>
                     <ng-template #eightyThree>
                         <div *ngIf="item.type == 'scatterChart'; else eightyFour">
-                            <st-scatter-chart [charts]="item"></st-scatter-chart>
+                            <st-scatter-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-scatter-chart>
                         </div>
                     </ng-template>
                     <ng-template #eightyFour>
-                        <div *ngIf="item.type == 'timelineChart'; else eightyFive">
-                            <st-timeline-chart [charts]="item"></st-timeline-chart>
+                        <div *ngIf="item.type == 'areaChart'; else eightyFive">
+                            <st-area-chart [charts]="item"
+                                [chartData]="item.chartData?item.chartData:item.tableData"></st-area-chart>
                         </div>
                     </ng-template>
                     <ng-template #eightyFive>
-                        <div *ngIf="item.type == 'div'">
+                        <div *ngIf="item.type == 'div'; else eightySix">
                             <div [class]="item.divClass">
                                 <st-main [mainData]="item.children"></st-main>
                             </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightySix>
+                        <div *ngIf="item.type == 'comboChart'; else eightySeven">
+                            <div [class]="item.divClass">
+                                <st-combo-chart [charts]="item"
+                                    [chartData]="item.chartData?item.chartData:item.tableData"></st-combo-chart>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightySeven>
+                        <div *ngIf="item.type == 'steppedAreaChart'; else eightyEight">
+                            <div [class]="item.divClass">
+                                <st-stepped-area-chart [charts]="item"
+                                    [chartData]="item.chartData?item.chartData:item.tableData"></st-stepped-area-chart>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyEight>
+                        <div *ngIf="item.type == 'timelineChart'; else eightyNine">
+                            <div [class]="item.divClass">
+                                <st-timeline-chart [charts]="item"></st-timeline-chart>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #eightyNine>
+                        <div *ngIf="item.type == 'orgChart' ; else ninty">
+                            <!-- <st-org-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-org-chart> -->
+                        </div>
+                    </ng-template>
+                    <ng-template #ninty>
+                        <div *ngIf="item.type == 'tableChart'">
+                            <!-- <st-table-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart> -->
                         </div>
                     </ng-template>
                 </div>

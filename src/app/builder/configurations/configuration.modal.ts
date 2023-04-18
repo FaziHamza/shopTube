@@ -11248,33 +11248,7 @@ export class formFeildData {
               },
             ]
           }
-        },
-        // {
-        //   template: '<div class="bold-label mt-3">Columns</div>',
-        // },
-        // {
-        //   key: 'tableHeaders',
-        //   type: 'repeatSection',
-        //   className: "w-full px-1",
-        //   props: {
-        //     style: "margin-top: 6%;",
-        //     canAdd: true,
-        //     canRemove: true
-        //   },
-        //   fieldArray: {
-        //     className: 'ml-3 me-2',
-        //     fieldGroup: [
-        //       {
-        //         key: 'name',
-        //         type: 'input',
-        //         wrappers: ["formly-vertical-theme-wrapper"],
-        //         props: {
-        //           label: 'Column Label'
-        //         }
-        //       }
-        //     ]
-        //   }
-        // }
+        }
       ]
     },
   ];
@@ -11282,6 +11256,45 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'pieHole',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Pie Hole',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'pieStartAngle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Pie Start Angle',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'slices',
+          type: 'textarea',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'slices',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'sliceVisibilityThreshold',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'slice Visibility Threshold',
+          },
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'width',
@@ -11300,6 +11313,15 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Height',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'is3D',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'is3D',
           },
         },
         {
@@ -11345,6 +11367,16 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'fontSize',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'font Size',
+          },
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'width',
@@ -12252,6 +12284,523 @@ export class formFeildData {
                 props: {
                   label: 'value',
                   type: "number"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+  ];
+  areaChartFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'isStacked',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'isStacked',
+            options: [
+              {
+                label: 'relative',
+                value: 'relative'
+              },
+              {
+                label: 'absolute',
+                value: 'absolute'
+              },
+              {
+                label: 'none',
+                value: 'none'
+              },
+
+            ]
+          },
+          defaultValue: 'relative'
+        },
+        {
+          key: 'position',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'bottom',
+                value: 'bottom'
+              },
+              {
+                label: 'center',
+                value: 'center'
+              },
+              {
+                label: 'default',
+                value: ''
+              }
+            ]
+          },
+          defaultValue: 'top'
+        },
+        {
+          key: 'selectionMode',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Selection Mode',
+            options: [
+              {
+                label: 'single',
+                value: ''
+              },
+              {
+                label: 'multiple',
+                value: 'multiple'
+              }
+            ]
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltip',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'tooltip',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'titleTextStyle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis title Style',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'maxLines',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'maxLines',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'minValue',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'minValue',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Width',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Height',
+          },
+        },
+        {
+          template: '<div class="bold-label mt-3">Data</div>',
+        },
+        {
+          key: 'tableData',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Label'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col1',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col1',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col2',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col2',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col3',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col3',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col4',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col4',
+                  type: "number"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+  ];
+  comboChartFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'seriesType',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'seriesType',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'vAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'vAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Width',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Height',
+          },
+        },
+        {
+          template: '<div class="bold-label mt-3">Data</div>',
+        },
+        {
+          key: 'tableData',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Label'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col1',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col1',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col2',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col2',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col3',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col3',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'col4',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'col4',
+                  type: "number"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+  ];
+  steppedAreaChartFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'rowLabelFontName',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Row Label Font Name',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'rowLabelFontSize',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Row Label Font Size',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'rowLabelColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Row Label Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'barLabelFontName',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Bar Label Font Name',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'barLabelFontSize',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Bar Label Font Size',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'singleColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Single Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'bgColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'BG Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Colors',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Height',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'showRowLabels',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'show Row Labels',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'colorByRowLabel',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Color By Row Label',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'alternatingRowStyle',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Alternating Row Style',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Width',
+          },
+        },
+        {
+          template: '<div class="bold-label mt-3">Data</div>',
+        },
+        {
+          key: 'tableData',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'label',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Label'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'value1',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'value',
+                  type: "number"
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'startDate',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'start Date'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'endDate',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'End Date'
                 }
               }
             ]

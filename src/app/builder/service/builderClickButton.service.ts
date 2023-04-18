@@ -998,13 +998,19 @@ export class BuilderClickButtonService {
     return {
       width: node?.width,
       height: node?.height,
-      tableData: node?.tableData
+      tableData: node?.tableData,
+      is3D: node?.options.is3D,
+      pieHole: node?.options.pieHole,
+      pieStartAngle: node?.options.pieStartAngle,
+      // slices: node?.options.slices,
+      sliceVisibilityThreshold: node?.options.sliceVisibilityThreshold,
     };
   }
   getBubbleChartConfig(node: any) {
     return {
       width: node?.width,
       height: node?.height,
+      fontSize: node?.options?.bubble?.textStyle?.fontSize,
       tableData: node?.tableData
     };
   }
@@ -1064,7 +1070,7 @@ export class BuilderClickButtonService {
   }
   getLineChartConfig(node: any) {
     return {
-      subtitle: node?.subtitle,
+      subtitle: node?.options?.chart.subtitle,
       width: node?.width,
       height: node?.height,
       tableData: node?.tableData
@@ -1079,7 +1085,64 @@ export class BuilderClickButtonService {
   }
   getScatterChartConfig(node: any) {
     return {
-      subtitle: node?.subtitle,
+      subtitle: node?.options?.chart.subtitle,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getAreaChartConfig(node: any) {
+    return {
+      isStacked: node?.options?.isStacked,
+      position: node?.options?.legend?.position,
+      maxLines: node?.options?.legend?.maxLines,
+      selectionMode: node?.options?.selectionMode,
+      tooltip: node?.options?.tooltip?.trigger,
+      hAxis: node?.options?.hAxis?.title,
+      titleTextStyle: node?.options?.hAxis?.titleTextStyle?.color,
+      minValue: node?.options?.vAxis?.minValue,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getComboChartConfig(node: any) {
+    return {
+      seriesType: node?.options?.seriesType,
+      // series: node?.options?.legend?.position,
+      hAxis: node?.options?.hAxis?.title,
+      vAxis: node?.options?.vAxis?.title,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getSteppedAreaChartConfig(node: any) {
+    return {
+      bgColor: node?.options?.backgroundColor,
+      position: node?.options?.legend?.position,
+      connectSteps: node?.options?.connectSteps,
+      color: node?.options?.colors,
+      selectionMode: node?.options?.selectionMode,
+      isStacked: node?.options?.vAxis?.isStacked,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  getTimelineChartConfig(node: any) {
+    return {
+      showRowLabels: node?.options?.timeline?.showRowLabels,
+      colorByRowLabel: node?.options?.timeline?.colorByRowLabel,
+      singleColor: node?.options?.timeline?.singleColor,
+      rowLabelFontName: node?.options?.timeline?.rowLabelStyle.fontName,
+      rowLabelFontSize: node?.options?.timeline?.rowLabelStyle.fontSize,
+      rowLabelColor: node?.options?.timeline?.rowLabelStyle.color,
+      barLabelFontName: node?.options?.timeline?.barLabelStyle.fontName,
+      barLabelFontSize: node?.options?.timeline?.barLabelStyle.fontSize,
+      bgColor: node?.options?.backgroundColor,
+      alternatingRowStyle: node?.options?.alternatingRowStyle,
+      color: node?.options?.color,
       width: node?.width,
       height: node?.height,
       tableData: node?.tableData

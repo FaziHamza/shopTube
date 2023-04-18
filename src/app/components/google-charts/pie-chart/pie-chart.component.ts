@@ -8,9 +8,8 @@ import { ChartType } from 'angular-google-charts';
 })
 export class PieChartComponent implements OnInit {
   @Input() charts: any;
-  chartData: any;
+  @Input() chartData: any;
   chartType = ChartType.PieChart;
-
   constructor() { }
 
   ngOnInit(): void {

@@ -8,21 +8,12 @@ import { ChartType } from 'angular-google-charts';
 })
 export class LineChartComponent implements OnInit {
   @Input() charts: any;
+  @Input() chartData: any;
   chartType = ChartType.LineChart;
-  chartData: any;
-  options: any;
   constructor() { }
 
   ngOnInit(): void {
     this.chartData = this.charts.tableData.map((data: any) => [data.id, data.col1, data.col2, data.col3]);
-    this.options = {
-      chart: {
-        title: this.charts.title,
-        subtitle: this.charts.subtitle,
-      },
-      // width: 900,
-      // height: 500
-    };
   }
 
 }

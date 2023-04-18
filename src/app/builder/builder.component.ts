@@ -1173,6 +1173,15 @@ export class BuilderComponent implements OnInit {
       case "scatterChart":
         newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
         break;
+      case "areaChart":
+        newNode = { ...newNode, ...this.addControlService.areaChartControl() };
+        break;
+      case "comboChart":
+        newNode = { ...newNode, ...this.addControlService.comboChartControl() };
+        break;
+      case "steppedAreaChart":
+        newNode = { ...newNode, ...this.addControlService.steppedAreaChartControl() };
+        break;
       case "timelineChart":
         newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
         break;
@@ -1895,9 +1904,21 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getScatterChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.scatterChartFields;
         break;
+      case "areaChart":
+        configObj = { ...configObj, ...this.clickButtonService.getAreaChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.areaChartFields;
+        break;
+      case "comboChart":
+        configObj = { ...configObj, ...this.clickButtonService.getComboChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.comboChartFields;
+        break;
+      case "steppedAreaChart":
+        configObj = { ...configObj, ...this.clickButtonService.getSteppedAreaChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.steppedAreaChartFields;
+        break;
       case "timelineChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        configObj = { ...configObj, ...this.clickButtonService.getTimelineChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.steppedAreaChartFields;
         break;
       default:
         break;
@@ -3921,15 +3942,41 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value]);
+          }
+          // const slicePairs = event.form.slices.split(',');
+          // const slices: any = {};
+          // for (const pair of slicePairs) {
+          //   const [index, offset] = pair.trim().split(':');
+          //   slices[index] = { offset: parseFloat(offset) };
+          // }
+
+          this.selectedNode.options = {
+            title: event.form.title,
+            is3D: event.form.is3D,
+            pieHole: event.form.pieHole,
+            pieStartAngle: event.form.pieStartAngle,
+            // slices: slices ? slices : {},
+            sliceVisibilityThreshold: event.form.sliceVisibilityThreshold,
           }
         }
         break;
       case "bubbleChart":
         if (this.selectedNode) {
+          this.selectedNode.options.bubble.textStyle.fontSize = event.form.fontSize;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            title: event.form.title,
+            bubble: {
+              textStyle: {
+                fontSize: event.form.fontSize,
+              }
+            }
+          };
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.x, data.y, data.temprature]);
           }
         }
         break;
@@ -3939,7 +3986,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
-          }else{
+          } else {
             this.selectedNode.tableData = event.form.options.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
           }
         }
@@ -4000,11 +4047,17 @@ export class BuilderComponent implements OnInit {
         break;
       case "lineChart":
         if (this.selectedNode) {
-          this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            chart: {
+              title: event.form.title,
+              subtitle: event.form.subtitle,
+            },
+          }
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [Number(data.id), Number(data.col1), Number(data.col2), Number(data.col3)]);
           }
         }
         break;
@@ -4014,6 +4067,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.link, data.value]);
           }
         }
         break;
@@ -4022,8 +4076,79 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            width: 800,
+            height: 500,
+            chart: {
+              title: event.form.title,
+              subtitle: event.form.subtitle,
+            },
+            axes: {
+              x: {
+                0: { side: 'top' }
+              }
+            }
+          }
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value]);
+          }
+        }
+        break;
+      case "areaChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4)]);
+          }
+          this.selectedNode.options = {
+            title: event.form.title,
+            isStacked: event.form.isStacked,
+            legend: { position: event.form.position, maxLines: event.form.maxLines },
+            selectionMode: event.form.selectionMode,
+            tooltip: { trigger: event.form.tooltip },
+            hAxis: { title: event.form.hAxis, titleTextStyle: { color: event.form.titleTextStyle } },
+            vAxis: { minValue: event.form.minValue }
+          }
+        }
+        break;
+      case "comboChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
+          }
+          this.selectedNode.options = {
+            title: event.form.title,
+            seriesType: event.form.seriesType,
+            hAxis: { title: event.form.hAxis},
+            vAxis: { title: event.form.vAxis }
+          }
+        }
+        break;
+      case "steppedAreaChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.value1), Number(data.value2), Number(data.value3), Number(data.value4)]);
+          }
+          this.selectedNode.options = {
+            backgroundColor: event.form.bgColor,
+            legend: { position: event.form.position },
+            connectSteps: event.form.connectSteps,
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
+            isStacked: event.form.isStacked,
+            vAxis: {
+              minValue: 0,
+              ticks: [0, .3, .6, .9, 1]
+            },
+            selectionMode: event.form.selectionMode,
           }
         }
         break;
@@ -4033,6 +4158,19 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) =>  [data.label, data.value, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate)]);
+          }
+          this.selectedNode.options = {
+            timeline: {
+              showRowLabels: event.form.showRowLabels,
+              colorByRowLabel: event.form.colorByRowLabel,
+              singleColor: event.form.singleColor,
+              rowLabelStyle: { fontName: event.form.rowLabelFontName, fontSize: event.form.rowLabelFontSize, color: event.form.rowLabelColor },
+              barLabelStyle: { fontName: event.form.barLabelFontName, fontSize: event.form.barLabelFontSize }
+            },
+            backgroundColor: event.form.bgColor,
+            alternatingRowStyle: event.form.alternatingRowStyle,
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
           }
         }
         break;
@@ -4043,6 +4181,14 @@ export class BuilderComponent implements OnInit {
     this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
+  }
+  convertIntoDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const startDateArray = date.split(',').map((str: any) => parseInt(str.trim(), 10));
+    const startDate = startDateArray.length ? new Date(startDateArray[0], startDateArray[1], startDateArray[2]) : null;
+    return startDate;
   }
   updateTableData(tableData: any, tableHeaders: any) {
     // Loop through each object in tableData
