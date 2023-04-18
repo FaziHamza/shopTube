@@ -9,20 +9,20 @@ import { ChartType } from 'angular-google-charts';
 export class HistogramChartComponent implements OnInit {
   @Input() charts: any;
   chartType = ChartType.Histogram;
-  chartData:any;
+  @Input() chartData:any;
   options: any;
   constructor() { }
 
   ngOnInit(): void {
     this.chartData = this.charts.tableData.map((data: any) => [data.label, data.value]);
-    this.options = {
-      title: this.charts.title,
-      legend: this.charts.legend,
-      colors: this.charts.color,
-      histogram:this.charts.histogram,
-      hAxis: this.charts.hAxis,
-      vAxis: this.charts.vAxis
-    }
+    // this.options = {
+    //   title: this.charts.title,
+    //   legend: this.charts.legend,
+    //   colors: this.charts.color,
+    //   histogram:this.charts.histogram,
+    //   hAxis: this.charts.hAxis,
+    //   vAxis: this.charts.vAxis
+    // }
   }
 
 }

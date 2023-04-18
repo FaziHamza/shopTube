@@ -1009,6 +1009,7 @@ export class BuilderClickButtonService {
     };
   }
   getCandlestickChartConfig(node: any) {
+    debugger
     return {
       width: node?.width,
       height: node?.height,
@@ -1016,23 +1017,26 @@ export class BuilderClickButtonService {
     };
   }
   getColumnChartConfig(node: any) {
+    debugger
     return {
       width: node?.width,
       height: node?.height,
-      tableData: node?.tableData
+      tableData: node?.tableData,
+      groupWidth: node?.options?.bar?.groupWidth,
+      position: node?.options?.legend?.position
     };
   }
   getGanttChartConfig(node: any) {
     return {
-      isCriticalPath: node?.isCriticalPath,
-      stroke: node?.stroke,
-      strokeWidth: node?.strokeWidth,
-      color: node?.color,
-      angle: node?.angle,
-      arrowWidth: node?.arrowWidth,
-      radius: node?.radius,
-      innerGridTrack: node?.innerGridTrack,
-      innerGridDarkTrack: node?.innerGridDarkTrack,
+      isCriticalPath: node?.options?.criticalPathEnabled?.isCriticalPath,
+      stroke: node?.options?.criticalPathStyle?.stroke,
+      strokeWidth: node?.options?.innerGridHorizLine.strokeWidth,
+      color: node?.options?.arrow?.color,
+      angle: node?.options?.arrow?.angle,
+      arrowWidth: node?.options?.arrow.width,
+      radius: node?.options?.arrow?.color?.radius,
+      innerGridTrack: node?.options?.innerGridTrack?.fill.innerGridTrack,
+      innerGridDarkTrack: node?.options.innerGridDarkTrack?.fill?.innerGridDarkTrack,
       width: node?.width,
       height: node?.height,
       tableData: node?.tableData
@@ -1040,11 +1044,11 @@ export class BuilderClickButtonService {
   }
   getGeoChartConfig(node: any) {
     return {
-      defaultColor: node?.defaultColor,
-      datalessRegionColor: node?.datalessRegionColor,
-      bgColor: node?.bgColor,
-      color: node?.color,
-      region: node?.region,
+      defaultColor: node?.options.defaultColor,
+      color: node?.options.datalessRegionColor,
+      bgColor: node?.options.backgroundColor,
+      colorAxis: node?.options.colorAxis.colors,
+      region: node?.options.region,
       width: node?.width,
       height: node?.height,
       tableData: node?.tableData
@@ -1052,14 +1056,38 @@ export class BuilderClickButtonService {
   }
   getHistogramChartConfig(node: any) {
     return {
-      // legend: node?.legend,
-      // color: node?.color,
-      // histogram: node?.histogram,
-      // hAxis: node?.hAxis,
-      // vAxis: node?.vAxis,
+      legend: node?.options.legend,
+      color: node?.options.color,
+      histogram: node?.options.histogram,
+      hAxis: node?.options.hAxis,
+      vAxis: node?.options.vAxis,
       width: node?.width,
       height: node?.height,
       tableData: node?.tableData
+    };
+  }
+  gettreeMapChartConfig(node: any) {
+    return {
+      highlightOnMouseOver: node?.options.highlightOnMouseOver,
+      maxDepth: node?.options.maxDepth,
+      maxPostDepth: node?.options.maxPostDepth,
+      minHighlightColor: node?.options.minHighlightColor,
+      midHighlightColor: node?.options.midHighlightColor,
+      midColor: node?.options.midColor,
+      maxColor: node?.options.maxColor,
+      headerHeight: node?.options.headerHeight,
+      showScale: node?.options.showScale,
+      useWeightedAverageForAggregation: node?.options.useWeightedAverageForAggregation,
+      width: node?.width,
+      height: node?.height,
+      tableData: node?.tableData
+    };
+  }
+  gettableChartConfig(node: any) {
+    return {
+      tableData: node?.tableData,
+      width: node?.width,
+      height: node?.height,
     };
   }
   getLineChartConfig(node: any) {

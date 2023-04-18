@@ -460,27 +460,27 @@
                     </ng-template>
                     <ng-template #seventySix>
                         <div *ngIf="item.type == 'candlestickChart' else seventySeven">
-                            <st-candlestick-chart [charts]="item"></st-candlestick-chart>
+                            <st-candlestick-chart  [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-candlestick-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventySeven>
                         <div *ngIf="item.type == 'columnChart' else seventyEight">
-                            <st-column-chart [charts]="item"></st-column-chart>
+                            <st-column-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-column-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyEight>
                         <div *ngIf="item.type == 'ganttChart' else seventyNine">
-                            <st-gantt-chart [charts]="item"></st-gantt-chart>
+                            <st-gantt-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-gantt-chart>
                         </div>
                     </ng-template>
                     <ng-template #seventyNine>
                         <div *ngIf="item.type == 'geoChart' else eighty">
-                            <st-geo-chart [charts]="item"></st-geo-chart>
+                            <st-geo-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-geo-chart>
                         </div>
                     </ng-template>
                     <ng-template #eighty>
                         <div *ngIf="item.type == 'histogramChart' else eightyOne">
-                            <st-histogram-chart [charts]="item"></st-histogram-chart>
+                            <st-histogram-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-histogram-chart>
                         </div>
                     </ng-template>
                     <ng-template #eightyOne>

@@ -1155,6 +1155,9 @@ export class BuilderComponent implements OnInit {
       case "columnChart":
         newNode = { ...newNode, ...this.addControlService.columnChartControl() };
         break;
+      case "orgChart":
+        newNode = { ...newNode, ...this.addControlService.orgChartControl() };
+        break;
       case "ganttChart":
         newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
         break;
@@ -1163,6 +1166,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "histogramChart":
         newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
+        break;
+      case "treeMapChart":
+        newNode = { ...newNode, ...this.addControlService.treeMapChartControl() };
+        break;
+      case "tableChart":
+        newNode = { ...newNode, ...this.addControlService.tableChartControl() };
         break;
       case "lineChart":
         newNode = { ...newNode, ...this.addControlService.lineChartControl() };
@@ -1737,7 +1746,7 @@ export class BuilderComponent implements OnInit {
             break;
           case "repeatSection":
           case "multiselect":
-          // case "tag":
+            // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -1882,6 +1891,14 @@ export class BuilderComponent implements OnInit {
       case "histogramChart":
         configObj = { ...configObj, ...this.clickButtonService.getHistogramChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.histogramChartFields;
+        break;
+      case "treeMapChartChart":
+        configObj = { ...configObj, ...this.clickButtonService.gettreeMapChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.treeMapChartFields;
+        break;
+      case "tableChart":
+        configObj = { ...configObj, ...this.clickButtonService.gettableChartConfig(selectedNode) };
+        this.fieldData.formData = _formFieldData.tableChartFields;
         break;
       case "lineChart":
         configObj = { ...configObj, ...this.clickButtonService.getLineChartConfig(selectedNode) };
@@ -2420,7 +2437,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.borderless = event.form.borderless;
         }
         break;
-        case "video":
+      case "video":
         if (this.selectedNode) {
           this.selectedNode.videoSrc = event.form.videoSrc;
           this.selectedNode.width = event.form.width;
@@ -3937,9 +3954,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
-          }else{
-            this.selectedNode.tableData = event.form.options.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
           }
         }
         break;
@@ -3947,57 +3963,123 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            title: event.form.title,
+            bar: { groupWidth: event.form.groupWidth },
+            legend: { position: event.form.position },
+          }
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
           }
         }
         break;
       case "ganttChart":
         if (this.selectedNode) {
-          this.selectedNode.isCriticalPath = event.form.isCriticalPath;
-          this.selectedNode.stroke = event.form.stroke;
-          this.selectedNode.strokeWidth = event.form.strokeWidth;
-          this.selectedNode.angle = event.form.angle;
-          this.selectedNode.arrowWidth = event.form.arrowWidth;
-          this.selectedNode.radius = event.form.radius;
-          this.selectedNode.innerGridTrack = event.form.innerGridTrack;
-          this.selectedNode.innerGridDarkTrack = event.form.innerGridDarkTrack;
+          this.selectedNode.options = {
+            criticalPathEnabled: event.form.isCriticalPath,//if true then criticalPathStyle apply
+            criticalPathStyle: {
+              stroke: event.form.stroke,
+              strokeWidth: event.form.isCriticalPath
+            },
+            innerGridHorizLine: {
+              stroke: event.form.isCriticalPath,
+              strokeWidth: event.form.strokeWidth
+            },
+            arrow: {
+              angle: event.form.angle,
+              width: event.form.arrowWidth,
+              color: event.form.color,
+              radius: event.form.radius
+            },
+            innerGridTrack: { fill: event.form.innerGridTrack },
+            innerGridDarkTrack: { fill: event.form.innerGridDarkTrack }
+          }
+          // this.selectedNode.isCriticalPath = event.form.isCriticalPath;
+          // this.selectedNode.stroke = event.form.stroke;
+          // this.selectedNode.strokeWidth = event.form.strokeWidth;
+          // this.selectedNode.angle = event.form.angle;
+          // this.selectedNode.arrowWidth = event.form.arrowWidth;
+          // this.selectedNode.radius = event.form.radius;
+          // this.selectedNode.innerGridTrack = event.form.innerGridTrack;
+          // this.selectedNode.innerGridDarkTrack = event.form.innerGridDarkTrack;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate), data.duration, data.percentComplete, data.dependencies]);
           }
         }
         break;
-        case "geoChart":
+      case "geoChart":
         if (this.selectedNode) {
-          this.selectedNode.region = event.form.region;
-          // this.selectedNode.colorAxis = event.form.colorAxis;
-          this.selectedNode.bgColor = event.form.bgColor;
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.defaultColor = event.form.defaultColor;
+          this.selectedNode.options = {
+            region: event.form.region, // Africa
+            colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
+            backgroundColor: event.form.bgColor,
+            datalessRegionColor: event.form.color,
+            defaultColor: event.form.defaultColor,
+          };
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
           }
         }
         break;
-        case "histogramChart":
+      case "treeMapChartChart":
         if (this.selectedNode) {
-          // this.selectedNode.legend = event.form.legend;
-          // this.selectedNode.color = event.form.color;
-          // this.selectedNode.histogram = event.form.histogram;
-          // this.selectedNode.hAxis = event.form.hAxis;
-          // this.selectedNode.vAxis = event.form.vAxis;
+          this.selectedNode.options = {
+            highlightOnMouseOver: event.form.highlightOnMouseOver,
+            maxDepth: event.form.width,
+            maxPostDepth: event.form.maxPostDepth,
+            minHighlightColor: event.form.minHighlightColor,
+            midHighlightColor: event.form.midHighlightColor,
+            maxHighlightColor: event.form.maxHighlightColor,
+            minColor: event.form.minColor,
+            midColor: event.form.midColor,
+            maxColor: event.form.maxColor,
+            headerHeight: event.form.headerHeight,
+            showScale: event.form.showScale,
+            useWeightedAverageForAggregation: event.form.useWeightedAverageForAggregation
+          };
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
           }
         }
         break;
-        case "lineChart":
+      case "histogramChart":
+        if (this.selectedNode) {
+          this.selectedNode.options.title = event.form.title;
+          this.selectedNode.options.legend = event.form.legend;
+          this.selectedNode.options.color = event.form.color;
+          this.selectedNode.options.histogram = event.form.histogram;
+          this.selectedNode.options.hAxis = event.form.hAxis;
+          this.selectedNode.options.vAxis = event.form.vAxis;
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
+          }
+        }
+        break;
+      case "tableChart":
+        if (this.selectedNode) {
+          this.selectedNode.width = event.form.width;
+          this.selectedNode.height = event.form.height;
+          if (event.tableDta) {
+            this.selectedNode.tableData = event.tableDta;
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.col1, data.col2, data.col3, data.col4]);
+          }
+        }
+        break;
+      case "lineChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4007,7 +4089,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "sankeyChart":
+      case "sankeyChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4016,7 +4098,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "scatterChart":
+      case "scatterChart":
         if (this.selectedNode) {
           this.selectedNode.subtitle = event.form.subtitle;
           this.selectedNode.width = event.form.width;
@@ -4026,7 +4108,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-        case "timelineChart":
+      case "timelineChart":
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
@@ -4299,8 +4381,8 @@ export class BuilderComponent implements OnInit {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     if (this.selectedNode.title) {
-      a.download = this.selectedNode.title+'.';
-    }else{
+      a.download = this.selectedNode.title + '.';
+    } else {
       a.download = 'file.';
     }
     document.body.appendChild(a);
@@ -4343,7 +4425,14 @@ export class BuilderComponent implements OnInit {
   handleOk(): void {
     this.previewJsonModal = false;
   }
-
+  convertIntoDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const startDateArray = date.split(',').map((str: any) => parseInt(str.trim(), 10));
+    const startDate = startDateArray.length ? new Date(startDateArray[0], startDateArray[1], startDateArray[2]) : null;
+    return startDate;
+  }
   // findDollarSign(node: any) {
   //   if (node.type === 'paragraph' && node.text && node.text.includes('$')) {
   //     return true;

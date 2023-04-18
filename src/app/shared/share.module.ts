@@ -25,7 +25,7 @@ import {
   ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
-  TimelineChartComponent,
+  TimelineChartComponent, OrgChartComponent,TableChartComponent,
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -49,7 +49,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
       FormlyModule.forRoot(formlyCustomeConfig),
       FullCalendarModule,
       RouterModule,
-      GoogleChartsModule
+      GoogleChartsModule,
+      
     ],
   declarations: [
     GenericFieldComponent,
@@ -70,6 +71,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     SankeyChartComponent,
     ScatterChartComponent,
     TimelineChartComponent,
+    OrgChartComponent,
+    TableChartComponent,
   ],
   exports: [
     FormsModule,
@@ -107,6 +110,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     SankeyChartComponent,
     ScatterChartComponent,
     TimelineChartComponent,
+    OrgChartComponent,
+    TableChartComponent,
   ],
   providers: [
   ],

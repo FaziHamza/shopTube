@@ -888,11 +888,26 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Candlestick Chart"
               },
-              // {
-              //   parameter: "columnChart",
-              //   icon: "uil uil-file-alt",
-              //   label: "Column Chart"
-              // },
+              {
+                parameter: "columnChart",
+                icon: "uil uil-file-alt",
+                label: "Column Chart"
+              },
+              {
+                parameter: "orgChart",
+                icon: "uil uil-file-alt",
+                label: "Org Chart"
+              },
+              {
+                parameter: "tableChart",
+                icon: "uil uil-file-alt",
+                label: "Table Chart"
+              },
+              {
+                parameter: "treeMapChart",
+                icon: "uil uil-file-alt",
+                label: "Tree Map Chart"
+              },
               {
                 parameter: "ganttChart",
                 icon: "uil uil-file-alt",
