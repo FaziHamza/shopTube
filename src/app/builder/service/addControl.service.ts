@@ -389,6 +389,17 @@ export class AddControlService {
       nodes: "3",
     }
   }
+  getlistWithComponentsControl() {
+    return {
+      isNextChild: true,
+      nodes: "3",
+    }
+  }
+  getlistWithComponentsChildControl() {
+    return {
+      isNextChild: true,
+    }
+  }
   getStepControl() {
     return {
       icon: 'star',
@@ -456,6 +467,7 @@ export class AddControlService {
     return {
       isNextChild: true,
       divClass: '',
+      imageSrc: '',
     }
   }
   headingControl() {
@@ -491,6 +503,9 @@ export class AddControlService {
       aftercopyIcon: '',
       editableIcon: '',
       link: '',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   htmlBlockControl() {
@@ -790,6 +805,9 @@ export class AddControlService {
       labelText: '',
       isNextChild: false,
       mode: 'left',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor:'',
       data: [
         {
           title: "Timeline Event One",
@@ -872,6 +890,9 @@ export class AddControlService {
       dividerClassName: "w-1/4",
       dividerText: "Divider",
       icon: "plus",
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
       isNextChild: true,
       dashed: false,
       dividerType: "horizontal",
@@ -903,6 +924,9 @@ export class AddControlService {
       showCount: 5,
       ngvalue: 0,
       disabled: false,
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
       options: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
     }
   }
@@ -1146,6 +1170,9 @@ export class AddControlService {
       mode: "closeable",
       isNextChild: false,
       checked: false,
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
       options: [
         {
           title: 'Twitter',
@@ -1299,6 +1326,9 @@ export class AddControlService {
       expand: true,
       expandIcon: 'folder',
       closingexpandicon: 'file',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
       nodes: [
         {
           title: '0-0',
@@ -1357,6 +1387,9 @@ export class AddControlService {
       expandIcon: 'down',
       showInput: true,
       disabled: false,
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
       options: [
         {
           value: 'zhejiang',
@@ -1611,6 +1644,9 @@ export class AddControlService {
       animate: true,
       notificationType: 'default',
       placement: 'topRight',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   iconControl() {
@@ -1904,7 +1940,7 @@ export class AddControlService {
         { id: 'Laos', value1: 'Asia', value2: 4, value3: 34 },
         { id: 'Mongolia', value1: 'Asia', value2: 1, value3: -5 },
         { id: 'Israel', value1: 'Asia', value2: 12, value3: 24 },
-        { id: 'Iran', value1: 'Asia', value2: 18, value3: 13},
+        { id: 'Iran', value1: 'Asia', value2: 18, value3: 13 },
         { id: 'Pakistan', value1: 'Asia', value2: 11, value3: -52 },
         { id: 'Egypt', value1: 'Africa', value2: 21, value3: 0 },
         { id: 'S. Africa', value1: 'Africa', value2: 30, value3: 43 },

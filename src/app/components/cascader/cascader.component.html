@@ -15,7 +15,10 @@
 </nz-cascader>
 &nbsp;
 <ng-template #expandIcon>
-    <span nz-icon [nzType]="cascaderData.expandIcon"></span>
+    <span *ngIf="cascaderData?.expandIcon">
+        <st-icon  [type]="cascaderData?.iconType || 'outline'" [icon]="cascaderData?.expandIcon"
+          [size]="cascaderData?.iconSize" [color]="cascaderData?.iconColor"></st-icon>
+      </span>
 </ng-template>
 
 <!-- <a href="javascript:;" (click)="changeNzOptions()" class="change-options">Change Options</a> -->

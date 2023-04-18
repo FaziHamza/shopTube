@@ -1,36 +1,36 @@
-<ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
-  <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft"
-    [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
-    <nz-select  [formControl]="formControl" [nzStatus]="to.config?.status"
-      [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''"
-      [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
-      [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
-      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
-      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
-      [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
-      [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
-      [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+<ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
+  <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
+    [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
+    <nz-select  [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
+      [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
+      [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
+      [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"
+      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to['additionalProperties']?.serveSearch || false"
+      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to['additionalProperties']?.showArrow || false"
+      [nzShowSearch]="to['additionalProperties']?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+      [nzLoading]="to['additionalProperties']?.loading" [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30"
+      [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
       >
-      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
-        [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to['additionalProperties']?.optionDisabled || false"
+        [nzHide]="to['additionalProperties']?.optionHide || false" [nzCustomContent]="true"
         [nzLabel]="item.label">{{item.label}}</nz-option>
 
     </nz-select>
-    <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
-    [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+    <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
+    [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
   </nz-input-group>
-  <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
-    [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
-    <nz-select  [formControl]="formControl" [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate"
-      [formlyAttributes]="field" [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
-      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
-      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
-      [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
-      [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
-      [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+  <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
+    <nz-select  [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate"
+      [formlyAttributes]="field" [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"
+      [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to['additionalProperties']?.serveSearch || false"
+      [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to['additionalProperties']?.showArrow || false"
+      [nzShowSearch]="to['additionalProperties']?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+      [nzLoading]="to['additionalProperties']?.loading" [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30"
+      [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
       >
-      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
-        [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+      <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to['additionalProperties']?.optionDisabled || false"
+        [nzHide]="to['additionalProperties']?.optionHide || false" [nzCustomContent]="true"
         [nzLabel]="item.label">{{item.label}}</nz-option>
     </nz-select>
   </nz-input-group>
@@ -43,27 +43,35 @@
 
 
   <ng-template #characterIcon>
-    <span nz-icon [nzType]="to.config?.icon || 'close'" nzTheme="outline"></span>
+    <span nz-icon [nzType]="to['additionalProperties']?.icon || 'close'" nzTheme="outline"></span>
   </ng-template>
-  <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+  <ng-template #prefixTemplateUser>
+    <span>
+      <st-icon *ngIf="to['additionalProperties']?.suffixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.suffixicon"
+        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
+    </span>
+  </ng-template>
   <ng-template #suffixTemplateInfo>
-    <span nz-icon nz-tooltip nzTooltipTitle="Extra information" [nzType]="to.config?.prefixicon"></span>
+    <span>
+      <st-icon *ngIf="to['additionalProperties']?.prefixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.prefixicon"
+        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor" ></st-icon>
+    </span>
   </ng-template>
 
 </ng-container>
-<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
-  <nz-select  [formControl]="formControl" [nzStatus]="to.config?.status"
+<div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
+  <nz-select  [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-    [nzSize]="to.config?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
-    [nzAllowClear]="to.config?.allowClear || false" [nzBorderless]="to.config?.border"
-    [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to.config?.serveSearch || false"
-    [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to.config?.showArrow || false"
-    [nzShowSearch]="to.config?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
-    [nzLoading]="to.config?.loading" [nzOptionHeightPx]="to.config?.optionHieght || 30"
-    [nzOptionOverflowSize]="to.config?.optionHieght || 10" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
+    [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
+    [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"
+    [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to['additionalProperties']?.serveSearch || false"
+    [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to['additionalProperties']?.showArrow || false"
+    [nzShowSearch]="to['additionalProperties']?.showSearch || false" [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon"
+    [nzLoading]="to['additionalProperties']?.loading" [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30"
+    [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
     >
-    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to.config?.optionDisabled || false"
-      [nzHide]="to.config?.optionHide || false" [nzCustomContent]="true"
+    <nz-option *ngFor="let item of list" [nzValue]="item.value" [nzDisabled]="to['additionalProperties']?.optionDisabled || false"
+      [nzHide]="to['additionalProperties']?.optionHide || false" [nzCustomContent]="true"
       [nzLabel]="item.label">{{item.label}}</nz-option>
 
   </nz-select>
@@ -78,5 +86,5 @@
 
 
 <ng-template #characterIcon>
-  <span nz-icon [nzType]="to.config?.icon || 'close'" nzTheme="outline"></span>
+  <span nz-icon [nzType]="to['additionalProperties']?.icon || 'close'" nzTheme="outline"></span>
 </ng-template>

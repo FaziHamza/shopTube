@@ -4,8 +4,13 @@
   [nzExpandAll]="treeData.expandAll">
 
   <ng-template #multiExpandedIconTpl let-node let-origin="origin">
-    <span *ngIf="!origin.isLeaf" nz-icon [nzType]="treeData.expandIcon" class="ant-tree-switcher-line-icon"></span>
-    <span *ngIf="origin.isLeaf" nz-icon [nzType]="treeData.closingexpandicon"
-      class="ant-tree-switcher-line-icon"></span>
+    <span *ngIf="!origin.isLeaf" class="ant-tree-switcher-line-icon">
+      <st-icon [type]="treeData?.iconType || 'outline'" [icon]="treeData?.expandIcon" [size]="treeData?.iconSize"
+        [color]="treeData?.iconColor"></st-icon>
+    </span>
+    <span *ngIf="!origin.closingexpandicon" class="ant-tree-switcher-line-icon">
+      <st-icon [type]="treeData?.iconType || 'outline'" [icon]="treeData?.closingexpandicon"
+        [size]="treeData?.iconSize" [color]="treeData?.iconColor"></st-icon>
+    </span>
   </ng-template>
 </nz-tree>

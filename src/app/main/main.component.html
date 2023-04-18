@@ -348,9 +348,15 @@
                     <ng-template #fiftyFour>
                         <div *ngIf="item.type == 'tag' ; else fiftyFive">
                             <nz-tag *ngFor="let child of item.options ; index as i" [nzColor]='child.tagColor'
-                                [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)"><span
-                                    nz-icon [nzType]='child.icon'></span>
-                                <span>{{child.title}}</span></nz-tag>
+                                [nzMode]="item.mode" [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)">
+                                <span *ngIf="child?.icon">
+                                    <st-icon  [type]="item?.iconType || 'outline'" [icon]="child?.icon"
+                                    [size]="item?.iconSize" [color]="item?.iconColor"></st-icon>
+                                </span>
+                                <!-- <span
+                                    nz-icon [nzType]='child.icon'></span> -->
+                                <span>{{child.title}}</span>
+                            </nz-tag>
                         </div>
                     </ng-template>
                     <ng-template #fiftyFive>
@@ -513,7 +519,8 @@
                     </ng-template>
                     <ng-template #eightyFive>
                         <div *ngIf="item.type == 'div'; else eightySix">
-                            <div [class]="item.divClass">
+                            <div [class]="item.divClass" [style.background-image]="'url(' + item.imageSrc + ')'"
+                            style="background-repeat: no-repeat; background-size: cover;">
                                 <st-main [mainData]="item.children"></st-main>
                             </div>
                         </div>
@@ -547,8 +554,18 @@
                         </div>
                     </ng-template>
                     <ng-template #ninty>
-                        <div *ngIf="item.type == 'tableChart'">
+                        <div *ngIf="item.type == 'tableChart' ; else nintyOne">
                             <st-table-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart>
+                        </div>
+                    </ng-template>
+                    <ng-template #nintyOne >
+                        <div *ngIf="item.type == 'listWithComponents' ; else nintyTwo">
+                            <st-list-with-components [listData]="item"></st-list-with-components>
+                        </div>
+                    </ng-template>
+                    <ng-template #nintyTwo>
+                        <div *ngIf="item.type == 'treeMapChart'">
+                            <st-tree-map [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-tree-map>
                         </div>
                     </ng-template>
                 </div>

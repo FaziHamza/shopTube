@@ -23,7 +23,6 @@ export class BuilderClickButtonService {
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
   getCascaderConfig(node: any) {
-
     return {
       expandTrigger: node.expandTrigger,
       labelProperty: node.labelProperty,
@@ -39,6 +38,9 @@ export class BuilderClickButtonService {
       showInput: node.showInput,
       showSearch: node.showSearch,
       disabled: node.disabled,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     };
   }
   getTreeselectviewConfig(node: any) {
@@ -116,7 +118,7 @@ export class BuilderClickButtonService {
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
-      ngvalue: node.ngvalue, options: mappedOptions
+      ngvalue: node.ngvalue, options: mappedOptions ,iconType: node['iconType'],iconSize: node['iconSize'], iconColor: node['iconColor'],
     };
   }
 
@@ -151,13 +153,21 @@ export class BuilderClickButtonService {
     return { options: node.options, block: node.block, disabled: node.disabled, size: node.size, defaultSelectedIndex: node.defaultSelectedIndex };
   }
   getnzTagConfig(node: any) {
-    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options };
+    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+    };
   }
   getMessageConfig(node: any) {
     return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
-    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement };
+    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+    };
   }
   getStatisticConfig(node: any) {
     return { icon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray, iconType: node['iconType'], iconSize: node['iconSize'], iconColor: node['iconColor'] };
@@ -230,6 +240,9 @@ export class BuilderClickButtonService {
       draggable: node.draggable,
       multiple: node.multiple,
       expandAll: node.expandAll,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
   htmlBlockConfig(node: any) {
@@ -520,6 +533,9 @@ export class BuilderClickButtonService {
       plain: node.plain,
       orientation: node.orientation,
       dividerFormat: node.dividerFormat,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
 
@@ -578,6 +594,9 @@ export class BuilderClickButtonService {
       reverse: node.reverse,
       options: node.data,
       // nodes: node['nodes'],
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
 
     }
   }
@@ -618,6 +637,7 @@ export class BuilderClickButtonService {
   divConfig(node: any) {
     return {
       divClass: node?.divClass,
+      imageSrc: node?.imageSrc,
     }
   }
   getHeadingConfig(node: any) {
@@ -655,6 +675,10 @@ export class BuilderClickButtonService {
       fontstyle: node.fontstyle,
       heading: node.heading,
       link: node.link,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+
     }
   }
 
@@ -672,33 +696,38 @@ export class BuilderClickButtonService {
       titleIcon: node.formly[0].fieldGroup[0].props?.['titleIcon'],
       rows: node.formly[0].fieldGroup[0].props?.rows,
       formCheck: node.formly[0].fieldGroup[0].props?.['formCheck'],
-      addonLeft: node.formly[0].fieldGroup[0].props.config.addonLeft,
-      addonRight: node.formly[0].fieldGroup[0].props.config.addonRight,
-      getVariable: node.formly[0].fieldGroup[0].props.config?.getVariable,
-      setVariable: node.formly[0].fieldGroup[0].props.config?.setVariable,
-      suffixicon: node.formly[0].fieldGroup[0].props.config.suffixicon,
-      prefixicon: node.formly[0].fieldGroup[0].props.config.prefixicon,
-      optionWidth: node.formly[0].fieldGroup[0].props.config?.['optionWidth'],
-      allowClear: node.formly[0].fieldGroup[0].props.config?.['allowClear'],
-      serveSearch: node.formly[0].fieldGroup[0].props.config?.['serveSearch'],
-      showArrow: node.formly[0].fieldGroup[0].props.config?.['showArrow'],
-      showSearch: node.formly[0].fieldGroup[0].props.config?.['showSearch'],
-      removeIcon: node.formly[0].fieldGroup[0].props.config?.['removeIcon'],
-      loading: node.formly[0].fieldGroup[0].props.config?.['loading'],
-      optionHieght: node.formly[0].fieldGroup[0].props.config?.['optionHieght'],
-      optionHoverSize: node.formly[0].fieldGroup[0].props.config?.['optionHoverSize'],
-      optionDisabled: node.formly[0].fieldGroup[0].props.config?.['optionDisabled'],
-      optionHide: node.formly[0].fieldGroup[0].props.config?.['optionHide'],
-      step: node.formly[0].fieldGroup[0].props.config?.['step'],
-      format: node.formly[0].fieldGroup[0].props.config?.['format'],
-      firstBtnText: node.formly[0].fieldGroup[0].props.config?.['firstBtnText'],
-      secondBtnText: node.formly[0].fieldGroup[0].props.config?.['secondBtnText'],
-      minuteStep: node.formly[0].fieldGroup[0].props.config?.['minuteStep'],
-      secondStep: node.formly[0].fieldGroup[0].props.config?.['secondStep'],
-      hoursStep: node.formly[0].fieldGroup[0].props.config?.['hoursStep'],
-      icon: node.formly[0].fieldGroup[0].props.config?.['icon'],
-      use12Hours: node.formly[0].fieldGroup[0].props.config?.['use12Hours'],
-      border: node.formly[0].fieldGroup[0].props.config.border,
+      addonLeft: node.formly[0].fieldGroup[0].props['additionalProperties']?.addonLeft,
+      addonRight: node.formly[0].fieldGroup[0].props['additionalProperties']?.addonRight,
+      getVariable: node.formly[0].fieldGroup[0].props['additionalProperties']?.getVariable,
+      setVariable: node.formly[0].fieldGroup[0].props['additionalProperties']?.setVariable,
+      suffixicon: node.formly[0].fieldGroup[0].props['additionalProperties']?.suffixicon,
+      prefixicon: node.formly[0].fieldGroup[0].props['additionalProperties']?.prefixicon,
+      maskString: node.formly[0].fieldGroup[0].props?.['maskString'],
+      masktitle: node.formly[0].fieldGroup[0].props?.['masktitle'],
+      optionWidth: node.formly[0].fieldGroup[0].props['additionalProperties']?.['optionWidth'],
+      allowClear: node.formly[0].fieldGroup[0].props['additionalProperties']?.['allowClear'],
+      serveSearch: node.formly[0].fieldGroup[0].props['additionalProperties']?.['serveSearch'],
+      showArrow: node.formly[0].fieldGroup[0].props['additionalProperties']?.['showArrow'],
+      showSearch: node.formly[0].fieldGroup[0].props['additionalProperties']?.['showSearch'],
+      removeIcon: node.formly[0].fieldGroup[0].props['additionalProperties']?.['removeIcon'],
+      loading: node.formly[0].fieldGroup[0].props['additionalProperties']?.['loading'],
+      optionHieght: node.formly[0].fieldGroup[0].props['additionalProperties']?.['optionHieght'],
+      optionHoverSize: node.formly[0].fieldGroup[0].props['additionalProperties']?.['optionHoverSize'],
+      optionDisabled: node.formly[0].fieldGroup[0].props['additionalProperties']?.['optionDisabled'],
+      optionHide: node.formly[0].fieldGroup[0].props['additionalProperties']?.['optionHide'],
+      step: node.formly[0].fieldGroup[0].props['additionalProperties']?.['step'],
+      format: node.formly[0].fieldGroup[0].props['additionalProperties']?.['format'],
+      firstBtnText: node.formly[0].fieldGroup[0].props['additionalProperties']?.['firstBtnText'],
+      secondBtnText: node.formly[0].fieldGroup[0].props['additionalProperties']?.['secondBtnText'],
+      minuteStep: node.formly[0].fieldGroup[0].props['additionalProperties']?.['minuteStep'],
+      secondStep: node.formly[0].fieldGroup[0].props['additionalProperties']?.['secondStep'],
+      hoursStep: node.formly[0].fieldGroup[0].props['additionalProperties']?.['hoursStep'],
+      icon: node.formly[0].fieldGroup[0].props['additionalProperties']?.['icon'],
+      use12Hours: node.formly[0].fieldGroup[0].props['additionalProperties']?.['use12Hours'],
+      iconType: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconType'],
+      iconSize: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconSize'],
+      iconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconColor'],
+      border: node.formly[0].fieldGroup[0].props['additionalProperties']?.border,
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,
@@ -863,7 +892,7 @@ export class BuilderClickButtonService {
       isBordered: node.isBordered,
       wrappers: node['wrappers'],
       formatAlignment: node['formatAlignment'],
-      // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props.config.formatAlignment,
+      // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
     }
   }
   getSectionFooterConfig(node: any) {
@@ -916,6 +945,11 @@ export class BuilderClickButtonService {
       disabled: node.disabled,
       nodes: node.nodes,
       stepperType: node.stepperType,
+    }
+  }
+  getlistWithComponentsConfig(node: any) {
+    return {
+      nodes: node.nodes,
     }
   }
   getMainTabsConfig(node: any) {
