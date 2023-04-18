@@ -1,25 +1,25 @@
 <div
-  [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? ' height ' : ''">
-  <ng-container *ngIf="to.type != 'number' && to.config?.wrapper != 'floating_standard'">
-    <ng-container *ngIf="!to.config?.floatingInput">
-      <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft"
-        [nzPrefix]="to.config?.addonRight" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+  [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? ' height ' : ''">
+  <ng-container *ngIf="to.type != 'number' && to['additionalProperties']?.wrapper != 'floating_standard'">
+    <ng-container *ngIf="!to['additionalProperties']?.floatingInput">
+      <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
+        [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <input *ngIf="to.type != 'textarea'"
-          [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' ? to.config?.floatFieldClass : ''"
+          [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
           [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
-          [nzStatus]="to.config?.status" [nzSize]="to.config?.size" [formControl]="formControl"
-          [nzBorderless]="to.config?.border" />
+          [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [formControl]="formControl"
+          [nzBorderless]="to['additionalProperties']?.border" />
 
         <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
           [placeholder]="to.placeholder" [formControl]="formControl"></textarea>
-        <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
-          [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+        <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
+          [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
       </nz-input-group>
-      <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon" [nzSuffix]="suffixTemplateInfo"
-        [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size" [nzStatus]="to.config?.status">
+      <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+        [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <input *ngIf="to.type != 'textarea'" [formlyAttributes]="field" nz-input [type]="to.type"
-          [placeholder]="to.placeholder" [nzStatus]="to.config?.status" [formControl]="formControl"
-          [nzSize]="to.config?.size" [nzBorderless]="to.config?.border" />
+          [placeholder]="to.placeholder" [nzStatus]="to['additionalProperties']?.status" [formControl]="formControl"
+          [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border" />
 
         <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
           [placeholder]="to.placeholder" [formControl]="formControl"></textarea>
@@ -29,11 +29,11 @@
   <ng-container *ngIf="to.type == 'number'">
     <nz-input-number style="width:100%" [formControl]="formControl" [nzStep]="1"></nz-input-number>
   </ng-container>
-  <div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
+  <div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
     <input
       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder" [nzStatus]="to.config?.status"
-      [formControl]="formControl" [nzSize]="to.config?.size" [nzBorderless]="to.config?.border" />
+      [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder" [nzStatus]="to['additionalProperties']?.status"
+      [formControl]="formControl" [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border" />
     <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
       [placeholder]="to.placeholder" [formControl]="formControl"></textarea>
     <label
@@ -41,14 +41,14 @@
   </div>
   <ng-template #prefixTemplateUser>
     <span>
-      <st-icon *ngIf="to.config?.suffixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.suffixicon"
-        [size]="to.config?.iconSize" [color]="to.config?.iconColor"></st-icon>
+      <st-icon *ngIf="to['additionalProperties']?.suffixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.suffixicon"
+        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
     </span>
   </ng-template>
   <ng-template #suffixTemplateInfo>
     <span>
-      <st-icon *ngIf="to.config?.prefixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.prefixicon"
-        [size]="to.config?.iconSize" [color]="to.config?.iconColor" (click)="showPassword(to)"></st-icon>
+      <st-icon *ngIf="to['additionalProperties']?.prefixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.prefixicon"
+        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor" (click)="showPassword(to)"></st-icon>
     </span>
   </ng-template>
 </div>

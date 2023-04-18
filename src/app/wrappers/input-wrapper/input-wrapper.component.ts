@@ -11,20 +11,19 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() placeholder = '';
   ngOnInit(): void {
     if(this.to.type == 'password'){
-      this.to.config.prefixicon = 'eye-invisible';
+      this.to['additionalProperties'].prefixicon = 'eye-invisible';
     }
   }
   showPassword(to : any){
-    debugger
-    if(to.type == 'password' && this.to.config.prefixicon == 'eye' || this.to.config.prefixicon == 'eye-invisible'){
-      this.to.config.prefixicon = 'eye';
+    if(to.type == 'password' && this.to['additionalProperties']?.prefixicon == 'eye' || this.to['additionalProperties']?.prefixicon == 'eye-invisible'){
+      this.to['additionalProperties'].prefixicon = 'eye';
       this.to.type = 'text';
     }else if(to.type == 'text'){
-      this.to.config.prefixicon = 'eye-invisible';
+      this.to['additionalProperties'].prefixicon = 'eye-invisible';
       this.to.type = 'password';
     }
   }
-  
+
 
 }
 

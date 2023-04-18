@@ -1,15 +1,15 @@
-<ng-container  *ngIf="to.config?.wrapper != 'floating_standard'">
+<ng-container  *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
   <div class="relative z-0">
     <nz-radio-group
-    [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass : ''"
+    [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
     [formControl]="formControl">
     <label *ngFor="let item of list" nz-radio [nzValue]="item.value">{{item.label}}</label>
   </nz-radio-group>
-  <label *ngIf="to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_filled'" [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
+  <label *ngIf="to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_filled'" [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
   </div>
 
 </ng-container>
-<div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
+<div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
   <nz-radio-group
   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
   [formControl]="formControl">
