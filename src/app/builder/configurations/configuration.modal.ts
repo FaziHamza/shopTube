@@ -9239,7 +9239,6 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'Key',
             required: true,
             pattern: /^[a-z0-9_]+$/,
@@ -9251,7 +9250,6 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'ID',
             pattern: '^\\S*$',
           }
@@ -9262,7 +9260,6 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'label'
           }
         },
@@ -9290,7 +9287,6 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'CSS ClassName',
           }
         },
@@ -9300,7 +9296,6 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'Label Icon',
           }
         },
@@ -9320,7 +9315,6 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
             label: 'Default Value'
           },
         },
@@ -9330,7 +9324,6 @@ export class formFeildData {
           key: 'addonLeft',
           type: 'input',
           props: {
-            config: {},
             label: 'Add On Left Text'
           }
         },
@@ -9340,7 +9333,6 @@ export class formFeildData {
           key: 'addonRight',
           type: 'input',
           props: {
-            config: {},
             label: 'Add On Right Text'
           }
         },
@@ -9350,7 +9342,7 @@ export class formFeildData {
           key: 'suffixicon',
           type: 'input',
           props: {
-            config: {},
+
             label: 'Add On Left Icon'
           }
         },
@@ -9360,7 +9352,7 @@ export class formFeildData {
           key: 'prefixicon',
           type: 'input',
           props: {
-            config: {},
+
             label: 'Add On Right Icon'
           }
         },
@@ -9390,7 +9382,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            config: {},
+
             label: 'Rows'
           }
         },
