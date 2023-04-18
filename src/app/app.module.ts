@@ -39,7 +39,6 @@ import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layo
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { TreeMapComponent } from './components/google-charts/tree-map/tree-map.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -68,7 +67,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutTabsComponent,
     LayoutDrawerComponent,
     LayoutButtonComponent,
-    TreeMapComponent,
+
     
   ],
   imports: [

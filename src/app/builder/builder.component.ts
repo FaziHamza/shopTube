@@ -1935,7 +1935,7 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getHistogramChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.histogramChartFields;
         break;
-      case "treeMapChartChart":
+      case "treeMapChart":
         configObj = { ...configObj, ...this.clickButtonService.gettreeMapChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeMapChartFields;
         break;
@@ -3675,7 +3675,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "listWithComponents":
         if (this.selectedNode) {
-          this.addDynamic(event.form.nodes, 'listWithComponents', 'listWithComponentsChild')
+          this.selectedNode.nodes = event.form.nodes;
+          this.addDynamic(event.form.nodes,  'listWithComponentsChild' , 'listWithComponents')
           this.updateNodes();
         }
         break;
@@ -4152,7 +4153,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "treeMapChartChart":
+      case "treeMapChart":
         if (this.selectedNode) {
           this.selectedNode.options = {
             highlightOnMouseOver: event.form.highlightOnMouseOver,
@@ -4172,7 +4173,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1 , data.value2 , data.value3]);
           }
         }
         break;

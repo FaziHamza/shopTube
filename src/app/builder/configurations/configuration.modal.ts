@@ -11921,7 +11921,7 @@ export class formFeildData {
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Highlight On MouseOver',
+            label: 'Highlight On hover',
           },
           defaultValue: false
         },
@@ -11931,7 +11931,7 @@ export class formFeildData {
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'useWeightedAverageForAggregation',
+            label: 'Aggregation',
           },
           defaultValue: false
         },

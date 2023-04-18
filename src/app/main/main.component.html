@@ -559,8 +559,13 @@
                         </div>
                     </ng-template>
                     <ng-template #nintyOne >
-                        <div *ngIf="item.type == 'listWithComponents'">
+                        <div *ngIf="item.type == 'listWithComponents' ; else nintyTwo">
                             <st-list-with-components [listData]="item"></st-list-with-components>
+                        </div>
+                    </ng-template>
+                    <ng-template #nintyTwo>
+                        <div *ngIf="item.type == 'treeMapChart'">
+                            <st-tree-map [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-tree-map>
                         </div>
                     </ng-template>
                 </div>
