@@ -4265,14 +4265,6 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
     this.closeConfigurationList();
   }
-  convertIntoDate(date: any) {
-    if (!date) {
-      return null;
-    }
-    const startDateArray = date.split(',').map((str: any) => parseInt(str.trim(), 10));
-    const startDate = startDateArray.length ? new Date(startDateArray[0], startDateArray[1], startDateArray[2]) : null;
-    return startDate;
-  }
   updateTableData(tableData: any, tableHeaders: any) {
     // Loop through each object in tableData
     tableData.forEach((data: any) => {

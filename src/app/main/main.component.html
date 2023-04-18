@@ -543,12 +543,12 @@
                     </ng-template>
                     <ng-template #eightyNine>
                         <div *ngIf="item.type == 'orgChart' ; else ninty">
-                            <!-- <st-org-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-org-chart> -->
+                            <st-org-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-org-chart>
                         </div>
                     </ng-template>
                     <ng-template #ninty>
                         <div *ngIf="item.type == 'tableChart'">
-                            <!-- <st-table-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart> -->
+                            <st-table-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart>
                         </div>
                     </ng-template>
                 </div>
