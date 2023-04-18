@@ -23,7 +23,6 @@ export class BuilderClickButtonService {
     return { disabled: node.disabled, showSearch: node.showSearch, firstBoxTitle: node.firstBoxTitle, secondBoxTitle: node.secondBoxTitle, leftButtonLabel: node.leftButtonLabel, rightButtonLabel: node.rightButtonLabel, searchPlaceHolder: node.searchPlaceHolder, status: node.status, notFoundContentLabel: node.notFoundContentLabel, options: node.list };
   }
   getCascaderConfig(node: any) {
-
     return {
       expandTrigger: node.expandTrigger,
       labelProperty: node.labelProperty,
@@ -39,6 +38,9 @@ export class BuilderClickButtonService {
       showInput: node.showInput,
       showSearch: node.showSearch,
       disabled: node.disabled,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     };
   }
   getTreeselectviewConfig(node: any) {
@@ -116,7 +118,7 @@ export class BuilderClickButtonService {
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
-      ngvalue: node.ngvalue, options: mappedOptions
+      ngvalue: node.ngvalue, options: mappedOptions ,iconType: node['iconType'],iconSize: node['iconSize'], iconColor: node['iconColor'],
     };
   }
 
@@ -151,13 +153,21 @@ export class BuilderClickButtonService {
     return { options: node.options, block: node.block, disabled: node.disabled, size: node.size, defaultSelectedIndex: node.defaultSelectedIndex };
   }
   getnzTagConfig(node: any) {
-    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options };
+    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+    };
   }
   getMessageConfig(node: any) {
     return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
-    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement };
+    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+    };
   }
   getStatisticConfig(node: any) {
     return { icon: node.prefixIcon, suffixIcon: node.suffixIcon, options: node.statisticArray, iconType: node['iconType'], iconSize: node['iconSize'], iconColor: node['iconColor'] };
@@ -230,6 +240,9 @@ export class BuilderClickButtonService {
       draggable: node.draggable,
       multiple: node.multiple,
       expandAll: node.expandAll,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
   htmlBlockConfig(node: any) {
@@ -520,6 +533,9 @@ export class BuilderClickButtonService {
       plain: node.plain,
       orientation: node.orientation,
       dividerFormat: node.dividerFormat,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
 
@@ -578,6 +594,9 @@ export class BuilderClickButtonService {
       reverse: node.reverse,
       options: node.data,
       // nodes: node['nodes'],
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
 
     }
   }
@@ -618,6 +637,7 @@ export class BuilderClickButtonService {
   divConfig(node: any) {
     return {
       divClass: node?.divClass,
+      imageSrc: node?.imageSrc,
     }
   }
   getHeadingConfig(node: any) {
@@ -655,6 +675,10 @@ export class BuilderClickButtonService {
       fontstyle: node.fontstyle,
       heading: node.heading,
       link: node.link,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+
     }
   }
 
@@ -678,6 +702,8 @@ export class BuilderClickButtonService {
       setVariable: node.formly[0].fieldGroup[0].props.config?.setVariable,
       suffixicon: node.formly[0].fieldGroup[0].props.config.suffixicon,
       prefixicon: node.formly[0].fieldGroup[0].props.config.prefixicon,
+      maskString: node.formly[0].fieldGroup[0].props?.['maskString'],
+      masktitle: node.formly[0].fieldGroup[0].props?.['masktitle'],
       optionWidth: node.formly[0].fieldGroup[0].props.config?.['optionWidth'],
       allowClear: node.formly[0].fieldGroup[0].props.config?.['allowClear'],
       serveSearch: node.formly[0].fieldGroup[0].props.config?.['serveSearch'],
@@ -698,6 +724,9 @@ export class BuilderClickButtonService {
       hoursStep: node.formly[0].fieldGroup[0].props.config?.['hoursStep'],
       icon: node.formly[0].fieldGroup[0].props.config?.['icon'],
       use12Hours: node.formly[0].fieldGroup[0].props.config?.['use12Hours'],
+      iconType: node.formly[0].fieldGroup[0].props.config?.['iconType'],
+      iconSize: node.formly[0].fieldGroup[0].props.config?.['iconSize'],
+      iconColor: node.formly[0].fieldGroup[0].props.config?.['iconColor'],
       border: node.formly[0].fieldGroup[0].props.config.border,
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
@@ -916,6 +945,11 @@ export class BuilderClickButtonService {
       disabled: node.disabled,
       nodes: node.nodes,
       stepperType: node.stepperType,
+    }
+  }
+  getlistWithComponentsConfig(node: any) {
+    return {     
+      nodes: node.nodes,
     }
   }
   getMainTabsConfig(node: any) {

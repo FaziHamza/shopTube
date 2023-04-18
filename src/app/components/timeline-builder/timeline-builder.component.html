@@ -9,12 +9,18 @@
             </nz-card>
         </nz-timeline-item>
         <ng-template #characterIcon>
-            <span nz-icon [nzType]="item.dotIcon"></span>
+            <span *ngIf="item?.dotIcon">
+                <st-icon  [type]="timelineData?.iconType || 'outline'" [icon]="item?.dotIcon"
+                  [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
+              </span>
         </ng-template>
     </ng-container>
 
 </nz-timeline>
 
 <ng-template #pendingIcon>
-    <span nz-icon [nzType]="timelineData.mainIcon"></span>
+    <span *ngIf="timelineData?.mainIcon">
+        <st-icon  [type]="timelineData?.iconType || 'outline'" [icon]="timelineData?.mainIcon"
+          [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
+      </span>
 </ng-template>

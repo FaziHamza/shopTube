@@ -117,7 +117,7 @@ export class MenuBuilderComponent implements OnInit {
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
-      key: 'Menu_' + Guid.newGuid(),
+      key: 'menu_' + Guid.newGuid(),
       title: 'Menu',
       link: '',
       icon: "appstore",
@@ -316,7 +316,7 @@ export class MenuBuilderComponent implements OnInit {
     const selectedNode = this.selectedNode;
     let configObj: any = {
       id: selectedNode.id as string,
-      key: selectedNode.key,
+      key: selectedNode.key.toLowerCase(),
       title: selectedNode.title
     };
     switch (type) {
@@ -349,7 +349,6 @@ export class MenuBuilderComponent implements OnInit {
     this.formModalData = configObj;
   }
   addControlToJson(value: string, nodeType?: boolean) {
-
     if (this.selectedNode.isTitle && !nodeType) {
       return
     }
@@ -363,7 +362,7 @@ export class MenuBuilderComponent implements OnInit {
     if (value == 'input') {
       const newNode = {
         id: 'Menu_' + Guid.newGuid(),
-        key: 'Menu_' + Guid.newGuid(),
+        key: 'menu_' + Guid.newGuid(),
         title: 'Menu_' + nodesLength,
         link: '',
         icon: "appstore",
@@ -406,7 +405,7 @@ export class MenuBuilderComponent implements OnInit {
     else if (value == 'mainTab') {
       const newNode = {
         id: 'mainTab_' + Guid.newGuid(),
-        key: 'mainTab_' + Guid.newGuid(),
+        key: 'maintab_' + Guid.newGuid(),
         title: 'Main Tab',
         type: "mainTab",
         isNextChild: true,

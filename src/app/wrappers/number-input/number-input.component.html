@@ -20,9 +20,17 @@
         [nzReadOnly]="to.readonly" [nzSize]="to.config?.size" [nzStatus]="to.config?.status"
         [formControl]="formControl"></nz-input-number>
     </nz-input-group>
-    <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
+    <ng-template #prefixTemplateUser>
+      <span>
+        <st-icon *ngIf="to.config?.suffixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.suffixicon"
+          [size]="to.config?.iconSize" [color]="to.config?.iconColor"></st-icon>
+      </span>
+    </ng-template>
     <ng-template #suffixTemplateInfo>
-      <span nz-icon [nzType]="to.config?.prefixicon"></span>
+      <span>
+        <st-icon *ngIf="to.config?.prefixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.prefixicon"
+          [size]="to.config?.iconSize" [color]="to.config?.iconColor" ></st-icon>
+      </span>
     </ng-template>
   </ng-container>
   <div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">

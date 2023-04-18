@@ -70,8 +70,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutButtonComponent,
     TreeMapComponent,
     
-   
-
   ],
   imports: [
     FormsModule,

@@ -3,5 +3,8 @@
     [nzAllowClear]="rateData.clear" [nzAutoFocus]="rateData.focus" [nzCharacter]="characterIcon"
     [nzCount]="rateData.showCount" [nzDisabled]="rateData.disabled"></nz-rate>
 <ng-template #characterIcon>
-    <span nz-icon [nzType]="rateData.icon"></span>
+    <span *ngIf="rateData.icon">
+        <st-icon  [type]="rateData?.iconType || 'outline'" [icon]="rateData?.icon"
+          [size]="rateData?.iconSize" [color]="rateData?.iconColor"></st-icon>
+      </span>
 </ng-template>

@@ -1,5 +1,5 @@
 <ng-container *ngIf="to.config?.wrapper != 'floating_standard'">
-    <nz-input-group [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
+    <nz-input-group *ngIf="!to.config?.suffixicon && !to.config?.prefixicon" [nzSuffix]="to.config?.addonLeft" [nzPrefix]="to.config?.addonRight" [nzStatus]="to.config?.status"
         [nzSize]="to.config?.size">
         <nz-range-picker
             [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass.replace('block','') : ''"
@@ -12,7 +12,7 @@
         <label *ngIf="to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined'"
             [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
     </nz-input-group>
-    <nz-input-group *ngIf="to.config?.wrapper && to.config?.suffixicon || to.config?.prefixicon"
+    <nz-input-group *ngIf="to.config?.suffixicon || to.config?.prefixicon"
         [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser" [nzSize]="to.config?.size">
         <nz-range-picker
             [ngClass]="to.config?.wrapper && to.config?.wrapper == 'floating_filled' || to.config?.wrapper == 'floating_outlined' || to.config?.wrapper == 'floating_standard' ? to.config?.floatFieldClass.replace('block','') : ''"
@@ -26,10 +26,18 @@
             [ngClass]="to.config?.floatLabelClass">{{to.label}}</label>
     </nz-input-group>
 
-    <ng-template #prefixTemplateUser><span nz-icon [nzType]="to.config?.suffixicon"></span></ng-template>
-    <ng-template #suffixTemplateInfo>
-        <span nz-icon [nzType]="to.config?.prefixicon"></span>
-    </ng-template>
+    <ng-template #prefixTemplateUser>
+        <span>
+          <st-icon *ngIf="to.config?.suffixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.suffixicon"
+            [size]="to.config?.iconSize" [color]="to.config?.iconColor"></st-icon>
+        </span>
+      </ng-template>
+      <ng-template #suffixTemplateInfo>
+        <span>
+          <st-icon *ngIf="to.config?.prefixicon" [type]="to.config?.iconType || 'outline'" [icon]="to.config?.prefixicon"
+            [size]="to.config?.iconSize" [color]="to.config?.iconColor" ></st-icon>
+        </span>
+      </ng-template>
 </ng-container>
 <div class="relative z-0" *ngIf="to.config?.wrapper == 'floating_standard'">
     <nz-range-picker *ngIf="to.type == 'date'" id="floating_standard"

@@ -1,10 +1,13 @@
 <nz-divider *ngIf="dividerData.dividerText || dividerData.icon" [nzDashed]='dividerData.dashed'
     [nzType]='dividerData.dividerType' [nzText]="text" [nzPlain]="dividerData.plain"
-    [nzOrientation]="dividerData.orientation" >
+    [nzOrientation]="dividerData.orientation">
     <ng-template #text>
-        <span nz-icon [nzType]='dividerData.icon'></span>
-        {{dividerData.dividerText}}
+        <span>
+            <st-icon *ngIf="dividerData?.icon" [type]="dividerData?.iconType || 'outline'" [icon]="dividerData?.icon"
+                [size]="dividerData?.iconSize" [color]="dividerData?.iconColor"></st-icon>
+            {{dividerData.dividerText}}
+        </span>
     </ng-template>
 </nz-divider>
-<nz-divider *ngIf="!dividerData.dividerText && !dividerData.icon" [nzDashed]='dividerData.dashed' [nzType]='dividerData.dividerType'
-    ></nz-divider>
+<nz-divider *ngIf="!dividerData.dividerText && !dividerData.icon" [nzDashed]='dividerData.dashed'
+    [nzType]='dividerData.dividerType'></nz-divider>
