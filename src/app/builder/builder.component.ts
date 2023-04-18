@@ -1747,6 +1747,7 @@ export class BuilderComponent implements OnInit {
           case "repeatSection":
           case "multiselect":
             // case "tag":
+            // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -3914,20 +3915,21 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          this.selectedNode.options = {
+            title: event.form.title,
+            hAxis: {
+              title: event.form.hAxis,
+              minValue: 0
+            },
+            vAxis: {
+              title: event.form.vAxis
+            },
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
+          };
+
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
             this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
-            this.selectedNode.options = {
-              title: event.form.title,
-              hAxis: {
-                title: event.form.hAxis,
-                minValue: 0
-              },
-              vAxis: {
-                title: event.form.vAxis
-              },
-              colors: event.form.color
-            };
           }
         }
         break;

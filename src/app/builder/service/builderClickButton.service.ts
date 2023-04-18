@@ -984,7 +984,7 @@ export class BuilderClickButtonService {
   }
   getBarChartConfig(node: any) {
     return {
-      title: node?.options?.title,
+      // title: node?.options?.title,
       hAxis: node?.options?.hAxis.title,
       vAxis: node?.options?.vAxis.title,
       color: node?.options?.colors,
