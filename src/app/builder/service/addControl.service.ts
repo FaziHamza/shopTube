@@ -1736,27 +1736,33 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        // { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { id: '2010', col1: 10, col2: 24, col3: 20, col4: 32, col5: 18, col6: 5 },
+        { id: '2020', col1: 16, col2: 22, col3: 23, col4: 30, col5: 16, col6: 9 },
+        { id: '2030', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13 },
       ],
-      columns: ['City', '2010 Population', '2000 Population'],
       options: {
-        title: 'Population of Largest U.S. Cities',
-        subtitle: 'Based on most recent and previous census data',
-        colors: ['#1b9e77', '#d95f02'],
-        hAxis: {
-          title: 'Total Population',
-          minValue: 0,
-        },
-        vAxis: {
-          title: 'City',
-        }
+        title: "Density of Precious Metals, in g/cm^3",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
       },
-      width: 550,
+      width: 600,
+      height: 400,
+    }
+  }
+  orgChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { id: '2010', col1: 10, col2: 24, col3: 20, col4: 32, col5: 18, col6: 5 },
+        { id: '2020', col1: 16, col2: 22, col3: 23, col4: 30, col5: 16, col6: 9 },
+        { id: '2030', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13 },
+      ],
+      options: {
+        title: "Density of Precious Metals, in g/cm^3",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+      },
+      width: 600,
       height: 400,
     }
   }
@@ -1771,18 +1777,28 @@ export class AddControlService {
           { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate: null, endDate: '2015, 0, 10', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
           { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate: null, endDate: '2015, 0, 6', duration: 1, percentComplete: 100, dependencies: 'Research' },
         ],
-
+      options: {
+        criticalPathEnabled: false,
+        // isCriticalPath: false,
+        criticalPathStyle: {
+          stroke: '#e64a19',
+          strokeWidth: false,
+        },
+        innerGridHorizLine: {
+          stroke: false,
+          strokeWidth: 5,
+        },
+        arrow: {
+          angle: 100,
+          width: 550,
+          color: 'green',
+          radius: 0,
+        },
+        innerGridTrack: { fill: '#fff3e0' },
+        innerGridDarkTrack: { fill: '#ffcc80' }
+      },
       columns: ['taskID', 'taskName', 'Resource', 'startDate', 'endDate', 'duration', 'percentComplete', 'dependencies'],
-      isCriticalPath: false,//if true then criticalPathStyle apply
-      stroke: '#e64a19',
-      strokeWidth: 5,
-      angle: 100,
       arrowWidth: 5,
-      color: 'green',
-      radius: 0,
-      innerGridTrack: '#fff3e0',
-      innerGridDarkTrack: '#ffcc80',
-      width: 550,
       height: 400,
     }
   }
@@ -1798,11 +1814,13 @@ export class AddControlService {
         { label: 'France', value: 600 },
         { label: 'RU', value: 700 },
       ],
-      region: '002', // Africa
-      colorAxis: ['#00853f', 'black', '#e31b23'],
-      bgColor: '#81d4fa',
-      color: '#f8bbd0',
-      defaultColor: '#f5f5f5',
+      options: {
+        region: '002', // Africa
+        colorAxis: { colors: ['#00853f', 'black', '#e31b23'] },
+        backgroundColor: '#81d4fa',
+        datalessRegionColor: '#f8bbd0',
+        defaultColor: '#f5f5f5',
+      },
       width: 550,
       height: 400,
     }
@@ -1841,20 +1859,87 @@ export class AddControlService {
         { label: 'Ultrasaurus (ultra lizard)', value: 30.5 },
         { label: 'Velociraptor (swift robber)', value: 1.8 }
       ],
-      legend: { position: 'none' },
-      colors: ['green'],
-      // colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
-
-      histogram: {
-        lastBucketPercentile: 5,
-        bucketSize: 0.01,
-        maxNumBuckets: 400,
-        minValue: -1,
-        maxValue: 1
+      options: {
+        title: 'Histogram Chart',
+        legend: { position: 'none' },
+        colors: ['green'],
+        histogram: {
+          lastBucketPercentile: 5,
+          bucketSize: 0.01,
+          maxNumBuckets: 400,
+          minValue: -1,
+          maxValue: 1
+        },
+        vAxis: { scaleType: 'mirrorLog' },
+        hAxis: {},
       },
-      vAxis: { scaleType: 'mirrorLog' },
-      hAxis: {},
+      // colors: ['#5C3292', '#1A8763', '#871B47', '#999999'],
       bar: { gap: 0 },
+      width: 550,
+      height: 400,
+    }
+  }
+  treeMapChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { id: 'Global', value1: null, value2: 0, value3: 0 },
+        { id: 'America', value1: 'Global', value2: 0, value3: 0 },
+        { id: 'Europe', value1: 'Global', value2: 0, value3: 0 },
+        { id: 'Asia', value1: 'Global', value2: 0, value3: 0 },
+        { id: 'Australia', value1: 'Global', value2: 0, value3: 0 },
+        { id: 'Africa', value1: 'Global', value2: 0, value3: 0 },
+        { id: 'Brazil', value1: 'America', value2: 0, value3: 10 },
+        { id: 'USA', value1: 'America', value2: 11, value3: 31 },
+        { id: 'Mexico', value1: 'America', value2: 52, value3: 12 },
+        { id: 'Canada', value1: 'America', value2: 24, value3: -23 },
+        { id: 'France', value1: 'Europe', value2: 16, value3: -11 },
+        { id: 'Germany', value1: 'Europe', value2: 42, value3: -2 },
+        { id: 'Sweden', value1: 'Europe', value2: 31, value3: -13 },
+        { id: 'Italy', value1: 'Europe', value2: 17, value3: 4 },
+        { id: 'UK', value1: 'Europe', value2: 21, value3: -5 },
+        { id: 'China', value1: 'Asia', value2: 36, value3: 4 },
+        { id: 'Japan', value1: 'Asia', value2: 20, value3: -12 },
+        { id: 'India', value1: 'Asia', value2: 40, value3: 63 },
+        { id: 'Laos', value1: 'Asia', value2: 4, value3: 34 },
+        { id: 'Mongolia', value1: 'Asia', value2: 1, value3: -5 },
+        { id: 'Israel', value1: 'Asia', value2: 12, value3: 24 },
+        { id: 'Iran', value1: 'Asia', value2: 18, value3: 13},
+        { id: 'Pakistan', value1: 'Asia', value2: 11, value3: -52 },
+        { id: 'Egypt', value1: 'Africa', value2: 21, value3: 0 },
+        { id: 'S. Africa', value1: 'Africa', value2: 30, value3: 43 },
+        { id: 'Sudan', value1: 'Africa', value2: 12, value3: 2 },
+        { id: 'Congo', value1: 'Africa', value2: 10, value3: 12 },
+        { id: 'Zaire', value1: 'Africa', value2: 31, value3: 10 },
+      ],
+      options: { // For v49 or before
+        highlightOnMouseOver: true,
+        maxDepth: 1,
+        maxPostDepth: 2,
+        minHighlightColor: 'black',
+        midHighlightColor: 'yellow',
+        // maxHighlightColor: 'purple',
+        // minColor: 'red',
+        midColor: 'blue',
+        maxColor: 'green',
+        headerHeight: 15,
+        showScale: true,
+        useWeightedAverageForAggregation: true
+      },
+      width: 550,
+      height: 400,
+    }
+  }
+  tableChartControl() {
+    return {
+      isNextChild: false,
+      tableData: [
+        { col1: 'Mike', col2: 'John', col3: 'Doe', col4: 'Bob' },
+        { col1: 'Bob', col2: 'Dinosaur', col3: 'Alice', col4: 'John' },
+        { col1: 'John', col2: 'Mike', col3: 'Dinosaur', col4: 'Bob' },
+        { col1: 'Dinosaur', col2: 'Doe', col3: 'John', col4: 'Doe' },
+
+      ],
       width: 550,
       height: 400,
     }

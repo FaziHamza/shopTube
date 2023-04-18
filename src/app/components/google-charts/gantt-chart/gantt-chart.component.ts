@@ -19,7 +19,7 @@ export class GanttChartComponent implements OnInit {
     ["Percent Complete"],
     ["Dependencies"]
   ];
-  chartData: any;
+  @Input() chartData: any;
   daysToMilliseconds(days: any) {
     return days * 24 * 60 * 60 * 1000;
   }
@@ -31,28 +31,28 @@ export class GanttChartComponent implements OnInit {
   ngOnInit(): void {
     debugger
     this.chartData = this.charts.tableData.map((data: any) => [data.taskID, data.taskName, data.resource, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate), data.duration, data.percentComplete, data.dependencies]);
-    this.chartOptions = {
-      height: 275,
-      gantt: {
-        criticalPathEnabled: this.charts.isCriticalPath,//if true then criticalPathStyle apply
-        criticalPathStyle: {
-          stroke: this.charts.stroke,
-          strokeWidth: this.charts.isCriticalPath
-        },
-        innerGridHorizLine: {
-          stroke: this.charts.isCriticalPath,
-          strokeWidth: this.charts.strokeWidth
-        },
-        arrow: {
-          angle: this.charts.angle,
-          width: this.charts.arrowWidth,
-          color: this.charts.color,
-          radius: this.charts.radius
-        },
-        innerGridTrack: { fill: this.charts.innerGridTrack },
-        innerGridDarkTrack: { fill: this.charts.innerGridDarkTrack }
-      }
-    };
+    // this.chartOptions = {
+    //   height: 275,
+    //   gantt: {
+    //     criticalPathEnabled: this.charts.isCriticalPath,//if true then criticalPathStyle apply
+    //     criticalPathStyle: {
+    //       stroke: this.charts.stroke,
+    //       strokeWidth: this.charts.isCriticalPath
+    //     },
+    //     innerGridHorizLine: {
+    //       stroke: this.charts.isCriticalPath,
+    //       strokeWidth: this.charts.strokeWidth
+    //     },
+    //     arrow: {
+    //       angle: this.charts.angle,
+    //       width: this.charts.arrowWidth,
+    //       color: this.charts.color,
+    //       radius: this.charts.radius
+    //     },
+    //     innerGridTrack: { fill: this.charts.innerGridTrack },
+    //     innerGridDarkTrack: { fill: this.charts.innerGridDarkTrack }
+    //   }
+    // };
   }
   convertIntoDate(date: any) {
     if (!date) {

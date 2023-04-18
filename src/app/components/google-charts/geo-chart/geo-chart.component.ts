@@ -9,19 +9,19 @@ import { ChartType } from 'angular-google-charts';
 export class GeoChartComponent implements OnInit {
   @Input() charts: any;
   chartType = ChartType.GeoChart;
-  chartData: any;
+  @Input() chartData: any;
   options: any;
   constructor() { }
 
   ngOnInit(): void {
     this.chartData = this.charts.tableData.map((data: any) => [data.label, data.value]);
-    this.options = {
-      region: this.charts.region, // Africa
-      colorAxis: { colors: this.charts.colorAxis },
-      backgroundColor: this.charts.bgColor,
-      datalessRegionColor: this.charts.color,
-      defaultColor: this.charts.defaultColor,
-    };
+      // this.options = {
+      //   region: this.charts.region, // Africa
+      //   colorAxis: { colors: this.charts.colorAxis },
+      //   backgroundColor: this.charts.bgColor,
+      //   datalessRegionColor: this.charts.color,
+      //   defaultColor: this.charts.defaultColor,
+      // };
   }
 
 }

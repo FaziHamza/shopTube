@@ -9,12 +9,12 @@ import { ChartType } from 'angular-google-charts';
 export class CandlestickChartComponent implements OnInit {
   @Input() charts: any;
   chartType = ChartType.CandlestickChart;
-  chartData: any;
+  @Input() chartData: any;
   constructor() { }
 
   ngOnInit(): void {
     debugger
-    this.charts.tableData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+    this.chartData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
   }
 
 }
