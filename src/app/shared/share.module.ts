@@ -25,7 +25,7 @@ import {
   ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
-  TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent OrgChartComponent,TableChartComponent,
+  TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent, OrgChartComponent,TableChartComponent,
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';

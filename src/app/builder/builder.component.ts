@@ -246,7 +246,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-
+    debugger
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
