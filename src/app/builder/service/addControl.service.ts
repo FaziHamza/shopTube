@@ -1807,11 +1807,11 @@ export class AddControlService {
       isNextChild: false,
       tableData:
         [
-          { taskID: "Research", taskName: 'Find sources', resource: null, startDate: '2015, 0, 1', endDate: '2015, 0, 5', duration: null, percentComplete: 100, dependencies: null },
-          { taskID: "Write", taskName: 'Write paper', resource: null, startDate: null, endDate: '2015, 0, 9', duration: 3, percentComplete: 25, dependencies: 'Research,Outline' },
-          { taskID: "Cite", taskName: 'Create bibliography', resource: null, startDate: null, endDate: '2015, 0, 7', duration: 1, percentComplete: 20, dependencies: 'Research' },
-          { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate: null, endDate: '2015, 0, 10', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
-          { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate: null, endDate: '2015, 0, 6', duration: 1, percentComplete: 100, dependencies: 'Research' },
+          { taskID: "Research", taskName: 'Find sources', resource: null,startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: null, percentComplete: 100, dependencies: null },
+          { taskID: "Write", taskName: 'Write paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 3, percentComplete: 25, dependencies: 'Research,Outline' },
+          { taskID: "Cite", taskName: 'Create bibliography', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 20, dependencies: 'Research' },
+          { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
+          { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 100, dependencies: 'Research' },
         ],
       options: {
         criticalPathEnabled: false,
@@ -2109,15 +2109,9 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { label: 'Magnolia Room', value: 'CSS Fundamentals', startDate: '0, 0, 0, 12, 0, 0', endDate: '0, 0, 0, 14, 0, 0' },
-        { label: 'Magnolia Room', value: 'Intro JavaScript', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
-        { label: 'Magnolia Room', value: 'Advanced JavaScript', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 19, 0, 0' },
-        { label: 'Gladiolus Room', value: 'Intermediate Perl', startDate: '0, 0, 0, 12, 30, 0', endDate: '0, 0, 0, 14, 0, 0' },
-        { label: 'Gladiolus Room', value: 'Advanced Perl', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
-        { label: 'Gladiolus Room', value: 'Applied Perl', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 18, 0, 0' },
-        { label: 'Petunia Room', value: 'Google Charts', startDate: '0, 0, 0, 12, 30, 0', endDate: '0, 0, 0, 14, 0, 0' },
-        { label: 'Petunia Room', value: 'Closure', startDate: '0, 0, 0, 14, 30, 0', endDate: '0, 0, 0, 16, 0, 0' },
-        { label: 'Petunia Room', value: 'App Engine', startDate: '0, 0, 0, 16, 30, 0', endDate: '0, 0, 0, 18, 30, 0' }
+        { label: 'Magnolia Room', value: 'CSS Fundamentals',startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
+        { label: 'Magnolia Room1', value: 'Intro JavaScript', startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
+        { label: 'Magnolia Room2', value: 'Advanced JavaScript', startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
       ],
       options: {
         timeline: {

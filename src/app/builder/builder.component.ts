@@ -397,7 +397,7 @@ export class BuilderComponent implements OnInit {
       this.addControlToJson('pageBody', null);
       this.selectedNode = this.sectionBageBody;
       this.addControlToJson('sections', null);
-      this.selectedNode = this.sectionsections;
+      this.selectedNode = this.sections;
       this.addControlToJson('header', null);
       this.addControlToJson('body', null);
       this.addControlToJson('footer', null);
@@ -446,7 +446,7 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectForDropdown: any;
-  sectionsections: TreeNode;
+  sections: TreeNode;
   sectionBageBody: TreeNode;
   sectionAccorBody: TreeNode;
   stepperAdd: TreeNode;
@@ -868,7 +868,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "sections":
         newNode = { ...newNode, ...this.addControlService.getSectionControl() };
-        this.sectionsections = newNode;
+        this.sections = newNode;
         break;
       case "header":
         newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
@@ -1474,12 +1474,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "cascader":
         configObj = { ...configObj, ...this.clickButtonService.getCascaderConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.cascaderFields , false);
+        this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.formData = _formFieldData.cascaderFields;
         break;
       case "tree":
         configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.treeFields , false);
+        this.addIconCommonConfiguration(_formFieldData.treeFields, false);
         this.fieldData.formData = _formFieldData.treeFields;
         break;
       case "htmlBlock":
@@ -1505,7 +1505,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "rate":
         configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.rateFields , true);
+        this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
         break;
 
@@ -1531,12 +1531,12 @@ export class BuilderComponent implements OnInit {
         break;
       case "statistic":
         configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.statisticFields , true);
+        this.addIconCommonConfiguration(_formFieldData.statisticFields, true);
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
       case "tag":
         configObj = { ...configObj, ...this.clickButtonService.getnzTagConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.nzTagFields , false);
+        this.addIconCommonConfiguration(_formFieldData.nzTagFields, false);
         this.fieldData.formData = _formFieldData.nzTagFields;
         break;
       case "message":
@@ -1545,7 +1545,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "notification":
         configObj = { ...configObj, ...this.clickButtonService.getnotificationConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.notificationFields , true);
+        this.addIconCommonConfiguration(_formFieldData.notificationFields, true);
         this.fieldData.formData = _formFieldData.notificationFields;
         break;
       case "list":
@@ -1655,7 +1655,7 @@ export class BuilderComponent implements OnInit {
       case "tabs":
 
         configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.tabsFields , true)
+        this.addIconCommonConfiguration(_formFieldData.tabsFields, true)
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
 
@@ -1683,7 +1683,7 @@ export class BuilderComponent implements OnInit {
 
       case "divider":
         configObj = { ...configObj, ...this.clickButtonService.getDividerConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.dividerFeilds , true);
+        this.addIconCommonConfiguration(_formFieldData.dividerFeilds, true);
         this.fieldData.formData = _formFieldData.dividerFeilds;
         break;
 
@@ -1709,7 +1709,7 @@ export class BuilderComponent implements OnInit {
 
       case "timeline":
         configObj = { ...configObj, ...this.clickButtonService.getTimelineConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.timelineFeilds , false);
+        this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
         this.fieldData.formData = _formFieldData.timelineFeilds;
         break;
 
@@ -1728,7 +1728,7 @@ export class BuilderComponent implements OnInit {
 
       case "paragraph":
         configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.paragraphFields , false);
+        this.addIconCommonConfiguration(_formFieldData.paragraphFields, false);
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
 
@@ -1800,23 +1800,23 @@ export class BuilderComponent implements OnInit {
       //   break;
       case "button":
         configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.buttonFields , true);
+        this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case "dropdownButton":
         configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields , true);
+        this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
         debugger
         configObj = { ...configObj, ...this.clickButtonService.getAccordionButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.accordionButtonFields , true);
+        this.addIconCommonConfiguration(_formFieldData.accordionButtonFields, true);
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case "linkbutton":
         configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.linkButtonFields , true);
+        this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
       case "buttonGroup":
@@ -1888,7 +1888,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "step":
         configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.stepperFields , true);
+        this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
       case "mainStep":
@@ -1898,6 +1898,9 @@ export class BuilderComponent implements OnInit {
       case "listWithComponents":
         configObj = { ...configObj, ...this.clickButtonService.getlistWithComponentsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.listWithComponentsFields;
+        break;
+      case "listWithComponentsChild":
+        this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
         break;
       case "tabsMain":
         configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
@@ -2090,7 +2093,7 @@ export class BuilderComponent implements OnInit {
     this.sectionBageBody = this.nodes[0].children[1];
     this.selectedNode = this.sectionBageBody,
       this.addControlToJson('sections', null);
-    this.selectedNode = this.sectionsections;
+    this.selectedNode = this.sections;
     this.addControlToJson('header', null);
     this.addControlToJson('body', null);
     this.addControlToJson('footer', null);
@@ -2490,6 +2493,7 @@ export class BuilderComponent implements OnInit {
       case "cardWithComponents":
         if (this.selectedNode) {
           this.selectedNode.borderless = event.form.borderless;
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
         }
         break;
       case "video":
@@ -3464,9 +3468,10 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.divClass = event.form.divClass;
           if (event.form.imageSrc) {
             this.selectedNode.imageSrc = event.form.imageSrc
-          }else{
+          } else {
             this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
           }
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
         }
         break;
       case "dropdownButton":
@@ -3512,6 +3517,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.updateNodes();
         }
         break;
       //Card Case
@@ -3530,6 +3537,24 @@ export class BuilderComponent implements OnInit {
       case "fixedDiv":
         if (this.selectedNode) {
           this.selectedNode.hideExpression = event.form.hideExpression;
+          if (event.form.api) {
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+                if (Array.isArray(res)) {
+                  res.forEach((item) => {
+                    this.selectedNode?.children?.push(item);
+                  })
+                } else {
+                  this.selectedNode?.children?.push(res);
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
+          }
         }
         break;
 
@@ -3654,7 +3679,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
           // this.selectedNode.percentage = event.form.percentage;
-
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
           this.updateNodes()
         }
         break;
@@ -3676,7 +3701,14 @@ export class BuilderComponent implements OnInit {
       case "listWithComponents":
         if (this.selectedNode) {
           this.selectedNode.nodes = event.form.nodes;
-          this.addDynamic(event.form.nodes,  'listWithComponentsChild' , 'listWithComponents')
+          this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.updateNodes();
+        }
+        break;
+      case "listWithComponentsChild":
+        if (this.selectedNode) {
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
           this.updateNodes();
         }
         break;
@@ -3727,6 +3759,29 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.wrappers = event.form.wrappers;
             this.clickBack();
           }
+          if (event.form.api) {
+            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+              next: (res) => {
+
+                if (Array.isArray(res)) {
+                  res.forEach((item) => {
+                    if (this.selectedNode?.children) {
+                      this.selectedNode?.children[1]?.children?.push(item);
+                    }
+                  })
+                } else {
+                  if (this.selectedNode?.children) {
+                    this.selectedNode?.children[1]?.children?.push(res);
+                  }
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              }
+            })
+          }
         }
         break;
       case "header":
@@ -3747,6 +3802,8 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
+          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.updateNodes()
         }
         break;
 
@@ -3794,6 +3851,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
+          this.selectedNode = this.api(event.form.api , this.selectedNode)
           this.updateNodes();
         }
         break;
@@ -4131,7 +4189,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate), data.duration, data.percentComplete, data.dependencies]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, new Date(data.startDate), new Date(data.endDate), data.duration, data.percentComplete, data.dependencies]);
           }
         }
         break;
@@ -4173,7 +4231,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1 , data.value2 , data.value3]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1, data.value2, data.value3]);
           }
         }
         break;
@@ -4316,7 +4374,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate)]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value, new Date(data.startDate), new Date(data.endDate)]);
           }
           this.selectedNode.options = {
             timeline: {
@@ -4666,5 +4724,26 @@ export class BuilderComponent implements OnInit {
   //   return false;
   // }
 
+  api(value?: any, data?: any) {
+    if (value) {
+      this.requestSubscription = this.builderService.genericApis(value).subscribe({
+        next: (res) => {
+          if (Array.isArray(res)) {
+            res.forEach((item) => {
+              data?.children?.push(item);
+            })
+          } else {
+            data?.children?.push(res);
+          }
+          this.updateNodes();
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      })
+    }
+    return data;
+  }
 }
 

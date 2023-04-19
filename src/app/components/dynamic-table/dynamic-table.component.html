@@ -13,12 +13,11 @@
 </div>
 <br />
 <br />
-<nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData" [nzScroll]="{ x: '100vw', y: null }" 
-  [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
+<nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData"
+  [nzScroll]="{ x: '100vw', y: null }" [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
   [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='data?.nzFrontPagination'
   [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize"
-  [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger"
-  >
+  [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
   <thead>
     <tr *ngIf="data.showColumnHeader">
       <th nzWidth="40px" *ngIf="data.expandable"></th>
@@ -41,17 +40,21 @@
 
             <td [nzEllipsis]="true"
               *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
-              <div *ngIf="tableHeaders[index].dataType !='select'">
+              <div *ngIf="tableHeaders[index].dataType !='select' && tableHeaders[index].dataType !='image'">
                 <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
                   {{item[header.name]}}
                 </div>
                 <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
               </div>
-              <nz-select *ngIf="tableHeaders[index].dataType =='select'" style="width: 100px"
+              <nz-select *ngIf="tableHeaders[index].dataType =='select' && tableHeaders[index].dataType !='image'" style="width: 100px"
                 nzPlaceHolder="Select Colors" [(ngModel)]="item[header.name]">
                 <nz-option *ngFor="let option of selectList" [nzLabel]="option.key" [nzValue]="option.value">
                 </nz-option>
               </nz-select>
+              <div *ngIf="tableHeaders[index].dataType =='image'">
+                <img nz-image width="80px" height="80px"
+                  nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
+              </div>
             </td>
             <td *ngIf="header.name == 'headerButton'">
               <button (click)="showModal('Header')" type="button"

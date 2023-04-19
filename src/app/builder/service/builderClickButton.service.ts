@@ -1075,7 +1075,7 @@ export class BuilderClickButtonService {
       angle: node?.options?.arrow?.angle,
       arrowWidth: node?.options?.arrow.width,
       radius: node?.options?.arrow?.color?.radius,
-      innerGridTrack: node?.options?.innerGridTrack?.fill.innerGridTrack,
+      innerGridTrack: node?.options?.innerGridTrack?.fill?.innerGridTrack,
       innerGridDarkTrack: node?.options.innerGridDarkTrack?.fill?.innerGridDarkTrack,
       width: node?.width,
       height: node?.height,
