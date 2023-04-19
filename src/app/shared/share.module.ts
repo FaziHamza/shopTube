@@ -1,6 +1,5 @@
-import { AppRoutingModule } from './../app-routing.module';
 import { PagesComponent } from './../pages/pages.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericFieldComponent } from '../builder/generic-field/generic-field.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,8 +10,6 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { AngularSplitModule } from 'angular-split';
-import { NgxDropzoneModule } from 'ngx-dropzone';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MainComponent } from '../main/main.component';
 import {
   AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
@@ -50,7 +47,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
       FullCalendarModule,
       RouterModule,
       GoogleChartsModule,
-      
+
     ],
   declarations: [
     GenericFieldComponent,

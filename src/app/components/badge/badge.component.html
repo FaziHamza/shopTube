@@ -25,7 +25,10 @@
 ></nz-badge>
 
   <ng-template #iconTemplate>
-    <span nz-icon [nzType]="badgeData.icon" class="ant-scroll-number-custom-component" ></span>
+    <span *ngIf="badgeData.icon" class="ant-scroll-number-custom-component">
+      <st-icon  [type]="badgeData.iconType || 'outline'" [icon]="badgeData.icon"
+        [size]="badgeData.iconSize" [color]="badgeData.iconColor"></st-icon>
+    </span>
   </ng-template>
 
 

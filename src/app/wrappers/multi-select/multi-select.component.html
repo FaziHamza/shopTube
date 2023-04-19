@@ -11,7 +11,7 @@
             [nzShowArrow]="to['additionalProperties']?.showArrow || false" [nzShowSearch]="to['additionalProperties']?.showSearch || false"
             [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon" [nzLoading]="to['additionalProperties']?.loading"
             [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30" [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10"
-            [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" >
+            [nzSize]="to['additionalProperties']?.size" [nzDisabled]="to.disabled" [nzStatus]="to['additionalProperties']?.status" >
             <nz-option *ngFor="let item of list" [nzLabel]="item.label"
                 [nzDisabled]="to['additionalProperties']?.optionDisabled || false" [nzValue]="item.value"
                 [nzHide]="to['additionalProperties']?.optionHide || false"></nz-option>
@@ -30,7 +30,7 @@
             [nzShowArrow]="to['additionalProperties']?.showArrow || false" [nzShowSearch]="to['additionalProperties']?.showSearch || false"
             [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon" [nzLoading]="to['additionalProperties']?.loading"
             [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30" [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10"
-            [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" >
+            [nzSize]="to['additionalProperties']?.size" [nzDisabled]="to.disabled" [nzStatus]="to['additionalProperties']?.status" >
             <nz-option *ngFor="let item of list" [nzLabel]="item.label"
                 [nzDisabled]="to['additionalProperties']?.optionDisabled || false" [nzValue]="item.value"
                 [nzHide]="to['additionalProperties']?.optionHide || false"></nz-option>
@@ -50,7 +50,7 @@
         [nzShowArrow]="to['additionalProperties']?.showArrow || false" [nzShowSearch]="to['additionalProperties']?.showSearch || false"
         [nzRemoveIcon]="characterIcon" [nzClearIcon]="characterIcon" [nzLoading]="to['additionalProperties']?.loading"
         [nzOptionHeightPx]="to['additionalProperties']?.optionHieght || 30" [nzOptionOverflowSize]="to['additionalProperties']?.optionHieght || 10"
-        [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
+        [nzSize]="to['additionalProperties']?.size" [nzDisabled]="to.disabled" [nzStatus]="to['additionalProperties']?.status">
         <nz-option *ngFor="let item of list" [nzLabel]="item.label" [nzDisabled]="to['additionalProperties']?.optionDisabled || false"
             [nzValue]="item.value" [nzHide]="to['additionalProperties']?.optionHide || false"></nz-option>
     </nz-select>

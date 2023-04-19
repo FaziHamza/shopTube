@@ -6,7 +6,11 @@ import { Injectable } from "@angular/core";
 export class BuilderClickButtonService {
 
   getDrawerConfig(node: any) {
-    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, };
+    return { color: node.color, btnText: node.btnText, isClosable: node.isClosable, icon: node.icon, extra: node.extra, isKeyboard: node.isKeyboard, title: node.title, footerText: node.footerText, isVisible: node.isVisible, placement: node.placement, size: node.size, width: node.width, height: node.height, offsetX: node.offsetX, offsetY: node.offsetY, wrapClassName: node.wrapClassName, zIndex: node.zIndex, onClose: node.onClose, content: node.content, 
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
+    };
   }
   getcardWithComponentsConfig(node: any) {
     return { borderless: node.borderless };
@@ -139,6 +143,9 @@ export class BuilderClickButtonService {
       status: node.status,
       icon: node.icon,
       offset: node.offset,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     };
   }
   getMentionConfig(node: any) {
@@ -208,6 +215,9 @@ export class BuilderClickButtonService {
       width: node.width,
       showCloseIcon: node.showCloseIcon,
       zIndex: node.zIndex,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     };
   }
 
@@ -304,9 +314,9 @@ export class BuilderClickButtonService {
       resultTitle: node.resultTitle,
       subTitle: node.subTitle,
       btnLabel: node.btnLabel,
-      icon: node.icon,
+      // icon: node.icon,
       extra: node.extra,
-
+      
     }
   }
 
@@ -580,8 +590,11 @@ export class BuilderClickButtonService {
       closeable: node.closeable,
       description: node.description,
       closeText: node.closeText,
-      iconType: node.iconType,
+      // iconType: node.iconType,
       action: node.action,
+      iconType: node['iconType'],
+      iconSize: node['iconSize'],
+      iconColor: node['iconColor'],
     }
   }
 
