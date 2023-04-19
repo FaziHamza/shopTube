@@ -813,7 +813,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'buttonGroup')
       return 'w-11/12';
     else
-      return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
+      return '';
   }
   addControlToJson(value: string, data?: any) {
     debugger
@@ -1220,7 +1220,7 @@ export class BuilderComponent implements OnInit {
                     wrappers: this.getLastNodeWrapper("wrappers"),
                     props: {
                       multiple: true,
-                      className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+                      className: '',
                       attributes: {
                         autocomplete: 'off',
                       },
