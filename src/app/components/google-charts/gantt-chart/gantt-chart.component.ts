@@ -30,7 +30,7 @@ export class GanttChartComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    this.chartData = this.charts.tableData.map((data: any) => [data.taskID, data.taskName, data.resource, this.convertIntoDate(data.startDate), this.convertIntoDate(data.endDate), data.duration, data.percentComplete, data.dependencies]);
+    this.chartData = this.charts.tableData.map((data: any) => [data.taskID, data.taskName, data.resource, new Date(data.startDate), new Date(data.endDate), data.duration, data.percentComplete, data.dependencies]);
     // this.chartOptions = {
     //   height: 275,
     //   gantt: {

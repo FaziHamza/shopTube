@@ -544,7 +544,7 @@
                     <ng-template #eightyEight>
                         <div *ngIf="item.type == 'timelineChart'; else eightyNine">
                             <div [class]="item.divClass">
-                                <st-timeline-chart [charts]="item"></st-timeline-chart>
+                                <st-timeline-chart [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-timeline-chart>
                             </div>
                         </div>
                     </ng-template>

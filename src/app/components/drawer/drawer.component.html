@@ -6,7 +6,7 @@
     [nzTitle]="drawerData.title" 
     (nzOnClose)="close()" 
     [nzClosable]="true"
-    [nzCloseIcon]="drawerData.icon" 
+    [nzCloseIcon]="iconTemplate" 
     [nzExtra]="extra" 
     [nzKeyboard]="drawerData.isKeyboard"
     [nzFooter]="drawerData.footerText" 
@@ -32,3 +32,10 @@
     <button nz-button nzType="primary" (click)="close()">OK</button>
 </ng-template>
 
+
+<ng-template #iconTemplate>
+    <span *ngIf="drawerData.icon" class="ant-scroll-number-custom-component">
+      <st-icon  [type]="drawerData.iconType || 'outline'" [icon]="drawerData.icon"
+        [size]="drawerData.iconSize" [color]="drawerData.iconColor"></st-icon>
+    </span>
+  </ng-template>
