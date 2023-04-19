@@ -3868,7 +3868,7 @@ export class formFeildData {
         },
       ]
     },
-    
+
   ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
@@ -11272,6 +11272,63 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hAxisTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'vAxisTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'vAxis Title',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'groupWidth',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'groupWidth',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'barType',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Bar Type',
+            options: [
+              {
+                label: 'Horizontal',
+                value: 'horizontal'
+              },
+              {
+                label: 'Vertical',
+                value: 'vertical'
+              }
+            ]
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isStacked',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'isStacked',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'width',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11291,25 +11348,7 @@ export class formFeildData {
           },
         },
         {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'hAxis',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'hAxis Title',
-          },
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'vAxis',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'vAxis Title',
-          },
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          className: "w-full",
           key: 'color',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11318,7 +11357,17 @@ export class formFeildData {
           },
         },
         {
-          template: '<br/><div class="bold-label mt-3">Data</div>',
+          className: "w-full",
+          key: 'columnNames',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Column Names',
+          },
+        },
+        {
+          template: '<div class="w-full"><h4 class="mb-2 mt-2 text-center text-2xl font-medium leading-tight text-primary"> Chart Data </h4> </div>',
         },
         {
           key: 'tableData',
@@ -11360,6 +11409,20 @@ export class formFeildData {
                   type: "number"
                 }
               },
+              {
+                key: 'style',
+                type: 'input',
+                props: {
+                  label: 'style'
+                }
+              },
+              {
+                key: 'annotation',
+                type: 'input',
+                props: {
+                  label: 'annotation'
+                }
+              }
             ]
           }
         }
@@ -11483,12 +11546,67 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hAxisTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hAxis Title'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'vAxisTitle',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'vAxis Title'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'fontSize',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
-            label: 'font Size',
+            label: 'font Size'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'fontName',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'fontName'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'color'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'bold',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'bold'
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'italic',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'italic'
           },
         },
         {
@@ -11498,7 +11616,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
-            label: 'Width',
+            label: 'Width'
           },
         },
         {
@@ -11508,11 +11626,31 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
-            label: 'Height',
+            label: 'Height'
           },
         },
         {
-          template: '<div class="bold-label mt-3">Data</div>',
+          className: "w-full",
+          key: 'colorAxis',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Color Axis'
+          },
+        },
+        {
+          className: "w-full",
+          key: 'columnNames',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Column Names'
+          },
+        },
+        {
+          template: '<div class="w-full"><h4 class="mb-2 mt-2 text-center text-2xl font-medium leading-tight text-primary"> Chart Data </h4> </div>',
         },
         {
           key: 'tableData',
@@ -11669,22 +11807,20 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'width',
+          key: 'hAxisTitle',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type: 'number',
-            label: 'Width',
+            label: 'hAxis Title',
           },
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'height',
+          key: 'vAxisTitle',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type: 'number',
-            label: 'Height',
+            label: 'vAxis Title',
           },
         },
         {
@@ -11704,7 +11840,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'input',
-            label: 'position',
+            label: 'Legend Position',
             options: [
               {
                 label: 'top',
@@ -11714,19 +11850,78 @@ export class formFeildData {
                 label: 'bottom',
                 value: 'bottom'
               },
-              // {
-              //   label: 'left',
-              //   value: 'left'
-              // },
               {
                 label: 'right',
                 value: 'right'
               },
+              {
+                label: 'none',
+                value: 'none'
+              }
             ]
           },
         },
         {
-          template: '<div class="bold-label mt-3">Data</div>',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'maxLines',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Legend maxLines',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isStacked',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'isStacked',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Width',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Height',
+          },
+        },
+        {
+          className: "w-full",
+          key: 'color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Column Colors',
+          },
+        },
+        {
+          className: "w-full",
+          key: 'columnNames',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'input',
+            label: 'Column Names',
+          },
+        },
+        {
+          template: '<div class="w-full"><h4 class="mb-2 mt-2 text-center text-2xl font-medium leading-tight text-primary"> Chart Data </h4> </div>',
         },
         {
           key: 'tableData',
@@ -11793,6 +11988,20 @@ export class formFeildData {
                   type: "number"
                 }
               },
+              {
+                key: 'style',
+                type: 'input',
+                props: {
+                  label: 'style'
+                }
+              },
+              {
+                key: 'annotation',
+                type: 'input',
+                props: {
+                  label: 'annotation'
+                }
+              }
             ]
           }
         }

@@ -519,5 +519,6 @@ export interface TreeNode {
   hAxis?: any,
   vAxis?: any
   chartData?: any,
-  chartOptions?: any
+  chartOptions?: any,
+  columnNames?: any
 }

@@ -807,7 +807,7 @@ export class AddControlService {
       mode: 'left',
       iconType: 'outline',
       iconSize: 15,
-      iconColor:'',
+      iconColor: '',
       data: [
         {
           title: "Timeline Event One",
@@ -1661,22 +1661,18 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { name: 'City', value: '2010 Population', value2: '2000 Population' },
-        { name: 'New York City, NY', value: 8175000, value2: 8008000 },
-        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000 },
-        { name: 'Chicago, IL', value: 2695000, value2: 2896000 },
-        { name: 'Houston, TX', value: 2099000, value2: 1953000 },
-        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000 }
+        { name: 'New York City, NY', value: 8175000, value2: 8008000, style: 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF', annotation: '' },
+        { name: 'Los Angeles, CA', value: 3792000, value2: 3694000, style: 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 8; fill-color: #BC5679; fill-opacity: 0.2', annotation: '' },
+        { name: 'Chicago, IL', value: 2695000, value2: 2896000, style: 'opacity: 0.2', annotation: '' },
+        { name: 'Houston, TX', value: 2099000, value2: 1953000, style: 'color: #76A7FA', annotation: '' },
+        { name: 'Philadelphia, PA', value: 1526000, value2: 1517000, style: 'color: gray', annotation: '' }
       ],
-      tableHeaders: [
-        { name: 'City' },
-        { name: '2010 Population' },
-        { name: '2000 Population' }
-      ],
+      columnNames: ['City', '2010 Population', '2000 Population'],
       options: {
-        title: 'Population of the largest US cities',
-        // chartArea: { width: 550,
-        //   height: 400 },
+        chart: {
+          title: 'Population of the largest US cities',
+          subtitle: 'US Cities',
+        },
         hAxis: {
           title: 'Total Population',
           minValue: 0
@@ -1684,7 +1680,10 @@ export class AddControlService {
         vAxis: {
           title: 'City'
         },
-        colors: ['#1b9e77', '#d95f02']
+        colors: ['#1b9e77', '#d95f02'],
+        bar: { groupWidth: "95%" },
+        bars: 'horizontal',
+        isStacked: false,
       },
       width: 550,
       height: 400,
@@ -1726,8 +1725,8 @@ export class AddControlService {
   bubbleChartControl() {
     return {
       isNextChild: false,
+      columnNames: ['ID', 'X', 'Y', 'Temperature'],
       tableData: [
-        // { id: 'ID', x: 'X', y: 'Y', temprature: 'Temperature' },
         { id: 'A', x: 80, y: 167, temprature: 120 },
         { id: 'B', x: 79, y: 136, temprature: 130 },
         { id: 'C', x: 78, y: 184, temprature: 50 },
@@ -1738,11 +1737,17 @@ export class AddControlService {
       ],
       options: {
         title: 'Bubble Chart Example',
-        // width: 600,
-        // height: 400,
+        hAxis: { title: 'Life Expectancy' },
+        vAxis: { title: 'Fertility Rate' },
+        colorAxis: { colors: ['yellow', 'red'] },
         bubble: {
           textStyle: {
-            fontSize: 11
+            fontSize: 11,
+            fontName: 'Times-Roman',
+            auraColor: 'none',
+            color: 'green',
+            bold: true,
+            italic: true
           }
         }
       },
@@ -1771,15 +1776,28 @@ export class AddControlService {
   columnChartControl() {
     return {
       isNextChild: false,
+      columnNames: ['Genre', 'Fantasy & Sci Fi', 'Romance', 'Mystery/Crime', 'General', 'Western', 'Literature'],
       tableData: [
-        { id: '2010', col1: 10, col2: 24, col3: 20, col4: 32, col5: 18, col6: 5 },
-        { id: '2020', col1: 16, col2: 22, col3: 23, col4: 30, col5: 16, col6: 9 },
-        { id: '2030', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13 },
+        { id: '2000', col1: 10, col2: 24, col3: 20, col4: 32, col5: 18, col6: 5, style: 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF', annotation: '' },
+        { id: '2005', col1: 16, col2: 22, col3: 23, col4: 30, col5: 16, col6: 9, style: 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 8; fill-color: #BC5679; fill-opacity: 0.2', annotation: '' },
+        { id: '2010', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13, style: 'opacity: 0.2', annotation: '' },
+        { id: '2015', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13, style: 'color: #76A7FA', annotation: '' },
+        { id: '2020', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13, style: 'color: #76A7FA', annotation: '' },
+        { id: '2022', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13, style: 'color: gray', annotation: '' },
+        { id: '2023', col1: 28, col2: 19, col3: 29, col4: 30, col5: 12, col6: 13, style: 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 8; fill-color: #BC5679; fill-opacity: 0.2', annotation: '' },
       ],
       options: {
         title: "Density of Precious Metals, in g/cm^3",
         bar: { groupWidth: "95%" },
-        legend: { position: "none" },
+        legend: { position: "top", maxLines: 2 },
+        hAxis: {
+          title: 'Status'
+        },
+        vAxis: {
+          title: 'Status Down ', minValue: 0
+        },
+        isStacked: false,
+        colors: ['#5cb85c', '#f0ad4e', '#d9534f', '#5bc0de', '#f0ad4e', '#5cb85c', '#5bc0de']
       },
       width: 600,
       height: 400,
@@ -1807,11 +1825,11 @@ export class AddControlService {
       isNextChild: false,
       tableData:
         [
-          { taskID: "Research", taskName: 'Find sources', resource: null,startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: null, percentComplete: 100, dependencies: null },
-          { taskID: "Write", taskName: 'Write paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 3, percentComplete: 25, dependencies: 'Research,Outline' },
-          { taskID: "Cite", taskName: 'Create bibliography', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 20, dependencies: 'Research' },
-          { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
-          { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate : '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 100, dependencies: 'Research' },
+          { taskID: "Research", taskName: 'Find sources', resource: null, startDate: '1789, 3, 30', endDate: '1797, 2, 4', duration: null, percentComplete: 100, dependencies: null },
+          { taskID: "Write", taskName: 'Write paper', resource: null, startDate: '1789, 3, 30', endDate: '1797, 2, 4', duration: 3, percentComplete: 25, dependencies: 'Research,Outline' },
+          { taskID: "Cite", taskName: 'Create bibliography', resource: null, startDate: '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 20, dependencies: 'Research' },
+          { taskID: "Complete", taskName: 'Hand in paper', resource: null, startDate: '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 0, dependencies: 'Cite,Write' },
+          { taskID: "Outline", taskName: 'Outline paper', resource: null, startDate: '1789, 3, 30', endDate: '1797, 2, 4', duration: 1, percentComplete: 100, dependencies: 'Research' },
         ],
       options: {
         criticalPathEnabled: false,
@@ -2109,9 +2127,9 @@ export class AddControlService {
     return {
       isNextChild: false,
       tableData: [
-        { label: 'Magnolia Room', value: 'CSS Fundamentals',startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
-        { label: 'Magnolia Room1', value: 'Intro JavaScript', startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
-        { label: 'Magnolia Room2', value: 'Advanced JavaScript', startDate : '1789, 3, 30', endDate: '1797, 2, 4' },
+        { label: 'Magnolia Room', value: 'CSS Fundamentals', startDate: '1789, 3, 30', endDate: '1797, 2, 4' },
+        { label: 'Magnolia Room1', value: 'Intro JavaScript', startDate: '1789, 3, 30', endDate: '1797, 2, 4' },
+        { label: 'Magnolia Room2', value: 'Advanced JavaScript', startDate: '1789, 3, 30', endDate: '1797, 2, 4' },
       ],
       options: {
         timeline: {

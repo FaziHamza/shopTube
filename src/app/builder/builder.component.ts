@@ -2493,7 +2493,7 @@ export class BuilderComponent implements OnInit {
       case "cardWithComponents":
         if (this.selectedNode) {
           this.selectedNode.borderless = event.form.borderless;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
         }
         break;
       case "video":
@@ -3471,7 +3471,7 @@ export class BuilderComponent implements OnInit {
           } else {
             this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
           }
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
         }
         break;
       case "dropdownButton":
@@ -3517,7 +3517,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
@@ -3679,7 +3679,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
           // this.selectedNode.percentage = event.form.percentage;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes()
         }
         break;
@@ -3702,13 +3702,13 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.nodes = event.form.nodes;
           this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
       case "listWithComponentsChild":
         if (this.selectedNode) {
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
@@ -3802,7 +3802,7 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes()
         }
         break;
@@ -3851,7 +3851,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode = this.api(event.form.api , this.selectedNode)
+          this.selectedNode = this.api(event.form.api, this.selectedNode)
           this.updateNodes();
         }
         break;
@@ -4069,15 +4069,24 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          let data = event.form.columnNames;
+          data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
+          this.selectedNode.columnNames = data;
           this.selectedNode.options = {
-            title: event.form.title,
+            chart: {
+              title: event.form.title,
+              subtitle: event.form.subtitle,
+            },
             hAxis: {
-              title: event.form.hAxis,
+              title: event.form.hAxisTitle,
               minValue: 0
             },
             vAxis: {
-              title: event.form.vAxis
+              title: event.form.vAxisTitle
             },
+            bar: { groupWidth: event.form.groupWidth },
+            bars: event.form.barType,
+            isStacked: event.form.isStacked,
             colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
           };
 
@@ -4093,7 +4102,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value)]);
           }
           // const slicePairs = event.form.slices.split(',');
           // const slices: any = {};
@@ -4114,20 +4123,33 @@ export class BuilderComponent implements OnInit {
         break;
       case "bubbleChart":
         if (this.selectedNode) {
+          this.selectedNode.options.hAxis.fontSize = event.form.fontSize;
           this.selectedNode.options.bubble.textStyle.fontSize = event.form.fontSize;
+          this.selectedNode.options.bubble.textStyle.fontName = event.form.fontName;
+          this.selectedNode.options.bubble.textStyle.color = event.form.color;
+          this.selectedNode.options.bubble.textStyle.bold = event.form.bold;
+          this.selectedNode.options.bubble.textStyle.italic = event.form.italic;
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
           this.selectedNode.options = {
             title: event.form.title,
+            hAxis: { title: event.form.hAxisTitle },
+            vAxis: { title: event.form.vAxisTitle },
+            colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
             bubble: {
               textStyle: {
                 fontSize: event.form.fontSize,
+                fontName: event.form.fontName,
+                color: event.form.color,
+                bold: event.form.bold,
+                italic: event.form.italic
               }
             }
+
           };
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.x, data.y, data.temprature]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, Number(data.x), Number(data.y), Number(data.temprature)]);
           }
         }
         break;
@@ -4137,7 +4159,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.height = event.form.height;
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value1, data.value2, data.value3]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value), Number(data.value1), Number(data.value2), Number(data.value3)]);
           }
         }
         break;
@@ -4145,14 +4167,25 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.width = event.form.width;
           this.selectedNode.height = event.form.height;
+          let data = event.form.columnNames;
+          data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
+          this.selectedNode.columnNames = data;
           this.selectedNode.options = {
             title: event.form.title,
             bar: { groupWidth: event.form.groupWidth },
-            legend: { position: event.form.position },
+            legend: { position: event.form.position, maxLines: event.form.maxLines },
+            hAxis: {
+              title: event.form?.hAxisTitle
+            },
+            vAxis: {
+              title: event.form?.vAxisTitle,
+            },
+            isStacked: event.form.isStacked,
+            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
           }
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
+            this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6), data.style, data.annotation]);
           }
         }
         break;

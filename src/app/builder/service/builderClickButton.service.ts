@@ -118,7 +118,7 @@ export class BuilderClickButtonService {
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
       clear: node.clear, author: node.author, allowHalf: node.allowHalf, focus: node.focus, icon: node.icon, showCount: node.showCount, disabled: node.disabled,
-      ngvalue: node.ngvalue, options: mappedOptions ,iconType: node['iconType'],iconSize: node['iconSize'], iconColor: node['iconColor'],
+      ngvalue: node.ngvalue, options: mappedOptions, iconType: node['iconType'], iconSize: node['iconSize'], iconColor: node['iconColor'],
     };
   }
 
@@ -153,7 +153,8 @@ export class BuilderClickButtonService {
     return { options: node.options, block: node.block, disabled: node.disabled, size: node.size, defaultSelectedIndex: node.defaultSelectedIndex };
   }
   getnzTagConfig(node: any) {
-    return { color: node.color, mode: node.mode, checked: node.checked, options: node.options,
+    return {
+      color: node.color, mode: node.mode, checked: node.checked, options: node.options,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
@@ -163,7 +164,8 @@ export class BuilderClickButtonService {
     return { content: node.content, duration: node.duration, messageType: node.messageType, pauseOnHover: node.pauseOnHover, animate: node.animate };
   }
   getnotificationConfig(node: any) {
-    return { content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement,
+    return {
+      content: node.content, icon: node.icon, color: node.color, duration: node.duration, pauseOnHover: node.pauseOnHover, animate: node.animate, notificationType: node.notificationType, placement: node.placement,
       iconType: node['iconType'],
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
@@ -1018,14 +1020,17 @@ export class BuilderClickButtonService {
   }
   getBarChartConfig(node: any) {
     return {
-      // title: node?.options?.title,
-      hAxis: node?.options?.hAxis.title,
-      vAxis: node?.options?.vAxis.title,
+      subtitle: node?.options?.chart.subtitle,
+      hAxisTitle: node?.options?.hAxis.title,
+      vAxisTitle: node?.options?.vAxis.title,
+      groupWidth: node?.options?.bar?.groupWidth,
+      isStacked: node?.options?.isStacked,
+      barType: node?.options?.bars,
       color: node?.options?.colors,
       width: node?.width,
       height: node?.height,
-      tableData: node?.tableData
-      // tableHeaders: node?.tableHeaders
+      columnNames: node?.columnNames.filter((element: any) => typeof element === 'string'),
+      tableData: node?.tableData,
     };
   }
   getPieChartConfig(node: any) {
@@ -1042,14 +1047,21 @@ export class BuilderClickButtonService {
   }
   getBubbleChartConfig(node: any) {
     return {
+      hAxisTitle: node?.options?.hAxis.title,
+      vAxisTitle: node?.options?.vAxis.title,
+      colorAxis: node?.options?.colorAxis?.colors,
+      fontSize: node?.options?.bubble?.textStyle?.fontSize,
+      fontName: node?.options?.bubble?.textStyle?.fontName,
+      color: node?.options?.bubble?.textStyle?.color,
+      bold: node?.options?.bubble?.textStyle?.bold,
+      italic: node?.options?.bubble?.textStyle?.italic,
       width: node?.width,
       height: node?.height,
-      fontSize: node?.options?.bubble?.textStyle?.fontSize,
+      columnNames: node?.columnNames.filter((element: any) => typeof element === 'string'),
       tableData: node?.tableData
     };
   }
   getCandlestickChartConfig(node: any) {
-    debugger
     return {
       width: node?.width,
       height: node?.height,
@@ -1057,13 +1069,18 @@ export class BuilderClickButtonService {
     };
   }
   getColumnChartConfig(node: any) {
-    debugger
     return {
+      hAxisTitle: node?.options?.hAxis?.title,
+      vAxisTitle: node?.options?.vAxis?.title,
+      groupWidth: node?.options?.bar?.groupWidth,
+      position: node?.options?.legend?.position,
+      maxLines: node?.options?.legend?.maxLines,
+      isStacked: node?.options?.isStacked,
+      color: node?.options?.colors,
       width: node?.width,
       height: node?.height,
+      columnNames: node?.columnNames.filter((element: any) => typeof element === 'string'),
       tableData: node?.tableData,
-      groupWidth: node?.options?.bar?.groupWidth,
-      position: node?.options?.legend?.position
     };
   }
   getGanttChartConfig(node: any) {
