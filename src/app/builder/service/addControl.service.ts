@@ -324,8 +324,11 @@ export class AddControlService {
       banner: false,
       showIcon: false,
       closeable: false,
-      iconType: '',
+      // iconType: '',
       description: '',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   getSimpleCardWithHeaderBodyFooterControl() {
@@ -1051,6 +1054,9 @@ export class AddControlService {
       width: 250,
       showCloseIcon: true,
       zIndex: 1000,
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   popConfirmControl() {
@@ -1097,6 +1103,9 @@ export class AddControlService {
       size: '',
       icon: 'clock-circle',
       offset: '',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   commentControl() {
@@ -1162,6 +1171,9 @@ export class AddControlService {
       resultTitle: "Successfully Purchased Cloud Server ECS!",
       subTitle: "Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait.",
       btnLabel: "Done",
+      // iconType: 'outline',
+      // iconSize: 15,
+      // iconColor: '',
     }
   }
   nzTagControl() {
@@ -1453,6 +1465,9 @@ export class AddControlService {
       wrapClassName: "",
       zIndex: 1,
       content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum blanditiis sunt unde quisquam architecto. Nesciunt eum consequatur suscipit obcaecati. Aliquam repudiandae neque ratione natus doloribus ab excepturi, a modi voluptate!',
+      iconType: 'outline',
+      iconSize: 15,
+      iconColor: '',
     }
   }
   skeletonControl() {

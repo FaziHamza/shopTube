@@ -1229,8 +1229,8 @@ export class BuilderComponent implements OnInit {
                         setVariable: '',
                         addonLeft: '',
                         addonRight: '',
-                        addonLeftIcon: '',
-                        addonrightIcon: '',
+                        // addonLeftIcon: '',
+                        // addonrightIcon: '',
                         status: '',
                         size: 'default',
                         border: false,
@@ -1449,6 +1449,7 @@ export class BuilderComponent implements OnInit {
 
       case "drawer":
         configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case "cardWithComponents":
@@ -1488,6 +1489,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "modal":
         configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.modalFields, false);
         this.fieldData.formData = _formFieldData.modalFields;
         break;
       case "transfer":
@@ -1515,6 +1517,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "badge":
         configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.badgeFields, false);
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
       case "mentions":
@@ -1589,6 +1592,7 @@ export class BuilderComponent implements OnInit {
 
       case "result":
         configObj = { ...configObj, ...this.clickButtonService.getResultConfig(selectedNode) };
+        // this.addIconCommonConfiguration(_formFieldData.resultFields, true);
         this.fieldData.formData = _formFieldData.resultFields;
         break;
 
@@ -1704,6 +1708,7 @@ export class BuilderComponent implements OnInit {
 
       case "alert":
         configObj = { ...configObj, ...this.clickButtonService.getAlertConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.alertFeilds, true);
         this.fieldData.formData = _formFieldData.alertFeilds;
         break;
 
@@ -2295,10 +2300,31 @@ export class BuilderComponent implements OnInit {
 
     let parent = node?.parentNode?.origin;
     node = node.origin;
-    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'header' && node.type != 'body' && node.type != 'footer') {
+    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
       let newNode = JSON.parse(JSON.stringify(node));
       newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
+      newNode.children.forEach((child: any) => {
+        child = this.changeIdAndkey(child);
+        child.children.forEach((child1: any) => {
+          child1 = this.changeIdAndkey(child1);
+          child1.children.forEach((child2: any) => {
+            child2 = this.changeIdAndkey(child2);
+            child2.children.forEach((child3: any) => {
+              child3 = this.changeIdAndkey(child3);
+              child3.children.forEach((child4: any) => {
+                child4 = this.changeIdAndkey(child4);
+                child4.children.forEach((child5: any) => {
+                  child5 = this.changeIdAndkey(child5);
+                  child5.children.forEach((child6: any) => {
+                    child6 = this.changeIdAndkey(child6);
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
       parent.children.splice(idx as number + 1, 0, newNode);
       if (parent) {
         if (parent.type == 'mainTab' || parent.type == 'dropdown') {
@@ -2488,6 +2514,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.zIndex = event.form.zIndex;
           this.selectedNode.onClose = event.form.onClose;
           this.selectedNode.content = event.form.content;
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
       case "cardWithComponents":
@@ -2684,6 +2713,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.width = event.form.width;
           this.selectedNode.showCloseIcon = event.form.showCloseIcon;
           this.selectedNode.zIndex = event.form.zIndex;
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
       case "transfer":
@@ -2799,7 +2831,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.size = event.form.size;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.nztype = event.form.nztype;
-
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
       case "mentions":
@@ -3153,11 +3187,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.btnLabel = event.form.btnLabel;
           this.selectedNode.extra = event.form.extra;
           this.selectedNode.icon = event.form.icon;
-
+          // this.selectedNode['iconType'] = event.form.iconType;
+          // this.selectedNode['iconSize'] = event.form.iconSize;
+          // this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
       case "imageUpload":
-
         if (this.selectedNode) {
           this.selectedNode.alt = event.form.alt;
           this.selectedNode.source = event.form.source;
@@ -3993,8 +4028,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.closeable = event.form.closeable;
           this.selectedNode.description = event.form.description;
           this.selectedNode.closeText = event.form.closeText;
+          this.selectedNode['icon'] = event.form.icon;
           this.selectedNode.iconType = event.form.iconType;
           this.selectedNode.action = event.form.action;
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
           this.updateNodes()
         }
         break;

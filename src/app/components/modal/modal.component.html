@@ -3,7 +3,7 @@
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzOkLoading]="modalData.okBtnLoading"
   [nzCancelLoading]="modalData.cancelBtnLoading" [nzOkDisabled]="modalData.okBtnDisabled"
   [nzCancelDisabled]="modalData.cancelDisabled" [nzKeyboard]="modalData.ecsModalCancel" [nzMask]="true"
-  [nzMaskClosable]="true" [nzOkText]="modalData.okBtnText" [nzCloseIcon]="modalData.closeIcon" [nzWidth]="modalData.width"
+  [nzMaskClosable]="true" [nzOkText]="modalData.okBtnText" [nzCloseIcon]="iconTemplate" [nzWidth]="modalData.width"
   [nzZIndex]="modalData.zIndex" [nzCancelText]="modalData.cancalButtontext" [nzCentered]="modalData.centered">
   <ng-container *nzModalContent>
     <div>
@@ -11,3 +11,10 @@
     </div>
   </ng-container>
 </nz-modal>
+
+<ng-template #iconTemplate>
+  <span *ngIf="modalData.closeIcon" class="ant-scroll-number-custom-component">
+    <st-icon  [type]="modalData.iconType || 'outline'" [icon]="modalData.closeIcon"
+      [size]="modalData.iconSize" [color]="modalData.iconColor"></st-icon>
+  </span>
+</ng-template>
