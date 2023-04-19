@@ -813,7 +813,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'buttonGroup')
       return 'w-11/12';
     else
-      return '';
+      return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
     debugger
@@ -1220,7 +1220,7 @@ export class BuilderComponent implements OnInit {
                     wrappers: this.getLastNodeWrapper("wrappers"),
                     props: {
                       multiple: true,
-                      className: '',
+                      className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
                       attributes: {
                         autocomplete: 'off',
                       },
@@ -2333,7 +2333,7 @@ export class BuilderComponent implements OnInit {
       }
       this.updateNodes();
     } else {
-      this.toastr.error("Don't copy this!", { nzDuration: 3000 });
+      this.toastr.error("Don't copy this !", { nzDuration: 3000 });
     }
 
   }
@@ -2349,13 +2349,18 @@ export class BuilderComponent implements OnInit {
     }
   }
   changeIdAndkey(node: any) {
-    node.id = node.id + Guid.newGuid();
+    if (node.id) {
+      node.id = node.id + Guid.newGuid();
+    }
     if (node.formly) {
       if (node.formly[0].key) {
         node.formly[0].key = node.formly[0].key + Guid.newGuid();
       } else if (node.formly[0].fieldGroup[0].key) {
         node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key + Guid.newGuid();
       }
+    }
+    else if (node.key) {
+      node.key = node.key + Guid.newGuid();
     }
     return node;
   }
@@ -2522,7 +2527,7 @@ export class BuilderComponent implements OnInit {
       case "cardWithComponents":
         if (this.selectedNode) {
           this.selectedNode.borderless = event.form.borderless;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
         }
         break;
       case "video":
@@ -3506,7 +3511,7 @@ export class BuilderComponent implements OnInit {
           } else {
             this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
           }
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
         }
         break;
       case "dropdownButton":
@@ -3552,7 +3557,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
@@ -3714,7 +3719,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
           // this.selectedNode.percentage = event.form.percentage;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes()
         }
         break;
@@ -3737,13 +3742,13 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           this.selectedNode.nodes = event.form.nodes;
           this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
       case "listWithComponentsChild":
         if (this.selectedNode) {
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes();
         }
         break;
@@ -3837,7 +3842,7 @@ export class BuilderComponent implements OnInit {
           // this.selectedNode.borderColor = event.form.borderColor;
           this.selectedNode.backGroundColor = event.form.backGroundColor;
           this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode = this.api(event.form.api , this.selectedNode);
+          this.selectedNode = this.api(event.form.api, this.selectedNode);
           this.updateNodes()
         }
         break;
@@ -3886,7 +3891,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode.icon = event.form.icon;
           this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode = this.api(event.form.api , this.selectedNode)
+          this.selectedNode = this.api(event.form.api, this.selectedNode)
           this.updateNodes();
         }
         break;
