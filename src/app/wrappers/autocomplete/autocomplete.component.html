@@ -1,8 +1,8 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-    <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
+    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
         [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <div>
-            <input
+            <input [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
                 [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
                 [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
                 [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
@@ -13,9 +13,9 @@
         </div>
     </nz-input-group>
 
-    <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-        <input [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
+        <input [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
             [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
         <nz-autocomplete [nzWidth]="to['additionalProperties']?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
             [nzBackfill]="false" #auto></nz-autocomplete>

@@ -1,7 +1,7 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-  <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
+  <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
     [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <nz-select  [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
+    <nz-select  [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
       [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
       [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"
@@ -19,9 +19,9 @@
     <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
     [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
   </nz-input-group>
-  <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+  <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
     [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <nz-select  [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate"
+    <nz-select  [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate"
       [formlyAttributes]="field" [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"
       [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to['additionalProperties']?.serveSearch || false"
       [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to['additionalProperties']?.showArrow || false"
