@@ -3120,26 +3120,26 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.duration = event.form.duration;
         }
         break;
-      case "avatar":
-        if (this.selectedNode) {
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.bgColor = event.form.bgColor;
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.gap = event.form.gap;
-          this.selectedNode.alt = event.form.alt;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.shape = event.form.shape;
-          this.selectedNode.src = event.form.src;
-          if (event.form.src) {
+        case "avatar":
+          if (this.selectedNode) {
+            this.selectedNode.text = event.form.text;
+            this.selectedNode.icon = event.form.icon;
+            this.selectedNode.bgColor = event.form.bgColor;
+            this.selectedNode.color = event.form.color;
+            this.selectedNode.gap = event.form.gap;
+            this.selectedNode.alt = event.form.alt;
+            this.selectedNode.size = event.form.size;
+            this.selectedNode.shape = event.form.shape;
             this.selectedNode.src = event.form.src;
+            if (event.form.src) {
+              this.selectedNode.src = event.form.src;
+            }
+            else if (this.dataSharedService.imageUrl) {
+              this.selectedNode.src = this.dataSharedService.imageUrl;
+              this.dataSharedService.imageUrl = '';
+            }
           }
-          else if (this.dataSharedService.imageUrl) {
-            this.selectedNode.src = this.dataSharedService.imageUrl;
-            this.dataSharedService.imageUrl = '';
-          }
-        }
-        break;
+          break;
       case "comment":
         if (this.selectedNode) {
           this.selectedNode.avatar = event.form.avatar;
