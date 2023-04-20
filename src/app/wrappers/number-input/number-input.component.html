@@ -1,8 +1,8 @@
 <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'height' : ''">
   <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'" >
-    <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon " [nzSuffix]="to['additionalProperties']?.addonLeft"
+    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon " [nzSuffix]="to['additionalProperties']?.addonLeft"
       [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-      <nz-input-number style="width:100%"
+      <nz-input-number [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%"
         [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
         [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision"
         nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border"
@@ -12,9 +12,9 @@
         [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
     </nz-input-group>
 
-    <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
+    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
       [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-      <nz-input-number style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
+      <nz-input-number [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
         [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision" nzPrecisionMode="cut" nzInputMode=""
         [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border" [nzDisabled]="to.disabled"
         [nzReadOnly]="to.readonly" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
