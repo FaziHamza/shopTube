@@ -11,7 +11,7 @@
         <nz-page-header
             class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
             [nzGhost]="false">
-            <nz-page-header-title [class]="resData[0].children[0].headingSize">
+            <nz-page-header-title [class]="resData[0].children[0].headingSize" class=" ng-heading">
                 {{resData[0].children[0].title}}
             </nz-page-header-title>
             <nz-page-header-extra>
@@ -48,7 +48,7 @@
                         class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
                         [nzGhost]="false">
                         <nz-page-header-title [style]="{'color': j.children[0].textColor}"
-                            [class]="j.children[0].headingSize">{{j.children[0].title}}
+                            [class]="j.children[0].headingSize" class="ng-subheading">{{j.children[0].title}}
                         </nz-page-header-title>
                         <nz-page-header-extra>
                             <nz-space>
@@ -73,7 +73,7 @@
                     <st-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
                         [screenName]="screenName"></st-main>
                 </div>
-                <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
+                <div class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
                     *ngIf="j.children[2].footer"
                     [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
                     {{j.children[2].title}}
@@ -95,7 +95,7 @@
                             <st-main [mainData]="j.children[1].children" [dataModel]="formlyModel"
                                 [screenName]="screenName" [screenId]="screenId"></st-main>
                         </div>
-                        <div class="py-3 px-10 {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
+                        <div class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
                             *ngIf="j.children[2].footer"
                             [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
                             {{j.children[2].title}}
@@ -128,7 +128,7 @@
     <!-- PAGE FOOTER -->
     <div [ngStyle]="{'border-top': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
         class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}"
-        *ngIf="resData[0].children[2].footer">
+        *ngIf="resData[0].children[2].footer" class="ng-subheading">
         {{resData[0].children[2].title}}
         <div *ngFor="let item of resData[0].children[2].children">
             <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
