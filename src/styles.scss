@@ -2,11 +2,11 @@
 
 // @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 @import url("https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 // @tailwind base;
 // @tailwind components;
@@ -17,13 +17,13 @@
 @import "~ng-zorro-antd/button/style/index.min.css";
 /* Import one component's styles */
 @import "~jsoneditor/dist/jsoneditor.min.css";
-@import url('https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css');
+@import url("https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css");
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
 
-$white: #F0F2F5;
+$white: #f0f2f5;
 
 nz-input-number {
   width: 100% !important;
@@ -71,7 +71,6 @@ nz-time-picker {
   background: white !important;
 }
 
-
 body {
   // background-color: #232826;
   // color: F0F2F5;
@@ -93,7 +92,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3B82F6;
+  background: #3b82f6;
 }
 
 .ant-tabs-tab .anticon {
@@ -131,13 +130,12 @@ object {
   }
 }
 
-.ant-btn>span+.anticon {
+.ant-btn > span + .anticon {
   margin-left: 0px !important;
 }
 
 .theme-body {
   padding-top: 0px !important;
-
 
   .input-group-text {
     height: 50px !important;
@@ -175,7 +173,6 @@ object {
     border: none !important;
   }
 
-
   .ant-radio-wrapper {
     border: none !important;
   }
@@ -190,7 +187,7 @@ object {
   }
 
   .ant-input-group-lg .ant-input,
-  .ant-input-group-lg>.ant-input-group-addon {
+  .ant-input-group-lg > .ant-input-group-addon {
     padding: 6.5px 11px;
     font-size: 16px;
     height: 55px !important;
@@ -201,7 +198,7 @@ object {
   }
 
   .ant-input-group-sm .ant-input,
-  .ant-input-group-sm>.ant-input-group-addon {
+  .ant-input-group-sm > .ant-input-group-addon {
     padding: 0 7px;
     height: 55px !important;
   }
@@ -222,7 +219,6 @@ object {
   .ant-input-number {
     height: 51px;
   }
-
 
   .ant-input-affix-wrapper-sm {
     height: 52px !important;
@@ -349,9 +345,9 @@ object {
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .ant-input-group-addon:first-child,
   .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .ant-input-group>.ant-input:first-child,
-  .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .ant-input-group > .ant-input:first-child,
+  .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
   }
@@ -359,9 +355,9 @@ object {
 
 .ant-menu-inline.ant-menu-root .ant-menu-item,
 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
-  font-size: .875rem !important;
+  font-size: 0.875rem !important;
   color: #7c7f90 !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 
 .bg-custom-color-500 {
@@ -384,21 +380,19 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu-title {
-
-    & .ant-menu-item-icon+span,
-    & .anticon+span {
+    & .ant-menu-item-icon + span,
+    & .anticon + span {
       margin-left: 10px;
       margin-right: 10px !important;
       opacity: 1;
-      transition: opacity .3s cubic-bezier(.645, .045, .355, 1), margin .3s, color .3s;
+      transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), margin 0.3s, color 0.3s;
     }
   }
-
 }
 
 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active,
 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
-  background-color: rgba(115, 103, 240, .2) !important;
+  background-color: rgba(115, 103, 240, 0.2) !important;
   border-color: #7367f0 !important;
   color: #7367f0;
 }
@@ -483,14 +477,14 @@ object {
   vertical-align: middle;
 }
 
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
   margin-left: -1px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -507,7 +501,7 @@ object {
   box-shadow: none !important;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -523,10 +517,10 @@ object {
 // .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:last-child {
 //   border-radius: 0.358rem;
 // }
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
@@ -560,8 +554,8 @@ object {
 }
 
 .fc .fc-daygrid-event-harness .fc-event {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   padding: 0.25rem 0.5rem;
 }
 
@@ -574,8 +568,8 @@ object {
 }
 
 .fc .fc-daygrid-event-harness .fc-event {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   padding: 0.25rem 0.5rem;
 }
 
@@ -589,8 +583,8 @@ a.fc-event:hover {
 }
 
 .fc .fc-daygrid-event-harness .fc-event {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   padding: 0.25rem 0.5rem;
 }
 
@@ -606,8 +600,8 @@ a.fc-event:hover {
 }
 
 .fc .fc-daygrid-event-harness .fc-event {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   padding: 0.25rem 0.5rem;
 }
 
@@ -615,8 +609,8 @@ a.fc-event:hover {
   position: relative;
   white-space: nowrap;
   border-radius: 3px;
-  font-size: .85em;
-  font-size: var(--fc-small-font-size, .85em);
+  font-size: 0.85em;
+  font-size: var(--fc-small-font-size, 0.85em);
 }
 
 .fc-direction-ltr .fc-daygrid-event.fc-event-end,
@@ -630,8 +624,8 @@ a.fc-event:hover {
 }
 
 .fc .fc-daygrid-event-harness .fc-event {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   padding: 0.1rem 0.1rem;
 }
 
@@ -643,7 +637,7 @@ a.fc-event:hover {
 .fc .fc-popover {
   position: absolute;
   z-index: 9999;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .fc-theme-standard .fc-popover {
@@ -681,11 +675,10 @@ a.fc-event:hover {
 
 .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: transparent !important;
-  padding: 0 0px !important
+  padding: 0 0px !important;
 }
 
 @media screen and (max-width: 789px) {
-
   // .web-view {
   //   display: none !important;
   // }
@@ -760,7 +753,6 @@ a.fc-event:hover {
 //   border-color: transparent;
 // }
 .floating_outlined {
-
   .ant-input-group .ant-input:focus,
   .ant-input-group .ant-input:hover {
     outline: none !important;
@@ -818,13 +810,29 @@ a.fc-event:hover {
 }
 
 .floating_filled {
+  .float-input-border {
+    .ant-input:hover {
+      border-color: red;
+      border-right-width: 1px;
+    }
 
+    .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
+    .floating_filled .height .ant-input-group-addon:first-child,
+    .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
+    .floating_filled .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+    .floating_filled .height .ant-input-group > .ant-input:first-child,
+    .floating_filled .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
+      border-right: none !important;
+      border-bottom-right-radius: 0 !important;
+      border-color: red !important;
+    }
+  }
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .height .ant-input-group-addon:first-child,
   .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .height .ant-input-group>.ant-input:first-child,
-  .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .height .ant-input-group > .ant-input:first-child,
+  .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-right: none !important;
     border-bottom-right-radius: 0 !important;
   }
@@ -943,9 +951,7 @@ a.fc-event:hover {
 .font {
   font-size: 18px !important;
   color: #74788d;
-
 }
-
 
 .input-border {
   box-shadow: 0 0 0 2px rgb(251 21 63 / 20%) !important;
@@ -957,6 +963,68 @@ a.fc-event:hover {
     border-color: red;
     border-right-width: 1px;
   }
+// typography
+
+h1 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 36px !important;
+}
+
+h2 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 28.8px !important;
+}
+
+h3 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 25.2px !important;
+}
+
+h4 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 21.6px !important;
+}
+
+h5 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+}
+
+h6 {
+  color: #495057 !important;
+  font-weight: 500 !important;
+  font-size: 14.4px !important;
+}
+
+.label-style {
+  font-weight: 500 !important;
+  color: #495057 !important;
+}
+
+.ng-heading {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: #495057 !important;
+}
+
+.ng-subheading {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #495057 !important;
+}
+
+.ng-muted {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #74788d !important;
+}
+
+// typography
 
   .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .floating_filled .height .ant-input-group-addon:first-child,

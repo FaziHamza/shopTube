@@ -806,7 +806,7 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
   columnApply(value: any) {
-    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton')
+    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton' || value == 'dynamicSections')
       return 'w-full'
     else if (value == 'body')
       return 'px-6 pt-6 pb-10';
@@ -868,6 +868,10 @@ export class BuilderComponent implements OnInit {
         break;
       case "sections":
         newNode = { ...newNode, ...this.addControlService.getSectionControl() };
+        this.sections = newNode;
+        break;
+      case "dynamicSections":
+        newNode = { ...newNode, ...this.addControlService.getDynamicSectionControl() };
         this.sections = newNode;
         break;
       case "header":
@@ -1432,63 +1436,51 @@ export class BuilderComponent implements OnInit {
       commonData: _formFieldData.commonOtherConfigurationFields,
     });
     const selectedNode = this.selectedNode;
-    let configObj: any = {
-      id: selectedNode.id as string, className: selectedNode.className,
-      key: selectedNode.key,
-      title: selectedNode.title,
-      tooltip: selectedNode.tooltip,
-      tooltipWithoutIcon: selectedNode['tooltipWithoutIcon'],
-      hideExpression: selectedNode.hideExpression
-    };
-
+    let configObj: any;
+    configObj = selectedNode;
     switch (type) {
-      case "breakTag":
-        configObj = { ...configObj };
-        // this.fieldData.formData = _formFieldData.breakTagFeilds;
-        break;
-
       case "drawer":
-        configObj = { ...configObj, ...this.clickButtonService.getDrawerConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case "cardWithComponents":
-        configObj = { ...configObj, ...this.clickButtonService.getcardWithComponentsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.cardWithComponentsFields;
         break;
       case "icon":
-        configObj = { ...configObj, ...this.clickButtonService.getIconConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.commonIconFields;
         break;
       case "anchor":
-        configObj = { ...configObj, ...this.clickButtonService.getAnchorConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.anchorFields;
 
         break;
       case "treeSelect":
-        configObj = { ...configObj, ...this.clickButtonService.getTreeselectviewConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeSelectFields;
         break;
       case "treeView":
-        configObj = { ...configObj, ...this.clickButtonService.getTreeViewConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.treeviewFields;
         break;
       case "cascader":
-        configObj = { ...configObj, ...this.clickButtonService.getCascaderConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.formData = _formFieldData.cascaderFields;
         break;
+      case "dynamicSections":
+        if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
+          // configObj = { ...configObj, ...this.clickButtonService.getDynamicSectionsConfig(selectedNode) };
+          if (_formFieldData.sectionsFields[0]?.fieldGroup) {
+            _formFieldData.sectionsFields[0].fieldGroup = _formFieldData.sectionsFields[0]?.fieldGroup.filter((data: any) => data.key != 'api')
+          }
+        this.fieldData.formData = _formFieldData.sectionsFields;
+        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
+        this.fieldData.dynamicSectionNode = this.selectedNode;
+        break;
       case "tree":
-        configObj = { ...configObj, ...this.clickButtonService.getTreeConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);
         this.fieldData.formData = _formFieldData.treeFields;
         break;
       case "htmlBlock":
-        configObj = { ...configObj, ...this.clickButtonService.htmlBlockConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.htmlBlockFields;
         break;
       case "modal":
-        configObj = { ...configObj, ...this.clickButtonService.getModalConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.modalFields, false);
         this.fieldData.formData = _formFieldData.modalFields;
         break;
@@ -1496,13 +1488,11 @@ export class BuilderComponent implements OnInit {
         configObj = { ...configObj, ...this.clickButtonService.getTransferConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.transferFields;
         break;
-
       case "gridList":
         configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.gridFields;
         break;
       case "comment":
-        configObj = { ...configObj, ...this.clickButtonService.getCommentConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.commentFields;
         break;
       case "rate":
@@ -1510,26 +1500,20 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
         break;
-
       case "skeleton":
-        configObj = { ...configObj, ...this.clickButtonService.getSkeletonConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.skeletonFields;
         break;
       case "badge":
-        configObj = { ...configObj, ...this.clickButtonService.getBadgeConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.badgeFields, false);
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
       case "mentions":
-        configObj = { ...configObj, ...this.clickButtonService.getMentionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mentionsFields;
         break;
       case "empty":
-        configObj = { ...configObj, ...this.clickButtonService.getEmptyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.emptyFields;
         break;
       case "segmented":
-        configObj = { ...configObj, ...this.clickButtonService.getSegmentedConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.segmentedFields;
         break;
       case "statistic":
@@ -1538,205 +1522,124 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
       case "tag":
-        configObj = { ...configObj, ...this.clickButtonService.getnzTagConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.nzTagFields, false);
         this.fieldData.formData = _formFieldData.nzTagFields;
         break;
       case "message":
-        configObj = { ...configObj, ...this.clickButtonService.getMessageConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.messageFields;
         break;
       case "notification":
-        configObj = { ...configObj, ...this.clickButtonService.getnotificationConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.notificationFields, true);
         this.fieldData.formData = _formFieldData.notificationFields;
         break;
       case "list":
-        configObj = { ...configObj, ...this.clickButtonService.getlistConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.listFields;
         break;
-
       case "description":
-        configObj = { ...configObj, ...this.clickButtonService.getDescriptionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.descriptionFields;
         break;
-
       case "descriptionChild":
-        configObj = { ...configObj, ...this.clickButtonService.getDescriptionChildConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.descriptionChildFields;
         break;
-
       case "affix":
-        configObj = { ...configObj, ...this.clickButtonService.getAffixConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.affixFields;
         break;
       case "backTop":
-
-        configObj = { ...configObj, ...this.clickButtonService.getBacktopConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.backtopFields;
         break;
-
       case "avatar":
-        configObj = { ...configObj, ...this.clickButtonService.getAvatarConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.avatarFields;
         break;
-
       case "popOver":
-        configObj = { ...configObj, ...this.clickButtonService.getPopOverConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.popOverFields;
         break;
       case "popConfirm":
-        configObj = { ...configObj, ...this.clickButtonService.getPopOverConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.popOverFields;
         break;
-
       case "result":
-        configObj = { ...configObj, ...this.clickButtonService.getResultConfig(selectedNode) };
-        // this.addIconCommonConfiguration(_formFieldData.resultFields, true);
         this.fieldData.formData = _formFieldData.resultFields;
         break;
-
       case "spin":
-        configObj = { ...configObj, ...this.clickButtonService.getSpinConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.spinFields;
         break;
-
       case "imageUpload":
-        configObj = { ...configObj, ...this.clickButtonService.getImageUploadConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.imageUploadFeilds;
         break;
-
       case "toastr":
-        configObj = { ...configObj, ...this.clickButtonService.getToastrConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.toastrFeilds;
         break;
-
       case "invoice":
         configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.invoiceFeilds;
         break;
-
       case "rangeSlider":
-        configObj = { ...configObj, ...this.clickButtonService.getRangeSliderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.rangeSliderFeilds;
         break;
-
       case "inputGroupGrid":
-        configObj = { ...configObj, ...this.clickButtonService.getInputGroupGridConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
         break;
-
       case "card":
-        configObj = { ...configObj, ...this.clickButtonService.getCardConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.cardFields;
         break;
-
-      case "fixedDiv":
-        configObj = { ...configObj, ...this.clickButtonService.getFixedDivConfig(selectedNode) };
-        // this.fieldData.formData = _formFieldData.fixedDivFields;
-        break;
-
       case "calender":
-        configObj = { ...configObj, ...this.clickButtonService.getCalenderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
         break;
-
       case "multiFileUpload":
-        configObj = { ...configObj, ...this.clickButtonService.getMultiFileUploadConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
         break;
-
-      case "textEditor":
-        configObj = { ...configObj, ...this.clickButtonService.getTextEditorConfig(selectedNode) };
-        // this.fieldData.formData = _formFieldData.textEditorFeilds;
-        break;
-
       case "switch":
-        configObj = { ...configObj, ...this.clickButtonService.getSwitchConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.switchFeilds;
         break;
-
       case "tabs":
-
-        configObj = { ...configObj, ...this.clickButtonService.getTabsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.tabsFields, true)
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
-
       case "kanban":
-        configObj = { ...configObj, ...this.clickButtonService.getKanbanConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.kanbanFeilds;
         break;
-
       case "kanbanTask":
-        configObj = { ...configObj, ...this.clickButtonService.getKanbanTaskConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
         break;
-
       case "mainTab":
-
-        configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
-
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
-
       case "progressBar":
-        configObj = { ...configObj, ...this.clickButtonService.getProgressBarConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.progressBarFields;
         break;
-
       case "divider":
-        configObj = { ...configObj, ...this.clickButtonService.getDividerConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.dividerFeilds, true);
         this.fieldData.formData = _formFieldData.dividerFeilds;
         break;
-
       case "video":
-        configObj = { ...configObj, ...this.clickButtonService.getVideoConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.videosFeilds;
         break;
-
       case "audio":
-        configObj = { ...configObj, ...this.clickButtonService.getAudioConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.audioFeilds;
         break;
-
       case "carouselCrossfade":
-        configObj = { ...configObj, ...this.clickButtonService.getcarouselCrossfadeConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.carouselCrossfadeFeilds;
         break;
-
       case "alert":
-        configObj = { ...configObj, ...this.clickButtonService.getAlertConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.alertFeilds, true);
         this.fieldData.formData = _formFieldData.alertFeilds;
         break;
-
       case "timeline":
-        configObj = { ...configObj, ...this.clickButtonService.getTimelineConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
         this.fieldData.formData = _formFieldData.timelineFeilds;
         break;
-
       case "simpleCardWithHeaderBodyFooter":
-        configObj = { ...configObj, ...this.clickButtonService.getSimpleCardWithHeaderBodyFooterConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
         break;
       case "div":
-        configObj = { ...configObj, ...this.clickButtonService.divConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.divFields;
         break;
       case "heading":
-        configObj = { ...configObj, ...this.clickButtonService.getHeadingConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.headingFields;
         break;
-
       case "paragraph":
-        configObj = { ...configObj, ...this.clickButtonService.getParagraphConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.paragraphFields, false);
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
-
       case "tags":
       case "repeatSection":
       case "multiselect":
@@ -1786,8 +1689,6 @@ export class BuilderComponent implements OnInit {
             break;
           case "repeatSection":
           case "multiselect":
-            // case "tag":
-            // case "tag":
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
           case "timepicker":
@@ -1798,110 +1699,57 @@ export class BuilderComponent implements OnInit {
             break;
         }
         break;
-      // case "customMasking":
-      //   configObj = { ...configObj, ...this.clickButtonService.getMaskingFormlyConfig(selectedNode) };
-      //   this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
-      //   this.fieldData.formData = _formFieldData.customMaskingFields;
-      //   break;
       case "button":
-        configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case "dropdownButton":
-        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
         debugger
-        configObj = { ...configObj, ...this.clickButtonService.getAccordionButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.accordionButtonFields, true);
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case "linkbutton":
-        configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
       case "buttonGroup":
-        configObj = { ...configObj, ...this.clickButtonService.getBtnGroupConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
-      case "gridName":
-
-        break;
       case "page":
-        configObj = { ...configObj, ...this.clickButtonService.getPagesConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.pageFields;
         break;
       case "pageHeader":
-        configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.pageHeaderFields;
         break;
       case "pageBody":
-        // configObj = { ...configObj, ...this.clickButtonService.getHeaderConfig(selectedNode) };
-        // this.fieldData.formData = _formFieldData.pageBodyFields;
         break;
       case "pageFooter":
-        configObj = { ...configObj, ...this.clickButtonService.getFooterConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
       case "sections":
-        if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
-          // this.fieldData.commonData[0].fieldGroup[4] = {
-          //   className: "w-1/2",
-          //   key: 'className',
-          //   type: 'input',
-          //   wrappers: ["formly-vertical-theme-wrapper"],
-          //   props: {
-          //     label: 'Section ClassName',
-          //     // options: [
-          //     //   {
-          //     //     label: 'Full',
-          //     //     value: 'w-full'
-          //     //   },
-          //     //   {
-          //     //     label: 'col-6',
-          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2'
-          //     //   },
-          //     //   {
-          //     //     label: 'col-4',
-          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3'
-          //     //   },
-          //     //   {
-          //     //     label: 'col-3',
-          //     //     value: 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4'
-          //     //   },
-          //     // ]
-          //   }
-          // };
-          configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.sectionsFields;
         break;
       case "header":
-        configObj = { ...configObj, ...this.clickButtonService.getSectionHeaderConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.headerFields;
         break;
       case "footer":
-        configObj = { ...configObj, ...this.clickButtonService.getSectionFooterConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.footerFields;
         break;
       case "body":
-        configObj = { ...configObj, ...this.clickButtonService.getSectionBodyConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.bodyFields;
         break;
       case "step":
-        configObj = { ...configObj, ...this.clickButtonService.getStepperConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
       case "mainStep":
-        configObj = { ...configObj, ...this.clickButtonService.getStepperMainConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.mainStepperFields;
         break;
       case "listWithComponents":
-        configObj = { ...configObj, ...this.clickButtonService.getlistWithComponentsConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.listWithComponentsFields;
         break;
       case "listWithComponentsChild":
@@ -1924,11 +1772,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.bubbleChartFields;
         break;
       case "candlestickChart":
-        configObj = { ...configObj, ...this.clickButtonService.getCandlestickChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.candlestickChartFields;
         break;
       case "columnChart":
-        configObj = { ...configObj, ...this.clickButtonService.getColumnChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.columnChartFields;
         break;
       case "ganttChart":
@@ -1948,7 +1794,6 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.treeMapChartFields;
         break;
       case "tableChart":
-        configObj = { ...configObj, ...this.clickButtonService.gettableChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.tableChartFields;
         break;
       case "lineChart":
@@ -1956,7 +1801,6 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.lineChartFields;
         break;
       case "sankeyChart":
-        configObj = { ...configObj, ...this.clickButtonService.getSankeyChartConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.sankeyChartFields;
         break;
       case "scatterChart":
@@ -1981,7 +1825,6 @@ export class BuilderComponent implements OnInit {
         break;
       default:
         break;
-
     }
     this.formModalData = configObj;
   }
@@ -2094,10 +1937,10 @@ export class BuilderComponent implements OnInit {
       });
     });
   }
-  addSection() {
+  addSection(section?: any) {
     this.sectionBageBody = this.nodes[0].children[1];
     this.selectedNode = this.sectionBageBody,
-      this.addControlToJson('sections', null);
+      this.addControlToJson(section, null);
     this.selectedNode = this.sections;
     this.addControlToJson('header', null);
     this.addControlToJson('body', null);
@@ -2123,184 +1966,11 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  // add(node: TreeNode) {
-  //   this.applySize();
-  //   this.selectedNode = node;
-  // }
   newChild: any = [];
-  // insertAt(parent: any, node: any) {
-  //   // this.highlightSelect(this.selectedNode.id,true)
-  //   parent = parent.parentNode.origin;
-  //   node = node.origin;
-  //   var nodeData = JSON.parse(JSON.stringify(node));
-  //   if (parent.children) {
-  //     const idx = parent.children.indexOf(node as TreeNode);
-  //     this.newChild = [];
-  //     if (nodeData.children[0] != undefined) {
-  //       if (nodeData.type != "buttonGroup" && nodeData.type != "stepperMain" && nodeData.type != "mainDashonicTabs" && nodeData.type != "gridList" && nodeData.type != "gridListEditDelete" && nodeData.type != "kanban" && nodeData.type != "accordionButton" && nodeData.type != "fixedDiv") {
-  //         nodeData.id = nodeData.id + Guid.newGuid();
-
-  //         for (let index = 0; index < this.nodes.length; index++) {
-  //           for (let k = 0; k < this.nodes[index].children.length; k++) {
-  //             if (this.nodes[index].children[k].type == 'pageBody') {
-  //               const element = JSON.parse(JSON.stringify(this.nodes[index].children[1].children[idx]));
-  //               // element.id = element.id+idx+1;
-  //               // formly checker
-  //               for (let i = 0; i < element.children.length; i++) {
-  //                 // for (let a = 0; a < this.nodes[index].children[1].children.length; a++) {
-  //                 //   this.nodes[index].children[1].children[a].id = Guid.newGuid();
-  //                 //   this.nodes[index].children[1].children[a].formly[0].key = Guid.newGuid();
-  //                 // }
-  //                 if (element.children[i].type == 'body') {
-  //                   element.children[i].id = element.children[i].id + Guid.newGuid();
-  //                   element.children[i].formly[0].key = element.children[i].formly[0].key + Guid.newGuid();
-  //                   for (let a = 0; a < element.children[i].children.length; a++) {
-  //                     if (element.children[i].children[a].formly != undefined) {
-  //                       element.children[i].children[a].formly[0].fieldGroup[0].key = element.children[i].children[a].formly[0].fieldGroup[0].key + Guid.newGuid();
-  //                       element.children[i].children[a].formly[0].fieldGroup[0].id = element.children[i].children[a].formly[0].fieldGroup[0].id + Guid.newGuid();
-  //                     } else if (element.children[i].children[a].type != "buttonGroup")
-  //                       element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
-  //                     else if (element.children[i].children[a].type == "buttonGroup") {
-  //                       element.children[i].children[a].id = element.children[i].children[a].id + Guid.newGuid();
-  //                       for (let b = 0; b < element.children[i].children[a].children.length; b++) {
-  //                         element.children[i].children[a].children[b].id = element.children[i].children[a].children[b].id + Guid.newGuid();
-  //                       }
-  //                     }
-  //                   }
-
-  //                 }
-  //                 // else
-  //                 // element.children[j].children[i].id = element.children[j].children[i].id+ Guid.newGuid();
-  //               }
-  //               let obj = {};
-  //               if (nodeData.formly != undefined) {
-  //                 obj = { id: Guid.newGuid(), title: element.title, type: element.type, footer: element.footer, header: element.header, expanded: element.expanded, sectionDisabled: element.sectionDisabled, highLight: element.highLight, isNextChild: element.isNextChild, children: element.children[0].children, key: Guid.newGuid(), formly: element.formly }
-  //               }
-  //               else if (nodeData?.type == "buttonGroup") {
-  //                 for (let index = 0; index < element.children[0].children[1].children.length; index++) {
-  //                   if (element.children[0].children[1].children[index].type == "buttonGroup") {
-  //                     obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children[0].children[1].children[index].children, key: element.key }
-  //                   }
-  //                 }
-  //               }
-  //               else {
-  //                 obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
-  //               }
-  //               this.newChild.push(obj);
-  //             }
-  //           }
-  //         }
-
-  //         for (let index = 0; index < nodeData.children.length; index++) {
-  //           nodeData.children[index].id = nodeData.children[index].id + Guid.newGuid();
-  //           for (let indexChildren = 0; indexChildren < nodeData.children[index].children.length; indexChildren++) {
-  //             nodeData.children[index].children[indexChildren].id = nodeData.children[index].children[indexChildren].id + Guid.newGuid();
-  //           }
-  //         }
-  //         const newNode = {
-  //           id: nodeData.id + Guid.newGuid(),
-  //           title: nodeData.title,
-  //           type: nodeData?.type,
-  //           footer: nodeData.footer,
-  //           expanded: nodeData.expanded,
-  //           sectionDisabled: nodeData.sectionDisabled,
-  //           highLight: nodeData.highLight,
-  //           isNextChild: nodeData.isNextChild,
-  //           children: nodeData.children,
-  //           formly: nodeData?.formly,
-  //           key: nodeData.key + Guid.newGuid(),
-
-  //         } as TreeNode;
-  //         parent.children.splice(idx as number + 1, 0, newNode);
-  //       }
-  //       else {
-  //         nodeData.id = nodeData.id + Guid.newGuid();
-  //         nodeData.children.forEach((element: any) => {
-  //           element.id = element.id + Guid.newGuid();
-  //           if (element) {
-  //             if (element.length > 0) {
-  //               if (element.formly) {
-  //                 element.formly[0].fieldGroup[0].key = element.formly[0].fieldGroup[0].key + Guid.newGuid();
-  //               }
-  //             }
-  //           }
-  //           element.children.forEach((element1: any) => {
-  //             element1.id = element1.id + Guid.newGuid();
-  //             if (element1) {
-  //               if (element1.length > 0) {
-  //                 if (element1.formly) {
-  //                   element1.formly[0].fieldGroup[0].key = element1.formly[0].fieldGroup[0].key + Guid.newGuid();
-  //                 }
-  //               }
-  //             }
-  //           });
-  //         });
-  //         const newNode = nodeData;
-  //         const idx = parent.children.indexOf(node as TreeNode);
-  //         parent.children.splice(idx as number + 1, 0, newNode);
-  //       }
-  //     }
-  //     else {
-  //       if (nodeData.formly) {
-  //         if (nodeData.formly != undefined) {
-  //           nodeData.formly[0].fieldGroup[0].key = Guid.newGuid();
-  //           nodeData.formly[0].fieldGroup[0].id = Guid.newGuid();
-  //         }
-  //       }
-  //       nodeData.id = nodeData.id + Guid.newGuid();
-  //       const newNode = nodeData;
-  //       const idx = parent.children.indexOf(node as TreeNode);
-  //       parent.children.splice(idx as number + 1, 0, newNode);
-  //     }
-  //   }
-  //   else {
-  //     const idx = this.nodes.indexOf(node as TreeNode);
-  //     this.newChild = [];
-  //     for (let index = 0; index < this.nodes[idx].children.length; index++) {
-  //       const element = JSON.parse(JSON.stringify(this.nodes[idx].children[index]));
-  //       for (let j = 0; j < element.children.length; j++) {
-  //         if (node?.formly != undefined) {
-  //           element.children[j].formly[0].fieldGroup[0].key = Guid.newGuid();
-  //           element.children[j].formly[0].fieldGroup[0].id = Guid.newGuid();
-  //         } else
-  //           element.children[j].key = Guid.newGuid();
-  //       }
-  //       let obj = {};
-  //       if (nodeData.formly != undefined) {
-  //         obj = { id: Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: Guid.newGuid(), formly: element.formly }
-  //       }
-  //       else {
-  //         obj = { id: element.id + Guid.newGuid(), title: element.title, type: element.type, children: element.children, key: element.key }
-  //       }
-  //       this.newChild.push(obj);
-
-  //     }
-  //     // this.newChild.forEach(elementV2 => {
-  //     //   elementV2.id=elementV2.id+"f"+1;
-  //     // });
-
-  //     const newNode = {
-  //       id: this.nodes[idx].id + "_" + idx + '_1',
-  //       title: nodeData.title,
-  //       children: this.newChild,
-  //       formly: this.nodes[idx].formly,
-  //       type: this.nodes[idx].type,
-  //       className: nodeData?.className,
-  //     } as TreeNode;
-  //     this.nodes.splice(idx + 1, 0, newNode);
-
-  //   }
-
-  //   this.updateNodes();
-  //   // this.jsonStringifData();
-
-  //   // array.splice(index, 0, ...elementsArray);
-  // }
   insertAt(node: any) {
-
     let parent = node?.parentNode?.origin;
     node = node.origin;
-    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'accordingHeader' && node.type != 'accordingBody' && node.type != 'accordingFooter') {
+    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'header' && node.type != 'body' && node.type != 'footer') {
       let newNode = JSON.parse(JSON.stringify(node));
       newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
@@ -2377,8 +2047,13 @@ export class BuilderComponent implements OnInit {
       this.addChildControlsWithSubChild('listWithComponents', 'listWithComponentsChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
       this.formDataFromApi(type);
-    else if (type == "addSection")
-      this.addSection();
+    else if (type == "addSection" || type == "dynamicSections") {
+      let section = type;
+      if (type == "addSection") {
+        section = 'section';
+      }
+      this.addSection(section);
+    }
   }
 
   addChildControls(parent?: any, child?: any) {
@@ -2445,30 +2120,19 @@ export class BuilderComponent implements OnInit {
     if (parent != undefined) {
       console.log(parent, node);
       const idx = parent.children.indexOf(node);
-      // this.columnData = this.columnData.filter((a: any) => a.name != parent.children[idx].id);
       parent.children.splice(idx as number, 1);
-      // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-      // this.prepareDragDrop(this.templateNode, this.selectedNode);
     } else {
       console.log(parent, node);
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
-      // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-      // this.prepareDragDrop(this.templateNode, this.selectedNode);
     }
     this.updateNodes();
   }
   nzEvent(event: NzFormatEmitEvent): void {
-    // console.log(event);
   }
 
   clickBack() {
-
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-    // this.templateNode = JSON.parse(JSON.stringify(this.nodes));
-    // this.prepareDragDrop(this.templateNode, this.selectedNode);
-    // this.makeFaker();
-
   }
   EnumView() {
     this.requestSubscription = this.builderService.multiAPIData().subscribe({
@@ -2489,450 +2153,79 @@ export class BuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
     debugger
     if (event.type && event.type != "inputValidationRule") {
-      this.selectedNode.title = event.form.title;
-      this.selectedNode.className = event.form.className;
-      this.selectedNode.tooltip = event.form.tooltip;
-      this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
-      this.selectedNode.hideExpression = event.form.hideExpression;
-      this.selectedNode['id'] = event.form?.id;
-      this.selectedNode['key'] = event.form?.key;
+      this.selectedNode = event.form
     }
-
     switch (event.type) {
-      case "drawer":
-        if (this.selectedNode) {
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.btnText = event.form.btnText;
-          this.selectedNode.isClosable = event.form.isClosable;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.extra = event.form.extra;
-          this.selectedNode.isKeyboard = event.form.isKeyboard;
-          this.selectedNode.footerText = event.form.footerText;
-          this.selectedNode.isVisible = event.form.isVisible;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          this.selectedNode.offsetX = event.form.offsetX;
-          this.selectedNode.offsetY = event.form.offsetY;
-          this.selectedNode.wrapClassName = event.form.wrapClassName;
-          this.selectedNode.zIndex = event.form.zIndex;
-          this.selectedNode.onClose = event.form.onClose;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-        }
-        break;
       case "cardWithComponents":
-        if (this.selectedNode) {
-          this.selectedNode.borderless = event.form.borderless;
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-        }
+      case "accordionButton":
+      case "step":
+      case "listWithComponentsChild":
+      case "tabs":
+      case "body":
+        this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
-      case "video":
-        if (this.selectedNode) {
-          this.selectedNode.videoSrc = event.form.videoSrc;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-        }
-        break;
-      case "icon":
-        if (this.selectedNode) {
-          debugger
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.iconType = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
+      case "dynamicSections":
+        if (this.selectedNode.id) {
+          this.selectedNode.dynamicApi = event.form.dynamicApi;
+          if (event.tableDta) {
+            this.selectedNode.data = event.tableDta;
+          }
+          this.updateNodes();
         }
         break;
       case "anchor":
-        if (this.selectedNode) {
-          this.selectedNode.affix = event.form.affix;
-          this.selectedNode.offSetTop = event.form.offSetTop;
-          this.selectedNode.showInkInFixed = event.form.showInkInFixed;
-          this.selectedNode.target = event.form.target;
-          this.selectedNode.bond = event.form.bond;
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                this.selectedNode.options = res;
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-        }
-        break;
+      case "mentions":
       case "treeSelect":
-
-        if (this.selectedNode) {
-          this.selectedNode.expandKeys = event.form.expandKeys;
-          this.selectedNode.showSearch = event.form.showSearch;
-          this.selectedNode.placeHolder = event.form.placeHolder;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.hideUnMatched = event.form.hideUnMatched;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.checkable = event.form.checkable;
-          this.selectedNode.showExpand = event.form.showExpand;
-          this.selectedNode.showLine = event.form.showLine;
-          this.selectedNode.defaultExpandAll = event.form.defaultExpandAll;
-          this.selectedNode.size = event.form.size;
-          if (event.tableDta) {
-            this.selectedNode.nodes = event.tableDta;
-          }
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
+      case "tree": case "treeView": case "cascader":
+        if (event.tableDta) {
+          this.selectedNode.nodes = event.tableDta;
+        }
+        if (event.form.api) {
+          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+            next: (res) => {
+              switch (event.type) {
+                case "anchor":
+                case "mentions":
+                  this.selectedNode.options = res;
+                  break;
+                case "treeSelect":
+                case "tree": case "treeView": case "cascader":
                   this.selectedNode.nodes = res;
-                  this.updateNodes();
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-
-        }
-        break;
-      case "treeView":
-
-        if (this.selectedNode) {
-          if (event.tableDta) {
-            this.selectedNode.nodes = event.tableDta;
-          }
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.nodes = res;
-                  this.updateNodes();
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-
-        }
-        break;
-      case "cascader":
-        if (this.selectedNode) {
-          this.selectedNode.expandTrigger = event.form.expandTrigger;
-          this.selectedNode.labelProperty = event.form.labelProperty;
-          this.selectedNode.placeHolder = event.form.placeHolder;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.expandIcon = event.form.expandIcon;
-          this.selectedNode.suffixIcon = event.form.suffixIcon;
-          this.selectedNode.allowClear = event.form.allowClear;
-          this.selectedNode.autoFocus = event.form.autoFocus;
-          this.selectedNode.backdrop = event.form.backdrop;
-          this.selectedNode.showArrow = event.form.showArrow;
-          this.selectedNode.showInput = event.form.showInput;
-          this.selectedNode.showSearch = event.form.showSearch;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.nodes = res;
-                  this.updateNodes();
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          // this.selectedNode.nodes = this.assigOptionsData(this.selectedNode.nodes, event.tableDta, event.form.api);
-        }
-        break;
-      case "tree":
-        if (this.selectedNode) {
-          this.selectedNode.checkable = event.form.checkable;
-          this.selectedNode.blockNode = event.form.blockNode;
-          this.selectedNode.showLine = event.form.showLine;
-          // this.selectedNode.showIcon = event.form.showIcon;
-          this.selectedNode.draggable = event.form.draggable;
-          // this.selectedNode.multiple = event.form.multiple;
-          this.selectedNode.expandAll = event.form.expandAll;
-          this.selectedNode.expand = event.form.expand;
-          this.selectedNode.expandIcon = event.form.expandIcon;
-          this.selectedNode.closingexpandicon = event.form.closingexpandicon;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          // this.selectedNode.nodes = event.form.nodes;
-          // this.selectedNode.treeApi = this.assigOptionsData(this.selectedNode.treeApi, event.tableDta , event.form.api)
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.nodes = res;
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-        }
-        break;
-      case "htmlBlock":
-        if (this.selectedNode) {
-          this.selectedNode.data = event.form.data;
-        }
-        break;
-      case "modal":
-        if (this.selectedNode) {
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.btnLabel = event.form.btnLabel;
-          this.selectedNode.modalContent = event.form.modalContent;
-          this.selectedNode.modalTitle = event.form.modalTitle;
-          this.selectedNode.cancalButtontext = event.form.cancalButtontext;
-          this.selectedNode.centered = event.form.centered;
-          this.selectedNode.okBtnLoading = event.form.okBtnLoading;
-          this.selectedNode.cancelBtnLoading = event.form.cancelBtnLoading;
-          this.selectedNode.okBtnDisabled = event.form.okBtnDisabled;
-          this.selectedNode.cancelDisabled = event.form.cancelDisabled;
-          this.selectedNode.ecsModalCancel = event.form.ecsModalCancel;
-          this.selectedNode.okBtnText = event.form.okBtnText;
-          this.selectedNode.closeIcon = event.form.closeIcon;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.showCloseIcon = event.form.showCloseIcon;
-          this.selectedNode.zIndex = event.form.zIndex;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-        }
-        break;
-      case "transfer":
-        if (this.selectedNode) {
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.showSearch = event.form.showSearch;
-          this.selectedNode.firstBoxTitle = event.form.firstBoxTitle;
-          this.selectedNode.secondBoxTitle = event.form.secondBoxTitle;
-          this.selectedNode.leftButtonLabel = event.form.leftButtonLabel;
-          this.selectedNode.rightButtonLabel = event.form.rightButtonLabel;
-          this.selectedNode.searchPlaceHolder = event.form.searchPlaceHolder;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.notFoundContentLabel = event.form.notFoundContentLabel;
-          // this.selectedNode.list = this.assigOptionsData(this.selectedNode.list, event.tableDta, event.form.api)
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
+                  break;
+                case "transfer":
                   this.selectedNode.list = res;
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                  break;
+                default:
+                  break;
               }
-            })
-          }
-        }
-        break;
-      case "skeleton":
-        if (this.selectedNode) {
-          this.selectedNode.isActive = event.form.isActive;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.buttonShape = event.form.buttonShape;
-          this.selectedNode.avatarShape = event.form.avatarShape;
-          this.selectedNode.shapeType = event.form.shapeType;
+              this.updateNodes();
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
         }
         break;
       case "rate":
-
-        if (this.selectedNode) {
-          this.selectedNode.clear = event.form.clear;
-          this.selectedNode.allowHalf = event.form.allowHalf;
-          this.selectedNode.focus = event.form.focus;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.showCount = event.form.showCount;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.ngvalue = event.form.ngvalue;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-
-          if (event.tableDta) {
-            this.selectedNode.options = event.tableDta.map((option: any) => option.label);
-          } else {
-            this.selectedNode.options = this.selectedNode.options;
-          }
+        if (event.tableDta) {
+          this.selectedNode.options = event.tableDta.map((option: any) => option.label);
+        } else {
+          this.selectedNode.options = this.selectedNode.options;
         }
         break;
       case "statistic":
-        if (this.selectedNode) {
-          this.selectedNode.prefixIcon = event.form.icon;
-          this.selectedNode.suffixIcon = event.form.suffixIcon;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          if (event.tableDta) {
-            this.selectedNode.statisticArray = event.tableDta
-          } else {
-            this.selectedNode.statisticArray = this.selectedNode.statisticArray
-          }
+        if (event.tableDta) {
+          this.selectedNode.statisticArray = event.tableDta
+        } else {
+          this.selectedNode.statisticArray = this.selectedNode.statisticArray
         }
         break;
-      case "tag":
-        if (this.selectedNode) {
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.mode = event.form.mode;
-          this.selectedNode.checked = event.form.checked;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-
-          if (event.tableDta) {
-            this.selectedNode.options = event.tableDta
-          }
-        }
-        break;
-      case "segmented":
-        if (this.selectedNode) {
-          if (event.tableDta) {
-            this.selectedNode.options = event.tableDta
-          } else {
-            this.selectedNode.options = this.selectedNode.options
-          }
-          this.selectedNode.block = event.form.block;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.defaultSelectedIndex = event.form.defaultSelectedIndex;
-        }
-        break;
-      case "badge":
-        if (this.selectedNode) {
-          this.selectedNode.count = parseInt(event.form.count);
-          this.selectedNode.nzText = event.form.nzText;
-          this.selectedNode.nzColor = event.form.nzColor;
-          this.selectedNode.nzStatus = event.form.nzStatus;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.standAlone = event.form.standAlone;
-          this.selectedNode.dot = event.form.dot;
-          this.selectedNode.showDot = event.form.showDot;
-          this.selectedNode.overflowCount = event.form.overflowCount;
-          this.selectedNode.showZero = event.form.showZero;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.nztype = event.form.nztype;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-        }
-        break;
-      case "mentions":
-        if (this.selectedNode) {
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.loading = event.form.loading;
-          this.selectedNode.status = event.form.status;
-          // this.selectedNode.options = this.assigOptionsData(this.selectedNode.options, event.tableDta, event.form.api);
-          // this.selectedNode.options = event.form.options;
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.options = res;
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          this.selectedNode.position = event.form.position;
-
-        }
-        break;
-      case "empty":
-        if (this.selectedNode) {
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.btnText = event.form.btnText;
-          this.selectedNode.color = event.form.color;
-        }
-        break;
-      case "notification":
-        if (this.selectedNode) {
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.duration = event.form.duration;
-          this.selectedNode.pauseOnHover = event.form.pauseOnHover;
-          this.selectedNode.animate = event.form.animate;
-          this.selectedNode.notificationType = event.form.notificationType;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-        }
-        break;
-      case "list":
-        if (this.selectedNode) {
-          this.selectedNode.headerText = event.form.headerText;
-          this.selectedNode.footerText = event.form.footerText;
-          this.selectedNode.formatter = event.form.formatter;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.isBordered = event.form.isBordered;
-          this.selectedNode.isSplit = event.form.isSplit;
-          this.selectedNode.isEdit = event.form.isEdit;
-          this.selectedNode.isUpdate = event.form.isUpdate;
-          this.selectedNode.isDelete = event.form.isDelete;
-          this.selectedNode.isLoad = event.form.isLoad;
-          this.selectedNode.loadText = event.form.loadText;
-          this.selectedNode.options = event.form.options;
-        }
-        break;
-      case "description":
-        if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.btnText = event.form.btnText;
-          this.selectedNode.formatter = event.form.formatter;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.isBordered = event.form.isBordered;
-          this.selectedNode.isColon = event.form.isColon;
-        }
-        break;
-      case "message":
-        if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.duration = event.form.duration;
-          this.selectedNode.messageType = event.form.messageType;
-          this.selectedNode.animate = event.form.animate;
-          this.selectedNode.isColon = event.form.isColon;
-        }
-        break;
-      case "descriptionChild":
-        if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.nzStatus = event.form.nzStatus;
-          this.selectedNode.isBadeg = event.form.isBadeg;
-          this.selectedNode.nzSpan = event.form.nzSpan;
+      case "segmented": case "tag":
+        if (event.tableDta) {
+          this.selectedNode.options = event.tableDta
+        } else {
+          this.selectedNode.options = this.selectedNode.options
         }
         break;
       case "select":
@@ -2962,8 +2255,6 @@ export class BuilderComponent implements OnInit {
       case "customMasking":
       case "url":
         if (this.selectedNode) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode['hideExpression'] = event.form.hideExpression;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
@@ -3058,9 +2349,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "inputValidationRule":
-
         if (this.selectedNode) {
-          debugger
           const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "moduleName": this.screenName,
@@ -3079,20 +2368,16 @@ export class BuilderComponent implements OnInit {
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
           if (mainModuleId.length > 0) {
             this.builderService.jsonGetValidationRule(mainModuleId[0].screenId, event.form.id).subscribe((getRes => {
-
               getRes;
               if (getRes.length > 0) {
                 this.builderService.jsonDeleteValidationRule(event.form.id).subscribe((delRes => {
-
                   this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-
                     alert("Data Save");
                   }))
                 }))
               }
               else {
                 this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-
                   alert("Data Save");
                 }))
               }
@@ -3100,134 +2385,22 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "breakTag":
-        if (this.selectedNode) {
-        }
-        break;
-      case "affix":
-        if (this.selectedNode) {
-          this.selectedNode.affixType = event.form.affixType;
-          this.selectedNode.margin = event.form.margin;
-          this.selectedNode.target = event.form.target;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-        }
-        break;
-      case "backTop":
-        if (this.selectedNode) {
-          this.selectedNode.target = event.form.target;
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.visibleafter = event.form.visibleafter;
-          this.selectedNode.duration = event.form.duration;
-        }
-        break;
       case "avatar":
-        if (this.selectedNode) {
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.bgColor = event.form.bgColor;
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.gap = event.form.gap;
-          this.selectedNode.alt = event.form.alt;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.shape = event.form.shape;
+        if (event.form.src) {
           this.selectedNode.src = event.form.src;
-          if (event.form.src) {
-            this.selectedNode.src = event.form.src;
-          }
-          else if (this.dataSharedService.imageUrl) {
-            this.selectedNode.src = this.dataSharedService.imageUrl;
-            this.dataSharedService.imageUrl = '';
-          }
         }
-        break;
-      case "comment":
-        if (this.selectedNode) {
-          this.selectedNode.avatar = event.form.avatar;
-          this.selectedNode.author = event.form.author;
-        }
-        break;
-      case "popOver":
-        if (this.selectedNode) {
-          this.selectedNode.btnLabel = event.form.btnLabel;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
-          this.selectedNode.arrowPointAtCenter = event.form.arrowPointAtCenter;
-          this.selectedNode.trigger = event.form.trigger;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.visible = event.form.visible;
-          this.selectedNode.mouseEnterDelay = event.form.mouseEnterDelay;
-          this.selectedNode.mouseLeaveDelay = event.form.mouseLeaveDelay;
-          this.selectedNode.backdrop = event.form.backdrop;
-        }
-        break;
-      case "popConfirm":
-        if (this.selectedNode) {
-          this.selectedNode.btnLabel = event.form.btnLabel;
-          this.selectedNode.content = event.form.content;
-          this.selectedNode.nzPopoverTitle = event.form.nzPopoverTitle;
-          this.selectedNode.arrowPointAtCenter = event.form.arrowPointAtCenter;
-          this.selectedNode.trigger = event.form.trigger;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.visible = event.form.visible;
-          this.selectedNode.mouseEnterDelay = event.form.mouseEnterDelay;
-          this.selectedNode.mouseLeaveDelay = event.form.mouseLeaveDelay;
-          this.selectedNode.backdrop = event.form.backdrop;
-        }
-        break;
-      case "spin":
-        if (this.selectedNode) {
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.delayTime = event.form.delayTime;
-          this.selectedNode.loaderText = event.form.loaderText;
-          this.selectedNode.loaderIcon = event.form.loaderIcon;
-          this.selectedNode.simple = event.form.simple;
-          this.selectedNode.spinning = event.form.spinning;
-        }
-        break;
-      case "result":
-        if (this.selectedNode) {
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.resultTitle = event.form.resultTitle;
-          this.selectedNode.subTitle = event.form.subTitle;
-          this.selectedNode.btnLabel = event.form.btnLabel;
-          this.selectedNode.extra = event.form.extra;
-          this.selectedNode.icon = event.form.icon;
-          // this.selectedNode['iconType'] = event.form.iconType;
-          // this.selectedNode['iconSize'] = event.form.iconSize;
-          // this.selectedNode['iconColor'] = event.form.iconColor;
+        else if (this.dataSharedService.imageUrl) {
+          this.selectedNode.src = this.dataSharedService.imageUrl;
+          this.dataSharedService.imageUrl = '';
         }
         break;
       case "imageUpload":
-        if (this.selectedNode) {
-          this.selectedNode.alt = event.form.alt;
-          this.selectedNode.source = event.form.source;
-          this.selectedNode.imagHieght = event.form.imagHieght;
-          this.selectedNode.imageWidth = event.form.imageWidth;
-          this.selectedNode.imageClass = event.form.imageClass;
-          this.selectedNode.keyboardKey = event.form.keyboardKey;
-          this.selectedNode.zoom = event.form.zoom;
-          this.selectedNode.rotate = event.form.rotate;
-          this.selectedNode.zIndex = event.form.zIndex;
-          this.selectedNode.imagePreview = event.form.imagePreview;
-          if (event.form.source) {
-            this.dataSharedService.imageUrl = '';
-            this.selectedNode.base64Image = '';
-          }
-          else if (this.dataSharedService.imageUrl) {
-            this.selectedNode.base64Image = this.dataSharedService.imageUrl;
-          }
+        if (event.form.source) {
+          this.dataSharedService.imageUrl = '';
+          this.selectedNode.base64Image = '';
         }
-        break;
-      case "toastr":
-        if (this.selectedNode) {
-          this.selectedNode.toastrType = event.form.toastrType;
-          this.selectedNode.toasterTitle = event.form.toasterTitle;
-          this.selectedNode.duration = event.form.duration;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.closeIcon = event.form.closeIcon;
-          this.selectedNode.description = event.form.description;
-          this.selectedNode.animate = event.form.animate;
-          this.selectedNode.pauseOnHover = event.form.pauseOnHover;
+        else if (this.dataSharedService.imageUrl) {
+          this.selectedNode.base64Image = this.dataSharedService.imageUrl;
         }
         break;
       case "invoice":
@@ -3250,32 +2423,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.balanceDueLabel = event.form.balanceDueLabel;
         }
         break;
-      case "rangeSlider":
-        if (this.selectedNode) {
-          this.selectedNode.min = event.form.min;
-          this.selectedNode.max = event.form.max;
-          this.selectedNode.sliderType = event.form.sliderType;
-          this.selectedNode.progressBar = event.form.progressBar;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.showValue = event.form.showValue;
-        }
-        break;
-      case "inputGroupGrid":
-        if (this.selectedNode) {
-        }
-        break;
-
       case "calender":
         if (this.selectedNode.id) {
-          this.selectedNode.viewType = event.form.viewType;
-          this.selectedNode.view = event.form.view;
-          this.selectedNode.weekends = event.form.weekends;
-          this.selectedNode.editable = event.form.editable;
-          this.selectedNode.selectable = event.form.selectable;
-          this.selectedNode.selectMirror = event.form.selectMirror;
-          this.selectedNode.dayMaxEvents = event.form.dayMaxEvents;
-          this.selectedNode.details = event.form.details;
-          // this.selectedNode.disabled = event.form.disabled;
           if (event.form.statusApi != undefined) {
             this.selectedNode.options = INITIAL_EVENTS;
             // this.requestSubscription = this.builderService.genericApis(event.form.statusApi).subscribe({
@@ -3289,60 +2438,10 @@ export class BuilderComponent implements OnInit {
             //   }
             // })
           }
-          // this.cdr.detectChanges();
         }
         break;
-      // case "customMasking":
-      // if (this.selectedNode) {
-      //   this.selectedNode?.formly?.forEach(elementV1 => {
-      //     // MapOperator(elementV1 =currentData);
-      //     const formly = elementV1 ?? {};
-      //     const fieldGroup = formly.fieldGroup ?? [];
-      //     const props = fieldGroup[0]?.props ?? {};
-      //     props['key'] = event.form.key;
-      //     props.label = event.form.title;
-      //     props.focus = event.form.focus;
-      //     props['hideExpression'] = event.form.hideExpression;
-      //     props['defaultValue'] = event.form.defaultValue;
-      //     props['required'] = event.form.required;
-      //     props.readonly = event.form.readonly;
-      //     props.placeholder = event.form.placeholder;
-      //     props['required'] = event.form.required;
-      //     props['disabled'] = event.form.disabled;
-      //     props['tooltip'] = event.form.tooltip;
-      //     props['maskString'] = event.form.maskString;
-      //     props['maskLabel'] = event.form.maskLabel;
-      //     props['labelIcon'] = event.form.labelIcon;
-      //     props['addonLeft'].text = event.form.addonLeft;
-      //     props['addonRight'].text = event.form.addonRight;
-      //     props['tooltip'] = event.form.tooltip;
-      //     props['options'] = event.form.multiselect == "" ? event.form.options : "";
-      //   });
-      // }
-      // break;
       case "gridList":
-
         if (this.selectedNode.id) {
-          this.selectedNode.nzTitle = event.form.nzTitle;
-          this.selectedNode.nzBordered = event.form.nzBordered;
-          this.selectedNode.nzFooter = event.form.nzFooter;
-          this.selectedNode.nzLoading = event.form.nzLoading;
-          this.selectedNode.nzPaginationType = event.form.nzPaginationType;
-          this.selectedNode.nzPaginationPosition = event.form.nzPaginationPosition;
-          this.selectedNode.nzFrontPagination = event.form.nzShowPagination;
-          this.selectedNode.nzShowPagination = event.form.nzShowPagination;
-          this.selectedNode.showColumnHeader = event.form.showColumnHeader;
-          this.selectedNode.noResult = event.form.noResult;
-          this.selectedNode.nzSimple = event.form.nzSimple;
-          this.selectedNode.nzSize = event.form.nzSize;
-          this.selectedNode.nzShowSizeChanger = event.form.nzShowSizeChanger;
-          this.selectedNode.showCheckbox = event.form.showCheckbox;
-          this.selectedNode.expandable = event.form.expandable;
-          this.selectedNode.fixHeader = event.form.fixHeader;
-          this.selectedNode.tableScroll = event.form.tableScroll;
-          this.selectedNode.fixedColumn = event.form.fixedColumn;
-          this.selectedNode.sortOrder = event.form?.sortOrder;
-          this.selectedNode.isAddRow = event.form?.isAddRow;
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
@@ -3355,31 +2454,17 @@ export class BuilderComponent implements OnInit {
               }
               if (event.form.sortDirections) {
                 newObj.sortDirections = event.form.sortDirections;
-                // let sortFn = (a: any, b: any) => {
-                //   const propA = newObj[key]?.toLowerCase() || '';
-                //   const propB = newObj[key]?.toLowerCase() || '';
-                //   return propA.localeCompare(propB);
-                // };
-                // newObj.sortFn = sortFn;
-                // newObj.sortFn = (a:any, b:any) => newObj.key.localeCompare(newObj.key);
               }
               if (event.form.filterMultiple) {
                 newObj.filterMultiple = event.form.filterMultiple;
               }
               if (newObj.listOfFilter) {
                 newObj.listOfFilter = JSON.parse(newObj.listOfFilter);
-                // let filterFn = (address: string, item: any) => {
-                //   const propValue = item[key].toLowerCase();
-                //   return propValue.indexOf(address.toLowerCase()) !== -1;
-                // };
-                // newObj.filterFn = (address: string, item: any) => newObj.key.indexOf(newObj.key) !== -1;
               }
               return newObj;
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
-
-
           this.selectedNode.tableData = this.updateTableData(this.selectedNode.tableData, event.tableDta ? event.tableDta : event.form.options);
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
@@ -3393,7 +2478,6 @@ export class BuilderComponent implements OnInit {
               }
             })
           }
-
           if (this.selectedNode.noResult) {
             if (this.selectedNode.tableData.length > 0) {
               this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData;
@@ -3404,202 +2488,42 @@ export class BuilderComponent implements OnInit {
             if (this.selectedNode['tableNoResultArray'])
               this.selectedNode.tableData = this.selectedNode['tableNoResultArray'];
           }
-
-          // this.selectedNode.sort = event.form.sort;
-          // const firstObjectKeys = Object.keys(this.selectedNode.tableData[0]);
-          // const key = firstObjectKeys.map(key => ({ name: key }));
-          // if (this.selectedNode.sort) {
-          //   key.forEach((j: any) => {
-          //     this.selectedNode.tableHeaders.forEach((i: any) => {
-          //       if (i.name.toLowerCase() == j.name.toLowerCase()) {
-          //         i['sortOrder'] = null;
-          //         i['sortFn'] = (a: any, b: any) => {
-          //           Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
-          //           Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
-          //           const result = a.dynamicProp - b.dynamicProp;
-          //           delete a.dynamicProp;
-          //           delete b.dynamicProp;
-          //           return result;
-          //         };
-          //         // i['sortFn'] = (a: any, b: any) => {
-          //         //   Object.defineProperty(a, 'dynamicProp', { value: a[j.name], writable: true });
-          //         //   Object.defineProperty(b, 'dynamicProp', { value: b[j.name], writable: true });
-          //         //   const result = a.dynamicProp.localeCompare(b.dynamicProp);
-          //         //   delete a.dynamicProp;
-          //         //   delete b.dynamicProp;
-          //         //   return result;
-          //         // };
-          //         i['sortDirections'] = ['ascend', 'descend', null]
-          //       }
-          //     });
-          //   });
-          // }
-
-
-        }
-        break;
-
-      case "button":
-
-        if (this.selectedNode) {
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.hoverColor = event.form.hoverColor;
-          this.selectedNode.btnIcon = event.form.icon;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.nzBlock = event.form.nzBlock;
-          this.selectedNode.nzSize = event.form.nzSize;
-          this.selectedNode.nzShape = event.form.nzShape;
-          this.selectedNode.nzLoading = event.form.nzLoading;
-          this.selectedNode.nzGhost = event.form.nzGhost;
-          this.selectedNode.nzDanger = event.form.nzDanger;
-          this.selectedNode.nzShape = event.form.nzShape;
-          this.selectedNode.format = event.form.format;
-          this.selectedNode.nztype = event.form.nztype;
-          this.selectedNode.href = event.form.href;
-          this.selectedNode.btnType = event.form.redirect;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
-          this.selectedNode['textColor'] = event.form.textColor;
-          this.selectedNode['isSubmit'] = event.form.isSubmit;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode['dataTable'] = event.form.dataTable;
-          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
-        }
-        break;
-
-      case "buttonGroup":
-        if (this.selectedNode) {
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.btngroupformat = event.form.btngroupformat;
-          this.updateNodes();
-        }
-        break;
-      case "linkbutton":
-
-        if (this.selectedNode) {
-          this.selectedNode.btnIcon = event.form.icon;
-          this.selectedNode.href = event.form.href;
-          this.selectedNode.btnType = event.form.target;
-          this.selectedNode.hoverColor = event.form.hoverColor;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.nzBlock = event.form.nzBlock;
-          this.selectedNode.nzSize = event.form.nzSize;
-          this.selectedNode.nzShape = event.form.nzShape;
-          this.selectedNode.nzLoading = event.form.nzLoading;
-          this.selectedNode.nzDanger = event.form.nzDanger;
-          this.selectedNode.format = event.form.format;
-          this.selectedNode.nzGhost = event.form.nzGhost;
-          this.selectedNode.btnType = event.form.target;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
-          // this.selectedNode['dataTable'] = event.form.dataTable;
-          // if (event.form.target == "modal" || event.form.target == "lg" || event.form.target == "xl" || event.form.target == "fullscreen") {
-          //   this.selectedNode.btnType = "modal";
-          // }
-          this.updateNodes();
-
         }
         break;
       case "div":
-        if (this.selectedNode) {
-          this.selectedNode.divClass = event.form.divClass;
-          if (event.form.imageSrc) {
-            this.selectedNode.imageSrc = event.form.imageSrc
-          } else {
-            this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
-          }
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
+        if (event.form.imageSrc) {
+          this.selectedNode.imageSrc = event.form.imageSrc
+        } else {
+          this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
         }
+        this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
       case "dropdownButton":
-
-        if (this.selectedNode) {
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.hoverColor = event.form.hoverColor;
-          this.selectedNode.btnIcon = event.form.icon;
-          this.selectedNode.nzBlock = event.form.nzBlock;
-          this.selectedNode.nzSize = event.form.nzSize;
-          this.selectedNode.nzShape = event.form.nzShape;
-          this.selectedNode.nzDanger = event.form.nzDanger;
-          this.selectedNode.nzLoading = event.form.nzLoading;
-          this.selectedNode.nzGhost = event.form.nzGhost;
-          this.selectedNode.format = event.form.format;
-          this.selectedNode.trigger = event.form.trigger;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.visible = event.form.visible;
-          this.selectedNode.clickHide = event.form.clickHide;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['nztype'] = event.form.nztype;
-          this.selectedNode['textColor'] = event.form.textColor;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['hoverTextColor'] = event.form.hoverTextColor;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode['dataTable'] = event.form.dataTable;
-          this.selectedNode['btnLabelPaddingClass'] = event.form.btnLabelPaddingClass;
-          if (event.tableDta) {
-            this.selectedNode.dropdownOptions = event.tableDta;
-          }
-        }
-        break;
-      case "accordionButton":
-        if (this.selectedNode) {
-          this.selectedNode.nzBordered = event.form.nzBordered;
-          this.selectedNode.nzGhost = event.form.nzGhost;
-          this.selectedNode.nzExpandIconPosition = event.form.nzExpandIconPosition;
-          this.selectedNode.nzDisabled = event.form.nzDisabled;
-          this.selectedNode.nzExpandedIcon = event.form.icon;
-          this.selectedNode.nzShowArrow = event.form.nzShowArrow;
-          this.selectedNode.extra = event.form.extra;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-          this.updateNodes();
-        }
-        break;
-      //Card Case
-      case "card":
-        this.selectedNode.hideExpression = event.form.hideExpression;
-        if (this.selectedNode) {
-          this.selectedNode.label = event.form.name;
-          // this.selectedNode.className = event.form.className;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.name = event.form.name;
-          this.selectedNode.total = event.form.total;
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.tooltip = event.form.tooltip;
+        if (event.tableDta) {
+          this.selectedNode.dropdownOptions = event.tableDta;
         }
         break;
       case "fixedDiv":
-        if (this.selectedNode) {
-          this.selectedNode.hideExpression = event.form.hideExpression;
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (Array.isArray(res)) {
-                  res.forEach((item) => {
-                    this.selectedNode?.children?.push(item);
-                  })
-                } else {
-                  this.selectedNode?.children?.push(res);
-                }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        if (event.form.api) {
+          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+            next: (res) => {
+              if (Array.isArray(res)) {
+                res.forEach((item) => {
+                  this.selectedNode?.children?.push(item);
+                })
+              } else {
+                this.selectedNode?.children?.push(res);
               }
-            })
-          }
+              this.updateNodes();
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
         }
         break;
-
       case "chart":
-
         if (this.selectedNode) {
           var seriesList = [];
           var ans = Array.isArray(event.form.options[0].data)
@@ -3644,264 +2568,64 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "heading":
-        if (this.selectedNode) {
-          this.selectedNode.heading = event.form.heading,
-            this.selectedNode.color = event.form.color;
-          // this.selectedNode.paddingLeft = event.form.paddingLeft;
-          // this.selectedNode.paddingRight = event.form.paddingRight;
-          // this.selectedNode.paddingTop = event.form.paddingTop;
-          // this.selectedNode.paddingBottom = event.form.paddingBottom;
-          this.selectedNode.fontstyle = event.form.fontstyle;
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.style = event.form.style;
-          this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
-          this.selectedNode.textAlign = event.form.textAlign;
-          this.selectedNode.headingColor = event.form.headingColor;
-          this.selectedNode.link = event.form.link;
-          if (event.form.headingApi) {
-            this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
-              next: (res) => {
-                this.selectedNode.data = res.data;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
-          }
-          this.updateNodes();
+        this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
+        if (event.form.headingApi) {
+          this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
+            next: (res) => {
+              this.selectedNode.data = res.data;
+              this.updateNodes();
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
         }
         break;
-
-      case "paragraph":
-        if (this.selectedNode) {
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.editable = event.form.editable;
-          this.selectedNode.editableTooltip = event.form.editableTooltip;
-          this.selectedNode.copyable = event.form.copyable;
-          this.selectedNode.copyTooltips = event.form.copyTooltips;
-          this.selectedNode.ellipsis = event.form.ellipsis;
-          this.selectedNode.suffix = event.form.suffix;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.expandable = event.form.expandable;
-          this.selectedNode.ellipsisRows = event.form.ellipsisRows;
-          this.selectedNode.nztype = event.form.nztype;
-          this.selectedNode.beforecopyIcon = event.form.beforecopyIcon;
-          this.selectedNode.aftercopyIcon = event.form.aftercopyIcon;
-          this.selectedNode.editableIcon = event.form.editableIcon;
-          this.selectedNode.color = event.form.color;
-          this.selectedNode.fontstyle = event.form.fontstyle;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode.link = event.form.link;
-          // if (event.form.api) {
-          //   this.builderService.genericApis(event.form.api).subscribe((res => {
-          //     this.updateNodes()
-          //   }));
-          // }
-
-        }
-        break;
-
-      case "step":
-        if (this.selectedNode) {
-          // this.selectedNode.hideExpression = event.form.hideExpression;
-          // this.selectedNode.className = event.form.className;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.description = event.form.description;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.label = event.form.label;
-          this.selectedNode.subtitle = event.form.subtitle;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          // this.selectedNode.percentage = event.form.percentage;
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-          this.updateNodes()
-        }
-        break;
-
       case "mainStep":
-        if (this.selectedNode) {
-          this.selectedNode.direction = event.form.direction;
-          this.selectedNode.placement = event.form.placement;
-          this.selectedNode.size = event.form.size;
-          // this.selectedNode.status = event.form.status;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.stepperType = event.form.stepperType;
-          this.selectedNode.nodes = event.form.nodes;
-          this.addDynamic(event.form.nodes, 'step', 'mainStep')
-          this.updateNodes();
-          // this.clickBack();
-        }
+        this.addDynamic(event.form.nodes, 'step', 'mainStep')
         break;
       case "listWithComponents":
-        if (this.selectedNode) {
-          this.selectedNode.nodes = event.form.nodes;
-          this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-          this.updateNodes();
-        }
-        break;
-      case "listWithComponentsChild":
-        if (this.selectedNode) {
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-          this.updateNodes();
-        }
+        this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
+        this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
       case "page":
-        if (this.selectedNode.id) {
-          this.selectedNode.title = event.form.title;
-          this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
-        }
-        break;
-
-      case "pageHeader":
-        if (this.selectedNode.id) {
-          this.selectedNode.headingSize = event.form.headingSize;
-          this.selectedNode.header = event.form.header;
-          this.selectedNode.labelPosition = event.form.labelPosition;
-          this.selectedNode.alertPosition = event.form.alertPosition;
-          this.selectedNode.isBordered = event.form.isBordered;
-        }
-        break;
-
-      case "pageBody":
-        if (this.selectedNode.id) {
-        }
-        break;
-
-      case "pageFooter":
-        if (this.selectedNode.id) {
-          this.selectedNode.footer = event.form.footer;
-        }
+        this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
         break;
       case "sections":
         debugger
-        if (this.selectedNode.id) {
-          this.selectedNode.sectionClassName = event.form.sectionClassName;
-          this.selectedNode.sectionDisabled = event.form.disabled;
-          this.selectedNode.borderColor = event.form.borderColor;
-          this.selectedNode.labelPosition = event.form.labelPosition;
-          this.selectedNode.repeatable = event.form.repeatable;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.isBordered = event.form.isBordered;
-          this.selectedNode.formatAlignment = event.form.formatAlignment;
-          const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
-          filteredNodes.forEach(node => {
-            node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
-          });
-          if (this.selectedNode.wrappers != event.form.wrappers) {
-            this.selectedNode.wrappers = event.form.wrappers;
-            this.clickBack();
-          }
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-
-                if (Array.isArray(res)) {
-                  res.forEach((item) => {
-                    if (this.selectedNode?.children) {
-                      this.selectedNode?.children[1]?.children?.push(item);
-                    }
-                  })
-                } else {
+        const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
+        filteredNodes.forEach(node => {
+          node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
+        });
+        if (this.selectedNode.wrappers != event.form.wrappers) {
+          this.selectedNode.wrappers = event.form.wrappers;
+          this.clickBack();
+        }
+        if (event.form.api) {
+          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+            next: (res) => {
+              if (Array.isArray(res)) {
+                res.forEach((item) => {
                   if (this.selectedNode?.children) {
-                    this.selectedNode?.children[1]?.children?.push(res);
+                    this.selectedNode?.children[1]?.children?.push(item);
                   }
+                })
+              } else {
+                if (this.selectedNode?.children) {
+                  this.selectedNode?.children[1]?.children?.push(res);
                 }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-            })
-          }
-        }
-        break;
-      case "header":
-        if (this.selectedNode.id) {
-          this.selectedNode.headingSize = event.form.headingSize;
-          // this.selectedNode.borderColor = event.form.borderColor;
-          this.selectedNode.backGroundColor = event.form.backGroundColor;
-          this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode.header = event.form.header;
-          this.selectedNode.expanded = event.form.expanded;
-          this.selectedNode.labelPosition = event.form.labelPosition;
-          this.updateNodes();
+              this.updateNodes();
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
         }
         break;
 
-      case "body":
-        if (this.selectedNode.id) {
-          // this.selectedNode.borderColor = event.form.borderColor;
-          this.selectedNode.backGroundColor = event.form.backGroundColor;
-          this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode = this.api(event.form.api, this.selectedNode);
-          this.updateNodes()
-        }
-        break;
-
-      case "footer":
-        if (this.selectedNode.id) {
-          // this.selectedNode.borderColor = event.form.borderColor;
-          this.selectedNode.backGroundColor = event.form.backGroundColor;
-          this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode.footer = event.form.footer;
-        }
-        break;
-      case "switch":
-        if (this.selectedNode) {
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.checkedChildren = event.form.checkedChildren;
-          this.selectedNode.unCheckedChildren = event.form.unCheckedChildren;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.loading = event.form.loading;
-          this.selectedNode.control = event.form.control;
-          this.selectedNode.model = event.form.model;
-        }
-        break;
-      case "multiFileUpload":
-        if (this.selectedNode.id) {
-          this.selectedNode.uploadBtnLabel = event.form.title;
-          this.selectedNode.multiple = event.form.multiple;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode.uploadBtnLabel = event.form.uploadBtnLabel;
-          this.selectedNode.uploadLimit = event.form.uploadLimit;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.showDialogueBox = event.form.showDialogueBox;
-          this.selectedNode.showUploadlist = event.form.showUploadlist;
-          this.selectedNode.onlyDirectoriesAllow = event.form.onlyDirectoriesAllow;
-        }
-        break;
-      case "textEditor":
-        if (this.selectedNode.id) {
-        }
-        break;
-
-      case "tabs":
-        if (this.selectedNode.id) {
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.disabled = event.form.disabled;
-          this.selectedNode = this.api(event.form.api, this.selectedNode)
-          this.updateNodes();
-        }
-        break;
-      case "kanban":
-        if (this.selectedNode.id) {
-          this.selectedNode.nodes = event.form.nodes;
-          this.selectedNode.maxLength = event.form.maxLength;
-          this.selectedNode.showAddbtn = event.form.showAddbtn;
-        }
-        break;
       case "kanbanTask":
         if (this.selectedNode.id) {
           if (this.selectedNode.children) {
@@ -3940,179 +2664,52 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-
-      case "mainTab":
-        if (this.selectedNode.id) {
-          this.selectedNode.selectedIndex = event.form.selectedIndex;
-          this.selectedNode.animated = event.form.animated;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.tabPosition = event.form.tabPosition;
-          this.selectedNode.tabType = event.form.tabType;
-          this.selectedNode.hideTabs = event.form.hideTabs;
-          this.selectedNode.nodes = event.form.nodes;
-          this.selectedNode.centerd = event.form.centerd;
-          this.addDynamic(event.form.nodes, 'tabs', 'mainTab')
-          this.updateNodes();
-        }
-        break;
-      case "progressBar":
-        if (this.selectedNode.id) {
-          this.selectedNode.progressBarType = event.form.progressBarType;
-          this.selectedNode.percent = event.form.percent;
-          this.selectedNode.showInfo = event.form.showInfo;
-          this.selectedNode.status = event.form.status;
-          this.selectedNode.strokeLineCap = event.form.strokeLineCap;
-          this.selectedNode.success = event.form.success;
-          this.updateNodes()
-        }
-        break;
-
-
-      case "divider":
-        if (this.selectedNode.id) {
-          this.selectedNode.dividerText = event.form.dividerText;
-          this.selectedNode.icon = event.form.icon;
-          this.selectedNode.dashed = event.form.dashed;
-          this.selectedNode.dividerType = event.form.dividerType;
-          this.selectedNode.orientation = event.form.orientation;
-          this.selectedNode.plain = event.form.plain;
-          this.selectedNode.dividerFormat = event.form.dividerFormat;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.updateNodes()
-        }
-        break;
-      case "audio":
-        if (this.selectedNode.id) {
-          this.selectedNode.audioSrc = event.form.audioSrc;
-          this.updateNodes();
-          // this.clickBack();
-        }
-        break;
       case "carouselCrossfade":
-        if (this.selectedNode.id) {
-          this.selectedNode.effect = event.form.effect;
-          this.selectedNode.dotPosition = event.form.dotPosition;
-          this.selectedNode.autoPlay = event.form.autoPlay;
-          this.selectedNode.autolPlaySpeed = event.form.autolPlaySpeed;
-          this.selectedNode.showDots = event.form.showDots;
-          this.selectedNode.enableSwipe = event.form.enableSwipe;
-          event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
-          if (event.form.link != undefined || event.form.link != "") {
-            this.requestSubscription = this.builderService.genericApis(event.form.link).subscribe({
-              next: (res) => {
-                this.selectedNode.carousalConfig = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
+        event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
+        if (event.form.link != undefined || event.form.link != "") {
+          this.requestSubscription = this.builderService.genericApis(event.form.link).subscribe({
+            next: (res) => {
+              this.selectedNode.carousalConfig = res;
+              this.updateNodes();
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
 
-            })
-          }
-        }
-        break;
-      case "videos":
-        if (this.selectedNode.id) {
-          this.selectedNode.videoConfig[0].title = event.form.title;
-          this.selectedNode.videoConfig[0].videoRatio = event.form.videoRatio;
-          this.selectedNode.videoConfig[0].videoSrc = event.form.videoSrc;
-          this.selectedNode.videoConfig[0].tooltip = event.form.tooltip;
-          this.updateNodes()
-        }
-        break;
-      case "alert":
-        if (this.selectedNode.id) {
-          this.selectedNode.text = event.form.text;
-          this.selectedNode.alertColor = event.form.alertColor;
-          this.selectedNode.alertType = event.form.alertType;
-          this.selectedNode.banner = event.form.banner;
-          this.selectedNode.showIcon = event.form.showIcon;
-          this.selectedNode.closeable = event.form.closeable;
-          this.selectedNode.description = event.form.description;
-          this.selectedNode.closeText = event.form.closeText;
-          this.selectedNode['icon'] = event.form.icon;
-          this.selectedNode.iconType = event.form.iconType;
-          this.selectedNode.action = event.form.action;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-          this.updateNodes()
+          })
         }
         break;
       case "timeline":
-        if (this.selectedNode.id) {
-          this.selectedNode.labelText = event.form.labelText,
-            this.selectedNode.dotIcon = event.form.dotIcon,
-            this.selectedNode.mainIcon = event.form.mainIcon,
-            this.selectedNode.timecolor = event.form.timecolor,
-            this.selectedNode.position = event.form.position,
-            this.selectedNode.pendingText = event.form.pendingText,
-            this.selectedNode.reverse = event.form.reverse,
-            this.selectedNode.mode = event.form.mode
-          this.selectedNode['data'] = event.form.options;
-          this.selectedNode['iconType'] = event.form.iconType;
-          this.selectedNode['iconSize'] = event.form.iconSize;
-          this.selectedNode['iconColor'] = event.form.iconColor;
-
-          // this.addDynamic(event.form.nodes, 'timelineChild', 'timeline')
-          if (event.tableDta) {
-            this.selectedNode.data = event.tableDta;
-          }
-          if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.data = res;
-                  this.updateNodes();
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.selectedNode['data'] = event.form.options;
+        if (event.tableDta) {
+          this.selectedNode.data = event.tableDta;
+        }
+        if (event.form.api) {
+          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
+            next: (res) => {
+              if (res) {
+                this.selectedNode.data = res;
+                this.updateNodes();
               }
-            })
-          }
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          })
         }
         break;
       case "simpleCardWithHeaderBodyFooter":
-        if (this.selectedNode.id) {
-          this.selectedNode.headerText = event.form.headerText;
-          this.selectedNode.bodyText = event.form.bodyText;
-          this.selectedNode.footerText = event.form.footerText;
-          this.selectedNode.height = event.form.height;
-          this.selectedNode.link = event.form.link;
-          this.selectedNode.textAlign = event.form.textAlign;
-          this.selectedNode.borderless = event.form.borderless;
-          this.selectedNode.extra = event.form.extra;
-          this.selectedNode.hover = event.form.hover;
-          this.selectedNode.loading = event.form.loading;
-          this.selectedNode.nztype = event.form.nztype;
-          this.selectedNode.size = event.form.size;
-          this.selectedNode.imageAlt = event.form.imageAlt;
+        if (event.form.imageSrc) {
           this.selectedNode.imageSrc = event.form.imageSrc;
-          this.selectedNode.description = event.form.description;
-          // this.selectedNode.bgColorHeader = event.form.bgColorHeader;
-          // this.selectedNode.bgColorBody = event.form.bgColorBody;
-          // this.selectedNode.bgColorFooter = event.form.bgColorFooter;
-          this.selectedNode.bgColor = event.form.bgColor;
-          this.selectedNode.footer = event.form.footer;
-          this.selectedNode['footerBorder'] = event.form.footerBorder;
-          if (event.form.imageSrc) {
-            this.selectedNode.imageSrc = event.form.imageSrc;
-          }
-          else if (this.dataSharedService.imageUrl) {
-            this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
-          }
-          this.updateNodes()
+        }
+        else if (this.dataSharedService.imageUrl) {
+          this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
         }
         break;
       case "barChart":
         if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
           let data = event.form.columnNames;
           data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
           this.selectedNode.columnNames = data;
@@ -4141,330 +2738,249 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "pieChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value)]);
-          }
-          // const slicePairs = event.form.slices.split(',');
-          // const slices: any = {};
-          // for (const pair of slicePairs) {
-          //   const [index, offset] = pair.trim().split(':');
-          //   slices[index] = { offset: parseFloat(offset) };
-          // }
-
-          this.selectedNode.options = {
-            title: event.form.title,
-            is3D: event.form.is3D,
-            pieHole: event.form.pieHole,
-            pieStartAngle: event.form.pieStartAngle,
-            // slices: slices ? slices : {},
-            sliceVisibilityThreshold: event.form.sliceVisibilityThreshold,
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value)]);
+        }
+        this.selectedNode.options = {
+          title: event.form.title,
+          is3D: event.form.is3D,
+          pieHole: event.form.pieHole,
+          pieStartAngle: event.form.pieStartAngle,
+          sliceVisibilityThreshold: event.form.sliceVisibilityThreshold,
         }
         break;
       case "bubbleChart":
-        if (this.selectedNode) {
-          this.selectedNode.options.hAxis.fontSize = event.form.fontSize;
-          this.selectedNode.options.bubble.textStyle.fontSize = event.form.fontSize;
-          this.selectedNode.options.bubble.textStyle.fontName = event.form.fontName;
-          this.selectedNode.options.bubble.textStyle.color = event.form.color;
-          this.selectedNode.options.bubble.textStyle.bold = event.form.bold;
-          this.selectedNode.options.bubble.textStyle.italic = event.form.italic;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          this.selectedNode.options = {
-            title: event.form.title,
-            hAxis: { title: event.form.hAxisTitle },
-            vAxis: { title: event.form.vAxisTitle },
-            colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
-            bubble: {
-              textStyle: {
-                fontSize: event.form.fontSize,
-                fontName: event.form.fontName,
-                color: event.form.color,
-                bold: event.form.bold,
-                italic: event.form.italic
-              }
+        this.selectedNode.options.hAxis.fontSize = event.form.fontSize;
+        this.selectedNode.options.bubble.textStyle.fontSize = event.form.fontSize;
+        this.selectedNode.options.bubble.textStyle.fontName = event.form.fontName;
+        this.selectedNode.options.bubble.textStyle.color = event.form.color;
+        this.selectedNode.options.bubble.textStyle.bold = event.form.bold;
+        this.selectedNode.options.bubble.textStyle.italic = event.form.italic;
+        this.selectedNode.options = {
+          title: event.form.title,
+          hAxis: { title: event.form.hAxisTitle },
+          vAxis: { title: event.form.vAxisTitle },
+          colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
+          bubble: {
+            textStyle: {
+              fontSize: event.form.fontSize,
+              fontName: event.form.fontName,
+              color: event.form.color,
+              bold: event.form.bold,
+              italic: event.form.italic
             }
-
-          };
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, Number(data.x), Number(data.y), Number(data.temprature)]);
           }
+
+        };
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, Number(data.x), Number(data.y), Number(data.temprature)]);
         }
         break;
       case "candlestickChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value), Number(data.value1), Number(data.value2), Number(data.value3)]);
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value), Number(data.value1), Number(data.value2), Number(data.value3)]);
         }
         break;
       case "columnChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          let data = event.form.columnNames;
-          data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
-          this.selectedNode.columnNames = data;
-          this.selectedNode.options = {
-            title: event.form.title,
-            bar: { groupWidth: event.form.groupWidth },
-            legend: { position: event.form.position, maxLines: event.form.maxLines },
-            hAxis: {
-              title: event.form?.hAxisTitle
-            },
-            vAxis: {
-              title: event.form?.vAxisTitle,
-            },
-            isStacked: event.form.isStacked,
-            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
-          }
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6), data.style, data.annotation]);
-          }
+        let data = event.form.columnNames;
+        data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
+        this.selectedNode.columnNames = data;
+        this.selectedNode.options = {
+          title: event.form.title,
+          bar: { groupWidth: event.form.groupWidth },
+          legend: { position: event.form.position, maxLines: event.form.maxLines },
+          hAxis: {
+            title: event.form?.hAxisTitle
+          },
+          vAxis: {
+            title: event.form?.vAxisTitle,
+          },
+          isStacked: event.form.isStacked,
+          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
+        }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6), data.style, data.annotation]);
         }
         break;
       case "ganttChart":
-        if (this.selectedNode) {
-          this.selectedNode.options = {
-            criticalPathEnabled: event.form.isCriticalPath,//if true then criticalPathStyle apply
-            criticalPathStyle: {
-              stroke: event.form.stroke,
-              strokeWidth: event.form.isCriticalPath
-            },
-            innerGridHorizLine: {
-              stroke: event.form.isCriticalPath,
-              strokeWidth: event.form.strokeWidth
-            },
-            arrow: {
-              angle: event.form.angle,
-              width: event.form.arrowWidth,
-              color: event.form.color,
-              radius: event.form.radius
-            },
-            innerGridTrack: { fill: event.form.innerGridTrack },
-            innerGridDarkTrack: { fill: event.form.innerGridDarkTrack }
-          }
-          // this.selectedNode.isCriticalPath = event.form.isCriticalPath;
-          // this.selectedNode.stroke = event.form.stroke;
-          // this.selectedNode.strokeWidth = event.form.strokeWidth;
-          // this.selectedNode.angle = event.form.angle;
-          // this.selectedNode.arrowWidth = event.form.arrowWidth;
-          // this.selectedNode.radius = event.form.radius;
-          // this.selectedNode.innerGridTrack = event.form.innerGridTrack;
-          // this.selectedNode.innerGridDarkTrack = event.form.innerGridDarkTrack;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, new Date(data.startDate), new Date(data.endDate), data.duration, data.percentComplete, data.dependencies]);
-          }
+        this.selectedNode.options = {
+          criticalPathEnabled: event.form.isCriticalPath,//if true then criticalPathStyle apply
+          criticalPathStyle: {
+            stroke: event.form.stroke,
+            strokeWidth: event.form.isCriticalPath
+          },
+          innerGridHorizLine: {
+            stroke: event.form.isCriticalPath,
+            strokeWidth: event.form.strokeWidth
+          },
+          arrow: {
+            angle: event.form.angle,
+            width: event.form.arrowWidth,
+            color: event.form.color,
+            radius: event.form.radius
+          },
+          innerGridTrack: { fill: event.form.innerGridTrack },
+          innerGridDarkTrack: { fill: event.form.innerGridDarkTrack }
+        }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, new Date(data.startDate), new Date(data.endDate), data.duration, data.percentComplete, data.dependencies]);
         }
         break;
       case "geoChart":
-        if (this.selectedNode) {
-          this.selectedNode.options = {
-            region: event.form.region, // Africa
-            colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
-            backgroundColor: event.form.bgColor,
-            datalessRegionColor: event.form.color,
-            defaultColor: event.form.defaultColor,
-          };
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
-          }
+        this.selectedNode.options = {
+          region: event.form.region, // Africa
+          colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
+          backgroundColor: event.form.bgColor,
+          datalessRegionColor: event.form.color,
+          defaultColor: event.form.defaultColor,
+        };
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
         }
         break;
       case "treeMapChart":
-        if (this.selectedNode) {
-          this.selectedNode.options = {
-            highlightOnMouseOver: event.form.highlightOnMouseOver,
-            maxDepth: event.form.width,
-            maxPostDepth: event.form.maxPostDepth,
-            minHighlightColor: event.form.minHighlightColor,
-            midHighlightColor: event.form.midHighlightColor,
-            maxHighlightColor: event.form.maxHighlightColor,
-            minColor: event.form.minColor,
-            midColor: event.form.midColor,
-            maxColor: event.form.maxColor,
-            headerHeight: event.form.headerHeight,
-            showScale: event.form.showScale,
-            useWeightedAverageForAggregation: event.form.useWeightedAverageForAggregation
-          };
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1, data.value2, data.value3]);
-          }
+        this.selectedNode.options = {
+          highlightOnMouseOver: event.form.highlightOnMouseOver,
+          maxDepth: event.form.width,
+          maxPostDepth: event.form.maxPostDepth,
+          minHighlightColor: event.form.minHighlightColor,
+          midHighlightColor: event.form.midHighlightColor,
+          maxHighlightColor: event.form.maxHighlightColor,
+          minColor: event.form.minColor,
+          midColor: event.form.midColor,
+          maxColor: event.form.maxColor,
+          headerHeight: event.form.headerHeight,
+          showScale: event.form.showScale,
+          useWeightedAverageForAggregation: event.form.useWeightedAverageForAggregation
+        };
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1, data.value2, data.value3]);
         }
         break;
       case "histogramChart":
-        if (this.selectedNode) {
-          this.selectedNode.options.title = event.form.title;
-          this.selectedNode.options.legend = event.form.legend;
-          this.selectedNode.options.color = event.form.color;
-          this.selectedNode.options.histogram = event.form.histogram;
-          this.selectedNode.options.hAxis = event.form.hAxis;
-          this.selectedNode.options.vAxis = event.form.vAxis;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
-          }
+        this.selectedNode.options.title = event.form.title;
+        this.selectedNode.options.legend = event.form.legend;
+        this.selectedNode.options.color = event.form.color;
+        this.selectedNode.options.histogram = event.form.histogram;
+        this.selectedNode.options.hAxis = event.form.hAxis;
+        this.selectedNode.options.vAxis = event.form.vAxis;
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
         }
         break;
       case "tableChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.col1, data.col2, data.col3, data.col4]);
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.col1, data.col2, data.col3, data.col4]);
         }
         break;
       case "lineChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          this.selectedNode.options = {
-            chart: {
-              title: event.form.title,
-              subtitle: event.form.subtitle,
-            },
-          }
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [Number(data.id), Number(data.col1), Number(data.col2), Number(data.col3)]);
-          }
+        this.selectedNode.options = {
+          chart: {
+            title: event.form.title,
+            subtitle: event.form.subtitle,
+          },
+        }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [Number(data.id), Number(data.col1), Number(data.col2), Number(data.col3)]);
         }
         break;
       case "sankeyChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.link, data.value]);
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.link, data.value]);
         }
         break;
       case "scatterChart":
-        if (this.selectedNode) {
-          this.selectedNode.subtitle = event.form.subtitle;
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          this.selectedNode.options = {
-            width: 800,
-            height: 500,
-            chart: {
-              title: event.form.title,
-              subtitle: event.form.subtitle,
-            },
-            axes: {
-              x: {
-                0: { side: 'top' }
-              }
+        this.selectedNode.subtitle = event.form.subtitle;
+        this.selectedNode.options = {
+          width: 800,
+          height: 500,
+          chart: {
+            title: event.form.title,
+            subtitle: event.form.subtitle,
+          },
+          axes: {
+            x: {
+              0: { side: 'top' }
             }
           }
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value]);
-          }
+        }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value]);
         }
         break;
       case "areaChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4)]);
-          }
-          this.selectedNode.options = {
-            title: event.form.title,
-            isStacked: event.form.isStacked,
-            legend: { position: event.form.position, maxLines: event.form.maxLines },
-            selectionMode: event.form.selectionMode,
-            tooltip: { trigger: event.form.tooltip },
-            hAxis: { title: event.form.hAxis, titleTextStyle: { color: event.form.titleTextStyle } },
-            vAxis: { minValue: event.form.minValue }
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4)]);
+        }
+        this.selectedNode.options = {
+          title: event.form.title,
+          isStacked: event.form.isStacked,
+          legend: { position: event.form.position, maxLines: event.form.maxLines },
+          selectionMode: event.form.selectionMode,
+          tooltip: { trigger: event.form.tooltip },
+          hAxis: { title: event.form.hAxis, titleTextStyle: { color: event.form.titleTextStyle } },
+          vAxis: { minValue: event.form.minValue }
         }
         break;
       case "comboChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
-          }
-          this.selectedNode.options = {
-            title: event.form.title,
-            seriesType: event.form.seriesType,
-            hAxis: { title: event.form.hAxis },
-            vAxis: { title: event.form.vAxis }
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
+        }
+        this.selectedNode.options = {
+          title: event.form.title,
+          seriesType: event.form.seriesType,
+          hAxis: { title: event.form.hAxis },
+          vAxis: { title: event.form.vAxis }
         }
         break;
       case "steppedAreaChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.value1), Number(data.value2), Number(data.value3), Number(data.value4)]);
-          }
-          this.selectedNode.options = {
-            backgroundColor: event.form.bgColor,
-            legend: { position: event.form.position },
-            connectSteps: event.form.connectSteps,
-            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
-            isStacked: event.form.isStacked,
-            vAxis: {
-              minValue: 0,
-              ticks: [0, .3, .6, .9, 1]
-            },
-            selectionMode: event.form.selectionMode,
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.value1), Number(data.value2), Number(data.value3), Number(data.value4)]);
+        }
+        this.selectedNode.options = {
+          backgroundColor: event.form.bgColor,
+          legend: { position: event.form.position },
+          connectSteps: event.form.connectSteps,
+          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
+          isStacked: event.form.isStacked,
+          vAxis: {
+            minValue: 0,
+            ticks: [0, .3, .6, .9, 1]
+          },
+          selectionMode: event.form.selectionMode,
         }
         break;
       case "timelineChart":
-        if (this.selectedNode) {
-          this.selectedNode.width = event.form.width;
-          this.selectedNode.height = event.form.height;
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value, new Date(data.startDate), new Date(data.endDate)]);
-          }
-          this.selectedNode.options = {
-            timeline: {
-              showRowLabels: event.form.showRowLabels,
-              colorByRowLabel: event.form.colorByRowLabel,
-              singleColor: event.form.singleColor,
-              rowLabelStyle: { fontName: event.form.rowLabelFontName, fontSize: event.form.rowLabelFontSize, color: event.form.rowLabelColor },
-              barLabelStyle: { fontName: event.form.barLabelFontName, fontSize: event.form.barLabelFontSize }
-            },
-            backgroundColor: event.form.bgColor,
-            alternatingRowStyle: event.form.alternatingRowStyle,
-            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
-          }
+        if (event.tableDta) {
+          this.selectedNode.tableData = event.tableDta;
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value, new Date(data.startDate), new Date(data.endDate)]);
+        }
+        this.selectedNode.options = {
+          timeline: {
+            showRowLabels: event.form.showRowLabels,
+            colorByRowLabel: event.form.colorByRowLabel,
+            singleColor: event.form.singleColor,
+            rowLabelStyle: { fontName: event.form.rowLabelFontName, fontSize: event.form.rowLabelFontSize, color: event.form.rowLabelColor },
+            barLabelStyle: { fontName: event.form.barLabelFontName, fontSize: event.form.barLabelFontSize }
+          },
+          backgroundColor: event.form.bgColor,
+          alternatingRowStyle: event.form.alternatingRowStyle,
+          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
         }
         break;
       default:
@@ -4494,7 +3010,6 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   addDynamic(abc: any, subType: any, mainType: any,) {
-
     if (this.selectedNode.children) {
       let nodesLength = this.selectedNode.children?.length;
       if (nodesLength < abc) {
@@ -4529,11 +3044,7 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
-
   }
-
-
-
   searchControll() {
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
@@ -4634,7 +3145,6 @@ export class BuilderComponent implements OnInit {
       data, (key, value) => {
         if (typeof value === 'string' && value.startsWith('(')) {
           return eval(`(${value})`);
-          // return new Function('return ' + value)();
         }
         return value;
       });
@@ -4664,8 +3174,7 @@ export class BuilderComponent implements OnInit {
   }
 
   jsonUpload(event: any) {
-
-    let contents
+    let contents: any;
     event;
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
       const reader = new FileReader();
@@ -4761,14 +3270,12 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.children.push(makeData);
           this.updateNodes();
         }
-
       };
       reader.readAsText(event.target.files[0]);
     }
   }
   previewJson(node: any) {
     this.selectedNode = node.origin;
-    // this.previewJsonData = node;
     this.previewJsonModal = true;
     this.isActiveShow = node.origin.id;
   }
@@ -4786,21 +3293,6 @@ export class BuilderComponent implements OnInit {
     const startDate = startDateArray.length ? new Date(startDateArray[0], startDateArray[1], startDateArray[2]) : null;
     return startDate;
   }
-  // findDollarSign(node: any) {
-  //   if (node.type === 'paragraph' && node.text && node.text.includes('$')) {
-  //     return true;
-  //   }
-
-  //   if (node.children) {
-  //     for (const child of node.children) {
-  //       if (this.findDollarSign(child)) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // }
-
   api(value?: any, data?: any) {
     if (value) {
       this.requestSubscription = this.builderService.genericApis(value).subscribe({
@@ -4823,4 +3315,3 @@ export class BuilderComponent implements OnInit {
     return data;
   }
 }
-

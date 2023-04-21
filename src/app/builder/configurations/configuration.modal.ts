@@ -4401,6 +4401,74 @@ export class formFeildData {
       ]
     },
   ]
+  dynamicSectionsFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'dynamicApi',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Api',
+          }
+        },
+        // {
+        //   key: 'options',
+        //   type: 'repeatSection',
+        //   props: {
+        //     style: "margin-top:5%",
+        //     canAdd: true,
+        //     canRemove: true
+        //   },
+        //   fieldArray: {
+        //     className: 'ml-3 me-2',
+        //     fieldGroupClassName: "flex flex-wrap",
+        //     fieldGroup: [
+        //       {
+        //         className: "w-1/3",
+        //         key: 'no',
+        //         type: 'input',
+        //         wrappers: ["formly-vertical-theme-wrapper"],
+        //         props: {
+        //           label: 'No'
+        //         }
+        //       },
+        //       {
+        //         className: "w-1/3",
+        //         key: 'fileHeader',
+        //         type: 'input',
+        //         wrappers: ["formly-vertical-theme-wrapper"],
+        //         props: {
+        //           type: "datetime-local",
+        //           label: 'FileHeader'
+        //         }
+        //       },
+        //       {
+        //         className: "w-1/3",
+        //         key: 'qboEntity',
+        //         type: 'input',
+        //         wrappers: ["formly-vertical-theme-wrapper"],
+        //         props: {
+        //           label: 'QBO Entity'
+        //         }
+        //       },
+        //       {
+        //         className: "w-1/3",
+        //         key: 'defaultValue',
+        //         type: 'input',
+        //         wrappers: ["formly-vertical-theme-wrapper"],
+        //         props: {
+        //           label: 'Default Value'
+        //         }
+        //       },
+        //     ]
+        //   },
+        // },
+      ]
+    },
+  ]
   headerFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
