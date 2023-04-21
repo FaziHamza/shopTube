@@ -57,6 +57,30 @@ export class AddControlService {
       formatAlignment: '',
     }
   }
+  getDynamicSectionControl() {
+    return {
+      sectionClassName: "",
+      footer: false,
+      header: false,
+      borderColor: "",
+      sectionDisabled: "editable",
+      labelPosition: "text-left",
+      isNextChild: true,
+      repeatable: false,
+      isBordered: true,
+      size: 'default',
+      status: '',
+      wrapper: '',
+      formatAlignment: '',
+      dynamicApi: '',
+      tableHeader: [{ name: 'no' },
+      { name: 'fileHeader', },
+      { name: 'SelectQBOField' },
+      { name: 'defaultValue' },
+      ],
+      tableBody: [],
+    }
+  }
   getHeaderControl() {
     return {
       footer: false,

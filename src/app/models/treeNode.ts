@@ -11,6 +11,7 @@ export interface TreeNode {
   screenId?: string;
   type?: string;
   editor?: any;
+  dynamicApi?: any;
   formatter?: any;
   limit?: number,
   belowpercentage?: number,
