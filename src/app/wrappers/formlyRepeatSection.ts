@@ -25,12 +25,22 @@ import { Guid } from '../models/guid';
 export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   formData: any = "";
+  tableHeader: any = [];
   ngOnInit(): void {
     debugger
     this.tableId = this.field.key + Guid.newGuid();
     const key = Array.isArray(this.field.key) ? this.field.key[0] : this.field.key;
-    if (key)
+    if (key) {
       this.formData = this.form.value[key];
+    }
+    // if (this.field.fieldGroup) {
+    //   this.field.fieldGroup.forEach((item: any) => {
+    //     if(item.)
+    //     let obj = {}
+    //   })
+    // }
+
+
   }
 }
 

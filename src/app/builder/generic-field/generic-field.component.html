@@ -1,4 +1,4 @@
-<form [formGroup]="actionform" >
+<form [formGroup]="actionform">
   <nz-collapse *ngIf="itemData.commonData">
     <nz-collapse-panel [nzHeader]="'Common  Attribute value'" [nzActive]="true">
       <div class="theme-body">
@@ -13,7 +13,23 @@
       </div>
     </nz-collapse-panel>
   </nz-collapse>
+  <nz-collapse *ngIf="itemData.dynamicSectionConfig" class="mt-4">
+    <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
+      <div class="theme-body">
+        <formly-form [form]="actionform" [model]="modal" [fields]="itemData.dynamicSectionConfig"></formly-form>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <dynamic-table *ngIf='this.itemData.dynamicSectionNode && this.itemData.dynamicSectionNode.tableBody.length == 0' [tableId]='tableId' [checkType]='true'
+    [tableHeaders]="itemData.dynamicSectionNode.tableHeader"></dynamic-table>
+  <dynamic-table *ngIf='this.itemData.dynamicSectionNode && this.itemData.dynamicSectionNode.tableBody.length' [tableId]='tableId' [checkType]='true'
+    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [tableData]='itemData.dynamicSectionNode.tableBody'></dynamic-table>
   <br>
-  <button nz-button nzType="primary" (click)="onSubmit()" >Save</button>
+  <span>
+    <button  class="mr-2" *ngIf='this.itemData.dynamicSectionNode' nz-button nzType="primary" (click)="dynamicSectionOption()">Save Dynamic Section option</button>
+    <span>
+      <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
+    </span>
+  </span>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
 </form>

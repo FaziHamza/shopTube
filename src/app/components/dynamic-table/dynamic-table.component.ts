@@ -39,7 +39,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    debugger
     this.gridInitilize();
   }
   gridInitilize() {
@@ -333,18 +333,26 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
+    if (this.tableData) {
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.key = firstObjectKeys.map(key => ({ name: key }));
+      this.key = this.key.filter((header: any) => header.name !== 'color');
+      // this.childKey = this.getChildrenData();
+      // let checkcount = this.getParentChildrenKeys(this.tableData);
+      // console.log(JSON.stringify(checkcount));
+      this.footerData = this.tableHeaders;
+      if (!this.tableHeaders || !this.footerData) {
+        this.tableHeaders = this.key;
+        this.footerData = this.key;
+      }
 
-    const firstObjectKeys = Object.keys(this.tableData[0]);
-    this.key = firstObjectKeys.map(key => ({ name: key }));
-    this.key = this.key.filter((header: any) => header.name !== 'color');
-
-    // this.childKey = this.getChildrenData();
-    // let checkcount = this.getParentChildrenKeys(this.tableData);
-    // console.log(JSON.stringify(checkcount));
-    this.footerData = this.tableHeaders;
-    if (!this.tableHeaders || !this.footerData) {
-      this.tableHeaders = this.key;
-      this.footerData = this.key;
+      let newId = 0;
+      if (!this.tableData[0].id) {
+        this.tableData.forEach((j: any) => {
+          newId = newId + 1
+          j['id'] = newId;
+        });
+      }
     }
     if (!this.data) {
       const newNode = {
@@ -371,13 +379,7 @@ export class DynamicTableComponent implements OnInit {
       }
       this.data = newNode;
     }
-    let newId = 0;
-    if (!this.tableData[0].id) {
-      this.tableData.forEach((j: any) => {
-        newId = newId + 1
-        j['id'] = newId;
-      });
-    }
+
 
   }
   handleCancel(): void {
@@ -492,4 +494,7 @@ export class DynamicTableComponent implements OnInit {
   //       this.addRow();
   //     }
   // }
+  isMyDataArray(data: any): boolean {
+    return Array.isArray(data);
+  }
 }

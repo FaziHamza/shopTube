@@ -818,23 +818,7 @@ a.fc-event:hover {
 }
 
 .floating_filled {
-  .float-input-border {
-    .ant-input:hover {
-      border-color: red;
-      border-right-width: 1px;
-    }
-  
-    .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
-    .floating_filled .height .ant-input-group-addon:first-child,
-    .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-    .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-    .floating_filled .height .ant-input-group>.ant-input:first-child,
-    .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
-      border-right: none !important;
-      border-bottom-right-radius: 0 !important;
-      border-color: red !important;
-    }
-  }
+
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .height .ant-input-group-addon:first-child,
   .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
@@ -968,3 +952,20 @@ a.fc-event:hover {
   border-color: red !important;
 }
 
+.float-input-border {
+  .ant-input:hover {
+    border-color: red;
+    border-right-width: 1px;
+  }
+
+  .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
+  .floating_filled .height .ant-input-group-addon:first-child,
+  .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
+  .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .floating_filled .height .ant-input-group>.ant-input:first-child,
+  .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+    border-right: none !important;
+    border-bottom-right-radius: 0 !important;
+    border-color: red !important;
+  }
+}

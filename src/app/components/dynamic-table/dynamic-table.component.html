@@ -7,7 +7,7 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-<div *ngIf="data.isAddRow == undefined ? true: data.isAddRow">
+<div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
 </div>
@@ -39,17 +39,21 @@
           <ng-container *ngFor="let header of key; let index = index">
             <td [nzEllipsis]="true"
               *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
-              <div *ngIf="tableHeaders[index].dataType !='select' && tableHeaders[index].dataType !='image'">
+              <div
+                *ngIf="tableHeaders[index].dataType !='select' && tableHeaders[index].dataType !='image' && !isMyDataArray(item[header.name])">
                 <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
                   {{item[header.name]}}
                 </div>
                 <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
               </div>
-              <nz-select *ngIf="tableHeaders[index].dataType =='select' && tableHeaders[index].dataType !='image'" style="width: 100px"
-                nzPlaceHolder="Select Colors" [(ngModel)]="item[header.name]">
-                <nz-option *ngFor="let option of selectList" [nzLabel]="option.key" [nzValue]="option.value">
-                </nz-option>
-              </nz-select>
+              <div
+                *ngIf="tableHeaders[index].dataType =='select' && tableHeaders[index].dataType !='image' || isMyDataArray(item[header.name])">
+                <nz-select style="width: 100px" nzPlaceHolder="Select Colors" >
+                  <nz-option *ngFor="let option of item[header.name]" [nzLabel]="option.key" [nzValue]="option.value">
+                  </nz-option>
+                </nz-select>
+              </div>
+
               <div *ngIf="tableHeaders[index].dataType =='image'">
                 <img nz-image width="80px" height="80px"
                   nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
@@ -128,7 +132,7 @@
   </tfoot>
 </nz-table>
 
-<div *ngIf="data.isAddRow == undefined ? true: data.isAddRow">
+<div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
   <button nz-button (click)="save()" nzType="primary">Save options</button>
 </div>
 <!-- {{data | json}} -->

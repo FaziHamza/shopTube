@@ -1167,6 +1167,11 @@ export const htmlTabsData = [
                 label: "Add Section"
               },
               {
+                parameter: "dynamicSections",
+                icon: "uil uil-bitcoin-sign",
+                label: "Dynamic Section"
+              },
+              {
                 parameter: "input",
                 icon: "uil uil-calender",
                 label: "URL",
