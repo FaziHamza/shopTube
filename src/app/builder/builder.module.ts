@@ -15,11 +15,13 @@ import { formlyCustomeConfig } from "../formlyConfig";
 import { ShareModule } from "../shared/share.module";
 import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
+import { DemoComponent } from './demo/demo.component';
+import { NestedTableComponent } from './nested-table/nested-table.component';
 
 @NgModule({
   declarations: [
     BuilderComponent,
-    ActionRuleComponent,BusinessRuleComponent,UIRuleComponent,ValidationRuleComponent
+    ActionRuleComponent,BusinessRuleComponent,UIRuleComponent,ValidationRuleComponent, DemoComponent, NestedTableComponent
   ],
   imports: [
     CommonModule,

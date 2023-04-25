@@ -1,0 +1,30 @@
+<nz-table #nestedTable nzBordered [nzData]="data" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <!-- nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nzShowSort nz  -->
+        <th nzWidth="40px" ></th>
+        <th nzWidth="25%">Name</th>
+        <th nzWidth="15%">Age</th>
+        <th nzWidth="40%">Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of nestedTable.data"  >
+        <td [(nzExpand)]="isNested"></td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.age }}</td>
+        <td>{{ item.address }}</td>
+        <td>
+          <!-- Add any actions you want here -->
+          <a >Action</a>
+        </td>
+      </tr>
+      <tr *ngFor="let item of nestedTable.data">
+        <td colspan="4" *ngIf="item.children?.length">
+          <nested-table [data]="item.children"></nested-table>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  

@@ -445,7 +445,7 @@ export class UIRuleComponent implements OnInit {
     return this.condationList;
   }
   findElementNode(selectedNode: any, key: any) {
-    if(selectedNode.length)
+    if(selectedNode && selectedNode.length)
     if (selectedNode[0].key == key) {
       console.log(selectedNode);
     } else {
