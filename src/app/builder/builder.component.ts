@@ -2152,7 +2152,7 @@ export class BuilderComponent implements OnInit {
   }
   notifyEmit(event: actionTypeFeild): void {
     debugger
-    if (event.type && event.type != "inputValidationRule") {
+    if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections") {
       this.selectedNode = event.form
     }
     switch (event.type) {
@@ -2166,6 +2166,19 @@ export class BuilderComponent implements OnInit {
         break;
       case "dynamicSections":
         if (this.selectedNode.id) {
+          if (event.dynamicData) {
+            event.dynamicData.forEach((item: any) => {
+              if (this.selectedNode.children) {
+                if (this.selectedNode.children[1].children) {
+                  let sectionMapData = this.sectionMap(this.selectedNode.children[1].children, item, event.tableDta)
+                  this.selectedNode.children[1].children.push(sectionMapData[0]);
+                  this.updateNodes();
+                }
+              }
+            });
+          }
+
+
           this.selectedNode.dynamicApi = event.form.dynamicApi;
           if (event.tableDta) {
             this.selectedNode.data = event.tableDta;
@@ -3313,5 +3326,45 @@ export class BuilderComponent implements OnInit {
       })
     }
     return data;
+  }
+
+  sectionMap(node?: any, replaceData?: any, value?: any) {
+    debugger
+    let newNode = JSON.parse(JSON.stringify(node));
+    value.forEach((element : any) => {
+      newNode.forEach((item: any) => {
+        if (element.defaultValue) {
+          let key = element.fileHeader.split("-")
+          if (item.key == key[1]) {
+            if (item.type == 'cardWithComponents')
+            item.title = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'imageUpload')
+            item.source = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'heading')
+            item.text = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'icon')
+            item.icon = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'paragraph')
+            item.text = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'breakTag')
+            item.title = replaceData[element.defaultValue];
+          } else if (item.type == key[1]) {
+            if (item.type == 'button')
+            item.title = replaceData[element.defaultValue];
+          }
+        }
+        if (item.children) {
+          this.sectionMap(element.children, replaceData, value);
+        }
+      });
+      
+    });
+    
+    return newNode;
   }
 }
