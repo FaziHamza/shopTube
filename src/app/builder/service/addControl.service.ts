@@ -673,10 +673,22 @@ export class AddControlService {
             {
               id: 1,
               name: 'test',
+              title:"check 1"
             },
             {
               id: 2,
-              name: 'test2'
+              name: 'test2',
+              title:"check 2"
+            },
+            {
+              id: 3,
+              name: 'test 6',
+              title:"check 4"
+            },
+            {
+              id: 4,
+              name: 'test 7',
+              title:"check 5"
             },
           ]
         },
@@ -687,7 +699,25 @@ export class AddControlService {
           address: 'London No. 1 Lake Park',
           description: 'My name is John Brown, I am 2 years old, living in New York No',
           checked: false,
-          expand: false
+          expand: false,
+          children: [
+            {
+              id: 1,
+              name: 'test 4',
+            },
+            {
+              id: 2,
+              name: 'test2 6'
+            },
+            {
+              id: 1,
+              name: 'test check 3',
+            },
+            {
+              id: 2,
+              name: 'test2  check 6'
+            },
+          ]
         },
         {
           id: 3,
@@ -696,7 +726,7 @@ export class AddControlService {
           address: 'Sidney No. 1 Lake Park',
           description: 'My name is John Brown, I am 2 years old, living in New York No',
           checked: false,
-          expand: false
+          expand: false,
         },
         {
           id: 4,
@@ -705,7 +735,7 @@ export class AddControlService {
           address: 'London No. 2 Lake Park',
           description: 'My name is John Brown, I am 2 years old, living in New York No',
           checked: false,
-          expand: false
+          expand: false,
         }
       ],
     }
