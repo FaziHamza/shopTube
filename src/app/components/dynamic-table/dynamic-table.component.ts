@@ -20,6 +20,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() screenName: any;
   GridType: string = '';
   key: any;
+  screenNameaa: any;
   footerData: any[];
   childKey: any;
   allChecked = false;
@@ -496,5 +497,11 @@ export class DynamicTableComponent implements OnInit {
   // }
   isMyDataArray(data: any): boolean {
     return Array.isArray(data);
+  }
+
+  select(rowIndex: number, value: any) {
+    debugger
+    // this.tableData[rowIndex].defaultValue = value.type;
+    // Perform any additional updates to 'listOfData' if needed
   }
 }

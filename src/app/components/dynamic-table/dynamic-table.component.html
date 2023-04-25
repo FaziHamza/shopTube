@@ -23,38 +23,43 @@
       <th nzWidth="40px" *ngIf="data.expandable"></th>
       <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="checkAll($event)"></th>
-      <th [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
-        [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
-        *ngFor="let header of tableHeaders">{{header.name}} <span
-          *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span></th>
+      <ng-container *ngFor="let header of tableHeaders">
+        <th *ngIf="header.name != 'defaultValue'" [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
+          [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
+          [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn">
+          {{header.name}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+        </th>
+      </ng-container>
       <th>Delete</th>
     </tr>
   </thead>
   <tbody>
     <ng-template #recursiveList let-data1>
-      <ng-container *ngFor="let item of data1">
+      <ng-container *ngFor="let item of data1 ; let i = index">
         <tr [ngStyle]="{'background': item?.color}">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of key; let index = index">
             <td [nzEllipsis]="true"
-              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children'">
+              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
               <div
-                *ngIf="tableHeaders[index].dataType !='select' && tableHeaders[index].dataType !='image' && !isMyDataArray(item[header.name])">
+                *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) ">
                 <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
                   {{item[header.name]}}
                 </div>
                 <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
               </div>
               <div
-                *ngIf="tableHeaders[index].dataType =='select' && tableHeaders[index].dataType !='image' || isMyDataArray(item[header.name])">
-                <nz-select style="width: 100px" nzPlaceHolder="Select Colors" >
-                  <nz-option *ngFor="let option of item[header.name]" [nzLabel]="option.key" [nzValue]="option.value">
+                *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
+                <nz-select style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item.defaultValue"
+                  (ngModelChange)="select(i, $event)">
+                  <nz-option *ngFor="let option of item[header.name]" [nzLabel]="option.type ? option.type : option.key"
+                    [nzValue]="option.value ? option.value : option">
                   </nz-option>
                 </nz-select>
               </div>
 
-              <div *ngIf="tableHeaders[index].dataType =='image'">
+              <div *ngIf="tableHeaders[index]?.dataType =='image'">
                 <img nz-image width="80px" height="80px"
                   nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
               </div>

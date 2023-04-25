@@ -73,7 +73,7 @@ export class AddControlService {
       wrapper: '',
       formatAlignment: '',
       dynamicApi: '',
-      tableHeader: [{ name: 'no' },
+      tableHeader: [
       { name: 'fileHeader', },
       { name: 'SelectQBOField' },
       { name: 'defaultValue' },

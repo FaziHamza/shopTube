@@ -21,11 +21,13 @@ export class GenericFieldComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
-  objects: any[] = [];
+  resData: any;
   publicList: object[] = [
     { productName: "Samsung", quantity: 2 },
     { productName: "Apple", quantity: 1 }
   ]
+  optionsArray: any[] = [];
+
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService) { }
   ngOnInit(): void {
@@ -55,7 +57,12 @@ export class GenericFieldComponent implements OnInit {
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
       currentData["tableDta"] = this._dataSharedService.getData();
+      if (this.resData) {
+        currentData["dynamicData"] = this.resData;
+      }
       this.notify.emit(currentData);
+      // this.check(currentData);
+
     }
     else {
       this.toastr.error('In key no space allow, only underscore allow and lowercase', { nzDuration: 3000 });
@@ -64,33 +71,21 @@ export class GenericFieldComponent implements OnInit {
 
   dynamicSectionOption() {
     debugger
+    this.resData = [];
     let obj: { dynamicApi?: any } = this.actionform.value;
     if (obj.dynamicApi) {
       this.requestSubscription = this.builderService.genericApis(obj.dynamicApi).subscribe({
         next: (res) => {
+          this.resData = res;
           let firstObjectKeys = Object.keys(res[0]);
-          this.objects = [];
-          const allObjects = this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children);
-          console.log(allObjects);
-
-          firstObjectKeys.forEach((item: any, index: number) => {
+          let key = firstObjectKeys.map(key => ({ key: key, value: key }));
+          this.optionsArray = [];
+          this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);
+          this.optionsArray.forEach((item: any, index: number) => {
             let newObj = {
-              no: index + 1,
-              fileHeader: item,
-              SelectQBOField: [
-                {
-                  key: 'key',
-                  value: 'key'
-                },
-                {
-                  key: 'key1',
-                  value: 'key1'
-                },
-                {
-                  key: 'key2',
-                  value: 'key2'
-                },
-              ],
+              // no: index + 1,
+              fileHeader: item.type + '-' + item.key,
+              SelectQBOField: key,
               defaultValue: '',
             }
             this.itemData.dynamicSectionNode.tableBody.push(newObj);
@@ -103,59 +98,69 @@ export class GenericFieldComponent implements OnInit {
       })
     }
   }
-  findObjects(obj: any) {
-    if (!obj || typeof obj !== 'object') {
-      return;
+
+  createOptionsArray(node: any) {
+    this.optionsArray.push({ type: node.type, key: node.key });
+    if (node.children) {
+      node.children.forEach((child: any) => {
+        this.createOptionsArray(child);
+      });
     }
-    if (obj.type) {
-      this.objects.push(obj);
-    }
-    if (Array.isArray(obj.children)) {
-      obj.children.forEach((child : any) => this.findObjects(child));
-    }
-    return this.objects;
   }
 
 
-  getAllObjects(obj: any): any[] {
-    let objects: any[] = [];
-    for (let prop in obj) {
-      if (typeof obj[prop] === 'object') {
-        if (Array.isArray(obj[prop])) {
-          obj[prop].forEach((item: any) => {
-            objects.push(...this.getAllObjects(item));
+  check(event: any) {
+    debugger
+    event.dynamicData.forEach((item: any) => {
+      if (this.itemData.dynamicSectionNode.children) {
+        if (this.itemData.dynamicSectionNode.children[1].children) {
+          let sectionMapData  = this.itemData.dynamicSectionNode.children[1].children;
+          event.tableDta.forEach((element : any) => {
+          sectionMapData = this.sectionMap(this.itemData.dynamicSectionNode.children[1].children, item, element)
           });
-        } else {
-          objects.push(obj[prop]);
-          objects.push(...this.getAllObjects(obj[prop]));
+          this.itemData.dynamicSectionNode.children[1].children.push(sectionMapData[0]);
+          console.log(this.itemData.dynamicSectionNode.children[1].children);
+          // this.updateNodes();
         }
       }
-    }
-    return objects;
+    });
   }
 
-  createOptionsArray(jsonData: any): any[] {
-    let optionsArray: any[] = [];
-    for (let i = 0; i < jsonData.length; i++) {
-      let item = jsonData[i];
-      if (item.type === 'cardWithComponents') {
-        let children = this.createOptionsArray(item.children);
-        optionsArray.push({ type: 'card', title: item.title, children });
-      } else if (item.type === 'imageUpload') {
-        optionsArray.push({ type: 'image', source: item.source });
-      } else if (item.type === 'heading') {
-        optionsArray.push({ type: 'heading', title: item.title });
-      } else if (item.type === 'icon') {
-        optionsArray.push({ type: 'icon', title: item.title });
-      } else if (item.type === 'paragraph') {
-        optionsArray.push({ type: 'paragraph', title: item.title });
-      } else if (item.type === 'breakTag') {
-        optionsArray.push({ type: 'break', title: item.title });
-      } else if (item.type === 'button') {
-        optionsArray.push({ type: 'button', title: item.title });
+  sectionMap(node?: any, replaceData?: any, value?: any) {
+    let newNode = JSON.parse(JSON.stringify(node));
+    newNode.forEach((item: any) => {
+      if (value.defaultValue) {
+        let key = value.fileHeader.split("-")
+        if (item.key == key[1]) {
+          if (item.type == 'cardWithComponents')
+            item.title = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'imageUpload')
+            item.source = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'heading')
+            item.text = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'icon')
+            item.icon = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'paragraph')
+            item.text = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'breakTag')
+            item.title = replaceData[value.defaultValue];
+        } else if (item.type == key[1]) {
+          if (item.type == 'button')
+            item.title = replaceData[value.defaultValue];
+        }
+        if (item.children) {
+          this.sectionMap(item.children, replaceData, value);
+        }
       }
-    }
-    return optionsArray;
+    });
+    return newNode;
   }
+
+
   
 }
