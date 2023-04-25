@@ -2465,7 +2465,7 @@ export class BuilderComponent implements OnInit {
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
-          this.selectedNode.tableData = this.updateTableData(this.selectedNode.tableData, event.tableDta ? event.tableDta : event.form.options);
+          this.selectedNode.tableData = this.updateTableData(event.tableDta ? event.tableDta : event.form.options, event.tableDta ? event.tableDta : event.form.options);
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
