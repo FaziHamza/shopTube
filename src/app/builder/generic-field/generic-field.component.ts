@@ -114,9 +114,9 @@ export class GenericFieldComponent implements OnInit {
     event.dynamicData.forEach((item: any) => {
       if (this.itemData.dynamicSectionNode.children) {
         if (this.itemData.dynamicSectionNode.children[1].children) {
-          let sectionMapData  = this.itemData.dynamicSectionNode.children[1].children;
-          event.tableDta.forEach((element : any) => {
-          sectionMapData = this.sectionMap(this.itemData.dynamicSectionNode.children[1].children, item, element)
+          let sectionMapData = this.itemData.dynamicSectionNode.children[1].children;
+          event.tableDta.forEach((element: any) => {
+            sectionMapData = this.sectionMap(this.itemData.dynamicSectionNode.children[1].children, item, element)
           });
           this.itemData.dynamicSectionNode.children[1].children.push(sectionMapData[0]);
           console.log(this.itemData.dynamicSectionNode.children[1].children);
@@ -134,33 +134,26 @@ export class GenericFieldComponent implements OnInit {
         if (item.key == key[1]) {
           if (item.type == 'cardWithComponents')
             item.title = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'imageUpload')
+          else if (item.type == 'imageUpload')
             item.source = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'heading')
+          else if (item.type == 'heading')
             item.text = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'icon')
-            item.icon = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'paragraph')
+          else if (item.type == 'paragraph')
             item.text = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'breakTag')
+          else if (item.type == 'breakTag')
             item.title = replaceData[value.defaultValue];
-        } else if (item.type == key[1]) {
-          if (item.type == 'button')
+          else if (item.type == 'button')
             item.title = replaceData[value.defaultValue];
         }
-        if (item.children) {
+        if (item.children && item.children.length) {
           this.sectionMap(item.children, replaceData, value);
         }
+      } else if (item.children && item.children.length) {
+        this.sectionMap(item.children, replaceData, value);
       }
     });
     return newNode;
   }
 
 
-  
 }
