@@ -4,7 +4,7 @@ import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData'></dynamic-table>
+ <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader'></dynamic-table>
   `,
   styles: [
     `
@@ -28,11 +28,14 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   tableHeader: any = [];
   ngOnInit(): void {
     debugger
+
     this.tableId = this.field.key + Guid.newGuid();
     const key = Array.isArray(this.field.key) ? this.field.key[0] : this.field.key;
     if (key) {
       this.formData = this.form.value[key];
     }
+    const firstObjectKeys = Object.keys(this.formData[0]);
+    this.tableHeader = firstObjectKeys.map(key => ({ name: key }));
     // if (this.field.fieldGroup) {
     //   this.field.fieldGroup.forEach((item: any) => {
     //     if(item.)
