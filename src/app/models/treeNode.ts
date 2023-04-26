@@ -7,7 +7,7 @@ import { gridConfig } from "./gridConfig";
 import { headerConfig } from "./headerConfig"
 
 export interface TreeNode {
-  id: string;
+  id?: string;
   screenId?: string;
   type?: string;
   editor?: any;

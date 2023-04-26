@@ -75,6 +75,7 @@
                     <ng-template #twelth>
                         <div
                             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
+                          
                             <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
                             </st-block-buttons-card>
                         </div>
