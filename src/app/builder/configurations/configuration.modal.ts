@@ -4,7 +4,7 @@ export interface actionTypeFeild {
   form?: any;
   type?: any;
   tableDta?: any;
-  dynamicData?: any;
+  dbData?: any;
 }
 // action form
 export class formFeildData {

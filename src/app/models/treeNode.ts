@@ -97,6 +97,8 @@ export interface TreeNode {
   zoom?: any;
   rotate?: any;
   data?: any;
+  dbData?: any;
+  tableBody?: any;
   style?: any;
   fontSize?: any;
   textAlign?: any;
@@ -522,4 +524,5 @@ export interface TreeNode {
   chartData?: any,
   chartOptions?: any,
   columnNames?: any
+  checkData?: any
 }
