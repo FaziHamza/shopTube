@@ -79,6 +79,9 @@ export class AddControlService {
       { name: 'defaultValue' },
       ],
       tableBody: [],
+      checkData : '',
+      dbData : '',
+      tableData : [],
     }
   }
   getHeaderControl() {

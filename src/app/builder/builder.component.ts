@@ -2165,22 +2165,73 @@ export class BuilderComponent implements OnInit {
         break;
       case "dynamicSections":
         if (this.selectedNode.id) {
-          if (event.dynamicData) {
-            event.dynamicData.forEach((item: any) => {
-              if (this.selectedNode.children) {
-                if (this.selectedNode.children[1].children) {
-                  let sectionMapData = this.sectionMap(this.selectedNode.children[1].children, item, event.tableDta)
-                  this.selectedNode.children[1].children.push(sectionMapData[0]);
+          let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
+          if (!check) {
+            if (event.dbData) {
+              event.dbData.forEach((item: any) => {
+                let newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
+                if (this.selectedNode.children) {
+                  if (this.selectedNode.children[1].children) {
+                    event.tableDta.forEach((element: any) => {
+                      let key = element.fileHeader.split("-")
+                      let keyObj = this.findObjectByKey(newNode, key[1]);
+                      if (keyObj != null && keyObj) {
+                        if (element.defaultValue) {
+                          let updatedObj = this.dataReplace(keyObj, item, element);
+                          newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
+                        }
+                      }
+                    });
+                  }
+                }
+                if (this.selectedNode?.children) {
+                  this.selectedNode?.children[1]?.children?.push(newNode);
                   this.updateNodes();
                 }
-              }
-            });
+              });
+              // if (this.selectedNode?.children) {
+              //   let shiftedElements: any = this.selectedNode.children[1]?.children?.shift() || [];
+              //   this.selectedNode.children[1].children = shiftedElements;
+              // }
+              this.updateNodes();
+            }
+            this.selectedNode.dbData = event.dbData;
+            this.selectedNode.tableBody = event.tableDta;
+            this.selectedNode.dynamicApi = event.form.dynamicApi;
+            if (event.tableDta) {
+              // this.selectedNode.data = event.tableDta;
+              let newData = JSON.parse(JSON.stringify(event.tableDta));
+              this.selectedNode.checkData = newData;
+            }
           }
+          else {
+            alert('already');
+            let udpadeData = this.checkArrayUpdates(this.selectedNode.checkData, event.tableDta);
+            // if (event.dbData) {
+            //   event.dbData.forEach((item: any) => {
+            //     let newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
+            //     if (this.selectedNode.children) {
+            //       if (this.selectedNode.children[1].children) {
+            //         udpadeData.forEach((element: any) => {
+            //           let key = element.fileHeader.split("-")
+            //           let keyObj = this.findObjectByKey(newNode, key[1]);
+            //           if (keyObj != null && keyObj) {
+            //             if (element.defaultValue) {
+            //               let updatedObj = this.dataReplace(keyObj, item, element);
+            //               newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
+            //             }
+            //           }
+            //         });
+            //       }
+            //     }
+            //     if (this.selectedNode?.children) {
+            //       this.selectedNode?.children[1]?.children?.push(newNode);
+            //       this.updateNodes();
+            //     }
+            //   });
+            //   this.updateNodes();
+            // }
 
-
-          this.selectedNode.dynamicApi = event.form.dynamicApi;
-          if (event.tableDta) {
-            this.selectedNode.data = event.tableDta;
           }
           this.updateNodes();
         }
@@ -3344,43 +3395,130 @@ export class BuilderComponent implements OnInit {
     return data;
   }
 
-  sectionMap(node?: any, replaceData?: any, value?: any) {
-    debugger
-    let newNode = JSON.parse(JSON.stringify(node));
-    value.forEach((element : any) => {
-      newNode.forEach((item: any) => {
-        if (element.defaultValue) {
-          let key = element.fileHeader.split("-")
-          if (item.key == key[1]) {
-            if (item.type == 'cardWithComponents')
-            item.title = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'imageUpload')
-            item.source = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'heading')
-            item.text = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'icon')
-            item.icon = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'paragraph')
-            item.text = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'breakTag')
-            item.title = replaceData[element.defaultValue];
-          } else if (item.type == key[1]) {
-            if (item.type == 'button')
-            item.title = replaceData[element.defaultValue];
+  findObjectByKey(data: any, key: any) {
+    if (data.key === key) {
+      return data;
+    }
+    for (let child of data.children) {
+      let result: any = this.findObjectByKey(child, key);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  dataReplace(node: any, replaceData: any, value: any): any {
+    let typeMap: any = {
+      cardWithComponents: 'title',
+      buttonGroup: 'title',
+      button: 'title',
+      breakTag: 'title',
+      switch: 'title',
+      imageUpload: 'source',
+      heading: 'text',
+      paragraph: 'text',
+      alert: 'text',
+      progressBar: 'percent',
+      video: 'videoSrc',
+      audio: 'audioSrc',
+      carouselCrossfade: 'carousalConfig',
+      tabs: 'title',
+      mainTab: 'title',
+      mainStep: 'title',
+      listWithComponents: 'title',
+      listWithComponentsChild: 'title',
+      step: 'title',
+      kanban: 'title',
+      simplecard: 'title',
+      div: 'title',
+      textEditor: 'title',
+      multiFileUpload: 'uploadBtnLabel',
+      accordionButton: 'title',
+      divider: 'dividerText',
+      toastr: 'toasterTitle',
+      rate: 'icon',
+      editor_js: 'title',
+      rangeSlider: 'title',
+      affix: 'title',
+      statistic: 'title',
+      anchor: 'title',
+      modal: 'btnLabel',
+      popConfirm: 'btnLabel',
+      avatar: 'src',
+      badge: 'nzText',
+      comment: 'avatar',
+      description: 'btnText',
+      descriptionChild: 'content',
+      segmented: 'title',
+      result: 'resultTitle',
+      tag: 'title',
+      tree: 'title',
+      transfer: 'title',
+      spin: 'loaderText',
+      cascader: 'title',
+      drawer: 'btnText',
+      skeleton: 'title',
+      empty: 'text',
+      list: 'title',
+      treeView: 'title',
+      message: 'content',
+      mentions: 'title',
+      icon: 'title'
+    };
+
+    const type = node.type;
+    const key = typeMap[type];
+    if (key) {
+      node[key] = replaceData[value.defaultValue];
+    }
+    return node;
+  }
+
+
+
+  replaceObjectByKey(data: any, key: any, updatedObj: any) {
+    if (data.key === key) {
+      return updatedObj;
+    }
+    for (let i = 0; i < data.children.length; i++) {
+      const child = data.children[i];
+      if (child.key === key) {
+        data.children[i] = updatedObj;
+        return data;
+      }
+      const result = this.replaceObjectByKey(child, key, updatedObj);
+      if (result !== null) {
+        return data;
+      }
+    }
+    return null;
+  }
+
+  arrayEqual(a: any, b: any) {
+    if (a) {
+      return JSON.stringify(a) === JSON.stringify(b);
+    } else {
+      return false;
+    }
+  };
+
+  checkArrayUpdates(arr1: any, arr2: any) {
+    let updatedObjects: any = [];
+
+    arr1.forEach((obj1: any) => {
+      const matchingObj = arr2.find((obj2: any) => obj1.fileHeader === obj2.fileHeader);
+
+      if (matchingObj) {
+        for (const prop in matchingObj) {
+          if (prop !== 'id' && matchingObj[prop] !== obj1[prop]) {
+            updatedObjects.push(obj1);
+            break;
           }
         }
-        if (item.children) {
-          this.sectionMap(element.children, replaceData, value);
-        }
-      });
-      
+      }
     });
-    
-    return newNode;
+    return updatedObjects;
   }
+
 }
