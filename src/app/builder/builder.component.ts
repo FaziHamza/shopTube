@@ -2152,9 +2152,8 @@ export class BuilderComponent implements OnInit {
   }
   notifyEmit(event: actionTypeFeild): void {
     debugger
-    if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections") {
-      this.selectedNode = event.form
-    }
+
+    let needToUpdate = true;
     switch (event.type) {
       case "cardWithComponents":
       case "accordionButton":
@@ -2237,6 +2236,7 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
+   
       case "anchor":
       case "mentions":
       case "treeSelect":
@@ -2278,12 +2278,17 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.options = this.selectedNode.options;
         }
         break;
+        
       case "statistic":
         if (event.tableDta) {
           this.selectedNode.statisticArray = event.tableDta
         } else {
           this.selectedNode.statisticArray = this.selectedNode.statisticArray
         }
+        break;
+      case "button":
+        this.selectedNode.btnIcon = event.form?.icon;
+       
         break;
       case "segmented": case "tag":
         if (event.tableDta) {
@@ -2319,6 +2324,14 @@ export class BuilderComponent implements OnInit {
       case "customMasking":
       case "url":
         if (this.selectedNode) {
+          needToUpdate = false;
+          this.selectedNode.title = event.form.title;
+      this.selectedNode.className = event.form.className;
+      this.selectedNode.tooltip = event.form.tooltip;
+      this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+      this.selectedNode.hideExpression = event.form.hideExpression;
+      this.selectedNode['id'] = event.form?.id;
+      this.selectedNode['key'] = event.form?.key;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
@@ -3050,6 +3063,9 @@ export class BuilderComponent implements OnInit {
       default:
         break;
 
+    }
+    if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections" && needToUpdate) {
+      this.selectedNode = {...this.selectedNode, ...event.form}
     }
     this.showSuccess();
     this.updateNodes();
