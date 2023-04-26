@@ -22,11 +22,20 @@
                     (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.children">
                       <ng-container *ngIf="shouldExecute(sub)">
-                        <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
+                        <li nz-submenu [nzTitle]="item.title" *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
                           (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
-                          (mouseout)="setHovered(true,'start')">{{sub.title}}</li>
+                          (mouseout)="setHovered(true,'start')">
+                          <ul *ngFor="let sub of item.children">
+                            <ng-container *ngIf="shouldExecute(sub)">
+                              <li nz-menu-item *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
+                                (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
+                                (mouseout)="setHovered(true,'start')">{{sub.title}}</li>
+                            </ng-container>
+                          </ul>
+                        </li>
                       </ng-container>
                     </ul>
+
                   </li>
                   <!-- <span class="!-ml-4" nz-icon [nzType]="item.icon" nzTheme="outline"
                     *ngIf="selectedTheme.menuMode === 'horizontal'"></span> -->
@@ -61,7 +70,7 @@
                             </ng-container>
                           </ul>
                         </ng-container>
-  
+
                       </div>
                       <!-- <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="selectedTheme.menuMode === 'horizontal' && !item.isOpen"></span> -->
                       <!-- <span nz-icon [nzType]="item.menuIcon" nzTheme="outline" *ngIf="selectedTheme.menuMode === 'horizontal'"></span> -->
@@ -112,7 +121,7 @@
           </ul>
         </div>
       </div>
-  
+
     </div>
     <!-- THIS IS USED IN TWO COLUMN CASE -->
     <div *ngIf="selectedTheme.layout == 'twoColumn' && selectedTheme.sideBarSize != 'compact'">

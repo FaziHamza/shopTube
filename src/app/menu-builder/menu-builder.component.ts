@@ -155,7 +155,7 @@ export class MenuBuilderComponent implements OnInit {
       allMenuItems: [],
     }
     this.jsonModuleSetting();
-    
+
   }
   LayerShow() {
     if (this.IslayerVisible)
@@ -624,7 +624,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   saveJsonMenu() {
-
+    debugger
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -636,23 +636,22 @@ export class MenuBuilderComponent implements OnInit {
       "selectedTheme": temporaryData
     };
     data.selectedTheme.allMenuItems = [];
-    if (this.moduleId > 0) {
-
-      this.builderService.jsonDeleteModule(this.moduleId).subscribe((res => {
+    this.builderService.getJsonModules(this.moduleName).subscribe((res => {
+      if (res.length > 0) {
+        this.moduleId = res[0].id
+        this.builderService.jsonDeleteModule(this.moduleId).subscribe((res => {
+          this.builderService.jsonSaveModule(data).subscribe((res => {
+            alert("Data Save");
+          }))
+        }))
+      }
+      else {
         this.builderService.jsonSaveModule(data).subscribe((res => {
           alert("Data Save");
         }))
-      }))
-      // this.builderService.jsonUpdateModule(this.moduleId, data).subscribe((res => {
-
-      //   alert("Data Save");
-      // }))
-    } else {
-      this.builderService.jsonSaveModule(data).subscribe((res => {
-        alert("Data Save");
-      }))
-    }
-
+      }
+      // this.prepareDragDrop(this.nodes);
+    }));
 
   }
   downloadAllJson() {
