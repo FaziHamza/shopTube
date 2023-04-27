@@ -2168,7 +2168,8 @@ export class BuilderComponent implements OnInit {
           let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
           if (!check) {
             if (event.dbData) {
-              event.dbData.forEach((item: any) => {
+              for (let index = 0; index < event.dbData.length; index++) {
+                const item = event.dbData[index];
                 let newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
                 if (this.selectedNode.children) {
                   if (this.selectedNode.children[1].children) {
@@ -2184,59 +2185,32 @@ export class BuilderComponent implements OnInit {
                     });
                   }
                 }
-                if (this.selectedNode?.children) {
+                if (this.selectedNode?.children && this.selectedNode) {
+                    this.selectedNode.children[1].children = [];
                   this.selectedNode?.children[1]?.children?.push(newNode);
                   this.updateNodes();
                 }
-              });
-              // if (this.selectedNode?.children) {
-              //   let shiftedElements: any = this.selectedNode.children[1]?.children?.shift() || [];
-              //   this.selectedNode.children[1].children = shiftedElements;
-              // }
+                break;
+              }
               this.updateNodes();
             }
+
             this.selectedNode.dbData = event.dbData;
             this.selectedNode.tableBody = event.tableDta;
             this.selectedNode.dynamicApi = event.form.dynamicApi;
             if (event.tableDta) {
               // this.selectedNode.data = event.tableDta;
-              let newData = JSON.parse(JSON.stringify(event.tableDta));
-              this.selectedNode.checkData = newData;
+              this.selectedNode.checkData = JSON.parse(JSON.stringify(event.tableDta));
             }
+
           }
           else {
             alert('already');
-            let udpadeData = this.checkArrayUpdates(this.selectedNode.checkData, event.tableDta);
-            // if (event.dbData) {
-            //   event.dbData.forEach((item: any) => {
-            //     let newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
-            //     if (this.selectedNode.children) {
-            //       if (this.selectedNode.children[1].children) {
-            //         udpadeData.forEach((element: any) => {
-            //           let key = element.fileHeader.split("-")
-            //           let keyObj = this.findObjectByKey(newNode, key[1]);
-            //           if (keyObj != null && keyObj) {
-            //             if (element.defaultValue) {
-            //               let updatedObj = this.dataReplace(keyObj, item, element);
-            //               newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
-            //             }
-            //           }
-            //         });
-            //       }
-            //     }
-            //     if (this.selectedNode?.children) {
-            //       this.selectedNode?.children[1]?.children?.push(newNode);
-            //       this.updateNodes();
-            //     }
-            //   });
-            //   this.updateNodes();
-            // }
-
           }
           this.updateNodes();
         }
         break;
-   
+
       case "anchor":
       case "mentions":
       case "treeSelect":
@@ -2278,7 +2252,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.options = this.selectedNode.options;
         }
         break;
-        
+
       case "statistic":
         if (event.tableDta) {
           this.selectedNode.statisticArray = event.tableDta
@@ -2288,7 +2262,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "button":
         this.selectedNode.btnIcon = event.form?.icon;
-       
+
         break;
       case "segmented": case "tag":
         if (event.tableDta) {
@@ -2326,12 +2300,12 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           needToUpdate = false;
           this.selectedNode.title = event.form.title;
-      this.selectedNode.className = event.form.className;
-      this.selectedNode.tooltip = event.form.tooltip;
-      this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
-      this.selectedNode.hideExpression = event.form.hideExpression;
-      this.selectedNode['id'] = event.form?.id;
-      this.selectedNode['key'] = event.form?.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode['id'] = event.form?.id;
+          this.selectedNode['key'] = event.form?.key;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
@@ -3065,7 +3039,7 @@ export class BuilderComponent implements OnInit {
 
     }
     if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections" && needToUpdate) {
-      this.selectedNode = {...this.selectedNode, ...event.form}
+      this.selectedNode = { ...this.selectedNode, ...event.form }
     }
     this.showSuccess();
     this.updateNodes();
@@ -3502,23 +3476,5 @@ export class BuilderComponent implements OnInit {
       return false;
     }
   };
-
-  checkArrayUpdates(arr1: any, arr2: any) {
-    let updatedObjects: any = [];
-
-    arr1.forEach((obj1: any) => {
-      const matchingObj = arr2.find((obj2: any) => obj1.fileHeader === obj2.fileHeader);
-
-      if (matchingObj) {
-        for (const prop in matchingObj) {
-          if (prop !== 'id' && matchingObj[prop] !== obj1[prop]) {
-            updatedObjects.push(obj1);
-            break;
-          }
-        }
-      }
-    });
-    return updatedObjects;
-  }
 
 }

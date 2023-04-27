@@ -36,6 +36,7 @@ export class PagesComponent implements OnInit {
               this.getUIRuleData(res[0].moduleName);
               this.getBusinessRule(this.screenName);
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+              this.checkDynamicSection();
               this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
             }
           },
@@ -420,12 +421,12 @@ export class PagesComponent implements OnInit {
     }
     return node;
   }
-  traverseAndChange(node: any , type? : any) {
+  traverseAndChange(node: any, type?: any) {
     debugger
     if (node) {
-      if(type == 'copy'){
-      node = this.changeIdAndkey(node);
-      }else if(type == 'disabled'){
+      if (type == 'copy') {
+        node = this.changeIdAndkey(node);
+      } else if (type == 'disabled') {
         node = this.disabledAndEditableSection(node);
       }
       if (node.children) {
@@ -444,4 +445,154 @@ export class PagesComponent implements OnInit {
     };
     return data;
   };
+  checkDynamicSection() {
+    if (this.resData)
+      this.resData[0].children[1].children.forEach((element: any) => {
+        let selectedNode = this.findObjectByType(element, "dynamicSections");
+        if (selectedNode)
+          this.makeDynamicSections(selectedNode.dynamicApi, selectedNode);
+      });
+  }
+  makeDynamicSections(api: any, selectedNode: any) {
+    let checkFirstTime = true;
+    this.builderService.genericApis(api).subscribe(res => {
+      if (res) {
+        for (let index = 0; index < res.length; index++) {
+          const item = res[index];
+          let newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+          if (selectedNode.children) {
+            if (selectedNode.children[1].children) {
+              selectedNode.tableBody.forEach((element: any) => {
+                let key = element.fileHeader.split("-")
+                let keyObj = this.findObjectByKey(newNode, key[1]);
+                if (keyObj != null && keyObj) {
+                  if (element.defaultValue) {
+                    let updatedObj = this.dataReplace(keyObj, item, element);
+                    newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
+                  }
+                }
+              });
+            }
+          }
+          if (checkFirstTime) {
+            selectedNode.children[1].children = [];
+            selectedNode?.children[1]?.children?.push(newNode);
+            this.updateNodes();
+            checkFirstTime = false
+          } else {
+            selectedNode?.children[1]?.children?.push(newNode);
+          }
+        }
+        this.updateNodes();
+      }
+    })
+
+  }
+  findObjectByType(data: any, key: any) {
+    if (data.type === key) {
+      return data;
+    }
+    for (let child of data.children) {
+      let result: any = this.findObjectByType(child, key);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  findObjectByKey(data: any, key: any) {
+    if (data.key === key) {
+      return data;
+    }
+    for (let child of data.children) {
+      let result: any = this.findObjectByKey(child, key);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  dataReplace(node: any, replaceData: any, value: any): any {
+    let typeMap: any = {
+      cardWithComponents: 'title',
+      buttonGroup: 'title',
+      button: 'title',
+      breakTag: 'title',
+      switch: 'title',
+      imageUpload: 'source',
+      heading: 'text',
+      paragraph: 'text',
+      alert: 'text',
+      progressBar: 'percent',
+      video: 'videoSrc',
+      audio: 'audioSrc',
+      carouselCrossfade: 'carousalConfig',
+      tabs: 'title',
+      mainTab: 'title',
+      mainStep: 'title',
+      listWithComponents: 'title',
+      listWithComponentsChild: 'title',
+      step: 'title',
+      kanban: 'title',
+      simplecard: 'title',
+      div: 'title',
+      textEditor: 'title',
+      multiFileUpload: 'uploadBtnLabel',
+      accordionButton: 'title',
+      divider: 'dividerText',
+      toastr: 'toasterTitle',
+      rate: 'icon',
+      editor_js: 'title',
+      rangeSlider: 'title',
+      affix: 'title',
+      statistic: 'title',
+      anchor: 'title',
+      modal: 'btnLabel',
+      popConfirm: 'btnLabel',
+      avatar: 'src',
+      badge: 'nzText',
+      comment: 'avatar',
+      description: 'btnText',
+      descriptionChild: 'content',
+      segmented: 'title',
+      result: 'resultTitle',
+      tag: 'title',
+      tree: 'title',
+      transfer: 'title',
+      spin: 'loaderText',
+      cascader: 'title',
+      drawer: 'btnText',
+      skeleton: 'title',
+      empty: 'text',
+      list: 'title',
+      treeView: 'title',
+      message: 'content',
+      mentions: 'title',
+      icon: 'title'
+    };
+
+    const type = node.type;
+    const key = typeMap[type];
+    if (key) {
+      node[key] = replaceData[value.defaultValue];
+    }
+    return node;
+  }
+  replaceObjectByKey(data: any, key: any, updatedObj: any) {
+    if (data.key === key) {
+      return updatedObj;
+    }
+    for (let i = 0; i < data.children.length; i++) {
+      const child = data.children[i];
+      if (child.key === key) {
+        data.children[i] = updatedObj;
+        return data;
+      }
+      const result = this.replaceObjectByKey(child, key, updatedObj);
+      if (result !== null) {
+        return data;
+      }
+    }
+    return null;
+  }
 }

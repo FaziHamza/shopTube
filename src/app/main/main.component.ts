@@ -195,6 +195,12 @@ export class MainComponent implements OnInit {
   saveData(data: any) {
     debugger
     if (data.isSubmit) {
+      this.mainData
+    }
+  }
+  saveData1(data: any) {
+    debugger
+    if (data.isSubmit) {
       if (data.dataTable) {
         this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
           next: (res) => {

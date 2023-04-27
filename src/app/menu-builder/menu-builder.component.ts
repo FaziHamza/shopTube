@@ -650,7 +650,6 @@ export class MenuBuilderComponent implements OnInit {
           alert("Data Save");
         }))
       }
-      // this.prepareDragDrop(this.nodes);
     }));
 
   }
