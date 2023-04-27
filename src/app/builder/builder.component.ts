@@ -2236,7 +2236,7 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-   
+
       case "anchor":
       case "mentions":
       case "treeSelect":
@@ -2278,7 +2278,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.options = this.selectedNode.options;
         }
         break;
-        
+
       case "statistic":
         if (event.tableDta) {
           this.selectedNode.statisticArray = event.tableDta
@@ -2288,7 +2288,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "button":
         this.selectedNode.btnIcon = event.form?.icon;
-       
+
         break;
       case "segmented": case "tag":
         if (event.tableDta) {
@@ -2326,12 +2326,12 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           needToUpdate = false;
           this.selectedNode.title = event.form.title;
-      this.selectedNode.className = event.form.className;
-      this.selectedNode.tooltip = event.form.tooltip;
-      this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
-      this.selectedNode.hideExpression = event.form.hideExpression;
-      this.selectedNode['id'] = event.form?.id;
-      this.selectedNode['key'] = event.form?.key;
+          this.selectedNode.className = event.form.className;
+          this.selectedNode.tooltip = event.form.tooltip;
+          this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+          this.selectedNode.hideExpression = event.form.hideExpression;
+          this.selectedNode['id'] = event.form?.id;
+          this.selectedNode['key'] = event.form?.key;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
@@ -3065,7 +3065,7 @@ export class BuilderComponent implements OnInit {
 
     }
     if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections" && needToUpdate) {
-      this.selectedNode = {...this.selectedNode, ...event.form}
+      this.selectedNode = { ...this.selectedNode, ...event.form }
     }
     this.showSuccess();
     this.updateNodes();
@@ -3469,10 +3469,24 @@ export class BuilderComponent implements OnInit {
 
     const type = node.type;
     const key = typeMap[type];
-    if (key) {
-      node[key] = replaceData[value.defaultValue];
+    if (node.type == 'avatar') {
+      if (Array.isArray(replaceData[value.defaultValue])) {
+        let nodesArray: any = [];
+        replaceData[value.defaultValue].forEach((i: any) => {
+          let newNode = JSON.parse(JSON.stringify(node));
+          newNode.src = i;
+          nodesArray.push(newNode);
+        });
+        return nodesArray;
+      }
+
     }
-    return node;
+    else {
+      if (key) {
+        node[key] = replaceData[value.defaultValue];
+      }
+      return node;
+    }
   }
 
 
@@ -3484,7 +3498,15 @@ export class BuilderComponent implements OnInit {
     for (let i = 0; i < data.children.length; i++) {
       const child = data.children[i];
       if (child.key === key) {
-        data.children[i] = updatedObj;
+        if (Array.isArray(updatedObj)) {
+          const index = data.children.indexOf(child);
+          updatedObj.forEach((i: any) => {
+            data.children.splice(index + 1, 0, i);
+          });
+          data.children.splice(index, 1);
+        } else {
+          data.children[i] = updatedObj;
+        }
         return data;
       }
       const result = this.replaceObjectByKey(child, key, updatedObj);
