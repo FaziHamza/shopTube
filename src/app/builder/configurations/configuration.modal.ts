@@ -3583,6 +3583,15 @@ export class formFeildData {
             label: 'Number of Steps',
           }
         },
+        {
+          key: 'dynamicApi',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Api',
+          }
+        },
       ]
     },
   ]
@@ -8618,26 +8627,25 @@ export class formFeildData {
             type: 'number',
           }
         },
-        // {
-        //   key: 'sliderType',
-        //   type: 'select',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Toastr Type',
-        //     options: [
-        //       {
-        //         label: 'Simple',
-        //         value: 'simple'
-        //       },
-        //       {
-        //         label: 'Custome Slider',
-        //         value: 'customeSlider'
-        //       },
-        //     ]
-        //   },
-        // },
-
+        {
+          key: 'format',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Format',
+            options: [
+              {
+                label: 'vertcal',
+                value: true
+              },
+              {
+                label: 'horizontal',
+                value: false
+              },
+            ]
+          },
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
@@ -8647,15 +8655,22 @@ export class formFeildData {
             label: 'Disabled',
           },
         },
-
-
         {
-          className: "w-1/3 mt-3",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'showValue',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Show range value',
+            label: 'Show value',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'reverse',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Reverse',
           },
         },
       ]

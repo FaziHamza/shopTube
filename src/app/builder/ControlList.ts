@@ -1147,8 +1147,6 @@ export const htmlTabsData = [
                 icon: "uil-sliders-v-alt",
                 label: "Toastr"
               },
-
-
               {
                 parameter: "video",
                 icon: "uil uil-file-alt",

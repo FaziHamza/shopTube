@@ -83,7 +83,11 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
+          if(this.itemData.dynamicSectionNode.type == 'listWithComponents'){
+            this.createOptionsArray(this.itemData.dynamicSectionNode.children[0]);
+          }else {
           this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);
+          }
           this.optionsArray.forEach((item: any, index: number) => {
             let newObj = {
               // no: index + 1,
@@ -109,75 +113,6 @@ export class GenericFieldComponent implements OnInit {
         this.createOptionsArray(child);
       });
     }
-  }
-
-
-  check(event: any) {
-    debugger
-    event.dbData.forEach((item: any) => {
-      let newNode = JSON.parse(JSON.stringify(this.itemData.dynamicSectionNode.children[1].children[0]));
-      if (this.itemData.dynamicSectionNode.children) {
-        if (this.itemData.dynamicSectionNode.children[1].children) {
-          event.tableDta.forEach((element: any) => {
-            let key = element.fileHeader.split("-")
-            let keyObj = this.findObjectByKey(newNode, key[1]);
-            if (keyObj != null && keyObj) {
-              if (element.defaultValue) {
-                let updatedObj = this.dataReplace(keyObj, item, element);
-                newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
-              }
-            }
-          });
-        }
-      }
-      this.itemData.dynamicSectionNode.children[1].children.push(newNode);
-    });
-
-  }
-
-
-  findObjectByKey(data: any, key: any) {
-    if (data.key === key) {
-      return data;
-    }
-    for (let child of data.children) {
-      let result: any = this.findObjectByKey(child, key);
-      if (result !== null) {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  dataReplace(node?: any, replaceData?: any, value?: any) {
-    if (node.type == 'cardWithComponents' || node.type == 'buttonGroup' || node.type == 'button' || node.type == 'breakTag')
-      node.title = replaceData[value.defaultValue];
-    else if (node.type == 'imageUpload')
-      node.source = replaceData[value.defaultValue];
-    else if (node.type == 'heading')
-      node.text = replaceData[value.defaultValue];
-    else if (node.type == 'paragraph' || node.type == 'alert')
-      node.text = replaceData[value.defaultValue];
-    return node;
-  }
-
-
-  replaceObjectByKey(data: any, key: any, updatedObj: any) {
-    if (data.key === key) {
-      return updatedObj;
-    }
-    for (let i = 0; i < data.children.length; i++) {
-      const child = data.children[i];
-      if (child.key === key) {
-        data.children[i] = updatedObj;
-        return data;
-      }
-      const result = this.replaceObjectByKey(child, key, updatedObj);
-      if (result !== null) {
-        return data;
-      }
-    }
-    return null;
   }
 }
 

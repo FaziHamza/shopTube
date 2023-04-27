@@ -26,6 +26,7 @@ export class PagesComponent implements OnInit {
   @Input() screenId: any;
   requestSubscription: Subscription
   ngOnInit(): void {
+    debugger
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
@@ -448,7 +449,15 @@ export class PagesComponent implements OnInit {
   checkDynamicSection() {
     if (this.resData)
       this.resData[0].children[1].children.forEach((element: any) => {
-        let selectedNode = this.findObjectByType(element, "dynamicSections");
+        let selectedNode: any = {};
+        let data = this.findObjectByType(element, "dynamicSections");
+        if(data){
+        selectedNode = data
+        }
+        data = this.findObjectByType(element, "listWithComponents");
+        if(data){
+          selectedNode = data
+          }
         if (selectedNode)
           this.makeDynamicSections(selectedNode.dynamicApi, selectedNode);
       });
@@ -459,28 +468,39 @@ export class PagesComponent implements OnInit {
       if (res) {
         for (let index = 0; index < res.length; index++) {
           const item = res[index];
-          let newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
-          if (selectedNode.children) {
-            if (selectedNode.children[1].children) {
-              selectedNode.tableBody.forEach((element: any) => {
-                let key = element.fileHeader.split("-")
-                let keyObj = this.findObjectByKey(newNode, key[1]);
-                if (keyObj != null && keyObj) {
-                  if (element.defaultValue) {
-                    let updatedObj = this.dataReplace(keyObj, item, element);
-                    newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
-                  }
-                }
-              });
-            }
+          let newNode: any = {};
+          if (selectedNode.type == 'listWithComponents') {
+            newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[0]));
+          } else {
+            newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
           }
+          selectedNode.tableBody.forEach((element: any) => {
+            let key = element.fileHeader.split("-")
+            let keyObj = this.findObjectByKey(newNode, key[1]);
+            if (keyObj != null && keyObj) {
+              if (element.defaultValue) {
+                let updatedObj = this.dataReplace(keyObj, item, element);
+                newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
+              }
+            }
+          });
           if (checkFirstTime) {
-            selectedNode.children[1].children = [];
-            selectedNode?.children[1]?.children?.push(newNode);
+            if (selectedNode.type == 'listWithComponents') {
+              selectedNode.children = [];
+              selectedNode.children.push(newNode);
+            } else if (selectedNode.children[1]) {
+              selectedNode.children[1].children = [];
+              selectedNode?.children[1]?.children?.push(newNode);
+            }
             this.updateNodes();
             checkFirstTime = false
-          } else {
-            selectedNode?.children[1]?.children?.push(newNode);
+          } 
+          else {
+            if (selectedNode.type == 'listWithComponents') {
+              selectedNode.children.push(newNode);
+            } else if (selectedNode.children[1]) {
+              selectedNode?.children[1]?.children?.push(newNode);
+            }
           }
         }
         this.updateNodes();
@@ -501,16 +521,22 @@ export class PagesComponent implements OnInit {
     return null;
   }
   findObjectByKey(data: any, key: any) {
-    if (data.key === key) {
-      return data;
-    }
-    for (let child of data.children) {
-      let result: any = this.findObjectByKey(child, key);
-      if (result !== null) {
-        return result;
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
       }
     }
-    return null;
   }
   dataReplace(node: any, replaceData: any, value: any): any {
     let typeMap: any = {
@@ -556,7 +582,6 @@ export class PagesComponent implements OnInit {
       descriptionChild: 'content',
       segmented: 'title',
       result: 'resultTitle',
-      tag: 'title',
       tree: 'title',
       transfer: 'title',
       spin: 'loaderText',
@@ -573,10 +598,29 @@ export class PagesComponent implements OnInit {
 
     const type = node.type;
     const key = typeMap[type];
-    if (key) {
-      node[key] = replaceData[value.defaultValue];
+    if (node.type == 'avatar') {
+      if (Array.isArray(replaceData[value.defaultValue])) {
+        let nodesArray: any = [];
+        replaceData[value.defaultValue].forEach((i: any) => {
+          let newNode = JSON.parse(JSON.stringify(node));
+          newNode.src = i;
+          nodesArray.push(newNode);
+        });
+        return nodesArray;
+      }
     }
-    return node;
+    else if (node.type == "tag") {
+      if (Array.isArray(replaceData[value.defaultValue])) {
+        node.options = replaceData[value.defaultValue];
+        return node;
+      }
+    }
+    else {
+      if (key) {
+        node[key] = replaceData[value.defaultValue];
+      }
+      return node;
+    }
   }
   replaceObjectByKey(data: any, key: any, updatedObj: any) {
     if (data.key === key) {
@@ -585,7 +629,18 @@ export class PagesComponent implements OnInit {
     for (let i = 0; i < data.children.length; i++) {
       const child = data.children[i];
       if (child.key === key) {
-        data.children[i] = updatedObj;
+        if (Array.isArray(updatedObj) && child.type == 'avatar') {
+          // let index = data.children.indexOf(child);
+          // let deleteSpecificIndex = data.children.indexOf(child);
+          // updatedObj.forEach((i: any) => {
+          //   data.children.splice(index + 1, 0, i);
+          //   index = index + 1;
+          // });
+          // data.children.splice(deleteSpecificIndex, 1);
+        } 
+        else {
+          data.children[i] = updatedObj;
+        }
         return data;
       }
       const result = this.replaceObjectByKey(child, key, updatedObj);

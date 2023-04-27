@@ -74,14 +74,14 @@ export class AddControlService {
       formatAlignment: '',
       dynamicApi: '',
       tableHeader: [
-      { name: 'fileHeader', },
-      { name: 'SelectQBOField' },
-      { name: 'defaultValue' },
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
       ],
       tableBody: [],
-      checkData : '',
-      dbData : '',
-      tableData : [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getHeaderControl() {
@@ -423,6 +423,16 @@ export class AddControlService {
     return {
       isNextChild: true,
       nodes: "3",
+      dynamicApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getlistWithComponentsChildControl() {
@@ -676,22 +686,22 @@ export class AddControlService {
             {
               id: 1,
               name: 'test',
-              title:"check 1"
+              title: "check 1"
             },
             {
               id: 2,
               name: 'test2',
-              title:"check 2"
+              title: "check 2"
             },
             {
               id: 3,
               name: 'test 6',
-              title:"check 4"
+              title: "check 4"
             },
             {
               id: 4,
               name: 'test 7',
-              title:"check 5"
+              title: "check 5"
             },
           ]
         },
@@ -992,11 +1002,16 @@ export class AddControlService {
   }
   rangeSliderControl() {
     return {
-      min: '0',
+      min: 0,
       isNextChild: false,
-      max: '2',
+      max: 100,
       disabled: false,
       showValue: false,
+      reverse: false,
+      format: false,
+      iconType: 'outline',
+      iconSize: 15,
+      icon: 'star',
     }
   }
   invoiceControl() {
