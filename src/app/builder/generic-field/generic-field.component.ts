@@ -35,24 +35,14 @@ export class GenericFieldComponent implements OnInit {
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.dynamicSectionNode) {
-      if(this.itemData?.dynamicSectionNode?.dbData == undefined){
-        this.itemData.dynamicSectionNode['dbData'] = [];
-      }
-      if(this.itemData?.dynamicSectionNode?.tableBody == undefined){
-        this.itemData.dynamicSectionNode['tableBody'] = [];
-      }
-      if(this.itemData?.dynamicSectionNode?.tableHeader == undefined){
-        this.itemData.dynamicSectionNode['tableHeader'] = [
-          { name: 'fileHeader', },
-          { name: 'SelectQBOField' },
-          { name: 'defaultValue' },
-        ];
-      }
+      this.itemData.dynamicSectionNode['dbData'] = this.itemData?.dynamicSectionNode?.dbData == undefined ? [] : this.itemData?.dynamicSectionNode?.dbData;
+      this.itemData.dynamicSectionNode['tableBody'] = this.itemData?.dynamicSectionNode?.tableBody == undefined ? [] : this.itemData?.dynamicSectionNode?.tableBody;
+      this.itemData.dynamicSectionNode['tableHeader'] = this.itemData?.dynamicSectionNode?.tableHeader == undefined ? [
+        { name: 'fileHeader', },{ name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.dynamicSectionNode?.tableHeader;
       this.tableId = this.itemData.dynamicSectionNode.key + Guid.newGuid();
       if (this.itemData?.dynamicSectionNode?.dbData) {
         this.resData = this.itemData.dynamicSectionNode.dbData;
       }
-
     }
   }
   actionform = new FormGroup({});
@@ -96,7 +86,7 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if (this.itemData.dynamicSectionNode.type == 'listWithComponents') {
+          if (this.itemData.dynamicSectionNode.type == 'listWithComponents' || this.itemData.dynamicSectionNode.type == 'mainTab' || this.itemData.dynamicSectionNode.type == 'mainStep') {
             this.createOptionsArray(this.itemData.dynamicSectionNode.children[0]);
           } else {
             this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);

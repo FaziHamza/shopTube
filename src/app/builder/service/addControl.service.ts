@@ -404,6 +404,16 @@ export class AddControlService {
       hideTabs: false,
       nodes: "3",
       centerd: false,
+      dynamicApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getMainStepControl() {

@@ -449,15 +449,15 @@ export class PagesComponent implements OnInit {
   checkDynamicSection() {
     if (this.resData)
       this.resData[0].children[1].children.forEach((element: any) => {
-        let selectedNode: any = {};
+        let selectedNode: any = undefined;
         let data = this.findObjectByType(element, "dynamicSections");
-        if (data) {
-          selectedNode = data
-        }
+        selectedNode = data ? data : selectedNode;
         data = this.findObjectByType(element, "listWithComponents");
-        if (data) {
-          selectedNode = data
-        }
+        selectedNode = data ? data : selectedNode;
+        data = this.findObjectByType(element, "mainTab");
+        selectedNode = data ? data : selectedNode;
+        data = this.findObjectByType(element, "mainStep");
+        selectedNode = data ? data : selectedNode;
         if (selectedNode)
           this.makeDynamicSections(selectedNode.dynamicApi, selectedNode);
       });
@@ -469,7 +469,7 @@ export class PagesComponent implements OnInit {
         for (let index = 0; index < res.length; index++) {
           const item = res[index];
           let newNode: any = {};
-          if (selectedNode.type == 'listWithComponents') {
+          if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'mainTab' || selectedNode.type == 'mainStep') {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[0]));
           } else {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
@@ -485,7 +485,7 @@ export class PagesComponent implements OnInit {
             }
           });
           if (checkFirstTime) {
-            if (selectedNode.type == 'listWithComponents') {
+            if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'mainTab' || selectedNode.type == 'mainStep') {
               selectedNode.children = [];
               selectedNode.children.push(newNode);
             } else if (selectedNode.children[1]) {
@@ -496,7 +496,7 @@ export class PagesComponent implements OnInit {
             checkFirstTime = false
           }
           else {
-            if (selectedNode.type == 'listWithComponents') {
+            if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'mainTab' || selectedNode.type == 'mainStep') {
               selectedNode.children.push(newNode);
             } else if (selectedNode.children[1]) {
               selectedNode?.children[1]?.children?.push(newNode);

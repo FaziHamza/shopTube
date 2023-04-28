@@ -1321,13 +1321,13 @@ export class BuilderComponent implements OnInit {
       return [];
   }
   addNode(node: TreeNode, newNode: TreeNode) {
-    if (node.children){
+    if (node.children) {
       node.children.push(newNode);
-      if(this.showNotification){
+      if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-   
+
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
@@ -1580,7 +1580,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.invoiceFeilds;
         break;
       case "rangeSlider":
-        this.addIconCommonConfiguration(_formFieldData.rangeSliderFeilds,true);
+        this.addIconCommonConfiguration(_formFieldData.rangeSliderFeilds, true);
         this.fieldData.formData = _formFieldData.rangeSliderFeilds;
         break;
       case "inputGroupGrid":
@@ -1610,6 +1610,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainTab":
         this.fieldData.formData = _formFieldData.mainTabFields;
+        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
+        this.fieldData.dynamicSectionNode = this.selectedNode;
         break;
       case "progressBar":
         this.fieldData.formData = _formFieldData.progressBarFields;
@@ -1756,6 +1758,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainStep":
         this.fieldData.formData = _formFieldData.mainStepperFields;
+        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
+        this.fieldData.dynamicSectionNode = this.selectedNode;
         break;
       case "listWithComponents":
         // this.fieldData.formData = _formFieldData.listWithComponentsFields;
@@ -2061,7 +2065,7 @@ export class BuilderComponent implements OnInit {
     else if (type == "addSection" || type == "dynamicSections") {
       let section = type;
       if (type == "addSection") {
-        section = 'section';
+        section = 'sections';
       }
       this.addSection(section);
     }
@@ -2178,21 +2182,26 @@ export class BuilderComponent implements OnInit {
         break;
       case "dynamicSections":
       case "listWithComponents":
+      case "mainTab":
+      case "mainStep":
         if (this.selectedNode.id) {
+          this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
           if (event.type == 'listWithComponents') {
-            if(this.selectedNode.checkData == undefined){
-              this.selectedNode.checkData =  '';
-            };
             this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
-            this.selectedNode = this.api(event.form.api, this.selectedNode);
+          }
+          else if (event.type == 'mainTab') {
+            this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
+          }
+          else if (event.type == 'mainStep') {
+            this.addDynamic(event.form.nodes, 'step', 'mainStep')
           }
           let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
           if (!check) {
             if (event.dbData) {
               for (let index = 0; index < event.dbData.length; index++) {
                 const item = event.dbData[index];
-                let newNode : any = {};
-                if (event.type == 'listWithComponents') {
+                let newNode: any = {};
+                if (event.type == 'listWithComponents' || event.type == 'mainTab' || event.type == 'mainStep') {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[0]));
                 } else {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
@@ -2206,7 +2215,7 @@ export class BuilderComponent implements OnInit {
                 });
                 const { selectedNode } = this;
                 if (selectedNode && selectedNode.children) {
-                  if (event.type == 'listWithComponents') {
+                  if (event.type == 'listWithComponents' || event.type == 'mainTab' || event.type == 'mainStep') {
                     selectedNode.children = [newNode];
                   } else if (selectedNode.children[1]) {
                     selectedNode.children[1].children = [newNode];
@@ -2226,7 +2235,7 @@ export class BuilderComponent implements OnInit {
 
           }
           else {
-            alert('already');
+            alert('change Data if you want mapping');
           }
           this.updateNodes();
         }
@@ -2654,10 +2663,6 @@ export class BuilderComponent implements OnInit {
           })
         }
         break;
-      case "mainStep":
-        this.addDynamic(event.form.nodes, 'step', 'mainStep')
-        break;
-
       case "page":
         this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
         break;
@@ -3501,14 +3506,33 @@ export class BuilderComponent implements OnInit {
       const child = data.children[i];
       if (child.key === key) {
         if (Array.isArray(updatedObj) && child.type == 'avatar') {
-          let index = data.children.indexOf(child);
-          let deleteSpecificIndex = data.children.indexOf(child);
-          updatedObj.forEach((i: any) => {
-            data.children.splice(index + 1, 0, i);
-            index = index + 1;
-          });
-          data.children.splice(deleteSpecificIndex, 1);
-        } 
+          let check = data.children.filter((a: any) => a.type == "avatar");
+          if (check.length != 1) {
+            // let getFirstAvatar = JSON.parse(JSON.stringify(check[0]));
+            let deleteAvatar = check.length - 1;
+            for (let index = 0; index < deleteAvatar; index++) {
+              const element = data.children.filter((a: any) => a.type == "avatar");;
+              const idx = data.children.indexOf(element[0]);
+              data.children.splice(idx as number, 1);
+            }
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          }
+          else {
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          }
+        }
         else {
           data.children[i] = updatedObj;
         }

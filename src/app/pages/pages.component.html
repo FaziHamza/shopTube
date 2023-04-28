@@ -40,7 +40,7 @@
                 'border-color': j.borderColor + '!important'
               }">
             <!-- INCOLAPSSABLE CASE -->
-            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0].expanded"
+            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0]?.expanded"
                 [style]="{'border-color': j.borderColor + '!important'}">
                 <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}" *ngIf="j.children[0].header"
                     [style]="{'border-color': j.borderColor + '!important'}">
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <!-- COLLAPSABLE CASE -->
-            <div *ngIf="j.children[0].expanded">
+            <div *ngIf="j.children[0]?.expanded">
                 <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
                     <nz-collapse-panel class="text-black font-semibold border-black-500 {{ j.children[0].headingSize}}"
                         [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"

@@ -16,20 +16,23 @@
   <nz-collapse *ngIf="itemData.dynamicSectionConfig" class="mt-4">
     <nz-collapse-panel [nzHeader]="'Data Mapping'" [nzActive]="true">
       <div class="theme-body">
-        <formly-form [form]="actionform" [model]="modal" [fields]="itemData.dynamicSectionConfig"></formly-form>
+        <span>
+          <formly-form [form]="actionform" [model]="modal" [fields]="itemData.dynamicSectionConfig"></formly-form>
+          <span>
+            <button class="mt-2" *ngIf='this.itemData.dynamicSectionNode' nz-button nzType="primary"
+              (click)="dynamicSectionOption()">Get Mapping</button>
+          </span>
+        </span>
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length == 0' [tableId]='tableId' [checkType]='true'
-    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [data]="itemData.dynamicSectionNode"></dynamic-table>
-  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length' [tableId]='tableId' [checkType]='true'
-    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [tableData]='itemData.dynamicSectionNode.tableBody' [data]="itemData.dynamicSectionNode"></dynamic-table>
+  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length == 0'
+    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.dynamicSectionNode.tableHeader"
+    [data]="itemData.dynamicSectionNode"></dynamic-table>
+  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length'
+    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.dynamicSectionNode.tableHeader"
+    [tableData]='itemData.dynamicSectionNode.tableBody' [data]="itemData.dynamicSectionNode"></dynamic-table>
   <br>
-  <span>
-    <button  class="mr-2" *ngIf='this.itemData.dynamicSectionNode' nz-button nzType="primary" (click)="dynamicSectionOption()">Save Dynamic Section option</button>
-    <span>
-      <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
-    </span>
-  </span>
+  <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
 </form>
