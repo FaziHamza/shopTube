@@ -451,13 +451,13 @@ export class PagesComponent implements OnInit {
       this.resData[0].children[1].children.forEach((element: any) => {
         let selectedNode: any = {};
         let data = this.findObjectByType(element, "dynamicSections");
-        if(data){
-        selectedNode = data
+        if (data) {
+          selectedNode = data
         }
         data = this.findObjectByType(element, "listWithComponents");
-        if(data){
+        if (data) {
           selectedNode = data
-          }
+        }
         if (selectedNode)
           this.makeDynamicSections(selectedNode.dynamicApi, selectedNode);
       });
@@ -475,12 +475,12 @@ export class PagesComponent implements OnInit {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
           }
           selectedNode.tableBody.forEach((element: any) => {
-            let key = element.fileHeader.split("-")
-            let keyObj = this.findObjectByKey(newNode, key[1]);
+            let key = element.fileHeader
+            let keyObj = this.findObjectByKey(newNode, key);
             if (keyObj != null && keyObj) {
               if (element.defaultValue) {
                 let updatedObj = this.dataReplace(keyObj, item, element);
-                newNode = this.replaceObjectByKey(newNode, key[1], updatedObj);
+                newNode = this.replaceObjectByKey(newNode, key, updatedObj);
               }
             }
           });
@@ -494,7 +494,7 @@ export class PagesComponent implements OnInit {
             }
             this.updateNodes();
             checkFirstTime = false
-          } 
+          }
           else {
             if (selectedNode.type == 'listWithComponents') {
               selectedNode.children.push(newNode);
@@ -623,6 +623,7 @@ export class PagesComponent implements OnInit {
     }
   }
   replaceObjectByKey(data: any, key: any, updatedObj: any) {
+    debugger
     if (data.key === key) {
       return updatedObj;
     }
@@ -630,14 +631,18 @@ export class PagesComponent implements OnInit {
       const child = data.children[i];
       if (child.key === key) {
         if (Array.isArray(updatedObj) && child.type == 'avatar') {
-          // let index = data.children.indexOf(child);
-          // let deleteSpecificIndex = data.children.indexOf(child);
-          // updatedObj.forEach((i: any) => {
-          //   data.children.splice(index + 1, 0, i);
-          //   index = index + 1;
-          // });
-          // data.children.splice(deleteSpecificIndex, 1);
-        } 
+          let index = data.children.indexOf(child);
+          let deleteSpecificIndex = data.children.indexOf(child);
+          data.children.splice(i, 1);
+          let count = this.countAvatars(data);
+          if (count === 1) {
+            updatedObj.forEach((i: any) => {
+              data.children.splice(index + 1, 0, i);
+              index = index + 1;
+            });
+            data.children.splice(deleteSpecificIndex, 1);
+          }
+        }
         else {
           data.children[i] = updatedObj;
         }
@@ -650,4 +655,18 @@ export class PagesComponent implements OnInit {
     }
     return null;
   }
+
+  countAvatars(node: any) {
+    let count = 0;
+    if (node.type === 'avatar') {
+      count++;
+    }
+    if (node.children && node.children.length) {
+      node.children.forEach((child: any) => {
+        count += this.countAvatars(child);
+      });
+    }
+    return count;
+  }
+
 }
