@@ -1,5 +1,5 @@
 import { JoiService } from './../services/joi.service';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Type } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import * as Joi from 'joi';
@@ -57,9 +57,9 @@ export class MainComponent implements OnInit {
   handleIndexChange(e: number): void {
     console.log(e);
   }
-  onClose(data : any , index : any): void {
+  onClose(data: any, index: any): void {
     debugger
-    data.options = data.options.filter((_ : any, i : any) => i != index);
+    data.options = data.options.filter((_: any, i: any) => i != index);
     console.log('tag was closed.');
   }
   // handleChange(checked: boolean, tag: string): void {
@@ -195,7 +195,30 @@ export class MainComponent implements OnInit {
   saveData(data: any) {
     debugger
     if (data.isSubmit) {
-      this.mainData
+      // this.mainData
+      // this.mainData.forEach((element:any) => {
+      //   if(element.type == "gridList"){
+      //     let tableData = this.findObjectByType(element,"gridList");
+      //     tableData.tableData = [];
+      //     tableData.tableHeaders = [];
+      //     tableData?.tableData?.push(this.form.value);
+      //   }
+      // });
+      // let tableData = this.findObjectByType(element,"gridList");
+      let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+      if (tableData.length > 0) {
+        const firstObjectKeys = Object.keys(this.form.value);
+        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(firstObjectKeys.map(key => ({ name: key })))) {
+          tableData[0].tableData = [];
+          tableData[0]['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+          tableData[0].tableHeaders = tableData[0]['tableKey'];
+          tableData[0].tableData?.push(this.form.value);
+        } else {
+          tableData[0]['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+          tableData[0].tableHeaders = tableData[0]['tableKey'];
+          tableData[0].tableData?.push(this.form.value);
+        }
+      }
     }
   }
   saveData1(data: any) {
@@ -211,9 +234,21 @@ export class MainComponent implements OnInit {
             this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
           }
         });
-      }else{
+      } else {
         this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
       }
     }
+  }
+  findObjectByType(data: any, key: any) {
+    if (data.type === key) {
+      return data;
+    }
+    for (let child of data.children) {
+      let result: any = this.findObjectByType(child, key);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
   }
 }

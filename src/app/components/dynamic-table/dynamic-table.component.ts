@@ -19,7 +19,7 @@ export class DynamicTableComponent implements OnInit {
   editId: string | null = null;
   @Input() screenName: any;
   GridType: string = '';
-  key: any;
+  // key: any;
   screenNameaa: any;
   footerData: any[];
   childKey: any;
@@ -336,15 +336,16 @@ export class DynamicTableComponent implements OnInit {
   loadTableData() {
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.key = firstObjectKeys.map(key => ({ name: key }));
-      this.key = this.key.filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] =  firstObjectKeys.map(key => ({ name: key }));
+
+      this.data['tableKey']  = this.data['tableKey'].filter((header: any) => header.name !== 'color');
       // this.childKey = this.getChildrenData();
       // let checkcount = this.getParentChildrenKeys(this.tableData);
       // console.log(JSON.stringify(checkcount));
       this.footerData = this.tableHeaders;
       if (!this.tableHeaders || !this.footerData) {
-        this.tableHeaders = this.key;
-        this.footerData = this.key;
+        this.tableHeaders = this.data['tableKey'];
+        this.footerData = this.data['tableKey'];
       }
 
       let newId = 0;
@@ -419,8 +420,8 @@ export class DynamicTableComponent implements OnInit {
   getHeader() {
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.key = firstObjectKeys.map(key => ({ name: key }));
-      this.key = this.key.filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      this.data['tableKey']  = this.data['tableKey'].filter((header: any) => header.name !== 'color');
     }
 
   }
