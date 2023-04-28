@@ -39,7 +39,7 @@
         <tr [ngStyle]="{'background': item?.color}">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-          <ng-container *ngFor="let header of key; let index = index">
+          <ng-container *ngFor="let header of data['tableKey']; let index = index">
             <td [nzEllipsis]="true"
               *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
               <div

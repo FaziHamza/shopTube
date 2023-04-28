@@ -610,6 +610,7 @@ export class AddControlService {
       sort: true,
       filter: true,
       isAddRow: true,
+      tableKey:[],
       tableHeaders: [
         {
           name: 'Id',

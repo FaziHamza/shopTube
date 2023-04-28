@@ -373,6 +373,7 @@ export class BuilderComponent implements OnInit {
   }
   clearChildNode() {
     this.isSavedDb = false;
+    this.showNotification = false;
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [{
@@ -409,6 +410,8 @@ export class BuilderComponent implements OnInit {
       this.updateNodes();
       this.saveOfflineDB();
       this.isSavedDb = true;
+      this.showNotification = true;
+      this.toastr.success('Control Added', { nzDuration: 3000 });
     }
   }
   textJsonObj = {
@@ -817,7 +820,6 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
-    debugger
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
@@ -2064,6 +2066,7 @@ export class BuilderComponent implements OnInit {
       this.addSection(section);
     }
     this.showNotification = true;
+    this.toastr.success('Control Added', { nzDuration: 3000 });
   }
 
   addChildControls(parent?: any, child?: any) {
@@ -2177,6 +2180,9 @@ export class BuilderComponent implements OnInit {
       case "listWithComponents":
         if (this.selectedNode.id) {
           if (event.type == 'listWithComponents') {
+            if(this.selectedNode.checkData == undefined){
+              this.selectedNode.checkData =  '';
+            };
             this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
             this.selectedNode = this.api(event.form.api, this.selectedNode);
           }
@@ -2192,7 +2198,7 @@ export class BuilderComponent implements OnInit {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
                 }
                 event.tableDta.forEach((element: any) => {
-                  const keyObj = this.findObjectByKey(newNode, element.fileHeader.split("-")[1]);
+                  const keyObj = this.findObjectByKey(newNode, element.fileHeader);
                   if (keyObj && element.defaultValue) {
                     const updatedObj = this.dataReplace(keyObj, item, element);
                     newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);

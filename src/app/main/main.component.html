@@ -5,8 +5,8 @@
             <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
                     <div
-                        *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton' 
-                && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert' 
+                        *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'
+                && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert'
                 && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input'">
                         <div *ngIf="item.tooltip && !item?.tooltipWithoutIcon || false" style="text-align: right;">
                             <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
@@ -75,7 +75,7 @@
                     <ng-template #twelth>
                         <div
                             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
-                          
+
                             <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
                             </st-block-buttons-card>
                         </div>
