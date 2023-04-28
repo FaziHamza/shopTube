@@ -35,11 +35,24 @@ export class GenericFieldComponent implements OnInit {
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.dynamicSectionNode) {
+      if(this.itemData?.dynamicSectionNode?.dbData == undefined){
+        this.itemData.dynamicSectionNode['dbData'] = [];
+      }
+      if(this.itemData?.dynamicSectionNode?.tableBody == undefined){
+        this.itemData.dynamicSectionNode['tableBody'] = [];
+      }
+      if(this.itemData?.dynamicSectionNode?.tableHeader == undefined){
+        this.itemData.dynamicSectionNode['tableHeader'] = [
+          { name: 'fileHeader', },
+          { name: 'SelectQBOField' },
+          { name: 'defaultValue' },
+        ];
+      }
       this.tableId = this.itemData.dynamicSectionNode.key + Guid.newGuid();
-      if(this.itemData.dynamicSectionNode.dbData){
+      if (this.itemData?.dynamicSectionNode?.dbData) {
         this.resData = this.itemData.dynamicSectionNode.dbData;
       }
-    
+
     }
   }
   actionform = new FormGroup({});
@@ -83,15 +96,15 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if(this.itemData.dynamicSectionNode.type == 'listWithComponents'){
+          if (this.itemData.dynamicSectionNode.type == 'listWithComponents') {
             this.createOptionsArray(this.itemData.dynamicSectionNode.children[0]);
-          }else {
-          this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);
+          } else {
+            this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);
           }
           this.optionsArray.forEach((item: any, index: number) => {
             let newObj = {
               // no: index + 1,
-              fileHeader: item.type + '-' + item.key,
+              fileHeader: item.key,
               SelectQBOField: key,
               defaultValue: '',
             }

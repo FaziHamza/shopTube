@@ -14,15 +14,15 @@
     </nz-collapse-panel>
   </nz-collapse>
   <nz-collapse *ngIf="itemData.dynamicSectionConfig" class="mt-4">
-    <nz-collapse-panel [nzHeader]="itemData.title" [nzActive]="true">
+    <nz-collapse-panel [nzHeader]="'Data Mapping'" [nzActive]="true">
       <div class="theme-body">
         <formly-form [form]="actionform" [model]="modal" [fields]="itemData.dynamicSectionConfig"></formly-form>
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <dynamic-table *ngIf='this.itemData.dynamicSectionNode && this.itemData.dynamicSectionNode.tableBody.length == 0' [tableId]='tableId' [checkType]='true'
+  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length == 0' [tableId]='tableId' [checkType]='true'
     [tableHeaders]="itemData.dynamicSectionNode.tableHeader"></dynamic-table>
-  <dynamic-table *ngIf='this.itemData.dynamicSectionNode && this.itemData.dynamicSectionNode.tableBody.length' [tableId]='tableId' [checkType]='true'
+  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length' [tableId]='tableId' [checkType]='true'
     [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [tableData]='itemData.dynamicSectionNode.tableBody'></dynamic-table>
   <br>
   <span>
