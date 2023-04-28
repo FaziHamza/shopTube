@@ -623,7 +623,6 @@ export class PagesComponent implements OnInit {
     }
   }
   replaceObjectByKey(data: any, key: any, updatedObj: any) {
-    debugger
     if (data.key === key) {
       return updatedObj;
     }
@@ -631,17 +630,35 @@ export class PagesComponent implements OnInit {
       const child = data.children[i];
       if (child.key === key) {
         if (Array.isArray(updatedObj) && child.type == 'avatar') {
-          let index = data.children.indexOf(child);
-          let deleteSpecificIndex = data.children.indexOf(child);
-          data.children.splice(i, 1);
-          let count = this.countAvatars(data);
-          if (count === 1) {
+          let check = data.children.filter((a: any) => a.type == "avatar");
+          if (check.length != 1) {
+            // let getFirstAvatar = JSON.parse(JSON.stringify(check[0]));
+            let deleteAvatar = check.length - 1;
+            for (let index = 0; index < deleteAvatar; index++) {
+              const element = data.children.filter((a: any) => a.type == "avatar");;
+              const idx = data.children.indexOf(element[0]);
+              data.children.splice(idx as number, 1);
+            }
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
             updatedObj.forEach((i: any) => {
-              data.children.splice(index + 1, 0, i);
-              index = index + 1;
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
             });
-            data.children.splice(deleteSpecificIndex, 1);
           }
+          // let index = data.children.indexOf(child);
+          // let deleteSpecificIndex = data.children.indexOf(child);
+          // data.children.splice(i, 1);
+          // let count = this.countAvatars(data);
+
+          // if (count.length === 1) {
+          //   updatedObj.forEach((i: any) => {
+          //     data.children.splice(index + 1, 0, i);
+          //     index = index + 1;
+          //   });
+          //   data.children.splice(deleteSpecificIndex, 1);
+          // }
         }
         else {
           data.children[i] = updatedObj;
@@ -657,13 +674,13 @@ export class PagesComponent implements OnInit {
   }
 
   countAvatars(node: any) {
-    let count = 0;
+    let count: any = [];
     if (node.type === 'avatar') {
-      count++;
+      count.push(node);
     }
     if (node.children && node.children.length) {
       node.children.forEach((child: any) => {
-        count += this.countAvatars(child);
+        count.push(this.countAvatars(child));
       });
     }
     return count;

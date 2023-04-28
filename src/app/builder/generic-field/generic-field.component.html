@@ -21,9 +21,9 @@
     </nz-collapse-panel>
   </nz-collapse>
   <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length == 0' [tableId]='tableId' [checkType]='true'
-    [tableHeaders]="itemData.dynamicSectionNode.tableHeader"></dynamic-table>
+    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [data]="itemData.dynamicSectionNode"></dynamic-table>
   <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length' [tableId]='tableId' [checkType]='true'
-    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [tableData]='itemData.dynamicSectionNode.tableBody'></dynamic-table>
+    [tableHeaders]="itemData.dynamicSectionNode.tableHeader" [tableData]='itemData.dynamicSectionNode.tableBody' [data]="itemData.dynamicSectionNode"></dynamic-table>
   <br>
   <span>
     <button  class="mr-2" *ngIf='this.itemData.dynamicSectionNode' nz-button nzType="primary" (click)="dynamicSectionOption()">Save Dynamic Section option</button>
