@@ -669,15 +669,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   key: 'title',
-        //   type: 'input',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   "wrappers": ["formly-vertical-wrapper"],
-        //   props: {
-        //     label: 'Button Text'
-        //   }
-        // },
         {
           key: 'hoverTextColor',
           type: 'input',
@@ -953,16 +944,9 @@ export class formFeildData {
           template: '<div class="bold-label mt-3">options</div>',
         },
         {
-          key: 'options',
+          key: 'dropdownOptions',
           type: 'repeatSection',
-          className: "w-full",
-          props: {
-            style: "margin-top: 6%;",
-            canAdd: true,
-            canRemove: true
-          },
           fieldArray: {
-            className: 'ml-3 me-2',
             fieldGroup: [
               {
                 key: 'label',
@@ -1206,15 +1190,6 @@ export class formFeildData {
       ]
     },
   ]
-  // //used in formly form
-  // btnTextField: FormlyFieldConfig[] = [{
-  //   key: 'title',
-  //   type: 'input',
-  //   props: {
-  //     label: 'Button Text'
-  //   }
-  // }]
-  //color Json
   colorFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -1227,7 +1202,6 @@ export class formFeildData {
           props: {
             label: 'Default Color',
             type: 'color'
-            // value:"#038edc",
           },
         },
       ]
@@ -1351,7 +1325,6 @@ export class formFeildData {
       ]
     },
   ]
-  //card Fields
   cardFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -1398,7 +1371,6 @@ export class formFeildData {
       ]
     },
   ]
-  //Chart Fields
   chartFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -2969,6 +2941,29 @@ export class formFeildData {
             ]
           },
           // defaultValue: 'w-1/3'
+        },
+        {
+          key: 'textSize',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Text Size',
+            options: [
+              {
+                label: 'Small',
+                value: 'text-sm'
+              },
+              {
+                label: 'Medium',
+                value: 'text-md'
+              },
+              {
+                label: 'Large',
+                value: 'text-lg'
+              },
+            ]
+          },
         },
         {
           key: 'nztype',
@@ -4956,15 +4951,15 @@ export class formFeildData {
             label: 'Divider Text'
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'icon',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Icon'
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'icon',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Icon'
+        //   }
+        // },
         {
           key: 'dividerType',
           type: 'select',

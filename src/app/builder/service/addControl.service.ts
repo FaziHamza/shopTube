@@ -556,6 +556,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
+      textSize:'text-sm'
     }
   }
   htmlBlockControl() {

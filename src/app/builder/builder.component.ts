@@ -377,7 +377,7 @@ export class BuilderComponent implements OnInit {
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [{
-        id: 'page',
+        id: this.moduleId + '_' + 'page_'+ Guid.newGuid(),
         key: 'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
@@ -396,7 +396,7 @@ export class BuilderComponent implements OnInit {
       this.nodes = newNode;
       this.selectedNode = newNode[0];
       this.addControlToJson('pageHeader', null);
-      this.addControlToJson('pageBody', null);
+      this.addControlToJson('pageBody', null);  
       this.selectedNode = this.sectionBageBody;
       this.addControlToJson('sections', null);
       this.selectedNode = this.sections;
@@ -827,7 +827,7 @@ export class BuilderComponent implements OnInit {
     let newNode: any = {};
     if (data?.parameter == 'input') {
       newNode = {
-        id: value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -841,7 +841,7 @@ export class BuilderComponent implements OnInit {
     else {
       newNode = {
         key: value.toLowerCase() + "_" + Guid.newGuid(),
-        id: value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -2173,7 +2173,6 @@ export class BuilderComponent implements OnInit {
     let needToUpdate = true;
     switch (event.type) {
       case "cardWithComponents":
-      case "accordionButton":
       case "step":
       case "listWithComponentsChild":
       case "tabs":
@@ -2291,8 +2290,12 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "button":
+      case "linkbutton":
         this.selectedNode.btnIcon = event.form?.icon;
 
+        break;
+        case "accordionButton":
+        this.selectedNode.nzExpandedIcon = event.form?.icon;
         break;
       case "segmented": case "tag":
         if (event.tableDta) {
@@ -2580,6 +2583,7 @@ export class BuilderComponent implements OnInit {
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
       case "dropdownButton":
+        this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
           this.selectedNode.dropdownOptions = event.tableDta;
         }

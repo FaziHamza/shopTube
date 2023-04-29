@@ -13,19 +13,6 @@ export class AccordionButtonComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
-
-    this.accordionData;
-    this.accordionData[0].accordionChild.forEach((a: any) => {
-      if (a.formlyType) {
-        if (a.formlyType == "input") {
-          a.formly[0].fieldGroup.forEach((b: any) => {
-            if (b.wrappers.length > 1) {
-              b.wrappers.splice(1, 1);
-            }
-          });
-        }
-      }
-    });
   }
   form = new FormGroup({});
   submit() {
