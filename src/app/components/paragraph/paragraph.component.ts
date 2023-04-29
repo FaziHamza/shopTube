@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ParagraphComponent implements OnInit {
   @Input() data: any;
-
+    
 
   constructor(private router: Router) { }
 

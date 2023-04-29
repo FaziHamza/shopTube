@@ -88,6 +88,12 @@ export class BuilderComponent implements OnInit {
 
     //   this.nodes = res[0].menuData;
     // }));
+    this.dataSharedService.change.subscribe(({ event, field}) => {
+      debugger
+      if (event && field) {
+        this.checkConditionUIRule(field, event);
+      }
+    });
   }
   controlListClose(): void {
     this.controlListvisible = false;
@@ -1283,6 +1289,7 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options),
                       keyup: (model: any) => {
+                        debugger
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         this.checkConditionUIRule(model, currentVal);
@@ -2034,7 +2041,12 @@ export class BuilderComponent implements OnInit {
   }
   changeIdAndkey(node: any) {
     if (node.id) {
-      node.id = node.id + Guid.newGuid();
+      let changeId = node.id.split('_')
+      if(changeId.length == 2){
+        node.id = this.moduleId + '_' + changeId[0] + '_' + Guid.newGuid();
+      }else{
+      node.id = changeId[0] + '_' + changeId[1] + '_' + Guid.newGuid();
+      }
     }
     if (node.formly) {
       if (node.formly[0].key) {

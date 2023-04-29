@@ -2404,6 +2404,15 @@ export class formFeildData {
             label: 'Api',
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'hieght',
+          }
+        },
       ]
     },
   ]
@@ -2952,15 +2961,15 @@ export class formFeildData {
             options: [
               {
                 label: 'Small',
-                value: 'text-sm'
+                value: ' text-sm'
               },
               {
                 label: 'Medium',
-                value: 'text-md'
+                value: ' text-md'
               },
               {
                 label: 'Large',
-                value: 'text-lg'
+                value: ' text-lg'
               },
             ]
           },
@@ -3871,8 +3880,19 @@ export class formFeildData {
             label: 'Api',
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Height',
+            type:'number'
+          }
+        },
       ]
     },
+    
 
   ]
   accordionButtonFields: FormlyFieldConfig[] = [
