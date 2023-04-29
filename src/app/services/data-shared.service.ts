@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class DataSharedService {
   // activeTabIndex = 0;
-  public radioChange: Subject<{ event: any; field: any,type?:string }> = new Subject();
+  public change: Subject<{ event: any; field: any}> = new Subject();
 
   selectedNode:any;
   screenModule:any;
@@ -22,8 +22,8 @@ export class DataSharedService {
   getData() {
     return this.data;
   }
-  onChange(event: any, field: any,type?:string) {
-    this.radioChange.next({ event, field,type });
+  onChange(event: any, field: any) {
+    this.change.next({ event, field });
   }
 
   // This variable is used for goTo build page through screen builder

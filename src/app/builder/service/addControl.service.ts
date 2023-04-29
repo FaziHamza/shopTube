@@ -197,6 +197,7 @@ export class AddControlService {
     return {
       isNextChild: true,
       borderless: false,
+      height: 0,
     }
   }
   getSwitchControl() {
@@ -556,7 +557,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
-      textSize:'text-sm'
+      textSize:' text-sm'
     }
   }
   htmlBlockControl() {
@@ -974,6 +975,7 @@ export class AddControlService {
       icon: "plus",
       iconType: 'outline',
       iconSize: 15,
+      height: 0,
       iconColor: '',
       isNextChild: true,
       dashed: false,

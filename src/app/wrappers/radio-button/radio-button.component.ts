@@ -9,7 +9,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./radio-button.component.scss']
 })
 export class RadioButtonComponent extends FieldType<FieldTypeConfig> {
-  @Output() radioChange = new EventEmitter<any>();
+  @Output() change = new EventEmitter<any>();
 
   // constructor() { }
   constructor(private sharedService: DataSharedService) {
@@ -21,12 +21,9 @@ export class RadioButtonComponent extends FieldType<FieldTypeConfig> {
   }
   ngOnInit(): void {
   }
-  onRadioChange(event: any, model: any) {
+  onModelChange(event: any, model: any) {
     debugger
-    let currentVal = model.formControl.value;
-  
-    let txt=`Selected value for :`+ model.formControl.value;
-    this.sharedService.onChange(event, this.field,'radio');
+    this.sharedService.onChange(event, this.field);
     console.log(event, model, 'radio');
   }
 

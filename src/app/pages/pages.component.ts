@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ElementData } from '../models/element';
 import { TreeNode } from '../models/treeNode';
 import { Guid } from '../models/guid';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'st-pages',
@@ -16,7 +17,15 @@ import { Guid } from '../models/guid';
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     public builderService: BuilderService,
-    private cdr: ChangeDetectorRef,) { }
+    private cdr: ChangeDetectorRef,
+    public dataSharedService: DataSharedService,) {
+    this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
+      if (event && field) {
+        this.checkConditionUIRule(field, event);
+      }
+    });
+  }
   @Input() resData: any = [];
   @Input() formlyModel: any;
   fields: any = [];

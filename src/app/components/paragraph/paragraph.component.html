@@ -1,5 +1,4 @@
-{{data | json}}
-<p [class]="data.link ? 'cursor-pointer' : ''" [class]="data.textSize" (click)="pageRoute(data.link)"
+<p [class]="data.link ? 'cursor-pointer' : ''"  (click)="pageRoute(data.link)"
 nz-typography
 [nzContent]="data.text"
 [nzEditable]="data.editable"
@@ -14,7 +13,7 @@ nz-typography
 [nzExpandable]="data.expandable"
 [nzEllipsisRows]="data.ellipsisRows"
 [nzType]="data.nztype"
-[class]="data.fontstyle"
+[class]="data.fontstyle + data.textSize"
  [style.color]="data.color"
 ></p>
 <ng-template #beforecopiedIcon>
