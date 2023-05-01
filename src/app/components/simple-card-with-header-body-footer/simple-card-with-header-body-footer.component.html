@@ -1,4 +1,4 @@
-<nz-card [style.background-color]="cardData.bgColor" nzTitle={{cardData.headerText}}
+<nz-card [style.background-color]="cardData.bgColor" [nzTitle]="title"
     [nzBorderless]="cardData.borderless" [nzExtra]="cardData.extra" [nzHoverable]="cardData.hover"
     [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size">
     <div class="body">
@@ -23,7 +23,7 @@
         </ng-container>
     </div>
     <div *ngIf="showFooter()" class="{{cardData.footerBorder ? 'footer-border' :  ''}} footer">
-        <p class="footer-text">{{cardData.footerText}}</p>
+        <p class="footer-text" [style.color]="cardData?.footerTextColor || ''">{{cardData.footerText}}</p>
         <div class="flex flex-nowrap">
             <ng-container *ngFor="let item of cardData.children">
                 <div [class]="item.className"
@@ -34,3 +34,7 @@
         </div>
     </div>
 </nz-card>
+
+<ng-template #title>
+    <p [style.color]="cardData?.headerTextColor || ''">{{cardData.headerText}}</p>
+  </ng-template>

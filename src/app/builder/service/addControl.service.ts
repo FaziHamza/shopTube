@@ -199,6 +199,9 @@ export class AddControlService {
       borderless: false,
       height: 0,
       footerText:'Footer',
+      bgColor:'',
+      headerTextColor:'',
+      footerTextColor:'',
     }
   }
   getSwitchControl() {
@@ -384,6 +387,9 @@ export class AddControlService {
       // bgColorFooter:'',
       bgColor: '',
       footer: false,
+      headerTextColor:'',
+      footerTextColor:'',
+      
     }
   }
   getTabsControl() {
