@@ -11,6 +11,8 @@ export class SimpleCardWithHeaderBodyFooterComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    debugger
+    this.cardData;
   }
 
   loadURLData(link: any) {
@@ -20,16 +22,19 @@ export class SimpleCardWithHeaderBodyFooterComponent implements OnInit {
     }
   }
 
-  check(data: any): boolean {
-    let hasButton = false;
-    data.forEach((item: any) => {
-      if (item.type === 'button' || item.type === 'buttonGroup' || item.type === 'linkButton'
-        || item.type === 'dropdownButton') {
-        hasButton = true;
-        return;
+  showFooter() {
+    let buttons = [];
+    for (let item of this.cardData.children) {
+      if (item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton') {
+        buttons.push(item);
       }
-    });
-    return hasButton;
+    }
+    if (buttons.length || this.cardData.footerText) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  
+
+
 }
