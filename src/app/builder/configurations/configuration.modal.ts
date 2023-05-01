@@ -2411,6 +2411,17 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'hieght',
+            type: 'number',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Width',
+            type: 'number',
           }
         },
       ]
@@ -2960,16 +2971,24 @@ export class formFeildData {
             label: 'Text Size',
             options: [
               {
+                label: 'Extra Small',
+                value: ' text-xs'
+              },
+              {
                 label: 'Small',
                 value: ' text-sm'
               },
               {
                 label: 'Medium',
-                value: ' text-md'
+                value: ' text-base'
               },
               {
                 label: 'Large',
                 value: ' text-lg'
+              },
+              {
+                label: 'Extra Large',
+                value: ' text-xl'
               },
             ]
           },

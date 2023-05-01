@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-multi-select',
@@ -7,14 +8,21 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./multi-select.component.scss']
 })
 export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements OnInit {
+  @Output() change = new EventEmitter<any>();
   selectedValue: any | null = null;
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   ngOnInit(): void {
   }
   get list(): any {
     return this.to.options;
   }
-  log(value: any): void {
-    this.formControl.patchValue(value);
+  log(event: any, model: any): void {
+    debugger
+    this.formControl.patchValue(event);
+    this.sharedService.onChange(event, this.field);
+    console.log(event, model);
   }
 }
 

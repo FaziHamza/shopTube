@@ -1,0 +1,5 @@
+<nz-card [nzTitle]="item.title"
+[ngStyle]="{'height': item.height && item.height != 0 ? item.height + 'px' : '', 'overflow': item.height && item.height != 0 ? 'auto' : ''}"
+[style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
+<st-main [mainData]="item.children"></st-main>
+</nz-card>

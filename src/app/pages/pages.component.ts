@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
@@ -18,10 +18,10 @@ export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
-    public dataSharedService: DataSharedService,) {
+    public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
-      if (event && field) {
+      if (event && field && this.router.url ==  '/pages') {
         this.checkConditionUIRule(field, event);
       }
     });
@@ -656,18 +656,6 @@ export class PagesComponent implements OnInit {
               idx = idx + 1;
             });
           }
-          // let index = data.children.indexOf(child);
-          // let deleteSpecificIndex = data.children.indexOf(child);
-          // data.children.splice(i, 1);
-          // let count = this.countAvatars(data);
-
-          // if (count.length === 1) {
-          //   updatedObj.forEach((i: any) => {
-          //     data.children.splice(index + 1, 0, i);
-          //     index = index + 1;
-          //   });
-          //   data.children.splice(deleteSpecificIndex, 1);
-          // }
         }
         else {
           data.children[i] = updatedObj;
@@ -681,18 +669,4 @@ export class PagesComponent implements OnInit {
     }
     return null;
   }
-
-  countAvatars(node: any) {
-    let count: any = [];
-    if (node.type === 'avatar') {
-      count.push(node);
-    }
-    if (node.children && node.children.length) {
-      node.children.forEach((child: any) => {
-        count.push(this.countAvatars(child));
-      });
-    }
-    return count;
-  }
-
 }

@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-formly-field-ng-select',
   template: `
-  multiselect
   <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
     <nz-input-group  [nzSuffix]="to['additionalProperties']?.addonLeft" [nzPrefix]="to['additionalProperties']?.addonRight" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
-      <nz-select [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
+      <nz-select (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-option [nzLabel]="item.label" [nzValue]="item.value" *ngFor="let item of list"></nz-option>
       </nz-select>
       <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'" [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
@@ -23,8 +23,18 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   `,
 })
 export class FormlyFieldNgSelectComponent extends FieldType<FieldTypeConfig> {
+  @Output() change = new EventEmitter<any>();
   selectedValue = null;
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   get list(): any {
     return this.to.options;
+  }
+
+  onModelChange(event: any, model: any) {
+    debugger
+    this.sharedService.onChange(event, this.field);
+    console.log(event, model);
   }
 }

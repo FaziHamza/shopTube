@@ -9,6 +9,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
   filteredOptions: any = [];
+  inputValue?: any;
   constructor(private sharedService: DataSharedService) {
     super();
   }
@@ -25,8 +26,8 @@ export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
 
   onModelChange(event: any, model: any) {
     debugger
-    this.sharedService.onChange(event, this.field);
-    console.log(event, model);
+    this.sharedService.onChange(event.value, this.field);
+    console.log(event.value, model);
   }
 
 }

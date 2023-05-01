@@ -5,11 +5,12 @@
         </span>
         <nz-card [style.background-color]="cardData.bgColor" nzTitle={{cardData.headerText}}
             [nzBorderless]="cardData.borderless" [nzExtra]="cardData.extra" [nzHoverable]="cardData.hover"
-            [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size">
+            [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size"
+            [nzActions]="[actionSetting]">
             <div>
                 <!-- <div [innerHTML]="cardData.bodyText | sanitize: 'html'"></div>
                 <p [innerHTML]="cardData.description | sanitize: 'html'"></p> -->
-                
+
                 <ng-container *ngFor="let item of cardData.children">
                     <st-heading *ngIf="item.type == 'heading'" [headingData]="item"></st-heading>
                     <st-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></st-tabs>
@@ -25,26 +26,27 @@
                             [alt]='item.alt' [nzFallback]="item.fallback" />
                     </div>
                     <st-paragraph *ngIf="item.type == 'paragraph'" [data]="item"></st-paragraph>
-                    
+
                 </ng-container>
             </div>
         </nz-card>
-        <div class="{{cardData.footerBorder ? 'border' :  ''}} p-2" style="border-top:'none'">
-            {{cardData.footerText}}
-            <div class="flex flex-nowrap">
-                <ng-container *ngFor="let item of cardData.children">
-                    <div [class]="item.className"
-                        *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton'">
-                        <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
-                    </div>
-                </ng-container>
-            </div>
-
-        </div>
     </div>
 </div>
 <ng-template #coverTemplate>
     <img *ngIf="cardData.imageSrc || cardData.imageAlt" [alt]="cardData.imageAlt" [src]="cardData.imageSrc" />
+</ng-template>
+<ng-template #actionSetting>
+    <!-- {{cardData.footerText}} -->
+    <!-- <ng-container *ngIf="cardData.children && cardData.children.length && cardData.children.filter(item => item.type === 'button' || item.type === 'buttonGroup' || item.type === 'linkButton' || item.type === 'dropdownButton').length > 0">
+        <div class="flex flex-nowrap">
+            <ng-container *ngFor="let item of cardData.children">
+                <div [class]="item.className"
+                    *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkButton' || item.type == 'dropdownButton'">
+                    <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container> -->
 </ng-template>
 <style>
     .ant-card-body {

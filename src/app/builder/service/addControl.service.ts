@@ -519,6 +519,8 @@ export class AddControlService {
       isNextChild: true,
       divClass: '',
       imageSrc: '',
+      height : 0,
+      width : 0,
     }
   }
   headingControl() {
