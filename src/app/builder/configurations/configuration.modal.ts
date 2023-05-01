@@ -3926,7 +3926,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
-            label: 'header Color',
+            label: 'Header Text Color',
           }
         },
         {
@@ -3936,7 +3936,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
-            label: 'Footer Color',
+            label: 'Footer Text Color',
           }
         },
         {
@@ -5670,7 +5670,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
-            label: 'header Color',
+            label: 'Header Text Color',
           }
         },
         {
@@ -5680,7 +5680,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
-            label: 'Footer Color',
+            label: 'Footer Text Color',
           }
         },
         // {

@@ -1,4 +1,4 @@
-<nz-card [style.background-color]="cardData.bgColor" [nzTitle]="title"
+<nz-card [style.background-color]="cardData.bgColor" [nzTitle]="cardData.headerText ?  title : cardData.headerText"
     [nzBorderless]="cardData.borderless" [nzExtra]="cardData.extra" [nzHoverable]="cardData.hover"
     [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size">
     <div class="body">

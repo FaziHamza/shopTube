@@ -1,4 +1,4 @@
-<nz-card [nzTitle]="title" [style.background-color]="item?.bgColor || ''"
+<nz-card [nzTitle]="item?.title ? title : item?.title" [style.background-color]="item?.bgColor || ''"
     [ngStyle]="{'height': item?.height && item?.height != 0 ? item?.height + 'px' : '', 'overflow': item?.height && item?.height != 0 ? 'auto' : ''}"
     [style.border]="item?.borderless ? 'none' :'1px solid #f0f0f0' ">
     <div class="body">
@@ -9,5 +9,5 @@
     </div>
 </nz-card>
 <ng-template #title>
-    <p [style.color]="item?.headerTextColor || ''">{{item?.title}}</p>
+    <p *ngIf="item?.title" [style.color]="item?.headerTextColor || ''">{{item?.title}}</p>
   </ng-template>
