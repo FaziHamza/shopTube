@@ -22,6 +22,7 @@ import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { ChartType } from 'angular-google-charts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'st-builder',
@@ -79,7 +80,7 @@ export class BuilderComponent implements OnInit {
     private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService , private router: Router) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -90,7 +91,7 @@ export class BuilderComponent implements OnInit {
     // }));
     this.dataSharedService.change.subscribe(({ event, field}) => {
       debugger
-      if (event && field) {
+      if (event && field && this.router.url ==  '/builder') {
         this.checkConditionUIRule(field, event);
       }
     });

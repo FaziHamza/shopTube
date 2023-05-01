@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 
 @Component({
@@ -10,6 +11,10 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 })
 export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
+  @Output() change = new EventEmitter<any>();
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   startValue: Date | null = null;
   endValue: Date | null = null;
 
@@ -40,6 +45,13 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // handleEndOpenChange(open: boolean): void {
   //   console.log('handleEndOpenChange', open);
   // }
+  
+  onModelChange(event: any, model: any) {
+    debugger
+    this.sharedService.onChange(event, this.field);
+    console.log(event, model);
+  }
+
 }
 
 

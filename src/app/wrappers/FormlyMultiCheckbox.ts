@@ -8,7 +8,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
  <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'relative z-0' : 'checkBox'">
 
 
-<nz-checkbox-wrapper [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"  *ngIf="list.length" style="width: 100%;" (nzOnChange)="log($event)" (ngModelChange)="onModelChange($event, field)">
+<nz-checkbox-wrapper [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"  *ngIf="list.length" style="width: 100%;" (nzOnChange)="log($event , field)">
 
 <div nz-row>
     <div nz-col ><label nz-checkbox [nzDisabled]='to.disabled'  [nzValue]="item.value" *ngFor="let item of list">{{item.label}}</label></div>
@@ -33,9 +33,11 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
 
   }
 
-  log(value: string[]): void {
-    console.log(value);
-    this.formControl.patchValue(value);
+  log(event: any, model: any){
+    debugger
+    this.formControl.patchValue(event);
+    this.sharedService.onChange(event, this.field);
+    console.log(event, model);
   }
 
   get list(): any {
@@ -48,8 +50,7 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
 
   onModelChange(event: any, model: any) {
     debugger
-    this.sharedService.onChange(event, this.field);
-    console.log(event, model);
+  
   }
 
 

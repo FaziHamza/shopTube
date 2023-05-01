@@ -19,4 +19,17 @@ export class SimpleCardWithHeaderBodyFooterComponent implements OnInit {
       this.router.navigate([routerLink]);
     }
   }
+
+  check(data: any): boolean {
+    let hasButton = false;
+    data.forEach((item: any) => {
+      if (item.type === 'button' || item.type === 'buttonGroup' || item.type === 'linkButton'
+        || item.type === 'dropdownButton') {
+        hasButton = true;
+        return;
+      }
+    });
+    return hasButton;
+  }
+  
 }

@@ -1,6 +1,7 @@
 export * from "./accordion-button/accordion-button.component";
 export * from "./affix/affix.component"
 export * from "./anchor/anchor.component"
+export * from "./card-with-components/card-with-components.component"
 export * from "./avatar/avatar.component"
 export * from "./audio/audio.component"
 export * from "./back-top/back-top.component"

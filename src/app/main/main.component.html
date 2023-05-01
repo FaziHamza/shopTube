@@ -93,11 +93,7 @@
                     </ng-template>
                     <ng-template #fifteen>
                         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
-                            <nz-card [nzTitle]="item.title"
-                                [ngStyle]="{'height': item.height && item.height != 0 ? item.height + 'px' : '', 'overflow': item.height && item.height != 0 ? 'auto' : ''}"
-                                [style.border]="item.borderless ? 'none' :'1px solid #f0f0f0' ">
-                                <st-main [mainData]="item.children"></st-main>
-                            </nz-card>
+                            <app-card-with-components [item]="item"></app-card-with-components>
                         </div>
                     </ng-template>
                     <ng-template #sixteen>
@@ -526,9 +522,10 @@
                     </ng-template>
                     <ng-template #eightyFive>
                         <div *ngIf="item.type == 'div'; else eightySix">
-                            <div [class]="item.divClass"
-                                [ngStyle]="{'height': item.height && item.height != 0 ? item.height + 'px' : ''}"
-                                style="background-image: url({{item.imageSrc}}); background-repeat: no-repeat; background-size: cover; overflow-y: auto;">
+                            <div [class]="item.divClass" [ngStyle]="{
+                                'height': item.height && item.height != 0 ? item.height + 'px' : 'auto',
+                                'width': item.width && item.width != 0 && item.imageSrc ? item.width + 'px' : 'auto'
+                            }" style="background-image: url({{item.imageSrc}}); background-repeat: no-repeat; background-size: cover; overflow-y: auto;">
                                 <st-main [mainData]="item.children"></st-main>
                             </div>
                         </div>
