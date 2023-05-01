@@ -1,43 +1,29 @@
-<div class="m-2">
-    <div (click)="loadURLData(cardData.link)" [style.background-color]="cardData.bgColor">
-        <span *ngIf="cardData?.tooltip" nz-tooltip [nzTooltipTitle]="cardData.tooltip">
-            <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
-        </span>
-        <nz-card [style.background-color]="cardData.bgColor" nzTitle={{cardData.headerText}}
-            [nzBorderless]="cardData.borderless" [nzExtra]="cardData.extra" [nzHoverable]="cardData.hover"
-            [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size"
-            [nzActions]="[actionSetting]">
-            <div>
-                <!-- <div [innerHTML]="cardData.bodyText | sanitize: 'html'"></div>
+<nz-card [style.background-color]="cardData.bgColor" nzTitle={{cardData.headerText}}
+    [nzBorderless]="cardData.borderless" [nzExtra]="cardData.extra" [nzHoverable]="cardData.hover"
+    [nzLoading]="cardData.loading" [nzType]="cardData.nztype" [nzSize]="cardData.size">
+    <div class="body">
+        <!-- <div [innerHTML]="cardData.bodyText | sanitize: 'html'"></div>
                 <p [innerHTML]="cardData.description | sanitize: 'html'"></p> -->
-
-                <ng-container *ngFor="let item of cardData.children">
-                    <st-heading *ngIf="item.type == 'heading'" [headingData]="item"></st-heading>
-                    <st-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></st-tabs>
-                    <st-divider *ngIf="item.type == 'divider'" [dividerData]="item"></st-divider>
-                    <div *ngIf="item.type == 'imageUpload'">
-                        <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
-                                nzType=" question-circle" nzTheme="twotone"></span></span>
-                        <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght"
-                            [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.source'
-                            [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
-                        <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                            [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
-                            [alt]='item.alt' [nzFallback]="item.fallback" />
-                    </div>
-                    <st-paragraph *ngIf="item.type == 'paragraph'" [data]="item"></st-paragraph>
-
-                </ng-container>
+        <ng-container *ngFor="let item of cardData.children">
+            <st-heading *ngIf="item.type == 'heading'" [headingData]="item"></st-heading>
+            <st-tabs *ngIf="item.type == 'mainTab'" [tabs]="item"></st-tabs>
+            <st-divider *ngIf="item.type == 'divider'" [dividerData]="item"></st-divider>
+            <div *ngIf="item.type == 'imageUpload'">
+                <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
+                        nzType=" question-circle" nzTheme="twotone"></span></span>
+                <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth"
+                    [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
+                    [nzFallback]="item.fallback" />
+                <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
+                    [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
+                    [alt]='item.alt' [nzFallback]="item.fallback" />
             </div>
-        </nz-card>
+            <st-paragraph *ngIf="item.type == 'paragraph'" [data]="item"></st-paragraph>
+
+        </ng-container>
     </div>
-</div>
-<ng-template #coverTemplate>
-    <img *ngIf="cardData.imageSrc || cardData.imageAlt" [alt]="cardData.imageAlt" [src]="cardData.imageSrc" />
-</ng-template>
-<ng-template #actionSetting>
-    <!-- {{cardData.footerText}} -->
-    <!-- <ng-container *ngIf="cardData.children && cardData.children.length && cardData.children.filter(item => item.type === 'button' || item.type === 'buttonGroup' || item.type === 'linkButton' || item.type === 'dropdownButton').length > 0">
+    <div *ngIf="showFooter()" class="{{cardData.footerBorder ? 'footer-border' :  ''}} footer">
+        <p class="footer-text">{{cardData.footerText}}</p>
         <div class="flex flex-nowrap">
             <ng-container *ngFor="let item of cardData.children">
                 <div [class]="item.className"
@@ -46,10 +32,5 @@
                 </div>
             </ng-container>
         </div>
-    </ng-container> -->
-</ng-template>
-<style>
-    .ant-card-body {
-        background-color: var(--cardData-bgColorBody);
-    }
-</style>
+    </div>
+</nz-card>

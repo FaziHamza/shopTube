@@ -198,6 +198,7 @@ export class AddControlService {
       isNextChild: true,
       borderless: false,
       height: 0,
+      footerText:'Footer',
     }
   }
   getSwitchControl() {

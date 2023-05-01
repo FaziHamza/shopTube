@@ -3909,10 +3909,18 @@ export class formFeildData {
             type:'number'
           }
         },
+        {
+          className: "w-full",
+          key: 'footerText',
+          type: 'textarea',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Footer Text',
+            rows: 3,
+          }
+        },
       ]
     },
-    
-
   ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
