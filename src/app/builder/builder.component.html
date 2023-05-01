@@ -136,26 +136,27 @@
               <nz-tree [nzData]="nodes" nzDraggable nzBlockNode [nzSearchValue]="searchValue"
                 (nzOnDrop)="nzEvent($event)">
                 <ng-template #nzTreeTemplate let-node>
-                  <div class="flex" [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
+                  <div class="flex card-lable-row" [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
+
                     <div (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
                       (click)="[openField(node),highlightSelect(node.origin.id,true)]">
                       <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
                     <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
-                    {{node.origin.id}}
+                      {{node.origin.id}}
                     </div>
-                    <span *ngIf="screenPage">
+                    <span *ngIf="screenPage" class="row-icon">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
                         <span nz-icon nzType="copy" nzTooltipTitle="copy" nzTheme="outline" nz-tooltip></span>
                       </span>
                       <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
-                        <span nz-icon nzType="sliders" nzTooltipTitle="Configuration" nzTheme="outline"
+                        <span class="fa" nz-icon nzType="sliders" nzTooltipTitle="Configuration" nzTheme="outline"
                           nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="remove(node, node)">
-                        <span nz-icon nzType="delete" nzTooltipTitle="Delete" nzTheme="outline" nz-tooltip></span>
+                        <span class="fa" nz-icon nzType="delete" nzTooltipTitle="Delete" nzTheme="outline" nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="previewJson(node)">
-                        <span nz-icon nzType="fullscreen" nzTooltipTitle="Preview Json" nzTheme="outline"
+                        <span class="fa" nz-icon nzType="fullscreen" nzTooltipTitle="Preview Json" nzTheme="outline"
                           nz-tooltip></span>
                       </label>
                     </span>

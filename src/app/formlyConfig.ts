@@ -92,7 +92,7 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'zorro-datePicker', component: DatePickerComponent },
     { name: 'rangePicker', component: RangeComponent },
     { name: 'checkbox', component: FormlyFieldMultiCheckbox },
-    { name: 'muliselect', component: MultiSelectComponent },
+    { name: 'multiselect', component: MultiSelectComponent },
     { name: 'tag', component: MultiSelectComponent },
     { name: 'repeat', component: RepeatInputComponent }
 

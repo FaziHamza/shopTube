@@ -245,7 +245,7 @@ export const htmlTabsData = [
                 parameter: "input",
                 icon: "uil uil-list-ul",
                 label: "Multi Select",
-                type: 'muliselect',
+                type: 'multiselect',
                 configType: 'multiselect', fieldType: 'multiselect',
                 options: true,
                 // maskString: "",
