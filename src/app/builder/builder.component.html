@@ -16,8 +16,8 @@
   </div> -->
   <div class="w-1/2">
     <div class="text-right">
-      <button class="custom-color" nz-button nzType="primary">Preveiw</button>
-      <button class="custom-color" nz-button nzType="primary" class="mx-2">Print</button>
+      <!-- <button class="custom-color" nz-button nzType="primary">Preveiw</button>
+      <button class="custom-color" nz-button nzType="primary" class="mx-2">Print</button> -->
       <nz-button-group>
         <button class="custom-color" nz-button nzType="primary" (click)="applyOfflineDb('previous')">
           <span nz-icon nzType="left"></span>
@@ -32,6 +32,10 @@
           <span nz-icon nzType="delete"></span>
         </button>
       </nz-button-group>
+      <button class="mx-2" nz-button nzType="primary" routerLink="/pages/{{moduleId}}">
+        Go To Page
+        <span nz-icon nzType="file-done"></span>
+      </button>
       <!-- <button type="button" class="btn btn-warning ml-2" (click)="openProductInvoice('preview')"><i
           class="uil-file-alt"></i> Preveiw</button> -->
       <!-- <button type="button" class="btn btn-primary ml-2" (click)="openProductInvoice('pdf')"><i class="uil-print"></i>
@@ -277,14 +281,14 @@
                           <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  "
                             *ngFor="let searchItems of searchControllData">
                             <button nz-button class=" rounded w-auto"
-                              *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'dynamicSections' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
+                              *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                               (click)="addControlToJson(searchItems.parameter,searchItems)"><i
                                 class={{searchItems.icon}}></i>{{searchItems.label}}
                             </button>
                             <ng-container
                               *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
                               <button nz-button class="w-auto rounded"
-                                *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'dynamicSections' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form' "
+                                *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form' "
                                 (click)="addFunctionsInHtml(searchItems.parameter)"><i
                                   class={{searchItems.icon}}></i>{{searchItems.label}}
                               </button>

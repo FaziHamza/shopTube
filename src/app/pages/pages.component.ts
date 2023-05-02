@@ -459,7 +459,7 @@ export class PagesComponent implements OnInit {
     if (this.resData)
       this.resData[0].children[1].children.forEach((element: any) => {
         let selectedNode: any = undefined;
-        let data = this.findObjectByType(element, "dynamicSections");
+        let data = this.findObjectByType(element, "sections");
         selectedNode = data ? data : selectedNode;
         data = this.findObjectByType(element, "listWithComponents");
         selectedNode = data ? data : selectedNode;
@@ -468,7 +468,7 @@ export class PagesComponent implements OnInit {
         data = this.findObjectByType(element, "mainStep");
         selectedNode = data ? data : selectedNode;
         if (selectedNode)
-          this.makeDynamicSections(selectedNode.dynamicApi, selectedNode);
+          this.makeDynamicSections(selectedNode.mapApi, selectedNode);
       });
   }
   makeDynamicSections(api: any, selectedNode: any) {

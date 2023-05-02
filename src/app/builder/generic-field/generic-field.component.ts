@@ -34,14 +34,14 @@ export class GenericFieldComponent implements OnInit {
     debugger
     this.itemData;
     this._dataSharedService.data = '';
-    if (this.itemData?.dynamicSectionNode) {
-      this.itemData.dynamicSectionNode['dbData'] = this.itemData?.dynamicSectionNode?.dbData == undefined ? [] : this.itemData?.dynamicSectionNode?.dbData;
-      this.itemData.dynamicSectionNode['tableBody'] = this.itemData?.dynamicSectionNode?.tableBody == undefined ? [] : this.itemData?.dynamicSectionNode?.tableBody;
-      this.itemData.dynamicSectionNode['tableHeader'] = this.itemData?.dynamicSectionNode?.tableHeader == undefined ? [
-        { name: 'fileHeader', },{ name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.dynamicSectionNode?.tableHeader;
-      this.tableId = this.itemData.dynamicSectionNode.key + Guid.newGuid();
-      if (this.itemData?.dynamicSectionNode?.dbData) {
-        this.resData = this.itemData.dynamicSectionNode.dbData;
+    if (this.itemData?.mappingNode) {
+      this.itemData.mappingNode['dbData'] = this.itemData?.mappingNode?.dbData == undefined ? [] : this.itemData?.mappingNode?.dbData;
+      this.itemData.mappingNode['tableBody'] = this.itemData?.mappingNode?.tableBody == undefined ? [] : this.itemData?.mappingNode?.tableBody;
+      this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
+        { name: 'fileHeader', },{ name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+      this.tableId = this.itemData.mappingNode.key + Guid.newGuid();
+      if (this.itemData?.mappingNode?.dbData) {
+        this.resData = this.itemData.mappingNode.dbData;
       }
     }
   }
@@ -78,18 +78,18 @@ export class GenericFieldComponent implements OnInit {
   dynamicSectionOption() {
     debugger
     this.resData = [];
-    let obj: { dynamicApi?: any } = this.actionform.value;
-    if (obj.dynamicApi) {
-      this.requestSubscription = this.builderService.genericApis(obj.dynamicApi).subscribe({
+    let obj: { mapApi?: any } = this.actionform.value;
+    if (obj.mapApi) {
+      this.requestSubscription = this.builderService.genericApis(obj.mapApi).subscribe({
         next: (res) => {
           this.resData = res;
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if (this.itemData.dynamicSectionNode.type == 'listWithComponents' || this.itemData.dynamicSectionNode.type == 'mainTab' || this.itemData.dynamicSectionNode.type == 'mainStep') {
-            this.createOptionsArray(this.itemData.dynamicSectionNode.children[0]);
+          if (this.itemData.mappingNode.type == 'listWithComponents' || this.itemData.mappingNode.type == 'mainTab' || this.itemData.mappingNode.type == 'mainStep') {
+            this.createOptionsArray(this.itemData.mappingNode.children[0]);
           } else {
-            this.createOptionsArray(this.itemData.dynamicSectionNode.children[1].children[0]);
+            this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
           }
           this.optionsArray.forEach((item: any, index: number) => {
             let newObj = {
@@ -98,7 +98,7 @@ export class GenericFieldComponent implements OnInit {
               SelectQBOField: key,
               defaultValue: '',
             }
-            this.itemData.dynamicSectionNode.tableBody.push(newObj);
+            this.itemData.mappingNode.tableBody.push(newObj);
           })
         },
         error: (err) => {
@@ -106,6 +106,8 @@ export class GenericFieldComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       })
+    }else{
+      this.itemData.mappingNode.tableBody = [];
     }
   }
 

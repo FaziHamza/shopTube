@@ -55,24 +55,7 @@ export class AddControlService {
       status: '',
       wrapper: '',
       formatAlignment: '',
-    }
-  }
-  getDynamicSectionControl() {
-    return {
-      sectionClassName: "",
-      footer: false,
-      header: false,
-      borderColor: "",
-      sectionDisabled: "editable",
-      labelPosition: "text-left",
-      isNextChild: true,
-      repeatable: false,
-      isBordered: true,
-      size: 'default',
-      status: '',
-      wrapper: '',
-      formatAlignment: '',
-      dynamicApi: '',
+      mapApi: '',
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
@@ -176,19 +159,19 @@ export class AddControlService {
       dropdownOptions: [
         {
           label: "Option 1",
-          link: "1",
+          link: "Link 1",
         },
         {
           label: "Option 2",
-          link: "2",
+          link: "Link 1",
         },
         {
           label: "Option 3",
-          link: "3",
+          link: "Link 1",
         },
         {
           label: "Option 4",
-          link: "4",
+          link: "Link 1",
         },
       ],
     }
@@ -412,7 +395,7 @@ export class AddControlService {
       hideTabs: false,
       nodes: "3",
       centerd: false,
-      dynamicApi: '',
+      mapApi: '',
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
@@ -441,7 +424,7 @@ export class AddControlService {
     return {
       isNextChild: true,
       nodes: "3",
-      dynamicApi: '',
+      mapApi: '',
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },

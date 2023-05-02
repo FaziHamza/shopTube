@@ -13,25 +13,25 @@
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <nz-collapse *ngIf="itemData.dynamicSectionConfig" class="mt-4">
+  <nz-collapse *ngIf="itemData.mappingConfig" class="mt-4">
     <nz-collapse-panel [nzHeader]="'Data Mapping'" [nzActive]="true">
       <div class="theme-body">
         <span>
-          <formly-form [form]="actionform" [model]="modal" [fields]="itemData.dynamicSectionConfig"></formly-form>
+          <formly-form [form]="actionform" [model]="modal" [fields]="itemData.mappingConfig"></formly-form>
           <span>
-            <button class="mt-2" *ngIf='this.itemData.dynamicSectionNode' nz-button nzType="primary"
+            <button class="mt-2" *ngIf='this.itemData.mappingNode' nz-button nzType="primary"
               (click)="dynamicSectionOption()">Get Mapping</button>
           </span>
         </span>
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length == 0'
-    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.dynamicSectionNode.tableHeader"
-    [data]="itemData.dynamicSectionNode"></dynamic-table>
-  <dynamic-table *ngIf='this.itemData?.dynamicSectionNode && this.itemData?.dynamicSectionNode?.tableBody.length'
-    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.dynamicSectionNode.tableHeader"
-    [tableData]='itemData.dynamicSectionNode.tableBody' [data]="itemData.dynamicSectionNode"></dynamic-table>
+  <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
+    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
+    [data]="itemData.mappingNode"></dynamic-table>
+  <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length'
+    [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
+    [tableData]='itemData.mappingNode.tableBody' [data]="itemData.mappingNode"></dynamic-table>
   <br>
   <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->

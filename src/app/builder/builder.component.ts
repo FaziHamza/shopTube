@@ -80,7 +80,7 @@ export class BuilderComponent implements OnInit {
     private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService , private router: Router) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -89,9 +89,9 @@ export class BuilderComponent implements OnInit {
 
     //   this.nodes = res[0].menuData;
     // }));
-    this.dataSharedService.change.subscribe(({ event, field}) => {
+    this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
-      if (event && field && this.router.url ==  '/builder') {
+      if (event && field && this.router.url == '/builder') {
         this.checkConditionUIRule(field, event);
       }
     });
@@ -384,7 +384,7 @@ export class BuilderComponent implements OnInit {
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [{
-        id: this.moduleId + '_' + 'page_'+ Guid.newGuid(),
+        id: this.moduleId + '_' + 'page_' + Guid.newGuid(),
         key: 'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
@@ -403,7 +403,7 @@ export class BuilderComponent implements OnInit {
       this.nodes = newNode;
       this.selectedNode = newNode[0];
       this.addControlToJson('pageHeader', null);
-      this.addControlToJson('pageBody', null);  
+      this.addControlToJson('pageBody', null);
       this.selectedNode = this.sectionBageBody;
       this.addControlToJson('sections', null);
       this.selectedNode = this.sections;
@@ -817,7 +817,7 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
   columnApply(value: any) {
-    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton' || value == 'dynamicSections')
+    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton')
       return 'w-full'
     else if (value == 'body')
       return 'px-6 pt-6 pb-10';
@@ -843,6 +843,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
+        allowCopyJson:false,
       }
     }
     else {
@@ -857,11 +858,9 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
+        allowCopyJson:false,
       }
     }
-
-
-
     switch (value) {
       case "page":
         newNode = { ...newNode, ...this.addControlService.getPageControl() };
@@ -878,10 +877,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "sections":
         newNode = { ...newNode, ...this.addControlService.getSectionControl() };
-        this.sections = newNode;
-        break;
-      case "dynamicSections":
-        newNode = { ...newNode, ...this.addControlService.getDynamicSectionControl() };
         this.sections = newNode;
         break;
       case "header":
@@ -1478,16 +1473,6 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.formData = _formFieldData.cascaderFields;
         break;
-      case "dynamicSections":
-        if (this.fieldData.commonData && this.fieldData.commonData[0].fieldGroup)
-          // configObj = { ...configObj, ...this.clickButtonService.getDynamicSectionsConfig(selectedNode) };
-          if (_formFieldData.sectionsFields[0]?.fieldGroup) {
-            _formFieldData.sectionsFields[0].fieldGroup = _formFieldData.sectionsFields[0]?.fieldGroup.filter((data: any) => data.key != 'api')
-          }
-        this.fieldData.formData = _formFieldData.sectionsFields;
-        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
-        this.fieldData.dynamicSectionNode = this.selectedNode;
-        break;
       case "tree":
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);
         this.fieldData.formData = _formFieldData.treeFields;
@@ -1618,8 +1603,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainTab":
         this.fieldData.formData = _formFieldData.mainTabFields;
-        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
-        this.fieldData.dynamicSectionNode = this.selectedNode;
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "progressBar":
         this.fieldData.formData = _formFieldData.progressBarFields;
@@ -1750,6 +1735,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "sections":
         this.fieldData.formData = _formFieldData.sectionsFields;
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "header":
         this.fieldData.formData = _formFieldData.headerFields;
@@ -1766,13 +1753,13 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainStep":
         this.fieldData.formData = _formFieldData.mainStepperFields;
-        this.fieldData.dynamicSectionConfig = _formFieldData.dynamicSectionsFields;
-        this.fieldData.dynamicSectionNode = this.selectedNode;
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "listWithComponents":
         // this.fieldData.formData = _formFieldData.listWithComponentsFields;
-        this.fieldData.dynamicSectionConfig = _formFieldData.listWithComponentsFields;
-        this.fieldData.dynamicSectionNode = this.selectedNode;
+        this.fieldData.mappingConfig = _formFieldData.listWithComponentsFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "listWithComponentsChild":
         this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
@@ -2043,10 +2030,10 @@ export class BuilderComponent implements OnInit {
   changeIdAndkey(node: any) {
     if (node.id) {
       let changeId = node.id.split('_')
-      if(changeId.length == 2){
+      if (changeId.length == 2) {
         node.id = this.moduleId + '_' + changeId[0] + '_' + Guid.newGuid();
-      }else{
-      node.id = changeId[0] + '_' + changeId[1] + '_' + Guid.newGuid();
+      } else {
+        node.id = changeId[0] + '_' + changeId[1] + '_' + Guid.newGuid();
       }
     }
     if (node.formly) {
@@ -2075,12 +2062,8 @@ export class BuilderComponent implements OnInit {
       this.addChildControlsWithSubChild('listWithComponents', 'listWithComponentsChild');
     else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
       this.formDataFromApi(type);
-    else if (type == "addSection" || type == "dynamicSections") {
-      let section = type;
-      if (type == "addSection") {
-        section = 'sections';
-      }
-      this.addSection(section);
+    else if (type == "addSection") {
+      this.addSection('sections');
     }
     this.showNotification = true;
     this.toastr.success('Control Added', { nzDuration: 3000 });
@@ -2192,7 +2175,7 @@ export class BuilderComponent implements OnInit {
       case "body":
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
-      case "dynamicSections":
+      case "sections":
       case "listWithComponents":
       case "mainTab":
       case "mainStep":
@@ -2206,6 +2189,15 @@ export class BuilderComponent implements OnInit {
           }
           else if (event.type == 'mainStep') {
             this.addDynamic(event.form.nodes, 'step', 'mainStep')
+          } else if (event.type == 'mainStep') {
+            const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
+            filteredNodes.forEach(node => {
+              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
+            });
+            if (this.selectedNode.wrappers != event.form.wrappers) {
+              this.selectedNode.wrappers = event.form.wrappers;
+              this.clickBack();
+            }
           }
           let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
           if (!check) {
@@ -2240,11 +2232,10 @@ export class BuilderComponent implements OnInit {
             }
             this.selectedNode.dbData = event.dbData;
             this.selectedNode.tableBody = event.tableDta;
-            this.selectedNode.dynamicApi = event.form.dynamicApi;
+            this.selectedNode.mapApi = event.form.mapApi;
             if (event.tableDta) {
               this.selectedNode.checkData = JSON.parse(JSON.stringify(event.tableDta));
             }
-
           }
           else {
             alert('change Data if you want mapping');
@@ -2307,7 +2298,7 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.btnIcon = event.form?.icon;
 
         break;
-        case "accordionButton":
+      case "accordionButton":
         this.selectedNode.nzExpandedIcon = event.form?.icon;
         break;
       case "segmented": case "tag":
@@ -2346,6 +2337,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           needToUpdate = false;
           this.selectedNode.title = event.form.title;
+          this.selectedNode['allowCopyJson'] = event.form.allowCopyJson;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
@@ -2683,39 +2675,7 @@ export class BuilderComponent implements OnInit {
       case "page":
         this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
         break;
-      case "sections":
-        debugger
-        const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
-        filteredNodes.forEach(node => {
-          node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
-        });
-        if (this.selectedNode.wrappers != event.form.wrappers) {
-          this.selectedNode.wrappers = event.form.wrappers;
-          this.clickBack();
-        }
-        if (event.form.api) {
-          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-            next: (res) => {
-              if (Array.isArray(res)) {
-                res.forEach((item) => {
-                  if (this.selectedNode?.children) {
-                    this.selectedNode?.children[1]?.children?.push(item);
-                  }
-                })
-              } else {
-                if (this.selectedNode?.children) {
-                  this.selectedNode?.children[1]?.children?.push(res);
-                }
-              }
-              this.updateNodes();
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-          })
-        }
-        break;
+
 
       case "kanbanTask":
         if (this.selectedNode.id) {
@@ -3078,7 +3038,7 @@ export class BuilderComponent implements OnInit {
         break;
 
     }
-    if (event.type && event.type != "inputValidationRule" && event.type != "dynamicSections" && event.type != "sections" && needToUpdate) {
+    if (event.type && event.type != "inputValidationRule" && event.type != "sections" && needToUpdate) {
       this.selectedNode = { ...this.selectedNode, ...event.form }
     }
     this.showSuccess();
