@@ -37,9 +37,15 @@ export class GenericFieldComponent implements OnInit {
     if (this.itemData?.mappingNode) {
       this.itemData.mappingNode['dbData'] = this.itemData?.mappingNode?.dbData == undefined ? [] : this.itemData?.mappingNode?.dbData;
       this.itemData.mappingNode['tableBody'] = this.itemData?.mappingNode?.tableBody == undefined ? [] : this.itemData?.mappingNode?.tableBody;
+      if (this.itemData.mappingNode['tableBody'].length) {
+        this.itemData.mappingNode['tableBody'].forEach((item: any) => {
+          delete item.id;
+        });
+      }
       this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
         { name: 'fileHeader', },{ name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
       this.tableId = this.itemData.mappingNode.key + Guid.newGuid();
+      this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader'] 
       if (this.itemData?.mappingNode?.dbData) {
         this.resData = this.itemData.mappingNode.dbData;
       }
@@ -83,17 +89,18 @@ export class GenericFieldComponent implements OnInit {
       this.requestSubscription = this.builderService.genericApis(obj.mapApi).subscribe({
         next: (res) => {
           this.resData = res;
+          this.itemData.mappingNode.tableBody = [];
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if (this.itemData.mappingNode.type == 'listWithComponents' || this.itemData.mappingNode.type == 'mainTab' || this.itemData.mappingNode.type == 'mainStep') {
+          if (this.itemData.mappingNode.type == 'listWithComponents' || this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step') {
             this.createOptionsArray(this.itemData.mappingNode.children[0]);
           } else {
             this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
           }
           this.optionsArray.forEach((item: any, index: number) => {
             let newObj = {
-              // no: index + 1,
+              // id: index + 1,
               fileHeader: item.key,
               SelectQBOField: key,
               defaultValue: '',

@@ -11,10 +11,13 @@
         *ngFor="let item of moduleList"></nz-option>
     </nz-select>
   </div>
+  <div class="w-1/6">
+    <input nz-input placeholder="Json paste here..." (input)="jsonChange($event)" [(ngModel)]="jsonData" />
+  </div>
   <!-- <div class="w-1/4 text-right">
     <input type="color" (input)="setCustomColor($event)">
   </div> -->
-  <div class="w-1/2">
+  <div class="w-2/4">
     <div class="text-right">
       <!-- <button class="custom-color" nz-button nzType="primary">Preveiw</button>
       <button class="custom-color" nz-button nzType="primary" class="mx-2">Print</button> -->

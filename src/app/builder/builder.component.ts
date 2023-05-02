@@ -70,8 +70,7 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
-
-
+  jsonData: any = '';
   constructor(public builderService: BuilderService,
     // private formBuilder: FormBuilder,
     private _encryptionService: EncryptionService,
@@ -843,7 +842,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
-        allowCopyJson:false,
+        allowCopyJson: false,
       }
     }
     else {
@@ -858,7 +857,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
-        allowCopyJson:false,
+        allowCopyJson: false,
       }
     }
     switch (value) {
@@ -1592,7 +1591,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.switchFeilds;
         break;
       case "tabs":
-        this.addIconCommonConfiguration(_formFieldData.tabsFields, true)
+        this.addIconCommonConfiguration(_formFieldData.tabsFields, true);
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
       case "kanban":
@@ -1603,8 +1604,6 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainTab":
         this.fieldData.formData = _formFieldData.mainTabFields;
-        this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "progressBar":
         this.fieldData.formData = _formFieldData.progressBarFields;
@@ -1749,12 +1748,13 @@ export class BuilderComponent implements OnInit {
         break;
       case "step":
         this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
       case "mainStep":
         this.fieldData.formData = _formFieldData.mainStepperFields;
-        this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.mappingNode = this.selectedNode;
+       
         break;
       case "listWithComponents":
         // this.fieldData.formData = _formFieldData.listWithComponentsFields;
@@ -2169,27 +2169,19 @@ export class BuilderComponent implements OnInit {
     let needToUpdate = true;
     switch (event.type) {
       case "cardWithComponents":
-      case "step":
-      case "listWithComponentsChild":
-      case "tabs":
       case "body":
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
       case "sections":
       case "listWithComponents":
-      case "mainTab":
-      case "mainStep":
+      case "tabs":
+      case "step":
         if (this.selectedNode.id) {
           this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
           if (event.type == 'listWithComponents') {
             this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
           }
-          else if (event.type == 'mainTab') {
-            this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
-          }
-          else if (event.type == 'mainStep') {
-            this.addDynamic(event.form.nodes, 'step', 'mainStep')
-          } else if (event.type == 'mainStep') {
+          else if (event.type == 'sections') {
             const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
@@ -2205,24 +2197,26 @@ export class BuilderComponent implements OnInit {
               for (let index = 0; index < event.dbData.length; index++) {
                 const item = event.dbData[index];
                 let newNode: any = {};
-                if (event.type == 'listWithComponents' || event.type == 'mainTab' || event.type == 'mainStep') {
+                if (event.type == 'listWithComponents' || event.type == 'tabs' || event.type == 'step') {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[0]));
                 } else {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
                 }
-                event.tableDta.forEach((element: any) => {
-                  const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-                  if (keyObj && element.defaultValue) {
-                    const updatedObj = this.dataReplace(keyObj, item, element);
-                    newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-                  }
-                });
+                if (event.tableDta) {
+                  event.tableDta.forEach((element: any) => {
+                    const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                    if (keyObj && element.defaultValue) {
+                      const updatedObj = this.dataReplace(keyObj, item, element);
+                      newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                    }
+                  });
+                }
                 const { selectedNode } = this;
                 if (selectedNode && selectedNode.children) {
-                  if (event.type == 'listWithComponents' || event.type == 'mainTab' || event.type == 'mainStep') {
-                    selectedNode.children = [newNode];
+                  if (event.type == 'listWithComponents' || event.type == 'tabs' || event.type == 'step') {
+                    selectedNode.children = newNode ? [newNode] : [];
                   } else if (selectedNode.children[1]) {
-                    selectedNode.children[1].children = [newNode];
+                    selectedNode.children[1].children = newNode ? [newNode] : [];
                   }
                   this.updateNodes();
                 }
@@ -2277,6 +2271,12 @@ export class BuilderComponent implements OnInit {
             }
           })
         }
+        break;
+      case "mainTab":
+        this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
+        break;
+      case "mainStep":
+        this.addDynamic(event.form.nodes, 'step', 'mainStep')
         break;
       case "rate":
         if (event.tableDta) {
@@ -3531,5 +3531,20 @@ export class BuilderComponent implements OnInit {
       return false;
     }
   };
+
+  jsonChange(event: any) {
+    let json = JSON.parse(event.target.value);
+    if (this.selectedNode) {
+      if (this.selectedNode?.children) {
+        this.selectedNode?.children.push(json);
+      }
+      this.updateNodes();
+      this.toastr.success("Json update successfully!", { nzDuration: 3000 });
+      this.jsonData = '';
+    }
+    else {
+      alert("please select against update json")
+    }
+  }
 
 }

@@ -19,7 +19,7 @@
   [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize"
   [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
   <thead>
-    <tr *ngIf="data.showColumnHeader">
+    <tr *ngIf="data.showColumnHeader || true">
       <th nzWidth="40px" *ngIf="data.expandable"></th>
       <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="checkAll($event)"></th>

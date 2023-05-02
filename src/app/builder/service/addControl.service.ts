@@ -181,10 +181,10 @@ export class AddControlService {
       isNextChild: true,
       borderless: false,
       height: 0,
-      footerText:'Footer',
-      bgColor:'',
-      headerTextColor:'',
-      footerTextColor:'',
+      footerText: 'Footer',
+      bgColor: '',
+      headerTextColor: '',
+      footerTextColor: '',
     }
   }
   getSwitchControl() {
@@ -370,9 +370,9 @@ export class AddControlService {
       // bgColorFooter:'',
       bgColor: '',
       footer: false,
-      headerTextColor:'',
-      footerTextColor:'',
-      
+      headerTextColor: '',
+      footerTextColor: '',
+
     }
   }
   getTabsControl() {
@@ -382,6 +382,16 @@ export class AddControlService {
       icon: 'star',
       iconType: 'outline',
       iconSize: 15,
+      mapApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getMainTabControl() {
@@ -395,16 +405,7 @@ export class AddControlService {
       hideTabs: false,
       nodes: "3",
       centerd: false,
-      mapApi: '',
-      tableHeader: [
-        { name: 'fileHeader', },
-        { name: 'SelectQBOField' },
-        { name: 'defaultValue' },
-      ],
-      tableBody: [],
-      checkData: '',
-      dbData: '',
-      tableData: [],
+
     }
   }
   getMainStepControl() {
@@ -453,6 +454,16 @@ export class AddControlService {
       percentage: '',
       iconType: 'outline',
       iconSize: 15,
+      mapApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getKanbanControl() {
@@ -509,8 +520,8 @@ export class AddControlService {
       isNextChild: true,
       divClass: '',
       imageSrc: '',
-      height : 0,
-      width : 0,
+      height: 0,
+      width: 0,
     }
   }
   headingControl() {
@@ -549,7 +560,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
-      textSize:' text-sm'
+      textSize: ' text-sm'
     }
   }
   htmlBlockControl() {
@@ -614,7 +625,7 @@ export class AddControlService {
       sort: true,
       filter: true,
       isAddRow: true,
-      tableKey:[],
+      tableKey: [],
       tableHeaders: [
         {
           name: 'Id',
