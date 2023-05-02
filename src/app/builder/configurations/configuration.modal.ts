@@ -2869,15 +2869,15 @@ export class formFeildData {
             label: 'Before copy Icon',
           }
         },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'aftercopyIcon',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'After copy Icon',
-        //   }
-        // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'aftercopyIcon',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'After copy Icon',
+          }
+        },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'copyTooltips',
@@ -3607,7 +3607,7 @@ export class formFeildData {
           }
         },
         {
-          key: 'dynamicApi',
+          key: 'mapApi',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -4414,15 +4414,6 @@ export class formFeildData {
             type: 'color',
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'api',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Api',
-          }
-        },
         // {
         //   key: 'disabled',
         //   type: 'checkbox',
@@ -4483,12 +4474,12 @@ export class formFeildData {
       ]
     },
   ]
-  dynamicSectionsFields: FormlyFieldConfig[] = [
+  mappingFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'dynamicApi',
+          key: 'mapApi',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -6161,16 +6152,11 @@ export class formFeildData {
           template: '<div class="w-full bold-label mt-3">options</div>',
         },
         {
-          key: 'options',
+          key: 'carousalConfig',
           type: 'repeatSection',
           className: 'w-full',
-          props: {
-            style: "margin-top: 4%;",
-            canAdd: true,
-            canRemove: true
-          },
+          props: {},
           fieldArray: {
-
             fieldGroup: [
               {
                 className: "ml-2",
@@ -9708,6 +9694,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'allowCopyJson',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Copy Json',
+          },
+          defaultValue: false
+        },
       ]
     },
   ]
@@ -9800,6 +9796,16 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Hide',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'allowCopyJson',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Copy Json',
           },
           defaultValue: false
         },

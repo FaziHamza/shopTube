@@ -716,7 +716,7 @@ export const htmlTabsData = [
               {
                 parameter: "cardWithComponents",
                 icon: "uil uil-file-alt",
-                label: "Card With Components"
+                label: "Card Components"
               },
               {
                 parameter: "simpleCardWithHeaderBodyFooter",

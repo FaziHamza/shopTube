@@ -11,7 +11,7 @@ export interface TreeNode {
   screenId?: string;
   type?: string;
   editor?: any;
-  dynamicApi?: any;
+  mapApi?: any;
   formatter?: any;
   limit?: number,
   belowpercentage?: number,
@@ -267,6 +267,7 @@ export interface TreeNode {
   duration?: any,
   messageType?: any,
   title?: any,
+  allowCopyJson?: any,
   subtitle?: any,
   percentage?: any,
   progressBarType?: any,

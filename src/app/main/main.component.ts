@@ -9,6 +9,7 @@ import { TreeNode } from '../models/treeNode';
 import { ElementData } from '../models/element';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'st-main',
@@ -34,7 +35,7 @@ export class MainComponent implements OnInit {
   joiValidationData: TreeNode[] = [];
   requestSubscription: Subscription;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
-    private builderService: BuilderService, private toastr: NzMessageService,) { }
+    private builderService: BuilderService, private toastr: NzMessageService,private router: Router) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -250,5 +251,18 @@ export class MainComponent implements OnInit {
       }
     }
     return null;
+  }
+  copyJson(json : any) {
+    debugger
+    if(this.router.url.includes('/pages') && json.allowCopyJson){
+      const jsonText = JSON.stringify(json);
+      navigator.clipboard.writeText(jsonText).then(() => {
+        this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 }); 
+        console.log('JSON copied to clipboard');
+      }, (error) => {
+        this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 }); 
+        console.error('Error copying JSON to clipboard:', error);
+      });
+    }
   }
 }

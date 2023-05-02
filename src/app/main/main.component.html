@@ -2,7 +2,7 @@
     <div class="card-content  flex flex-wrap">
         <div class="{{!item.hideExpression   ? item.className : ''}}"
             *ngFor="let item of mainData ; index as i; last as isLast">
-            <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+            <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression" (click)="copyJson(item)">
                 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
                     <div
                         *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'

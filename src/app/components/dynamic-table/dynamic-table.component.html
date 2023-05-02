@@ -51,7 +51,7 @@
               </div>
               <div
                 *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
-                <nz-select style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item.defaultValue"
+                <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item.defaultValue"
                   (ngModelChange)="select(i, $event)">
                   <nz-option *ngFor="let option of item[header.name]" [nzLabel]="option.type ? option.type : option.key"
                     [nzValue]="option.value ? option.value : option">

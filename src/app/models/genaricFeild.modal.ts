@@ -4,10 +4,10 @@ export class GenaricFeild {
   title?: string;
   formData?: FormlyFieldConfig[]
   commonData?: FormlyFieldConfig[]
-  dynamicSectionConfig?: FormlyFieldConfig[]
+  mappingConfig?: FormlyFieldConfig[]
   type: string;
   modelData: any;
-  dynamicSectionNode: any;
+  mappingNode: any;
 
   constructor(data: any) {
     this.commonData = data.commonData;
@@ -15,7 +15,7 @@ export class GenaricFeild {
     this.title = data.title;
     this.type = data.type;
     this.modelData = data.modelData;
-    this.dynamicSectionConfig = data.dynamicSectionConfig;
-    this.dynamicSectionNode = data.dynamicSectionNode;
+    this.mappingConfig = data.mappingConfig;
+    this.mappingNode = data.mappingNode;
   }
 }
