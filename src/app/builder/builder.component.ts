@@ -1733,6 +1733,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
       case "sections":
+        configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.sectionsFields;
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
@@ -1754,7 +1755,7 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainStep":
         this.fieldData.formData = _formFieldData.mainStepperFields;
-       
+
         break;
       case "listWithComponents":
         // this.fieldData.formData = _formFieldData.listWithComponentsFields;

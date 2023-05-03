@@ -149,7 +149,8 @@
                       (click)="[openField(node),highlightSelect(node.origin.id,true)]">
                       <!-- <i class="anticon anticon-caret-down" *ngIf="node.isExpanded"></i>
                     <i class="anticon anticon-caret-right" *ngIf="!node.isExpanded"></i> -->
-                      {{node.origin.id}}
+                     <span *ngIf="node.title">{{node.title}}</span>
+                     <span *ngIf="!node.title"> {{node.origin.id}}</span>
                     </div>
                     <span *ngIf="screenPage" class="row-icon">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
