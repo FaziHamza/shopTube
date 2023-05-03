@@ -1446,6 +1446,7 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
+    selectedNode.id = selectedNode.id?.toLowerCase();
     configObj = selectedNode;
     switch (type) {
       case "drawer":
