@@ -21,7 +21,7 @@ export class PagesComponent implements OnInit {
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
-      if (event && field && this.router.url == '/pages') {
+      if (event && field && this.router.url.includes('/pages')) {
         this.checkConditionUIRule(field, event);
       }
     });
