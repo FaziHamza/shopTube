@@ -1634,6 +1634,8 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
         break;
       case "div":
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.divFields;
         break;
       case "heading":
@@ -2178,7 +2180,11 @@ export class BuilderComponent implements OnInit {
       case "listWithComponents":
       case "tabs":
       case "step":
+      case "div":
         if (this.selectedNode.id) {
+          if (event.type == 'div') {
+            this.selectedNode.imageSrc = event.form.imageSrc ? event.form.imageSrc : this.dataSharedService.imageUrl;
+          }
           this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
           if (event.type == 'listWithComponents') {
             this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
@@ -2199,26 +2205,54 @@ export class BuilderComponent implements OnInit {
               for (let index = 0; index < event.dbData.length; index++) {
                 const item = event.dbData[index];
                 let newNode: any = {};
-                if (event.type == 'listWithComponents' || event.type == 'tabs' || event.type == 'step') {
+                if (event.type == 'listWithComponents') {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[0]));
-                } else {
+                } else if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                  newNode = JSON.parse(JSON.stringify(this.selectedNode?.children));
+                }
+                else {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
                 }
-                if (event.tableDta) {
-                  event.tableDta.forEach((element: any) => {
-                    const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-                    if (keyObj && element.defaultValue) {
-                      const updatedObj = this.dataReplace(keyObj, item, element);
-                      newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-                    }
-                  });
+                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
+                      if (newNode.length) {
+                        newNode.forEach((j: any) => {
+                          const keyObj = this.findObjectByKey(j, element.fileHeader);
+                          if (keyObj && element.defaultValue) {
+                            const updatedObj = this.dataReplace(keyObj, item, element);
+                            j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                          }
+                        });
+                      }
+                    });
+                  }
+                }
+                else if (event.type != 'tabs' && event.type != 'step' && event.type != 'div') {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
+                      const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                      if (keyObj && element.defaultValue) {
+                        const updatedObj = this.dataReplace(keyObj, item, element);
+                        newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                      }
+                    });
+                  }
                 }
                 const { selectedNode } = this;
                 if (selectedNode && selectedNode.children) {
-                  if (event.type == 'listWithComponents' || event.type == 'tabs' || event.type == 'step') {
+                  if (event.type == 'listWithComponents') {
                     selectedNode.children = newNode ? [newNode] : [];
-                  } else if (selectedNode.children[1]) {
+                  } else if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                    selectedNode.children = newNode;
+                  }
+                  else if (selectedNode.children[1]) {
                     selectedNode.children[1].children = newNode ? [newNode] : [];
+                  }
+                  if (event.type == 'div') {
+                    this.nodes.children[1].children[1].children.forEach((k: any) => {
+                      this.findObjectByType(k, newNode)
+                    });
                   }
                   this.updateNodes();
                 }
@@ -2581,14 +2615,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "div":
-        if (event.form.imageSrc) {
-          this.selectedNode.imageSrc = event.form.imageSrc
-        } else {
-          this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
-        }
-        this.selectedNode = this.api(event.form.api, this.selectedNode);
-        break;
+
       case "dropdownButton":
         this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
@@ -3548,5 +3575,16 @@ export class BuilderComponent implements OnInit {
       alert("please select against update json")
     }
   }
-
+  findObjectByType(node: any, newNode: any,) {
+    if (node.type === newNode.type && node.key === newNode.key) {
+      node = newNode;
+    }
+    for (let child of node.children) {
+      let result: any = this.findObjectByType(child, newNode);
+      if (result !== undefined) {
+        return result;
+      }
+    }
+    return undefined;
+  }
 }

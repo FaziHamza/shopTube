@@ -93,9 +93,14 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if (this.itemData.mappingNode.type == 'listWithComponents' || this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step') {
+          if (this.itemData.mappingNode.type == 'listWithComponents' ) {
             this.createOptionsArray(this.itemData.mappingNode.children[0]);
-          } else {
+          }else if(this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div'){
+            this.itemData.mappingNode.children.forEach((element : any) => {
+            this.createOptionsArray(element);
+            });
+          }
+           else {
             this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
           }
           this.optionsArray.forEach((item: any, index: number) => {
