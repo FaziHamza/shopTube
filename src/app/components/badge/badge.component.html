@@ -1,4 +1,4 @@
-<div style="display: flex;">
+<div [ngClass]="badgeData.nztype != 'ribbon' ? 'flex flex-wrap' : ''">
  <p *ngIf="badgeData.title" class="pr-2">{{badgeData.title}}</p>
  <div>
   <nz-badge *ngIf="badgeData.nztype == 'count'"
