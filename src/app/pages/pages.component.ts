@@ -456,17 +456,17 @@ export class PagesComponent implements OnInit {
     return data;
   };
   checkDynamicSection() {
-    if (this.resData){
+    if (this.resData) {
       this.resData[0].children[1].children.forEach((element: any, i: number) => {
         let selectedNode: any = undefined;
         selectedNode = this.findObjectByType(element, "sections", element.key);
-        if (selectedNode){
+        if (selectedNode) {
           this.makeDynamicSections(selectedNode.mapApi, selectedNode);
         }
         if (this.resData[0].children[1].children[i].children[1].children.length) {
           this.resData[0].children[1].children[i].children[1].children.forEach((j: any) => {
             selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "listWithComponents", j.key);
-            if (selectedNode){
+            if (selectedNode) {
               this.makeDynamicSections(selectedNode.mapApi, selectedNode);
             }
             selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainTab", j.key);
@@ -475,7 +475,7 @@ export class PagesComponent implements OnInit {
                 this.makeDynamicSections(item.mapApi, item);
               });
             }
-            selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainStep" , j.key);
+            selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainStep", j.key);
             if (selectedNode) {
               selectedNode.children.forEach((item: any) => {
                 this.makeDynamicSections(item.mapApi, item);
@@ -493,26 +493,49 @@ export class PagesComponent implements OnInit {
         for (let index = 0; index < res.length; index++) {
           const item = res[index];
           let newNode: any = {};
-          if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+          if (selectedNode.type == 'listWithComponents') {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[0]));
-          } else {
+          } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+            newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+          }
+          else {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
           }
-          selectedNode.tableBody.forEach((element: any) => {
-            let key = element.fileHeader
-            let keyObj = this.findObjectByKey(newNode, key);
-            if (keyObj != null && keyObj) {
-              if (element.defaultValue) {
-                let updatedObj = this.dataReplace(keyObj, item, element);
-                newNode = this.replaceObjectByKey(newNode, key, updatedObj);
-              }
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div') {
+            if (selectedNode.tableBody) {
+              selectedNode.tableBody.forEach((element: any) => {
+                if (newNode.length) {
+                  newNode.forEach((j: any) => {
+                    const keyObj = this.findObjectByKey(j, element.fileHeader);
+                    if (keyObj && element.defaultValue) {
+                      const updatedObj = this.dataReplace(keyObj, item, element);
+                      j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                    }
+                  });
+                }
+              });
             }
-          });
+          }
+          else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div') {
+            if (selectedNode.tableBody) {
+              selectedNode.tableBody.forEach((element: any) => {
+                const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                if (keyObj && element.defaultValue) {
+                  const updatedObj = this.dataReplace(keyObj, item, element);
+                  newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                }
+              });
+            }
+          }
           if (checkFirstTime) {
-            if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+            if (selectedNode.type == 'listWithComponents') {
               selectedNode.children = [];
               selectedNode.children.push(newNode);
-            } else if (selectedNode.children[1]) {
+            } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+              selectedNode.children = [];
+              selectedNode.children = newNode;
+            }
+            else if (selectedNode.children[1]) {
               selectedNode.children[1].children = [];
               selectedNode?.children[1]?.children?.push(newNode);
             }
@@ -520,9 +543,16 @@ export class PagesComponent implements OnInit {
             checkFirstTime = false
           }
           else {
-            if (selectedNode.type == 'listWithComponents' || selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+            if (selectedNode.type == 'listWithComponents') {
               selectedNode.children.push(newNode);
-            } else if (selectedNode.children[1]) {
+            } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+              if (newNode.length) {
+                newNode.forEach((k: any) => {
+                  selectedNode?.children?.push(k);
+                });
+              }
+            }
+            else if (selectedNode.children[1]) {
               selectedNode?.children[1]?.children?.push(newNode);
             }
           }
@@ -537,7 +567,7 @@ export class PagesComponent implements OnInit {
       return data;
     }
     for (let child of data.children) {
-      let result: any = this.findObjectByType(child, type , key);
+      let result: any = this.findObjectByType(child, type, key);
       if (result !== undefined) {
         return result;
       }
