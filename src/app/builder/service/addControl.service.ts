@@ -617,6 +617,7 @@ export class AddControlService {
       nzSize: 'default',
       isNextChild: false,
       nzShowSizeChanger: false,
+      api:"",
       showCheckbox: true,
       expandable: true,
       fixHeader: false,

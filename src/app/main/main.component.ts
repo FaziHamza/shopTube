@@ -208,18 +208,26 @@ export class MainComponent implements OnInit {
       // let tableData = this.findObjectByType(element,"gridList");
       let tableData = this.mainData.filter((a: any) => a.type == "gridList");
       if (tableData.length > 0) {
-        const firstObjectKeys = Object.keys(this.form.value);
-        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(firstObjectKeys.map(key => ({ name: key })))) {
+        tableData[0]['api'] = data.dataTable;
+        let saveForm = JSON.parse(JSON.stringify(this.form.value));
+        // saveForm["id"] = '';
+        // this.form.value["id"] = tableData[0]['tableKey'].length
+        const firstObjectKeys = Object.keys(saveForm);
+        let obj = firstObjectKeys.map(key => ({ name: key }));
+        // obj.unshift({name: 'id'});
+        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
           tableData[0].tableData = [];
-          tableData[0]['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+          tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
-          tableData[0].tableData?.push(this.form.value);
+          saveForm.id= tableData[0].tableData.length  + 1
+          tableData[0].tableData?.push(saveForm);
         } else {
-          tableData[0]['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+          tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
-          tableData[0].tableData?.push(this.form.value);
+          saveForm.id = tableData[0].tableData.length  + 1;
+          tableData[0].tableData?.push(saveForm);
         }
-        
+
       }
       this.saveData1(data);
     }
@@ -253,14 +261,13 @@ export class MainComponent implements OnInit {
     return null;
   }
   copyJson(json : any) {
-    debugger
     if(this.router.url.includes('/pages') && json.allowCopyJson){
       const jsonText = JSON.stringify(json);
       navigator.clipboard.writeText(jsonText).then(() => {
-        this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 }); 
+        this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 });
         console.log('JSON copied to clipboard');
       }, (error) => {
-        this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 }); 
+        this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 });
         console.error('Error copying JSON to clipboard:', error);
       });
     }
