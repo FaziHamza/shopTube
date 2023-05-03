@@ -108,7 +108,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-
+    debugger
     let checkTabsAndDropdown = false;
     event.stopPropagation();
     data.children.forEach((element: any) => {

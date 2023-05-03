@@ -267,7 +267,7 @@ export interface TreeNode {
   duration?: any,
   messageType?: any,
   title?: any,
-  allowCopyJson?: any,
+  copyJsonIcon?: any,
   subtitle?: any,
   percentage?: any,
   progressBarType?: any,

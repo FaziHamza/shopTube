@@ -1049,8 +1049,8 @@ a.fc-event:hover {
     border-bottom-right-radius: 0 !important;
     border-color: red !important;
   }
-  
-  
+
+
 }
 
 .ant-tree-indent-unit {
@@ -1082,3 +1082,11 @@ a.fc-event:hover {
 //     color: #ccc !important;
 //   }
 // }
+
+.rtlMenu {
+  .ant-menu-submenu-arrow,
+  .ant-menu-submenu-expand-icon {
+    right: 0px !important;
+    padding-left: 2%;
+  }
+}

@@ -114,6 +114,7 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
+    debugger
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),

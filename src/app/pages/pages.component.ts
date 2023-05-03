@@ -538,7 +538,7 @@ export class PagesComponent implements OnInit {
     }
     for (let child of data.children) {
       let result: any = this.findObjectByType(child, type , key);
-      if (result !== null) {
+      if (result !== undefined) {
         return result;
       }
     }

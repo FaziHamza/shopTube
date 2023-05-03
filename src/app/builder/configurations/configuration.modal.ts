@@ -9700,7 +9700,7 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'allowCopyJson',
+          key: 'copyJsonIcon',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
@@ -9805,7 +9805,7 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'allowCopyJson',
+          key: 'copyJsonIcon',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {

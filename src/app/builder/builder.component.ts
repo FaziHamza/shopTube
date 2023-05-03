@@ -842,7 +842,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
-        allowCopyJson: false,
+        copyJsonIcon: false,
       }
     }
     else {
@@ -857,7 +857,7 @@ export class BuilderComponent implements OnInit {
         tooltip: '',
         hideExpression: false,
         highLight: false,
-        allowCopyJson: false,
+        copyJsonIcon: false,
       }
     }
     switch (value) {
@@ -2337,7 +2337,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           needToUpdate = false;
           this.selectedNode.title = event.form.title;
-          this.selectedNode['allowCopyJson'] = event.form.allowCopyJson;
+          this.selectedNode['copyJsonIcon'] = event.form.copyJsonIcon;
           this.selectedNode.className = event.form.className;
           this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
