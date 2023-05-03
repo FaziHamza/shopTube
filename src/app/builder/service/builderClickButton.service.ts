@@ -347,4 +347,28 @@ export class BuilderClickButtonService {
       color: node?.options?.color,
     };
   }
+  getSectionConfig(node: any) {
+    debugger
+    return {
+      title: node.title,
+      disabled: node.sectionDisabled,
+      borderColor: node.borderColor,
+      className: node.className,
+      labelPosition: node.labelPosition,
+      repeatable: node.repeatable,
+      size: node.size,
+      status: node.status,
+      sectionClassName: node.sectionClassName,
+      isBordered: node.isBordered,
+      wrappers: node['wrappers'],
+      formatAlignment: node['formatAlignment'],
+      mapApi: node['mapApi'],
+      tableHeader: node['tableHeader'],
+      tableBody: node['tableBody'],
+      checkData: node['checkData'],
+      dbData: node['dbData'],
+      tableData: node['tableData'],
+      // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
+    }
+  }
 }
