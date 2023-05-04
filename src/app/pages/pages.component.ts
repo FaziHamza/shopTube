@@ -488,6 +488,7 @@ export class PagesComponent implements OnInit {
   }
   makeDynamicSections(api: any, selectedNode: any) {
     let checkFirstTime = true;
+    let tabsAndStepper: any = [];
     this.builderService.genericApis(api).subscribe(res => {
       if (res) {
         for (let index = 0; index < res.length; index++) {
@@ -510,6 +511,9 @@ export class PagesComponent implements OnInit {
                     if (keyObj && element.defaultValue) {
                       const updatedObj = this.dataReplace(keyObj, item, element);
                       j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                      if (!checkFirstTime) {
+                        j['mapping'] = true;
+                      }
                     }
                   });
                 }
@@ -548,8 +552,18 @@ export class PagesComponent implements OnInit {
             } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
               if (newNode.length) {
                 newNode.forEach((k: any) => {
-                  selectedNode?.children?.push(k);
+                  if (k.mapping) {
+                    tabsAndStepper.push(k);
+                    delete k.mapping;
+                  }
                 });
+              }
+              if (index == res.length) {
+                if (tabsAndStepper.length) {
+                  tabsAndStepper.forEach((j: any) => {
+                    selectedNode?.children?.push(j);
+                  });
+                }
               }
             }
             else if (selectedNode.children[1]) {
@@ -560,7 +574,6 @@ export class PagesComponent implements OnInit {
         this.updateNodes();
       }
     })
-
   }
   findObjectByType(data: any, type: any, key?: any) {
     if (data.type === type && data.key === key) {

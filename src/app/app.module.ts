@@ -12,6 +12,7 @@ import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
 import { MenuComponent } from './menu/menu.component';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
 import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.component';
+import { AppBuilderSideMenuComponent } from './_layout/app-builder-side-menu/app-builder-side-menu.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { SiteFooterComponent } from './_layout/site-footer/site-footer.component';
 import { SiteHeaderComponent } from './_layout/site-header/site-header.component';
@@ -56,6 +57,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LayoutTabsDropdownComponent,
     MenuComponent,
     AppSideMenuComponent,
+    AppBuilderSideMenuComponent,
     SiteLayoutComponent,
     SiteFooterComponent,
     SiteHeaderComponent,
