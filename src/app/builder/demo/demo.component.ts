@@ -57,7 +57,7 @@ export class DemoComponent implements OnInit {
     // });
   }
 
-  open({ x, y }: MouseEvent, user ?: any) {
+  open({ x, y }: MouseEvent, user?: any) {
     this.close();
     const positionStrategy = this.overlay
       .position()
@@ -110,18 +110,19 @@ export class DemoComponent implements OnInit {
   }
 
 
-  Language(a:any){
-
+  language(a: any) {
+    alert(a);
   }
-  Permission(a:any){
+  permission(a: any) {
+    alert(a);
 
   }
 
   public items = [
     { name: 'John', otherProperty: 'Foo' },
     { name: 'Joe', otherProperty: 'Bar' }
-];
-// @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+  ];
+  // @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
 
 
 }
