@@ -44,8 +44,22 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   gridInitilize() {
-
-    this.loadTableData();
+    if(this.data.api){
+      this.builderService.genericApis(this.data.api).subscribe(res=>{
+        if(res)
+          res.forEach(function(v:any){ delete v.id });
+        this.tableData = res;
+        this.data['tableData'] = res;
+        const firstObjectKeys = Object.keys(this.tableData[0]);
+        let obj  =  firstObjectKeys.map(key => ({ name: key }));
+        this.data['tableKey'] = obj
+        this.data['tableHeaders'] = obj
+        this.tableHeaders = obj;
+        // this.loadTableData();
+      })
+    }else{
+      this.loadTableData();
+    }
     if (this.screenId)
       this.builderService.jsonGridBusinessRuleGet(this.screenId).subscribe((getRes => {
 

@@ -1,4 +1,4 @@
-<!-- {{tableHeaders | json}} -->
+<!-- {{data | json}} -->
 <!-- {{key | json}} -->
 <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
@@ -13,7 +13,7 @@
 </div>
 <br />
 <br />
-<nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData"
+<nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData" *ngIf="data"
   [nzScroll]="{ x: '100vw', y: null }" [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
   [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='data?.nzFrontPagination'
   [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize"
