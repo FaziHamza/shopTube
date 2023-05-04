@@ -17,6 +17,7 @@ import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
 import { DemoComponent } from './demo/demo.component';
 import { NestedTableComponent } from './nested-table/nested-table.component';
+import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { NestedTableComponent } from './nested-table/nested-table.component';
     FormlyModule.forRoot(formlyCustomeConfig),
     BuilderRoutingModule,
     ShareModule,
-    GoogleChartsModule 
+    GoogleChartsModule ,
+    ContextMenuModule,
+
   ],
 })
 

@@ -1,22 +1,6 @@
-<!-- <nested-table [data]="listOfData"></nested-table> -->
+<span [contextMenu]="oneContextMenu">Fazi Hamza</span>
+<context-menu #oneContextMenu  >
+    <ng-template contextMenuItem (execute)="Language('')" [visible]="true">Label Change</ng-template>
+    <ng-template contextMenuItem (execute)="Permission('')"  [visible]="true">Permission</ng-template>
+</context-menu>
 
-<ng-template #userMenu>
-    <section class="user-menu">
-        <div>Variable Information</div>
-        <hr>
-        <div>Add Record</div>
-        <div>Edit Record </div>
-    </section>
-</ng-template>
-
-<p>sdfsdfsd</p>
-<div contextMenu="contextMenu">
-    Right-click me
-</div>
-<!-- <div id="contextMenu" [ngStyle]="{'left.px': xPos, 'top.px': yPos}" *ngIf="showContextMenu">
-    <ul>
-        <li *ngFor="let menuItem of menuItems" (click)="menuItem.action()">{{ menuItem.label }}</li>
-    </ul>
-</div> -->
-
-<h1 (contextmenu)="open($event); $event. preventDefault();">1156116</h1>

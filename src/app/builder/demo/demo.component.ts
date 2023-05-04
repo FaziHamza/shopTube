@@ -110,4 +110,18 @@ export class DemoComponent implements OnInit {
   }
 
 
+  Language(a:any){
+
+  }
+  Permission(a:any){
+
+  }
+
+  public items = [
+    { name: 'John', otherProperty: 'Foo' },
+    { name: 'Joe', otherProperty: 'Bar' }
+];
+// @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+
+
 }
