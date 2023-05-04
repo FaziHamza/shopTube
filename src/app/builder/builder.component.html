@@ -154,18 +154,19 @@
                     </div>
                     <span *ngIf="screenPage" class="row-icon">
                       <span *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">
-                        <span nz-icon nzType="copy" nzTooltipTitle="copy" nzTheme="outline" nz-tooltip></span>
+                        <span nz-icon nzType="copy" nzTooltipTitle="Duplicate" nzTheme="outline" nz-tooltip></span>
                       </span>
                       <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
-                        <span class="fa" nz-icon nzType="sliders" nzTooltipTitle="Configuration" nzTheme="outline"
+                        <span class="fa" nz-icon nzType="setting" nzTooltipTitle="Configuration" nzTheme="outline"
                           nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="remove(node, node)">
                         <span class="fa" nz-icon nzType="delete" nzTooltipTitle="Delete" nzTheme="outline" nz-tooltip></span>
                       </label>
                       <label *ngIf="isVisible === node.origin.id" (click)="previewJson(node)">
-                        <span class="fa" nz-icon nzType="fullscreen" nzTooltipTitle="Preview Json" nzTheme="outline"
-                          nz-tooltip></span>
+                        <i class="fa-solid fa-brackets-curly"></i>
+                        <!-- <span class="fa" nz-icon nzType="fullscreen" nzTooltipTitle="Preview Json" nzTheme="outline"
+                          nz-tooltip></span> -->
                       </label>
                     </span>
                   </div>

@@ -24,12 +24,16 @@
                     (mouseover)="setHovered('up', item.menuIcon,item)"
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.children">
-                      <ng-container *ngIf="shouldExecute(sub)">
-                        <li nz-submenu *ngIf="selectedTheme.layout != 'twoColumn'" class="bg-transparent"
+                      <ng-container *ngIf="shouldExecute(sub) && selectedTheme.layout != 'twoColumn'">
+                        <li nz-menu-item *ngIf="sub.children.length == 0" class="bg-transparent"
                           (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
-                          (mouseout)="setHovered(true,'start')" [nzTitle]="sub.title">
-                          <ul *ngFor="let subChild of sub.children">
-                            <li nz-menu-item *ngIf="shouldExecute(subChild)">{{subChild.title}}</li>
+                          (mouseout)="setHovered(true,'start')">
+                          {{sub.title}}</li>
+                        <li nz-submenu [nzTitle]="sub.title" *ngIf="sub.children.length" nz-menu-item
+                          class="bg-transparent" (click)="loadTabsAndButtons($event, sub)"
+                          (mouseover)="setHovered(false,'start',item)" (mouseout)="setHovered(true,'start')">
+                          <ul *ngFor="let subSub of sub.children">
+                            <li nz-menu-item>{{subSub.title}}</li>
                           </ul>
                         </li>
                       </ng-container>
