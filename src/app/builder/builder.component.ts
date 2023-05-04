@@ -1398,7 +1398,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-
+    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
