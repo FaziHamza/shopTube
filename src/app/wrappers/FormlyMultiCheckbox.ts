@@ -34,7 +34,7 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
   }
 
   log(event: any, model: any){
-    debugger
+    
     this.formControl.patchValue(event);
     this.sharedService.onChange(event, this.field);
     console.log(event, model);
@@ -49,7 +49,7 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
   };
 
   onModelChange(event: any, model: any) {
-    debugger
+    
   
   }
 

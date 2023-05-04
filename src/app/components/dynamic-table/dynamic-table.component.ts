@@ -40,7 +40,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
     this.gridInitilize();
   }
   gridInitilize() {
@@ -348,7 +348,7 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    debugger
+    
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] =  firstObjectKeys.map(key => ({ name: key }));
@@ -516,7 +516,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   select(rowIndex: number, value: any) {
-    debugger
+    
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }

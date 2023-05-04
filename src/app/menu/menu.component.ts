@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
-    debugger
+    
     this.selectedApp = moduleName;
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {

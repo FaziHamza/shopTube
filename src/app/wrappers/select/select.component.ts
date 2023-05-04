@@ -30,7 +30,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> {
     this.formControl.patchValue(value);
   }
   onModelChange(event: any, model: any) {
-    debugger
+    
     this.sharedService.onChange(event, this.field,);
     console.log(event, model, 'radio');
   }

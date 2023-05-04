@@ -47,7 +47,7 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
   
   onModelChange(event: any, model: any) {
-    debugger
+    
     this.sharedService.onChange(event, this.field);
     console.log(event, model);
   }

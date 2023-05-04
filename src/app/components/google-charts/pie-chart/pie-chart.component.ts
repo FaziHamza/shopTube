@@ -13,7 +13,7 @@ export class PieChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.chartData = this.charts.tableData.map((data: any) => [data.name, data.value]);
   }
 

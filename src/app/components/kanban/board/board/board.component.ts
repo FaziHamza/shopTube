@@ -16,7 +16,7 @@ export class BoardComponent implements OnInit {
   constructor(private toastr: NzMessageService,) { }
 
   ngOnInit() {
-    debugger
+    
     this.lists = this.kanbanData.kanbanSave;
     // this.lists = [];
     // for (let index = 0; index < this.kanbanData.nodes; index++) {
@@ -29,7 +29,7 @@ export class BoardComponent implements OnInit {
   }
 
   addList() {
-    debugger
+    
     const newList: ListInterface = new List();
     newList.position = this.lists.length + 1;
     newList.name = `List (${newList.position})`;

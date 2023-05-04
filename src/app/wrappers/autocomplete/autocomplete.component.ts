@@ -25,7 +25,7 @@ export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
   }
 
   onModelChange(event: any, model: any) {
-    debugger
+    
     this.sharedService.onChange(event.value, this.field);
     console.log(event.value, model);
   }

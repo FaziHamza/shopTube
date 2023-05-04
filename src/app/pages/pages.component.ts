@@ -8,6 +8,7 @@ import { ElementData } from '../models/element';
 import { TreeNode } from '../models/treeNode';
 import { Guid } from '../models/guid';
 import { DataSharedService } from '../services/data-shared.service';
+import { DividerComponent } from '../components';
 
 @Component({
   selector: 'st-pages',
@@ -20,7 +21,7 @@ export class PagesComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+
       if (event && field && this.router.url.includes('/pages')) {
         this.checkConditionUIRule(field, event);
       }
@@ -35,7 +36,7 @@ export class PagesComponent implements OnInit {
   @Input() screenId: any;
   requestSubscription: Subscription
   ngOnInit(): void {
-    debugger
+
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
@@ -432,7 +433,7 @@ export class PagesComponent implements OnInit {
     return node;
   }
   traverseAndChange(node: any, type?: any) {
-    debugger
+
     if (node) {
       if (type == 'copy') {
         node = this.changeIdAndkey(node);
@@ -447,7 +448,7 @@ export class PagesComponent implements OnInit {
     }
   }
   disabledAndEditableSection(data: any) {
-    debugger
+
     if (data.formlyType) {
       if (data.formlyType == "input") {
         data.formly[0].fieldGroup[0].props.disabled = data.formly[0].fieldGroup[0].props.disabled ? false : true;
@@ -456,30 +457,35 @@ export class PagesComponent implements OnInit {
     return data;
   };
   checkDynamicSection() {
+    debugger
     if (this.resData) {
       this.resData[0].children[1].children.forEach((element: any, i: number) => {
         let selectedNode: any = undefined;
-        selectedNode = this.findObjectByType(element, "sections", element.key);
-        if (selectedNode) {
+        if (selectedNode = this.findObjectByType(element, "sections", element.key)) {
           this.makeDynamicSections(selectedNode.mapApi, selectedNode);
         }
         if (this.resData[0].children[1].children[i].children[1].children.length) {
           this.resData[0].children[1].children[i].children[1].children.forEach((j: any) => {
-            selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "listWithComponents", j.key);
-            if (selectedNode) {
+            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "listWithComponents", j.key)) {
+              selectedNode.children.forEach((item: any) => {
+                this.makeDynamicSections(item.mapApi, item);
+              });
+            }
+            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainTab", j.key)) {
+              selectedNode.children.forEach((item: any) => {
+                this.makeDynamicSections(item.mapApi, item);
+              });
+            }
+            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainStep", j.key)) {
+              selectedNode.children.forEach((item: any) => {
+                this.makeDynamicSections(item.mapApi, item);
+              });
+            }
+            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "div", j.key)) {
               this.makeDynamicSections(selectedNode.mapApi, selectedNode);
             }
-            selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainTab", j.key);
-            if (selectedNode) {
-              selectedNode.children.forEach((item: any) => {
-                this.makeDynamicSections(item.mapApi, item);
-              });
-            }
-            selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainStep", j.key);
-            if (selectedNode) {
-              selectedNode.children.forEach((item: any) => {
-                this.makeDynamicSections(item.mapApi, item);
-              });
+            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "cardWithComponents", j.key)) {
+              this.makeDynamicSections(selectedNode.mapApi, selectedNode);
             }
           })
         }
@@ -487,6 +493,7 @@ export class PagesComponent implements OnInit {
     }
   }
   makeDynamicSections(api: any, selectedNode: any) {
+    debugger
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     this.builderService.genericApis(api).subscribe(res => {
@@ -494,15 +501,13 @@ export class PagesComponent implements OnInit {
         for (let index = 0; index < res.length; index++) {
           const item = res[index];
           let newNode: any = {};
-          if (selectedNode.type == 'listWithComponents') {
-            newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[0]));
-          } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children));
           }
           else {
             newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
           }
-          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div') {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
             if (selectedNode.tableBody) {
               selectedNode.tableBody.forEach((element: any) => {
                 if (newNode.length) {
@@ -511,7 +516,7 @@ export class PagesComponent implements OnInit {
                     if (keyObj && element.defaultValue) {
                       const updatedObj = this.dataReplace(keyObj, item, element);
                       j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                      if (!checkFirstTime) {
+                      if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
                         j['mapping'] = true;
                       }
                     }
@@ -520,7 +525,7 @@ export class PagesComponent implements OnInit {
               });
             }
           }
-          else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div') {
+          else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
             if (selectedNode.tableBody) {
               selectedNode.tableBody.forEach((element: any) => {
                 const keyObj = this.findObjectByKey(newNode, element.fileHeader);
@@ -532,11 +537,7 @@ export class PagesComponent implements OnInit {
             }
           }
           if (checkFirstTime) {
-            if (selectedNode.type == 'listWithComponents') {
-              selectedNode.children = [];
-              selectedNode.children.push(newNode);
-            } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
-              selectedNode.children = [];
+            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
               selectedNode.children = newNode;
             }
             else if (selectedNode.children[1]) {
@@ -547,23 +548,69 @@ export class PagesComponent implements OnInit {
             checkFirstTime = false
           }
           else {
-            if (selectedNode.type == 'listWithComponents') {
-              selectedNode.children.push(newNode);
-            } else if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' ) {
               if (newNode.length) {
                 newNode.forEach((k: any) => {
                   if (k.mapping) {
                     tabsAndStepper.push(k);
-                    delete k.mapping;
                   }
                 });
               }
-              if (index == res.length) {
+              if (index == res.length - 1) {
                 if (tabsAndStepper.length) {
                   tabsAndStepper.forEach((j: any) => {
                     selectedNode?.children?.push(j);
                   });
                 }
+                let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+                let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+                selectedNode.children = mapped;
+                if (unMapped.length) {
+                  unMapped.forEach((element: any) => {
+                    selectedNode.children.push(element);
+                  });
+                }
+                selectedNode.children.forEach((k: any) => {
+                  delete k.mapping
+                });
+              }
+            }
+            else if (selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'listWithComponentsChild') {
+              let newSelected = JSON.parse(JSON.stringify(selectedNode));
+              newSelected.children = newNode;
+              let data = JSON.parse(JSON.stringify(newSelected));
+              tabsAndStepper.push(data);
+              if (index == res.length - 1) {
+                debugger
+                this.resData[0].children[1].children.forEach((a: any,) => {
+                  let checkPushOrNot = true
+                  a.children[1].children.forEach((b: any, i: number) => {
+                    let idx = i;
+                    if ((b.type == 'div' || selectedNode.type == 'cardWithComponents') && b.id == selectedNode.id && checkPushOrNot) {
+                      if (tabsAndStepper) {
+                        tabsAndStepper.forEach((div: any) => {
+                          a.children[1].children.splice(idx + 1, 0, div);
+                          idx++;
+                        });
+                        checkPushOrNot = false;
+                      }
+                    } 
+                    else if (b.type == 'listWithComponents') {
+                      b.children.forEach((listChild: any , chilIndex : number) => {
+                        let idx = chilIndex
+                        if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot){
+                          if (tabsAndStepper) {
+                            tabsAndStepper.forEach((div: any) => {
+                              b.children.splice(idx + 1, 0, div);
+                              idx++;
+                            });
+                            checkPushOrNot = false;
+                          }
+                        }
+                      });
+                    }
+                  })
+                })
               }
             }
             else if (selectedNode.children[1]) {
@@ -706,6 +753,15 @@ export class PagesComponent implements OnInit {
               const idx = data.children.indexOf(element[0]);
               data.children.splice(idx as number, 1);
             }
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          }
+          else {
             let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
             let idx = data.children.indexOf(lastAvatarIndex[0]);
             data.children.splice(idx, 1);

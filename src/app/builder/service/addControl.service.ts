@@ -185,6 +185,17 @@ export class AddControlService {
       bgColor: '',
       headerTextColor: '',
       footerTextColor: '',
+      mapApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
+	  
     }
   }
   getSwitchControl() {
@@ -440,6 +451,16 @@ export class AddControlService {
   getlistWithComponentsChildControl() {
     return {
       isNextChild: true,
+      mapApi: '',
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   getStepControl() {
@@ -600,7 +621,7 @@ export class AddControlService {
     }
   }
   gridListControl() {
-    debugger
+    
     return {
       tableId: "gridList_" + Guid.newGuid(),
       nzFooter: "This is footer",

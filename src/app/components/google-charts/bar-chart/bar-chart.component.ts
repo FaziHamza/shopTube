@@ -12,7 +12,7 @@ export class BarChartComponent implements OnInit {
   chartColumns: any;
   constructor() { }
   ngOnInit(): void {
-    debugger
+    
     this.charts.columnNames.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' })
     this.chartData = this.charts.tableData.map((data: any) => [data.name, data.value, data.value2]);
   }

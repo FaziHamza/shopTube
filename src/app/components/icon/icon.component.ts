@@ -13,7 +13,7 @@ export class IconComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.color;
     this.icon;
     this.size;

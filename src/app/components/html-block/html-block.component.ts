@@ -10,7 +10,7 @@ export class HtmlBlockComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.htmlBlockData;
   }
 

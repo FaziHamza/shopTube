@@ -89,7 +89,7 @@ export class BuilderComponent implements OnInit {
     //   this.nodes = res[0].menuData;
     // }));
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+
       if (event && field && this.router.url == '/builder') {
         this.checkConditionUIRule(field, event);
       }
@@ -253,7 +253,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    debugger
+
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -1284,7 +1284,7 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options),
                       keyup: (model: any) => {
-                        debugger
+
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         this.checkConditionUIRule(model, currentVal);
@@ -1398,7 +1398,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-    debugger
+
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -1455,6 +1455,8 @@ export class BuilderComponent implements OnInit {
         break;
       case "cardWithComponents":
         this.fieldData.formData = _formFieldData.cardWithComponentsFields;
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "icon":
         this.fieldData.formData = _formFieldData.commonIconFields;
@@ -1713,7 +1715,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
-        debugger
+
         this.addIconCommonConfiguration(_formFieldData.accordionButtonFields, true);
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
@@ -1761,12 +1763,12 @@ export class BuilderComponent implements OnInit {
 
         break;
       case "listWithComponents":
-        // this.fieldData.formData = _formFieldData.listWithComponentsFields;
-        this.fieldData.mappingConfig = _formFieldData.listWithComponentsFields;
-        this.fieldData.mappingNode = this.selectedNode;
+        this.fieldData.formData = _formFieldData.listWithComponentsFields;
         break;
       case "listWithComponentsChild":
-        this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
+        // this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
         break;
       case "tabsMain":
         configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
@@ -2021,7 +2023,7 @@ export class BuilderComponent implements OnInit {
 
   }
   traverseAndChange(node: any) {
-    debugger
+
     if (node) {
       node = this.changeIdAndkey(node);
       if (node.children) {
@@ -2054,7 +2056,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addFunctionsInHtml(type: any) {
-    debugger
+
     this.showNotification = false;
     if (type == "dashonictabsAddNew")
       this.addChildControlsWithSubChild('mainTab', 'tabs');
@@ -2168,28 +2170,24 @@ export class BuilderComponent implements OnInit {
     });
   }
   notifyEmit(event: actionTypeFeild): void {
-    debugger
+
 
     let needToUpdate = true;
     switch (event.type) {
-      case "cardWithComponents":
       case "body":
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
       case "sections":
-      case "listWithComponents":
       case "tabs":
       case "step":
       case "div":
+      case "listWithComponentsChild":
+      case "cardWithComponents":
         if (this.selectedNode.id) {
           if (event.type == 'div') {
             this.selectedNode.imageSrc = event.form.imageSrc ? event.form.imageSrc : this.dataSharedService.imageUrl;
           }
-          this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
-          if (event.type == 'listWithComponents') {
-            this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
-          }
-          else if (event.type == 'sections') {
+          if (event.type == 'sections') {
             const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
@@ -2199,21 +2197,20 @@ export class BuilderComponent implements OnInit {
               this.clickBack();
             }
           }
+          this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
           let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
           if (!check) {
             if (event.dbData) {
               for (let index = 0; index < event.dbData.length; index++) {
                 const item = event.dbData[index];
                 let newNode: any = {};
-                if (event.type == 'listWithComponents') {
-                  newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[0]));
-                } else if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children));
                 }
                 else {
                   newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
                 }
-                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
                   if (event.tableDta) {
                     event.tableDta.forEach((element: any) => {
                       if (newNode.length) {
@@ -2228,7 +2225,7 @@ export class BuilderComponent implements OnInit {
                     });
                   }
                 }
-                else if (event.type != 'tabs' && event.type != 'step' && event.type != 'div') {
+                else if (event.type != 'tabs' && event.type != 'step' && event.type != 'div' && event.type != 'listWithComponentsChild' && event.type != 'cardWithComponents') {
                   if (event.tableDta) {
                     event.tableDta.forEach((element: any) => {
                       const keyObj = this.findObjectByKey(newNode, element.fileHeader);
@@ -2241,18 +2238,11 @@ export class BuilderComponent implements OnInit {
                 }
                 const { selectedNode } = this;
                 if (selectedNode && selectedNode.children) {
-                  if (event.type == 'listWithComponents') {
-                    selectedNode.children = newNode ? [newNode] : [];
-                  } else if (event.type == 'tabs' || event.type == 'step' || event.type == 'div') {
+                  if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
                     selectedNode.children = newNode;
                   }
                   else if (selectedNode.children[1]) {
                     selectedNode.children[1].children = newNode ? [newNode] : [];
-                  }
-                  if (event.type == 'div') {
-                    this.nodes.children[1].children[1].children.forEach((k: any) => {
-                      this.findObjectByType(k, newNode)
-                    });
                   }
                   this.updateNodes();
                 }
@@ -2313,6 +2303,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "mainStep":
         this.addDynamic(event.form.nodes, 'step', 'mainStep')
+        break;
+      case "listWithComponents":
+        this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
         break;
       case "rate":
         if (event.tableDta) {
@@ -3303,7 +3296,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
-    debugger
+
     let _formFieldData = new formFeildData();
     if (_formFieldData.commonIconFields[0].fieldGroup) {
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {

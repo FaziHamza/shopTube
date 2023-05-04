@@ -24,7 +24,7 @@ export class RangInputsComponent implements OnInit {
     };
   }
   set sliderValue(value: number) {
-    debugger
+    
     this._sliderValue = value;
     this.highlightIcon();
   }

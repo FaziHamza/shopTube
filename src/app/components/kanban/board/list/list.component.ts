@@ -45,7 +45,7 @@ export class ListsComponent implements OnInit {
 
 
   dropCard(dragEvent: DragEvent) {
-    debugger
+    
     if(dragEvent.dataTransfer){
       const data = JSON.parse(dragEvent.dataTransfer.getData('text'));
       const elements: Element[] = this.document.elementsFromPoint(dragEvent.x, dragEvent.y);

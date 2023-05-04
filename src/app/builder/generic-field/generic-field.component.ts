@@ -31,7 +31,7 @@ export class GenericFieldComponent implements OnInit {
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService) { }
   ngOnInit(): void {
-    debugger
+    
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.mappingNode) {
@@ -82,7 +82,6 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
-    debugger
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
@@ -93,9 +92,7 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if (this.itemData.mappingNode.type == 'listWithComponents' ) {
-            this.createOptionsArray(this.itemData.mappingNode.children[0]);
-          }else if(this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div'){
+          if(this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents'){
             this.itemData.mappingNode.children.forEach((element : any) => {
             this.createOptionsArray(element);
             });
