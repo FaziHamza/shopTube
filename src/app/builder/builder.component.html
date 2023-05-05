@@ -53,7 +53,7 @@
 </div>
 <nz-card nzTitle="" class="mt-4">
   <div class="flex header-tab mb-1">
-    <div class="w-1/4 jsonEdiotTab">
+    <div class="w-1/5 jsonEdiotTab">
       <button nz-button nzType="primary" class="" title="Layer" (click)="LayerShow()"
         ngbTooltip="Show/hide builder layer">
         <span nz-icon nzType="group" nzTheme="outline"></span>
@@ -67,40 +67,30 @@
       <button nz-button nzType="primary" class="ml-2" (click)="clearChildNode()">
         <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
     </div>
-    <div class="w-1/2">
+    <div class="w-3/6">
       <nz-select nzShowSearch nzAllowClear [(ngModel)]="screenName" (ngModelChange)="getFormLayers($event)">
         <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
           *ngFor="let item of screenModule"></nz-option>
       </nz-select>
     </div>
-    <div class="w-1/4 jsonEdiotTab">
-      <div>
-        <button nz-button nzType="primary" (click)="downloadJson()" class="mx-1" nz-tooltip="download Json"><span
-            nz-icon nzType="download"></span></button>
+    <div class="w-1/3 jsonEdiotTab">
+      <button nz-button nzType="primary" class="ml-1" (click)="downloadJson()" nz-tooltip="download Json"><span nz-icon
+          nzType="download"></span></button>
 
-        <!-- <button class="btn btn-primary text-white ml-2" (click)="applyFaker()" ngbTooltip="Faker">
-        <i class="uil uil-cloud-download"></i>
-      </button> -->
-        <!-- <button class="ml-2 mr-2 btn btn-primary" (click)="queryMaker()" ngbTooltip="Query">
-        <i class="uil uil-file-plus"></i>
-      </button> -->
-        <input type="file" class="form-control ml-1" id="fileInput" style="display:none" (change)="jsonUpload($event)">
-        <button nz-button nzType="primary" class="btn btn-primary text-white"
-          onclick="document.getElementById('fileInput').click()" ngbTooltip="Upload json">
-          <span nz-icon nzType="upload" nzTheme="outline"></span>
-        </button>
-        <button class="ml-1" nz-button nzType="primary" (click)="pasteJson()">Paste</button>
-      </div>
-      <div>
-        <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
-          nz-tooltip="download Json"><span nz-icon nzType="download"></span></button>
-        <input type="file" class="form-control ml-1" id="selectedFileInput" style="display:none"
-          (change)="selectedJsonUpload($event)">
-        <button nz-button nzType="primary" class="btn btn-primary text-white"
-          onclick="document.getElementById('selectedFileInput').click()" ngbTooltip="Upload json">
-          <span nz-icon nzType="upload" nzTheme="outline"></span>
-        </button>
-      </div>
+      <input type="file" class="form-control" id="fileInput" style="display:none" (change)="jsonUpload($event)">
+      <button nz-button nzType="primary" class="btn btn-primary text-white  mx-1"
+        onclick="document.getElementById('fileInput').click()" ngbTooltip="Upload json">
+        <span nz-icon nzType="upload" nzTheme="outline"></span>
+      </button>
+      <button nz-button nzType="primary"  (click)="pasteJson()">Paste</button>
+      <button nz-button nzType="primary" class="mx-1" (click)="selectedDownloadJson()" nz-tooltip="download Json"><span nz-icon
+          nzType="download"></span></button>
+      <input type="file" class="form-control" id="selectedFileInput" style="display:none"
+        (change)="selectedJsonUpload($event)">
+      <button nz-button nzType="primary" class="btn btn-primary text-white"
+        onclick="document.getElementById('selectedFileInput').click()" ngbTooltip="Upload json">
+        <span nz-icon nzType="upload" nzTheme="outline"></span>
+      </button>
     </div>
   </div>
   <div class="flex body-tab border ">
