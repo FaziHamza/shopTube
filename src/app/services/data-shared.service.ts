@@ -12,7 +12,8 @@ export class DataSharedService {
   screenModule:any;
   nodes:any;
   public data: any;
-
+  copyJson : any = {};
+  
   constructor() { }
 
   setData(data: string) {

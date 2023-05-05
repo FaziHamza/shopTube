@@ -102,7 +102,8 @@
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
-        <a href="{{ option.link }}">{{ option.label }}</a>
+        <a *ngIf="option.link" [href]="option.link">{{ option.label }}</a>
+        <a *ngIf="!option.link">{{ option.label }}</a>
       </li>
     </ul>
   </nz-dropdown-menu>

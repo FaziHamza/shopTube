@@ -1773,6 +1773,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
+      btnText:'Notification',
     }
   }
   iconControl() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
@@ -23,6 +23,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { ChartType } from 'angular-google-charts';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'st-builder',
@@ -79,7 +80,8 @@ export class BuilderComponent implements OnInit {
     private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router) {
+    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router
+    , @Inject(DOCUMENT) private document: Document) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -3060,8 +3062,9 @@ export class BuilderComponent implements OnInit {
         break;
 
     }
-    if (event.type && event.type != "inputValidationRule" && event.type != "sections" && needToUpdate) {
-      this.selectedNode = { ...this.selectedNode, ...event.form }
+    if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      this.selectedNode = { ...this.selectedNode, ...event.form };
+      this.updateNodes();
     }
     this.showSuccess();
     this.updateNodes();
@@ -3579,5 +3582,13 @@ export class BuilderComponent implements OnInit {
       }
     }
     return undefined;
+  }
+
+  pasteJson() {
+    debugger
+    if(this.selectedNode && this.dataSharedService.copyJson){
+      this.selectedNode.children?.push(JSON.parse(this.dataSharedService.copyJson));
+      this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+    }
   }
 }

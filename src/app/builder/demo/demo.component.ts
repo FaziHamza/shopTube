@@ -40,7 +40,7 @@ export class DemoComponent implements OnInit {
   // ];
   constructor(private http: HttpClient,
     public viewContainerRef: ViewContainerRef,
-    public overlay: Overlay,
+    
   ) {
 
   }
@@ -57,57 +57,57 @@ export class DemoComponent implements OnInit {
     // });
   }
 
-  open({ x, y }: MouseEvent, user?: any) {
-    this.close();
-    const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo({ x, y })
-      .withPositions([
-        {
-          originX: 'end',
-          originY: 'bottom',
-          overlayX: 'end',
-          overlayY: 'top',
-        },
-      ]);
+  // open({ x, y }: MouseEvent, user?: any) {
+  //   this.close();
+  //   const positionStrategy = this.overlay
+  //     .position()
+  //     .flexibleConnectedTo({ x, y })
+  //     .withPositions([
+  //       {
+  //         originX: 'end',
+  //         originY: 'bottom',
+  //         overlayX: 'end',
+  //         overlayY: 'top',
+  //       },
+  //     ]);
 
-    this.overlayRef = this.overlay.create({
-      positionStrategy,
-      scrollStrategy: this.overlay.scrollStrategies.close(),
-    });
+  //   this.overlayRef = this.overlay.create({
+  //     positionStrategy,
+  //     scrollStrategy: this.overlay.scrollStrategies.close(),
+  //   });
 
-    this.overlayRef.attach(
-      new TemplatePortal(this.userMenu, this.viewContainerRef, {
-        $implicit: user,
-      })
-    );
+  //   this.overlayRef.attach(
+  //     new TemplatePortal(this.userMenu, this.viewContainerRef, {
+  //       $implicit: user,
+  //     })
+  //   );
 
-    this.sub = fromEvent<MouseEvent>(document, 'click')
-      .pipe(
-        filter((event: any) => {
-          const clickTarget = event.target as HTMLElement;
-          return (
-            !!this.overlayRef &&
-            !this.overlayRef.overlayElement.contains(clickTarget)
-          );
-        }),
-        take(1)
-      )
-      .subscribe(() => this.close());
-  }
+  //   this.sub = fromEvent<MouseEvent>(document, 'click')
+  //     .pipe(
+  //       filter((event: any) => {
+  //         const clickTarget = event.target as HTMLElement;
+  //         return (
+  //           !!this.overlayRef &&
+  //           !this.overlayRef.overlayElement.contains(clickTarget)
+  //         );
+  //       }),
+  //       take(1)
+  //     )
+  //     .subscribe(() => this.close());
+  // }
 
-  delete(user: any) {
-    // delete user
-    this.close();
-  }
+  // delete(user: any) {
+  //   // delete user
+  //   this.close();
+  // }
 
-  close() {
-    this.sub && this.sub.unsubscribe();
-    if (this.overlayRef) {
-      this.overlayRef.dispose();
-      this.overlayRef = null;
-    }
-  }
+  // close() {
+  //   this.sub && this.sub.unsubscribe();
+  //   if (this.overlayRef) {
+  //     this.overlayRef.dispose();
+  //     this.overlayRef = null;
+  //   }
+  // }
 
 
   language(a: any) {
