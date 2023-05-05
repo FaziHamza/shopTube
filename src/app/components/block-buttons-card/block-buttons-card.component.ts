@@ -97,7 +97,7 @@ export class BlockButtonsCardComponent {
     bgColor = hoverColor;
   }
   saveData(data : any){
-    debugger
+    
     this.notify.emit(data);
   }
 }

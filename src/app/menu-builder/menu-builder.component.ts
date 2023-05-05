@@ -114,7 +114,7 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
-    debugger
+    
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
@@ -625,7 +625,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   saveJsonMenu() {
-    debugger
+    
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));

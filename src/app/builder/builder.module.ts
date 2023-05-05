@@ -21,6 +21,7 @@ import { ApplicationBuilderComponent, ModuleListComponent, ScreenBuilderComponen
 import { AppBuilderSideMenuComponent } from "../_layout/app-builder-side-menu/app-builder-side-menu.component";
 import { MenuBuilderComponent } from "../menu-builder/menu-builder.component";
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
+import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,9 @@ import { AddControlCommonPropertiesComponent } from './add-control-common-proper
     FormlyModule.forRoot(formlyCustomeConfig),
     BuilderRoutingModule,
     ShareModule,
-    GoogleChartsModule
+    GoogleChartsModule ,
+    ContextMenuModule,
+
   ],
 })
 

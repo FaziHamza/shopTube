@@ -10,6 +10,9 @@ import { ElementData } from '../models/element';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { DataSharedService } from '../services/data-shared.service';
+import { Clipboard } from '@angular/cdk/clipboard';
+
 
 @Component({
   selector: 'st-main',
@@ -35,7 +38,8 @@ export class MainComponent implements OnInit {
   joiValidationData: TreeNode[] = [];
   requestSubscription: Subscription;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
-    private builderService: BuilderService, private toastr: NzMessageService,private router: Router) { }
+    private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
+    private clipboard: Clipboard) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -59,7 +63,7 @@ export class MainComponent implements OnInit {
     console.log(e);
   }
   onClose(data: any, index: any): void {
-    debugger
+
     data.options = data.options.filter((_: any, i: any) => i != index);
     console.log('tag was closed.');
   }
@@ -194,7 +198,7 @@ export class MainComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    debugger
+
     if (data.isSubmit) {
       // this.mainData
       // this.mainData.forEach((element:any) => {
@@ -219,12 +223,12 @@ export class MainComponent implements OnInit {
           tableData[0].tableData = [];
           tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id= tableData[0].tableData.length  + 1
+          saveForm.id = tableData[0].tableData.length + 1
           tableData[0].tableData?.push(saveForm);
         } else {
           tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id = tableData[0].tableData.length  + 1;
+          saveForm.id = tableData[0].tableData.length + 1;
           tableData[0].tableData?.push(saveForm);
         }
 
@@ -233,7 +237,7 @@ export class MainComponent implements OnInit {
     }
   }
   saveData1(data: any) {
-    debugger
+
     if (data.dataTable) {
       this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
         next: (res) => {
@@ -260,10 +264,13 @@ export class MainComponent implements OnInit {
     }
     return null;
   }
-  copyJson(json : any) {
-    if(this.router.url.includes('/pages') && json.allowCopyJson){
+  copyJson(json: any) {
+    debugger
+    if (json) {
       const jsonText = JSON.stringify(json);
       navigator.clipboard.writeText(jsonText).then(() => {
+        // this.clipboard.copy(JSON.stringify(jsonText, null, 2));
+        this.dataSharedService.copyJson = jsonText;
         this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 });
         console.log('JSON copied to clipboard');
       }, (error) => {

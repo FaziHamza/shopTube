@@ -32,7 +32,6 @@ import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layo
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
-
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -67,7 +66,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HttpClientModule,
     AppRoutingModule,
     ShareModule,
-    GoogleChartsModule
+    GoogleChartsModule,
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

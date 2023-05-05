@@ -14,7 +14,7 @@ export class LayoutTabsDropdownComponent implements OnInit {
   constructor(private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.tempData = JSON.parse(JSON.stringify(this.layoutTabsDropdownData));
     // window.onresize = () => {
     //   this.controlMenu();

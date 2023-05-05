@@ -11,6 +11,7 @@ import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { AngularSplitModule } from 'angular-split';
 import { MainComponent } from '../main/main.component';
+import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import {
   AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
   BlockButtonsCardComponent, BreadCrumbComponent, BuilderToaterComponent, CarouselCrossfadeCardComponent, CascaderComponent, CommentComponent, DescriptionComponent,
@@ -52,7 +53,7 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
       FullCalendarModule,
       RouterModule,
       GoogleChartsModule,
-
+      ContextMenuModule
     ],
   declarations: [
     GenericFieldComponent,

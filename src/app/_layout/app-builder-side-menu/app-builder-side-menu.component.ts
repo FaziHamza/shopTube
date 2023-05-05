@@ -71,7 +71,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
   }
 
   notifyEmit(data: any) {
-    debugger
+    
     if (data.screenType) {
       if (data.screenType == 'desktop') {
         this.selectedTheme.showMenu =  true;
@@ -105,7 +105,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     }
   }
   notifyEmitForDropdown(data: any) {
-    debugger
+    
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -115,7 +115,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-    debugger
+    
     data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];

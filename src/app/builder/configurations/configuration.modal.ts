@@ -4470,6 +4470,7 @@ export class formFeildData {
           props: {
             label: 'isBordered'
           },
+          defaultValue: false,
         },
       ]
     },
@@ -10286,6 +10287,15 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Duration',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'btnText',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Label',
           }
         },
         {

@@ -13,7 +13,7 @@ export class BuilderClickButtonService {
     return {
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
-        debugger
+        
         return {
           name: obj.name,
           key: obj.key,
@@ -348,7 +348,7 @@ export class BuilderClickButtonService {
     };
   }
   getSectionConfig(node: any) {
-    debugger
+    
     return {
       title: node.title,
       disabled: node.sectionDisabled,

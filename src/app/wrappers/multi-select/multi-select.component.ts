@@ -19,7 +19,7 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
     return this.to.options;
   }
   log(event: any, model: any): void {
-    debugger
+    
     this.formControl.patchValue(event);
     this.sharedService.onChange(event, this.field);
     console.log(event, model);

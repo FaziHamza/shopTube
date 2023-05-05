@@ -11,7 +11,7 @@ export class SimpleCardWithHeaderBodyFooterComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.cardData;
   }
 

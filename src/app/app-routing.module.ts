@@ -12,6 +12,7 @@ import { ApplicationBuilderComponent } from './Builder-module/application-builde
 import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
 import { BuilderModule } from './builder/builder.module';
 import { BarChartComponent } from './components';
+import { DemoComponent } from './builder/demo/demo.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'bar-chart',
     component: BarChartComponent
+  },
+  {
+    path: 'demo',
+    component: DemoComponent
   },
 ];
 

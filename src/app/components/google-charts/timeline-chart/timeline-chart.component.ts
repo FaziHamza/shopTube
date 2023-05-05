@@ -13,12 +13,12 @@ export class TimelineChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.chartData = this.charts.tableData.map((data: any) => [data.label , data.value,new Date(data.startDate) ,new Date(data.endDate)]);
     console.log(this.chartData)
   }
   convertIntoDate(date: any) {
-    debugger
+    
     if (!date) {
       return null;
     }
