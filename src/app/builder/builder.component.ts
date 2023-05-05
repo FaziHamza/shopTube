@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, ViewContainerRef } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -15,13 +14,11 @@ import { BuilderClickButtonService } from './service/builderClickButton.service'
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
-import { ElementData } from '../models/element';
 import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
-import { ChartType } from 'angular-google-charts';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 
@@ -34,7 +31,7 @@ export class BuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
-
+  addControl = false;
 
   size: NzButtonSize = 'large';
   selectModuleName: any;
@@ -82,7 +79,7 @@ export class BuilderComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router
-    ) {
+  ) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -381,6 +378,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   clearChildNode() {
+    this.addControl = true;
     this.isSavedDb = false;
     this.showNotification = false;
     if (this.screenPage) {
@@ -412,10 +410,11 @@ export class BuilderComponent implements OnInit {
       this.addControlToJson('header', null);
       this.addControlToJson('body', null);
       this.addControlToJson('footer', null);
-      this.selectedNode = this.sectionAccorBody;
-      this.addControlToJson('text', this.textJsonObj);
       this.selectedNode = newNode[0];
       this.addControlToJson('pageFooter', null);
+      this.addControl = false;
+      this.selectedNode = this.sectionAccorBody;
+      this.addControlToJson('text', this.textJsonObj);
       this.updateNodes();
       this.saveOfflineDB();
       this.isSavedDb = true;
@@ -830,505 +829,515 @@ export class BuilderComponent implements OnInit {
   }
   addControlToJson(value: string, data?: any) {
     let obj = {
-      title:value,
-      key:value.toLowerCase() + "_" + Guid.newGuid()
+      title: value,
+      key: value.toLowerCase() + "_" + Guid.newGuid()
     }
-    if(data?.parameter === 'input'){
+    if (data?.parameter === 'input') {
       obj.title = data?.label;
       obj.key = data?.configType.toLowerCase() + "_" + Guid.newGuid()
     }
-    const modal = this.modalService.create<AddControlCommonPropertiesComponent>({
-      nzTitle: 'Change Control Value',
-      nzContent: AddControlCommonPropertiesComponent,
-      nzViewContainerRef: this.viewContainerRef,
-      nzComponentParams: {
-        model:obj
-      },
-      // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
-      nzFooter: []
-    });
-    const instance = modal.getContentComponent();
-    modal.afterClose.subscribe(res=>{
-      debugger
-      if(res){
-        if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
-          this.selectForDropdown = this.selectedNode;
+    if (this.addControl) {
+      this.controls(value, data,obj);
+    }
+    else {
+
+      const modal = this.modalService.create<AddControlCommonPropertiesComponent>({
+        nzTitle: 'Change Control Value',
+        nzContent: AddControlCommonPropertiesComponent,
+        nzViewContainerRef: this.viewContainerRef,
+        nzComponentParams: {
+          model: obj
+        },
+        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+        nzFooter: []
+      });
+      const instance = modal.getContentComponent();
+      modal.afterClose.subscribe(res => {
+        debugger
+        if (res) {
+          this.controls(value, data,obj, res);
         }
-        let node = this.selectedNode;
-        let newNode: any = {};
-        if (data?.parameter == 'input') {
-          newNode = {
-            id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
-            className: this.columnApply(value),
-            expanded: true,
-            type: value,
-            title: res.title ? res.title :  obj.title,
-            children: [],
-            tooltip: '',
-            hideExpression: false,
-            highLight: false,
-            copyJsonIcon: false,
-          }
-        }
-        else {
-          newNode = {
-            key: res.key ? res.key : obj.key,
-            id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
-            className: this.columnApply(value),
-            expanded: true,
-            type: value,
-            title:  res.title ? res.title :  obj.title,
-            children: [],
-            tooltip: '',
-            hideExpression: false,
-            highLight: false,
-            copyJsonIcon: false,
-          }
-        }
-        switch (value) {
-          case "page":
-            newNode = { ...newNode, ...this.addControlService.getPageControl() };
-            break;
-          case "pageHeader":
-            newNode = { ...newNode, ...this.addControlService.getPageHeaderControl() };
-            break;
-          case "pageBody":
-            newNode = { ...newNode, ...this.addControlService.getPageBodyControl() };
-            this.sectionBageBody = newNode;
-            break;
-          case "pageFooter":
-            newNode = { ...newNode, ...this.addControlService.getPageFooterControl() };
-            break;
-          case "sections":
-            newNode = { ...newNode, ...this.addControlService.getSectionControl() };
-            this.sections = newNode;
-            break;
-          case "header":
-            newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
-            break;
-          case "body":
-            newNode = { ...newNode, ...this.addControlService.getBodyControl() };
-            this.sectionAccorBody = newNode;
-            break;
-          case "footer":
-            newNode = { ...newNode, ...this.addControlService.getFooterControl() };
-            break;
-          case "buttonGroup":
-            newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
-            break;
-          case "insertButton":
-          case "updateButton":
-          case "deleteButton":
-            newNode = { ...newNode, ...this.addControlService.getInsertButtonControl() };
-            break;
-          case "dropdownButton":
-            newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
-            break;
-          case "linkbutton":
-            newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
-            break;
-          case "cardWithComponents":
-            newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
-            break;
-          case "switch":
-            newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
-            break;
-          case "imageUpload":
-            newNode = { ...newNode, ...this.addControlService.getImageUploadControl() };
-            break;
-          case "progressBar":
-            newNode = { ...newNode, ...this.addControlService.getProgressBarControl() };
-            break;
-          case "video":
-            newNode = { ...newNode, ...this.addControlService.getVideoControl() };
-            break;
-          case "audio":
-            newNode = { ...newNode, ...this.addControlService.getAudioControl() };
-            break;
-          case "carouselCrossfade":
-            newNode = { ...newNode, ...this.addControlService.getCarouselCrossfadeControl() };
-            break;
-          case "calender":
-            newNode = { ...newNode, ...this.addControlService.getCalenderControl() };
-            break;
-          case "sharedMessagesChart":
-            newNode = { ...newNode, ...this.addControlService.getSharedMessagesChartControl() };
-            break;
-          case "alert":
-            newNode = { ...newNode, ...this.addControlService.getAlertControl() };
-            break;
-          case "simpleCardWithHeaderBodyFooter":
-            newNode = { ...newNode, ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl() };
-            break;
-          case "tabs":
-            newNode = { ...newNode, ...this.addControlService.getTabsControl() };
-            this.chilAdd = newNode
-            break;
-          case "mainTab":
-            newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
-            this.ParentAdd = newNode
-            break;
-          case "mainStep":
-            newNode = { ...newNode, ...this.addControlService.getMainStepControl() };
-            this.ParentAdd = newNode
-            break;
-          case "listWithComponents":
-            newNode = { ...newNode, ...this.addControlService.getlistWithComponentsControl() };
-            this.ParentAdd = newNode
-            break;
-          case "listWithComponentsChild":
-            newNode = { ...newNode, ...this.addControlService.getlistWithComponentsChildControl() };
-            this.chilAdd = newNode
-            break;
-          case "step":
-            newNode = { ...newNode, ...this.addControlService.getStepControl() };
-            this.chilAdd = newNode
-            break;
-          case "kanban":
-            newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
-            break;
-          case "kanbanTask":
-            newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
-            break;
-          case "simplecard":
-            newNode = { ...newNode, ...this.addControlService.simplecardControl() };
-            break;
-          case "div":
-            newNode = { ...newNode, ...this.addControlService.divControl() };
-            break;
-          case "heading":
-            newNode = { ...newNode, ...this.addControlService.headingControl() };
-            break;
+      });
+    }
 
-          case "paragraph":
-            newNode = { ...newNode, ...this.addControlService.paragraphControl() };
-            break;
 
-          case "htmlBlock":
-            newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
-            break;
-
-          case "textEditor":
-            newNode = { ...newNode, ...this.addControlService.textEditorControl() };
-            break;
-
-          case "editor_js":
-            newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
-            break;
-
-          case "breakTag":
-            newNode = { ...newNode, ...this.addControlService.breakTagControl() };
-            break;
-
-          case "multiFileUpload":
-            newNode = { ...newNode, ...this.addControlService.multiFileUploadControl() };
-            break;
-
-          case "gridList":
-            newNode = { ...newNode, ...this.addControlService.gridListControl() };
-            break;
-
-          case "column":
-            newNode = { ...newNode, ...this.addControlService.columnControl() };
-            break;
-
-          case "timeline":
-            newNode = { ...newNode, ...this.addControlService.timelineControl() };
-            this.ParentAdd = newNode;
-            break;
-
-          case "fixedDiv":
-            newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
-            this.chilAdd = newNode;
-            break;
-
-          case "accordionButton":
-            newNode = { ...newNode, ...this.addControlService.accordionButtonControl() };
-            break;
-
-          case "divider":
-            newNode = { ...newNode, ...this.addControlService.dividerControl() };
-            break;
-
-          case "toastr":
-            newNode = { ...newNode, ...this.addControlService.toastrControl() };
-            break;
-
-          case "rate":
-            newNode = { ...newNode, ...this.addControlService.rateControl() };
-            break;
-
-          case "rangeSlider":
-            newNode = { ...newNode, ...this.addControlService.rangeSliderControl() };
-            break;
-
-          case "invoice":
-            newNode = { ...newNode, ...this.addControlService.invoiceControl() };
-            break;
-
-          case "affix":
-            newNode = { ...newNode, ...this.addControlService.affixControl() };
-            break;
-
-          case "statistic":
-            newNode = { ...newNode, ...this.addControlService.statisticControl() };
-            break;
-
-          case "backTop":
-            newNode = { ...newNode, ...this.addControlService.backTopControl() };
-            break;
-
-          case "anchor":
-            newNode = { ...newNode, ...this.addControlService.anchorControl() };
-            break;
-
-          case "modal":
-            newNode = { ...newNode, ...this.addControlService.modalControl() };
-            break;
-
-          case "popConfirm":
-            newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
-            break;
-
-          case "avatar":
-            newNode = { ...newNode, ...this.addControlService.avatarControl() };
-            break;
-
-          case "badge":
-            newNode = { ...newNode, ...this.addControlService.badgeControl() };
-            break;
-
-          case "comment":
-            newNode = { ...newNode, ...this.addControlService.commentControl() };
-            break;
-
-          case "popOver":
-            newNode = { ...newNode, ...this.addControlService.popOverControl() };
-            break;
-
-          case "description":
-            newNode = { ...newNode, ...this.addControlService.descriptionControl() };
-            break;
-
-          case "descriptionChild":
-            newNode = { ...newNode, ...this.addControlService.descriptionChildControl() };
-            break;
-
-          case "segmented":
-            newNode = { ...newNode, ...this.addControlService.segmentedControl() };
-            break;
-
-          case "result":
-            newNode = { ...newNode, ...this.addControlService.resultControl() };
-            break;
-
-          case "tag":
-            newNode = { ...newNode, ...this.addControlService.nzTagControl() };
-            break;
-
-          case "treeSelect":
-            newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
-            break;
-
-          case "transfer":
-            newNode = { ...newNode, ...this.addControlService.transferControl() };
-            break;
-
-          case "spin":
-            newNode = { ...newNode, ...this.addControlService.spinControl() };
-            break;
-
-          case "tree":
-            newNode = { ...newNode, ...this.addControlService.treeControl() };
-            break;
-
-          case "cascader":
-            newNode = { ...newNode, ...this.addControlService.cascaderControl() };
-            break;
-
-          case "drawer":
-            newNode = { ...newNode, ...this.addControlService.drawerControl() };
-            break;
-
-          case "skeleton":
-            newNode = { ...newNode, ...this.addControlService.skeletonControl() };
-            break;
-
-          case "empty":
-            newNode = { ...newNode, ...this.addControlService.emptyControl() };
-            break;
-
-          case "list":
-            newNode = { ...newNode, ...this.addControlService.listControl() };
-            break;
-
-          case "treeView":
-            newNode = { ...newNode, ...this.addControlService.treeViewControl() };
-            break;
-
-          case "message":
-            newNode = { ...newNode, ...this.addControlService.messageControl() };
-            break;
-
-          case "mentions":
-            newNode = { ...newNode, ...this.addControlService.mentionsControl() };
-            break;
-
-          case "notification":
-            newNode = { ...newNode, ...this.addControlService.notificationControl() };
-            break;
-
-          case "icon":
-            newNode = { ...newNode, ...this.addControlService.iconControl() };
-            break;
-          case "barChart":
-            newNode = { ...newNode, ...this.addControlService.barChartControl() };
-            break;
-          case "pieChart":
-            newNode = { ...newNode, ...this.addControlService.pieChartControl() };
-            break;
-          case "bubbleChart":
-            newNode = { ...newNode, ...this.addControlService.bubbleChartControl() };
-            break;
-          case "candlestickChart":
-            newNode = { ...newNode, ...this.addControlService.candlestickChartControl() };
-            break;
-          case "columnChart":
-            newNode = { ...newNode, ...this.addControlService.columnChartControl() };
-            break;
-          case "orgChart":
-            newNode = { ...newNode, ...this.addControlService.orgChartControl() };
-            break;
-          case "ganttChart":
-            newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
-            break;
-          case "geoChart":
-            newNode = { ...newNode, ...this.addControlService.geoChartControl() };
-            break;
-          case "histogramChart":
-            newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
-            break;
-          case "treeMapChart":
-            newNode = { ...newNode, ...this.addControlService.treeMapChartControl() };
-            break;
-          case "tableChart":
-            newNode = { ...newNode, ...this.addControlService.tableChartControl() };
-            break;
-          case "lineChart":
-            newNode = { ...newNode, ...this.addControlService.lineChartControl() };
-            break;
-          case "sankeyChart":
-            newNode = { ...newNode, ...this.addControlService.sankeyChartControl() };
-            break;
-          case "scatterChart":
-            newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
-            break;
-          case "areaChart":
-            newNode = { ...newNode, ...this.addControlService.areaChartControl() };
-            break;
-          case "comboChart":
-            newNode = { ...newNode, ...this.addControlService.comboChartControl() };
-            break;
-          case "steppedAreaChart":
-            newNode = { ...newNode, ...this.addControlService.steppedAreaChartControl() };
-            break;
-          case "timelineChart":
-            newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
-            break;
-          default:
-            if (data?.parameter === 'input') {
-              let formlyObj = {
-                type: data?.configType,
-                formlyType: data?.parameter,
-                hideExpression: false,
-                title: res.title ? res.title : obj.title,
-                formly: [
-                  {
-                    fieldGroup: [
-                      {
-                        key: res.key ? res.key : obj.key,
-                        type: data?.type,
-                        defaultValue: "",
-                        focus: false,
-                        wrappers: this.getLastNodeWrapper("wrappers"),
-                        props: {
-                          multiple: true,
-                          className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
-                          attributes: {
-                            autocomplete: 'off',
-                          },
-                          additionalProperties: {
-                            getVariable: '',
-                            setVariable: '',
-                            addonLeft: '',
-                            addonRight: '',
-                            // addonLeftIcon: '',
-                            // addonrightIcon: '',
-                            status: '',
-                            size: 'default',
-                            border: false,
-                            firstBtnText: 'Now',
-                            secondBtnText: 'ok',
-                            minuteStep: 1,
-                            secondStep: 1,
-                            hoursStep: 1,
-                            use12Hours: false,
-                            icon: 'close',
-                            allowClear: false,
-                            step: 1,
-                            serveSearch: false,
-                            showArrow: false,
-                            showSearch: false,
-                            format: 'dd-MM-yyyy',
-                            optionHieght: 30,
-                            optionHoverSize: 10,
-                            suffixicon: '',
-                            prefixicon: '',
-                            wrapper: this.getLastNodeWrapper("configWrapper"),
-                            floatFieldClass: '',
-                            floatLabelClass: '',
-                            formatAlignment: 'ltr',
-                            iconType: 'outline',
-                            iconSize: 15,
-                            iconColor: '',
-                            labelPosition: "text-left",
-                            titleIcon: "",
-                            tooltip: "",
-                          },
-                          rows: 1,
-                          maxLength: 10000000,
-                          minLength: 1,
-                          type: data?.fieldType,
-                          label: res.title ? res.title : obj.title,
-                          placeholder: data?.label,
-                          maskString: data?.maskString,
-                          // sufix: 'INV ',
-                          maskLabel: data?.maskLabel,
-                          // disabled: this.getLastNodeWrapper("disabled"),
-                          readonly: false,
-                          hidden: false,
-                          options: this.makeFormlyOptions(data?.options),
-                          keyup: (model: any) => {
-                            debugger
-                            let currentVal = model.formControl.value;
-                            this.formlyModel[model.key] = model.formControl.value;
-                            this.checkConditionUIRule(model, currentVal);
-                          }
-                        },
-                      },
-                    ]
-                  },
-                ],
-              }
-              newNode = { ...newNode, ...formlyObj };
-            }
-            break;
-        }
-        this.addNode(node, newNode);
-        this.updateNodes();
+  }
+  controls(value: any, data: any,obj?: any, res?: any ) {
+    if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
+      this.selectForDropdown = this.selectedNode;
+    }
+    let node = this.selectedNode;
+    let newNode: any = {};
+    if (data?.parameter == 'input') {
+      newNode = {
+        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        className: this.columnApply(value),
+        expanded: true,
+        type: value,
+        title: res?.title ? res.title : obj.title,
+        children: [],
+        tooltip: '',
+        hideExpression: false,
+        highLight: false,
+        copyJsonIcon: false,
       }
-    });
+    }
+    else {
+      newNode = {
+        key: res?.key ? res.key : obj.key,
+        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        className: this.columnApply(value),
+        expanded: true,
+        type: value,
+        title: res?.title ? res.title : obj.title,
+        children: [],
+        tooltip: '',
+        hideExpression: false,
+        highLight: false,
+        copyJsonIcon: false,
+      }
+    }
+    switch (value) {
+      case "page":
+        newNode = { ...newNode, ...this.addControlService.getPageControl() };
+        break;
+      case "pageHeader":
+        newNode = { ...newNode, ...this.addControlService.getPageHeaderControl() };
+        break;
+      case "pageBody":
+        newNode = { ...newNode, ...this.addControlService.getPageBodyControl() };
+        this.sectionBageBody = newNode;
+        break;
+      case "pageFooter":
+        newNode = { ...newNode, ...this.addControlService.getPageFooterControl() };
+        break;
+      case "sections":
+        newNode = { ...newNode, ...this.addControlService.getSectionControl() };
+        this.sections = newNode;
+        break;
+      case "header":
+        newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
+        break;
+      case "body":
+        newNode = { ...newNode, ...this.addControlService.getBodyControl() };
+        this.sectionAccorBody = newNode;
+        break;
+      case "footer":
+        newNode = { ...newNode, ...this.addControlService.getFooterControl() };
+        break;
+      case "buttonGroup":
+        newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
+        break;
+      case "insertButton":
+      case "updateButton":
+      case "deleteButton":
+        newNode = { ...newNode, ...this.addControlService.getInsertButtonControl() };
+        break;
+      case "dropdownButton":
+        newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
+        break;
+      case "linkbutton":
+        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
+        break;
+      case "cardWithComponents":
+        newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
+        break;
+      case "switch":
+        newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
+        break;
+      case "imageUpload":
+        newNode = { ...newNode, ...this.addControlService.getImageUploadControl() };
+        break;
+      case "progressBar":
+        newNode = { ...newNode, ...this.addControlService.getProgressBarControl() };
+        break;
+      case "video":
+        newNode = { ...newNode, ...this.addControlService.getVideoControl() };
+        break;
+      case "audio":
+        newNode = { ...newNode, ...this.addControlService.getAudioControl() };
+        break;
+      case "carouselCrossfade":
+        newNode = { ...newNode, ...this.addControlService.getCarouselCrossfadeControl() };
+        break;
+      case "calender":
+        newNode = { ...newNode, ...this.addControlService.getCalenderControl() };
+        break;
+      case "sharedMessagesChart":
+        newNode = { ...newNode, ...this.addControlService.getSharedMessagesChartControl() };
+        break;
+      case "alert":
+        newNode = { ...newNode, ...this.addControlService.getAlertControl() };
+        break;
+      case "simpleCardWithHeaderBodyFooter":
+        newNode = { ...newNode, ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl() };
+        break;
+      case "tabs":
+        newNode = { ...newNode, ...this.addControlService.getTabsControl() };
+        this.chilAdd = newNode
+        break;
+      case "mainTab":
+        newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
+        this.ParentAdd = newNode
+        break;
+      case "mainStep":
+        newNode = { ...newNode, ...this.addControlService.getMainStepControl() };
+        this.ParentAdd = newNode
+        break;
+      case "listWithComponents":
+        newNode = { ...newNode, ...this.addControlService.getlistWithComponentsControl() };
+        this.ParentAdd = newNode
+        break;
+      case "listWithComponentsChild":
+        newNode = { ...newNode, ...this.addControlService.getlistWithComponentsChildControl() };
+        this.chilAdd = newNode
+        break;
+      case "step":
+        newNode = { ...newNode, ...this.addControlService.getStepControl() };
+        this.chilAdd = newNode
+        break;
+      case "kanban":
+        newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
+        break;
+      case "kanbanTask":
+        newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
+        break;
+      case "simplecard":
+        newNode = { ...newNode, ...this.addControlService.simplecardControl() };
+        break;
+      case "div":
+        newNode = { ...newNode, ...this.addControlService.divControl() };
+        break;
+      case "heading":
+        newNode = { ...newNode, ...this.addControlService.headingControl() };
+        break;
 
+      case "paragraph":
+        newNode = { ...newNode, ...this.addControlService.paragraphControl() };
+        break;
+
+      case "htmlBlock":
+        newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
+        break;
+
+      case "textEditor":
+        newNode = { ...newNode, ...this.addControlService.textEditorControl() };
+        break;
+
+      case "editor_js":
+        newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
+        break;
+
+      case "breakTag":
+        newNode = { ...newNode, ...this.addControlService.breakTagControl() };
+        break;
+
+      case "multiFileUpload":
+        newNode = { ...newNode, ...this.addControlService.multiFileUploadControl() };
+        break;
+
+      case "gridList":
+        newNode = { ...newNode, ...this.addControlService.gridListControl() };
+        break;
+
+      case "column":
+        newNode = { ...newNode, ...this.addControlService.columnControl() };
+        break;
+
+      case "timeline":
+        newNode = { ...newNode, ...this.addControlService.timelineControl() };
+        this.ParentAdd = newNode;
+        break;
+
+      case "fixedDiv":
+        newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
+        this.chilAdd = newNode;
+        break;
+
+      case "accordionButton":
+        newNode = { ...newNode, ...this.addControlService.accordionButtonControl() };
+        break;
+
+      case "divider":
+        newNode = { ...newNode, ...this.addControlService.dividerControl() };
+        break;
+
+      case "toastr":
+        newNode = { ...newNode, ...this.addControlService.toastrControl() };
+        break;
+
+      case "rate":
+        newNode = { ...newNode, ...this.addControlService.rateControl() };
+        break;
+
+      case "rangeSlider":
+        newNode = { ...newNode, ...this.addControlService.rangeSliderControl() };
+        break;
+
+      case "invoice":
+        newNode = { ...newNode, ...this.addControlService.invoiceControl() };
+        break;
+
+      case "affix":
+        newNode = { ...newNode, ...this.addControlService.affixControl() };
+        break;
+
+      case "statistic":
+        newNode = { ...newNode, ...this.addControlService.statisticControl() };
+        break;
+
+      case "backTop":
+        newNode = { ...newNode, ...this.addControlService.backTopControl() };
+        break;
+
+      case "anchor":
+        newNode = { ...newNode, ...this.addControlService.anchorControl() };
+        break;
+
+      case "modal":
+        newNode = { ...newNode, ...this.addControlService.modalControl() };
+        break;
+
+      case "popConfirm":
+        newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
+        break;
+
+      case "avatar":
+        newNode = { ...newNode, ...this.addControlService.avatarControl() };
+        break;
+
+      case "badge":
+        newNode = { ...newNode, ...this.addControlService.badgeControl() };
+        break;
+
+      case "comment":
+        newNode = { ...newNode, ...this.addControlService.commentControl() };
+        break;
+
+      case "popOver":
+        newNode = { ...newNode, ...this.addControlService.popOverControl() };
+        break;
+
+      case "description":
+        newNode = { ...newNode, ...this.addControlService.descriptionControl() };
+        break;
+
+      case "descriptionChild":
+        newNode = { ...newNode, ...this.addControlService.descriptionChildControl() };
+        break;
+
+      case "segmented":
+        newNode = { ...newNode, ...this.addControlService.segmentedControl() };
+        break;
+
+      case "result":
+        newNode = { ...newNode, ...this.addControlService.resultControl() };
+        break;
+
+      case "tag":
+        newNode = { ...newNode, ...this.addControlService.nzTagControl() };
+        break;
+
+      case "treeSelect":
+        newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
+        break;
+
+      case "transfer":
+        newNode = { ...newNode, ...this.addControlService.transferControl() };
+        break;
+
+      case "spin":
+        newNode = { ...newNode, ...this.addControlService.spinControl() };
+        break;
+
+      case "tree":
+        newNode = { ...newNode, ...this.addControlService.treeControl() };
+        break;
+
+      case "cascader":
+        newNode = { ...newNode, ...this.addControlService.cascaderControl() };
+        break;
+
+      case "drawer":
+        newNode = { ...newNode, ...this.addControlService.drawerControl() };
+        break;
+
+      case "skeleton":
+        newNode = { ...newNode, ...this.addControlService.skeletonControl() };
+        break;
+
+      case "empty":
+        newNode = { ...newNode, ...this.addControlService.emptyControl() };
+        break;
+
+      case "list":
+        newNode = { ...newNode, ...this.addControlService.listControl() };
+        break;
+
+      case "treeView":
+        newNode = { ...newNode, ...this.addControlService.treeViewControl() };
+        break;
+
+      case "message":
+        newNode = { ...newNode, ...this.addControlService.messageControl() };
+        break;
+
+      case "mentions":
+        newNode = { ...newNode, ...this.addControlService.mentionsControl() };
+        break;
+
+      case "notification":
+        newNode = { ...newNode, ...this.addControlService.notificationControl() };
+        break;
+
+      case "icon":
+        newNode = { ...newNode, ...this.addControlService.iconControl() };
+        break;
+      case "barChart":
+        newNode = { ...newNode, ...this.addControlService.barChartControl() };
+        break;
+      case "pieChart":
+        newNode = { ...newNode, ...this.addControlService.pieChartControl() };
+        break;
+      case "bubbleChart":
+        newNode = { ...newNode, ...this.addControlService.bubbleChartControl() };
+        break;
+      case "candlestickChart":
+        newNode = { ...newNode, ...this.addControlService.candlestickChartControl() };
+        break;
+      case "columnChart":
+        newNode = { ...newNode, ...this.addControlService.columnChartControl() };
+        break;
+      case "orgChart":
+        newNode = { ...newNode, ...this.addControlService.orgChartControl() };
+        break;
+      case "ganttChart":
+        newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
+        break;
+      case "geoChart":
+        newNode = { ...newNode, ...this.addControlService.geoChartControl() };
+        break;
+      case "histogramChart":
+        newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
+        break;
+      case "treeMapChart":
+        newNode = { ...newNode, ...this.addControlService.treeMapChartControl() };
+        break;
+      case "tableChart":
+        newNode = { ...newNode, ...this.addControlService.tableChartControl() };
+        break;
+      case "lineChart":
+        newNode = { ...newNode, ...this.addControlService.lineChartControl() };
+        break;
+      case "sankeyChart":
+        newNode = { ...newNode, ...this.addControlService.sankeyChartControl() };
+        break;
+      case "scatterChart":
+        newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
+        break;
+      case "areaChart":
+        newNode = { ...newNode, ...this.addControlService.areaChartControl() };
+        break;
+      case "comboChart":
+        newNode = { ...newNode, ...this.addControlService.comboChartControl() };
+        break;
+      case "steppedAreaChart":
+        newNode = { ...newNode, ...this.addControlService.steppedAreaChartControl() };
+        break;
+      case "timelineChart":
+        newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
+        break;
+      default:
+        if (data?.parameter === 'input') {
+          let formlyObj = {
+            type: data?.configType,
+            formlyType: data?.parameter,
+            hideExpression: false,
+            title: res?.title ? res.title : obj.title,
+            formly: [
+              {
+                fieldGroup: [
+                  {
+                    key: res?.key ? res.key : obj.key,
+                    type: data?.type,
+                    defaultValue: "",
+                    focus: false,
+                    wrappers: this.getLastNodeWrapper("wrappers"),
+                    props: {
+                      multiple: true,
+                      className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+                      attributes: {
+                        autocomplete: 'off',
+                      },
+                      additionalProperties: {
+                        getVariable: '',
+                        setVariable: '',
+                        addonLeft: '',
+                        addonRight: '',
+                        // addonLeftIcon: '',
+                        // addonrightIcon: '',
+                        status: '',
+                        size: 'default',
+                        border: false,
+                        firstBtnText: 'Now',
+                        secondBtnText: 'ok',
+                        minuteStep: 1,
+                        secondStep: 1,
+                        hoursStep: 1,
+                        use12Hours: false,
+                        icon: 'close',
+                        allowClear: false,
+                        step: 1,
+                        serveSearch: false,
+                        showArrow: false,
+                        showSearch: false,
+                        format: 'dd-MM-yyyy',
+                        optionHieght: 30,
+                        optionHoverSize: 10,
+                        suffixicon: '',
+                        prefixicon: '',
+                        wrapper: this.getLastNodeWrapper("configWrapper"),
+                        floatFieldClass: '',
+                        floatLabelClass: '',
+                        formatAlignment: 'ltr',
+                        iconType: 'outline',
+                        iconSize: 15,
+                        iconColor: '',
+                        labelPosition: "text-left",
+                        titleIcon: "",
+                        tooltip: "",
+                      },
+                      rows: 1,
+                      maxLength: 10000000,
+                      minLength: 1,
+                      type: data?.fieldType,
+                      label: res?.title ? res.title : obj.title,
+                      placeholder: data?.label,
+                      maskString: data?.maskString,
+                      // sufix: 'INV ',
+                      maskLabel: data?.maskLabel,
+                      // disabled: this.getLastNodeWrapper("disabled"),
+                      readonly: false,
+                      hidden: false,
+                      options: this.makeFormlyOptions(data?.options),
+                      keyup: (model: any) => {
+                        debugger
+                        let currentVal = model.formControl.value;
+                        this.formlyModel[model.key] = model.formControl.value;
+                        this.checkConditionUIRule(model, currentVal);
+                      }
+                    },
+                  },
+                ]
+              },
+            ],
+          }
+          newNode = { ...newNode, ...formlyObj };
+        }
+        break;
+    }
+    this.addNode(node, newNode);
+    this.updateNodes();
   }
   makeFormlyOptions(option: any) {
     if (option) {
@@ -2084,7 +2093,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addFunctionsInHtml(type: any) {
-
+    this.addControl = true;
     this.showNotification = false;
     if (type == "dashonictabsAddNew")
       this.addChildControlsWithSubChild('mainTab', 'tabs');
@@ -2099,6 +2108,7 @@ export class BuilderComponent implements OnInit {
     else if (type == "addSection") {
       this.addSection('sections');
     }
+    this.addControl = false;
     this.showNotification = true;
     this.toastr.success('Control Added', { nzDuration: 3000 });
   }
@@ -3612,7 +3622,7 @@ export class BuilderComponent implements OnInit {
 
   pasteJson() {
     debugger
-    if(this.selectedNode && this.dataSharedService.copyJson){
+    if (this.selectedNode && this.dataSharedService.copyJson) {
       this.selectedNode.children?.push(JSON.parse(this.dataSharedService.copyJson));
       this.toastr.success('Json update successfully!', { nzDuration: 3000 });
     }
