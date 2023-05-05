@@ -1,6 +1,8 @@
-<span [style.font-size.px]="size || 15" [style.color]="color || ''" nz-icon
-  *ngIf="type == 'outline' || type == 'fill' || type == 'twotone'" [nzType]="icon" [nzTheme]='type'></span>
-<i [style.font-size.px]="size || 15" [style.color]="color || ''" *ngIf="type == 'font_awsome'" [class]="icon"></i>
-<span [style.font-size.px]="size || 15" [style.color]="color || ''" *ngIf="type == 'material'">
-  <i class="material-icons">{{icon}}</i>
+<span class="icon">
+  <span [style.font-size.px]="size || 15" [style.color]="color || ''" nz-icon
+    *ngIf="type == 'outline' || type == 'fill' || type == 'twotone'" [nzType]="icon" [nzTheme]='type'></span>
+  <i [style.font-size.px]="size || 15" [style.color]="color || ''" *ngIf="type == 'font_awsome'" [class]="icon"></i>
+  <span [style.font-size.px]="size || 15" [style.color]="color || ''" *ngIf="type == 'material'">
+    <i class="material-icons">{{icon}}</i>
+  </span>
 </span>

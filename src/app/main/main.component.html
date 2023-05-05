@@ -269,7 +269,8 @@
                             </div>
                         </ng-template>
                         <ng-template #fourtyOne>
-                            <div style="height: 600px;" *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
+                            <div 
+                                *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
                                 <st-rang-inputs [rangSlider]="item"></st-rang-inputs>
                             </div>
                         </ng-template>

@@ -1051,6 +1051,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       icon: 'star',
+      height:0,
     }
   }
   invoiceControl() {

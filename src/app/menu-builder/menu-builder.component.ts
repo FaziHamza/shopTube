@@ -114,7 +114,7 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
-    
+
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
@@ -323,6 +323,7 @@ export class MenuBuilderComponent implements OnInit {
     switch (type) {
       case "input":
         configObj = { ...configObj, ...this.clickButtonService.getMenuAttributeConfig(selectedNode) };
+        this.addIconCommonConfiguration(_formFieldData.menufield, true);
         this.fieldData.formData = _formFieldData.menufield;
         break;
       case "tabs":
@@ -625,7 +626,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   saveJsonMenu() {
-    
+
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -943,6 +944,9 @@ export class MenuBuilderComponent implements OnInit {
           }
           this.selectedNode.isTitle = event.form.isTitle;
           this.selectedNode.textColor = event.form.textColor;
+          this.selectedNode.iconType = event.form.iconType;
+          this.selectedNode.iconSize = event.form.iconSize;
+          this.selectedNode.iconColor = event.form.iconColor;
         }
         break;
 
@@ -1224,13 +1228,23 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
-
     this.makeMenuData();
     this.selectedTheme.horizontalRow = 'flex flex-wrap';
     this.selectedTheme.rowClass = 'w-10/12',
       this.selectedTheme.menuMode = "horizontal",
       this.selectedTheme.menuColumn = 'w-full',
       this.selectedTheme.isCollapsed = false;
+  }
+
+  addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
+    let _formFieldData = new formFeildData();
+    if (_formFieldData.commonIconFields[0].fieldGroup) {
+      _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
+        if (element.key != 'icon' || allowIcon) {
+          configurationFields[0].fieldGroup.unshift(element)
+        }
+      });
+    }
   }
 
 }

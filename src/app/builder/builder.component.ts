@@ -69,6 +69,7 @@ export class BuilderComponent implements OnInit {
   previewJsonData: any = '';
   searchValue: any = '';
   jsonData: any = '';
+  saveLoader : any = false;
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -253,7 +254,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-
+    this.saveLoader = true;
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -263,7 +264,7 @@ export class BuilderComponent implements OnInit {
     {
       "moduleName": this.screenName,
       "menuData": newData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "", 
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
@@ -275,27 +276,33 @@ export class BuilderComponent implements OnInit {
             next: (res) => {
               this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
                 next: (res) => {
+                  this.saveLoader = false;
                   alert("Data Save");
                 },
                 error: (err) => {
                   console.error(err); // Log the error to the console
                   this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                  this.saveLoader = false;
                 }
               })
             },
             error: (err) => {
               console.error(err); // Log the error to the console
               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              this.saveLoader = false;
             }
           })
-        } else {
+        } 
+        else {
           this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
             next: (res) => {
               alert("Data Save");
+              this.saveLoader = false;
             },
             error: (err) => {
               console.error(err); // Log the error to the console
               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              this.saveLoader = false;
             }
           })
         }
@@ -303,6 +310,7 @@ export class BuilderComponent implements OnInit {
       error: (err) => {
         console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
       }
 
     })
@@ -3624,6 +3632,7 @@ export class BuilderComponent implements OnInit {
     debugger
     if (this.selectedNode && this.dataSharedService.copyJson) {
       this.selectedNode.children?.push(JSON.parse(this.dataSharedService.copyJson));
+      this.updateNodes();
       this.toastr.success('Json update successfully!', { nzDuration: 3000 });
     }
   }
