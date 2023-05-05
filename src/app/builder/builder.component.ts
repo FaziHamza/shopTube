@@ -82,7 +82,7 @@ export class BuilderComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
     private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router
-    , @Inject(DOCUMENT) private document: Document) {
+    ) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
