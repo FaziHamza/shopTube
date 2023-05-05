@@ -17,11 +17,18 @@ import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
 import { DemoComponent } from './demo/demo.component';
 import { NestedTableComponent } from './nested-table/nested-table.component';
+import { ApplicationBuilderComponent, ModuleListComponent, ScreenBuilderComponent } from "../Builder-module";
+import { AppBuilderSideMenuComponent } from "../_layout/app-builder-side-menu/app-builder-side-menu.component";
+import { MenuBuilderComponent } from "../menu-builder/menu-builder.component";
+import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 
 @NgModule({
   declarations: [
     BuilderComponent,
-    ActionRuleComponent,BusinessRuleComponent,UIRuleComponent,ValidationRuleComponent, DemoComponent, NestedTableComponent
+    AppBuilderSideMenuComponent,
+    MenuBuilderComponent,
+    ActionRuleComponent,BusinessRuleComponent,UIRuleComponent,ValidationRuleComponent, DemoComponent, NestedTableComponent,
+    ScreenBuilderComponent,ModuleListComponent,ApplicationBuilderComponent, AddControlCommonPropertiesComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +42,7 @@ import { NestedTableComponent } from './nested-table/nested-table.component';
     FormlyModule.forRoot(formlyCustomeConfig),
     BuilderRoutingModule,
     ShareModule,
-    GoogleChartsModule 
+    GoogleChartsModule
   ],
 })
 

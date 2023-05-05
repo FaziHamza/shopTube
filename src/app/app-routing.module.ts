@@ -37,22 +37,7 @@ const routes: Routes = [
             "src/app/builder/builder.module"
         ).then((m) => m.BuilderModule),
   },
-  {
-    path: 'menu-builder',
-    component: MenuBuilderComponent
-  },
-  {
-    path: 'screen-builder',
-    component: ScreenBuilderComponent
-  },
-  {
-    path: 'application-builder',
-    component: ApplicationBuilderComponent
-  },
-  {
-    path: 'module-list',
-    component: ModuleListComponent
-  },
+
   {
     path: 'bar-chart',
     component: BarChartComponent

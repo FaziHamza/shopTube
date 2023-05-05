@@ -12,10 +12,6 @@ import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
 import { MenuComponent } from './menu/menu.component';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
 import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.component';
-import { AppBuilderSideMenuComponent } from './_layout/app-builder-side-menu/app-builder-side-menu.component';
-import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { SiteFooterComponent } from './_layout/site-footer/site-footer.component';
-import { SiteHeaderComponent } from './_layout/site-header/site-header.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
@@ -31,11 +27,7 @@ import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component
 import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
 
 import { CommonModule } from '@angular/common';
-import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
 import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
-import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
-import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
-import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
 import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -52,23 +44,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HomePageComponent,
     fieldComponents,
     SideMenuBuildComponent,
-    ScreenBuilderComponent,
-    ModuleListComponent,
-    LayoutTabsDropdownComponent,
-    MenuComponent,
-    AppSideMenuComponent,
-    AppBuilderSideMenuComponent,
-    SiteLayoutComponent,
-    SiteFooterComponent,
-    SiteHeaderComponent,
-    ApplicationBuilderComponent,
+
+
     FormlyFieldStepper,
     LoginComponent,
     RegisterComponent,
-    MenuBuilderComponent,
-    LayoutTabsComponent,
-    LayoutDrawerComponent,
-    LayoutButtonComponent,
+
   ],
   imports: [
     FormsModule,

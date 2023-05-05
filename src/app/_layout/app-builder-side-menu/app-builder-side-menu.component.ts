@@ -81,7 +81,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
           this.selectedTheme.topHeader = 'w-full';
           this.selectedTheme.menuColumn = 'w-1/12';
           this.selectedTheme.rowClass = 'w-11/12';
-        } 
+        }
         else {
           this.selectedTheme.menuColumn = 'w-1/6';
           this.selectedTheme.rowClass = 'w-10/12';
@@ -171,6 +171,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
           this.selectedTheme['showMenu'] = true;
         }
         this.makeMenuData();
+        this.notifyEmit({emitData:true,screenType:"desktop"})
       }
       else
         this.newSelectedTheme.allMenuItems = [];

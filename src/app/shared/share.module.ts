@@ -32,6 +32,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { MenuComponent } from '../menu/menu.component';
+import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutTabsComponent,
+  AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
+  LayoutButtonComponent, } from '../_layout';
 
 @NgModule({
   imports:
@@ -74,6 +78,9 @@ import { GoogleChartsModule } from 'angular-google-charts';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    MenuComponent,
+
   ],
   exports: [
     FormsModule,
@@ -119,6 +126,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    MenuComponent,
   ],
   providers: [
   ],
