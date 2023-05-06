@@ -264,7 +264,7 @@ export class BuilderComponent implements OnInit {
     {
       "moduleName": this.screenName,
       "menuData": newData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "", 
+      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
     };
     this.screenId = mainModuleId[0].screenId;
     // if (this.screenId > 0) {
@@ -292,7 +292,7 @@ export class BuilderComponent implements OnInit {
               this.saveLoader = false;
             }
           })
-        } 
+        }
         else {
           this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
             next: (res) => {
@@ -2238,9 +2238,25 @@ export class BuilderComponent implements OnInit {
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
             });
+              this.selectedNode.title = event.form.title;
+              this.selectedNode.className = event.form.className;
+              this.selectedNode.tooltip = event.form.tooltip;
+              this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+              this.selectedNode.hideExpression = event.form.hideExpression;
+              this.selectedNode['id'] = event.form?.id;
+              this.selectedNode['key'] = event.form?.key;
+              this.selectedNode.sectionClassName = event.form.sectionClassName;
+              this.selectedNode.sectionDisabled = event.form.disabled;
+              this.selectedNode.borderColor = event.form.borderColor;
+              this.selectedNode.labelPosition = event.form.labelPosition;
+              this.selectedNode.repeatable = event.form.repeatable;
+              this.selectedNode.size = event.form.size;
+              this.selectedNode.status = event.form.status;
+              this.selectedNode.isBordered = event.form.isBordered;
+              this.selectedNode.formatAlignment = event.form.formatAlignment;
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
-              this.clickBack();
+                this.clickBack();
             }
           }
           this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
