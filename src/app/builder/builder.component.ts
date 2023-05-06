@@ -68,7 +68,6 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
-  jsonData: any = '';
   saveLoader : any = false;
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -205,38 +204,6 @@ export class BuilderComponent implements OnInit {
     this.oldIndex = index;
   }
 
-  // async applyOfflineDb(content:any){
-  //   let data  =await this.dataService.getNodes(this.screenName);
-  //   if(this.oldIndex != undefined){
-  //     if(content == 'previous' && this.oldIndex == 0)
-  //     {
-  //       return this.toastr.error("Sorry there is no JSON Backward");
-  //     }
-  //     else if(content == 'next' && this.oldIndex + 1 == data.length){
-  //       return this.toastr.error("Sorry there is no JSON Forward");
-  //     }
-  //     else{
-  //       if (this.oldIndex != undefined) {
-  //         for (let index = 0; index < data.length; index++) {
-  //             if (content == 'next' && index == this.oldIndex + 1) {
-  //               this.decryptData(data[index]);
-  //               this.oldIndex = index;
-  //               break;
-  //             } else if (content == 'previous' && index == this.oldIndex - 1) {
-  //               this.decryptData(data[index]);
-  //               this.oldIndex =index;
-  //               break;
-  //             }
-  //         }
-  //       }
-
-  //     }
-  //   }
-  //   else {
-  //     this.decryptData(data[data.length - 1]);
-  //     this.oldIndex = data.length - 1;
-  //   }
-  // }
   oldIndex: number;
   decryptData(data: any) {
     let decryptData = this._encryptionService.decryptData(data?.data)
@@ -254,66 +221,70 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    this.saveLoader = true;
-    if (this.selectedNode) {
-      this.highlightSelect(this.selectedNode.id, false);
-    }
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
-    var data =
+    if(this.screenPage)
     {
-      "moduleName": this.screenName,
-      "menuData": newData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-    };
-    this.screenId = mainModuleId[0].screenId;
-    // if (this.screenId > 0) {
-
-    this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
-      next: (res: any) => {
-        if (res.length > 0) {
-          this.requestSubscription = this.builderService.jsonDeleteBuilder(res[0].id).subscribe({
-            next: (res) => {
-              this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
-                next: (res) => {
-                  this.saveLoader = false;
-                  alert("Data Save");
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                  this.saveLoader = false;
-                }
-              })
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              this.saveLoader = false;
-            }
-          })
-        }
-        else {
-          this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
-            next: (res) => {
-              alert("Data Save");
-              this.saveLoader = false;
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              this.saveLoader = false;
-            }
-          })
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        this.saveLoader = false;
+      this.saveLoader = true;
+      if (this.selectedNode) {
+        this.highlightSelect(this.selectedNode.id, false);
       }
+      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+      var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
+      var data =
+      {
+        "moduleName": this.screenName,
+        "menuData": newData,
+        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+      };
+      this.screenId = mainModuleId[0].screenId;
+      // if (this.screenId > 0) {
 
-    })
+      this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
+        next: (res: any) => {
+          if (res.length > 0) {
+            this.requestSubscription = this.builderService.jsonDeleteBuilder(res[0].id).subscribe({
+              next: (res) => {
+                this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
+                  next: (res) => {
+                    this.saveLoader = false;
+                    alert("Data Save");
+                  },
+                  error: (err) => {
+                    console.error(err); // Log the error to the console
+                    this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                    this.saveLoader = false;
+                  }
+                })
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                this.saveLoader = false;
+              }
+            })
+          }
+          else {
+            this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
+              next: (res) => {
+                alert("Data Save");
+                this.saveLoader = false;
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                this.saveLoader = false;
+              }
+            })
+          }
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.saveLoader = false;
+        }
+
+      })
+    }
+
   }
   expandedKeys: any;
   previousScreenName: string = '';
@@ -3616,21 +3587,6 @@ export class BuilderComponent implements OnInit {
       return false;
     }
   };
-
-  jsonChange(event: any) {
-    let json = JSON.parse(event.target.value);
-    if (this.selectedNode) {
-      if (this.selectedNode?.children) {
-        this.selectedNode?.children.push(json);
-      }
-      this.updateNodes();
-      this.toastr.success("Json update successfully!", { nzDuration: 3000 });
-      this.jsonData = '';
-    }
-    else {
-      alert("please select against update json")
-    }
-  }
   findObjectByType(node: any, newNode: any,) {
     if (node.type === newNode.type && node.key === newNode.key) {
       node = newNode;
@@ -3643,13 +3599,27 @@ export class BuilderComponent implements OnInit {
     }
     return undefined;
   }
-
-  pasteJson() {
-    debugger
-    if (this.selectedNode && this.dataSharedService.copyJson) {
-      this.selectedNode.children?.push(JSON.parse(this.dataSharedService.copyJson));
-      this.updateNodes();
-      this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+  async pasteFromClipboard(): Promise<void> {
+    try {
+      const text = await navigator.clipboard.readText();
+      let updateData = JSON.parse(text);
+      if(updateData[0]){
+        if(updateData[0].type == 'page')
+          this.nodes = updateData;
+        if(updateData[0].type == 'sections')
+          this.selectedNode.children?.push(updateData[0]);
+        this.updateNodes();
+      }
+      else if(this.selectedNode && updateData){
+        this.selectedNode.children?.push(updateData);
+        this.updateNodes();
+        this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+      }
+      else{
+        this.toastr.error('Please select a data first!', { nzDuration: 3000 });
+      }
+    } catch (err) {
+      console.error('Failed to read from clipboard:', err);
     }
   }
 }

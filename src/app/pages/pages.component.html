@@ -1,137 +1,153 @@
 <div class="bg-white shadow-md  {{resData[0].highLight ? 'highLight' : ''}}" *ngIf="resData.length">
-    <!-- PAGE HEADER -->
+  <!-- PAGE HEADER -->
+  <span [contextMenu]="oneContextMenuPage">
+    <context-menu #oneContextMenuPage>
+      <ng-template contextMenuItem (execute)="copyPageJson(resData)" [visible]="true">Copy
+        Page</ng-template>
+    </context-menu>
     <div class="site-page-header-ghost-wrapper"
-        [ngStyle]="{'border-bottom': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
-        *ngIf="resData[0].children[0].header">
-        <div *ngFor="let item of resData[0]?.children[0].children">
-            <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'topHeader'">
-                <st-new-alerts [alertData]="item"></st-new-alerts>
+      [ngStyle]="{'border-bottom': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
+      *ngIf="resData[0].children[0].header">
+      <div *ngFor="let item of resData[0]?.children[0].children">
+        <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'topHeader'">
+          <st-new-alerts [alertData]="item"></st-new-alerts>
+        </ng-container>
+      </div>
+      <nz-page-header
+        class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
+        [nzGhost]="false">
+        <nz-page-header-title [class]="resData[0].children[0].headingSize" class=" ng-heading">
+          {{resData[0].children[0].title}}
+        </nz-page-header-title>
+        <nz-page-header-extra>
+          <div *ngFor="let item of resData[0]?.children[0].children">
+            <ng-container *ngIf="item.type != 'alert'">
+              <st-block-buttons-card [softIconList]=" item"></st-block-buttons-card>
             </ng-container>
-        </div>
-        <nz-page-header
-            class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
-            [nzGhost]="false">
-            <nz-page-header-title [class]="resData[0].children[0].headingSize" class=" ng-heading">
-                {{resData[0].children[0].title}}
-            </nz-page-header-title>
-            <nz-page-header-extra>
-                <div *ngFor="let item of resData[0]?.children[0].children">
-                    <ng-container *ngIf="item.type != 'alert'">
-                        <st-block-buttons-card [softIconList]=" item"></st-block-buttons-card>
-                    </ng-container>
-                    <ng-container *ngIf="item.type == 'alert' &&  resData[0]?.children[0].alertPosition == 'inside'">
-                        <st-new-alerts [alertData]="item"></st-new-alerts>
-                    </ng-container>
-                </div>
-            </nz-page-header-extra>
-        </nz-page-header>
-        <div *ngFor="let item of resData[0]?.children[0].children">
-            <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'bottomHeader'">
-                <st-new-alerts [alertData]="item"></st-new-alerts>
+            <ng-container *ngIf="item.type == 'alert' &&  resData[0]?.children[0].alertPosition == 'inside'">
+              <st-new-alerts [alertData]="item"></st-new-alerts>
             </ng-container>
-        </div>
+          </div>
+        </nz-page-header-extra>
+      </nz-page-header>
+      <div *ngFor="let item of resData[0]?.children[0].children">
+        <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'bottomHeader'">
+          <st-new-alerts [alertData]="item"></st-new-alerts>
+        </ng-container>
+      </div>
     </div>
-    <!-- SECTION -->
-    <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
-        <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className" class="pb-2"
-            [ngClass]="{'highLight': j.highLight}" [ngStyle]="{
+  </span>
+
+  <!-- SECTION -->
+  <div class="flex flex-wrap" [ngClass]="{'highLight': resData[0].children[1].highLight}">
+
+    <div *ngFor="let j of resData[0].children[1].children ; index as i" [class]="j.className" class="pb-2"
+      [ngClass]="{'highLight': j.highLight}" [ngStyle]="{
                 'padding-left': ((j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' || j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2') && i % 2 !== 0) ? '3px' : ((j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/4 xl:w-1/4') ? '3px' : ''),
                 'padding-right': (j.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' && i % 2 !== 0) ? '3px' : '',
                 'border-color': j.borderColor + '!important'
               }">
-            <!-- INCOLAPSSABLE CASE -->
-            <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0]?.expanded"
-                [style]="{'border-color': j.borderColor + '!important'}">
-                <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}" *ngIf="j.children[0].header"
-                    [style]="{'border-color': j.borderColor + '!important'}">
-                    <nz-page-header [style]="{'background-color': j.children[0].backGroundColor}"
-                        class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
-                        [nzGhost]="false">
-                        <nz-page-header-title [style]="{'color': j.children[0].textColor}"
-                            [class]="j.children[0].headingSize" class="ng-subheading">{{j.children[0].title}}
-                        </nz-page-header-title>
-                        <nz-page-header-extra>
-                            <nz-space>
-                                <div *ngFor="let item of j.children[0].children">
-                                    <st-block-buttons-card [softIconList]="item">
-                                    </st-block-buttons-card>
-                                </div>
-                                <div *ngIf="j.sectionDisabled == 'disabled-But-ditable'">
-                                    <a nz-button nzType="link"
-                                        (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
-                                </div>
-                                <div *ngIf="j?.repeatable">
-                                    <a nz-button nzType="link"
-                                    (click)="sectionRepeat(j)">Repeat Section</a>
-                                </div>
-                            </nz-space>
-                        </nz-page-header-extra>
-                    </nz-page-header>
-                </div>
-                <div class="{{j.children[1].className}} {{j.children[1].highLight ? 'highLight' : ''}} "
-                    [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
-                    <st-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
-                        [screenName]="screenName"></st-main>
-                </div>
-                <div class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
-                    *ngIf="j.children[2].footer"
-                    [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
-                    {{j.children[2].title}}
-                    <ng-container *ngFor="let item of j.children[2].children">
-                        <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup'"
-                            [softIconList]="item"></st-block-buttons-card>
-                    </ng-container>
-                </div>
-            </div>
-            <!-- COLLAPSABLE CASE -->
-            <div *ngIf="j.children[0]?.expanded">
-                <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
-                    <nz-collapse-panel class="text-black font-semibold border-black-500 {{ j.children[0].headingSize}}"
-                        [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"
-                        [ngStyle]="j.isBordered?{'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important','border-color': j.borderColor + '!important'}:{'border-radius': '4px','border': '0px','border-color': j.borderColor + '!important', 'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important'}">
-                        <div class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}} {{j.children[1].className}}"
-                            *ngIf="resData.length > 0"
-                            [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
-                            <st-main [mainData]="j.children[1].children" [dataModel]="formlyModel"
-                                [screenName]="screenName" [screenId]="screenId"></st-main>
-                        </div>
-                        <div class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
-                            *ngIf="j.children[2].footer"
-                            [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
-                            {{j.children[2].title}}
-                            <ng-container *ngFor="let item of j.children[2].children">
-                                <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup'"
-                                    [softIconList]="item"></st-block-buttons-card>
-                            </ng-container>
-                        </div>
-                    </nz-collapse-panel>
-                    <ng-template #extraTpl>
-                        <div *ngFor="let item of j.children[0].children">
-                            <st-block-buttons-card [softIconList]="item">
-                            </st-block-buttons-card>
-                        </div>
-                        <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
-                            <a nz-button nzType="link" (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
-                        </div>
-                        <div *ngIf="j.repeatable">
-                            <a nz-button nzType="link"
-                            (click)="sectionRepeat(j)">Repeat Section</a>
-                        </div>
-                    </ng-template>
-                </nz-collapse>
-                <ng-template #extraTpl>
-                    <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
-                </ng-template>
-            </div>
+      <span [contextMenu]="oneContextMenu">
+        <context-menu #oneContextMenu>
+          <ng-template contextMenuItem (execute)="copySectionJson(resData[0].children[1].children)"
+            [visible]="true">Copy
+            Section</ng-template>
+        </context-menu>
+        <!-- INCOLAPSSABLE CASE -->
+        <div class="{{j.isBordered?'border': ''}}" *ngIf="!j.children[0]?.expanded"
+          [style]="{'border-color': j.borderColor + '!important'}">
+          <div class="site-page-header-ghost-wrapper {{j.isBordered?'border-b': ''}}" *ngIf="j.children[0].header"
+            [style]="{'border-color': j.borderColor + '!important'}">
+            <nz-page-header [style]="{'background-color': j.children[0].backGroundColor}"
+              class="pl-6 pt-1 pb-1 font-semibold text-lg {{j.children[0].highLight ? 'highLight' : ''}}"
+              [nzGhost]="false">
+              <nz-page-header-title [style]="{'color': j.children[0].textColor}" [class]="j.children[0].headingSize"
+                class="ng-subheading">{{j.children[0].title}}
+              </nz-page-header-title>
+              <nz-page-header-extra>
+                <nz-space>
+                  <div *ngFor="let item of j.children[0].children">
+                    <st-block-buttons-card [softIconList]="item">
+                    </st-block-buttons-card>
+                  </div>
+                  <div *ngIf="j.sectionDisabled == 'disabled-But-ditable'">
+                    <a nz-button nzType="link" (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
+                  </div>
+                  <div *ngIf="j?.repeatable">
+                    <a nz-button nzType="link" (click)="sectionRepeat(j)">Repeat Section</a>
+                  </div>
+                </nz-space>
+              </nz-page-header-extra>
+            </nz-page-header>
+          </div>
+          <div class="{{j.children[1].className}} {{j.children[1].highLight ? 'highLight' : ''}} "
+            [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
+            <st-main [mainData]="j.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
+              [screenName]="screenName"></st-main>
+          </div>
+          <div
+            class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
+            *ngIf="j.children[2].footer"
+            [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
+            {{j.children[2].title}}
+            <ng-container *ngFor="let item of j.children[2].children">
+              <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup'"
+                [softIconList]="item"></st-block-buttons-card>
+            </ng-container>
+          </div>
         </div>
-    </div>
-    <!-- PAGE FOOTER -->
-    <div [ngStyle]="{'border-top': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
-        class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}"
-        *ngIf="resData[0].children[2].footer" class="ng-subheading">
-        {{resData[0].children[2].title}}
-        <div *ngFor="let item of resData[0].children[2].children">
-            <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
+        <!-- COLLAPSABLE CASE -->
+        <div *ngIf="j.children[0]?.expanded">
+          <nz-collapse *ngIf="j.children[0].header" [nzBordered]="j.isBordered">
+            <nz-collapse-panel class="text-black font-semibold border-black-500 {{ j.children[0].headingSize}}"
+              [nzHeader]="j.children[0].title" [nzExtra]="extraTpl"
+              [ngStyle]="j.isBordered?{'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important','border-color': j.borderColor + '!important'}:{'border-radius': '4px','border': '0px','border-color': j.borderColor + '!important', 'background-color': j.children[0].backGroundColor +'!important', 'color': j.children[0].textColor +'!important'}">
+              <div
+                class="px-3 font-normal text-base {{j.children[1].highLight ? 'highLight' : ''}} {{j.children[1].className}}"
+                *ngIf="resData.length > 0"
+                [style]="{'background-color': j.children[1].backGroundColor,'color': j.children[1].textColor}">
+                <st-main [mainData]="j.children[1].children" [dataModel]="formlyModel" [screenName]="screenName"
+                  [screenId]="screenId"></st-main>
+              </div>
+              <div
+                class="py-3 px-10 ng-subheading {{j.isBordered?'border-t': ''}} {{j.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-row"
+                *ngIf="j.children[2].footer"
+                [style]="{'background-color': j.children[2].backGroundColor,'color': j.children[2].textColor, 'border-color': j.borderColor + '!important'}">
+                {{j.children[2].title}}
+                <ng-container *ngFor="let item of j.children[2].children">
+                  <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup'"
+                    [softIconList]="item"></st-block-buttons-card>
+                </ng-container>
+              </div>
+            </nz-collapse-panel>
+            <ng-template #extraTpl>
+              <div *ngFor="let item of j.children[0].children">
+                <st-block-buttons-card [softIconList]="item">
+                </st-block-buttons-card>
+              </div>
+              <div *ngIf="j?.sectionDisabled == 'disabled-But-ditable'">
+                <a nz-button nzType="link" (click)="traverseAndChange(j.children[1],'disabled')">Disabled</a>
+              </div>
+              <div *ngIf="j.repeatable">
+                <a nz-button nzType="link" (click)="sectionRepeat(j)">Repeat Section</a>
+              </div>
+            </ng-template>
+          </nz-collapse>
+          <ng-template #extraTpl>
+            <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
+          </ng-template>
         </div>
+      </span>
     </div>
+
+  </div>
+  <!-- PAGE FOOTER -->
+  <div [ngStyle]="{'border-top': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
+    class="py-3 px-6 text-black font-semibold text-lg {{resData[0].children[2].highLight ? 'highLight' : ''}}"
+    *ngIf="resData[0].children[2].footer" class="ng-subheading">
+    {{resData[0].children[2].title}}
+    <div *ngFor="let item of resData[0].children[2].children">
+      <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
+    </div>
+  </div>
 </div>
