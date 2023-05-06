@@ -1,3 +1,4 @@
+<button nz-button nzType="primary" (click)="pasteFromClipboard()">Paste Data</button>
 <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="card-content  flex flex-wrap">
         <div class="{{!item.hideExpression   ? item.className : ''}}"

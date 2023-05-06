@@ -264,19 +264,34 @@ export class MainComponent implements OnInit {
     }
     return null;
   }
+  // copyJson(json: any) {
+  //   debugger
+  //   if (json) {
+  //     const jsonText = JSON.stringify(json);
+  //     navigator.clipboard.writeText(jsonText).then(() => {
+  //       // this.clipboard.copy(JSON.stringify(jsonText, null, 2));
+  //       this.dataSharedService.copyJson = jsonText;
+  //       this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 });
+  //       console.log('JSON copied to clipboard');
+  //     }, (error) => {
+  //       this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 });
+  //       console.error('Error copying JSON to clipboard:', error);
+  //     });
+  //   }
+  // }
   copyJson(json: any) {
     debugger
-    if (json) {
-      const jsonText = JSON.stringify(json);
-      navigator.clipboard.writeText(jsonText).then(() => {
-        // this.clipboard.copy(JSON.stringify(jsonText, null, 2));
-        this.dataSharedService.copyJson = jsonText;
-        this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 });
-        console.log('JSON copied to clipboard');
-      }, (error) => {
-        this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 });
-        console.error('Error copying JSON to clipboard:', error);
-      });
+    let data = JSON.stringify(json);
+    this.clipboard.copy(data);
+    alert('Copied to clipboard');
+  }
+  async pasteFromClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      // Set the clipboard text to an input field or variable
+      let myInput = text;
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
     }
   }
 }
