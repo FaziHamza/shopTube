@@ -196,6 +196,26 @@ export class formFeildData {
           }
         },
         {
+          key: 'hoverBorderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover Border Color'
+          }
+        },
+        {
+          key: 'borderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Border Color'
+          }
+        },
+        {
           key: 'format',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -345,6 +365,39 @@ export class formFeildData {
             ]
           },
           defaultValue: ''
+        },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeCount',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Badge Count',
+          }
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -709,6 +762,26 @@ export class formFeildData {
             label: 'Bg color on hover'
           }
         },
+        {
+          key: 'hoverBorderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover Border Color'
+          }
+        },
+        {
+          key: 'borderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Border Color'
+          }
+        },
         // {
         //   key: 'btnIcon',
         //   type: 'input',
@@ -867,6 +940,39 @@ export class formFeildData {
         //     label: 'Data Table'
         //   }
         // },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeCount',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Badge Count',
+          }
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
@@ -1032,6 +1138,26 @@ export class formFeildData {
           }
         },
         {
+          key: 'hoverBorderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover Border Color'
+          }
+        },
+        {
+          key: 'borderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Border Color'
+          }
+        },
+        {
           key: 'format',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1135,6 +1261,39 @@ export class formFeildData {
               },
             ]
           },
+        },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeCount',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Badge Count',
+          }
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -3930,6 +4089,62 @@ export class formFeildData {
           }
         },
         {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              {
+                label: 'Ribbon',
+                value: 'ribbon'
+              },
+              // {
+              //   label: 'Count',
+              //   value: 'count'
+              // },
+              // {
+              //   label: 'Dot',
+              //   value: 'dot'
+              // },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeRibbonText',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Ribbon Text',
+          }
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'badgeCount',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'Badge Count',
+        //   }
+        // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'dot_ribbon_color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Ribbon Color',
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'footerTextColor',
           type: 'input',
@@ -5703,6 +5918,62 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Extra',
+          }
+        },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              {
+                label: 'Ribbon',
+                value: 'ribbon'
+              },
+              // {
+              //   label: 'Count',
+              //   value: 'count'
+              // },
+              // {
+              //   label: 'Dot',
+              //   value: 'dot'
+              // },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeRibbonText',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Ribbon Text',
+          }
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'badgeCount',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'Badge Count',
+        //   }
+        // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'dot_ribbon_color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Ribbon Color',
           }
         },
         {
@@ -10370,6 +10641,29 @@ export class formFeildData {
           }
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'buttonPlacement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'text-left'
+              },
+              {
+                label: 'Right',
+                value: 'text-right'
+              },
+              {
+                label: 'Center',
+                value: 'text-center'
+              },
+            ]
+          }
+        },
+        {
           className: "w-1/2 w-1/2",
           key: 'pauseOnHover',
           type: 'checkbox',
@@ -11378,6 +11672,53 @@ export class formFeildData {
             label: 'Icon Color',
           },
         },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },        
+              // {
+              //   label: 'Ribbon',
+              //   value: 'ribbon'
+              // },
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+            ],
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeCount',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Badge Count',
+          }
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'dot_ribbon_color',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'color',
+        //     label: 'Dot Color',
+        //   }
+        // },
       ]
     },
   ];

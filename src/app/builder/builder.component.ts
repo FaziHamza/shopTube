@@ -816,7 +816,7 @@ export class BuilderComponent implements OnInit {
       obj.key = data?.configType.toLowerCase() + "_" + Guid.newGuid()
     }
     if (this.addControl) {
-      this.controls(value, data,obj);
+      this.controls(value, data, obj);
     }
     else {
 
@@ -834,14 +834,14 @@ export class BuilderComponent implements OnInit {
       modal.afterClose.subscribe(res => {
         debugger
         if (res) {
-          this.controls(value, data,obj, res);
+          this.controls(value, data, obj, res);
         }
       });
     }
 
 
   }
-  controls(value: any, data: any,obj?: any, res?: any ) {
+  controls(value: any, data: any, obj?: any, res?: any) {
     if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
       this.selectForDropdown = this.selectedNode;
     }
@@ -2209,25 +2209,25 @@ export class BuilderComponent implements OnInit {
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
             });
-              this.selectedNode.title = event.form.title;
-              this.selectedNode.className = event.form.className;
-              this.selectedNode.tooltip = event.form.tooltip;
-              this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
-              this.selectedNode.hideExpression = event.form.hideExpression;
-              this.selectedNode['id'] = event.form?.id;
-              this.selectedNode['key'] = event.form?.key;
-              this.selectedNode.sectionClassName = event.form.sectionClassName;
-              this.selectedNode.sectionDisabled = event.form.disabled;
-              this.selectedNode.borderColor = event.form.borderColor;
-              this.selectedNode.labelPosition = event.form.labelPosition;
-              this.selectedNode.repeatable = event.form.repeatable;
-              this.selectedNode.size = event.form.size;
-              this.selectedNode.status = event.form.status;
-              this.selectedNode.isBordered = event.form.isBordered;
-              this.selectedNode.formatAlignment = event.form.formatAlignment;
+            this.selectedNode.title = event.form.title;
+            this.selectedNode.className = event.form.className;
+            this.selectedNode.tooltip = event.form.tooltip;
+            this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+            this.selectedNode.hideExpression = event.form.hideExpression;
+            this.selectedNode['id'] = event.form?.id;
+            this.selectedNode['key'] = event.form?.key;
+            this.selectedNode.sectionClassName = event.form.sectionClassName;
+            this.selectedNode.sectionDisabled = event.form.disabled;
+            this.selectedNode.borderColor = event.form.borderColor;
+            this.selectedNode.labelPosition = event.form.labelPosition;
+            this.selectedNode.repeatable = event.form.repeatable;
+            this.selectedNode.size = event.form.size;
+            this.selectedNode.status = event.form.status;
+            this.selectedNode.isBordered = event.form.isBordered;
+            this.selectedNode.formatAlignment = event.form.formatAlignment;
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
-                this.clickBack();
+              this.clickBack();
             }
           }
           this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
@@ -3330,12 +3330,13 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
-
     let _formFieldData = new formFeildData();
     if (_formFieldData.commonIconFields[0].fieldGroup) {
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (element.key != 'icon' || allowIcon) {
-          configurationFields[0].fieldGroup.unshift(element)
+        if (element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
+          if (element.key != 'icon' || allowIcon) {
+            configurationFields[0].fieldGroup.unshift(element)
+          }
         }
       });
     }

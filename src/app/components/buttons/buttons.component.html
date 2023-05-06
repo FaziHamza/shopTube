@@ -12,7 +12,7 @@
   [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [ngStyle]="{
     'background-color': bgColor || buttonData.color,
-    'border-color': borderColor || buttonData.textColor,
+    'border-color': borderColor || buttonData.borderColor,
     'color': hoverTextColor || buttonData.textColor
   }"
   (click)="handleButtonClick(buttonData)"
@@ -46,13 +46,17 @@
     [nzSize]="buttonData.nzSize"
     [nzBlock]="buttonData.nzBlock"
     [nzLoading]="buttonData.nzLoading"
-    [ngStyle]="{ 'background-color': bgColor || buttonData.color }"
+    [ngStyle]="{ 'background-color': bgColor || buttonData.color ,
+    'border-color': borderColor || buttonData.borderColor
+  }"
     [class]="[buttonData.color, buttonData.hoverColor]"
     (mouseover)="bgColor = buttonData?.hoverColor"
     (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)"
+    (mouseover)="handleButtonMouseOver(buttonData)"
+  (mouseout)="handleButtonMouseOut(buttonData)"
   >
-    <span>
+    <span [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
       <st-icon
         *ngIf="buttonData.btnIcon"
         [icon]="buttonData.btnIcon"
@@ -84,7 +88,7 @@
           [ngStyle]="{
             'background-color': bgColor || buttonData.color,
             'color': hoverTextColor || buttonData.textColor,
-            'border-color': borderColor || ''
+            'border-color': borderColor || buttonData.borderColor
           }"
           (mouseover)="handleButtonMouseOver(buttonData)"
           (mouseout)="handleButtonMouseOut(buttonData)">

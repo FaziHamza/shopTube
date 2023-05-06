@@ -128,6 +128,10 @@ export class AddControlService {
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
+      badgeType : 'none',
+      badgeCount : '',
+      hoverBorderColor:'',
+      borderColor:'',
     }
   }
   getDropdownButtonControl() {
@@ -156,24 +160,28 @@ export class AddControlService {
       hoverTextColor: '',
       dataTable: '',
       btnLabelPaddingClass: '',
+      hoverBorderColor:'',
+      borderColor:'',
       dropdownOptions: [
         {
           label: "Option 1",
-          link: "Link 1",
+          link: "",
         },
         {
           label: "Option 2",
-          link: "Link 1",
+          link: "",
         },
         {
           label: "Option 3",
-          link: "Link 1",
+          link: "",
         },
         {
           label: "Option 4",
-          link: "Link 1",
+          link: "",
         },
       ],
+      badgeType : 'none',
+      badgeCount : '',
     }
   }
   getCardWithComponentsControl() {
@@ -195,7 +203,10 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
-	  
+      badgeType : 'none',
+      badgeRibbonText : '',
+      badgeCount : '',
+      dot_ribbon_color:'#E93F3F',
     }
   }
   getSwitchControl() {
@@ -383,7 +394,10 @@ export class AddControlService {
       footer: false,
       headerTextColor: '',
       footerTextColor: '',
-
+      badgeType : 'none',
+      badgeRibbonText : '',
+      badgeCount : '',
+      dot_ribbon_color:'#E93F3F',
     }
   }
   getTabsControl() {
@@ -526,6 +540,10 @@ export class AddControlService {
       iconSize: 15,
       dataTable: '',
       btnLabelPaddingClass: '',
+      badgeType : 'none',
+      badgeCount : '',
+      hoverBorderColor:'',
+      borderColor:'',
     }
   }
   simplecardControl() {
@@ -1775,6 +1793,7 @@ export class AddControlService {
       iconSize: 15,
       iconColor: '',
       btnText:'Notification',
+      buttonPlacement:'text-left'
     }
   }
   iconControl() {
@@ -1783,6 +1802,9 @@ export class AddControlService {
       icon: 'star',
       iconType: 'outline',
       iconSize: 15,
+      badgeType : 'none',
+      badgeCount : '',
+      dot_ribbon_color:'#E93F3F',
     }
   }
   barChartControl() {

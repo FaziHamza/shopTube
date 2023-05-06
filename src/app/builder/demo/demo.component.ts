@@ -12,6 +12,8 @@ import { HttpClient } from "@angular/common/http";
 })
 export class DemoComponent implements OnInit {
   @ViewChild('userMenu') userMenu: TemplateRef<any>;
+  menuItems : any = []; 
+
 
   overlayRef: OverlayRef | null;
   source: any;
@@ -31,6 +33,7 @@ export class DemoComponent implements OnInit {
   listOfData: any;
   sub: Subscription;
   showContextMenu = false;
+  isCollapsed = false;
   // xPos = 0;
   // yPos = 0;
   // menuItems = [
@@ -39,12 +42,66 @@ export class DemoComponent implements OnInit {
   //   { label: 'Paste', action: () => { console.log('Paste clicked'); } }
   // ];
   constructor(private http: HttpClient,
-    public viewContainerRef: ViewContainerRef,
-    
-  ) {
-
-  }
+    public viewContainerRef: ViewContainerRef,) {}
   ngOnInit(): void {
+    this.menuItems = [
+      {
+        title: 'Navigation One',
+        icon: 'mail',
+        selected: true,
+        children: [
+          {
+            title: 'Option 1'
+          },
+          {
+            title: 'Option 2'
+          }
+        ]
+      },
+      {
+        title: 'Navigation Two',
+        icon: 'appstore',
+        children: [
+          {
+            title: 'Option 5'
+          },
+          {
+            title: 'Option 6'
+          },
+          {
+            title: 'Submenu',
+            children: [
+              {
+                title: 'Option 7'
+              },
+              {
+                title: 'Option 8'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: 'Navigation Three',
+        icon: 'setting',
+        children: [
+          {
+            title: 'Option 9'
+          },
+          {
+            title: 'Option 10'
+          },
+          {
+            title: 'Option 11'
+          }
+        ]
+      },
+      {
+        title: 'Navigation Four',
+        icon: 'user'
+        // This menu item has no children
+      }
+    ];
     // document.addEventListener('contextmenu', event => {
     //   event.preventDefault();
     //   this.showContextMenu = true;
@@ -122,6 +179,10 @@ export class DemoComponent implements OnInit {
     { name: 'John', otherProperty: 'Foo' },
     { name: 'Joe', otherProperty: 'Bar' }
   ];
+
+  toggleCollapsed(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
   // @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
 
 

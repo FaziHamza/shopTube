@@ -79,8 +79,16 @@
                         <ng-template #twelth>
                             <div
                                 *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
-
-                                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+                                <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'"
+                                    [nzCount]="item?.badgeCount">
+                                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+                                    </st-block-buttons-card>
+                                </nz-badge>
+                                <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
+                                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+                                    </st-block-buttons-card></nz-badge>
+                                <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+                                    (notify)="saveData($event)" [softIconList]="item">
                                 </st-block-buttons-card>
                             </div>
                         </ng-template>
@@ -91,13 +99,34 @@
                         </ng-template>
                         <ng-template #forteenth>
                             <div *ngIf="item.type =='icon'; else fifteen">
-                                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                                <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
+                                    <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                                        [color]="item.iconColor"></st-icon>
+                                </nz-badge>
+                                <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
+                                    <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                                        [color]="item.iconColor"></st-icon>
+                                </nz-badge>
+                                <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
+                                    item.iconType" [icon]="item.icon" [size]="item.iconSize"
                                     [color]="item.iconColor"></st-icon>
                             </div>
                         </ng-template>
                         <ng-template #fifteen>
                             <div *ngIf="item.type =='cardWithComponents'; else sixteen">
-                                <app-card-with-components [item]="item"></app-card-with-components>
+                                <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
+                                    [nzText]="item?.badgeRibbonText">
+                                    <app-card-with-components [item]="item"></app-card-with-components>
+                                </nz-ribbon>
+                                <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
+                                    <app-card-with-components [item]="item"></app-card-with-components>
+                                </nz-badge>
+                                <nz-badge *ngIf="item?.badgeType == 'dot'" [nzColor]="item.dot_ribbon_color" nzDot>
+                                    <app-card-with-components [item]="item"></app-card-with-components>
+                                </nz-badge> -->
+                                <app-card-with-components
+                                    *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+                                    [item]="item"></app-card-with-components>
                             </div>
                         </ng-template>
                         <ng-template #sixteen>
@@ -161,7 +190,13 @@
                         </ng-template>
                         <ng-template #twentysix>
                             <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
-                                <st-simple-card-with-header-body-footer [cardData]="item">
+                                <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
+                                    [nzText]="item?.badgeRibbonText">
+                                    <st-simple-card-with-header-body-footer [cardData]="item">
+                                    </st-simple-card-with-header-body-footer>
+                                </nz-ribbon>
+                                <st-simple-card-with-header-body-footer
+                                    *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [cardData]="item">
                                 </st-simple-card-with-header-body-footer>
                             </div>
                         </ng-template>
@@ -269,8 +304,7 @@
                             </div>
                         </ng-template>
                         <ng-template #fourtyOne>
-                            <div
-                                *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
+                            <div *ngIf="item.type == 'rangeSlider' ; else fourtyTwo">
                                 <st-rang-inputs [rangSlider]="item"></st-rang-inputs>
                             </div>
                         </ng-template>
