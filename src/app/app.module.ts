@@ -9,9 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page.component';
 import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
-import { MenuComponent } from './menu/menu.component';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
-import { AppSideMenuComponent } from './_layout/app-side-menu/app-side-menu.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
@@ -22,13 +20,8 @@ import { RegisterComponent } from './user/register/register.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { AngularSplitModule } from 'angular-split';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
-import { LayoutButtonComponent } from './_layout/layout-button/layout-button.component';
-import { LayoutTabsComponent } from './_layout/layout-tabs/layout-tabs.component';
-import { LayoutDrawerComponent } from './_layout/layout-drawer/layout-drawer.component';
-
 import { CommonModule } from '@angular/common';
 import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
-import { LayoutTabsDropdownComponent } from './_layout/layout-tabs-dropdown/layout-tabs-dropdown.component';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
@@ -43,12 +36,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     HomePageComponent,
     fieldComponents,
     SideMenuBuildComponent,
-
-
     FormlyFieldStepper,
     LoginComponent,
     RegisterComponent,
-
   ],
   imports: [
     FormsModule,

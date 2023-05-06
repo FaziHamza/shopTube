@@ -37,6 +37,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutTabsComponent,
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
   LayoutButtonComponent, } from '../_layout';
+import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
 
 @NgModule({
   imports:
@@ -81,7 +82,7 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
     CardWithComponentsComponent,
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
-
+    MainsComponent,PageComponent,SectionsComponent
   ],
   exports: [
     FormsModule,
@@ -129,6 +130,7 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
     CardWithComponentsComponent,
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
+    MainsComponent,PageComponent,SectionsComponent
   ],
   providers: [
   ],

@@ -3603,24 +3603,29 @@ export class BuilderComponent implements OnInit {
   async pasteFromClipboard(): Promise<void> {
     try {
       const text = await navigator.clipboard.readText();
-      let updateData = JSON.parse(text);
-      if(updateData[0]){
-        if(updateData[0].type == 'page')
-          this.nodes = updateData;
-        if(updateData[0].type == 'sections')
-          this.selectedNode.children?.push(updateData[0]);
-        this.updateNodes();
-      }
-      else if(this.selectedNode && updateData){
-        this.selectedNode.children?.push(updateData);
-        this.updateNodes();
-        this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+      if(text){
+        let updateData = JSON.parse(text);
+        if(updateData[0]){
+          if(updateData[0].type == 'page')
+            this.nodes = updateData;
+          if(updateData[0].type == 'sections')
+            this.selectedNode.children?.push(updateData[0]);
+          this.updateNodes();
+        }
+        else if(this.selectedNode && updateData){
+          this.selectedNode.children?.push(updateData);
+          this.updateNodes();
+          this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+        }
+        else{
+          this.toastr.error('Please select a data first!', { nzDuration: 3000 });
+        }
       }
       else{
         this.toastr.error('Please select a data first!', { nzDuration: 3000 });
       }
     } catch (err) {
-      console.error('Failed to read from clipboard:', err);
+      this.toastr.error('Please copy correct data!', { nzDuration: 3000 });
     }
   }
 }

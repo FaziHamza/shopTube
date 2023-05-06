@@ -135,8 +135,8 @@
                     <div class="flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
                       [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
                       <div (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-                        <span *ngIf="node.title">{{node.title}}</span>
-                        <span *ngIf="!node.title"> {{node.origin.id}}</span>
+                        <span *ngIf="node.origin.title">{{node.title}}</span>
+                        <span *ngIf="!node.origin.title"> {{node.origin.id}}</span>
                       </div>
                       <span *ngIf="screenPage" class="row-icon">
                         <span class=" mx-1" *ngIf="isVisible === node.origin.id" (click)="insertAt(node)">

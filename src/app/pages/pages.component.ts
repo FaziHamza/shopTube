@@ -36,9 +36,11 @@ export class PagesComponent implements OnInit {
   businessRuleData: any;
   @Input() screenName = '';
   @Input() screenId: any;
-  requestSubscription: Subscription
+  requestSubscription: Subscription;
+  isPageContextShow = false;
   ngOnInit(): void {
-
+    if(this.router.url.includes('/pages'))
+        this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
@@ -416,7 +418,8 @@ export class PagesComponent implements OnInit {
     try {
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
       let newNode = JSON.parse(JSON.stringify(section));
-      this.traverseAndChange(newNode, 'copy');
+      let obj = {node:newNode,type:'copy'};
+      this.traverseAndChange(obj);
       this.resData[0].children[1].children.splice(idx as number + 1, 0, newNode);
       this.resData = [...this.resData];
     } catch (error: any) {
@@ -434,17 +437,18 @@ export class PagesComponent implements OnInit {
     }
     return node;
   }
-  traverseAndChange(node: any, type?: any) {
+  traverseAndChange(event:any) {
 
-    if (node) {
-      if (type == 'copy') {
-        node = this.changeIdAndkey(node);
-      } else if (type == 'disabled') {
-        node = this.disabledAndEditableSection(node);
+    if (event.node) {
+      if (event.type == 'copy') {
+        event.node = this.changeIdAndkey(event.node);
+      } else if (event.type == 'disabled') {
+        event.node = this.disabledAndEditableSection(event.node);
       }
-      if (node.children) {
-        node.children.forEach((child: any) => {
-          this.traverseAndChange(child, type);
+      if (event.node.children) {
+        event.node.children.forEach((child: any) => {
+          let obj = {node:child,type:event.type};
+          this.traverseAndChange(obj);
         });
       }
     }

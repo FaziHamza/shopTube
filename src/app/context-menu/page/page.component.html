@@ -1,0 +1,31 @@
+<div class="site-page-header-ghost-wrapper"
+[ngStyle]="{'border-bottom': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
+*ngIf="resData[0].children[0].header">
+<div *ngFor="let item of resData[0]?.children[0].children">
+  <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'topHeader'">
+    <st-new-alerts [alertData]="item"></st-new-alerts>
+  </ng-container>
+</div>
+<nz-page-header
+  class="site-page-header font-semibold pl-6 pt-1 pb-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
+  [nzGhost]="false">
+  <nz-page-header-title [class]="resData[0].children[0].headingSize" class=" ng-heading">
+    {{resData[0].children[0].title}}
+  </nz-page-header-title>
+  <nz-page-header-extra>
+    <div *ngFor="let item of resData[0]?.children[0].children">
+      <ng-container *ngIf="item.type != 'alert'">
+        <st-block-buttons-card [softIconList]=" item"></st-block-buttons-card>
+      </ng-container>
+      <ng-container *ngIf="item.type == 'alert' &&  resData[0]?.children[0].alertPosition == 'inside'">
+        <st-new-alerts [alertData]="item"></st-new-alerts>
+      </ng-container>
+    </div>
+  </nz-page-header-extra>
+</nz-page-header>
+<div *ngFor="let item of resData[0]?.children[0].children">
+  <ng-container *ngIf="item.type == 'alert' && resData[0]?.children[0].alertPosition == 'bottomHeader'">
+    <st-new-alerts [alertData]="item"></st-new-alerts>
+  </ng-container>
+</div>
+</div>

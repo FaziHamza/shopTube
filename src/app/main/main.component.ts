@@ -45,6 +45,8 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.getJoiValidation();
+    if(this.router.url.includes('/pages'))
+      this.isShowContextMenu = true;
   }
 
   submit() {
@@ -266,21 +268,6 @@ export class MainComponent implements OnInit {
     }
     return null;
   }
-  // copyJson(json: any) {
-  //   debugger
-  //   if (json) {
-  //     const jsonText = JSON.stringify(json);
-  //     navigator.clipboard.writeText(jsonText).then(() => {
-  //       // this.clipboard.copy(JSON.stringify(jsonText, null, 2));
-  //       this.dataSharedService.copyJson = jsonText;
-  //       this.toastr.success("JSON copied to clipboard", { nzDuration: 3000 });
-  //       console.log('JSON copied to clipboard');
-  //     }, (error) => {
-  //       this.toastr.error("Error copying JSON to clipboard:", { nzDuration: 3000 });
-  //       console.error('Error copying JSON to clipboard:', error);
-  //     });
-  //   }
-  // }
   copyJson(json: any) {
     debugger
     let data = JSON.stringify(json);
