@@ -9,6 +9,7 @@ import { TreeNode } from '../models/treeNode';
 import { Guid } from '../models/guid';
 import { DataSharedService } from '../services/data-shared.service';
 import { DividerComponent } from '../components';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'st-pages',
@@ -17,6 +18,7 @@ import { DividerComponent } from '../components';
 })
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
+    private clipboard: Clipboard,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService, private router: Router) {
@@ -594,7 +596,7 @@ export class PagesComponent implements OnInit {
                         });
                         checkPushOrNot = false;
                       }
-                    } 
+                    }
                     else if (b.type == 'listWithComponents') {
                       b.children.forEach((listChild: any , chilIndex : number) => {
                         let idx = chilIndex
@@ -782,5 +784,15 @@ export class PagesComponent implements OnInit {
       }
     }
     return null;
+  }
+  copySectionJson(json: any) {
+    let data = JSON.stringify(json);
+    this.clipboard.copy(data);
+    // alert('Copied to clipboard');
+  }
+  copyPageJson(json: any) {
+    let data = JSON.stringify(json);
+    this.clipboard.copy(data);
+    // alert('Copied to clipboard');
   }
 }

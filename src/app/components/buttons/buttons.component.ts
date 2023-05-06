@@ -28,8 +28,7 @@ export class ButtonsComponent implements OnInit {
     // this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    this.borderColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
-
+    // this.borderColor = this.buttonData?.borderColor ? this.buttonData?.borderColor : '';
     // this.buttonData['textColor'] = this.buttonData?.textColor ? this.buttonData?.textColor :'#000000';
   }
 
@@ -89,13 +88,13 @@ export class ButtonsComponent implements OnInit {
   handleButtonMouseOver(buttonData : any): void {
     this.bgColor = buttonData.hoverColor || '';
     this.hoverTextColor = buttonData.hoverTextColor || '';
-    this.borderColor = buttonData.hoverColor || '';
+    this.borderColor = buttonData.hoverBorderColor || '';
   }
   
   handleButtonMouseOut(buttonData : any): void {
     this.bgColor = buttonData.color || '';
     this.hoverTextColor = buttonData.textColor || '';
-    this.borderColor = buttonData.textColor || '';
+    this.borderColor = buttonData.borderColor || '';
   }
   
 

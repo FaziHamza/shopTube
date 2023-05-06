@@ -37,6 +37,8 @@ export class MainComponent implements OnInit {
   setErrorToInput: any = [];
   joiValidationData: TreeNode[] = [];
   requestSubscription: Subscription;
+  isShowContextMenu = false;
+
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
     private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
     private clipboard: Clipboard) { }
@@ -283,15 +285,6 @@ export class MainComponent implements OnInit {
     debugger
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
-    alert('Copied to clipboard');
-  }
-  async pasteFromClipboard() {
-    try {
-      const text = await navigator.clipboard.readText();
-      // Set the clipboard text to an input field or variable
-      let myInput = text;
-    } catch (err) {
-      console.error('Failed to read clipboard contents: ', err);
-    }
+    // alert('Copied to clipboard');
   }
 }

@@ -38,10 +38,13 @@ const routes: Routes = [
             "src/app/builder/builder.module"
         ).then((m) => m.BuilderModule),
   },
-
   {
     path: 'bar-chart',
     component: BarChartComponent
+  },
+  {
+    path: 'menu-builder',
+    component: MenuBuilderComponent
   },
   {
     path: 'demo',
