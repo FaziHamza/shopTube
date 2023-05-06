@@ -1,13 +1,20 @@
-<nz-card [nzTitle]="item?.title ? title : item?.title" [style.background-color]="item?.bgColor || ''"
-    [ngStyle]="{'height': item?.height && item?.height != 0 ? item?.height + 'px' : '', 'overflow': item?.height && item?.height != 0 ? 'auto' : ''}"
-    [style.border]="item?.borderless ? 'none' :'1px solid #f0f0f0' ">
-    <div class="body">
-        <st-main [mainData]="item.children"></st-main>
-    </div>
-    <div class="footer footer-border" *ngIf="item?.footerText">
-        <p class="footer-text" [style.color]="item?.footerTextColor || ''">{{item?.footerText}}</p>
-    </div>
-</nz-card>
+<!-- <nz-ribbon nzText="Hippies"> -->
+    <!-- <nz-badge nzSize="default" [nzCount]="5"> -->
+        <!-- <nz-badge nzDot> -->
+            <nz-card [nzTitle]="item?.title ? title : item?.title" [style.background-color]="item?.bgColor || ''"
+                [ngStyle]="{'height': item?.height && item?.height != 0 ? item?.height + 'px' : '', 'overflow': item?.height && item?.height != 0 ? 'auto' : ''}"
+                [style.border]="item?.borderless ? 'none' :'1px solid #f0f0f0' ">
+                <div class="body">
+                    <st-main [mainData]="item.children"></st-main>
+                </div>
+                <div class="footer footer-border" *ngIf="item?.footerText">
+                    <p class="footer-text" [style.color]="item?.footerTextColor || ''">{{item?.footerText}}</p>
+                </div>
+            </nz-card>
+        <!-- </nz-badge> -->
+    <!-- </n-z-badge> -->
+<!-- </nz-ribbon> -->
+
 <ng-template #title>
     <p *ngIf="item?.title" [style.color]="item?.headerTextColor || ''">{{item?.title}}</p>
-  </ng-template>
+</ng-template>
