@@ -1,37 +1,74 @@
 <div class="flex flex-wrap">
-  <div class="w-3/4">
+  <div class="w-full">
     <div class="ml-12 p-4">
-      <button nz-button class="mobile-toggle mr-4 ml-4" (click)="collapse('mobile')" nzType="primary">
-        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-      </button>
-      <button nz-button class="mr-4 ml-4 desktop-toggle" (click)="collapse('desktop')" nzType="primary">
-        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-      </button>
-      <button
-        class="hover:bg-white  text-white bg-white border-color: rgb(255 255 255);  hover:text-white cursor-pointer text-center rounded-md  "
-        nz-button nz-dropdown nzType="link" [nzDropdownMenu]="menu">
-        <h2 class="font-bold font-sans"><span nz-icon nzType="appstore" nzTheme="outline"></span></h2>
-      </button>
-      {{selectedApp}}
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <nz-card class="rounded-md z-99">
-          <nz-tabset>
-            <nz-tab *ngFor="let item of applicationBuilder" [nzTitle]='item.name'>
-              <div class="flex flex-nowrap">
-                <div *ngFor="let user of screenSetting">
-                  <div *ngIf="user.applicationName == item.name">
-                    <div class="w-full sm:1/3 md:1/2 mb-4 px-2" (click)="UpdateMenuLink(user.name)">
-                      <div class="hover:bg-blue-200 hover:text-blue-500 cursor-pointer rounded-md py-3">
-                        <p class="font-sans text-md px-2">{{user.name}}</p>
+      <div class="header-inner">
+        <div class="">
+          <button nz-button class="mobile-toggle mr-4 ml-4" (click)="collapse('mobile')" nzType="primary">
+            <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          </button>
+          <button nz-button class="mr-4 ml-4 desktop-toggle" (click)="collapse('desktop')" nzType="primary">
+            <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          </button>
+          <button
+            class="hover:bg-white  text-white bg-white border-color: rgb(255 255 255);  hover:text-white cursor-pointer text-center rounded-md  "
+            nz-button nz-dropdown nzType="link" [nzDropdownMenu]="menu">
+            <h2 class="font-bold font-sans"><span nz-icon nzType="appstore" nzTheme="outline"></span></h2>
+          </button>
+          {{selectedApp}}
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <nz-card class="rounded-md z-99">
+              <nz-tabset>
+                <nz-tab *ngFor="let item of applicationBuilder" [nzTitle]='item.name'>
+                  <div class="flex flex-nowrap">
+                    <div *ngFor="let user of screenSetting">
+                      <div *ngIf="user.applicationName == item.name">
+                        <div class="w-full sm:1/3 md:1/2 mb-4 px-2" (click)="UpdateMenuLink(user.name)">
+                          <div class="hover:bg-blue-200 hover:text-blue-500 cursor-pointer rounded-md py-3">
+                            <p class="font-sans text-md px-2">{{user.name}}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </nz-tab>
-          </nz-tabset>
-        </nz-card>
-      </nz-dropdown-menu>
+                </nz-tab>
+              </nz-tabset>
+            </nz-card>
+          </nz-dropdown-menu>
+        </div>
+        <div class="header-actions">
+          <a href="">
+            <i class="fa-regular fa-magnifying-glass"></i>
+          </a>
+          <a href="">
+            <i class=" fa-regular fa-grid-2"></i>
+          </a>
+          <a href="">
+            <i class="fa-regular fa-bell"></i>
+          </a>
+          <a href="">
+            <i class="fa-regular fa-gear"></i>
+          </a>
+          <a nz-dropdown [nzDropdownMenu]="menu2">
+            <nz-avatar nzIcon="user" style="background-color:#3b82f6;"></nz-avatar>
+          </a>
+          <nz-dropdown-menu #menu2="nzDropdownMenu">
+            <ul nz-menu nzSelectable class="user-dropdown" style="padding:0px !important">
+              <li nz-menu-item>
+                <h5>Kate Dudley</h5>
+                <small>kate.dudley@email.com</small>
+              </li>
+              <li nz-menu-item><i class="fa-regular fa-user"></i> <span>Profile</span></li>
+              <li nz-menu-item><i class="fa-regular fa-message"></i> <span>Messages</span></li>
+              <li nz-menu-item><i class="fa-regular fa-calendar-check"></i> <span>Taskboard</span></li>
+              <li nz-menu-item><i class="fa-regular fa-circle-info"></i> <span>Help</span></li>
+              <hr>
+              <li nz-menu-item><i class="fa-regular fa-gear"></i> <span>Setting</span></li>
+              <li nz-menu-item><i class="fa-regular fa-lock"></i> <span>Lock screen</span></li>
+              <li nz-menu-item><i class="fa-regular fa-right-from-bracket"></i> <span>Logout</span></li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
     </div>
   </div>
   <!-- <div class="w-3/12">
@@ -42,9 +79,7 @@
       <h2 class="font-bold font-sans">Sign Up</h2>
     </button>
   </div> -->
-</div>
-
-<!-- <div class="ml-7">
+  <!-- <div class="ml-7">
   <nz-tabset>
     <nz-tab nzTitle="Details"></nz-tab>
     <nz-tab nzTitle="Resoltion"></nz-tab>

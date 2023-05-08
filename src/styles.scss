@@ -1085,9 +1085,72 @@ a.fc-event:hover {
 // }
 
 .rtlMenu {
+
   .ant-menu-submenu-arrow,
   .ant-menu-submenu-expand-icon {
     right: 0px !important;
     padding-left: 2%;
+  }
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  // padding: 16px;
+  .header-actions {
+    display: flex;
+    align-items: center;
+
+    a {
+      padding: 0px 10px;
+
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+.profile-dropdown {
+  .ant-dropdown-menu {
+    padding: 0px 0 !important;
+  }
+}
+
+.user-dropdown {
+  top: 10px;
+  width: 220px;
+
+
+
+  li {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+
+  span {
+    margin-left: 7px;
+  }
+
+  li:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    background-color: #3b82f6;
+
+    h5 {
+      font-size: 14px;
+      color: white;
+      font-family: 600 !important;
+    }
+
+    small {
+      font-size: 10px;
+      font-weight: 500 !important;
+      color: white;
+    }
   }
 }
