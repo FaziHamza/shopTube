@@ -14,7 +14,6 @@ export class ModuleListComponent implements OnInit {
   applicationBuilder: any;
   model: any;
   fields: any = [];
-  applicationData: any = [];
   schema: any;
   isSubmit: boolean = true;
   form = new FormGroup({});
@@ -28,6 +27,7 @@ export class ModuleListComponent implements OnInit {
   loading = false;
   searchValue = '';
   pageSize = 10;
+  searchIcon = "search";
   listOfColumns = [
     {
       name: 'Name',
@@ -38,12 +38,12 @@ export class ModuleListComponent implements OnInit {
     {
       name: 'Application',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortFn: (a: any, b: any) => a.applicationName.localeCompare(b.applicationName),
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Action',
-      sortOrder: null,
+      sortOrder: null, 
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
@@ -52,7 +52,7 @@ export class ModuleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.jsonModuleSetting();
-    this. moduleSettingForm();
+    this.moduleSettingForm();
     this.loadData();
   }
   moduleSettingForm() {
@@ -62,7 +62,6 @@ export class ModuleListComponent implements OnInit {
   }
   jsonModuleSetting() {
     this.builderService.jsonModuleSetting().subscribe((res => {
-
       this.moduleList = res;
       this.listOfDisplayData = res;
       this.listOfData = res;
@@ -79,10 +78,6 @@ export class ModuleListComponent implements OnInit {
     this.isVisible = true;
   }
 
-  handleOk(): void {
-    this.isVisible = false;
-  }
-
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -91,16 +86,18 @@ export class ModuleListComponent implements OnInit {
       name: '',
     };
     this.model = daata;
+    this.applicationName = '';
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
     }));
   }
   onSubmit() {
+    debugger
     if (this.form.valid) {
       if (this.isSubmit) {
         const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName)
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        currentData["applicationName"] =mainModuleName[0].name;
+        currentData["applicationName"] = mainModuleName[0].name;
         this.builderService.addModule(currentData).subscribe((res => {
           this.loadData();
           this.jsonModuleSetting();
@@ -125,26 +122,34 @@ export class ModuleListComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-
     this.builderService.deletejsonModule(id).subscribe((res => {
       this.jsonModuleSetting();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
-  reset(): void {
-    this.searchValue = '';
-    this.search();
+  search(event?: any): void {
+    if (event.target.value) {
+      let inputValue = event.target.value.toLowerCase();
+      this.listOfDisplayData = this.listOfData.filter((item: any) =>
+        (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+      );
+      this.searchIcon = "close";
+    } else {
+      this.listOfDisplayData = this.listOfData;
+      this.searchIcon = "search";
+    }
   }
 
-  search(): void {
-
-    this.isShow = false;
-    this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
-    console.log(this.listOfDisplayData);
+  clearModel() {
+    if (this.searchIcon == "close" && this.searchValue) {
+      this.searchValue = '';
+      this.listOfDisplayData = this.listOfData;
+      this.searchIcon = "search";
+    }
   }
 
   downloadJson() {
-    let obj = Object.assign({}, this.applicationData);
+    let obj = Object.assign({}, this.moduleList);
     const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);

@@ -32,7 +32,6 @@ export class BuilderComponent implements OnInit {
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
   addControl = false;
-
   size: NzButtonSize = 'large';
   selectModuleName: any;
   applicationBuilder: any = [];
@@ -102,7 +101,6 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-
     this.jsonModuleSetting();
     this.loadApplications();
     document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -1723,19 +1721,21 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "button":
+        configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case "dropdownButton":
+        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
-
         this.addIconCommonConfiguration(_formFieldData.accordionButtonFields, true);
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case "linkbutton":
+        configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;

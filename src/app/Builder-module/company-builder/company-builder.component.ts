@@ -6,17 +6,15 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'st-application-builder',
-  templateUrl: './application-builder.component.html',
-  styleUrls: ['./application-builder.component.scss']
+  selector: 'st-company-builder',
+  templateUrl: './company-builder.component.html',
+  styleUrls: ['./company-builder.component.scss']
 })
-export class ApplicationBuilderComponent implements OnInit {
-
-  companyName: any;
-  companyBuilder: any;
+export class CompanyBuilderComponent implements OnInit {
+  applicationName: any;
   model: any;
   fields: any = [];
-  applicationData: any = [];
+  copmanyData: any = [];
   schema: any;
   isSubmit: boolean = true;
   form = new FormGroup({});
@@ -33,30 +31,11 @@ export class ApplicationBuilderComponent implements OnInit {
   searchValue = '';
   listOfColumns = [
     {
-      name: 'Application Name',
+      name: 'Company Name',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
-    {
-      name: 'Company Name',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const companyNameA = a.companyName;
-        const companyNameB = b.companyName;
-        if (companyNameA === undefined && companyNameB === undefined) {
-          return 0;
-        } else if (companyNameA === undefined) {
-          return 1;
-        } else if (companyNameB === undefined) {
-          return -1;
-        } else {
-          return companyNameA.localeCompare(companyNameB);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
-    
     {
       name: 'Action',
       sortOrder: null,
@@ -67,7 +46,6 @@ export class ApplicationBuilderComponent implements OnInit {
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
@@ -75,8 +53,7 @@ export class ApplicationBuilderComponent implements OnInit {
     this.applicationBuilderForm();
     this.loadData();
     // this.getModuleList();
-    this.jsonApplicationBuilder();
-
+    this.jsonCompanyBuilder();
   }
 
   applicationBuilderForm() {
@@ -84,14 +61,13 @@ export class ApplicationBuilderComponent implements OnInit {
       this.fields = res;
     }));
   }
-  jsonApplicationBuilder() {
+  jsonCompanyBuilder() {
     this.loading = true
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
+    this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
-      this.applicationData = res;
-
+      this.copmanyData = res;
     }));
   }
   openModal() {
@@ -118,29 +94,22 @@ export class ApplicationBuilderComponent implements OnInit {
       name: '',
     };
     this.model = daata;
-    this.companyName = '';
-    this.builderService.jsonCompanyBuilder().subscribe((res => {
-      this.companyBuilder = res;
-    }));
   }
   onSubmit() {
-    debugger
     if (this.form.valid) {
       if (this.isSubmit) {
-        const mainModuleName = this.companyBuilder.filter((a: any) => a.name == this.companyName)
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        currentData["companyName"] = mainModuleName[0].name;
-        this.builderService.addApplicationBuilder(currentData).subscribe((res => {
+        this.builderService.addCompanyBuilder(currentData).subscribe((res => {
           this.loadData();
-          this.jsonApplicationBuilder();
+          this.jsonCompanyBuilder();
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
         }))
       }
       else {
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.updateApplicationBuilder(this.model.id, currentData).subscribe((res => {
+        this.builderService.updateCompanyBuilder(this.model.id, currentData).subscribe((res => {
           this.loadData();
-          this.jsonApplicationBuilder();
+          this.jsonCompanyBuilder();
           this.isSubmit = true;
         }))
       }
@@ -149,22 +118,20 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   editItem(item: any) {
     this.model = item;
-    this.companyName = item?.companyName;
+    this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.builderService.deleteApplicationBuilder(id).subscribe((res => {
-      this.jsonApplicationBuilder();
+    this.builderService.deleteCompanyBuilder(id).subscribe((res => {
+      this.jsonCompanyBuilder();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
   search(event?: any): void {
     debugger
     if (event.target.value) {
-      let inputValue = event.target.value.toLowerCase();
-      this.listOfDisplayData = this.listOfData.filter((item: any) =>
-        (item.name.toLowerCase().indexOf(inputValue) !== -1 ||  (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false))
-      );
+      this.isShow = false;
+      this.listOfDisplayData = this.listOfData.filter((item: any) => (item.name).toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
       this.searchIcon = "close";
     } else {
       this.listOfDisplayData = this.listOfData;
@@ -181,7 +148,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   downloadJson() {
-    let obj = Object.assign({}, this.applicationData);
+    let obj = Object.assign({}, this.copmanyData);
     const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -189,7 +156,5 @@ export class ApplicationBuilderComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
   }
-
-  
 
 }
