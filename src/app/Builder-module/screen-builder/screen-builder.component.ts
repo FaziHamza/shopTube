@@ -32,29 +32,54 @@ export class ScreenBuilderComponent implements OnInit {
   loading = false;
   searchValue = '';
   pageSize = 10;
+  searchIcon = "search";
   listOfColumns = [
     {
       name: 'Screen Id',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.screenId - b.screenId,
+      sortFn: (a: any, b: any) => a.screenId.localeCompare(b.screenId),
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Screen Name',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.name - b.name,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Module',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.moduleName.localeCompare(b.moduleName),
+      sortFn: (a: any, b: any) => {
+        const moduleNameA = a.moduleName;
+        const moduleNameB = b.moduleName;
+        if (moduleNameA === undefined && moduleNameB === undefined) {
+          return 0;
+        } else if (moduleNameA === undefined) {
+          return 1;
+        } else if (moduleNameB === undefined) {
+          return -1;
+        } else {
+          return moduleNameA.localeCompare(moduleNameB);
+        }
+      },
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Application',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.applicationName.localeCompare(b.applicationName),
+      sortFn: (a: any, b: any) => {
+        const applicationNameA = a.applicationName;
+        const applicationNameB = b.applicationName;
+        if (applicationNameA === undefined && applicationNameB === undefined) {
+          return 0;
+        } else if (applicationNameA === undefined) {
+          return 1;
+        } else if (applicationNameB === undefined) {
+          return -1;
+        } else {
+          return applicationNameA.localeCompare(applicationNameB);
+        }
+      },
       sortDirections: ['ascend', 'descend', null],
     },
     {
@@ -74,9 +99,7 @@ export class ScreenBuilderComponent implements OnInit {
     ];
     this.screenSettingForm();
     this.loadData();
-    // this.getModuleList();
     this.jsonScreenModuleList();
-
   }
 
   screenSettingForm() {
@@ -87,7 +110,6 @@ export class ScreenBuilderComponent implements OnInit {
   jsonScreenModuleList() {
     this.loading = true
     this.builderService.jsonScreenModuleList().subscribe((res => {
-
       this.listOfDisplayData = res;
       this.listOfData = res;
       this.loading = false;
@@ -113,10 +135,6 @@ export class ScreenBuilderComponent implements OnInit {
     this.isVisible = true;
   }
 
-  handleOk(): void {
-    this.isVisible = false;
-  }
-
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -129,22 +147,16 @@ export class ScreenBuilderComponent implements OnInit {
       moduleName: '',
     };
     this.builderService.jsonApplicationBuilder().subscribe((res => {
-
       this.applicationBuilder = res;
-
-
     }));
     this.model = daata;
   }
   getModulelist(applicationName: any) {
-
     this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
-
       this.moduleList = res;
     }))
   }
   onSubmit() {
-
     if (this.form.valid && this.applicationName && this.moduleName) {
       const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName);
       var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
@@ -190,7 +202,6 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-
     this.getModuleList();
     this.model = item;
     this.applicationName = item?.applicationName;
@@ -198,7 +209,6 @@ export class ScreenBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-
     this.builderService.deletejsonScreenModule(id).subscribe((res => {
       this.jsonScreenModuleList();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
@@ -208,17 +218,6 @@ export class ScreenBuilderComponent implements OnInit {
     this.router.navigate(["/builder"]);
     this.dataSharedService.screenName = screenName
   }
-  reset(): void {
-    this.searchValue = '';
-    this.search();
-  }
-
-  search(): void {
-    this.isShow = false;
-    this.listOfDisplayData = this.listOfData.filter((item: any) => item.name.indexOf(this.searchValue) !== -1);
-    console.log(this.listOfDisplayData);
-  }
-
   downloadJson() {
     let obj = Object.assign({}, this.jsonScreenModule);
     const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
@@ -229,22 +228,29 @@ export class ScreenBuilderComponent implements OnInit {
     a.click();
   }
 
-  sort(property: string | number) {
+  search(event?: any): void {
+    if (event.target.value) {
+      let inputValue = event.target.value.toLowerCase();
+      this.listOfDisplayData = this.listOfData.filter((item: any) =>
+      (item.screenId.toLowerCase().indexOf(inputValue) !== -1 ||
+        item.name.toLowerCase().indexOf(inputValue) !== -1 ||
+        (item?.moduleName ? item.moduleName.toLowerCase().indexOf(inputValue) !== -1 : false) ||
+        item?.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+      );
 
-    this.isDesc = !this.isDesc; //change the direction
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-    this.jsonScreenModule.sort((a: any, b: any) => {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
-  };
+      this.searchIcon = "close";
+    } else {
+      this.listOfDisplayData = this.listOfData;
+      this.searchIcon = "search";
+    }
+  }
+
+  clearModel() {
+    if (this.searchIcon == "close" && this.searchValue) {
+      this.searchValue = '';
+      this.listOfDisplayData = this.listOfData;
+      this.searchIcon = "search";
+    }
+  }
 
 }

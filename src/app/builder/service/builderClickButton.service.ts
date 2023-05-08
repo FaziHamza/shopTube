@@ -114,8 +114,8 @@ export class BuilderClickButtonService {
     }
   }
   getDropdownButtonConfig(node: any) {
-
     return {
+      icon: node.btnIcon,
       options: node.dropdownOptions,
     }
   }
@@ -352,7 +352,6 @@ export class BuilderClickButtonService {
     };
   }
   getSectionConfig(node: any) {
-    
     return {
       title: node.title,
       disabled: node.sectionDisabled,
@@ -373,6 +372,17 @@ export class BuilderClickButtonService {
       dbData: node['dbData'],
       tableData: node['tableData'],
       // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
+    }
+  }
+  getButtonConfig(node: any) {
+    return {
+      icon: node.btnIcon,
+    }
+  }
+  
+  getLinkButtonConfig(node: any) {
+    return {
+      icon: node.btnIcon,
     }
   }
 }
