@@ -10,6 +10,7 @@ export class ListWithComponentsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    debugger
   }
 
 }

@@ -3093,6 +3093,7 @@ export class BuilderComponent implements OnInit {
         break;
 
     }
+    debugger
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
       this.selectedNode = { ...this.selectedNode, ...event.form };
       this.updateNodes();
