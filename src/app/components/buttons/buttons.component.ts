@@ -25,6 +25,7 @@ export class ButtonsComponent implements OnInit {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
+    debugger
     // this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
@@ -33,7 +34,7 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-    
+debugger
     if (data.isSubmit) {
       return;
     }
@@ -84,18 +85,18 @@ export class ButtonsComponent implements OnInit {
     this.pagesRoute(buttonData);
     this.notify.emit(buttonData);
   }
-  
+
   handleButtonMouseOver(buttonData : any): void {
     this.bgColor = buttonData.hoverColor || '';
     this.hoverTextColor = buttonData.hoverTextColor || '';
     this.borderColor = buttonData.hoverBorderColor || '';
   }
-  
+
   handleButtonMouseOut(buttonData : any): void {
     this.bgColor = buttonData.color || '';
     this.hoverTextColor = buttonData.textColor || '';
     this.borderColor = buttonData.borderColor || '';
   }
-  
+
 
 }

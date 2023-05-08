@@ -7,10 +7,6 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { ScreenBuilderComponent } from './Builder-module/screen-builder/screen-builder.component';
-import { ApplicationBuilderComponent } from './Builder-module/application-builder/application-builder.component';
-import { ModuleListComponent } from './Builder-module/module-list/module-list.component';
-import { BuilderModule } from './builder/builder.module';
 import { BarChartComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
 
@@ -41,10 +37,6 @@ const routes: Routes = [
   {
     path: 'bar-chart',
     component: BarChartComponent
-  },
-  {
-    path: 'menu-builder',
-    component: MenuBuilderComponent
   },
   {
     path: 'demo',

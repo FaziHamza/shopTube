@@ -44,6 +44,11 @@ export class BuilderService {
       this.baseUrl + "jsonApplication"
     );
   }
+  jsonCompanyBuilder(): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.baseUrl + "companyJson"
+    );
+  }
   jsonUIRuleGetData(moduleId: any): Observable<any[]> {
     return this.http.get<any[]>(
       this.baseUrl + "jsonUIRuleData?moduleName=" + moduleId
@@ -241,14 +246,29 @@ export class BuilderService {
       this.baseUrl + "jsonApplication", modal
     );
   }
+  addCompanyBuilder(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.baseUrl + "companyJson", modal
+    );
+  }
   updateApplicationBuilder(id: any, modal: any): Observable<any[]> {
     return this.http.put<any[]>(
       this.baseUrl + "jsonApplication/" + id, modal
     );
   }
+  updateCompanyBuilder(id: any, modal: any): Observable<any[]> {
+    return this.http.put<any[]>(
+      this.baseUrl + "companyJson/" + id, modal
+    );
+  }
   deleteApplicationBuilder(id: number): Observable<any[]> {
     return this.http.delete<any[]>(
       this.baseUrl + "jsonApplication/" + id
+    );
+  }
+  deleteCompanyBuilder(id: number): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.baseUrl + "companyJson/" + id
     );
   }
   moduleSettingForm(): Observable<any> {

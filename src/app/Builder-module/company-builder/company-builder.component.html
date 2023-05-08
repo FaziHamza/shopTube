@@ -1,5 +1,6 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Screen List" [nzExtra]="extraTemplate">
+
+<nz-card nzTitle="Company Builder List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
             <!-- <label>Pagination</label> -->
@@ -12,21 +13,22 @@
         </div>
         <div class="search-box pb-2">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search here..."
+                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search company..."
                     [(ngModel)]="searchValue" />
             </nz-input-group>
         </div>
+        <ng-template #suffixIconSearch>
+            <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
+        </ng-template>
     </div>
-    <ng-template #suffixIconSearch>
-        <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
-    </ng-template>
+
     <nz-table #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
                     <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
                     </th>
-                    <th nzWidth="120px" *ngIf="column.name == 'Action'" class="w-1/12">
+                    <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
                         {{column.name}}
                     </th>
                 </ng-container>
@@ -34,20 +36,13 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of filterTable.data">
-                <td>{{ data.screenId }}</td>
                 <td>{{ data.name }}</td>
-                <td>{{ data.moduleName }}</td>
-                <td>{{ data.applicationName }}</td>
                 <td>
                     <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
                     <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
                         nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                         (nzOnConfirm)="deleteRow(data.id)"></span>
-                    <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="file-done" nzTheme="outline"
-                        nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.screenId}}"></span>
-                    <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="form" nzTheme="outline"
-                        nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data.name)"></span>
                 </td>
             </tr>
         </tbody>
@@ -62,16 +57,6 @@
 <!-- Modal -->
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <label class="mx-3 ">Select Application</label>
-        <nz-select style="padding-left: 2%;" [(ngModel)]="applicationName" (ngModelChange)="getModulelist($event)">
-            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                *ngFor="let item of applicationBuilder"></nz-option>
-        </nz-select>
-        <label class="mx-3 ">Select Module</label>
-        <nz-select style="padding-left: 2%;" [(ngModel)]="moduleName">
-            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                *ngFor="let item of moduleList"></nz-option>
-        </nz-select>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="modal-body">
                 <div class="row">

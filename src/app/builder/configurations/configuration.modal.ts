@@ -377,7 +377,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               {
                 label: 'Count',
                 value: 'count'
@@ -951,7 +951,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               {
                 label: 'Count',
                 value: 'count'
@@ -1083,7 +1083,7 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'target',
+          key: 'btnType',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -1273,7 +1273,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               {
                 label: 'Count',
                 value: 'count'
@@ -2954,12 +2954,36 @@ export class formFeildData {
           },
         },
         {
-          key: 'fontstyle',
+          key: 'fontweight',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Font Weight',
+            options: [
+              {
+                label: 'Normal',
+                value: 'normal'
+              },
+              {
+                label: 'Bold',
+                value: 'bold'
+              },
+              {
+                label: 'Lighter',
+                value: 'lighter'
+              }
+            ]
+          },
+          defaultValue: 'bold'
+        },
+        {
+          key: 'fontstyle',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Font Style',
             options: [
               {
                 label: 'Italic',
@@ -2971,7 +2995,6 @@ export class formFeildData {
               },
             ]
           },
-          // defaultValue: 'w-1/3'
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -3511,6 +3534,16 @@ export class formFeildData {
             label: 'Number of Steps',
           }
         },
+        {
+          key: 'border',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Border'
+          },
+          defaultValue: true
+        },
         // {
         //   key: 'stepperFormat',
         //   type: 'select',
@@ -3774,6 +3807,15 @@ export class formFeildData {
             label: 'Api',
           }
         },
+        {
+          key: 'isBordered',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'isBordered'
+          },
+        }
       ]
     },
   ]
@@ -4006,6 +4048,16 @@ export class formFeildData {
             label: 'centerd'
           },
         },
+        {
+          key: 'border',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Border'
+          },
+          defaultValue: true
+        },
       ]
     },
   ]
@@ -4065,7 +4117,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Height',
-            type:'number'
+            type: 'number'
           }
         },
         {
@@ -4099,7 +4151,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               {
                 label: 'Ribbon',
                 value: 'ribbon'
@@ -4342,27 +4394,27 @@ export class formFeildData {
             options: [
               {
                 label: 'h1',
-                value: 'text-xl'
+                value: 'text-5xl font-extrabold dark:text-white'
               },
               {
                 label: 'h2',
-                value: 'text-lg'
+                value: 'text-4xl font-bold dark:text-white'
               },
               {
                 label: 'h3',
-                value: 'text-base'
+                value: 'text-3xl font-bold dark:text-white'
               },
               {
                 label: 'h4',
-                value: 'text-md'
+                value: 'text-2xl font-bold dark:text-white'
               },
               {
                 label: 'h5',
-                value: 'text-sm'
+                value: 'text-xl font-bold dark:text-white'
               },
               {
                 label: 'h6',
-                value: 'text-xs'
+                value: 'text-lg font-bold dark:text-white'
               },
             ],
           },
@@ -4400,6 +4452,26 @@ export class formFeildData {
             label: 'Enable Header'
           },
           defaultValue: false
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'backGroundColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Back Ground Color',
+            type: 'color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'textColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Text Color',
+            type: 'color',
+          }
         },
         {
           key: 'isBordered',
@@ -4796,27 +4868,27 @@ export class formFeildData {
             options: [
               {
                 label: 'h1',
-                value: 'text-xl'
+                value: 'text-5xl font-extrabold dark:text-white'
               },
               {
                 label: 'h2',
-                value: 'text-lg'
+                value: 'text-4xl font-bold dark:text-white'
               },
               {
                 label: 'h3',
-                value: 'text-base'
+                value: 'text-3xl font-bold dark:text-white'
               },
               {
                 label: 'h4',
-                value: 'text-md'
+                value: 'text-2xl font-bold dark:text-white'
               },
               {
                 label: 'h5',
-                value: 'text-sm'
+                value: 'text-xl font-bold dark:text-white'
               },
               {
                 label: 'h6',
-                value: 'text-xs'
+                value: 'text-lg font-bold dark:text-white'
               },
             ],
           },
@@ -5931,7 +6003,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               {
                 label: 'Ribbon',
                 value: 'ribbon'
@@ -11683,7 +11755,7 @@ export class formFeildData {
               {
                 label: 'None',
                 value: 'none'
-              },        
+              },
               // {
               //   label: 'Ribbon',
               //   value: 'ribbon'

@@ -1,8 +1,8 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Application Builder List" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Builder Module List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
-        <div>
-            <label>Pagination</label>
+        <div class="pagination pb-2">
+            <!-- <label>Pagination</label> -->
             <nz-select [(ngModel)]="pageSize">
                 <nz-option [nzValue]='10' nzLabel="10"></nz-option>
                 <nz-option [nzValue]='25' nzLabel="25"></nz-option>
@@ -10,13 +10,15 @@
                 <nz-option [nzValue]='100' nzLabel="100"></nz-option>
             </nz-select>
         </div>
-        <div class="search-box pt-2">
-            <input type="text" nz-input placeholder="Search Application" [(ngModel)]="searchValue" />
-            <br>
-            <button nz-button nzSize="small" nzType="primary" (click)="search()"
-                class="search-button mr-2">Search</button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        <div class="search-box pb-2">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search here..."
+                    [(ngModel)]="searchValue" />
+            </nz-input-group>
         </div>
+        <ng-template #suffixIconSearch>
+            <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
+        </ng-template>
     </div>
 
     <nz-table #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
@@ -36,24 +38,15 @@
                 <td>{{ data.applicationName }}</td>
                 <td>{{ data.name }}</td>
                 <td>
-                    <button nz-button nz-dropdown [nzDropdownMenu]="menu"><span nz-icon nzType="dash"
-                            nzTheme="outline"></span></button>
-                    <nz-dropdown-menu #menu="nzDropdownMenu">
-                        <ul nz-menu>
-                            <li nz-menu-item (click)="[openModal(),editItem(data)]">Edit</li>
-                            <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                                (nzOnConfirm)="deleteRow(data.id)">Delete</li>
-                        </ul>
-                    </nz-dropdown-menu>
+                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
+                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data.id)"></span>
                 </td>
             </tr>
         </tbody>
     </nz-table>
-    <nz-dropdown-menu #searchMenu="nzDropdownMenu">
-        <div class="ant-table-filter-dropdown">
-
-        </div>
-    </nz-dropdown-menu>
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal()"><span nz-icon nzType="plus" nzTheme="outline"></span>Add
@@ -63,13 +56,18 @@
 </ng-template>
 <!-- Modal -->
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-
     <ng-container *nzModalContent>
-        <label class="mx-3 ">Select Application</label>
-        <nz-select [(ngModel)]="applicationName" >
-            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                *ngFor="let item of applicationBuilder"></nz-option>
-        </nz-select>
+        <div class="flex flex-nowrap pb-1">
+            <div style="width:24%">
+                <label>Select Application</label>
+            </div>
+            <div style="width:76%">
+                <nz-select nzClear [(ngModel)]="applicationName" placeholder="Select here...">
+                    <nz-option [nzValue]="item.name" [nzLabel]="item.name"
+                        *ngFor="let item of applicationBuilder"></nz-option>
+                </nz-select>
+            </div>
+        </div>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="modal-body">
                 <div class="row">
@@ -80,6 +78,10 @@
         </form>
     </ng-container>
     <ng-template #modalFooter>
-        <button nz-button nzType="primary" nzDanger (click)="handleCancel()">Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()">Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()">Update</button>
+        <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
+                nzTheme="outline"></span>Close</button>
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="database"
+                nzTheme="outline"></span>Submit</button>
+        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="redo"
+                nzTheme="outline"></span>Update</button>
+    </ng-template>

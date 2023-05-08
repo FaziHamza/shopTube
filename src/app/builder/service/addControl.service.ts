@@ -20,6 +20,8 @@ export class AddControlService {
   getPageHeaderControl() {
     return {
       headingSize: "text-xl",
+      backGroundColor: "#ffffff",
+      textColor: "#000000",
       footer: false,
       header: true,
       isBordered: true,
@@ -428,6 +430,7 @@ export class AddControlService {
       tabType: 'line',
       isNextChild: true,
       hideTabs: false,
+      border:true,
       nodes: "3",
       centerd: false,
 
@@ -443,6 +446,7 @@ export class AddControlService {
       size: 'default',
       status: 'process',
       disabled: false,
+      border: true,
       nodes: "3",
     }
   }
@@ -458,6 +462,7 @@ export class AddControlService {
       ],
       tableBody: [],
       checkData: '',
+      isBordered: true,
       dbData: '',
       tableData: [],
     }
@@ -567,6 +572,7 @@ export class AddControlService {
     return {
       isNextChild: false,
       style: "font-weight:bold;",
+      fontweight: "bold",
       textAlign: "text-left",
       color: '#000000',
       headingApi: "",
@@ -639,7 +645,7 @@ export class AddControlService {
     }
   }
   gridListControl() {
-    
+
     return {
       tableId: "gridList_" + Guid.newGuid(),
       nzFooter: "This is footer",

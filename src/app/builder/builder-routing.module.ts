@@ -6,6 +6,7 @@ import { AppBuilderSideMenuComponent } from '../_layout/app-builder-side-menu/ap
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ScreenBuilderComponent } from '../Builder-module/screen-builder/screen-builder.component';
 import { ApplicationBuilderComponent } from '../Builder-module/application-builder/application-builder.component';
+import { CompanyBuilderComponent } from '../Builder-module/company-builder/company-builder.component';
 import { ModuleListComponent } from '../Builder-module/module-list/module-list.component';
 
 const routes: Routes = [
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'application-builder',
         component: ApplicationBuilderComponent
+      },
+      {
+        path: 'company-builder',
+        component: CompanyBuilderComponent
       },
       {
         path: 'module-list',

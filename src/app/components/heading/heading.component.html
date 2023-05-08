@@ -2,15 +2,15 @@
 <div [class]="headingData.link ? ' cursor-pointer' : ''">
     <div [class]="headingData.textAlign "  (click)="pageRoute(headingData.link)">
         <h1 nz-typography *ngIf="headingData.heading === 1" [class]="headingData.fontstyle"
-            [style.color]="headingData.color">{{headingData.text}}</h1>
+            [style.color]="headingData.color" [style.font-weight]="headingData.fontweight" >{{headingData.text}}</h1>
         <h2 nz-typography *ngIf="headingData.heading === 2" [class]="headingData.fontstyle"
-            [style.color]="headingData.color">{{headingData.text}}</h2>
+            [style.color]="headingData.color" [style.font-weight]="headingData.fontweight" >{{headingData.text}}</h2>
         <h3 nz-typography *ngIf="headingData.heading === 3" [class]="headingData.fontstyle"
-            [style.color]="headingData.color">{{headingData.text}}</h3>
+            [style.color]="headingData.color" [style.font-weight]="headingData.fontweight" >{{headingData.text}}</h3>
         <h4 nz-typography *ngIf="headingData.heading === 4" [class]="headingData.fontstyle"
-            [style.color]="headingData.color">{{headingData.text}}</h4>
+            [style.color]="headingData.color" [style.font-weight]="headingData.fontweight" >{{headingData.text}}</h4>
         <h5 nz-typography *ngIf="headingData.heading === 5" [class]="headingData.fontstyle"
-            [style.color]="headingData.color">{{headingData.text}}</h5>
+            [style.color]="headingData.color" [style.font-weight]="headingData.fontweight" >{{headingData.text}}</h5>
     </div>
 </div>
 

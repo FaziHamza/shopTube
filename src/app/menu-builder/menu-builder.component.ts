@@ -625,7 +625,10 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
+  saveLoader: any = false;
+
   saveJsonMenu() {
+    this.saveLoader = true;
 
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
@@ -643,12 +646,14 @@ export class MenuBuilderComponent implements OnInit {
         this.moduleId = res[0].id
         this.builderService.jsonDeleteModule(this.moduleId).subscribe((res => {
           this.builderService.jsonSaveModule(data).subscribe((res => {
+            this.saveLoader = false;
             alert("Data Save");
           }))
         }))
       }
       else {
         this.builderService.jsonSaveModule(data).subscribe((res => {
+          this.saveLoader = false;
           alert("Data Save");
         }))
       }
