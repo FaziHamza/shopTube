@@ -4,6 +4,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { filter, fromEvent, Subscription, take } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 // import { JsonService } from './json-service';
+import * as formulajs from '@formulajs/formulajs' // import entire package
 
 @Component({
   selector: 'app-demo',
@@ -12,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class DemoComponent implements OnInit {
   @ViewChild('userMenu') userMenu: TemplateRef<any>;
-  menuItems : any = []; 
+  menuItems: any = [];
 
 
   overlayRef: OverlayRef | null;
@@ -42,8 +43,9 @@ export class DemoComponent implements OnInit {
   //   { label: 'Paste', action: () => { console.log('Paste clicked'); } }
   // ];
   constructor(private http: HttpClient,
-    public viewContainerRef: ViewContainerRef,) {}
+    public viewContainerRef: ViewContainerRef,) { }
   ngOnInit(): void {
+    console.log("this is formula JS: "+formulajs.SUM([1, 2, 3]));
     this.menuItems = [
       {
         title: 'Navigation One',
