@@ -37,7 +37,7 @@ export class ModuleListComponent implements OnInit {
     },
     {
       name: 'Action',
-      sortOrder: null, 
+      sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
@@ -82,26 +82,35 @@ export class ModuleListComponent implements OnInit {
     }));
   }
   onSubmit() {
-    debugger
+    debugger;
+    if (!this.form.valid) {
+      this.handleCancel();
+      return;
+    }
+
     this.loading = true;
-    if (this.form.valid) {
-      if (this.isSubmit) {
-        this.builderService.addModule(this.form.value).subscribe((res => {
-          this.jsonModuleSetting();
-          this.loading = false;
-          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-        }))
-      }
-      else {
-        this.builderService.updateModule(this.model.id, this.form.value).subscribe((res => {
+
+    const addOrUpdateModule = this.isSubmit
+      ? this.builderService.addModule(this.form.value)
+      : this.builderService.updateModule(this.model.id, this.form.value);
+
+    this.builderService.checkModule(this.form.value.name).subscribe((result) => {
+      if (result) {
+        this.toastr.warning('Module name already exists in the database.', { nzDuration: 2000 });
+        this.loading = false;
+      } else {
+        addOrUpdateModule.subscribe(() => {
           this.jsonModuleSetting();
           this.loading = false;
           this.isSubmit = true;
-        }))
+          this.handleCancel();
+          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
+        });
       }
-    }
-    this.handleCancel();
+    });
   }
+
+
   editItem(item: any) {
     debugger
     this.form.patchValue({
@@ -122,8 +131,8 @@ export class ModuleListComponent implements OnInit {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-      (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
-    );
+        (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+      );
       this.searchIcon = "close";
     } else {
       this.listOfDisplayData = this.listOfData;

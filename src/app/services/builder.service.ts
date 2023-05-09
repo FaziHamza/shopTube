@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { map, Observable, observable } from 'rxjs';
@@ -39,11 +39,40 @@ export class BuilderService {
       this.baseUrl + "jsonScreenModule"
     );
   }
+  checkScreen(screen: any): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "jsonScreenModule").pipe(
+      map((screens: any[]) => {
+        let screenName = screen.name.toLowerCase();
+        let screenId = screen.screenId.toLowerCase();
+        let found = screens.find(a => a.name.toLowerCase() == screenName || a.screenId.toLowerCase() == screenId);
+        if (found) {
+          if (found.name.toLowerCase() === screenName) {
+            return { type: 'name', value: found.name };
+          } else {
+            return { type: 'screenId', value: found.screenId };
+          }
+        }
+        return null;
+      })
+    );
+  }
+
   jsonApplicationBuilder(): Observable<any[]> {
     return this.http.get<any[]>(
       this.baseUrl + "jsonApplication"
     );
   }
+
+  checkApplication(application: any): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "jsonApplication").pipe(
+      map((applications: any[]) => {
+        let lower = application.toLowerCase();
+        let found = applications.find(a => a.name.toLowerCase() == lower);
+        return found ? found : null;
+      })
+    );
+  }
+
   jsonCompanyBuilder(): Observable<any[]> {
     return this.http.get<any[]>(
       this.baseUrl + "companyJson"
@@ -99,9 +128,9 @@ export class BuilderService {
       this.baseUrl + api
     );
   }
-  genericApisPost(api: any , data : any): Observable<any> {
+  genericApisPost(api: any, data: any): Observable<any> {
     return this.http.post<any>(
-      this.baseUrl + api , data
+      this.baseUrl + api, data
     );
   }
   jsonGridBusinessRuleGet(moduleId: any): Observable<any[]> {
@@ -194,6 +223,15 @@ export class BuilderService {
       this.baseUrl + "jsonModule"
     );
   }
+  checkModule(module: any): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "jsonModule").pipe(
+      map((modules: any[]) => {
+        let lower = module.toLowerCase();
+        let found = modules.find(a => a.name.toLowerCase() == lower);
+        return found ? found : null;
+      })
+    );
+  }
   updateModule(id: any, modal: any): Observable<any[]> {
 
     return this.http.put<any[]>(
@@ -203,16 +241,6 @@ export class BuilderService {
   jsonModuleModuleList(): Observable<any> {
     return this.http.get<any>(
       this.baseUrl + "jsonModule"
-    );
-  }
-  checkScreenAlreadyExistOrNot(id: any): Observable<any> {
-    return this.http.get<any>(
-      this.baseUrl + "jsonScreenModule?screenId=" + id
-    );
-  }
-  checkScreenAlreadyExistOrNotWithName(screenName: any): Observable<any> {
-    return this.http.get<any>(
-      this.baseUrl + "jsonScreenModule?applicationName=" + screenName
     );
   }
   addScreenModule(modal: any): Observable<any[]> {
@@ -249,6 +277,15 @@ export class BuilderService {
   addCompanyBuilder(modal: any): Observable<any[]> {
     return this.http.post<any[]>(
       this.baseUrl + "companyJson", modal
+    );
+  }
+  checkCompanyName(company: any): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "companyJson").pipe(
+      map((companies: any[]) => {
+        let lowerCompany = company.toLowerCase();
+        let foundCompany = companies.find(company => company.name.toLowerCase() === lowerCompany);
+        return foundCompany ? foundCompany : null;
+      })
     );
   }
   updateApplicationBuilder(id: any, modal: any): Observable<any[]> {

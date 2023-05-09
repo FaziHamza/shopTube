@@ -81,24 +81,34 @@ export class CompanyBuilderComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
- 
+
   onSubmit() {
-    if (this.form.valid) {
-      if (this.isSubmit) {
-        this.builderService.addCompanyBuilder(this.form.value).subscribe((res => {
-          this.jsonCompanyBuilder();
-          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-        }))
-      }
-      else {
-        this.builderService.updateCompanyBuilder(this.model.id, this.form.value).subscribe((res => {
-          this.jsonCompanyBuilder();
-          this.isSubmit = true;
-        }))
-      }
+    if (!this.form.valid) {
+      this.handleCancel();
+      return;
     }
-    this.handleCancel();
+
+    const checkCompany$ = this.builderService.checkCompanyName(this.form.value.name);
+    checkCompany$.subscribe((result) => {
+      if (result) {
+        this.toastr.warning('Company name already exists in the database.', { nzDuration: 2000 });
+        return;
+      }
+
+      const addOrUpdateCompany$ = this.isSubmit
+        ? this.builderService.addCompanyBuilder(this.form.value)
+        : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
+
+      addOrUpdateCompany$.subscribe((res) => {
+        this.jsonCompanyBuilder();
+        this.isSubmit = true;
+        this.handleCancel();
+        this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
+      });
+    });
+
   }
+
   editItem(item: any) {
     this.form.patchValue({
       name: item.name,
@@ -122,10 +132,10 @@ export class CompanyBuilderComponent implements OnInit {
       this.searchIcon = "search";
     }
   }
-  
 
-  clearModel(){
-    if(this.searchIcon == "close" && this.searchValue){
+
+  clearModel() {
+    if (this.searchIcon == "close" && this.searchValue) {
       this.searchValue = '';
       this.listOfDisplayData = this.listOfData;
       this.searchIcon = "search";

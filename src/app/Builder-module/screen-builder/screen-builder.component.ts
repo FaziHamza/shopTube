@@ -90,23 +90,6 @@ export class ScreenBuilderComponent implements OnInit {
       applicationName: new FormControl('', Validators.required),
       moduleName: new FormControl('', Validators.required),
     });
-    const screenIdControl = this.form.get('screenId');
-    if (screenIdControl !== null) {
-      screenIdControl.valueChanges.subscribe(value => {
-        this.form.patchValue({
-          screenId: value.toLowerCase()
-        }, { emitEvent: false });
-      });
-    }
-
-    const nameControl = this.form.get('name');
-    if (nameControl !== null) {
-      nameControl.valueChanges.subscribe(value => {
-        this.form.patchValue({
-          name: value.toLowerCase()
-        }, { emitEvent: false });
-      });
-    }
     const applicationNameControl = this.form.get('applicationName');
     if (applicationNameControl !== null) {
       applicationNameControl.valueChanges.subscribe(value => {
@@ -166,38 +149,37 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   onSubmit() {
-    if (this.form.valid) {
-      if (this.isSubmit) {
-        this.builderService.checkScreenAlreadyExistOrNot(this.form.value.screenId).subscribe((res => {
-          if (res.length == 0) {
-            this.builderService.checkScreenAlreadyExistOrNotWithName(this.form.value.name).subscribe((res1 => {
-              if (res1.length == 0) {
-                this.builderService.addScreenModule(this.form.value).subscribe((res => {
-                  this.isVisible = false;
-                  this.jsonScreenModuleList();
-                  this.toastr.success('Save Successfully!', { nzDuration: 3000 });
-                }))
-              }
-              else {
-                this.toastr.error('This screen name is already exist!', { nzDuration: 3000 });
-              }
-            }))
-          }
-          else {
-            this.toastr.error('This screen id is already exist!', { nzDuration: 3000 });
-          }
-        }))
-      }
-      else {
-        this.builderService.updateScreenModule(this.model.id, this.form.value).subscribe((res => {
-          this.isVisible = false;
-          this.isSubmit = true;
-          this.jsonScreenModuleList();
-          this.toastr.success('Update Successfully!', { nzDuration: 3000 });
-        }))
-      }
+    if (!this.form.valid) {
+      this.handleCancel();
+      return;
     }
+
+    const checkScreenAndProceed = this.isSubmit
+      ? this.builderService.addScreenModule(this.form.value)
+      : this.builderService.updateScreenModule(this.model.id, this.form.value);
+
+    this.builderService.checkScreen(this.form.value).subscribe((result) => {
+      if (result) {
+        const message = result.type === 'name'
+          ? `Screen name '${result.value}' already exists in the database. Please choose a different name.`
+          : `Screen ID '${result.value}' already exists in the database. Please choose a different ID.`;
+        this.toastr.warning(message, { nzDuration: 2000 });
+        this.loading = false;
+      } else {
+        checkScreenAndProceed.subscribe(() => {
+          this.isVisible = false;
+          this.jsonScreenModuleList();
+          const message = this.isSubmit ? 'Save' : 'Update';
+          this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
+          if (!this.isSubmit) {
+            this.isSubmit = true;
+          }
+          this.handleCancel();
+        });
+      }
+    });
   }
+
 
   editItem(item: any) {
     this.getModuleList();

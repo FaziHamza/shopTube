@@ -104,24 +104,29 @@ export class ApplicationBuilderComponent implements OnInit {
     }));
   }
   onSubmit() {
-    if (this.myForm.valid) {
-      if (this.isSubmit) {
-        this.builderService.addApplicationBuilder(this.myForm.value).subscribe((res => {
-          this.jsonApplicationBuilder();
-          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-        }))
-      }
-      else {
-        this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value).subscribe((res => {
+    if (!this.myForm.valid) {
+      this.handleCancel();
+      return;
+    }
+    const action$ = this.isSubmit
+      ? this.builderService.addApplicationBuilder(this.myForm.value)
+      : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value);
+
+    this.builderService.checkApplication(this.myForm.value.name).subscribe((result) => {
+      if (result) {
+        this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
+      } else {
+        action$.subscribe((res) => {
           this.loadData();
           this.jsonApplicationBuilder();
           this.isSubmit = true;
-          this.toastr.success('Data upodate successfully!.', { nzDuration: 2000 });
-        }))
+          this.handleCancel();
+          this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
+        });
       }
-    }
-    this.handleCancel();
+    });
   }
+
 
   editItem(item: any) {
     this.myForm.patchValue({

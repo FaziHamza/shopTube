@@ -20,7 +20,7 @@
   (mouseout)="handleButtonMouseOut(buttonData)"
 >
   <span >
-    <st-icon
+    <st-icon *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
       [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor"
       [size]="buttonData.iconSize"
@@ -32,6 +32,12 @@
     >
       {{ buttonData.title }}
     </span>
+    <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+      [icon]="buttonData.btnIcon"
+      [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [type]="buttonData.iconType"
+    ></st-icon>
   </span>
 </button>
 
@@ -56,16 +62,26 @@
     (mouseover)="handleButtonMouseOver(buttonData)"
   (mouseout)="handleButtonMouseOut(buttonData)"
   >
-    <span [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
-      <st-icon
-        *ngIf="buttonData.btnIcon"
-        [icon]="buttonData.btnIcon"
-        [color]="buttonData?.iconColor"
-        [size]="buttonData?.iconSize"
-        [type]="buttonData.iconType"
-      ></st-icon>
-      <span [class]="buttonData.btnLabelPaddingClass">{{ buttonData.title }}</span>
+  <span [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
+    <st-icon *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
+      [icon]="buttonData.btnIcon"
+      [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [type]="buttonData.iconType"
+    ></st-icon>
+    <span
+      [class]="buttonData.btnLabelPaddingClass"
+      *ngIf="buttonData.title"
+    >
+      {{ buttonData.title }}
     </span>
+    <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+      [icon]="buttonData.btnIcon"
+      [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [type]="buttonData.iconType"
+    ></st-icon>
+  </span>
   </a>
 </div>
 
@@ -92,7 +108,28 @@
           }"
           (mouseover)="handleButtonMouseOver(buttonData)"
           (mouseout)="handleButtonMouseOut(buttonData)">
-    <span>
+          <span>
+            <st-icon *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
+              [icon]="buttonData.btnIcon"
+              [color]="buttonData.iconColor"
+              [size]="buttonData.iconSize"
+              [type]="buttonData.iconType"
+            ></st-icon>
+            <span
+              [class]="buttonData.btnLabelPaddingClass"
+              *ngIf="buttonData.title"
+            >
+              {{ buttonData.title }}
+            </span>
+            <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+              [icon]="buttonData.btnIcon"
+              [color]="buttonData.iconColor"
+              [size]="buttonData.iconSize"
+              [type]="buttonData.iconType"
+            ></st-icon>
+          </span>
+
+    <!-- <span>
       {{ buttonData.title }}
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.btnIcon">
         <st-icon [type]="buttonData.iconType"
@@ -101,7 +138,7 @@
                 [color]="buttonData.iconColor">
         </st-icon>
       </span>
-    </span>
+    </span> -->
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
