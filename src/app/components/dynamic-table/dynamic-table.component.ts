@@ -40,24 +40,30 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.gridInitilize();
   }
+  onClickRow(id: any) {
+    console.log("Row Click " + id);
+  }
+  onClickColumn(id: any) {
+    console.log("Column Click " + id);
+  }
   gridInitilize() {
-    if(this.data.api){
-      this.builderService.genericApis(this.data.api).subscribe(res=>{
-        if(res)
-          res.forEach(function(v:any){ delete v.id });
+    if (this.data.api) {
+      this.builderService.genericApis(this.data.api).subscribe(res => {
+        if (res)
+          res.forEach(function (v: any) { delete v.id });
         this.tableData = res;
         this.data['tableData'] = res;
         const firstObjectKeys = Object.keys(this.tableData[0]);
-        let obj  =  firstObjectKeys.map(key => ({ name: key }));
+        let obj = firstObjectKeys.map(key => ({ name: key }));
         this.data['tableKey'] = obj
         this.data['tableHeaders'] = obj
         this.tableHeaders = obj;
         // this.loadTableData();
       })
-    }else{
+    } else {
       this.loadTableData();
     }
     if (this.screenId)
@@ -348,12 +354,12 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    
+
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.data['tableKey'] =  firstObjectKeys.map(key => ({ name: key }));
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 
-      this.data['tableKey']  = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
       // this.childKey = this.getChildrenData();
       // let checkcount = this.getParentChildrenKeys(this.tableData);
       // console.log(JSON.stringify(checkcount));
@@ -436,7 +442,7 @@ export class DynamicTableComponent implements OnInit {
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-      this.data['tableKey']  = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
     }
 
   }
@@ -516,7 +522,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   select(rowIndex: number, value: any) {
-    
+
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }

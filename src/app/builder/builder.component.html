@@ -219,7 +219,7 @@
                           </nz-tab>
                           <nz-tab nzTitle="Actions">
                             <st-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
-                              [screenModule]="screenModule"></st-action-rule>
+                            [formlyModel]="this.formlyModel" [screenModule]="screenModule"></st-action-rule>
                           </nz-tab>
                           <nz-tab nzTitle="Grid Rules">
                             <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0" [selectedNode]="selectedNode"

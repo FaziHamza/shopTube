@@ -10,7 +10,7 @@
       </div>
       <div class="w-1/4">
         <nz-select class="form-select" formControlName="actionLink" aria-label="Default Select Example">
-          <nz-option nzValue="-1" nzLabel="Select" selected></nz-option>
+          <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
           <nz-option nzValue="get" nzLabel="GET"></nz-option>
           <nz-option nzValue="post" nzLabel="POST"></nz-option>
           <nz-option nzValue="put" nzLabel="PUT"></nz-option>
@@ -42,24 +42,41 @@
         <div class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
           [formGroupName]="i">
           <div class="w-10/12 p-1">
-            <div  *ngIf="ActionsForms.value[i].type == 'email'">
+            <div *ngIf="ActionsForms.value[i].type == 'email'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
+              <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+                (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
+                <label nz-radio-button nzValue="sql">Sql</label>
+                <label nz-radio-button nzValue="mySql">MySql</label>
+                <label nz-radio-button nzValue="postgress">Postgress</label>
+              </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
 
-              <textarea nz-input type="text" rows="3" class="form-control"
-                formControlName="email"></textarea>
+              <textarea nz-input type="text" rows="3" class="form-control" formControlName="email"></textarea>
             </div>
-            <div  *ngIf="ActionsForms.value[i].type == 'query'">
+            <div *ngIf="ActionsForms.value[i].type == 'query'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
               <input nz-input type="text" formControlName="referenceId" class="form-control"
                 style="width: 18%;margin-bottom: 1%;">
+              <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+                (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
+                <label nz-radio-button nzValue="sql">Sql</label>
+                <label nz-radio-button nzValue="mySql">MySql</label>
+                <label nz-radio-button nzValue="postgress">Postgress</label>
+              </nz-radio-group>
               <textarea nz-input type="text" rows="3" class="form-control" [id]="'query' + i"
                 formControlName="query"></textarea>
             </div>
-            <div  *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
+            <div *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
+              <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+                (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
+                <label nz-radio-button nzValue="sql">Sql</label>
+                <label nz-radio-button nzValue="mySql">MySql</label>
+                <label nz-radio-button nzValue="postgress">Postgress</label>
+              </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-                <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
+              <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
                 formControlName="confirmEmail"></textarea>
             </div>
           </div>
