@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -12,21 +12,13 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class ScreenBuilderComponent implements OnInit {
   applicationBuilder: any;
-  applicationName: any;
   moduleList: any;
-  moduleName: any
-  // applicationType: any;
   model: any;
-  fields: any = [];
   jsonScreenModule: any = [];
-  schema: any;
   isSubmit: boolean = true;
-  form = new FormGroup({});
-  isDesc: boolean = false;
-  column: any = 'name';
+  form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  isShow: boolean = false;
   listOfData: any = [];
   listOfDisplayData: any = [];
   loading = false;
@@ -89,23 +81,28 @@ export class ScreenBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      screenId: new FormControl('', Validators.required),
+      applicationName: new FormControl('', Validators.required),
+      moduleName: new FormControl('', Validators.required),
+    });
+    const applicationNameControl = this.form.get('applicationName');
+    if (applicationNameControl !== null) {
+      applicationNameControl.valueChanges.subscribe(value => {
+        this.getModulelist(value);
+      });
+    }
 
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.screenSettingForm();
     this.loadData();
     this.jsonScreenModuleList();
-  }
-
-  screenSettingForm() {
-    this.builderService.screenSettingForm().subscribe((res => {
-      this.fields = res;
-    }));
   }
   jsonScreenModuleList() {
     this.loading = true
@@ -114,7 +111,9 @@ export class ScreenBuilderComponent implements OnInit {
       this.listOfData = res;
       this.loading = false;
       this.jsonScreenModule = res;
-
+      if (this.searchValue) {
+        this.search(this.searchValue);
+      }
     }));
   }
   getModuleList() {
@@ -123,9 +122,9 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   openModal() {
+    debugger
+    this.form.reset();
     this.isVisible = true;
-    this.applicationName = "";
-    this.moduleName = "";
     if (!this.isSubmit) {
       this.isSubmit = true;
       this.loadData();
@@ -140,16 +139,9 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   loadData() {
-    var daata = {
-      name: '',
-      screenId: '',
-      applicationName: '',
-      moduleName: '',
-    };
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
     }));
-    this.model = daata;
   }
   getModulelist(applicationName: any) {
     this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
@@ -157,55 +149,47 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   onSubmit() {
-    if (this.form.valid && this.applicationName && this.moduleName) {
-      const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName);
-      var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-      currentData["applicationName"] = mainModuleName[0].name;
-      currentData["moduleName"] = this.moduleName;
-      currentData.name = currentData.name.toLowerCase();
-      if (this.isSubmit) {
-        if (this.applicationName != '' && this.moduleName != '') {
-          this.builderService.checkScreenAlreadyExistOrNot(currentData.screenId).subscribe((res => {
-            if (res.length == 0) {
-              this.builderService.checkScreenAlreadyExistOrNotWithName(currentData.name).subscribe((res1 => {
-                if (res1.length == 0) {
-                  this.builderService.addScreenModule(currentData).subscribe((res => {
-                    this.isVisible = false;
-                    this.loadData();
-                    this.jsonScreenModuleList();
-                    this.toastr.success('Save Successfully!', { nzDuration: 3000 });
-                  }))
-                }
-                else {
-                  this.toastr.error('This screen name is already exist!', { nzDuration: 3000 });
-                }
-              }))
-            }
-            else {
-              this.toastr.error('This screen id is already exist!', { nzDuration: 3000 });
-            }
-          }))
-        }
-      }
-      else {
-        this.builderService.updateScreenModule(this.model.id, currentData).subscribe((res => {
-          this.isVisible = false;
-          this.isSubmit = true;
-          this.loadData();
-          this.jsonScreenModuleList();
-          this.toastr.success('Update Successfully!', { nzDuration: 3000 });
-        }))
-      }
-    } else {
-      this.toastr.error('The field is required!', { nzDuration: 3000 });
+    if (!this.form.valid) {
+      this.handleCancel();
+      return;
     }
+
+    const checkScreenAndProceed = this.isSubmit
+      ? this.builderService.addScreenModule(this.form.value)
+      : this.builderService.updateScreenModule(this.model.id, this.form.value);
+
+    this.builderService.checkScreen(this.form.value).subscribe((result) => {
+      if (result) {
+        const message = result.type === 'name'
+          ? `Screen name '${result.value}' already exists in the database. Please choose a different name.`
+          : `Screen ID '${result.value}' already exists in the database. Please choose a different ID.`;
+        this.toastr.warning(message, { nzDuration: 2000 });
+        this.loading = false;
+      } else {
+        checkScreenAndProceed.subscribe(() => {
+          this.isVisible = false;
+          this.jsonScreenModuleList();
+          const message = this.isSubmit ? 'Save' : 'Update';
+          this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
+          if (!this.isSubmit) {
+            this.isSubmit = true;
+          }
+          this.handleCancel();
+        });
+      }
+    });
   }
+
 
   editItem(item: any) {
     this.getModuleList();
     this.model = item;
-    this.applicationName = item?.applicationName;
-    this.moduleName = item?.moduleName;
+    this.form.patchValue({
+      name: item.name,
+      screenId: item.screenId,
+      applicationName: item.applicationName,
+      moduleName: item.moduleName,
+    });
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
@@ -229,15 +213,14 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(event?: any): void {
-    if (event.target.value) {
-      let inputValue = event.target.value.toLowerCase();
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (item.screenId.toLowerCase().indexOf(inputValue) !== -1 ||
         item.name.toLowerCase().indexOf(inputValue) !== -1 ||
         (item?.moduleName ? item.moduleName.toLowerCase().indexOf(inputValue) !== -1 : false) ||
         item?.applicationName.toLowerCase().indexOf(inputValue) !== -1)
       );
-
       this.searchIcon = "close";
     } else {
       this.listOfDisplayData = this.listOfData;

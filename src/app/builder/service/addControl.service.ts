@@ -134,6 +134,7 @@ export class AddControlService {
       badgeCount : '',
       hoverBorderColor:'',
       borderColor:'',
+      iconPlacement:'left',
     }
   }
   getDropdownButtonControl() {
@@ -164,6 +165,7 @@ export class AddControlService {
       btnLabelPaddingClass: '',
       hoverBorderColor:'',
       borderColor:'',
+      iconPlacement:'right',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -549,6 +551,7 @@ export class AddControlService {
       badgeCount : '',
       hoverBorderColor:'',
       borderColor:'',
+      iconPlacement:'left',
     }
   }
   simplecardControl() {

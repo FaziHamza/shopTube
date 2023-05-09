@@ -1,6 +1,6 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
 
-<nz-card nzTitle="Company Builder List" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Company List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
             <!-- <label>Pagination</label> -->
@@ -55,22 +55,18 @@
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Modal -->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Company" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="modal-body">
-                <div class="row">
-                    <formly-form [form]="form" [model]="model" [fields]="fields">
-                    </formly-form>
-                </div>
-            </div>
+        <form [formGroup]="form">
+            <label for="name">Company Name</label>
+            <input nz-input placeholder="Company Name..." id="name" formControlName="name" />
         </form>
     </ng-container>
     <ng-template #modalFooter>
         <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
                 nzTheme="outline"></span>Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="database"
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="database"
                 nzTheme="outline"></span>Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="redo"
+        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="redo"
                 nzTheme="outline"></span>Update</button>
     </ng-template>

@@ -1436,7 +1436,7 @@ export class BuilderComponent implements OnInit {
     }
     if (_formFieldData.commonIconFields[0].fieldGroup) {
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup && element.key != 'icon') {
+        if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup && element.key != 'icon' && element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
           _formFieldData.commonFormlyConfigurationFields[0].fieldGroup.push(element)
         }
       });
@@ -1721,12 +1721,15 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "button":
-        configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
+        // configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
+        configObj.icon = selectedNode.btnIcon
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case "dropdownButton":
-        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        configObj.icon = selectedNode.btnIcon,
+        configObj.options  = selectedNode.dropdownOptions,
+        // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
@@ -1735,7 +1738,8 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case "linkbutton":
-        configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
+        // configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
+        configObj.icon = selectedNode.btnIcon,
         this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
@@ -3103,15 +3107,11 @@ export class BuilderComponent implements OnInit {
     this.closeConfigurationList();
   }
   updateTableData(tableData: any, tableHeaders: any) {
-    // Loop through each object in tableData
     tableData.forEach((data: any) => {
-      // Loop through each object in tableHeaders
       tableHeaders.forEach((header: any) => {
-        // Check if the key exists in the data object
         if (header.key)
           if (!data.hasOwnProperty(header.key.toLowerCase())) {
-            // If the key does not exist, add it with a value of null or an empty string
-            data[header.key] = null; // or data[header.key] = '';
+            data[header.key] = null; 
           }
       });
     });

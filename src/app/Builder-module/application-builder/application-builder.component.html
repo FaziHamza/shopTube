@@ -1,5 +1,5 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Application Builder List" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Application List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
             <!-- <label>Pagination</label> -->
@@ -12,7 +12,8 @@
         </div>
         <div class="search-box pb-2">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search application..." [(ngModel)]="searchValue" />
+                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search application..."
+                    [(ngModel)]="searchValue" />
             </nz-input-group>
         </div>
         <ng-template #suffixIconSearch>
@@ -37,8 +38,11 @@
                 <td>{{ data.name }}</td>
                 <td>{{ data.companyName }}</td>
                 <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline" nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline" nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)"></span>
+                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
+                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data.id)"></span>
                 </td>
             </tr>
         </tbody>
@@ -51,30 +55,23 @@
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Modal -->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Application" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <div class="flex flex-nowrap pb-1">
-            <div style="width:24%">
-                <label>Select Company</label>
-            </div>
-            <div style="width:76%">
-                <nz-select nzClear [(ngModel)]="companyName" placeholder="Select here...">
-                    <nz-option [nzValue]="item.name" [nzLabel]="item.name"
-                        *ngFor="let item of companyBuilder"></nz-option>
-                </nz-select>
-            </div>
-        </div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="modal-body">
-                <formly-form [form]="form" [model]="model" [fields]="fields">
-                </formly-form>
-            </div>
+        <form [formGroup]="myForm">
+            <label for="name">Application Name</label>
+            <input nz-input placeholder="Application Name..." id="name" formControlName="name" />
+            <label>Select Company</label>
+            <nz-select nzShowSearch nzAllowClear id="companyName" formControlName="companyName"
+                placeholder="Select here...">
+                <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of companyBuilder"></nz-option>
+            </nz-select>
         </form>
     </ng-container>
     <ng-template #modalFooter>
         <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
                 nzTheme="outline"></span>Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="database"
-                nzTheme="outline"></span>Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="redo"
-                nzTheme="outline"></span>Update</button>
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!myForm.valid"><span
+                nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
+        <button nz-button *ngIf="!isSubmit" nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><span
+                nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
+    </ng-template>

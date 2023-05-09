@@ -240,6 +240,25 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'iconPlacement',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
+            ]
+          },
+        },
+        {
           key: 'nztype',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -816,6 +835,25 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
+          key: 'iconPlacement',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
+            ]
+          },
+        },
+        {
           key: 'nzSize',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1177,6 +1215,25 @@ export class formFeildData {
                 label: 'Middle',
                 value: 'text-center'
               },
+            ]
+          },
+        },
+        {
+          key: 'iconPlacement',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
             ]
           },
         },

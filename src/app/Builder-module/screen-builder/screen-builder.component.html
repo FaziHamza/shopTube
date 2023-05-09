@@ -62,30 +62,28 @@
 <!-- Modal -->
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <label class="mx-3 ">Select Application</label>
-        <nz-select style="padding-left: 2%;" [(ngModel)]="applicationName" (ngModelChange)="getModulelist($event)">
-            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                *ngFor="let item of applicationBuilder"></nz-option>
-        </nz-select>
-        <label class="mx-3 ">Select Module</label>
-        <nz-select style="padding-left: 2%;" [(ngModel)]="moduleName">
-            <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                *ngFor="let item of moduleList"></nz-option>
-        </nz-select>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="modal-body">
-                <div class="row">
-                    <formly-form [form]="form" [model]="model" [fields]="fields">
-                    </formly-form>
-                </div>
-            </div>
+        <form [formGroup]="form">
+            <label>Select Application</label>
+            <nz-select nzShowSearch nzAllowClear id="companyName" formControlName="applicationName">
+                <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
+                    *ngFor="let item of applicationBuilder"></nz-option>
+            </nz-select>
+            <label>Select Module</label>
+            <nz-select nzShowSearch nzAllowClear id="moduleName" formControlName="moduleName">
+                <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
+                    *ngFor="let item of moduleList"></nz-option>
+            </nz-select>
+            <label for="screenId">Screen Id</label>
+            <input nz-input placeholder="Enter Screen Id" id="screenId" formControlName="screenId" />
+            <label for="name">Screen Name</label>
+            <input nz-input placeholder="Enter Screen Name" id="name" formControlName="name" />
         </form>
     </ng-container>
     <ng-template #modalFooter>
         <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
                 nzTheme="outline"></span>Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="database"
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="database"
                 nzTheme="outline"></span>Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="redo"
+        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="redo"
                 nzTheme="outline"></span>Update</button>
     </ng-template>
