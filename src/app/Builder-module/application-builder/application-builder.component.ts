@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -11,26 +11,21 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./application-builder.component.scss']
 })
 export class ApplicationBuilderComponent implements OnInit {
-
   companyName: any;
   companyBuilder: any;
   model: any;
-  fields: any = [];
   applicationData: any = [];
   schema: any;
   isSubmit: boolean = true;
-  form = new FormGroup({});
-  isDesc: boolean = false;
-  column: any = 'name';
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  isShow: boolean = false;
   listOfData: any = [];
   listOfDisplayData: any = [];
   loading = false;
   pageSize = 10;
   searchIcon = "search";
   searchValue = '';
+  myForm: FormGroup;
   listOfColumns = [
     {
       name: 'Application Name',
@@ -56,7 +51,7 @@ export class ApplicationBuilderComponent implements OnInit {
       },
       sortDirections: ['ascend', 'descend', null],
     },
-    
+
     {
       name: 'Action',
       sortOrder: null,
@@ -67,23 +62,18 @@ export class ApplicationBuilderComponent implements OnInit {
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-
+    this.myForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      companyName: new FormControl('', Validators.required),
+    });
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.applicationBuilderForm();
     this.loadData();
-    // this.getModuleList();
     this.jsonApplicationBuilder();
-
   }
 
-  applicationBuilderForm() {
-    this.builderService.applicationBuilderForm().subscribe((res => {
-      this.fields = res;
-    }));
-  }
   jsonApplicationBuilder() {
     this.loading = true
     this.builderService.jsonApplicationBuilder().subscribe((res => {
@@ -91,22 +81,17 @@ export class ApplicationBuilderComponent implements OnInit {
       this.listOfData = res;
       this.loading = false;
       this.applicationData = res;
-
+      if (this.searchValue) {
+        this.search(this.searchValue);
+      }
     }));
   }
   openModal() {
+    this.myForm.reset();
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
-      this.loadData();
     }
-  }
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-  handleOk(): void {
-    this.isVisible = false;
   }
 
   handleCancel(): void {
@@ -114,56 +99,52 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   loadData() {
-    var daata = {
-      name: '',
-    };
-    this.model = daata;
-    this.companyName = '';
     this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.companyBuilder = res;
     }));
   }
   onSubmit() {
-    debugger
-    if (this.form.valid) {
+    if (this.myForm.valid) {
       if (this.isSubmit) {
-        const mainModuleName = this.companyBuilder.filter((a: any) => a.name == this.companyName)
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        currentData["companyName"] = mainModuleName[0].name;
-        this.builderService.addApplicationBuilder(currentData).subscribe((res => {
-          this.loadData();
+        this.builderService.addApplicationBuilder(this.myForm.value).subscribe((res => {
           this.jsonApplicationBuilder();
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
         }))
       }
       else {
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.updateApplicationBuilder(this.model.id, currentData).subscribe((res => {
+        this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value).subscribe((res => {
           this.loadData();
           this.jsonApplicationBuilder();
           this.isSubmit = true;
+          this.toastr.success('Data upodate successfully!.', { nzDuration: 2000 });
         }))
       }
     }
     this.handleCancel();
   }
+
   editItem(item: any) {
+    this.myForm.patchValue({
+      name: item.name,
+      companyName: item.companyName
+    });
     this.model = item;
-    this.companyName = item?.companyName;
     this.isSubmit = false;
   }
+
+
   deleteRow(id: any): void {
     this.builderService.deleteApplicationBuilder(id).subscribe((res => {
       this.jsonApplicationBuilder();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
+
   search(event?: any): void {
-    debugger
-    if (event.target.value) {
-      let inputValue = event.target.value.toLowerCase();
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-        (item.name.toLowerCase().indexOf(inputValue) !== -1 ||  (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false))
+        (item.name.toLowerCase().indexOf(inputValue) !== -1 || (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false))
       );
       this.searchIcon = "close";
     } else {
@@ -172,8 +153,8 @@ export class ApplicationBuilderComponent implements OnInit {
     }
   }
 
-  clearModel(){
-    if(this.searchIcon == "close" && this.searchValue){
+  clearModel() {
+    if (this.searchIcon == "close" && this.searchValue) {
       this.searchValue = '';
       this.listOfDisplayData = this.listOfData;
       this.searchIcon = "search";
@@ -190,6 +171,6 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
 
-  
+
 
 }

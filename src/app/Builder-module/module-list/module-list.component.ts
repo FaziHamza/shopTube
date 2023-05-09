@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
 
@@ -10,18 +10,12 @@ import { BuilderService } from 'src/app/services/builder.service';
 })
 export class ModuleListComponent implements OnInit {
   moduleList: any;
-  applicationName: any;
   applicationBuilder: any;
   model: any;
-  fields: any = [];
-  schema: any;
   isSubmit: boolean = true;
-  form = new FormGroup({});
-  isDesc: boolean = false;
-  column: any = 'name';
+  form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  isShow: boolean = false;
   listOfData: any = [];
   listOfDisplayData: any = [];
   loading = false;
@@ -30,7 +24,7 @@ export class ModuleListComponent implements OnInit {
   searchIcon = "search";
   listOfColumns = [
     {
-      name: 'Name',
+      name: 'Module',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
@@ -52,63 +46,56 @@ export class ModuleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.jsonModuleSetting();
-    this.moduleSettingForm();
     this.loadData();
-  }
-  moduleSettingForm() {
-    this.builderService.moduleSettingForm().subscribe((res => {
-      this.fields = res;
-    }));
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      applicationName: new FormControl('', Validators.required),
+    });
   }
   jsonModuleSetting() {
+    this.loading = true;
     this.builderService.jsonModuleSetting().subscribe((res => {
+      debugger
       this.moduleList = res;
       this.listOfDisplayData = res;
       this.listOfData = res;
+      this.loading = false;
+      if (this.searchValue) {
+        this.search(this.searchValue);
+      }
     }));
   }
   openModal() {
+    this.form.reset();
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
       this.loadData();
     }
   }
-  showModal(): void {
-    this.isVisible = true;
-  }
-
   handleCancel(): void {
     this.isVisible = false;
   }
   loadData() {
-    var daata = {
-      name: '',
-    };
-    this.model = daata;
-    this.applicationName = '';
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
     }));
   }
   onSubmit() {
     debugger
+    this.loading = true;
     if (this.form.valid) {
       if (this.isSubmit) {
-        const mainModuleName = this.applicationBuilder.filter((a: any) => a.name == this.applicationName)
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        currentData["applicationName"] = mainModuleName[0].name;
-        this.builderService.addModule(currentData).subscribe((res => {
-          this.loadData();
+        this.builderService.addModule(this.form.value).subscribe((res => {
           this.jsonModuleSetting();
+          this.loading = false;
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
         }))
       }
       else {
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.updateApplicationBuilder(this.model.id, currentData).subscribe((res => {
-          this.loadData();
+        this.builderService.updateModule(this.model.id, this.form.value).subscribe((res => {
           this.jsonModuleSetting();
+          this.loading = false;
           this.isSubmit = true;
         }))
       }
@@ -116,9 +103,12 @@ export class ModuleListComponent implements OnInit {
     this.handleCancel();
   }
   editItem(item: any) {
-
+    debugger
+    this.form.patchValue({
+      name: item.name,
+      applicationName: item.applicationName
+    });
     this.model = item;
-    this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
@@ -127,12 +117,13 @@ export class ModuleListComponent implements OnInit {
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
+
   search(event?: any): void {
-    if (event.target.value) {
-      let inputValue = event.target.value.toLowerCase();
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-        (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
-      );
+      (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+    );
       this.searchIcon = "close";
     } else {
       this.listOfDisplayData = this.listOfData;

@@ -1,5 +1,5 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Builder Module List" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Module List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
             <!-- <label>Pagination</label> -->
@@ -55,33 +55,24 @@
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Modal -->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Module" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
-        <div class="flex flex-nowrap pb-1">
-            <div style="width:24%">
-                <label>Select Application</label>
-            </div>
-            <div style="width:76%">
-                <nz-select nzClear [(ngModel)]="applicationName" placeholder="Select here...">
-                    <nz-option [nzValue]="item.name" [nzLabel]="item.name"
-                        *ngFor="let item of applicationBuilder"></nz-option>
-                </nz-select>
-            </div>
-        </div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="modal-body">
-                <div class="row">
-                    <formly-form [form]="form" [model]="model" [fields]="fields">
-                    </formly-form>
-                </div>
-            </div>
+        <form [formGroup]="form">
+            <label for="name">Module Name</label>
+            <input nz-input placeholder="Module Name..." id="name" formControlName="name" />
+            <label>Select Application</label>
+            <nz-select nzShowSearch nzAllowClear id="applicationName" formControlName="applicationName"
+                placeholder="Select here...">
+                <nz-option [nzValue]="item.name" [nzLabel]="item.name"
+                    *ngFor="let item of applicationBuilder"></nz-option>
+            </nz-select>
         </form>
     </ng-container>
     <ng-template #modalFooter>
         <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
                 nzTheme="outline"></span>Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="database"
-                nzTheme="outline"></span>Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()"><span nz-icon nzType="redo"
-                nzTheme="outline"></span>Update</button>
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon
+                nzType="database" nzTheme="outline"></span>Submit</button>
+        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon
+                nzType="redo" nzTheme="outline"></span>Update</button>
     </ng-template>

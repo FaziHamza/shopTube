@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -13,16 +13,12 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class CompanyBuilderComponent implements OnInit {
   applicationName: any;
   model: any;
-  fields: any = [];
   copmanyData: any = [];
   schema: any;
   isSubmit: boolean = true;
-  form = new FormGroup({});
-  isDesc: boolean = false;
-  column: any = 'name';
+  form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  isShow: boolean = false;
   listOfData: any = [];
   listOfDisplayData: any = [];
   loading = false;
@@ -46,20 +42,14 @@ export class CompanyBuilderComponent implements OnInit {
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+    });
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.applicationBuilderForm();
-    this.loadData();
-    // this.getModuleList();
     this.jsonCompanyBuilder();
-  }
-
-  applicationBuilderForm() {
-    this.builderService.applicationBuilderForm().subscribe((res => {
-      this.fields = res;
-    }));
   }
   jsonCompanyBuilder() {
     this.loading = true
@@ -68,13 +58,16 @@ export class CompanyBuilderComponent implements OnInit {
       this.listOfData = res;
       this.loading = false;
       this.copmanyData = res;
+      if (this.searchValue) {
+        this.search(this.searchValue);
+      }
     }));
   }
   openModal() {
+    this.form.reset();
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
-      this.loadData();
     }
   }
   showModal(): void {
@@ -88,27 +81,17 @@ export class CompanyBuilderComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-
-  loadData() {
-    var daata = {
-      name: '',
-    };
-    this.model = daata;
-  }
+ 
   onSubmit() {
     if (this.form.valid) {
       if (this.isSubmit) {
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.addCompanyBuilder(currentData).subscribe((res => {
-          this.loadData();
+        this.builderService.addCompanyBuilder(this.form.value).subscribe((res => {
           this.jsonCompanyBuilder();
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
         }))
       }
       else {
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.updateCompanyBuilder(this.model.id, currentData).subscribe((res => {
-          this.loadData();
+        this.builderService.updateCompanyBuilder(this.model.id, this.form.value).subscribe((res => {
           this.jsonCompanyBuilder();
           this.isSubmit = true;
         }))
@@ -117,8 +100,10 @@ export class CompanyBuilderComponent implements OnInit {
     this.handleCancel();
   }
   editItem(item: any) {
+    this.form.patchValue({
+      name: item.name,
+    });
     this.model = item;
-    this.applicationName = item?.applicationName;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
@@ -128,16 +113,16 @@ export class CompanyBuilderComponent implements OnInit {
     }))
   };
   search(event?: any): void {
-    debugger
-    if (event.target.value) {
-      this.isShow = false;
-      this.listOfDisplayData = this.listOfData.filter((item: any) => (item.name).toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
+      this.listOfDisplayData = this.listOfData.filter((item: any) => (item.name).toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
       this.searchIcon = "close";
     } else {
       this.listOfDisplayData = this.listOfData;
       this.searchIcon = "search";
     }
   }
+  
 
   clearModel(){
     if(this.searchIcon == "close" && this.searchValue){
