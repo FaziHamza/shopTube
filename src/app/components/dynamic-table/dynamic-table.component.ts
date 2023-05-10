@@ -40,7 +40,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.gridInitilize();
   }
   onClickRow(item: any) {
@@ -50,7 +49,6 @@ export class DynamicTableComponent implements OnInit {
     console.log("Column Click " + name);
   }
   gridInitilize() {
-    debugger
     if (this.data.api) {
       this.builderService.genericApis(this.data.api).subscribe(res => {
         if (res)
@@ -69,7 +67,6 @@ export class DynamicTableComponent implements OnInit {
     }
     if (this.screenId)
       this.builderService.jsonGridBusinessRuleGet(this.screenId).subscribe((getRes => {
-
         if (getRes.length > 0) {
           // this.dataModel['input34d5985f']='1313'
           let gridFilter = getRes.filter(a => a.gridType == 'Body');
@@ -132,7 +129,6 @@ export class DynamicTableComponent implements OnInit {
                     }
                   }
                 }
-
               }
             }
           }
@@ -229,11 +225,9 @@ export class DynamicTableComponent implements OnInit {
                     }
                   });
                 }
-
               }
             }
           }
-
         }
         this.loadTableData();
       }));
@@ -306,7 +300,6 @@ export class DynamicTableComponent implements OnInit {
   // };
   // handleOk(): void {
   addColumn(): void {
-
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
@@ -355,7 +348,6 @@ export class DynamicTableComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
@@ -404,8 +396,6 @@ export class DynamicTableComponent implements OnInit {
       }
       this.data = newNode;
     }
-
-
   }
   handleCancel(): void {
     this.isHeaderVisible = false;
@@ -414,11 +404,9 @@ export class DynamicTableComponent implements OnInit {
     this.GridType = type;
     this.isHeaderVisible = true;
   }
-
   handleOk(): void {
     this.isHeaderVisible = false;
   }
-
   // handleCancel(): void {
   //   console.log('Button cancel clicked!');
   //   this.isVisible = false;
@@ -446,7 +434,6 @@ export class DynamicTableComponent implements OnInit {
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
     }
-
   }
   getChildrenData() {
     const childKeys = this.tableData.reduce((acc: any, obj: any) => {
@@ -524,7 +511,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   select(rowIndex: number, value: any) {
-
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }

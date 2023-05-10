@@ -1340,7 +1340,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-
+    this.makeFaker();
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
@@ -2592,7 +2592,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
-        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
@@ -2618,7 +2617,7 @@ export class BuilderComponent implements OnInit {
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
-          this.selectedNode.tableData = this.updateTableData(event.tableDta ? event.tableDta : event.form.options, event.tableDta ? event.tableDta : event.form.options);
+          this.selectedNode.columnData = this.updateTableData(event.tableDta ? event.tableDta : event.form.options, event.tableDta ? event.tableDta : event.form.options);
           if (event.form.api) {
             this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
               next: (res) => {
@@ -3094,7 +3093,6 @@ export class BuilderComponent implements OnInit {
       default:
         break;
     }
-    debugger
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
       this.selectedNode = { ...this.selectedNode, ...event.form };
       this.updateNodes();
