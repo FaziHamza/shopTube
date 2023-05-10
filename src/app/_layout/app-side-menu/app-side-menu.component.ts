@@ -93,9 +93,9 @@ export class AppSideMenuComponent implements OnInit {
         icon: "down",
         subMenu: []
       }]
-      const withOutTitle = this.menuItems.filter((a:any)=>a.isTitle != true);
+      const withOutTitle = this.menuItems.filter((a: any) => a.isTitle != true);
       this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.filter((a:any)=>a.isTitle != true).slice(0, 7);
+      this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;
@@ -108,13 +108,12 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    
     let checkTabsAndDropdown = false;
     event.stopPropagation();
     data.children.forEach((element: any) => {
       if (!checkTabsAndDropdown) {
         if (element.type == 'mainTab' || element.type == 'dropdown') {
-          checkTabsAndDropdown =  true;
+          checkTabsAndDropdown = true;
         }
       }
     });
@@ -162,13 +161,27 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   shouldExecute(data: any): boolean {
-
     if (data.type === 'mainTab' || data.type === 'dropdown') {
       return false;
     }
     return true;
   }
-
+  getStyleValue(item: any, selectedTheme: any): number {
+    if (item.iconType === 'font_awesome') {
+      return 10;
+    } if (selectedTheme.isCollapsed) {
+      return 35;
+    } else {
+      return 10;
+    }
+  }
+  getStyle(item: any, selectedTheme: any): number {
+    if (selectedTheme.isCollapsed) {
+      return 35;
+    } else {
+      return 10;
+    }
+  }
 
 
 }

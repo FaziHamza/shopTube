@@ -16,18 +16,21 @@
             <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
               <ng-container *ngFor="let item of selectedTheme.allMenuItems">
                 <li class="menu-title" *ngIf="item.isTitle && shouldExecute(item);"><span class="menu-item-icon">
-                    <st-icon *ngIf="item.icon" [type]=" 'outline'" [icon]="item.icon" [size]="15"
-                      [color]="''"></st-icon>
+                    <st-icon *ngIf="item.icon" [type]="item.iconType == 'outline'" [icon]="item.icon" [size]="item.iconSize || 15"
+                      [color]="item.iconColor || ''"></st-icon>
                   </span><span *ngIf="!this.selectedTheme.isCollapsed">{{item.title}}</span></li>
+                  <ng-template #customIcon>
+                    <span nz-icon nzType="step-backward" nzTheme="outline"></span>
+                  </ng-template>
                 <ng-container
-                  *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
-                  <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon"
+                  *ngIf="item.children.length && shouldExecute(item.children[0]);else menu">
+                  <li nz-submenu [nzTitle]="item.title" [ngTemplateOutlet]="customIcon"
                     (mouseover)="setHovered('up', item.menuIcon,item)"
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.children">
                       <ng-container *ngIf="shouldExecute(sub) && selectedTheme.layout != 'twoColumn'">
                         <li nz-menu-item *ngIf="sub.children.length == 0" class="bg-transparent"
-                          (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',item)"
+                          (click)="loadTabsAndButtons($event, sub)" (mouseover)="setHovered(false,'start',sub)"
                           (mouseout)="setHovered(true,'start')">
                           {{sub.title}}</li>
                         <li nz-submenu [nzTitle]="sub.title" *ngIf="sub.children.length" nz-menu-item
@@ -40,8 +43,6 @@
                       </ng-container>
                     </ul>
                   </li>
-                  <!-- <span class="!-ml-4" nz-icon [nzType]="item.icon" nzTheme="outline"
-                    *ngIf="selectedTheme.menuMode === 'horizontal'"></span> -->
                 </ng-container>
                 <ng-template #menu>
                   <li class="nav-item" *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip
@@ -58,8 +59,7 @@
                       *ngIf="item.iconType == 'material'">
                       <i class="material-icons">{{item.icon}}</i>
                     </span>
-                    <!-- <span nz-icon [nzType]="item.icon"></span> -->
-                    <span class="title">{{item.title}}</span>
+                    <span class="title" [style.margin-left.px]="getStyleValue(item , selectedTheme)" [style.margin-right.px]="getStyle(item , selectedTheme)">{{item.title}}</span>
                   </li>
                 </ng-template>
               </ng-container>
@@ -143,7 +143,7 @@
                         *ngIf="item.iconType == 'material'">
                         <i class="material-icons">{{item.icon}}</i>
                       </span>
-                        <span>{{item.title}}</span>
+                      <span class="title" [style.margin-left.px]="getStyleValue(item , selectedTheme.isCollapsed)">{{item.title}}</span>
                       </li>
                     </ng-template>
                   </ul>

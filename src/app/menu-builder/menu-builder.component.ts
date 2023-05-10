@@ -1245,12 +1245,15 @@ export class MenuBuilderComponent implements OnInit {
     let _formFieldData = new formFeildData();
     if (_formFieldData.commonIconFields[0].fieldGroup) {
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (element.key != 'icon' || allowIcon) {
-          configurationFields[0].fieldGroup.unshift(element)
+        if (element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
+          if (element.key != 'icon' || allowIcon) {
+            configurationFields[0].fieldGroup.unshift(element)
+          }
         }
       });
     }
   }
+
 
 }
 
