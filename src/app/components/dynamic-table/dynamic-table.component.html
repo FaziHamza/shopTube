@@ -43,7 +43,8 @@
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of data['tableKey']; let index = index">
             <td [nzEllipsis]="true"
-              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
+              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' 
+                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
               <div
                 *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) ">
                 <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">

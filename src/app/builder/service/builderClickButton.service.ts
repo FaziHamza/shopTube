@@ -10,8 +10,8 @@ export class BuilderClickButtonService {
   }
 
   getGridConfig(node: any) {
-    debugger
     return {
+      isRowClick: node.isRowClick,
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
         return {
