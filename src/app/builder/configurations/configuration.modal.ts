@@ -9422,6 +9422,16 @@ export class formFeildData {
           defaultValue: false
         },
         {
+          key: 'isRowClick',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Is Row Click',
+          },
+          defaultValue: false
+        },
+        {
           template: '<div class="bold-label mt-3">Columns</div>',
         },
         {
@@ -9484,6 +9494,15 @@ export class formFeildData {
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Sum'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'isColumnClick',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Is Column Click'
                 }
               },
               {

@@ -674,12 +674,14 @@ export class AddControlService {
       sort: true,
       filter: true,
       isAddRow: true,
+      isRowClick: true,
       tableKey: [],
       tableHeaders: [
         {
           name: 'Id',
           key: 'Id',
           sortOrder: null,
+          isColumnClick: false,
           sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
           sortDirections: ['ascend', 'descend', null],
           filterMultiple: true,
@@ -695,6 +697,7 @@ export class AddControlService {
         {
           name: 'Name',
           key: 'Name',
+          isColumnClick: false,
           sortOrder: null,
           sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
           sortDirections: ['ascend', 'descend', null],
@@ -711,6 +714,7 @@ export class AddControlService {
         {
           name: 'Age',
           key: 'Age',
+          isColumnClick: false,
           sortOrder: 'descend',
           sortFn: (a: any, b: any) => a.age - b.age,
           sortDirections: ['descend', null],
@@ -724,6 +728,7 @@ export class AddControlService {
         {
           name: 'Address',
           key: 'Address',
+          isColumnClick: false,
           sortOrder: null,
           sortDirections: ['ascend', 'descend', null],
           sortFn: (a: any, b: any) => a.address.length - b.address.length,

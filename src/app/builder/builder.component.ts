@@ -2599,6 +2599,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
+          this.selectedNode.isRowClick = event.form?.isRowClick;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
@@ -3111,7 +3112,7 @@ export class BuilderComponent implements OnInit {
       tableHeaders.forEach((header: any) => {
         if (header.key)
           if (!data.hasOwnProperty(header.key.toLowerCase())) {
-            data[header.key] = null; 
+            data[header.key] = null;
           }
       });
     });

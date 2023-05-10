@@ -13,7 +13,7 @@ export class BuilderClickButtonService {
     return {
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
-        
+
         return {
           name: obj.name,
           key: obj.key,
@@ -24,6 +24,7 @@ export class BuilderClickButtonService {
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           id: 0,
+          isColumnClick: obj?.isColumnClick,
         };
       }),
     };
@@ -379,7 +380,7 @@ export class BuilderClickButtonService {
       icon: node.btnIcon,
     }
   }
-  
+
   getLinkButtonConfig(node: any) {
     return {
       icon: node.btnIcon,

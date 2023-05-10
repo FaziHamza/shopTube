@@ -43,11 +43,11 @@ export class DynamicTableComponent implements OnInit {
 
     this.gridInitilize();
   }
-  onClickRow(id: any) {
-    console.log("Row Click " + id);
+  onClickRow(item: any) {
+    console.log(JSON.stringify(item));
   }
-  onClickColumn(id: any) {
-    console.log("Column Click " + id);
+  onClickColumn(name: any) {
+    console.log("Column Click " + name);
   }
   gridInitilize() {
     if (this.data.api) {
