@@ -68,6 +68,8 @@ export class BuilderComponent implements OnInit {
   previewJsonData: any = '';
   searchValue: any = '';
   saveLoader: any = false;
+  htmlBlockModal: any = false;
+  htmlBlockimagePreview: any = '';
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -3622,5 +3624,21 @@ export class BuilderComponent implements OnInit {
     } catch (err) {
       this.toastr.error('Please copy correct data!', { nzDuration: 3000 });
     }
+  }
+
+  openModal(data? : any): void {
+    debugger
+    this.htmlBlockModal = true;
+    this.htmlBlockimagePreview = data;
+    console.log("open modal");
+  }
+
+  modalOk(): void {
+    this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
+    this.htmlBlockModal = false;
+  }
+
+  modalCancel(): void {
+    this.htmlBlockModal = false;
   }
 }

@@ -288,11 +288,9 @@
                                     class={{searchItems.icon}}></i>{{searchItems.label}}
                                 </button>
                               </ng-container>
-                              <button nz-button class="rounded w-auto"
-                                *ngIf="searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'"
-                                (click)="dashonicTemplates(searchItems.parameter)">
-                                <!-- <i class={{searchItems.icon}}
-                                  (mouseenter)="openModal(content,searchItems.content,searchItems.name)"></i> -->
+                              <button nz-button class="rounded w-auto" (mouseover)="openModal(searchItems)"
+                                (mouseout)="modalCancel()"
+                                *ngIf="searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'">
                                 {{searchItems.label}}
                               </button>
                             </div>
@@ -347,9 +345,10 @@
                                 </ng-container>
                                 <button nz-button nzType="default" nzBlock class="rounded"
                                   *ngIf=" item3.parameter == 'cvtemplate'  || item3.parameter == 'dashnoicPricingTemplate'  || item3.parameter == 'login' || item3.parameter == 'loremIpsum'  || item3.parameter == 'dashnoicPricingTabletemplate' || item3.parameter == 'pricingtemplate' || item3.parameter == 'registerTemplate' || item3.parameter == 'signUpTemplate' || item3.parameter == 'profiletemplate' || item3.parameter == 'invoiceTemplate'"
-                                  (click)="dashonicTemplates(item3.parameter)">
+                                   (mouseover)="openModal(item3)"
+                                  >
                                   <!-- <i class={{item3.icon}} (mouseenter)="openModal(content,item3.content,item3.name)"></i> -->
-                                  {{item3.label}}
+                                  {{item3.label}}check
                                 </button>
                               </div>
                             </div>
@@ -421,6 +420,14 @@
           nz-icon nzType="download"></span>Dwonload</button>
     </div>
     <json-editor id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
+  </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="htmlBlockModal" nzTitle="Template Preview" (nzOnCancel)="modalCancel()"
+  (nzOnOk)="modalOk()">
+  <ng-container *nzModalContent>
+    <div class="image-wrapper">
+      <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt="" />
+    </div>
   </ng-container>
 </nz-modal>
 <!-- <nz-modal [(nzVisible)]="previewJsonModal" nzTitle="Selected Json" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
