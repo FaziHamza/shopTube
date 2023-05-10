@@ -20,7 +20,7 @@ export class ApplicationBuilderComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any = [];
-  listOfDisplayData: any = [];
+  listOfDisplayData: any[] = [];
   loading = false;
   pageSize = 10;
   searchIcon = "search";
@@ -108,23 +108,23 @@ export class ApplicationBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    const action$ = this.isSubmit
-      ? this.builderService.addApplicationBuilder(this.myForm.value)
-      : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value);
 
-    this.builderService.checkApplication(this.myForm.value.name).subscribe((result) => {
-      if (result) {
-        this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
-      } else {
-        action$.subscribe((res) => {
-          this.loadData();
-          this.jsonApplicationBuilder();
-          this.isSubmit = true;
-          this.handleCancel();
-          this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
-        });
-      }
-    });
+    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id != this.model?.id);
+    if (findData) {
+      this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
+      return;
+    } else {
+      const action$ = this.isSubmit
+        ? this.builderService.addApplicationBuilder(this.myForm.value)
+        : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value);
+      action$.subscribe((res) => {
+        this.loadData();
+        this.jsonApplicationBuilder();
+        this.isSubmit = true;
+        this.handleCancel();
+        this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
+      });
+    }
   }
 
 
@@ -175,7 +175,4 @@ export class ApplicationBuilderComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
   }
-
-
-
 }
