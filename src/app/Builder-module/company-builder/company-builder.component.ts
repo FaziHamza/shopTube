@@ -20,7 +20,7 @@ export class CompanyBuilderComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any = [];
-  listOfDisplayData: any = [];
+  listOfDisplayData: any[] = [];
   loading = false;
   pageSize = 10;
   searchIcon = "search";
@@ -87,14 +87,11 @@ export class CompanyBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-
-    const checkCompany$ = this.builderService.checkCompanyName(this.form.value.name);
-    checkCompany$.subscribe((result) => {
-      if (result) {
-        this.toastr.warning('Company name already exists in the database.', { nzDuration: 2000 });
-        return;
-      }
-
+    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase());
+    if (findData) {
+      this.toastr.warning('Company name already exists in the database.', { nzDuration: 2000 });
+      return;
+    } else {
       const addOrUpdateCompany$ = this.isSubmit
         ? this.builderService.addCompanyBuilder(this.form.value)
         : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
@@ -105,8 +102,7 @@ export class CompanyBuilderComponent implements OnInit {
         this.handleCancel();
         this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
       });
-    });
-
+    }
   }
 
   editItem(item: any) {
