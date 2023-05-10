@@ -19,8 +19,8 @@ export class ScreenBuilderComponent implements OnInit {
   form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  listOfData: any = [];
-  listOfDisplayData: any = [];
+  listOfData: any[] = [];
+  listOfDisplayData: any[] = [];
   loading = false;
   searchValue = '';
   pageSize = 10;
@@ -153,31 +153,45 @@ export class ScreenBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
+    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id !=this.model?.id);
+    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id !=this.model?.id);
 
-    const checkScreenAndProceed = this.isSubmit
-      ? this.builderService.addScreenModule(this.form.value)
-      : this.builderService.updateScreenModule(this.model.id, this.form.value);
-
-    this.builderService.checkScreen(this.form.value).subscribe((result) => {
-      if (result) {
-        const message = result.type === 'name'
-          ? `Screen name '${result.value}' already exists in the database. Please choose a different name.`
-          : `Screen ID '${result.value}' already exists in the database. Please choose a different ID.`;
-        this.toastr.warning(message, { nzDuration: 2000 });
-        this.loading = false;
-      } else {
-        checkScreenAndProceed.subscribe(() => {
-          this.isVisible = false;
-          this.jsonScreenModuleList();
-          const message = this.isSubmit ? 'Save' : 'Update';
-          this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
-          if (!this.isSubmit) {
-            this.isSubmit = true;
-          }
-          this.handleCancel();
-        });
+    if (findData || findDataScreen) {
+      if (findData) {
+        this.toastr.warning('Screen ID already exists in the database. Please choose a different ID.', { nzDuration: 2000 });
       }
-    });
+      if (findDataScreen) {
+        this.toastr.warning('Screen name already exists in the database. Please choose a different name.', { nzDuration: 2000 });
+      }
+      this.loading = false;
+      return;
+    }
+    else {
+      const checkScreenAndProceed = this.isSubmit
+        ? this.builderService.addScreenModule(this.form.value)
+        : this.builderService.updateScreenModule(this.model.id, this.form.value);
+      checkScreenAndProceed.subscribe(() => {
+        this.isVisible = false;
+        this.jsonScreenModuleList();
+        const message = this.isSubmit ? 'Save' : 'Update';
+        this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
+        if (!this.isSubmit) {
+          this.isSubmit = true;
+        }
+        this.handleCancel();
+      });
+    }
+    // this.builderService.checkScreen(this.form.value).subscribe((result) => {
+    //   if (result) {
+    //     const message = result.type === 'name'
+    //       ? `Screen name '${result.value}' already exists in the database. Please choose a different name.`
+    //       : `Screen ID '${result.value}' already exists in the database. Please choose a different ID.`;
+    //     this.toastr.warning(message, { nzDuration: 2000 });
+    //     this.loading = false;
+    //   } else {
+
+    //   }
+    // });
   }
 
 

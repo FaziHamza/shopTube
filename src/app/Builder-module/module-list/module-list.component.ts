@@ -16,8 +16,8 @@ export class ModuleListComponent implements OnInit {
   form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
-  listOfData: any = [];
-  listOfDisplayData: any = [];
+  listOfData: any[] = [];
+  listOfDisplayData: any[] = [];
   loading = false;
   searchValue = '';
   pageSize = 10;
@@ -89,25 +89,24 @@ export class ModuleListComponent implements OnInit {
     }
 
     this.loading = true;
-
-    const addOrUpdateModule = this.isSubmit
-      ? this.builderService.addModule(this.form.value)
-      : this.builderService.updateModule(this.model.id, this.form.value);
-
-    this.builderService.checkModule(this.form.value.name).subscribe((result) => {
-      if (result) {
-        this.toastr.warning('Module name already exists in the database.', { nzDuration: 2000 });
+    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.applicationName.toLowerCase() == this.form.value.applicationName.toLowerCase());
+    if (findData) {
+      this.toastr.warning('Module name already exists in the database.', { nzDuration: 2000 });
+      this.loading = false;
+      return;
+    }
+    else {
+      const addOrUpdateModule = this.isSubmit
+        ? this.builderService.addModule(this.form.value)
+        : this.builderService.updateModule(this.model.id, this.form.value);
+      addOrUpdateModule.subscribe(() => {
+        this.jsonModuleSetting();
         this.loading = false;
-      } else {
-        addOrUpdateModule.subscribe(() => {
-          this.jsonModuleSetting();
-          this.loading = false;
-          this.isSubmit = true;
-          this.handleCancel();
-          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-        });
-      }
-    });
+        this.isSubmit = true;
+        this.handleCancel();
+        this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
+      });
+    }
   }
 
 
