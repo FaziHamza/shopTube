@@ -24,7 +24,8 @@
                   </ng-template>
                 <ng-container
                   *ngIf="item.children.length && shouldExecute(item.children[0]);else menu">
-                  <li nz-submenu [nzTitle]="item.title" [ngTemplateOutlet]="customIcon"
+                  <!-- <li nz-submenu [nzTitle]="item.title" [ngTemplateOutlet]="customIcon" -->
+                  <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon"
                     (mouseover)="setHovered('up', item.menuIcon,item)"
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
                     <ul *ngFor="let sub of item.children">
