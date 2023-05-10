@@ -67,7 +67,7 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
-  saveLoader : any = false;
+  saveLoader: any = false;
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -219,8 +219,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    if(this.screenPage)
-    {
+    if (this.screenPage) {
       this.saveLoader = true;
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
@@ -830,7 +829,6 @@ export class BuilderComponent implements OnInit {
       });
       const instance = modal.getContentComponent();
       modal.afterClose.subscribe(res => {
-        debugger
         if (res) {
           this.controls(value, data, obj, res);
         }
@@ -1298,7 +1296,6 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options),
                       keyup: (model: any) => {
-                        debugger
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         this.checkConditionUIRule(model, currentVal);
@@ -1412,7 +1409,6 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -1728,9 +1724,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "dropdownButton":
         configObj.icon = selectedNode.btnIcon,
-        configObj.options  = selectedNode.dropdownOptions,
-        // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
+          configObj.options = selectedNode.dropdownOptions,
+          // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+          this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case "accordionButton":
@@ -1740,7 +1736,7 @@ export class BuilderComponent implements OnInit {
       case "linkbutton":
         // configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         configObj.icon = selectedNode.btnIcon,
-        this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
+          this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
       case "buttonGroup":
@@ -2596,6 +2592,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "gridList":
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
@@ -3096,7 +3093,6 @@ export class BuilderComponent implements OnInit {
         break;
       default:
         break;
-
     }
     debugger
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
@@ -3173,7 +3169,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
-
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == "editable") {
@@ -3605,25 +3600,25 @@ export class BuilderComponent implements OnInit {
   async pasteFromClipboard(): Promise<void> {
     try {
       const text = await navigator.clipboard.readText();
-      if(text){
+      if (text) {
         let updateData = JSON.parse(text);
-        if(updateData[0]){
-          if(updateData[0].type == 'page')
+        if (updateData[0]) {
+          if (updateData[0].type == 'page')
             this.nodes = updateData;
-          if(updateData[0].type == 'sections')
+          if (updateData[0].type == 'sections')
             this.selectedNode.children?.push(updateData[0]);
           this.updateNodes();
         }
-        else if(this.selectedNode && updateData){
+        else if (this.selectedNode && updateData) {
           this.selectedNode.children?.push(updateData);
           this.updateNodes();
           this.toastr.success('Json update successfully!', { nzDuration: 3000 });
         }
-        else{
+        else {
           this.toastr.error('Please select a data first!', { nzDuration: 3000 });
         }
       }
-      else{
+      else {
         this.toastr.error('Please select a data first!', { nzDuration: 3000 });
       }
     } catch (err) {

@@ -130,11 +130,11 @@ export class AddControlService {
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
-      badgeType : 'none',
-      badgeCount : '',
-      hoverBorderColor:'',
-      borderColor:'',
-      iconPlacement:'left',
+      badgeType: 'none',
+      badgeCount: '',
+      hoverBorderColor: '',
+      borderColor: '',
+      iconPlacement: 'left',
     }
   }
   getDropdownButtonControl() {
@@ -163,9 +163,9 @@ export class AddControlService {
       hoverTextColor: '',
       dataTable: '',
       btnLabelPaddingClass: '',
-      hoverBorderColor:'',
-      borderColor:'',
-      iconPlacement:'right',
+      hoverBorderColor: '',
+      borderColor: '',
+      iconPlacement: 'right',
       dropdownOptions: [
         {
           label: "Option 1",
@@ -184,8 +184,8 @@ export class AddControlService {
           link: "",
         },
       ],
-      badgeType : 'none',
-      badgeCount : '',
+      badgeType: 'none',
+      badgeCount: '',
     }
   }
   getCardWithComponentsControl() {
@@ -207,10 +207,10 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
-      badgeType : 'none',
-      badgeRibbonText : '',
-      badgeCount : '',
-      dot_ribbon_color:'#E93F3F',
+      badgeType: 'none',
+      badgeRibbonText: '',
+      badgeCount: '',
+      dot_ribbon_color: '#E93F3F',
     }
   }
   getSwitchControl() {
@@ -398,10 +398,10 @@ export class AddControlService {
       footer: false,
       headerTextColor: '',
       footerTextColor: '',
-      badgeType : 'none',
-      badgeRibbonText : '',
-      badgeCount : '',
-      dot_ribbon_color:'#E93F3F',
+      badgeType: 'none',
+      badgeRibbonText: '',
+      badgeCount: '',
+      dot_ribbon_color: '#E93F3F',
     }
   }
   getTabsControl() {
@@ -432,7 +432,7 @@ export class AddControlService {
       tabType: 'line',
       isNextChild: true,
       hideTabs: false,
-      border:true,
+      border: true,
       nodes: "3",
       centerd: false,
 
@@ -547,11 +547,11 @@ export class AddControlService {
       iconSize: 15,
       dataTable: '',
       btnLabelPaddingClass: '',
-      badgeType : 'none',
-      badgeCount : '',
-      hoverBorderColor:'',
-      borderColor:'',
-      iconPlacement:'left',
+      badgeType: 'none',
+      badgeCount: '',
+      hoverBorderColor: '',
+      borderColor: '',
+      iconPlacement: 'left',
     }
   }
   simplecardControl() {
@@ -648,7 +648,6 @@ export class AddControlService {
     }
   }
   gridListControl() {
-
     return {
       tableId: "gridList_" + Guid.newGuid(),
       nzFooter: "This is footer",
@@ -665,7 +664,7 @@ export class AddControlService {
       nzSize: 'default',
       isNextChild: false,
       nzShowSizeChanger: false,
-      api:"",
+      api: "",
       showCheckbox: true,
       expandable: true,
       fixHeader: false,
@@ -1083,7 +1082,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       icon: 'star',
-      height:0,
+      height: 0,
     }
   }
   invoiceControl() {
@@ -1806,8 +1805,8 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
-      btnText:'Notification',
-      buttonPlacement:'text-left'
+      btnText: 'Notification',
+      buttonPlacement: 'text-left'
     }
   }
   iconControl() {
@@ -1816,9 +1815,9 @@ export class AddControlService {
       icon: 'star',
       iconType: 'outline',
       iconSize: 15,
-      badgeType : 'none',
-      badgeCount : '',
-      dot_ribbon_color:'#E93F3F',
+      badgeType: 'none',
+      badgeCount: '',
+      dot_ribbon_color: '#E93F3F',
     }
   }
   barChartControl() {

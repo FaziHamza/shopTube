@@ -6,14 +6,14 @@ import { Injectable } from "@angular/core";
 export class BuilderClickButtonService {
 
   getTransferConfig(node: any) {
-    return {options: node.list };
+    return { options: node.list };
   }
 
   getGridConfig(node: any) {
+    debugger
     return {
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
-
         return {
           name: obj.name,
           key: obj.key,
@@ -24,15 +24,15 @@ export class BuilderClickButtonService {
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           id: 0,
-          isColumnClick: obj?.isColumnClick,
+          isColumnClick: obj?.isColumnClick
         };
-      }),
+      })
     };
   }
   getRateFieldsConfig(node: any) {
     const mappedOptions = node.options.map((option: any) => ({ label: option }));
     return {
-    options: mappedOptions
+      options: mappedOptions
     };
   }
   getStatisticConfig(node: any) {

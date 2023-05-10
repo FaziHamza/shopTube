@@ -57,7 +57,6 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    debugger
     let dataForQuery = "";
     this.genrateQuery = "";
     this.genrateValue = "";
@@ -169,7 +168,6 @@ export class ActionRuleComponent implements OnInit {
     }));
   }
   changePostgress(queryType: string, index: number) {
-    debugger
     const sqlType: any = this.ActionsForms.at(index).get('sqlType');
     if (sqlType == "postgress")
       if (queryType = "query") {

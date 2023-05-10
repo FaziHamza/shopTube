@@ -50,6 +50,7 @@ export class DynamicTableComponent implements OnInit {
     console.log("Column Click " + name);
   }
   gridInitilize() {
+    debugger
     if (this.data.api) {
       this.builderService.genericApis(this.data.api).subscribe(res => {
         if (res)
@@ -395,6 +396,7 @@ export class DynamicTableComponent implements OnInit {
         showCheckbox: false,
         expandable: false,
         fixHeader: false,
+        isRowClick: true,
         tableScroll: false,
         fixedColumn: false,
         sort: true,

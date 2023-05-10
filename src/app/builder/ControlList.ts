@@ -1203,8 +1203,8 @@ export const htmlTabsData = [
                 icon: "uil uil-search-plus",
                 label: "Search",
                 type: 'autoComplete',
-                configType:'autoComplete',fieldType: 'autoComplete',
-                 options:true,
+                configType: 'autoComplete', fieldType: 'autoComplete',
+                options: true,
               },
               {
                 parameter: "fixedDiv",
