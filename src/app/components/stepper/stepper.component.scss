@@ -9,3 +9,13 @@ button {
 // .ant-steps-item-active{
 //   background-color: blue;
 // }
+.ant-steps-item-active {
+  .ant-steps-item-title {
+    font-weight: 600 !important;
+    color: #1890ff !important;
+  }
+  .ant-steps-item-description {
+    color: #1890ff !important;
+
+  }
+}

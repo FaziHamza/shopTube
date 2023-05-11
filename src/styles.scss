@@ -1310,7 +1310,7 @@ a.fc-event:hover {
     h6 {
       color: white;
       font-size: 12px;
-     margin-top: -10px !important;
+      margin-top: -10px !important;
       font-weight: 600 !important;
       line-height: 30px;
     }
@@ -1318,5 +1318,48 @@ a.fc-event:hover {
       font-size: 10px;
       color: white;
     }
+  }
+}
+.ant-steps {
+  margin-bottom: 20px;
+  .ant-steps-item-active {
+    .ant-steps-item-container {
+      background: #1890ff;
+      .ant-steps-item-description,
+      .ant-steps-item-title {
+        color: white !important;
+      }
+      svg {
+        fill: #fff !important;
+      }
+    }
+  }
+  .ant-steps-item-title {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: -8px !important;
+    margin-bottom: -6px !important;
+    padding-right: 0px !important;
+  }
+  .ant-steps-item-description {
+    font-size: 10px !important;
+    text-transform: uppercase;
+  }
+  .ant-steps-item-title::after {
+    left: 250% !important;
+  }
+  .ant-steps-item-content,
+  .ant-steps-item-icon {
+    text-align: center;
+  }
+  .ant-steps-item-container {
+    padding-bottom: 8px;
+    border-radius: 5px;
+    width: 100px !important;
+    background: #f5f5f5;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
   }
 }
