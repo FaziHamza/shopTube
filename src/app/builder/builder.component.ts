@@ -3626,7 +3626,7 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  openModal(data? : any): void {
+  openModal(data?: any): void {
     debugger
     this.htmlBlockModal = true;
     this.htmlBlockimagePreview = data;
@@ -3641,4 +3641,23 @@ export class BuilderComponent implements OnInit {
   modalCancel(): void {
     this.htmlBlockModal = false;
   }
+
+  // saveBuilderTemplates() {
+  //   this.requestSubscription = this.builderService.genericApis('buildertemplates').subscribe({
+  //     next: (res) => {
+  //       res.forEach((item : any) => {
+  //         htmlTabsData[0].children.forEach((a : any) => {
+  //           if(a.label == 'Template'){
+
+  //           }
+  //         })
+  //       })
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //     }
+
+  //   });
+  // }
 }

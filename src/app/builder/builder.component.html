@@ -64,6 +64,8 @@
           ngbTooltip="Save screen"><span nz-icon nzType="save" nzTheme="outline"></span> </button>
         <button nz-button nzType="primary" class="ml-2" (click)="clearChildNode()">
           <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
+        <!-- <button nz-button nzType="primary" class="ml-2" (click)="saveBuilderTemplates()">
+          <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button> -->
       </div>
       <div class="w-3/6">
         <nz-select nzShowSearch nzAllowClear [(ngModel)]="screenName" (ngModelChange)="getFormLayers($event)">

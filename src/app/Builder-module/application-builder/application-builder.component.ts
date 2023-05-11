@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -13,7 +15,6 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class ApplicationBuilderComponent implements OnInit {
   companyName: any;
   companyBuilder: any;
-  model: any;
   applicationData: any = [];
   schema: any;
   isSubmit: boolean = true;
@@ -25,7 +26,11 @@ export class ApplicationBuilderComponent implements OnInit {
   pageSize = 10;
   searchIcon = "search";
   searchValue = '';
-  myForm: FormGroup;
+  myForm: any = new FormGroup({});
+  options: FormlyFormOptions = {};
+  model: any = {};
+  requestSubscription: Subscription;
+  fields: any = [];
   listOfColumns = [
     {
       name: 'Application Name',
@@ -51,7 +56,24 @@ export class ApplicationBuilderComponent implements OnInit {
       },
       sortDirections: ['ascend', 'descend', null],
     },
-
+    {
+      name: 'Application Type',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const name1 = a.application_Type;
+        const name2 = b.application_Type;
+        if (name1 === undefined && name2 === undefined) {
+          return 0;
+        } else if (name1 === undefined) {
+          return 1;
+        } else if (name2 === undefined) {
+          return -1;
+        } else {
+          return name1.localeCompare(name2);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
     {
       name: 'Action',
       sortOrder: null,
@@ -72,6 +94,7 @@ export class ApplicationBuilderComponent implements OnInit {
     ];
     this.loadData();
     this.jsonApplicationBuilder();
+    // this.fieldsLoad();
   }
 
   jsonApplicationBuilder() {
@@ -87,7 +110,12 @@ export class ApplicationBuilderComponent implements OnInit {
     }));
   }
   openModal() {
-    this.myForm.reset();
+    // this.myForm.reset();
+    for (let prop in this.model) {
+      if (this.model.hasOwnProperty(prop)) {
+        this.model[prop] = null;
+      }
+    }
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
@@ -100,7 +128,12 @@ export class ApplicationBuilderComponent implements OnInit {
 
   loadData() {
     this.builderService.jsonCompanyBuilder().subscribe((res => {
-      this.companyBuilder = res;
+      debugger
+      this.companyBuilder = res.map(item => ({
+        label: item.name,
+        value: item.name
+      }));
+      this.fieldsLoad();
     }));
   }
   onSubmit() {
@@ -118,7 +151,6 @@ export class ApplicationBuilderComponent implements OnInit {
         ? this.builderService.addApplicationBuilder(this.myForm.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        this.loadData();
         this.jsonApplicationBuilder();
         this.isSubmit = true;
         this.handleCancel();
@@ -129,10 +161,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
 
   editItem(item: any) {
-    this.myForm.patchValue({
-      name: item.name,
-      companyName: item.companyName
-    });
+    // this.myForm.patchValue({
+    //   name: item.name,
+    //   companyName: item.companyName
+    // });
     this.model = item;
     this.isSubmit = false;
   }
@@ -149,7 +181,9 @@ export class ApplicationBuilderComponent implements OnInit {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-        (item.name.toLowerCase().indexOf(inputValue) !== -1 || (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false))
+      (item.name.toLowerCase().indexOf(inputValue) !== -1 || (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false)
+        || (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false)
+      )
       );
       this.searchIcon = "close";
     } else {
@@ -175,4 +209,74 @@ export class ApplicationBuilderComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
   }
+
+  fieldsLoad() {
+    this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application Name',
+              placeholder: 'Application Name...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'companyName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Company Name',
+              options: this.companyBuilder,
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'application_Type',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application Type',
+              options: [
+                { label: "Website", value: 'website' },
+                { label: "Mobile", value: 'mobile' },
+                { label: "Backend Application", value: 'backend_application' },
+              ]
+            }
+          }
+        ]
+      },
+    ];
+  }
+
+  // callCompanyData (){
+  //   this.builderService.jsonCompanyBuilder().subscribe((res => {
+  //     this.listOfDisplayData = res.map(obj => {
+  //       obj.expand = false;
+  //       return obj;
+  //     });
+  //     this.listOfData = res;
+  //     this.copmanyData = res;
+  //     this.builderService.jsonApplicationBuilder().subscribe((res => {
+  //       this.listOfChildrenData = res;
+  //       this.loading = false;
+  //     }))
+  //     if (this.searchValue) {
+  //       this.search(this.searchValue);
+  //     }
+  //   }));
+  // }
 }
