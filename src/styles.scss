@@ -18,12 +18,13 @@
 /* Import one component's styles */
 @import "~jsoneditor/dist/jsoneditor.min.css";
 @import url("https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css");
-@import './node_modules/@perfectmemory/ngx-contextmenu/src/assets/stylesheets/base.scss';
+@import "./node_modules/@perfectmemory/ngx-contextmenu/src/assets/stylesheets/base.scss";
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
-
+$bg-light: #f5f5f5;
+$main: #3b82f6;
 $white: #f0f2f5;
 
 nz-input-number {
@@ -131,7 +132,7 @@ object {
   }
 }
 
-.ant-btn>span+.anticon {
+.ant-btn > span + .anticon {
   margin-left: 0px !important;
 }
 
@@ -188,7 +189,7 @@ object {
   }
 
   .ant-input-group-lg .ant-input,
-  .ant-input-group-lg>.ant-input-group-addon {
+  .ant-input-group-lg > .ant-input-group-addon {
     padding: 6.5px 11px;
     font-size: 16px;
     height: 55px !important;
@@ -199,7 +200,7 @@ object {
   }
 
   .ant-input-group-sm .ant-input,
-  .ant-input-group-sm>.ant-input-group-addon {
+  .ant-input-group-sm > .ant-input-group-addon {
     padding: 0 7px;
     height: 55px !important;
   }
@@ -346,9 +347,9 @@ object {
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .ant-input-group-addon:first-child,
   .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .ant-input-group>.ant-input:first-child,
-  .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .ant-input-group > .ant-input:first-child,
+  .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
   }
@@ -381,9 +382,8 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu-title {
-
-    & .ant-menu-item-icon+span,
-    & .anticon+span {
+    & .ant-menu-item-icon + span,
+    & .anticon + span {
       margin-left: 10px;
       margin-right: 10px !important;
       opacity: 1;
@@ -479,14 +479,14 @@ object {
   vertical-align: middle;
 }
 
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
   margin-left: -1px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -503,7 +503,7 @@ object {
   box-shadow: none !important;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -519,10 +519,10 @@ object {
 // .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:last-child {
 //   border-radius: 0.358rem;
 // }
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
@@ -689,7 +689,6 @@ a.fc-event:hover {
 }
 
 @media screen and (max-width: 789px) {
-
   // .web-view {
   //   display: none !important;
   // }
@@ -764,7 +763,6 @@ a.fc-event:hover {
 //   border-color: transparent;
 // }
 .floating_outlined {
-
   .ant-input-group .ant-input:focus,
   .ant-input-group .ant-input:hover {
     outline: none !important;
@@ -831,9 +829,9 @@ a.fc-event:hover {
     .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
     .floating_filled .height .ant-input-group-addon:first-child,
     .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-    .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-    .floating_filled .height .ant-input-group>.ant-input:first-child,
-    .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+    .floating_filled .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+    .floating_filled .height .ant-input-group > .ant-input:first-child,
+    .floating_filled .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
       border-right: none !important;
       border-bottom-right-radius: 0 !important;
       border-color: red !important;
@@ -843,9 +841,9 @@ a.fc-event:hover {
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .height .ant-input-group-addon:first-child,
   .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .height .ant-input-group>.ant-input:first-child,
-  .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .height .ant-input-group > .ant-input:first-child,
+  .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-right: none !important;
     border-bottom-right-radius: 0 !important;
   }
@@ -1043,15 +1041,13 @@ a.fc-event:hover {
   .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .floating_filled .height .ant-input-group-addon:first-child,
   .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .floating_filled .height .ant-input-group>.ant-input:first-child,
-  .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .floating_filled .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .floating_filled .height .ant-input-group > .ant-input:first-child,
+  .floating_filled .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-right: none !important;
     border-bottom-right-radius: 0 !important;
     border-color: red !important;
   }
-
-
 }
 
 .ant-tree-indent-unit {
@@ -1085,7 +1081,6 @@ a.fc-event:hover {
 // }
 
 .rtlMenu {
-
   .ant-menu-submenu-arrow,
   .ant-menu-submenu-expand-icon {
     right: 0px !important;
@@ -1124,8 +1119,6 @@ a.fc-event:hover {
   top: 10px;
   width: 220px;
 
-
-
   li {
     padding: 8px 20px;
     font-size: 12px;
@@ -1150,6 +1143,179 @@ a.fc-event:hover {
     small {
       font-size: 10px;
       font-weight: 500 !important;
+      color: white;
+    }
+  }
+}
+.notify-dropdown {
+  top: 17px;
+  width: 300px;
+
+  .header {
+    height: 50px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    h6 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    a {
+      font-size: 12px;
+      color: #1890ff;
+    }
+  }
+  .divider {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 0px 15px;
+    background: $bg-light;
+  }
+  .notification {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f5f5f5;
+
+    display: flex;
+    .user-img {
+      height: 32px;
+      width: 32px;
+      border-radius: 100px;
+      overflow: hidden;
+      margin-right: 15px;
+      img {
+        height: 32px;
+        width: 32px;
+        border-radius: 100px;
+        overflow: hidden;
+        object-fit: cover;
+      }
+    }
+    .detail {
+      width: calc(100% - 40px);
+      h5 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0px !important;
+      }
+      h6 {
+        font-size: 12px;
+        line-height: 14px;
+        color: gray;
+        margin-bottom: 0px !important;
+      }
+      small {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.web-app-dropdown {
+  top: 17px;
+  width: 300px;
+
+  .header {
+    height: 50px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    h6 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    a {
+      font-size: 12px;
+      color: #1890ff;
+    }
+  }
+  .divider {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 0px 15px;
+    background: $bg-light;
+  }
+  .notification {
+    padding: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    .user-img {
+      margin-top: 5px;
+      width: 30px;
+      margin-right: 20px;
+      img {
+        width: 100%;
+      }
+    }
+    .detail {
+      width: calc(100% - 40px);
+      h5 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0px !important;
+      }
+      h6 {
+        font-size: 12px;
+        line-height: 14px;
+        color: gray;
+        margin-bottom: 0px !important;
+      }
+      small {
+        font-size: 10px;
+      }
+    }
+  }
+}
+.search-dropdown {
+  top: 17px;
+  width: 360px;
+  padding: 15px;
+  background: $bg-light;
+  input {
+    padding-left: 35px;
+    height: 42px;
+    position: relative;
+  }
+  i {
+    z-index: 999;
+    position: absolute;
+    left: 10px;
+    top: 15px;
+  }
+}
+.user-dropdown-btn {
+  display: flex;
+  align-items: center;
+  .user-img {
+    height: 32px;
+    width: 32px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-right: 15px;
+    img {
+      height: 32px;
+      width: 32px;
+      border-radius: 100px;
+      overflow: hidden;
+      object-fit: cover;
+    }
+  }
+  .user-name {
+    width: calc(100% - 40px);
+    h6 {
+      color: white;
+      font-size: 12px;
+     margin-top: -10px !important;
+      font-weight: 600 !important;
+      line-height: 30px;
+    }
+    p {
+      font-size: 10px;
       color: white;
     }
   }
