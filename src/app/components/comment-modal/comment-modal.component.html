@@ -1,0 +1,6 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="comment">Comment</label>
+    <textarea rows="4" formControlName="comment" nz-input></textarea>
+    <button class="mt-2" nz-button nzType="primary">Save</button>
+    <!-- <button type="submit" [disabled]="form.invalid">Submit</button> -->
+</form>

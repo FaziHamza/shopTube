@@ -1,5 +1,5 @@
 import { JoiService } from './../services/joi.service';
-import { ChangeDetectorRef, Component, Input, OnInit, Type } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Type, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import * as Joi from 'joi';
@@ -12,6 +12,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { CommentModalComponent } from '../components';
 
 
 @Component({
@@ -41,7 +43,7 @@ export class MainComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
     private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
-    private clipboard: Clipboard) { }
+    private clipboard: Clipboard , private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -274,4 +276,19 @@ export class MainComponent implements OnInit {
     this.clipboard.copy(data);
     // alert('Copied to clipboard');
   }
+  comment(json: any) {
+    debugger
+    const modal = this.modalService.create<CommentModalComponent>({
+      nzTitle: 'Comment',
+      nzContent: CommentModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        data: json
+      },
+      // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+      nzFooter: []
+    });
+  }
+
+
 }

@@ -6,6 +6,7 @@
                 <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                     <context-menu #oneContextMenu>
                         <ng-template contextMenuItem (execute)="copyJson(item)" [visible]="isShowContextMenu">Copy</ng-template>
+                        <ng-template contextMenuItem *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='dropdownButton'" (execute)="comment(item)" [visible]="isShowContextMenu">Comment</ng-template>
                     </context-menu>
                    <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"  [screenName]="screenName" [screenId]="screenId"
                     [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
