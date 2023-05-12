@@ -42,10 +42,37 @@ export class DynamicTableComponent implements OnInit {
   ngOnInit(): void {
     this.gridInitilize();
   }
-  onClickRow(item: any) {
+  onClickRow(api: string, item: any) {
+    debugger
+    this.builderService.genericApis(api).subscribe({
+      next: (res: any) => {
+        this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
+          next: (res: any) => {
+            this.builderService.genericApisPost(api, item).subscribe({
+              next: (res: any) => {
+                res;
+              }
+            });
+          }
+        });
+      }
+    });
     console.log(JSON.stringify(item));
   }
-  onClickColumn(name: any) {
+  onClickColumn(api: string, item: any) {
+    this.builderService.genericApisWithId(api,item.key).subscribe({
+      next: (res: any) => {
+        this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
+          next: (res: any) => {
+            this.builderService.genericApisPost(api, item).subscribe({
+              next: (res: any) => {
+                res;
+              }
+            });
+          }
+        });
+      }
+    });
     console.log("Column Click " + name);
   }
   gridInitilize() {
@@ -388,7 +415,7 @@ export class DynamicTableComponent implements OnInit {
         showCheckbox: false,
         expandable: false,
         fixHeader: false,
-        isRowClick: true,
+        rowClickApi: true,
         tableScroll: false,
         fixedColumn: false,
         sort: true,

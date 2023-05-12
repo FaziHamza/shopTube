@@ -673,14 +673,14 @@ export class AddControlService {
       sort: true,
       filter: true,
       isAddRow: true,
-      isRowClick: true,
+      rowClickApi: "",
       tableKey: [],
       tableHeaders: [
         {
           name: 'Id',
           key: 'Id',
           sortOrder: null,
-          isColumnClick: false,
+          columnClickApi: "",
           sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
           sortDirections: ['ascend', 'descend', null],
           filterMultiple: true,

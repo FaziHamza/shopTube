@@ -526,5 +526,5 @@ export interface TreeNode {
   chartOptions?: any,
   columnNames?: any
   checkData?: any
-  isRowClick?: boolean,
+  rowClickApi?: any,
 }

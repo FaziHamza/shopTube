@@ -11,7 +11,7 @@ export class BuilderClickButtonService {
 
   getGridConfig(node: any) {
     return {
-      isRowClick: node.isRowClick,
+      rowClickApi: node.rowClickApi,
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
         return {
@@ -24,7 +24,7 @@ export class BuilderClickButtonService {
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           id: 0,
-          isColumnClick: obj?.isColumnClick
+          columnClickApi: obj?.columnClickApi
         };
       })
     };
