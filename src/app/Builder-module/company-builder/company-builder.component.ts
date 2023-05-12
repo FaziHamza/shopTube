@@ -164,15 +164,6 @@ export class CompanyBuilderComponent implements OnInit {
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-    // this.form = new FormGroup({
-    //   name: new FormControl('', Validators.required),
-    //   address: new FormControl('', Validators.required),
-    //   email: new FormControl('', Validators.required),
-    //   contact: new FormControl('', Validators.required),
-    //   website: new FormControl('', Validators.required),
-    //   year_founded: new FormControl('', Validators.required),
-    //   mission_statement: new FormControl('', Validators.required),
-    // });
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
@@ -200,7 +191,6 @@ export class CompanyBuilderComponent implements OnInit {
   
   openModal(type: any) {
     debugger
-    // this.form.reset();
     if (type == 'application') {
       this.loadApplicationFields();
       this.applicationSubmit = true;
@@ -208,9 +198,11 @@ export class CompanyBuilderComponent implements OnInit {
       this.fieldsLoad();
       this.applicationSubmit = false;
     }
-    for (let prop in this.model) {
-      if (this.model.hasOwnProperty(prop)) {
-        this.model[prop] = null;
+    if(this.isSubmit){
+      for (let prop in this.model) {
+        if (this.model.hasOwnProperty(prop)) {
+          this.model[prop] = null;
+        }
       }
     }
     this.isVisible = true;
@@ -232,7 +224,6 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   companySubmit() {
-    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -291,17 +282,6 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-    debugger
-    // this.form.patchValue({
-    //   name: item.name,
-    //   address: item.address,
-    //   email: item.email,
-    //   contact: item.contact,
-    //   website: item.website,
-    //   year_founded: item.year_founded,
-    //   mission_statement: item.mission_statement,
-    // });
-
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
