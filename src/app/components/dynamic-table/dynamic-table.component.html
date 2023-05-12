@@ -28,7 +28,7 @@
         <th *ngIf="header.name != 'defaultValue'" [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
           [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
           [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
-          (click)="header?.isColumnClick ? onClickColumn(header.name): ''">
+          (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
           {{header.name}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
         </th>
       </ng-container>
@@ -38,12 +38,12 @@
   <tbody>
     <ng-template #recursiveList let-data1>
       <ng-container *ngFor="let item of data1 ; let i = index">
-        <tr [ngStyle]="{'background': item?.color}" (click)="data?.isRowClick ? onClickRow(item): ''">
+        <tr [ngStyle]="{'background': item?.color}"
+          (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
           <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of data['tableKey']; let index = index">
-            <td [nzEllipsis]="true"
-              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' 
+            <td [nzEllipsis]="true" *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' 
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
               <div
                 *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) ">

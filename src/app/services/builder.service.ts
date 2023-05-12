@@ -128,9 +128,19 @@ export class BuilderService {
       this.baseUrl + api
     );
   }
+  genericApisWithId(api: any, id: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + api+`?key=${id}`
+    );
+  }
   genericApisPost(api: any, data: any): Observable<any> {
     return this.http.post<any>(
       this.baseUrl + api, data
+    );
+  }
+  genericApisDeleteWithId(api: any, id: any): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.baseUrl + `${api}/` + id
     );
   }
   jsonGridBusinessRuleGet(moduleId: any): Observable<any[]> {

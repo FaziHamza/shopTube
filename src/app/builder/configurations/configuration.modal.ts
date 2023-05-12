@@ -9422,14 +9422,13 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          key: 'isRowClick',
-          type: 'checkbox',
+          key: 'rowClickApi',
+          type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Is Row Click',
-          },
-          defaultValue: false
+            label: 'OnClick Call API',
+          }
         },
         {
           template: '<div class="bold-label mt-3">Columns</div>',
@@ -9498,8 +9497,8 @@ export class formFeildData {
               },
               {
                 className: "ml-2",
-                key: 'isColumnClick',
-                type: 'checkbox',
+                key: 'columnClickApi',
+                type: 'input',
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Is Column Click'
