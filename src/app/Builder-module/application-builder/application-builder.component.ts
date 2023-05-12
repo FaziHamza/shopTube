@@ -31,7 +31,15 @@ export class ApplicationBuilderComponent implements OnInit {
   model: any = {};
   requestSubscription: Subscription;
   fields: any = [];
+  listOfChildrenData: any[] = [];
+  moduleSubmit: boolean = false;
   listOfColumns = [
+    {
+      name: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend', null],
+    },
     {
       name: 'Application Name',
       sortOrder: null,
@@ -84,38 +92,46 @@ export class ApplicationBuilderComponent implements OnInit {
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
-    this.myForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      companyName: new FormControl('', Validators.required),
-    });
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
     this.loadData();
     this.jsonApplicationBuilder();
-    // this.fieldsLoad();
   }
 
   jsonApplicationBuilder() {
     this.loading = true
     this.builderService.jsonApplicationBuilder().subscribe((res => {
+      this.listOfDisplayData = res.map(obj => {
+        obj.expand = false;
+        return obj;
+      });
       this.listOfDisplayData = res;
       this.listOfData = res;
-      this.loading = false;
       this.applicationData = res;
+      this.jsonModuleSetting();
       if (this.searchValue) {
         this.search(this.searchValue);
       }
     }));
   }
-  openModal() {
-    // this.myForm.reset();
-    for (let prop in this.model) {
-      if (this.model.hasOwnProperty(prop)) {
-        this.model[prop] = null;
+  openModal(type: any) {
+    if (type == 'module') {
+      this.loadModuleFields();
+      this.moduleSubmit = true;
+    } else {
+      this.fieldsLoad();
+      this.moduleSubmit = false;
+    }
+    if (this.isSubmit) {
+      for (let prop in this.model) {
+        if (this.model.hasOwnProperty(prop)) {
+          this.model[prop] = null;
+        }
       }
     }
+
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
@@ -128,7 +144,6 @@ export class ApplicationBuilderComponent implements OnInit {
 
   loadData() {
     this.builderService.jsonCompanyBuilder().subscribe((res => {
-      debugger
       this.companyBuilder = res.map(item => ({
         label: item.name,
         value: item.name
@@ -144,35 +159,34 @@ export class ApplicationBuilderComponent implements OnInit {
 
     let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id != this.model?.id);
     if (findData) {
-      this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
+      this.toastr.warning(this.moduleSubmit ? 'Application name already exists in the database.' : 'Module name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
-      const action$ = this.isSubmit
+
+      const action$ = !this.moduleSubmit ? (this.isSubmit
         ? this.builderService.addApplicationBuilder(this.myForm.value)
-        : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value);
+        : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
+        ? this.builderService.addModule(this.myForm.value)
+        : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
         this.jsonApplicationBuilder();
-        this.isSubmit = true;
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
+        this.isSubmit = true;
       });
     }
   }
-
-
   editItem(item: any) {
-    // this.myForm.patchValue({
-    //   name: item.name,
-    //   companyName: item.companyName
-    // });
-    this.model = item;
+    this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
 
 
-  deleteRow(id: any): void {
-    this.builderService.deleteApplicationBuilder(id).subscribe((res => {
+  deleteRow(id: any, type: any): void {
+    const api$ = type == 'module' ? this.builderService.deletejsonModule(id) : this.builderService.deleteApplicationBuilder(id);
+    api$.subscribe((res => {
       this.jsonApplicationBuilder();
+      this.jsonModuleSetting();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
@@ -208,6 +222,16 @@ export class ApplicationBuilderComponent implements OnInit {
     a.download = 'file.';
     document.body.appendChild(a);
     a.click();
+  }
+  callChild(company: any) {
+    const moduleData = this.listOfChildrenData.filter((item: any) => item.applicationName == company.name);
+    company['children'] = moduleData;
+  }
+  jsonModuleSetting() {
+    this.builderService.jsonModuleSetting().subscribe((res => {
+      this.listOfChildrenData = res;
+      this.loading = false;
+    }));
   }
 
   fieldsLoad() {
@@ -262,21 +286,41 @@ export class ApplicationBuilderComponent implements OnInit {
     ];
   }
 
-  // callCompanyData (){
-  //   this.builderService.jsonCompanyBuilder().subscribe((res => {
-  //     this.listOfDisplayData = res.map(obj => {
-  //       obj.expand = false;
-  //       return obj;
-  //     });
-  //     this.listOfData = res;
-  //     this.copmanyData = res;
-  //     this.builderService.jsonApplicationBuilder().subscribe((res => {
-  //       this.listOfChildrenData = res;
-  //       this.loading = false;
-  //     }))
-  //     if (this.searchValue) {
-  //       this.search(this.searchValue);
-  //     }
-  //   }));
-  // }
+  loadModuleFields() {
+    const options = this.listOfData.map((item: any) => ({
+      label: item.name,
+      value: item.name
+    }));
+    this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Module Name',
+              placeholder: 'Module Name...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'applicationName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application',
+              options: options,
+            }
+          }
+        ]
+      },
+    ];
+  }
 }
