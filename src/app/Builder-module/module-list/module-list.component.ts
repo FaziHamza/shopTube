@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
 
@@ -22,6 +23,8 @@ export class ModuleListComponent implements OnInit {
   searchValue = '';
   pageSize = 10;
   searchIcon = "search";
+  fields: any = [];
+  options: FormlyFormOptions = {};
   listOfColumns = [
     {
       name: 'Module',
@@ -33,6 +36,60 @@ export class ModuleListComponent implements OnInit {
       name: 'Application',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.applicationName.localeCompare(b.applicationName),
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Owner',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const companyNameA = a.owner;
+        const companyNameB = b.owner;
+        if (companyNameA === undefined && companyNameB === undefined) {
+          return 0;
+        } else if (companyNameA === undefined) {
+          return 1;
+        } else if (companyNameB === undefined) {
+          return -1;
+        } else {
+          return companyNameA.localeCompare(companyNameB);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Email',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const companyNameA = a.email;
+        const companyNameB = b.email;
+        if (companyNameA === undefined && companyNameB === undefined) {
+          return 0;
+        } else if (companyNameA === undefined) {
+          return 1;
+        } else if (companyNameB === undefined) {
+          return -1;
+        } else {
+          return companyNameA.localeCompare(companyNameB);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Description',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const companyNameA = a.description;
+        const companyNameB = b.description;
+        if (companyNameA === undefined && companyNameB === undefined) {
+          return 0;
+        } else if (companyNameA === undefined) {
+          return 1;
+        } else if (companyNameB === undefined) {
+          return -1;
+        } else {
+          return companyNameA.localeCompare(companyNameB);
+        }
+      },
       sortDirections: ['ascend', 'descend', null],
     },
     {
@@ -79,6 +136,7 @@ export class ModuleListComponent implements OnInit {
   loadData() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
+      this.loadModuleFields();
     }));
   }
   onSubmit() {
@@ -155,6 +213,89 @@ export class ModuleListComponent implements OnInit {
     a.download = 'file.';
     document.body.appendChild(a);
     a.click();
+  }
+
+  loadModuleFields() {
+    debugger
+    const options = this.applicationBuilder.map((item: any) => ({
+      label: item.name,
+      value: item.name
+    }));
+    this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Module Name',
+              placeholder: 'Module Name...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'applicationName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application',
+              options: options,
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'owner',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Owner Name',
+              placeholder: 'Owner Name...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'email',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Email',
+              placeholder: 'Email...',
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'description',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Description',
+              placeholder: 'Description...',
+            }
+          },
+        ],
+      },
+      
+    ];
   }
 
 }

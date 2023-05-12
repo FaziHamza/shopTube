@@ -33,6 +33,7 @@ export class ApplicationBuilderComponent implements OnInit {
   fields: any = [];
   listOfChildrenData: any[] = [];
   moduleSubmit: boolean = false;
+  checkRes: boolean = false;
   listOfColumns = [
     {
       name: '',
@@ -102,19 +103,27 @@ export class ApplicationBuilderComponent implements OnInit {
 
   jsonApplicationBuilder() {
     this.loading = true
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
-      this.listOfDisplayData = res.map(obj => {
-        obj.expand = false;
-        return obj;
-      });
-      this.listOfDisplayData = res;
-      this.listOfData = res;
-      this.applicationData = res;
-      this.jsonModuleSetting();
-      if (this.searchValue) {
-        this.search(this.searchValue);
+    this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
+      next: (res) => {
+        this.listOfDisplayData = res.map(obj => {
+          obj.expand = false;
+          return obj;
+        });
+        this.listOfDisplayData = res;
+        this.listOfData = res;
+        this.applicationData = res;
+        this.jsonModuleSetting();
+        if (this.searchValue) {
+          this.search(this.searchValue);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.loading = false;
       }
-    }));
+
+    });
   }
   openModal(type: any) {
     if (type == 'module') {
@@ -156,10 +165,13 @@ export class ApplicationBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
+    const findData = this.moduleSubmit
+      ? this.listOfChildrenData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id)
+      : this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id);
 
-    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id != this.model?.id);
     if (findData) {
-      this.toastr.warning(this.moduleSubmit ? 'Application name already exists in the database.' : 'Module name already exists in the database.', { nzDuration: 2000 });
+      const message = this.moduleSubmit ? 'Module name already exists in the database.' : 'Application name already exists in the database.';
+      this.toastr.warning(message, { nzDuration: 2000 });
       return;
     } else {
 
@@ -169,7 +181,13 @@ export class ApplicationBuilderComponent implements OnInit {
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
+        // if (!this.moduleSubmit) {
+        //   this.saveHeaderFooter('header');
+        //   this.saveHeaderFooter('footer');
+        // }
+
         this.jsonApplicationBuilder();
+        this.jsonModuleSetting();
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
         this.isSubmit = true;
@@ -228,10 +246,33 @@ export class ApplicationBuilderComponent implements OnInit {
     company['children'] = moduleData;
   }
   jsonModuleSetting() {
-    this.builderService.jsonModuleSetting().subscribe((res => {
-      this.listOfChildrenData = res;
-      this.loading = false;
-    }));
+    this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
+      next: (res) => {
+        this.listOfChildrenData = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.loading = false;
+      }
+
+    });
+  }
+
+  saveHeaderFooter(type: any) {
+    debugger
+    if (this.isSubmit) {
+      let screen = {
+        name: this.myForm.value.name + '-' + type,
+        screenId: this.myForm.value.name + '-' + type,
+        applicationName: this.myForm.value.name,
+        moduleName: "",
+      }
+      this.builderService.addScreenModule(screen).subscribe(() => {
+
+      })
+    }
   }
 
   fieldsLoad() {
@@ -295,6 +336,20 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
+            fieldGroup: [
+              {
+                key: 'applicationName',
+                type: 'select',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                defaultValue: '',
+                props: {
+                  label: 'Application',
+                  options: options,
+                }
+              }
+            ]
+          },
+          {
             key: 'name',
             type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
@@ -310,16 +365,45 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'applicationName',
-            type: 'select',
+            key: 'owner',
+            type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application',
-              options: options,
+              label: 'Owner Name',
+              placeholder: 'Owner Name...',
+              required: true,
             }
-          }
-        ]
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'email',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Email',
+              placeholder: 'Email...',
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'description',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Description',
+              placeholder: 'Description...',
+            }
+          },
+        ],
       },
     ];
   }

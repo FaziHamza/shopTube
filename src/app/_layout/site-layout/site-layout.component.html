@@ -43,5 +43,8 @@
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
   </div>
-  <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer>
+  <nz-footer class="bg-white-500 text-black-500" *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer>
+  <nz-footer class="bg-white-500 text-black-500" *ngIf="dataSharedService.footerData.length">
+    <st-main [mainData]="dataSharedService.footerData"></st-main>
+  </nz-footer>
 </nz-layout>

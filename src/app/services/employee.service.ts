@@ -19,6 +19,11 @@ export class EmployeeService {
             this.baseUrl + "jsonBuilderSetting?moduleId=" + moduleName
         );
     }
+    headerFooter(name: any): Observable<TreeNode[]> {
+        return this.http.get<TreeNode[]>(
+            this.baseUrl + "jsonBuilderSetting?application=" + name
+        );
+    }
     login(email: string, password: string) {
 
         return this.http.get<any>(this.baseUrl + 'users?email=' + email + '&pwd=' + password)

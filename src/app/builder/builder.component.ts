@@ -228,12 +228,17 @@ export class BuilderComponent implements OnInit {
       }
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
-      var data =
+      let data: any =
       {
         "moduleName": this.screenName,
         "menuData": newData,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       };
+      if (this.screenName.includes('-header') || this.screenName.includes('-footer')) {
+        if (this.selectApplicationName) {
+          data['application'] = this.selectApplicationName
+        }
+      }
       this.screenId = mainModuleId[0].screenId;
       // if (this.screenId > 0) {
 

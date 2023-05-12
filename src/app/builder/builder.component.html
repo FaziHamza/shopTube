@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="flex pt-3 ">
     <div class="w-1/6">
-      <nz-select [ngModel]="selectApplicationName" (change)="getDataFromApi(selectApplicationName,'application')">
+      <nz-select [(ngModel)]="selectApplicationName" (change)="getDataFromApi(selectApplicationName,'application')">
         <nz-option [nzValue]="item.name" placeholder="Select Application" [nzLabel]="item.name"
           *ngFor="let item of applicationBuilder"></nz-option>
       </nz-select>

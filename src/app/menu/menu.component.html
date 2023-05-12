@@ -35,7 +35,10 @@
             </nz-card>
           </nz-dropdown-menu>
         </div>
-        <div class="header-actions">
+        <div *ngIf="dataSharedService.headerData.length">
+          <st-main [mainData]="dataSharedService.headerData"></st-main>
+        </div>
+        <div class="header-actions" *ngIf="dataSharedService.headerData.length == 0">
           <a nz-dropdown [nzDropdownMenu]="menu5">
             <i class="fa-regular fa-magnifying-glass"></i>
           </a>

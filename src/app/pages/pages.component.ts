@@ -38,15 +38,33 @@ export class PagesComponent implements OnInit {
   @Input() screenId: any;
   requestSubscription: Subscription;
   isPageContextShow = false;
+  checkApplication: any = '';
   ngOnInit(): void {
-    if(this.router.url.includes('/pages'))
-        this.isPageContextShow = true;
+    if (this.router.url.includes('/pages'))
+      this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
+        if (this.checkApplication != params["application"] || this.checkApplication == '') {
+          this.checkApplication = params["application"];
+          this.requestSubscription = this.employeeService.headerFooter(params["application"]).subscribe({
+            next: (res: any) => {
+              if (res.length < 2) {
+                this.dataSharedService.headerData = res[0].menuData[0].children[1].children[0].children[1].children;
+              } else{
+                this.dataSharedService.headerData = res[0].menuData[0].children[1].children[0].children[1].children;
+                this.dataSharedService.footerData = res[1].menuData[0].children[1].children[0].children[1].children;
+              }
+            },
+            error: (err) => {
+              console.error(err);
+            }
+          });
+        }
         this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
-          next: (res) => {
+          next: (res: any) => {
             if (res.length > 0) {
+
               this.screenId = res[0].moduleId;
               this.getUIRuleData(res[0].moduleName);
               this.getBusinessRule(this.screenName);
@@ -418,7 +436,7 @@ export class PagesComponent implements OnInit {
     try {
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
       let newNode = JSON.parse(JSON.stringify(section));
-      let obj = {node:newNode,type:'copy'};
+      let obj = { node: newNode, type: 'copy' };
       this.traverseAndChange(obj);
       this.resData[0].children[1].children.splice(idx as number + 1, 0, newNode);
       this.resData = [...this.resData];
@@ -437,7 +455,7 @@ export class PagesComponent implements OnInit {
     }
     return node;
   }
-  traverseAndChange(event:any) {
+  traverseAndChange(event: any) {
 
     if (event.node) {
       if (event.type == 'copy') {
@@ -447,7 +465,7 @@ export class PagesComponent implements OnInit {
       }
       if (event.node.children) {
         event.node.children.forEach((child: any) => {
-          let obj = {node:child,type:event.type};
+          let obj = { node: child, type: event.type };
           this.traverseAndChange(obj);
         });
       }
@@ -554,7 +572,7 @@ export class PagesComponent implements OnInit {
             checkFirstTime = false
           }
           else {
-            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' ) {
+            if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
               if (newNode.length) {
                 newNode.forEach((k: any) => {
                   if (k.mapping) {
@@ -602,9 +620,9 @@ export class PagesComponent implements OnInit {
                       }
                     }
                     else if (b.type == 'listWithComponents') {
-                      b.children.forEach((listChild: any , chilIndex : number) => {
+                      b.children.forEach((listChild: any, chilIndex: number) => {
                         let idx = chilIndex
-                        if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot){
+                        if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
                           if (tabsAndStepper) {
                             tabsAndStepper.forEach((div: any) => {
                               b.children.splice(idx + 1, 0, div);

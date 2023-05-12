@@ -17,6 +17,14 @@ const routes: Routes = [
       path: 'pages/:schema',
       component: PagesComponent
     },
+    {
+      path: 'pages/:application/:schema',
+      component: PagesComponent
+    },
+    {
+      path: 'pages/:application/:mod/:schema',
+      component: PagesComponent
+    },
 
   ]},
   {

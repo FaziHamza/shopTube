@@ -1,6 +1,7 @@
 import { EmployeeService } from './../services/employee.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'st-menu',
@@ -13,7 +14,7 @@ export class MenuComponent implements OnInit {
   screenSetting: any;
   selectedApp:string = '';
   isCollapsed: boolean = false;
-  constructor(private employeeService: EmployeeService, private notification: NzNotificationService) { }
+  constructor(private employeeService: EmployeeService, private notification: NzNotificationService , public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
     this.getApllicationAndModule();

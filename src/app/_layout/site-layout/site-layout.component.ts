@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+
 
 @Component({
   selector: 'st-site-layout',
@@ -41,7 +43,7 @@ export class SiteLayoutComponent implements OnInit {
   }
   // selectedTheme: any;
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService , public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {

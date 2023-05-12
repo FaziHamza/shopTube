@@ -149,6 +149,7 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   onSubmit() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;

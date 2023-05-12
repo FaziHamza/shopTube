@@ -11,6 +11,8 @@ export class DataSharedService {
   selectedNode:any;
   screenModule:any;
   nodes:any;
+  headerData:any = [];
+  footerData:any = [];
   public data: any;
   copyJson : any = {};
   
