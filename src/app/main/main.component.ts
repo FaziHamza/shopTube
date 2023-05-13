@@ -24,6 +24,7 @@ import { CommentModalComponent } from '../components';
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
   @Input() dataModel !: any;
+  commentList :any[] = [] ;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -288,7 +289,17 @@ export class MainComponent implements OnInit {
       // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
       nzFooter: []
     });
+    modal.afterClose.subscribe(res => {
+      if (res) {
+        if(this.isShowContextMenu)
+          this.getCommentsData()
+      }
+    });
   }
-
+  getCommentsData(){
+    this.builderService.genericApis("commentList").subscribe(res=>{
+      this.commentList = res;
+    })
+  }
 
 }

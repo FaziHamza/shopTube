@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-app-builder-side-menu',
+  selector: 'st-app-builder-side-menu',
   templateUrl: './app-builder-side-menu.component.html',
   styleUrls: ['./app-builder-side-menu.component.scss']
 })
@@ -71,7 +71,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
   }
 
   notifyEmit(data: any) {
-    
+
     if (data.screenType) {
       if (data.screenType == 'desktop') {
         this.selectedTheme.showMenu =  true;
@@ -105,7 +105,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     }
   }
   notifyEmitForDropdown(data: any) {
-    
+
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -115,7 +115,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-    
+
     data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];

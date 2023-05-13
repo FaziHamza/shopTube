@@ -7,7 +7,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-comment-modal',
+  selector: 'st-comment-modal',
   templateUrl: './comment-modal.component.html',
   styleUrls: ['./comment-modal.component.scss']
 })

@@ -107,17 +107,17 @@
       <div *ngIf="item.type =='cardWithComponents'; else sixteen">
           <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
               [nzText]="item?.badgeRibbonText">
-              <app-card-with-components [item]="item"></app-card-with-components>
+              <st-card-with-components [item]="item"></st-card-with-components>
           </nz-ribbon>
           <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
-              <app-card-with-components [item]="item"></app-card-with-components>
+              <st-card-with-components [item]="item"></st-card-with-components>
           </nz-badge>
           <nz-badge *ngIf="item?.badgeType == 'dot'" [nzColor]="item.dot_ribbon_color" nzDot>
-              <app-card-with-components [item]="item"></app-card-with-components>
+              <st-card-with-components [item]="item"></st-card-with-components>
           </nz-badge> -->
-          <app-card-with-components
+          <st-card-with-components
               *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-              [item]="item"></app-card-with-components>
+              [item]="item"></st-card-with-components>
       </div>
   </ng-template>
   <ng-template #sixteen>

@@ -4,7 +4,7 @@ import { Component,OnInit, inject,Input} from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-add-control-common-properties',
+  selector: 'st-add-control-common-properties',
   templateUrl: './add-control-common-properties.component.html',
   styleUrls: ['./add-control-common-properties.component.scss']
 })

@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit {
   screenSetting: any;
   selectedApp:string = '';
   isCollapsed: boolean = false;
+  isVisible: boolean = false;
   constructor(private employeeService: EmployeeService, private notification: NzNotificationService , public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(moduleName: any) {
-    
+
     this.selectedApp = moduleName;
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
@@ -54,5 +55,11 @@ export class MenuComponent implements OnInit {
       screenType : screenType
     };
     this.notify.emit(obj);
+  }
+  openComment(){
+    this.isVisible = true;
+  }
+  handleCancel(): void {
+    this.isVisible = false;
   }
 }

@@ -24,7 +24,7 @@ import {
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -83,7 +83,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent
+    CommentModalComponent,CommentListComponent,
   ],
   exports: [
     FormsModule,
@@ -132,7 +132,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent
+    CommentModalComponent,CommentListComponent
   ],
   providers: [
   ],

@@ -7,7 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import * as formulajs from '@formulajs/formulajs' // import entire package
 
 @Component({
-  selector: 'app-demo',
+  selector: 'st-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss']
 })
