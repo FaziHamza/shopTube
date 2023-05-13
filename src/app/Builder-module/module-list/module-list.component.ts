@@ -4,6 +4,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-module-list',
@@ -12,6 +13,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 })
 export class ModuleListComponent implements OnInit {
   moduleList: any;
+  moduleListOptions: [] = [];
   applicationBuilder: any;
   model: any;
   isSubmit: boolean = true;
@@ -30,6 +32,12 @@ export class ModuleListComponent implements OnInit {
   requestSubscription: Subscription;
   listOfChildrenData: any[] = [];
   listOfColumns = [
+    {
+      name: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend', null],
+    },
     {
       name: 'Module',
       sortOrder: null,
@@ -103,7 +111,31 @@ export class ModuleListComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, private toastr: NzMessageService) { }
+  constructor(public builderService: BuilderService, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
+    this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
+      if (field.key === 'applicationName' && event) {
+        this.builderService.getjsonModuleModuleListByapplicationName(event).subscribe((res) => {
+          const moduleListOptions = res.map((item: any) => ({
+            label: item.name,
+            value: item.name
+          }));
+
+          // Find the index of the "Select Module" field in the 'this.fields' array
+          const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+            const field = fieldGroup.fieldGroup[0];
+            return field.key === 'moduleName';
+          });
+
+          if (moduleFieldIndex !== -1) {
+            // Update the options of the "Select Module" field
+            this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+          }
+        });
+      }
+
+    });
+  }
 
   ngOnInit(): void {
     this.jsonModuleSetting();
@@ -115,16 +147,26 @@ export class ModuleListComponent implements OnInit {
   }
   jsonModuleSetting() {
     this.loading = true;
-    this.builderService.jsonModuleSetting().subscribe((res => {
-      debugger
-      this.moduleList = res;
-      this.listOfDisplayData = res;
-      this.listOfData = res;
-      this.loading = false;
-      if (this.searchValue) {
-        this.search(this.searchValue);
+    this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
+      next: (res) => {
+        this.listOfDisplayData = res.map(obj => {
+          obj.expand = false;
+          return obj;
+        });
+        this.moduleList = res;
+        this.listOfDisplayData = res;
+        this.listOfData = res;
+        this.loading = false;
+        if (this.searchValue) {
+          this.search(this.searchValue);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.loading = false;
       }
-    }));
+    });
   }
   openModal() {
     this.form.reset();
@@ -140,6 +182,7 @@ export class ModuleListComponent implements OnInit {
   loadData() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
+      this.jsonScreenModuleList();
       this.loadScreenListFields();
     }));
   }
@@ -149,8 +192,8 @@ export class ModuleListComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id !=this.model?.id);
-    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id !=this.model?.id);
+    let findData = this.listOfChildrenData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id != this.model?.id);
+    let findDataScreen = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
 
     if (findData || findDataScreen) {
       if (findData) {
@@ -179,28 +222,46 @@ export class ModuleListComponent implements OnInit {
     }
   }
 
+  callChild(data: any) {
+    debugger
+    const screenData = this.listOfChildrenData.filter((item: any) => item.moduleName == data.name);
+    data['children'] = screenData;
+  }
 
   editItem(item: any) {
-    debugger
-    this.form.patchValue({
-      name: item.name,
-      applicationName: item.applicationName
-    });
-    this.model = item;
+    this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.builderService.deletejsonModule(id).subscribe((res => {
-      this.jsonModuleSetting();
-      this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
-    }))
+    this.loading = true;
+    this.requestSubscription = this.builderService.deletejsonScreenModule(id).subscribe({
+      next: (res) => {
+        this.jsonScreenModuleList();
+        this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.loading = false;
+      }
+    });
   };
 
   search(event?: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-        (item.name.toLowerCase().indexOf(inputValue) !== -1 || item.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+      (
+        (item?.name ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false)
+        ||
+        (item?.applicationName ? item.applicationName.toLowerCase().indexOf(inputValue) !== -1 : false)
+        ||
+        (item?.owner ? item.owner.toLowerCase().indexOf(inputValue) !== -1 : false)
+        ||
+        (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false)
+        ||
+        (item?.description ? item.description.toLowerCase().indexOf(inputValue) !== -1 : false))
       );
       this.searchIcon = "close";
     } else {
@@ -237,12 +298,7 @@ export class ModuleListComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         this.loading = false;
       }
-
     });
-    
-    this.builderService.jsonScreenModuleList().subscribe((res => {
-      this.listOfDisplayData = res;
-    }));
   }
 
 
@@ -261,8 +317,22 @@ export class ModuleListComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Name...',
+              label: 'Select Application',
               options: options,
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'moduleName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Module',
+              options: this.moduleListOptions,
             }
           }
         ]
