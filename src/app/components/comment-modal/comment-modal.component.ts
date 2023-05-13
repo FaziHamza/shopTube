@@ -15,7 +15,9 @@ export class CommentModalComponent implements OnInit {
   @Input() data: any = {};
   form: FormGroup;
   requestSubscription: Subscription;
-  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute) { }
+  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute) {
+
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -28,10 +30,17 @@ export class CommentModalComponent implements OnInit {
     if (this.form.valid) {
       this.route.url.subscribe((segments) => {
         const component = segments[segments.length - 1].path;
+        const currentDate = new Date();
+        const hours = this.padZero(currentDate.getHours());
+        const minutes = this.padZero(currentDate.getMinutes());
+        const seconds = this.padZero(currentDate.getSeconds());
         let commentObj = {
-          buttonId: this.data.id,
+          commentId: this.data.id,
+          type: this.data.type,
           screenId: component,
-          comment: this.form.value.comment
+          comment: this.form.value.comment,
+          date: new Date(),
+          time: `${hours}:${minutes}:${seconds}`,
         }
         this.requestSubscription = this.builderService.genericApisPost('commentList', commentObj).subscribe({
           next: (res) => {
@@ -46,6 +55,9 @@ export class CommentModalComponent implements OnInit {
         });
       });
     }
+  }
+  padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
   }
 
   readonly #modal = inject(NzModalRef);

@@ -21,25 +21,52 @@
         </ng-template>
     </div>
 
-    <nz-table #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+    <nz-table #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
                     <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
                     </th>
-                    <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
+                    <!-- <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
                         {{column.name}}
-                    </th>
+                    </th> -->
                 </ng-container>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of filterTable.data">
+            <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+                <tr>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.applicationName }}</td>
+                    <td>{{ data.owner }}</td>
+                    <td>{{ data.email }}</td>
+                    <td>{{ data.description }}</td>
+                    <!-- <td>
+                        <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                            nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
+                        <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                            (nzOnConfirm)="deleteRow(data.id)"></span>
+                    </td> -->
+                </tr>
+                <tr [nzExpand]="data.expand">
+                    <nz-table #innerTable [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
+                        <thead>
+                            <tr>
+                                <th>Screen Id</th>
+                                <th>Screen Name</th>
+                                <th>Module</th>
+                                <th>Application</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+        <tbody>
+            <tr *ngFor="let data of innerTable.data">
                 <td>{{ data.name }}</td>
-                <td>{{ data.applicationName }}</td>
                 <td>{{ data.owner }}</td>
                 <td>{{ data.email }}</td>
                 <td>{{ data.description }}</td>
+                <td>{{ data.applicationName }}</td>
                 <td>
                     <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
@@ -48,6 +75,11 @@
                         (nzOnConfirm)="deleteRow(data.id)"></span>
                 </td>
             </tr>
+        </tbody>
+    </nz-table>
+    </tr>
+            </ng-template>
+            
         </tbody>
     </nz-table>
 </nz-card>

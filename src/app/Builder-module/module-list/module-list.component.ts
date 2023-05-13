@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ModuleListComponent implements OnInit {
   applicationBuilder: any;
   model: any;
   isSubmit: boolean = true;
-  form: FormGroup;
+  // form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any[] = [];
@@ -25,6 +26,9 @@ export class ModuleListComponent implements OnInit {
   searchIcon = "search";
   fields: any = [];
   options: FormlyFormOptions = {};
+  form: any = new FormGroup({});
+  requestSubscription: Subscription;
+  listOfChildrenData: any[] = [];
   listOfColumns = [
     {
       name: 'Module',
@@ -136,33 +140,41 @@ export class ModuleListComponent implements OnInit {
   loadData() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
-      this.loadModuleFields();
+      this.loadScreenListFields();
     }));
   }
   onSubmit() {
-    debugger;
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
     }
+    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id !=this.model?.id);
+    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id !=this.model?.id);
 
-    this.loading = true;
-    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.applicationName.toLowerCase() == this.form.value.applicationName.toLowerCase());
-    if (findData) {
-      this.toastr.warning('Module name already exists in the database.', { nzDuration: 2000 });
+    if (findData || findDataScreen) {
+      if (findData) {
+        this.toastr.warning('Screen ID already exists in the database. Please choose a different ID.', { nzDuration: 2000 });
+      }
+      if (findDataScreen) {
+        this.toastr.warning('Screen name already exists in the database. Please choose a different name.', { nzDuration: 2000 });
+      }
       this.loading = false;
       return;
     }
     else {
-      const addOrUpdateModule = this.isSubmit
-        ? this.builderService.addModule(this.form.value)
-        : this.builderService.updateModule(this.model.id, this.form.value);
-      addOrUpdateModule.subscribe(() => {
-        this.jsonModuleSetting();
-        this.loading = false;
-        this.isSubmit = true;
+      const checkScreenAndProceed = this.isSubmit
+        ? this.builderService.addScreenModule(this.form.value)
+        : this.builderService.updateScreenModule(this.model.id, this.form.value);
+      checkScreenAndProceed.subscribe(() => {
+        this.isVisible = false;
+        this.jsonScreenModuleList();
+        const message = this.isSubmit ? 'Save' : 'Update';
+        this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
+        if (!this.isSubmit) {
+          this.isSubmit = true;
+        }
         this.handleCancel();
-        this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
       });
     }
   }
@@ -214,8 +226,27 @@ export class ModuleListComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
   }
+  jsonScreenModuleList() {
+    this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
+      next: (res) => {
+        this.listOfChildrenData = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.loading = false;
+      }
 
-  loadModuleFields() {
+    });
+    
+    this.builderService.jsonScreenModuleList().subscribe((res => {
+      this.listOfDisplayData = res;
+    }));
+  }
+
+
+  loadScreenListFields() {
     debugger
     const options = this.applicationBuilder.map((item: any) => ({
       label: item.name,
@@ -225,27 +256,12 @@ export class ModuleListComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'name',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Module Name',
-              placeholder: 'Module Name...',
-              required: true,
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
             key: 'applicationName',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application',
+              label: 'Application Name...',
               options: options,
             }
           }
@@ -254,13 +270,13 @@ export class ModuleListComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'owner',
+            key: 'name',
             type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Owner Name',
-              placeholder: 'Owner Name...',
+              label: 'Screen Name',
+              placeholder: 'Screen Name...',
               required: true,
             }
           },
@@ -269,33 +285,18 @@ export class ModuleListComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'email',
+            key: 'screenId',
             type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Email',
-              placeholder: 'Email...',
+              label: 'Screen Id',
+              placeholder: 'Screen Id...',
+              required: true,
             }
           },
         ],
       },
-      {
-        fieldGroup: [
-          {
-            key: 'description',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Description',
-              placeholder: 'Description...',
-            }
-          },
-        ],
-      },
-      
     ];
   }
-
 }
