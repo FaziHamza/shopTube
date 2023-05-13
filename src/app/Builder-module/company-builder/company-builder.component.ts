@@ -188,7 +188,7 @@ export class CompanyBuilderComponent implements OnInit {
     }));
   }
 
-  
+
   openModal(type: any) {
     debugger
     if (type == 'application') {
@@ -263,7 +263,7 @@ export class CompanyBuilderComponent implements OnInit {
       return;
     }
 
-    let findData = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
     if (findData) {
       this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
       return;
