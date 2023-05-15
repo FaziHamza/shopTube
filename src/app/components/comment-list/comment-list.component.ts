@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-comment-list',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {
+    debugger
   }
 
 }

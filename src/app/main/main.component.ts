@@ -24,7 +24,6 @@ import { CommentModalComponent } from '../components';
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
   @Input() dataModel !: any;
-  commentList :any[] = [] ;
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -298,7 +297,7 @@ export class MainComponent implements OnInit {
   }
   getCommentsData(){
     this.builderService.genericApis("commentList").subscribe(res=>{
-      this.commentList = res;
+      this.dataSharedService.screenCommentList = res;
     })
   }
 
