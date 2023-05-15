@@ -38,28 +38,30 @@ export class PagesComponent implements OnInit {
   @Input() screenId: any;
   requestSubscription: Subscription;
   isPageContextShow = false;
-  checkApplication: any = '';
   ngOnInit(): void {
     if (this.router.url.includes('/pages'))
       this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
-        if (this.checkApplication != params["module"] || this.checkApplication == '') {
-          this.checkApplication = params["application"];
-          this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
-            next: (res: any) => {
-              if (res.length < 2) {
-                this.setData(res[0]);
-              } else {
-                this.setData(res[0]);
-                this.setData(res[1]);
+        if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
+          this.dataSharedService.checkModule = params["module"];
+          if (params["module"]) {
+            this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
+              next: (res: any) => {
+                if (res.length > 0) {
+                  this.setData(res[0]);
+
+                  if (res.length > 1) {
+                    this.setData(res[1]);
+                  }
+                }
+              },
+              error: (err) => {
+                console.error(err);
               }
-            },
-            error: (err) => {
-              console.error(err);
-            }
-          });
+            });
+          }
         }
         this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
           next: (res: any) => {
@@ -818,7 +820,7 @@ export class PagesComponent implements OnInit {
     // alert('Copied to clipboard');
   }
 
-  setData(response : any) {
+  setData(response: any) {
     if (response.moduleName.includes('footer')) {
       this.dataSharedService.footerData = response.menuData[0].children[1].children[0].children[1].children;
     } else {

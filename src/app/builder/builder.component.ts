@@ -70,7 +70,7 @@ export class BuilderComponent implements OnInit {
   saveLoader: any = false;
   htmlBlockModal: any = false;
   htmlBlockimagePreview: any = '';
-  webBlock : boolean =  false;
+  webBlock: boolean = false;
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -138,15 +138,15 @@ export class BuilderComponent implements OnInit {
   };
   getDataFromApi(name: any) {
     this.selectModuleName = "";
-      this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
-        next: (res) => {
-          this.moduleList = res;
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      });
+    this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
+      next: (res) => {
+        this.moduleList = res;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   }
   LayerShow() {
     if (this.IslayerVisible)
@@ -232,12 +232,11 @@ export class BuilderComponent implements OnInit {
         "menuData": newData,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       };
-      if (this.screenName.includes('-header') || this.screenName.includes('-footer')) {
-        if (this.selectModuleName) {
-          data['module'] = this.selectModuleName;
-          this.dataSharedService.headerData = [];
-          this.dataSharedService.footerData = [];
-        }
+      if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectModuleName) {
+        data['module'] = this.selectModuleName;
+        this.dataSharedService.headerData = [];
+        this.dataSharedService.footerData = [];
+        this.dataSharedService.checkModule = '';
       }
       this.screenId = mainModuleId[0].screenId;
       // if (this.screenId > 0) {
@@ -3647,12 +3646,12 @@ export class BuilderComponent implements OnInit {
     this.htmlBlockModal = false;
   }
 
-  showWebBlockList(type : any){
+  showWebBlockList(type: any) {
     debugger
-    if(type == 'Website Block'){
-      this.webBlock =  true;
-    }else{
-      this.webBlock =  false;
+    if (type == 'Website Block') {
+      this.webBlock = true;
+    } else {
+      this.webBlock = false;
     }
   }
   // saveBuilderTemplates() {
