@@ -60,30 +60,24 @@
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Modal -->
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Screen" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-    <ng-container *nzModalContent>
+<nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
+    nzTitle="Add Screen" (nzOnClose)="handleCancel()">
+    <ng-container *nzDrawerContent>
         <form [formGroup]="form">
-            <label>Select Application</label>
-            <nz-select nzShowSearch nzAllowClear id="companyName" formControlName="applicationName">
-                <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                    *ngFor="let item of applicationBuilder"></nz-option>
-            </nz-select>
-            <label>Select Module</label>
-            <nz-select nzShowSearch nzAllowClear id="moduleName" formControlName="moduleName">
-                <nz-option [nzValue]="item.name" placeholder="Select Module" [nzLabel]="item.name"
-                    *ngFor="let item of moduleList"></nz-option>
-            </nz-select>
-            <label for="screenId">Screen Id</label>
-            <input nz-input placeholder="Enter Screen Id" id="screenId" formControlName="screenId" />
-            <label for="name">Screen Name</label>
-            <input nz-input placeholder="Enter Screen Name" id="name" formControlName="name" />
+            <div class="flex flex-wrap">
+                <div class="w-1/2 theme-body" *ngFor="let item of fields">
+                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                        [form]="form"></formly-form>
+                </div>
+            </div>
         </form>
     </ng-container>
-    <ng-template #modalFooter>
-        <button nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
-                nzTheme="outline"></span>Close</button>
-        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="database"
-                nzTheme="outline"></span>Submit</button>
-        <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon nzType="redo"
-                nzTheme="outline"></span>Update</button>
-    </ng-template>
+</nz-drawer>
+<ng-template #footerTpl>
+    <button class="mr-2" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
+            nzTheme="outline"></span>Close</button>
+    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon
+            nzType="database" nzTheme="outline"></span>Submit</button>
+    <button nz-button *ngIf="!isSubmit" nzType="primary" [disabled]="!form.valid" (click)="onSubmit()"><span nz-icon
+            nzType="redo" nzTheme="outline"></span>Update</button>
+</ng-template>

@@ -375,7 +375,13 @@ export class CompanyBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Company Name',
+              label: 'Organization Name',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: options,
             }
           }
@@ -390,6 +396,12 @@ export class CompanyBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Application Type',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: [
                 { label: "Website", value: 'website' },
                 { label: "Mobile", value: 'mobile' },

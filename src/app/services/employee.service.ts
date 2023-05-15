@@ -21,7 +21,7 @@ export class EmployeeService {
     }
     headerFooter(name: any): Observable<TreeNode[]> {
         return this.http.get<TreeNode[]>(
-            this.baseUrl + "jsonBuilderSetting?application=" + name
+            this.baseUrl + "jsonBuilderSetting?module=" + name
         );
     }
     login(email: string, password: string) {

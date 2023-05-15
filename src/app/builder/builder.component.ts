@@ -33,7 +33,6 @@ export class BuilderComponent implements OnInit {
   makeOptions = () => new JsonEditorOptions();
   addControl = false;
   size: NzButtonSize = 'large';
-  selectModuleName: any;
   applicationBuilder: any = [];
   moduleList: any = [];
   selectApplicationName: any;
@@ -67,9 +66,11 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
+  selectModuleName: any = '';
   saveLoader: any = false;
   htmlBlockModal: any = false;
   htmlBlockimagePreview: any = '';
+  webBlock : boolean =  false;
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -135,10 +136,8 @@ export class BuilderComponent implements OnInit {
       }
     });
   };
-  getDataFromApi(name: any, apiType: any) {
-    if (apiType == "application") {
-      this.selectModuleName = "";
-      this.applicationBuilder = this.applicationBuilder;
+  getDataFromApi(name: any) {
+    this.selectModuleName = "";
       this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
         next: (res) => {
           this.moduleList = res;
@@ -148,7 +147,6 @@ export class BuilderComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       });
-    }
   }
   LayerShow() {
     if (this.IslayerVisible)
@@ -235,8 +233,10 @@ export class BuilderComponent implements OnInit {
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       };
       if (this.screenName.includes('-header') || this.screenName.includes('-footer')) {
-        if (this.selectApplicationName) {
-          data['application'] = this.selectApplicationName
+        if (this.selectModuleName) {
+          data['module'] = this.selectModuleName;
+          this.dataSharedService.headerData = [];
+          this.dataSharedService.footerData = [];
         }
       }
       this.screenId = mainModuleId[0].screenId;
@@ -3647,6 +3647,14 @@ export class BuilderComponent implements OnInit {
     this.htmlBlockModal = false;
   }
 
+  showWebBlockList(type : any){
+    debugger
+    if(type == 'Website Block'){
+      this.webBlock =  true;
+    }else{
+      this.webBlock =  false;
+    }
+  }
   // saveBuilderTemplates() {
   //   this.requestSubscription = this.builderService.genericApis('buildertemplates').subscribe({
   //     next: (res) => {

@@ -174,14 +174,16 @@ export class ApplicationBuilderComponent implements OnInit {
       this.toastr.warning(message, { nzDuration: 2000 });
       return;
     } else {
-
+      const key = this.moduleSubmit ? 'moduleId' : 'applicationId';
+      this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
+      
       const action$ = !this.moduleSubmit ? (this.isSubmit
         ? this.builderService.addApplicationBuilder(this.myForm.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        // if (!this.moduleSubmit) {
+        // if (this.moduleSubmit) {
         //   this.saveHeaderFooter('header');
         //   this.saveHeaderFooter('footer');
         // }
@@ -266,8 +268,8 @@ export class ApplicationBuilderComponent implements OnInit {
       let screen = {
         name: this.myForm.value.name + '-' + type,
         screenId: this.myForm.value.name + '-' + type,
-        applicationName: this.myForm.value.name,
-        moduleName: "",
+        applicationName: '',
+        moduleName: this.myForm.value.name,
       }
       this.builderService.addScreenModule(screen).subscribe(() => {
 
@@ -301,6 +303,12 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Company Name',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: this.companyBuilder,
             }
           }
@@ -315,6 +323,12 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Application Type',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: [
                 { label: "Website", value: 'website' },
                 { label: "Mobile", value: 'mobile' },
@@ -357,6 +371,12 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Application',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: options,
             }
           }

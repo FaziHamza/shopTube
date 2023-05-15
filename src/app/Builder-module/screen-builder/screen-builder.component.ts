@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -16,7 +17,7 @@ export class ScreenBuilderComponent implements OnInit {
   model: any;
   jsonScreenModule: any = [];
   isSubmit: boolean = true;
-  form: FormGroup;
+  // form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any[] = [];
@@ -25,6 +26,9 @@ export class ScreenBuilderComponent implements OnInit {
   searchValue = '';
   pageSize = 10;
   searchIcon = "search";
+  fields: any = [];
+  options: FormlyFormOptions = {};
+  form: any = new FormGroup({});
   listOfColumns = [
     {
       name: 'Screen Id',
@@ -81,21 +85,45 @@ export class ScreenBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) { }
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) { 
+    this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
+      if (field.key === 'applicationName' && event) {
+        this.builderService.getjsonModuleModuleListByapplicationName(event).subscribe((res) => {
+          const moduleListOptions = res.map((item: any) => ({
+            label: item.name,
+            value: item.name
+          }));
+
+          // Find the index of the "Select Module" field in the 'this.fields' array
+          const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+            const field = fieldGroup.fieldGroup[0];
+            return field.key === 'moduleName';
+          });
+
+          if (moduleFieldIndex !== -1) {
+            // Update the options of the "Select Module" field
+            this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+          }
+        });
+      }
+
+    });
+  }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      screenId: new FormControl('', Validators.required),
-      applicationName: new FormControl('', Validators.required),
-      moduleName: new FormControl('', Validators.required),
-    });
-    const applicationNameControl = this.form.get('applicationName');
-    if (applicationNameControl !== null) {
-      applicationNameControl.valueChanges.subscribe(value => {
-        this.getModulelist(value);
-      });
-    }
+    // this.form = new FormGroup({
+    //   name: new FormControl('', Validators.required),
+    //   screenId: new FormControl('', Validators.required),
+    //   applicationName: new FormControl('', Validators.required),
+    //   moduleName: new FormControl('', Validators.required),
+    // });
+    // const applicationNameControl = this.form.get('applicationName');
+    // if (applicationNameControl !== null) {
+    //   applicationNameControl.valueChanges.subscribe(value => {
+    //     this.getModulelist(value);
+    //   });
+    // }
 
     this.breadCrumbItems = [
       { label: 'Formly' },
@@ -125,15 +153,18 @@ export class ScreenBuilderComponent implements OnInit {
     debugger
     this.form.reset();
     this.isVisible = true;
+    if(this.isSubmit){
+      for (let prop in this.model) {
+        if (this.model.hasOwnProperty(prop)) {
+          this.model[prop] = null;
+        }
+      }
+    }
     if (!this.isSubmit) {
       this.isSubmit = true;
       this.loadData();
     }
   }
-  showModal(): void {
-    this.isVisible = true;
-  }
-
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -141,6 +172,7 @@ export class ScreenBuilderComponent implements OnInit {
   loadData() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationBuilder = res;
+      this.loadScreenListFields();
     }));
   }
   getModulelist(applicationName: any) {
@@ -149,7 +181,6 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   onSubmit() {
-    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -182,29 +213,11 @@ export class ScreenBuilderComponent implements OnInit {
         this.handleCancel();
       });
     }
-    // this.builderService.checkScreen(this.form.value).subscribe((result) => {
-    //   if (result) {
-    //     const message = result.type === 'name'
-    //       ? `Screen name '${result.value}' already exists in the database. Please choose a different name.`
-    //       : `Screen ID '${result.value}' already exists in the database. Please choose a different ID.`;
-    //     this.toastr.warning(message, { nzDuration: 2000 });
-    //     this.loading = false;
-    //   } else {
-
-    //   }
-    // });
   }
 
 
   editItem(item: any) {
-    this.getModuleList();
-    this.model = item;
-    this.form.patchValue({
-      name: item.name,
-      screenId: item.screenId,
-      applicationName: item.applicationName,
-      moduleName: item.moduleName,
-    });
+    this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
@@ -249,6 +262,72 @@ export class ScreenBuilderComponent implements OnInit {
       this.listOfDisplayData = this.listOfData;
       this.searchIcon = "search";
     }
+  }
+  loadScreenListFields() {
+    const options = this.applicationBuilder.map((item: any) => ({
+      label: item.name,
+      value: item.name
+    }));
+    this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'applicationName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Application',
+              options: options,
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'moduleName',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Module',
+              options: [],
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Screen Name',
+              placeholder: 'Screen Name...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'screenId',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Screen Id',
+              placeholder: 'Screen Id...',
+              required: true,
+            }
+          },
+        ],
+      },
+    ];
   }
 
 }

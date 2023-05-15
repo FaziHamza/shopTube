@@ -45,15 +45,15 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
-        if (this.checkApplication != params["application"] || this.checkApplication == '') {
+        if (this.checkApplication != params["module"] || this.checkApplication == '') {
           this.checkApplication = params["application"];
-          this.requestSubscription = this.employeeService.headerFooter(params["application"]).subscribe({
+          this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
             next: (res: any) => {
               if (res.length < 2) {
-                this.dataSharedService.headerData = res[0].menuData[0].children[1].children[0].children[1].children;
-              } else{
-                this.dataSharedService.headerData = res[0].menuData[0].children[1].children[0].children[1].children;
-                this.dataSharedService.footerData = res[1].menuData[0].children[1].children[0].children[1].children;
+                this.setData(res[0]);
+              } else {
+                this.setData(res[0]);
+                this.setData(res[1]);
               }
             },
             error: (err) => {
@@ -816,5 +816,13 @@ export class PagesComponent implements OnInit {
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
     // alert('Copied to clipboard');
+  }
+
+  setData(response : any) {
+    if (response.moduleName.includes('footer')) {
+      this.dataSharedService.footerData = response.menuData[0].children[1].children[0].children[1].children;
+    } else {
+      this.dataSharedService.headerData = response.menuData[0].children[1].children[0].children[1].children;
+    }
   }
 }

@@ -1,4 +1,12 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+  <div class="flex pt-3 ">
+    <div class="w-1/6">
+      <nz-select [(ngModel)]="selectApplicationName" (ngModelChange)="getModule(selectApplicationName)">
+        <nz-option [nzValue]="item.name" placeholder="Select Application" [nzLabel]="item.name"
+          *ngFor="let item of applicationBuilder"></nz-option>
+      </nz-select>
+    </div>
+  </div>
   <div class="card m-2">
     <div class="">
       <!-- <i class="material-icons">face</i> -->
@@ -18,18 +26,31 @@
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         </div>
         <div class="w-2/5 ml-2">
-          <nz-select class="" [(ngModel)]="moduleName" nzPlaceHolder="Select Menu"
+          <nz-select nzShowSearch nzAllowClear [(ngModel)]="moduleName" nzPlaceHolder="Select Module..."
             (ngModelChange)="getFormLayers($event)">
             <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of menuModule"></nz-option>
           </nz-select>
         </div>
-        <div class="w-2/5 jsonEdiotTab">
-          <button nz-button nzType="primary" class="ml-2 " (click)="downloadJson()">D JSON</button>
-          <button nz-button nzType="primary" class="ml-2 " (click)="downloadAllJson()">D All
-            Json</button>
+        <div class="w-2/5 jsonEdiotTab ml-1">
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="primary">
+            Json Actions
+            <span nz-icon class="ml-1" nzType="down"></span>
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>
+                <a (click)="downloadAllJson()">Download Json</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="downloadJson()">Download Selected Json</a>
+              </li>
+              <li nz-menu-item>
+                <a onclick="document.getElementById('fileInput').click()">Json Upload</a>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
           <input type="file" class="ml-2" id="fileInput" style="display:none" (change)="jsonUpload($event)">
-          <button nz-button nzType="primary" class="ml-2" onclick="document.getElementById('fileInput').click()">Upload
-            Json</button>
+          
         </div>
       </div>
       <div class="flex body-tab border ml-2 mt-1">

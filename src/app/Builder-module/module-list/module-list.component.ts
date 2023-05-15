@@ -13,7 +13,6 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class ModuleListComponent implements OnInit {
   moduleList: any;
-  moduleListOptions: [] = [];
   applicationBuilder: any;
   model: any;
   isSubmit: boolean = true;
@@ -133,7 +132,6 @@ export class ModuleListComponent implements OnInit {
           }
         });
       }
-
     });
   }
 
@@ -318,6 +316,12 @@ export class ModuleListComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Select Application',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
               options: options,
             }
           }
@@ -332,7 +336,13 @@ export class ModuleListComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Select Module',
-              options: this.moduleListOptions,
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [],
             }
           }
         ]

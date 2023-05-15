@@ -733,7 +733,7 @@ export const htmlTabsData = [
         ]
       },
       {
-        label: "Html Block",
+        label: "Web Code",
         id: "static-4",
         children: [
           {
@@ -826,6 +826,11 @@ export const htmlTabsData = [
             ]
           },
         ]
+      },
+      {
+        label: "Website Block",
+        id: "static-4",
+        children: []
       },
       {
         label: "Template",
@@ -1169,11 +1174,11 @@ export const htmlTabsData = [
                 icon: "uil uil-bitcoin-sign",
                 label: "Add Section"
               },
-              {
-                parameter: "dynamicSections",
-                icon: "uil uil-bitcoin-sign",
-                label: "Dynamic Section"
-              },
+              // {
+              //   parameter: "dynamicSections",
+              //   icon: "uil uil-bitcoin-sign",
+              //   label: "Dynamic Section"
+              // },
               {
                 parameter: "input",
                 icon: "uil uil-calender",

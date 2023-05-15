@@ -9,6 +9,7 @@ import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Guid } from '../models/guid';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-menu-builder',
@@ -34,6 +35,7 @@ export class MenuBuilderComponent implements OnInit {
   dataMenuArrayLength: any = [];
   buttonLinkArray: any = [];
   filterMenuData: any = [];
+  applicationBuilder: any = [];
   expandedKeys: any;
   isVisible: string;
   tabsChild: TreeNode;
@@ -46,8 +48,9 @@ export class MenuBuilderComponent implements OnInit {
   tabsArray: any = [];
   dropdownButtonArray: any = [];
   selectedTheme: any;
-
-
+  selectApplicationName : any = '';
+  requestSubscription: Subscription;
+  
   public editorOptions: JsonEditorOptions;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
@@ -155,7 +158,8 @@ export class MenuBuilderComponent implements OnInit {
       isTwoColumnCollapsed: false,
       allMenuItems: [],
     }
-    this.jsonModuleSetting();
+    // this.jsonModuleSetting();
+    this.loadApplications();
 
   }
   LayerShow() {
@@ -1253,6 +1257,31 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
+
+  getModule(name: any){
+    this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
+      next: (res) => {
+        this.menuModule = res;
+      this.clickBack();
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  }
+
+  loadApplications() {
+    this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
+      next: (res) => {
+        this.applicationBuilder = res;
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  };
 
 
 }

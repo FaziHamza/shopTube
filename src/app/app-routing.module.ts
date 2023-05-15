@@ -22,7 +22,7 @@ const routes: Routes = [
       component: PagesComponent
     },
     {
-      path: 'pages/:application/:mod/:schema',
+      path: 'pages/:application/:module/:schema',
       component: PagesComponent
     },
 
