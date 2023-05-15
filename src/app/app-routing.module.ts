@@ -18,7 +18,7 @@ const routes: Routes = [
       component: PagesComponent
     },
     {
-      path: 'pages/:application/:schema',
+      path: 'pages/:module/:schema',
       component: PagesComponent
     },
     {

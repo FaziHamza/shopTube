@@ -203,7 +203,7 @@ export class PagesComponent implements OnInit {
     } finally {
       if (this.screenName) {
         const fishRhyme = ruleFactory(this.businessRuleData);
-        console.log(fishRhyme(this.formlyModel));
+        // console.log(fishRhyme(this.formlyModel));
         this.updateFormlyModel()
         // this.cdr.detectChanges();
         // this.cdr.detach();
