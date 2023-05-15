@@ -79,6 +79,9 @@ export class PagesComponent implements OnInit {
             console.error(err); // Log the error to the console
           }
         });
+        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res=>{
+          this.dataSharedService.screenCommentList = res;
+        })
       }
     });
   }
@@ -522,7 +525,8 @@ export class PagesComponent implements OnInit {
     debugger
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
-    this.builderService.genericApis(api).subscribe(res => {
+    if(api)
+    this.requestSubscription =  this.builderService.genericApis(api).subscribe(res => {
       if (res) {
         for (let index = 0; index < res.length; index++) {
           const item = res[index];
