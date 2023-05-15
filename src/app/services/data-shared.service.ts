@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class DataSharedService {
   // activeTabIndex = 0;
   public change: Subject<{ event: any; field: any}> = new Subject();
-
+  screenCommentList : any[] = []
   selectedNode:any;
   screenModule:any;
   nodes:any;
@@ -15,7 +15,7 @@ export class DataSharedService {
   footerData:any = [];
   public data: any;
   copyJson : any = {};
-  
+
   constructor() { }
 
   setData(data: string) {

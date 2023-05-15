@@ -1,1 +1,12 @@
-<p>comment-list works!</p>
+<h1>test</h1>
+{{dataSharedService.screenCommentList | json}}
+<nz-timeline>
+    <ng-container *ngFor="let item of dataSharedService.screenCommentList">
+        <nz-timeline-item ><nz-card>
+                <div style="color:#74788d">{{item.date}}</div>
+                <div style="font-size: 16px!important; margin-top: 1rem!important;">{{item.comment}}</div>
+                <div style="color:#74788d">{{item.type}}</div>
+            </nz-card>
+        </nz-timeline-item>
+    </ng-container>
+</nz-timeline>
