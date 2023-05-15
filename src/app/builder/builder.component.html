@@ -61,8 +61,9 @@
           ngbTooltip="Edit json">
           <span nz-icon nzType="edit" nzTheme="outline"></span>
         </button>
-        <button nz-button nzType="primary" [nzLoading]="saveLoader" class="ml-2 " title="Json save" (click)="saveJson()"
-          ngbTooltip="Save screen"><span nz-icon nzType="save" nzTheme="outline"></span> </button>
+        <button nz-button nzType="primary" [nzLoading]="saveLoader" class="ml-2 " title="Json save"
+          (click)="openModal('saveAsTemplate')" ngbTooltip="Save screen"><span nz-icon nzType="save"
+            nzTheme="outline"></span> </button>
         <button nz-button nzType="primary" class="ml-2" (click)="clearChildNode()">
           <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         <!-- <button nz-button nzType="primary" class="ml-2" (click)="saveBuilderTemplates()">
@@ -76,7 +77,7 @@
         </nz-select>
       </div>
       <div class="w-1/5 jsonEdiotTab ml-1">
-        <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="primary">
+        <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="menu" nzType="primary">
           Json Actions
           <span nz-icon style="padding-left: 10px;
           padding-top: 5px;" nzType="down"></span>
@@ -154,7 +155,8 @@
                           <span class="fa hover:shadow-lg text-red-500" nz-icon nzType="delete" nzTooltipTitle="Delete"
                             nzTheme="outline" nz-tooltip></span>
                         </label>
-                        <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="previewJson(node)">
+                        <label class="mx-1" *ngIf="isVisible === node.origin.id"
+                          (click)="openModal('previewJson' , node)">
                           <i nzTooltipTitle="Preview Json " nz-tooltip
                             class="fa-solid fa-brackets-curly hover:shadow-lg text-green-500"></i>
                         </label>
@@ -261,7 +263,7 @@
                               <ng-container
                                 *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
                                 <button nz-button class="w-auto rounded"
-                                  *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form' "
+                                  *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
                                   (click)="addFunctionsInHtml(searchItems.parameter)"><i
                                     class={{searchItems.icon}}></i>{{searchItems.label}}
                                 </button>
@@ -269,7 +271,7 @@
                               <button nz-button nzType="default" nzBlock class="rounded"
                                 *ngIf=" searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'">
                                 <span nz-icon nzType="eye"
-                                  (mouseover)="openModal(searchItems)"></span>{{searchItems.label}}
+                                  (mouseover)="openModal('webCode' ,searchItems)"></span>{{searchItems.label}}
                               </button>
                             </div>
                           </div>
@@ -282,8 +284,7 @@
                       <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
                         *ngFor="let item1 of item.children let i= index">
                         <div *ngIf="webBlock" class="text-right">
-                          <ul class="web-block-menu"
-                            nz-menu nzMode="inline">
+                          <ul class="web-block-menu" nz-menu nzMode="inline">
                             <li nz-menu-item>
                               <span>Menu</span>
                             </li>
@@ -321,7 +322,7 @@
                               <span>List</span>
                             </li>
                             <li nz-menu-item>
-                              <span>NUmber</span>
+                              <span>Number</span>
                             </li>
                           </ul>
                         </div>
@@ -330,30 +331,24 @@
                             [nzHeader]="item2.label">
                             <div class="flex flex-wrap">
                               <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
-                                <!-- <button nz-button nzType="default" *ngIf="item3.parameter != 'addSection'"
-                                  (click)="addControlToJson(item3.parameter,item3)"><i
+                                <button nz-button nzType="default" nzBlock class="rounded"
+                                  *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
+                                  (click)=" addControlToJson(item3.parameter,item3)"> <i
                                     class={{item3.icon}}></i>{{item3.label}}
                                 </button>
-                                <button nz-button nzType="default" *ngIf="item3.parameter == 'addSection'"
-                                  (click)="addSection()"><i class={{item3.icon}}></i>{{item3.label}}
-                                </button> -->
                                 <button nz-button nzType="default" nzBlock class="rounded"
-                                  *ngIf="item3.parameter != 'address_form' && item3.parameter != 'employee_form' && item3.parameter != 'login_Form' && item3.parameter != 'signUp_Form' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item3.parameter != 'cvtemplate'  && item3.parameter != 'dashnoicPricingTemplate'  && item3.parameter != 'login' && item3.parameter != 'loremIpsum'  && item3.parameter != 'dashnoicPricingTabletemplate' && item3.parameter != 'pricingtemplate' && item3.parameter != 'registerTemplate' && item3.parameter != 'signUpTemplate' && item3.parameter != 'profiletemplate' && item3.parameter != 'invoiceTemplate'"
-                                  (click)="addControlToJson(item3.parameter,item3)"><i
-                                    class={{item3.icon}}></i>{{item3.label}}
+                                  *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
+                                  (click)="addFunctionsInHtml(item3.parameter)">
+                                  <i class={{item3.icon}}></i>
+                                  {{item3.label}}
                                 </button>
-                                <ng-container
-                                  *ngIf="item3.parameter != 'cvtemplate'  && item3.parameter != 'dashnoicPricingTemplate'  && item3.parameter != 'login' && item3.parameter != 'loremIpsum'  && item3.parameter != 'dashnoicPricingTabletemplate' && item3.parameter != 'pricingtemplate' && item3.parameter != 'registerTemplate' && item3.parameter != 'signUpTemplate' && item3.parameter != 'profiletemplate' && item3.parameter != 'invoiceTemplate'">
-                                  <button nz-button nzType="default" nzBlock class="rounded"
-                                    *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'address_form' || item3.parameter == 'employee_form' || item3.parameter == 'login_Form' || item3.parameter == 'signUp_Form' || item3.parameter == 'listWithComponents'"
-                                    (click)="addFunctionsInHtml(item3.parameter)">
-                                    <i class={{item3.icon}}></i>
-                                    {{item3.label}}
-                                  </button>
-                                </ng-container>
                                 <button nz-button nzType="default" nzBlock class="rounded"
-                                  *ngIf=" item3.parameter == 'cvtemplate'  || item3.parameter == 'dashnoicPricingTemplate'  || item3.parameter == 'login' || item3.parameter == 'loremIpsum'  || item3.parameter == 'dashnoicPricingTabletemplate' || item3.parameter == 'pricingtemplate' || item3.parameter == 'registerTemplate' || item3.parameter == 'signUpTemplate' || item3.parameter == 'profiletemplate' || item3.parameter == 'invoiceTemplate'">
-                                  <span nz-icon nzType="eye" (mouseover)="openModal(item3)"></span>{{item3.label}}
+                                  *ngIf="item1.id == 'webCode'">
+                                  <span nz-icon nzType="eye"
+                                    (mouseover)="openModal('webCode',item3)"></span>{{item3.label}}
+                                </button>
+                                <button *ngIf="item1.id == 'template'" nz-button nzType="default" nzBlock
+                                  class="rounded" (click)="addTemplate(item3)">{{item3.label}}
                                 </button>
                               </div>
                             </div>
@@ -382,20 +377,24 @@
   </nz-card>
 </nz-spin>
 
-<nz-modal [nzWidth]="'800px'" [(nzVisible)]="previewJsonModal" nzTitle="Selected Json" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
+<nz-modal [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'" [(nzVisible)]="showModal"
+  [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <div class="mb-2">
-      <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1" nz-tooltip="download Json"><span
-          nz-icon nzType="download"></span>Dwonload</button>
+    <div *ngIf="modalType == 'previewJson'">
+      <div class="mb-2">
+        <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
+          nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
+      </div>
+      <json-editor id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
     </div>
-    <json-editor id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
-  </ng-container>
-</nz-modal>
-<nz-modal [(nzVisible)]="htmlBlockModal" nzTitle="Template Preview" (nzOnCancel)="modalCancel()" (nzOnOk)="modalOk()">
-  <ng-container *nzModalContent>
-    <div class="image-wrapper">
+    <div class="image-wrapper" *ngIf="modalType == 'webCode'">
       <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt="" />
+    </div>
+    <div *ngIf="modalType == 'saveAsTemplate'">
+      <label for="template-name">Template Name</label>
+      <input id="template-name" [(ngModel)]="templateName" nz-input placeholder="Template Name..." />
+      <label class="mt-2" nz-checkbox [(ngModel)]="saveAsTemplate">Do you want to Save as Template?</label>
     </div>
   </ng-container>
 </nz-modal>

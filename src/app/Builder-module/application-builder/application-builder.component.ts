@@ -34,6 +34,7 @@ export class ApplicationBuilderComponent implements OnInit {
   listOfChildrenData: any[] = [];
   moduleSubmit: boolean = false;
   checkRes: boolean = false;
+  footerSaved: boolean = false;
   listOfColumns = [
     {
       name: '',
@@ -176,17 +177,19 @@ export class ApplicationBuilderComponent implements OnInit {
     } else {
       const key = this.moduleSubmit ? 'moduleId' : 'applicationId';
       this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
-      
+
       const action$ = !this.moduleSubmit ? (this.isSubmit
         ? this.builderService.addApplicationBuilder(this.myForm.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        // if (this.moduleSubmit) {
-        //   this.saveHeaderFooter('header');
-        //   this.saveHeaderFooter('footer');
-        // }
+        if (this.moduleSubmit) {
+          setTimeout(() => {
+            this.saveHeaderFooter('header');
+          }, 2000);
+          this.footerSaved = false;
+        }
 
         this.jsonApplicationBuilder();
         this.jsonModuleSetting();
@@ -272,7 +275,12 @@ export class ApplicationBuilderComponent implements OnInit {
         moduleName: this.myForm.value.name,
       }
       this.builderService.addScreenModule(screen).subscribe(() => {
-
+        if (!this.footerSaved) { // Check if 'footer' hasn't been saved yet
+          this.footerSaved = true; // Set the flag to indicate 'footer' has been saved
+          setTimeout(() => {
+            this.saveHeaderFooter('footer');
+          }, 2000);
+        }
       })
     }
   }

@@ -4,11 +4,11 @@ export const htmlTabsData = [
     children: [
       {
         label: "General",
-        id: "static-4",
+        id: "general",
         children: [
           {
             label: "Button",
-            id: "static-1",
+            id: "button",
             icon: "fa fa-chevron-down",
             children: [
               {
@@ -45,7 +45,7 @@ export const htmlTabsData = [
           },
           {
             label: "Typography",
-            id: "static-1",
+            id: "typography",
             icon: "fa fa-chevron-down",
             children: [
               {
@@ -62,7 +62,7 @@ export const htmlTabsData = [
           },
           {
             label: "Icon",
-            id: "static-1",
+            id: "icon",
             icon: "fa fa-chevron-down",
             children: [
               {
@@ -77,10 +77,11 @@ export const htmlTabsData = [
       {
         label: "Layout",
         icon: "fa fa-chevron-down",
+        id: "layout",
         children: [
           {
             label: "Basic",
-            id: "static-1",
+            id: "basic",
             children: [
               // {
               //   parameter: "container",
@@ -119,6 +120,7 @@ export const htmlTabsData = [
       {
         label: "Navigation",
         icon: "fa fa-chevron-down",
+        id: "navigation",
         children: [
           {
             label: "Basic",
@@ -145,6 +147,7 @@ export const htmlTabsData = [
       },
       {
         label: "Data Entry",
+        id: "data-entry",
         children: [
           {
             label: "Basic",
@@ -334,7 +337,7 @@ export const htmlTabsData = [
           },
           {
             label: "Date",
-            id: "static-2",
+            id: "date",
             icon: "fa fa-chevron-up",
             children: [
               // {
@@ -475,7 +478,7 @@ export const htmlTabsData = [
           },
           {
             label: "Masking",
-            id: "static-3",
+            id: "masking",
             icon: "fa fa-chevron-up",
             children: [
               {
@@ -602,6 +605,7 @@ export const htmlTabsData = [
       {
         label: "Data Display",
         icon: "fa fa-chevron-down",
+        id: "data-display",
         children: [
           {
             label: "Basic",
@@ -705,7 +709,7 @@ export const htmlTabsData = [
           },
           {
             label: "Card",
-            id: "static-1",
+            id: "card",
             icon: "fa fa-chevron-down",
             children: [
               {
@@ -733,8 +737,8 @@ export const htmlTabsData = [
         ]
       },
       {
-        label: "Web Code",
-        id: "static-4",
+        label: "Html Code",
+        id: "webCode",
         children: [
           {
             label: "Basic",
@@ -829,11 +833,12 @@ export const htmlTabsData = [
       },
       {
         label: "Website Block",
-        id: "static-4",
+        id: "website-block",
         children: []
       },
       {
         label: "Template",
+        id: "template",
         icon: "fa fa-chevron-down",
         children: [
           {
@@ -841,32 +846,33 @@ export const htmlTabsData = [
             id: "static-1",
             icon: "fa fa-chevron-down",
             children: [
-              {
-                parameter: "address_form",
-                icon: "uil uil-home-alt",
-                label: "Address"
-              },
-              {
-                parameter: "employee_form",
-                icon: "uil uil-user",
-                label: "Employee Form"
-              },
-              {
-                parameter: "login_Form",
-                icon: "uil uil-key-skeleton-alt",
-                label: "Log In"
-              },
-              {
-                parameter: "signUp_Form",
-                icon: "uil uil-file-check-alt",
-                label: "Sign Up"
-              },
+              // {
+              //   parameter: "address_form",
+              //   icon: "uil uil-home-alt",
+              //   label: "Address"
+              // },
+              // {
+              //   parameter: "employee_form",
+              //   icon: "uil uil-user",
+              //   label: "Employee Form"
+              // },
+              // {
+              //   parameter: "login_Form",
+              //   icon: "uil uil-key-skeleton-alt",
+              //   label: "Log In"
+              // },
+              // {
+              //   parameter: "signUp_Form",
+              //   icon: "uil uil-file-check-alt",
+              //   label: "Sign Up"
+              // },
             ]
           },
         ]
       },
       {
         label: "Chart",
+        id: "chart",
         children: [
           {
             label: "Basic",
@@ -1009,6 +1015,7 @@ export const htmlTabsData = [
       },
       {
         label: "Feedback",
+        id: "feedback",
         children: [
           {
             label: "Basic",
@@ -1066,10 +1073,9 @@ export const htmlTabsData = [
           },
         ]
       },
-
-
       {
         label: "Components",
+        id: "components",
         icon: "fa fa-chevron-down",
         children: [
           {
@@ -1163,6 +1169,7 @@ export const htmlTabsData = [
       },
       {
         label: "Other",
+        id: "other",
         children: [
           {
             label: "Basic",

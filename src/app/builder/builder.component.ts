@@ -62,15 +62,17 @@ export class BuilderComponent implements OnInit {
   columnData: any = [];
   controlListvisible = false;
   requestSubscription: Subscription;
-  previewJsonModal: boolean = false;
+  showModal: boolean = false;
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
   selectModuleName: any = '';
   saveLoader: any = false;
-  htmlBlockModal: any = false;
   htmlBlockimagePreview: any = '';
   webBlock: boolean = false;
+  saveAsTemplate: boolean = false;
+  templateName: any = '';
+  modalType: any = '';
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -111,6 +113,7 @@ export class BuilderComponent implements OnInit {
       this.getFormLayers(this.dataSharedService.screenName);
     }
     this.htmlTabsData = htmlTabsData;
+    this.makeDatainTemplateTab();
   }
   jsonModuleSetting() {
     this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
@@ -1415,6 +1418,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
+    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -3386,17 +3390,55 @@ export class BuilderComponent implements OnInit {
       reader.readAsText(event.target.files[0]);
     }
   }
-  previewJson(node: any) {
-    this.selectedNode = node.origin;
-    this.previewJsonModal = true;
-    this.isActiveShow = node.origin.id;
-  }
   handleCancel(): void {
-    this.previewJsonModal = false;
+    this.showModal = false;
   }
   handleOk(): void {
-    this.previewJsonModal = false;
+    if (this.modalType === 'webCode') {
+      this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
+    } else if (this.modalType === 'saveAsTemplate') {
+      if (this.saveAsTemplate && this.templateName) {
+        const obj = {
+          parameter: 'htmlBlock',
+          icon: 'uil uil-paragraph',
+          label: this.templateName,
+          template: this.nodes[0].children[1].children
+        };
+        this.requestSubscription = this.builderService.genericApisPost('buildertemplates', obj).subscribe({
+          next: (res) => {
+            this.makeDatainTemplateTab();
+            this.saveLoader =  true;
+            setTimeout(() => {
+              this.saveJson();
+              this.showModal = false;
+            }, 1000);
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error('An error occurred', { nzDuration: 3000 });
+          }
+        });
+      }
+      else {
+        if (!this.saveAsTemplate && this.templateName) {
+          alert("Please check the checkbox for 'Save as Template'.");
+        } else if (this.saveAsTemplate && !this.templateName) {
+          alert("Please provide a template name.");
+        }
+      }
+
+      if (!this.saveAsTemplate && (!this.templateName || this.templateName === '')) {
+        this.saveJson();
+        this.showModal = false;
+      }
+    }
+
+    if (this.modalType !== 'saveAsTemplate') {
+      this.showModal = false;
+    }
   }
+
+
   convertIntoDate(date: any) {
     if (!date) {
       return null;
@@ -3630,46 +3672,55 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  openModal(data?: any): void {
+  openModal(type?: any, data?: any): void {
     debugger
-    this.htmlBlockModal = true;
-    this.htmlBlockimagePreview = data;
-    console.log("open modal");
-  }
-
-  modalOk(): void {
-    this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
-    this.htmlBlockModal = false;
-  }
-
-  modalCancel(): void {
-    this.htmlBlockModal = false;
+    if (type == 'webCode') {
+      this.modalType = 'webCode'
+      this.htmlBlockimagePreview = data;
+    }
+    else if (type == 'previewJson') {
+      this.selectedNode = data.origin;
+      this.modalType = 'previewJson'
+      this.isActiveShow = data.origin.id;
+    } else if (type == 'saveAsTemplate') {
+      this.saveAsTemplate = false;
+      this.templateName = '';
+      this.modalType = 'saveAsTemplate'
+    }
+    this.showModal = true;
   }
 
   showWebBlockList(type: any) {
     debugger
     if (type == 'Website Block') {
       this.webBlock = true;
-    } else {
+    }
+    else {
       this.webBlock = false;
     }
   }
-  // saveBuilderTemplates() {
-  //   this.requestSubscription = this.builderService.genericApis('buildertemplates').subscribe({
-  //     next: (res) => {
-  //       res.forEach((item : any) => {
-  //         htmlTabsData[0].children.forEach((a : any) => {
-  //           if(a.label == 'Template'){
 
-  //           }
-  //         })
-  //       })
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //     }
+  addTemplate(data: any) {
+    debugger
+    this.nodes[0].children[1].children = data.template;
+    this.updateNodes();
+    this.toastr.success('Control Added', { nzDuration: 3000 });
+  }
 
-  //   });
-  // }
+  makeDatainTemplateTab() {
+    this.htmlTabsData[0].children.forEach((item: any) => {
+      if (item?.id == 'template') {
+        this.requestSubscription = this.builderService.genericApis('buildertemplates').subscribe({
+          next: (res) => {
+            item.children[0].children = res;
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+
+        });
+      }
+    })
+  }
 }
