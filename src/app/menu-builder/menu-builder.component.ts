@@ -48,9 +48,10 @@ export class MenuBuilderComponent implements OnInit {
   tabsArray: any = [];
   dropdownButtonArray: any = [];
   selectedTheme: any;
-  selectApplicationName : any = '';
+  selectApplicationName: any = '';
+  selectApplicationType: any = '';
   requestSubscription: Subscription;
-  
+
   public editorOptions: JsonEditorOptions;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
@@ -1258,17 +1259,22 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-  getModule(name: any){
-    this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
-      next: (res) => {
-        this.menuModule = res;
-      this.clickBack();
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
+  getModule(name: any) {
+    debugger
+    this.selectApplicationName = name['name'];
+    this.selectApplicationType = name['application_Type'] ? name['application_Type'] : '';
+    if (name['name']) {
+      this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name['name']).subscribe({
+        next: (res) => {
+          this.menuModule = res;
+          this.clickBack();
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
+    }
   }
 
   loadApplications() {

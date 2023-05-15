@@ -36,7 +36,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../menu/menu.component';
 import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutTabsComponent,
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
-  LayoutButtonComponent, } from '../_layout';
+  LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
 
 @NgModule({
@@ -83,7 +83,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent,
+    CommentModalComponent,CommentListComponent,WebsiteMenuComponent
   ],
   exports: [
     FormsModule,
@@ -132,7 +132,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent
+    CommentModalComponent,CommentListComponent,WebsiteMenuComponent
   ],
   providers: [
   ],

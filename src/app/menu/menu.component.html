@@ -206,7 +206,9 @@
     <nz-tab nzTitle="History"></nz-tab>
   </nz-tabset>
 </div> -->
-<nz-drawer nzWidth="700px" [nzClosable]="true" [nzVisible]="isVisible" nzPlacement="right"
-    [nzTitle]="'Comments'" (nzOnClose)="handleCancel()">
-    <st-comment-list></st-comment-list>
-</nz-drawer>
+  <nz-drawer nzWidth="700px" [nzClosable]="true" [nzVisible]="isVisible" nzPlacement="right" [nzTitle]="'Comments'"
+    (nzOnClose)="handleCancel()">
+    <ng-container *nzDrawerContent>
+      <st-comment-list></st-comment-list>
+    </ng-container>
+  </nz-drawer>

@@ -44,6 +44,9 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["schema"]) {
         this.screenName = params["schema"];
+        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res=>{
+          this.dataSharedService.screenCommentList = res;
+        })
         if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
           this.dataSharedService.checkModule = params["module"];
           if (params["module"]) {
@@ -79,9 +82,7 @@ export class PagesComponent implements OnInit {
             console.error(err); // Log the error to the console
           }
         });
-        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res=>{
-          this.dataSharedService.screenCommentList = res;
-        })
+       
       }
     });
   }

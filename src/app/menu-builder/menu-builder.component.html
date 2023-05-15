@@ -1,16 +1,14 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="flex pt-3 ">
     <div class="w-1/6">
-      <nz-select [(ngModel)]="selectApplicationName" (ngModelChange)="getModule(selectApplicationName)">
-        <nz-option [nzValue]="item.name" placeholder="Select Application" [nzLabel]="item.name"
+      <nz-select [(ngModel)]="selectApplicationName" (ngModelChange)="getModule($event)">
+        <nz-option [nzValue]="item" placeholder="Select Application" [nzLabel]="item.name"
           *ngFor="let item of applicationBuilder"></nz-option>
       </nz-select>
     </div>
   </div>
   <div class="card m-2">
     <div class="">
-      <!-- <i class="material-icons">face</i> -->
-      <!-- <i class="fa fa-car" ></i> -->
       <div class="flex header-tab">
         <div class="w-1/5 jsonEdiotTab">
           <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()">
@@ -116,7 +114,8 @@
             </json-editor>
           </as-split-area>
           <as-split-area [size]="sizes[1] ">
-            <st-site-layout [selectedTheme]="selectedTheme" *ngIf="nodes.length > 0"></st-site-layout>
+            <st-site-layout [selectedTheme]="selectedTheme" *ngIf="nodes.length > 0 && selectApplicationType != 'website'"></st-site-layout>
+            <st-website-menu *ngIf="nodes.length > 0 && selectApplicationType == 'website'" [menuData]="nodes"></st-website-menu>
             <div class="col-border col-body-conter" style="position: relative ;">
               <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
                 nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="config"

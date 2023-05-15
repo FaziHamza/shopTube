@@ -1,0 +1,32 @@
+<ul nz-menu nzMode="horizontal">
+    <ng-container *ngFor="let menu of menuData">
+        <li nz-menu-item *ngIf="menu.children.length === 0; else childMenu">
+            <st-icon *ngIf="menu.icon" [type]="menu.iconType || 'outline'" [icon]="menu.icon"
+                [size]="menu.iconSize || 15" [color]="menu?.iconColor || ''"></st-icon>
+            <!-- <span nz-icon [nzType]="menu.icon"></span> -->
+            {{menu.title}}
+        </li>
+        <ng-template #childMenu>
+            <li childMenu nz-submenu *ngIf="menu.children.length > 0" [nzTitle]="menu.title" [nzIcon]="menu.icon">
+                <ul>
+                    <ng-container *ngFor="let menuChild of menu.children">
+                        <li nz-menu-group [nzTitle]="menuChild.title"
+                            *ngIf="menuChild.children.length === 0; else childChildMenu">
+                        </li>
+                        <ng-template #childChildMenu>
+                            <ul childChildMenu>
+                                <li nz-menu-group [nzTitle]="menuChild.title">
+                                    <ul>
+                                        <li *ngFor="let menuSubChild of menuChild.children" nz-menu-item>
+                                            {{menuSubChild.title}}
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </ng-container>
+                </ul>
+            </li>
+        </ng-template>
+    </ng-container>
+</ul>
