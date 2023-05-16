@@ -290,15 +290,9 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe(res => {
       if (res) {
-        if(this.isShowContextMenu)
-          this.getCommentsData()
       }
     });
   }
-  getCommentsData(){
-    this.builderService.genericApis("commentList").subscribe(res=>{
-      this.dataSharedService.screenCommentList = res;
-    })
-  }
+  
 
 }

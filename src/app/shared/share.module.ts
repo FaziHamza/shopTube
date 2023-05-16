@@ -38,6 +38,7 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
   LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
+import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
   imports:
@@ -54,7 +55,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
       FullCalendarModule,
       RouterModule,
       GoogleChartsModule,
-      ContextMenuModule
+      ContextMenuModule,WebsiteModules
     ],
   declarations: [
     GenericFieldComponent,

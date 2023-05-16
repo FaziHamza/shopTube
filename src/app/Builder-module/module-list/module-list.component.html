@@ -1,106 +1,21 @@
-<!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Module List" [nzExtra]="extraTemplate">
-    <div class="flex flex-wrap justify-between">
-        <div class="pagination pb-2">
-            <!-- <label>Pagination</label> -->
-            <nz-select [(ngModel)]="pageSize">
-                <nz-option [nzValue]='10' nzLabel="10"></nz-option>
-                <nz-option [nzValue]='25' nzLabel="25"></nz-option>
-                <nz-option [nzValue]='50' nzLabel="50"></nz-option>
-                <nz-option [nzValue]='100' nzLabel="100"></nz-option>
-            </nz-select>
-        </div>
-        <div class="search-box pb-2">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search here..."
-                    [(ngModel)]="searchValue" />
-            </nz-input-group>
-        </div>
-        <ng-template #suffixIconSearch>
-            <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
-        </ng-template>
-    </div>
-
-    <nz-table #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
-        <thead>
-            <tr>
-                <ng-container *ngFor="let column of listOfColumns">
-                    <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
-                    </th>
-                    <!-- <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
-                        {{column.name}}
-                    </th> -->
-                </ng-container>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-template ngFor let-data [ngForOf]="nestedTable.data">
-                <tr>
-                    <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
-                    <td>{{ data.name }}</td>
-                    <td>{{ data.applicationName }}</td>
-                    <td>{{ data.owner }}</td>
-                    <td>{{ data.email }}</td>
-                    <td>{{ data.description }}</td>
-                </tr>
-                <tr [nzExpand]="data.expand">
-                    <nz-table #innerTable [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
-                        <thead>
-                            <tr>
-                                <th>Screen Id</th>
-                                <th>Screen Name</th>
-                                <th>Module</th>
-                                <th>Application</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-        <tbody>
-            <tr *ngFor="let data of innerTable.data">
-                <td>{{ data.screenId }}</td>
-                <td>{{ data.name }}</td>
-                <td>{{ data.moduleName }}</td>
-                <td>{{ data.applicationName }}</td>
-                <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data.id)"></span>
-                </td>
-            </tr>
-        </tbody>
-    </nz-table>
-    </tr>
-            </ng-template>
-            
-        </tbody>
-    </nz-table>
-</nz-card>
-<ng-template #extraTemplate>
-    <button nz-button nzType="primary" (click)="openModal()"><span nz-icon nzType="plus" nzTheme="outline"></span>Add
-        Screen</button>
-    <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span nz-icon nzType="download"
-            nzTheme="outline"></span>Download Json</button>
-</ng-template>
-<!-- Modal -->
-<nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
-    nzTitle="Add Screen" (nzOnClose)="handleCancel()">
-    <ng-container *nzDrawerContent>
-        <form [formGroup]="form">
+<nz-card>
+    <nz-tabset>
+        <nz-tab *ngFor="let app of applicationData" [nzTitle]="app.name" (nzClick)="callChild(app)">
             <div class="flex flex-wrap">
-                <div class="w-1/2 theme-body" *ngFor="let item of fields">
-                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
-                        [form]="form"></formly-form>
+                <div class="w-1/6 p-2 text-center" (mouseover)="appChild.select =  true"
+                (mouseout)="appChild.select = false" [ngClass]="{'select': appChild.select == true}" *ngFor="let appChild of applicationChild">
+                    <div class="image">
+                        <img *ngIf="appChild.image" class="rounded-full" [src]="appChild.image" alt="image description"
+                            style="height: 100px; width: 100px;">
+                    </div>
+                    <div>
+                        <span *ngIf="!appChild.image" nz-icon style="font-size: 50px" nzType="check-circle"
+                            nzTheme="outline"></span>
+                    </div>
+                    <label>{{appChild.name}}</label>
                 </div>
+
             </div>
-        </form>
-    </ng-container>
-</nz-drawer>
-<ng-template #footerTpl>
-    <button class="mr-2" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
-            nzTheme="outline"></span>Close</button>
-    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon
-            nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button *ngIf="!isSubmit" nzType="primary" [disabled]="!form.valid" (click)="onSubmit()"><span nz-icon
-            nzType="redo" nzTheme="outline"></span>Update</button>
-</ng-template>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

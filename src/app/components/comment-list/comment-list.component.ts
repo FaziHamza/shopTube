@@ -7,7 +7,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
-
+  onCardHover: boolean = false;
   constructor(public dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {

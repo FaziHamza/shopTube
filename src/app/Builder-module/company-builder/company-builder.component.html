@@ -2,16 +2,15 @@
 
 <nz-card nzTitle="Organization List" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap justify-between">
-        <div class="pagination pb-2">
-            <!-- <label>Pagination</label> -->
+        <!-- <div class="pagination pb-2">
             <nz-select [(ngModel)]="pageSize">
                 <nz-option [nzValue]='10' nzLabel="10"></nz-option>
                 <nz-option [nzValue]='25' nzLabel="25"></nz-option>
                 <nz-option [nzValue]='50' nzLabel="50"></nz-option>
                 <nz-option [nzValue]='100' nzLabel="100"></nz-option>
             </nz-select>
-        </div>
-        <div class="search-box pb-2">
+        </div> -->
+        <!-- <div class="search-box pb-2">
             <nz-input-group [nzSuffix]="suffixIconSearch">
                 <input type="text" nz-input nzClear (keyup)="search($event)" placeholder="Search company..."
                     [(ngModel)]="searchValue" />
@@ -19,22 +18,36 @@
         </div>
         <ng-template #suffixIconSearch>
             <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
-        </ng-template>
+        </ng-template> -->
     </div>
 
     <nz-table #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                    <th *ngIf="column.name != 'Action' && column.name != 'Image'" [nzSortFn]="column.sortFn">{{column.name}}
                     </th>
-                    <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
+                    <th nzWidth="60px" *ngIf="column.name == 'Action' || column.name == 'Image'" class="w-1/12">
                         {{column.name}}
                     </th>
                 </ng-container>
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td *ngFor="let SearchItems of searchArray">
+                    <ng-container *ngIf="SearchItems.name != 'expand' && SearchItems.name != 'action' && SearchItems.name != 'image'">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input type="text" nz-input nzClear (keyup)="search($event , SearchItems)"
+                                placeholder="Search here..." [(ngModel)]="SearchItems.searchValue" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <span nz-icon (click)="clearModel(SearchItems,SearchItems.searchValue)"
+                                [nzType]="SearchItems.searchIcon"></span>
+                        </ng-template>
+                    </ng-container>
+                </td>
+            </tr>
             <ng-template ngFor let-data [ngForOf]="nestedTable.data">
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
@@ -45,6 +58,13 @@
                     <td>{{ data.website }}</td>
                     <td>{{ data.year_founded }}</td>
                     <td>{{ data.mission_statement }}</td>
+                    <td> <img
+                        nz-image
+                        width="50px"
+                        height="50px"
+                        [nzSrc]="data.image"
+                        alt=""
+                      /></td>
                     <td>
                         <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                             nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('company'),editItem(data )]"></span>
@@ -57,7 +77,7 @@
                     <button nz-button nzType="primary" (click)="openModal('application')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Application</button>
-                    <nz-table #innerTable [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
+                    <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
                         <thead>
                             <tr>
                                 <th>Application Name</th>
@@ -83,9 +103,14 @@
     </nz-table>
     </tr>
     </ng-template>
-
     </tbody>
     </nz-table>
+    <div class="pagination">
+        <label class="label">Pagination</label>
+        <div class="input-container">
+            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+        </div>
+    </div>
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal('company')"><span nz-icon nzType="plus"
@@ -94,6 +119,7 @@
     <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span nz-icon nzType="download"
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
+
 <!-- Drawer -->
 <nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
     [nzTitle]="applicationSubmit ?  'Add Application' : 'Add Organization'" (nzOnClose)="handleCancel()">

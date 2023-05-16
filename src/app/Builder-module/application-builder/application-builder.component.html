@@ -1,8 +1,7 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
 <nz-card nzTitle="Application List" [nzExtra]="extraTemplate">
-    <div class="flex flex-wrap justify-between">
+    <!-- <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
-            <!-- <label>Pagination</label> -->
             <nz-select [(ngModel)]="pageSize">
                 <nz-option [nzValue]='10' nzLabel="10"></nz-option>
                 <nz-option [nzValue]='25' nzLabel="25"></nz-option>
@@ -19,9 +18,9 @@
         <ng-template #suffixIconSearch>
             <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
         </ng-template>
-    </div>
+    </div> -->
 
-    <nz-table #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+    <nz-table  #nestedTable nzBordered [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
@@ -34,6 +33,20 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td *ngFor="let SearchItems of searchArray">
+                    <ng-container *ngIf="SearchItems.name != 'expand' && SearchItems.name != 'action'">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input type="text" nz-input nzClear (keyup)="search($event , SearchItems)"
+                                placeholder="Search here..." [(ngModel)]="SearchItems.searchValue" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <span nz-icon (click)="clearModel(SearchItems,SearchItems.searchValue)"
+                                [nzType]="SearchItems.searchIcon"></span>
+                        </ng-template>
+                    </ng-container>
+                </td>
+            </tr>
             <ng-template ngFor let-data [ngForOf]="nestedTable.data">
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
@@ -52,7 +65,7 @@
                     <button nz-button nzType="primary" (click)="openModal('module')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Module</button>
-                    <nz-table #innerTable [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
+                    <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
                         <thead>
                             <tr>
                                 <th>Module</th>
@@ -60,6 +73,7 @@
                                 <th>Email</th>
                                 <th>Description</th>
                                 <th>Application</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -70,6 +84,13 @@
                 <td>{{ data.email }}</td>
                 <td>{{ data.description }}</td>
                 <td>{{ data.applicationName }}</td>
+                <td> <img
+                    nz-image
+                    width="50px"
+                    height="50px"
+                    [nzSrc]="data.image"
+                    alt=""
+                  /></td>
                 <td>
                     <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('module'),editItem(data)]"></span>
@@ -84,6 +105,12 @@
     </ng-template>
     </tbody>
     </nz-table>
+    <div class="pagination">
+        <label class="label">Pagination</label>
+        <div class="input-container">
+            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+        </div>
+    </div>
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal('application')"><span nz-icon nzType="plus"

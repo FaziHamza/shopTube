@@ -35,6 +35,7 @@ export class ApplicationBuilderComponent implements OnInit {
   moduleSubmit: boolean = false;
   checkRes: boolean = false;
   footerSaved: boolean = false;
+  searchArray: any = [];
   listOfColumns = [
     {
       name: '',
@@ -100,6 +101,7 @@ export class ApplicationBuilderComponent implements OnInit {
     ];
     this.loadData();
     this.jsonApplicationBuilder();
+    this.loadSearchArray();
   }
 
   jsonApplicationBuilder() {
@@ -114,9 +116,10 @@ export class ApplicationBuilderComponent implements OnInit {
         this.listOfData = res;
         this.applicationData = res;
         this.jsonModuleSetting();
-        if (this.searchValue) {
-          this.search(this.searchValue);
-        }
+        const nonEmptySearchArray = this.searchArray.filter((element: any) => element.searchValue);
+        nonEmptySearchArray.forEach((element: any) => {
+          this.search(element.searchValue, element);
+        });
       },
       error: (err) => {
         console.error(err);
@@ -214,26 +217,28 @@ export class ApplicationBuilderComponent implements OnInit {
     }))
   };
 
-  search(event?: any): void {
+  search(event?: any, data?: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-      (item.name.toLowerCase().indexOf(inputValue) !== -1 || (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false)
-        || (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false)
-      )
+      (
+        data.name == 'name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+          (data.name == 'companyName' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'application_Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
-      this.searchIcon = "close";
-    } else {
+      data.searchIcon = "close";
+    }
+    else {
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
 
-  clearModel() {
-    if (this.searchIcon == "close" && this.searchValue) {
-      this.searchValue = '';
+  clearModel(data?: any, searchValue?: any) {
+    if (data.searchIcon == "close" && searchValue) {
+      data.searchValue = '';
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
 
@@ -433,7 +438,33 @@ export class ApplicationBuilderComponent implements OnInit {
           },
         ],
       },
-
+      {
+        fieldGroup: [
+          {
+            fieldGroup: [
+              {
+                key: 'image',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Image Upload',
+                }
+              },
+            ]
+          }
+        ],
+      },
     ];
+  }
+  loadSearchArray() {
+    const properties = ['expand', 'name', 'companyName', 'application_Type', 'action'];
+    this.searchArray = properties.map(property => {
+      return {
+        name: property,
+        searchIcon: "search",
+        searchValue: ''
+      };
+    });
   }
 }

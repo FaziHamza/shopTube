@@ -32,8 +32,9 @@ export class CompanyBuilderComponent implements OnInit {
   model: any = {};
   requestSubscription: Subscription;
   fields: any = [];
+  searchArray: any = [];
   applicationSubmit: boolean = false;
-  listOfColumns = [
+  listOfColumns: any = [
     {
       name: '',
       sortOrder: null,
@@ -155,6 +156,12 @@ export class CompanyBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
+      name: 'Image',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
       name: 'Action',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
@@ -170,6 +177,7 @@ export class CompanyBuilderComponent implements OnInit {
     ];
     this.jsonCompanyBuilder();
     this.fieldsLoad();
+    this.loadSearchArray();
   }
   jsonCompanyBuilder() {
     this.loading = true
@@ -182,9 +190,10 @@ export class CompanyBuilderComponent implements OnInit {
       this.copmanyData = res;
       this.loading = false;
       this.jsonApplicationBuilder();
-      if (this.searchValue) {
-        this.search(this.searchValue);
-      }
+      const nonEmptySearchArray = this.searchArray.filter((element: any) => element.searchValue);
+      nonEmptySearchArray.forEach((element: any) => {
+        this.search(element.searchValue, element);
+      });
     }));
   }
 
@@ -198,7 +207,7 @@ export class CompanyBuilderComponent implements OnInit {
       this.fieldsLoad();
       this.applicationSubmit = false;
     }
-    if(this.isSubmit){
+    if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
           this.model[prop] = null;
@@ -294,32 +303,33 @@ export class CompanyBuilderComponent implements OnInit {
     }));
   }
 
-  search(event?: any): void {
+  search(event?: any, data?: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
-        item.name.toLowerCase().indexOf(inputValue) !== -1 ||
-        (item?.address ? item.address.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        (item?.contact ? item.contact.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        (item?.website ? item.website.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        (item?.year_founded ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        (item?.mission_statement ? item.mission_statement.toLowerCase().indexOf(inputValue) !== -1 : false))
+        data.name == 'name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+          (data.name == 'address' ? (item?.address ? item.address.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'email' ? (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'contact' ? (item?.contact ? item.contact.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'website' ? (item?.website ? item.website.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'year_founded' ? (item?.year_founded ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'mission_statement' ? (item?.mission_statement ? item.mission_statement.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
-      this.searchIcon = "close";
-    } else {
+      data.searchIcon = "close";
+    }
+    else {
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
 
 
-  clearModel() {
-    if (this.searchIcon == "close" && this.searchValue) {
-      this.searchValue = '';
+  clearModel(data?: any, searchValue?: any) {
+    if (data.searchIcon == "close" && searchValue) {
+      data.searchValue = '';
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
 
@@ -516,7 +526,30 @@ export class CompanyBuilderComponent implements OnInit {
             }
           },
         ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'image',
+            type: 'input',
+            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+            wrappers: ["formly-vertical-theme-wrapper"],
+            props: {
+              label: 'Image Upload',
+            }
+          },
+        ]
       }
     ];
+  };
+  loadSearchArray() {
+    const properties = ['expand', 'name', 'address', 'email', 'contact', 'website', 'year_founded', 'mission_statement', 'action'];
+    this.searchArray = properties.map(property => {
+      return {
+        name: property,
+        searchIcon: "search",
+        searchValue: ''
+      };
+    });
   }
 }
