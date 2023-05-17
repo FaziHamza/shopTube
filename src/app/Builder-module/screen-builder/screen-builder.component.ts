@@ -29,6 +29,7 @@ export class ScreenBuilderComponent implements OnInit {
   fields: any = [];
   options: FormlyFormOptions = {};
   form: any = new FormGroup({});
+  pageIndex: any = 1;
   listOfColumns = [
     {
       name: 'Screen Id',
@@ -38,12 +39,16 @@ export class ScreenBuilderComponent implements OnInit {
     },
     {
       name: 'Screen Name',
+      visible: false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Module',
+      visible: false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const moduleNameA = a.moduleName;
@@ -62,6 +67,8 @@ export class ScreenBuilderComponent implements OnInit {
     },
     {
       name: 'Application',
+      visible: false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const applicationNameA = a.applicationName;
@@ -85,7 +92,7 @@ export class ScreenBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) { 
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
       if (field.key === 'applicationName' && event) {
@@ -139,9 +146,10 @@ export class ScreenBuilderComponent implements OnInit {
       this.listOfData = res;
       this.loading = false;
       this.jsonScreenModule = res;
-      if (this.searchValue) {
-        this.search(this.searchValue);
-      }
+      const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
+      nonEmptySearchArray.forEach((element: any) => {
+        this.search(element.searchValue, element);
+      });
     }));
   }
   getModuleList() {
@@ -153,7 +161,7 @@ export class ScreenBuilderComponent implements OnInit {
     debugger
     this.form.reset();
     this.isVisible = true;
-    if(this.isSubmit){
+    if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
           this.model[prop] = null;
@@ -185,8 +193,8 @@ export class ScreenBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id !=this.model?.id);
-    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id !=this.model?.id);
+    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id != this.model?.id);
+    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
 
     if (findData || findDataScreen) {
       if (findData) {
@@ -240,27 +248,31 @@ export class ScreenBuilderComponent implements OnInit {
     a.click();
   }
 
-  search(event?: any): void {
+  search(event?: any, data?: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-      (item.screenId.toLowerCase().indexOf(inputValue) !== -1 ||
-        item.name.toLowerCase().indexOf(inputValue) !== -1 ||
-        (item?.moduleName ? item.moduleName.toLowerCase().indexOf(inputValue) !== -1 : false) ||
-        item?.applicationName.toLowerCase().indexOf(inputValue) !== -1)
+      (
+        data.name == 'Screen Id' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+          (data.name == 'Screen Name' ? (item?.moduleName ? item.moduleName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Module' ? (item?.moduleName ? item.moduleName.toLowerCase().indexOf(inputValue) !== -1 : false) : false)
+          ||
+          (data.name == 'Application' ? (item?.applicationName ? item.applicationName.toLowerCase().indexOf(inputValue) !== -1 : false) : false)
+      )
       );
-      this.searchIcon = "close";
-    } else {
+      data.searchIcon = "close";
+    }
+    else {
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
 
-  clearModel() {
-    if (this.searchIcon == "close" && this.searchValue) {
-      this.searchValue = '';
+  clearModel(data?: any, searchValue?: any) {
+    if (data.searchIcon == "close" && searchValue) {
+      data.searchValue = '';
       this.listOfDisplayData = this.listOfData;
-      this.searchIcon = "search";
+      data.searchIcon = "search";
     }
   }
   loadScreenListFields() {
@@ -329,5 +341,13 @@ export class ScreenBuilderComponent implements OnInit {
       },
     ];
   }
-
+  handlePageChange(pageIndex: number): void {
+    debugger
+    const pageSize = this.pageSize;
+    this.pageIndex = pageIndex;
+    const startIndex = (pageIndex - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const newData = this.listOfData.slice(startIndex, endIndex);
+    this.listOfDisplayData = newData;
+  }
 }

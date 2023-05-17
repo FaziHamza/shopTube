@@ -641,8 +641,13 @@
       </div>
   </ng-template>
   <ng-template #hunered>
-      <div *ngIf="item.type == 'header_7' ; else nintyThree">
+      <div *ngIf="item.type == 'header_7' ; else hOne">
           <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #hOne>
+      <div *ngIf="item.type == 'pricing' ; else nintyThree">
+          <st-website-pricing [data]="item.children"></st-website-pricing>
       </div>
   </ng-template>
 </div>

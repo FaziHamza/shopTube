@@ -933,6 +933,9 @@ export class BuilderComponent implements OnInit {
         case "header_7":
         newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode,this.moduleId) };
         break;
+        case "pricing":
+        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode,this.moduleId) };
+        break;
       case "buttonGroup":
         newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
         break;

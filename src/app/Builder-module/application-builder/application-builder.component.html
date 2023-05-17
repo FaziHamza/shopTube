@@ -20,20 +20,38 @@
         </ng-template>
     </div> -->
 
-    <nz-table  #nestedTable nzBordered [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+    <nz-table #nestedTable nzBordered [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize"
+        nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                    <th nzCustomFilter *ngIf="column.name != '' && column.name != 'Action'" [nzSortFn]="column.sortFn">
+                        {{column.name}}
+                        <nz-filter-trigger [nzVisible]="column.visible || false"
+                            (nzVisibleChange)="column.visible = $event" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
+
                     </th>
                     <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
                         {{column.name}}
                     </th>
+                    <th *ngIf="column.name == ''" style="width:10px">
+                        {{column.name}}
+                    </th>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
                 </ng-container>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!-- <tr>
                 <td *ngFor="let SearchItems of searchArray">
                     <ng-container *ngIf="SearchItems.name != 'expand' && SearchItems.name != 'action'">
                         <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -46,7 +64,7 @@
                         </ng-template>
                     </ng-container>
                 </td>
-            </tr>
+            </tr> -->
             <ng-template ngFor let-data [ngForOf]="nestedTable.data">
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
@@ -65,7 +83,8 @@
                     <button nz-button nzType="primary" (click)="openModal('module')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Module</button>
-                    <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
+                    <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
+                        [nzShowPagination]="false">
                         <thead>
                             <tr>
                                 <th>Module</th>
@@ -84,13 +103,7 @@
                 <td>{{ data.email }}</td>
                 <td>{{ data.description }}</td>
                 <td>{{ data.applicationName }}</td>
-                <td> <img
-                    nz-image
-                    width="50px"
-                    height="50px"
-                    [nzSrc]="data.image"
-                    alt=""
-                  /></td>
+                <td> <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt="" /></td>
                 <td>
                     <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('module'),editItem(data)]"></span>

@@ -883,6 +883,18 @@ export const htmlTabsData = [
             ]
           },
           {
+            parameter: "websiteHeader",
+            icon: "uil uil-file-alt",
+            label: "Pricing",
+            children: [
+              {
+                parameter: "pricing",
+                icon: "uil uil-file-alt",
+                label: "Pricing",
+              },
+            ]
+          },
+          {
             parameter: "websiteArticle",
             icon: "uil uil-file-alt",
             label: "Article"

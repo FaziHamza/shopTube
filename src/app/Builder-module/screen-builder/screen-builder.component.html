@@ -1,8 +1,7 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
 <nz-card nzTitle="Screen List" [nzExtra]="extraTemplate">
-    <div class="flex flex-wrap justify-between">
+    <!-- <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
-            <!-- <label>Pagination</label> -->
             <nz-select [(ngModel)]="pageSize">
                 <nz-option [nzValue]='10' nzLabel="10"></nz-option>
                 <nz-option [nzValue]='25' nzLabel="25"></nz-option>
@@ -16,7 +15,7 @@
                     [(ngModel)]="searchValue" />
             </nz-input-group>
         </div>
-    </div>
+    </div> -->
     <ng-template #suffixIconSearch>
         <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
     </ng-template>
@@ -24,11 +23,24 @@
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                    <th nzCustomFilter *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                        <nz-filter-trigger [nzVisible]="column.visible || false"
+                             [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
                     </th>
                     <th nzWidth="120px" *ngIf="column.name == 'Action'" class="w-1/12">
                         {{column.name}}
                     </th>
+
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
                 </ng-container>
             </tr>
         </thead>
@@ -52,6 +64,26 @@
             </tr>
         </tbody>
     </nz-table>
+    <!-- <div class="pagination-container flex flex-wrap">
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="listOfDisplayData.length"
+          [nzPageSize]="pageSize"
+          (nzPageIndexChange)="handlePageChange($event)"
+        ></nz-pagination>
+        <div >
+            <label class="label">Pagination</label>
+            <div class="input-container">
+                <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+            </div>
+        </div>
+    </div> -->
+    <div class="pagination">
+        <label class="label">Pagination</label>
+        <div class="input-container">
+            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+        </div>
+    </div>
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal()"><span nz-icon nzType="plus" nzTheme="outline"></span>Add

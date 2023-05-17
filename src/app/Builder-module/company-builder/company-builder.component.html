@@ -25,16 +25,31 @@
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th *ngIf="column.name != 'Action' && column.name != 'Image'" [nzSortFn]="column.sortFn">{{column.name}}
+                    <th nzCustomFilter *ngIf="column.name != '' && column.name != 'Action' && column.name != 'Image'" [nzSortFn]="column.sortFn">{{column.name}}
+                        <nz-filter-trigger [(nzVisible)]="column.visible" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+
                     </th>
-                    <th nzWidth="60px" *ngIf="column.name == 'Action' || column.name == 'Image'" class="w-1/12">
+                    <th *ngIf="column.name == 'Action' || column.name == 'Image'">
                         {{column.name}}
                     </th>
+                    <th *ngIf="column.name == ''" style="width:10px">
+                        {{column.name}}
+                    </th>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                          <div class="search-box">
+                            <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                            placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                          </div>
+                        </div>
+                      </nz-dropdown-menu>
                 </ng-container>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!-- <tr>
                 <td *ngFor="let SearchItems of searchArray">
                     <ng-container *ngIf="SearchItems.name != 'expand' && SearchItems.name != 'action' && SearchItems.name != 'image'">
                         <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -47,7 +62,7 @@
                         </ng-template>
                     </ng-container>
                 </td>
-            </tr>
+            </tr> -->
             <ng-template ngFor let-data [ngForOf]="nestedTable.data">
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>

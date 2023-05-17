@@ -27,11 +27,22 @@
     max-height: 100%;
 }
 
-.website-block-menu {
-    // margin-left: auto;
-    border: 1px solid rgb(189, 189, 189);
-    width: 22%;
-}
-.block-Buttons {
-    width: 76%;
+// .website-block-menu {
+//     // margin-left: auto;
+//     border: 1px solid rgb(189, 189, 189);
+//     width: 22%;
+// }
+// .block-Buttons {
+//     width: 76%;
+// }
+.website-block {
+    display: flex;
+
+    .block-Button {
+        width: 70%;
+    }
+
+    .website-block-menu {
+        width: 30%;
+    }
 }

@@ -43,12 +43,17 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Name',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
+      
     },
     {
       name: 'Address',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.address;
@@ -67,6 +72,8 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Email',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.email;
@@ -85,6 +92,8 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Contact',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.contact;
@@ -103,6 +112,8 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Website',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.website;
@@ -121,6 +132,8 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Year Founded',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.year_founded;
@@ -139,6 +152,8 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Mission statement',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.mission_statement;
@@ -190,7 +205,7 @@ export class CompanyBuilderComponent implements OnInit {
       this.copmanyData = res;
       this.loading = false;
       this.jsonApplicationBuilder();
-      const nonEmptySearchArray = this.searchArray.filter((element: any) => element.searchValue);
+      const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
       nonEmptySearchArray.forEach((element: any) => {
         this.search(element.searchValue, element);
       });
@@ -308,13 +323,13 @@ export class CompanyBuilderComponent implements OnInit {
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
-        data.name == 'name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'address' ? (item?.address ? item.address.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'email' ? (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'contact' ? (item?.contact ? item.contact.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'website' ? (item?.website ? item.website.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'year_founded' ? (item?.year_founded ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'mission_statement' ? (item?.mission_statement ? item.mission_statement.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+        data.name == 'Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+          (data.name == 'Address' ? (item?.address ? item.address.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Email' ? (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Contact' ? (item?.contact ? item.contact.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Website' ? (item?.website ? item.website.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Year Founded' ? (item?.year_founded ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Mission statement' ? (item?.mission_statement ? item.mission_statement.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }

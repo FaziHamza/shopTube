@@ -40,6 +40,7 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
 import { WebMenuComponent } from '../Website/web-menu/web-menu.component';
 import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header.component';
+import { WebsitePricingComponent } from '../Website/website-pricing/website-pricing.component';
 // import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
@@ -88,7 +89,7 @@ import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent
   ],
   exports: [
     FormsModule,
@@ -138,7 +139,7 @@ import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent
   ],
   providers: [
   ],

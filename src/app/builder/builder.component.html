@@ -283,11 +283,13 @@
                     <nz-tabset>
                       <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
                         *ngFor="let item1 of item.children let i= index">
-                        <div *ngIf="item1.id == 'website-block'" class="flex flex-wrap">
-                          <div class="block-Button p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
-                            <button nz-button nzType="default" nzBlock class="rounded" (click)="addControlToJson(blockButton.parameter, blockButton)">
-                              <i></i>{{blockButton.label}}
-                            </button>
+                        <div class="website-block" *ngIf="item1.id == 'website-block'">
+                          <div class="block-Button flex flex-wrap">
+                            <div class="p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
+                              <button nz-button nzType="default" nzBlock class="rounded" (click)="addControlToJson(blockButton.parameter, blockButton)">
+                                <i></i>{{blockButton.label}}
+                              </button>
+                            </div>
                           </div>
                           <div class="website-block-menu">
                             <ul nz-menu nzMode="inline">

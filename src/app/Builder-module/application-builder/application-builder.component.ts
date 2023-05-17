@@ -45,12 +45,16 @@ export class ApplicationBuilderComponent implements OnInit {
     },
     {
       name: 'Application Name',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Company Name',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const companyNameA = a.companyName;
@@ -69,6 +73,8 @@ export class ApplicationBuilderComponent implements OnInit {
     },
     {
       name: 'Application Type',
+      visible:false,
+      searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
         const name1 = a.application_Type;
@@ -116,10 +122,10 @@ export class ApplicationBuilderComponent implements OnInit {
         this.listOfData = res;
         this.applicationData = res;
         this.jsonModuleSetting();
-        const nonEmptySearchArray = this.searchArray.filter((element: any) => element.searchValue);
-        nonEmptySearchArray.forEach((element: any) => {
-          this.search(element.searchValue, element);
-        });
+        const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
+      nonEmptySearchArray.forEach((element: any) => {
+        this.search(element.searchValue, element);
+      });
       },
       error: (err) => {
         console.error(err);
@@ -222,9 +228,9 @@ export class ApplicationBuilderComponent implements OnInit {
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
-        data.name == 'name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'companyName' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'application_Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+        data.name == 'Application Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+          (data.name == 'Company Name' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Application Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }

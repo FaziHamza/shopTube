@@ -176,6 +176,34 @@ export class AddControlService {
       ]
     }
   }
+  getwebistepricing(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        {
+          ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl(),
+          children: [
+            { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+            { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+          ]
+        },
+        {
+          ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl(),
+          children: [
+            { ...newNode, title: 'icon', type: 'icon', key: 'icon', id: moduleId + "_" + 'icon' + "_" + Guid.newGuid(), ...this.iconControl() },
+            { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+            { ...newNode, title: 'icon', type: 'icon', key: 'icon', id: moduleId + "_" + 'icon' + "_" + Guid.newGuid(), ...this.iconControl() },
+            { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+            { ...newNode, title: 'icon', type: 'icon', key: 'icon', id: moduleId + "_" + 'icon' + "_" + Guid.newGuid(), ...this.iconControl() },
+            { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+            { ...newNode, title: 'icon', type: 'icon', key: 'icon', id: moduleId + "_" + 'icon' + "_" + Guid.newGuid(), ...this.iconControl() },
+            { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+            { ...newNode, title: 'icon', type: 'icon', key: 'icon', id: moduleId + "_" + 'icon' + "_" + Guid.newGuid(), ...this.iconControl() },
+          ],
+        },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
   getInsertButtonControl() {
     return {
       type: "button",
