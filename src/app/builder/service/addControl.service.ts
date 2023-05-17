@@ -104,6 +104,78 @@ export class AddControlService {
       isNextChild: true, btngroupformat: "text-left",
     }
   }
+  getHeader1(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeader_2(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeade_3(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeader_4(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeader_5(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeader_6(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getHeader_7(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
+  getwebisteHeader(newNode?: any, moduleId?: any) {
+    return {
+      children: [
+        { ...newNode, title: 'heading', type: 'heading', key: 'heading', id: moduleId + "_" + 'heading' + "_" + Guid.newGuid(), ...this.headingControl() },
+        { ...newNode, title: 'paragraph', type: 'paragraph', key: 'paragraph', id: moduleId + "_" + 'paragraph' + "_" + Guid.newGuid(), ...this.paragraphControl() },
+        { ...newNode, title: 'insertButton', key: 'insertButton', id: moduleId + "_" + 'insertButton' + "_" + Guid.newGuid(), ...this.getInsertButtonControl() }
+      ]
+    }
+  }
   getInsertButtonControl() {
     return {
       type: "button",

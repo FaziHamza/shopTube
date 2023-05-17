@@ -600,9 +600,49 @@
       </div>
   </ng-template>
   <ng-template #nintyTwo>
-      <div *ngIf="item.type == 'treeMapChart'">
+      <div *ngIf="item.type == 'treeMapChart' ; else nintyThree">
           <st-tree-map [chartData]="item.chartData ? item.chartData : item.tableData"
               [charts]="item"></st-tree-map>
+      </div>
+  </ng-template>
+  <ng-template #nintyThree>
+      <div *ngIf="item.type == 'header_1' ; else nintyFour">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintyFour>
+      <div *ngIf="item.type == 'header_2' ; else nintyFive">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintyFive>
+      <div *ngIf="item.type == 'header_1' ; else nintySix">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintySix>
+      <div *ngIf="item.type == 'header_3' ; else nintySeven">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintySeven>
+      <div *ngIf="item.type == 'header_4' ; else nintyEight">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintyEight>
+      <div *ngIf="item.type == 'header_5' ; else nintyNine">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #nintyNine>
+      <div *ngIf="item.type == 'header_6' ; else hunered">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
+      </div>
+  </ng-template>
+  <ng-template #hunered>
+      <div *ngIf="item.type == 'header_7' ; else nintyThree">
+          <st-webiste-header [data]="item.children"></st-webiste-header>
       </div>
   </ng-template>
 </div>

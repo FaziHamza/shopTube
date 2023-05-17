@@ -834,7 +834,110 @@ export const htmlTabsData = [
       {
         label: "Website Block",
         id: "website-block",
-        children: []
+        children: [
+          {
+            parameter: "webMenu",
+            icon: "uil uil-file-alt",
+            label: "Menu"
+          },
+          {
+            parameter: "websiteHeader",
+            icon: "uil uil-file-alt",
+            label: "Header",
+            children: [
+              {
+                parameter: "header_1",
+                icon: "uil uil-file-alt",
+                label: "Header 1",
+              },
+              {
+                parameter: "header_2",
+                icon: "uil uil-file-alt",
+                label: "Header 2",
+              },
+              {
+                parameter: "header_3",
+                icon: "uil uil-file-alt",
+                label: "Header 3",
+              },
+              {
+                parameter: "header_4",
+                icon: "uil uil-file-alt",
+                label: "Header 4",
+              },
+              {
+                parameter: "header_5",
+                icon: "uil uil-file-alt",
+                label: "Header 5",
+              },
+              {
+                parameter: "header_6",
+                icon: "uil uil-file-alt",
+                label: "Header 6",
+              },
+              {
+                parameter: "header_7",
+                icon: "uil uil-file-alt",
+                label: "Header 7",
+              },
+            ]
+          },
+          {
+            parameter: "websiteArticle",
+            icon: "uil uil-file-alt",
+            label: "Article"
+          },
+          {
+            parameter: "websiteImageVideo",
+            icon: "uil uil-file-alt",
+            label: "Image & Video"
+          },
+          {
+            parameter: "websiteGallerySlider",
+            icon: "uil uil-file-alt",
+            label: "Gallery & Slider"
+          },
+          {
+            parameter: "websitePeople",
+            icon: "uil uil-file-alt",
+            label: "People"
+          },
+          {
+            parameter: "websiteContact",
+            icon: "uil uil-file-alt",
+            label: "Contact"
+          },
+          {
+            parameter: "websiteSocial",
+            icon: "uil uil-file-alt",
+            label: "Social"
+          },
+          {
+            parameter: "websiteFooter",
+            icon: "uil uil-file-alt",
+            label: "Footer"
+          },
+          {
+            parameter: "websiteForm",
+            icon: "uil uil-file-alt",
+            label: "Form"
+          },
+          {
+            parameter: "websiteNews",
+            icon: "uil uil-file-alt",
+            label: "News"
+          },
+          {
+            parameter: "websiteList",
+            icon: "uil uil-file-alt",
+            label: "List"
+          },
+          {
+            parameter: "websiteNumber",
+            icon: "uil uil-file-alt",
+            label: "Number"
+          },
+        ]
       },
       {
         label: "Template",

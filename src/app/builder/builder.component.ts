@@ -73,6 +73,7 @@ export class BuilderComponent implements OnInit {
   saveAsTemplate: boolean = false;
   templateName: any = '';
   modalType: any = '';
+  websiteBlockButton : any = '';
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -803,7 +804,9 @@ export class BuilderComponent implements OnInit {
     return inputType;
   }
   columnApply(value: any) {
-    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton')
+    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton'
+    || value == 'header_1' || value == 'header_2' || value == 'header_3' || value == 'header_4' || value == 'header_5'
+    || value == 'header_6' || value == 'header_7')
       return 'w-full'
     else if (value == 'body')
       return 'px-6 pt-6 pb-10';
@@ -908,6 +911,27 @@ export class BuilderComponent implements OnInit {
         break;
       case "footer":
         newNode = { ...newNode, ...this.addControlService.getFooterControl() };
+        break;
+        case "header_1":
+        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode,this.moduleId) };
+        break;
+        case "header_2":
+        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode,this.moduleId) };
+        break;
+        case "header_3":
+        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode,this.moduleId) };
+        break;
+        case "header_4":
+        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode,this.moduleId) };
+        break;
+        case "header_5":
+        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode,this.moduleId) };
+        break;
+        case "header_6":
+        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode,this.moduleId) };
+        break;
+        case "header_7":
+        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode,this.moduleId) };
         break;
       case "buttonGroup":
         newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
@@ -3722,5 +3746,9 @@ export class BuilderComponent implements OnInit {
         });
       }
     })
+  }
+
+  loadWebsiteBlockChild(data?:any){
+    this.websiteBlockButton = data.children;
   }
 }

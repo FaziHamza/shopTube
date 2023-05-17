@@ -1,0 +1,48 @@
+<div *ngFor="let item of data">
+    <div [class]="item.className" [style]="item?.style" *ngIf="item.type == 'heading'; else one">
+        {{item.text}}
+    </div>
+    <ng-template #one>
+        <div [class]="item.className" [style]="item?.style" *ngIf="item.type =='paragraph' ; else two">
+            {{item.text}}
+        </div>
+    </ng-template>
+    <ng-template #two>
+        <div [class]="item.className" [style]="item?.style"
+            *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton'">
+            <button 
+  nz-button
+  [disabled]="item.disabled"
+  [nzBlock]="item.nzBlock"
+  [nzDanger]="item.nzDanger"
+  [nzGhost]="item.nzGhost"
+  [nzLoading]="item.nzLoading"
+  [nzShape]="item.nzShape"
+  [nzSize]="item.nzSize"
+  [nzType]="item.nztype"
+>
+  <span >
+    <st-icon *ngIf="item.iconPlacement == 'left' || item.iconPlacement == undefined"
+      [icon]="item.btnIcon"
+      [color]="item.iconColor"
+      [size]="item.iconSize"
+      [type]="item.iconType"
+    ></st-icon>
+    <span
+      [class]="item.btnLabelPaddingClass"
+      *ngIf="item.title"
+    >
+      {{ item.title }}
+    </span>
+    <st-icon *ngIf="item.iconPlacement == 'right'"
+      [icon]="item.btnIcon"
+      [color]="item.iconColor"
+      [size]="item.iconSize"
+      [type]="item.iconType"
+    ></st-icon>
+  </span>
+</button>
+        </div>
+    </ng-template>
+
+</div>

@@ -38,7 +38,9 @@ import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutT
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
   LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
-import { WebsiteModules } from '../Website/website.module';
+import { WebMenuComponent } from '../Website/web-menu/web-menu.component';
+import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header.component';
+// import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
   imports:
@@ -55,7 +57,8 @@ import { WebsiteModules } from '../Website/website.module';
       FullCalendarModule,
       RouterModule,
       GoogleChartsModule,
-      ContextMenuModule,WebsiteModules
+      ContextMenuModule,
+      // WebsiteModules,
     ],
   declarations: [
     GenericFieldComponent,
@@ -84,7 +87,8 @@ import { WebsiteModules } from '../Website/website.module';
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent,WebsiteMenuComponent
+    CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
+    WebMenuComponent,WebisteHeaderComponent
   ],
   exports: [
     FormsModule,
@@ -133,7 +137,8 @@ import { WebsiteModules } from '../Website/website.module';
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent,WebsiteMenuComponent
+    CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
+    WebMenuComponent,WebisteHeaderComponent
   ],
   providers: [
   ],

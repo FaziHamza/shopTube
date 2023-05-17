@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'st-web-menu',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./web-menu.component.scss']
 })
 export class WebMenuComponent implements OnInit {
-
+  @Input() menuData : any;
   constructor() { }
 
   ngOnInit(): void {
+    debugger
+    this.menuData;
   }
 
 }

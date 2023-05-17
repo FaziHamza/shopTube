@@ -283,50 +283,21 @@
                     <nz-tabset>
                       <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
                         *ngFor="let item1 of item.children let i= index">
-                        <div *ngIf="webBlock" class="text-right">
-                          <ul class="web-block-menu" nz-menu nzMode="inline">
-                            <li nz-menu-item>
-                              <span>Menu</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Header</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Article</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Image & Video</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Gallery & Slider</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>People</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Contact</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Social</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Footer</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Form</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>News</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>List</span>
-                            </li>
-                            <li nz-menu-item>
-                              <span>Number</span>
-                            </li>
-                          </ul>
+                        <div *ngIf="item1.id == 'website-block'" class="flex flex-wrap">
+                          <div class="block-Button p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
+                            <button nz-button nzType="default" nzBlock class="rounded" (click)="addControlToJson(blockButton.parameter, blockButton)">
+                              <i></i>{{blockButton.label}}
+                            </button>
+                          </div>
+                          <div class="website-block-menu">
+                            <ul nz-menu nzMode="inline">
+                              <li *ngFor="let webSiteBlock of item1.children" nz-menu-item (click)="loadWebsiteBlockChild(webSiteBlock)">
+                                <span >{{webSiteBlock.label}}</span>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                        <nz-collapse *ngIf="!webBlock">
+                        <nz-collapse *ngIf="item1.id != 'website-block'">
                           <nz-collapse-panel *ngFor="let item2 of item1.children let i = index"
                             [nzHeader]="item2.label">
                             <div class="flex flex-wrap">

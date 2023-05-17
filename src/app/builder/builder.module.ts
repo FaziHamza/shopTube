@@ -22,7 +22,6 @@ import { AppBuilderSideMenuComponent } from "../_layout/app-builder-side-menu/ap
 import { MenuBuilderComponent } from "../menu-builder/menu-builder.component";
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
-import { WebsiteModules } from "../Website/website.module";
 
 @NgModule({
   declarations: [
@@ -46,7 +45,6 @@ import { WebsiteModules } from "../Website/website.module";
     ShareModule,
     GoogleChartsModule,
     ContextMenuModule,
-    WebsiteModules
   ],
 })
 
