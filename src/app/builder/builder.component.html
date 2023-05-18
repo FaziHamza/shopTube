@@ -286,15 +286,17 @@
                         <div class="website-block" *ngIf="item1.id == 'website-block'">
                           <div class="block-Button flex flex-wrap">
                             <div class="p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
-                              <button nz-button nzType="default" nzBlock class="rounded" (click)="addControlToJson(blockButton.parameter, blockButton)">
+                              <button nz-button nzType="default" nzBlock class="rounded"
+                                (click)="addControlToJson(blockButton.parameter, blockButton)">
                                 <i></i>{{blockButton.label}}
                               </button>
                             </div>
                           </div>
                           <div class="website-block-menu">
                             <ul nz-menu nzMode="inline">
-                              <li *ngFor="let webSiteBlock of item1.children" nz-menu-item (click)="loadWebsiteBlockChild(webSiteBlock)">
-                                <span >{{webSiteBlock.label}}</span>
+                              <li *ngFor="let webSiteBlock of item1.children" nz-menu-item
+                                (click)="loadWebsiteBlockChild(webSiteBlock)">
+                                <span>{{webSiteBlock.label}}</span>
                               </li>
                             </ul>
                           </div>

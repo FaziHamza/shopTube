@@ -1,56 +1,78 @@
-<nz-card style="border-radius: 4%;">
-    <div *ngFor="let item of data">
-        <div class="flex flex-wrap">
-            <div *ngIf="item.type == 'heading'; else one">
-                <div *ngFor="let head of item.children" [class]="head.className" [style]="head?.style">
-                    {{head.text}}
-                </div>
-            </div>
-            <ng-template #one>
-                <div *ngIf="item.type == 'paragraph'; else two">
-                    <div *ngFor="let paragraphItem of item.children" [class]="paragraphItem.className" [style]="paragraphItem?.style">
-                        {{paragraphItem.text}}
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template #two>
-                <div [class]="item.className" [style]="item?.style"
-                    *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton'">
-                    <button 
-          nz-button
-          [disabled]="item.disabled"
-          [nzBlock]="item.nzBlock"
-          [nzDanger]="item.nzDanger"
-          [nzGhost]="item.nzGhost"
-          [nzLoading]="item.nzLoading"
-          [nzShape]="item.nzShape"
-          [nzSize]="item.nzSize"
-          [nzType]="item.nztype"
-        >
-          <span >
-            <st-icon *ngIf="item.iconPlacement == 'left' || item.iconPlacement == undefined"
-              [icon]="item.btnIcon"
-              [color]="item.iconColor"
-              [size]="item.iconSize"
-              [type]="item.iconType"
-            ></st-icon>
-            <span
-              [class]="item.btnLabelPaddingClass"
-              *ngIf="item.title"
-            >
-              {{ item.title }}
-            </span>
-            <st-icon *ngIf="item.iconPlacement == 'right'"
-              [icon]="item.btnIcon"
-              [color]="item.iconColor"
-              [size]="item.iconSize"
-              [type]="item.iconType"
-            ></st-icon>
-          </span>
-        </button>
-                </div>
-            </ng-template>
-        </div>  
+<div class=" bg-gradient-to-r from-purple-800 to-purple-900 ">
+  <div>
+    <div class=" grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-fit mx-auto lg:mx-24 lg:py-14  ">
+      <div
+        class="w-fit h-full mx-auto max-w-xs p-4 bg-gray-50 border border-gray-200 rounded-lg shadow sm:p-8 mt-10 xl:mt-0 ">
+        <h5 class="mb-4 text-4xl text-center font-medium text-gray-900 ">Standard</h5>
+        <div class="flex items-baseline justify-center  ">
+          <span class="text-8xl text-blue-600 font-medium">$</span>
+          <span class="text-8xl font-medium tracking-tight  text-blue-600 ">35</span>
+        </div>
+        <span class="ml-1 flex justify-center text-xl font-normal  text-gray-500 ">/month</span>
+        <!-- List -->
+        <ul role="list" class="space-y-5 my-7">
+
+          <li class="flex space-x-3">
+            <!-- Icon -->
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Check icon</title>
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base font-normal leading-tight text-gray-500 ">20GB Cloud storage</span>
+          </li>
+          <li class="flex space-x-3">
+            <!-- Icon -->
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600 " fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Check icon</title>
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base font-normal leading-tight text-gray-500 ">Integration help</span>
+          </li>
+          <li class="flex space-x-3 line-through decoration-gray-500">
+            <!-- Icon -->
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-gray-400 " fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Check icon</title>
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base font-normal leading-tight text-gray-500">Sketch Files</span>
+          </li>
+          <li class="flex space-x-3 line-through decoration-gray-500">
+            <!-- Icon -->
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-gray-400 " fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Check icon</title>
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base font-normal leading-tight text-gray-500">API Access</span>
+          </li>
+          <li class="flex space-x-3 line-through decoration-gray-500">
+            <!-- Icon -->
+            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <title>Check icon</title>
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base font-normal leading-tight text-gray-500">Complete documentation</span>
+          </li>
+
+        </ul>
+        <button type="button"
+          class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200  font-semibold rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">Choose
+          plan</button>
+      </div>
     </div>
-    
-</nz-card>
+  </div>
+</div>
