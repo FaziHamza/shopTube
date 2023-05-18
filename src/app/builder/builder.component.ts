@@ -21,6 +21,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
+import { ThirdPartyDraggable } from '@fullcalendar/interaction';
 
 @Component({
   selector: 'st-builder',
@@ -73,7 +74,13 @@ export class BuilderComponent implements OnInit {
   saveAsTemplate: boolean = false;
   templateName: any = '';
   modalType: any = '';
-  websiteBlockButton : any = '';
+  websiteBlockButton: any = '';
+  websiteBlockTypeArray: any = [];
+  websiteBlockName: any = '';
+  webisteBlockType: any = '';
+  websiteBlockSave: boolean = false;
+  dbWebsiteBlockArray: any = [];
+  dbHtmlCodeBlockArray: any = [];
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -114,7 +121,12 @@ export class BuilderComponent implements OnInit {
       this.getFormLayers(this.dataSharedService.screenName);
     }
     this.htmlTabsData = htmlTabsData;
-    this.makeDatainTemplateTab();
+    this.makeDatainTemplateTab('template', 'buildertemplates');
+    this.makeDatainTemplateTab('website-block', 'websiteBlockTemplate');
+    let filterdButtons = this.htmlTabsData[0].children.filter((item: any) => item.id == 'website-block')
+    this.websiteBlockTypeArray = filterdButtons[0].children;
+
+
   }
   jsonModuleSetting() {
     this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
@@ -805,8 +817,8 @@ export class BuilderComponent implements OnInit {
   }
   columnApply(value: any) {
     if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton'
-    || value == 'header_1' || value == 'header_2' || value == 'header_3' || value == 'header_4' || value == 'header_5'
-    || value == 'header_6' || value == 'header_7')
+      || value == 'header_1' || value == 'header_2' || value == 'header_3' || value == 'header_4' || value == 'header_5'
+      || value == 'header_6' || value == 'header_7')
       return 'w-full'
     else if (value == 'body')
       return 'px-6 pt-6 pb-10';
@@ -912,29 +924,29 @@ export class BuilderComponent implements OnInit {
       case "footer":
         newNode = { ...newNode, ...this.addControlService.getFooterControl() };
         break;
-        case "header_1":
-        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode,this.moduleId) };
+      case "header_1":
+        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.moduleId) };
         break;
-        case "header_2":
-        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode,this.moduleId) };
+      case "header_2":
+        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.moduleId) };
         break;
-        case "header_3":
-        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode,this.moduleId) };
+      case "header_3":
+        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.moduleId) };
         break;
-        case "header_4":
-        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode,this.moduleId) };
+      case "header_4":
+        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.moduleId) };
         break;
-        case "header_5":
-        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode,this.moduleId) };
+      case "header_5":
+        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.moduleId) };
         break;
-        case "header_6":
-        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode,this.moduleId) };
+      case "header_6":
+        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.moduleId) };
         break;
-        case "header_7":
-        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode,this.moduleId) };
+      case "header_7":
+        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.moduleId) };
         break;
-        case "pricing":
-        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode,this.moduleId) };
+      case "pricing":
+        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.moduleId) };
         break;
       case "buttonGroup":
         newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
@@ -1018,6 +1030,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "div":
         newNode = { ...newNode, ...this.addControlService.divControl() };
+        break;
+      case "mainDiv":
+        newNode = { ...newNode, ...this.addControlService.mainDivControl() };
         break;
       case "heading":
         newNode = { ...newNode, ...this.addControlService.headingControl() };
@@ -1687,6 +1702,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.divFields;
         break;
+      case "mainDiv":
+        this.fieldData.formData = _formFieldData.mainDivFields;
+        break;
       case "heading":
         this.fieldData.formData = _formFieldData.headingFields;
         break;
@@ -2240,6 +2258,9 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.id) {
           if (event.type == 'div') {
             this.selectedNode.imageSrc = event.form.imageSrc ? event.form.imageSrc : this.dataSharedService.imageUrl;
+            if (event.form.divRepeat > 0) {
+              this.addDynamic(event.form.nodes, 'step', 'mainStep')
+            }
           }
           if (event.type == 'sections') {
             const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
@@ -2376,6 +2397,9 @@ export class BuilderComponent implements OnInit {
         break;
       case "listWithComponents":
         this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
+        break;
+      case "mainDiv":
+        this.addDynamic(event.form.divRepeat, 'div', 'mainDiv');
         break;
       case "rate":
         if (event.tableDta) {
@@ -3153,32 +3177,46 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
   addDynamic(abc: any, subType: any, mainType: any,) {
-    if (this.selectedNode.children) {
-      let nodesLength = this.selectedNode.children?.length;
-      if (nodesLength < abc) {
-        for (let k = 0; k < abc; k++) {
-          if (nodesLength < abc) {
-            this.addControlToJson(subType);
-            if (mainType != 'timeline') {
-              this.selectedNode = this.chilAdd;
-              this.addControlToJson('text', this.textJsonObj);
+    try {
+      if (this.selectedNode.children) {
+        let nodesLength = this.selectedNode.children?.length;
+        if (nodesLength < abc) {
+          for (let k = 0; k < abc; k++) {
+            if (nodesLength < abc) {
+              if (mainType != 'mainDiv') {
+                this.addControlToJson(subType);
+                if (mainType != 'timeline') {
+                  this.selectedNode = this.chilAdd;
+                  this.addControlToJson('text', this.textJsonObj);
+                }
+                this.selectedNode = this.ParentAdd;
+              }
+              else {
+                if (this.selectedNode?.children) {
+                  if (this.selectedNode && this.selectedNode?.children?.length > 0) {
+                    let updateObj = JSON.parse(JSON.stringify(this.selectedNode.children[0]));
+                    let ChangeIdKey = this.updateIdsAndKeys(updateObj);
+                    this.selectedNode.children?.push(ChangeIdKey);
+                  }
+                }
+              }
+              nodesLength = nodesLength + 1;
             }
-            this.selectedNode = this.ParentAdd;
-            nodesLength = nodesLength + 1;
+            this.updateNodes();
           }
         }
-      }
-      else {
-        if (this.selectdParentNode.children) {
-          let removeTabsLength = this.selectedNode.children.length;
-          let checkParentLength = this.selectdParentNode.children.length;
-          for (let a = 0; a < removeTabsLength; a++) {
-            for (let i = 0; i < checkParentLength; i++) {
-              for (let j = 0; j < removeTabsLength; j++) {
-                if (this.selectdParentNode.children[i].type == mainType) {
-                  if (abc < nodesLength) {
-                    this.remove(this.selectdParentNode.children[i], this.selectedNode.children[nodesLength - 1]);
-                    nodesLength = nodesLength - 1;
+        else {
+          if (this.selectdParentNode.children) {
+            let removeTabsLength = this.selectedNode.children.length;
+            let checkParentLength = this.selectdParentNode.children.length;
+            for (let a = 0; a < removeTabsLength; a++) {
+              for (let i = 0; i < checkParentLength; i++) {
+                for (let j = 0; j < removeTabsLength; j++) {
+                  if (this.selectdParentNode.children[i].type == mainType) {
+                    if (abc < nodesLength) {
+                      this.remove(this.selectdParentNode.children[i], this.selectedNode.children[nodesLength - 1]);
+                      nodesLength = nodesLength - 1;
+                    }
                   }
                 }
               }
@@ -3186,6 +3224,10 @@ export class BuilderComponent implements OnInit {
           }
         }
       }
+    }
+    catch (error) {
+      console.error(error);
+      this.toastr.error("An error occurred", { nzDuration: 3000 });
     }
   }
   searchControll() {
@@ -3423,40 +3465,81 @@ export class BuilderComponent implements OnInit {
   handleOk(): void {
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
-    } else if (this.modalType === 'saveAsTemplate') {
-      if (this.saveAsTemplate && this.templateName) {
-        const obj = {
-          parameter: 'htmlBlock',
-          icon: 'uil uil-paragraph',
-          label: this.templateName,
-          template: this.nodes[0].children[1].children
-        };
-        this.requestSubscription = this.builderService.genericApisPost('buildertemplates', obj).subscribe({
-          next: (res) => {
-            this.makeDatainTemplateTab();
-            this.saveLoader =  true;
-            setTimeout(() => {
-              this.saveJson();
-              this.showModal = false;
-            }, 1000);
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error('An error occurred', { nzDuration: 3000 });
+    }
+    else if (this.modalType === 'saveAsTemplate') {
+      try {
+        if ((this.saveAsTemplate && this.templateName) || (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave)) {
+          if (this.saveAsTemplate && this.templateName) {
+            const obj = {
+              parameter: 'htmlBlock',
+              icon: 'uil uil-paragraph',
+              label: this.templateName,
+              template: this.nodes[0].children[1].children
+            };
+            this.requestSubscription = this.builderService.genericApisPost('buildertemplates', obj).subscribe({
+              next: (res) => {
+                this.makeDatainTemplateTab('template', 'buildertemplates');
+                this.saveLoader = true;
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error('An error occurred', { nzDuration: 3000 });
+              }
+            });
           }
-        });
-      }
-      else {
-        if (!this.saveAsTemplate && this.templateName) {
-          alert("Please check the checkbox for 'Save as Template'.");
-        } else if (this.saveAsTemplate && !this.templateName) {
-          alert("Please provide a template name.");
-        }
-      }
+          if (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave) {
+            const obj = {
+              parameter: this.websiteBlockName,
+              icon: 'uil uil-paragraph',
+              label: this.websiteBlockName,
+              type: this.webisteBlockType,
+              template: this.nodes[0].children[1].children
+            };
+            this.requestSubscription = this.builderService.genericApisPost('websiteBlockTemplate', obj).subscribe({
+              next: (res) => {
+                this.makeDatainTemplateTab('website-block', 'websiteBlockTemplate');
+                this.saveLoader = true;
 
-      if (!this.saveAsTemplate && (!this.templateName || this.templateName === '')) {
-        this.saveJson();
-        this.showModal = false;
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error('An error occurred', { nzDuration: 3000 });
+              }
+            });
+          }
+          setTimeout(() => {
+            this.saveJson();
+            this.showModal = false;
+          }, 1000);
+        }
+        else {
+          if (!this.saveAsTemplate && this.templateName) {
+            alert("Please check the checkbox for 'Save as Template'.");
+          }
+          else if (this.saveAsTemplate && !this.templateName) {
+            alert("Please provide a template name.");
+          }
+          if (
+            (!this.websiteBlockName || !this.webisteBlockType || !this.websiteBlockSave) ||
+            (this.websiteBlockName && !this.webisteBlockType && !this.websiteBlockSave) ||
+            (!this.websiteBlockName && this.webisteBlockType && !this.websiteBlockSave)
+          ) {
+            alert("Please provide all the required information for saving the web block.");
+          }
+
+        }
+
+        const isTemplateNameValid = !this.saveAsTemplate && (!this.templateName && this.templateName !== '');
+        const isWebsiteBlockValid = (!this.websiteBlockName && this.websiteBlockName !== '') && (!this.webisteBlockType && this.webisteBlockType !== '') && !this.websiteBlockSave;
+
+        if (isTemplateNameValid && isWebsiteBlockValid) {
+          this.saveJson();
+          this.showModal = false;
+        }
+
+      } catch (error) {
+        console.error(error);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     }
 
@@ -3711,7 +3794,10 @@ export class BuilderComponent implements OnInit {
       this.isActiveShow = data.origin.id;
     } else if (type == 'saveAsTemplate') {
       this.saveAsTemplate = false;
+      this.websiteBlockSave = false;
       this.templateName = '';
+      this.websiteBlockName = '';
+      this.webisteBlockType = '';
       this.modalType = 'saveAsTemplate'
     }
     this.showModal = true;
@@ -3727,31 +3813,54 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  addTemplate(data: any) {
+  addTemplate(data: any, checkType?: any) {
     debugger
-    this.nodes[0].children[1].children = data.template;
+    if (checkType == 'website-block') {
+      data.template.forEach((item: any)=>{
+        this.nodes[0].children[1].children.push(item);
+      })
+    } else {
+      this.nodes[0].children[1].children = data.template;
+    }
     this.updateNodes();
     this.toastr.success('Control Added', { nzDuration: 3000 });
   }
 
-  makeDatainTemplateTab() {
-    this.htmlTabsData[0].children.forEach((item: any) => {
-      if (item?.id == 'template') {
-        this.requestSubscription = this.builderService.genericApis('buildertemplates').subscribe({
-          next: (res) => {
-            item.children[0].children = res;
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-
-        });
+  makeDatainTemplateTab(id?: any, dbTable?: any) {
+    this.requestSubscription = this.builderService.genericApis(dbTable).subscribe({
+      next: (res) => {
+        if (id == 'website-block') {
+          this.dbWebsiteBlockArray = res;
+        }
+        else {
+          this.htmlTabsData[0].children.forEach((item: any) => {
+            if (item?.id == 'template') {
+              item.children[0].children = res;
+            }
+          })
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+
+    });
   }
 
-  loadWebsiteBlockChild(data?:any){
+  loadWebsiteBlockChild(data?: any) {
+    let filterdData = this.dbWebsiteBlockArray.filter((item: any) => item.type == data.label);
+    data.children = filterdData;
     this.websiteBlockButton = data.children;
+  }
+
+  updateIdsAndKeys(obj: any) {
+    let updatedObj = { ...obj };
+    updatedObj = this.changeIdAndkey(updatedObj);
+
+    if (updatedObj.children && Array.isArray(updatedObj.children)) {
+      updatedObj.children = updatedObj.children.map((child: any) => this.updateIdsAndKeys(child));
+    }
+    return updatedObj;
   }
 }

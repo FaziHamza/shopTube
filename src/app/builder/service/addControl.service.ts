@@ -671,6 +671,12 @@ export class AddControlService {
       width: 0,
     }
   }
+  mainDivControl() {
+    return {
+      isNextChild: true,
+      divRepeat:1,
+    }
+  }
   headingControl() {
     return {
       isNextChild: false,

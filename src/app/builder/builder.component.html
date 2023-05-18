@@ -286,8 +286,7 @@
                         <div class="website-block" *ngIf="item1.id == 'website-block'">
                           <div class="block-Button flex flex-wrap">
                             <div class="p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
-                              <button nz-button nzType="default" nzBlock class="rounded"
-                                (click)="addControlToJson(blockButton.parameter, blockButton)">
+                              <button (click)="addTemplate(blockButton,'website-block')" nz-button nzType="default" nzBlock class="rounded">
                                 <i></i>{{blockButton.label}}
                               </button>
                             </div>
@@ -323,7 +322,7 @@
                                     (mouseover)="openModal('webCode',item3)"></span>{{item3.label}}
                                 </button>
                                 <button *ngIf="item1.id == 'template'" nz-button nzType="default" nzBlock
-                                  class="rounded" (click)="addTemplate(item3)">{{item3.label}}
+                                  class="rounded" (click)="addTemplate(item3,'template')">{{item3.label}}
                                 </button>
                               </div>
                             </div>
@@ -370,6 +369,16 @@
       <label for="template-name">Template Name</label>
       <input id="template-name" [(ngModel)]="templateName" nz-input placeholder="Template Name..." />
       <label class="mt-2" nz-checkbox [(ngModel)]="saveAsTemplate">Do you want to Save as Template?</label>
+      <br>
+      <br>
+      <label for="template-name">Website Block Name</label>
+      <input id="template-name" [(ngModel)]="websiteBlockName" nz-input placeholder="Website Block Name..." />
+      <label for="template-name">Website Block Type</label>
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="webisteBlockType">
+        <nz-option [nzValue]="item.label" placeholder="Select Block Type..." [nzLabel]="item.label"
+          *ngFor="let item of websiteBlockTypeArray"></nz-option>
+      </nz-select>
+      <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want to save as block?</label>
     </div>
   </ng-container>
 </nz-modal>

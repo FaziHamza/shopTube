@@ -897,57 +897,68 @@ export const htmlTabsData = [
           {
             parameter: "websiteArticle",
             icon: "uil uil-file-alt",
-            label: "Article"
+            label: "Article",
+            children: []
           },
           {
             parameter: "websiteImageVideo",
             icon: "uil uil-file-alt",
-            label: "Image & Video"
+            label: "Image & Video",
+            children: []
           },
           {
             parameter: "websiteGallerySlider",
             icon: "uil uil-file-alt",
-            label: "Gallery & Slider"
+            label: "Gallery & Slider",
+            children: []
           },
           {
             parameter: "websitePeople",
             icon: "uil uil-file-alt",
-            label: "People"
+            label: "People",
+            children: []
           },
           {
             parameter: "websiteContact",
             icon: "uil uil-file-alt",
-            label: "Contact"
+            label: "Contact",
+            children: []
           },
           {
             parameter: "websiteSocial",
             icon: "uil uil-file-alt",
-            label: "Social"
+            label: "Social",
+            children: []
           },
           {
             parameter: "websiteFooter",
             icon: "uil uil-file-alt",
-            label: "Footer"
+            label: "Footer",
+            children: []
           },
           {
             parameter: "websiteForm",
             icon: "uil uil-file-alt",
-            label: "Form"
+            label: "Form",
+            children: []
           },
           {
             parameter: "websiteNews",
             icon: "uil uil-file-alt",
-            label: "News"
+            label: "News",
+            children: []
           },
           {
             parameter: "websiteList",
             icon: "uil uil-file-alt",
-            label: "List"
+            label: "List",
+            children: []
           },
           {
             parameter: "websiteNumber",
             icon: "uil uil-file-alt",
-            label: "Number"
+            label: "Number",
+            children: []
           },
         ]
       },
@@ -1342,6 +1353,11 @@ export const htmlTabsData = [
                 parameter: "div",
                 icon: "uil-square-full",
                 label: "Div"
+              },
+              {
+                parameter: "mainDiv",
+                icon: "uil-square-full",
+                label: "Main Div"
               },
               {
                 parameter: "input",
