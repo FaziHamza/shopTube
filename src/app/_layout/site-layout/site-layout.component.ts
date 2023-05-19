@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
@@ -15,11 +16,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
-
-  // menuItems: MenuItem[] = [];
-  // newMenuArray: any = false;
   tabs: any = [];
   dropdown: any = [];
+  modules: any = [];
+  menuList: any = [];
   requestSubscription: Subscription;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
@@ -49,39 +49,40 @@ export class SiteLayoutComponent implements OnInit {
   // selectedTheme: any;
 
   constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService,) { }
+    private toastr: NzMessageService,private router: Router ) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
+
     }
     window.onresize = () => {
       this.controlMenu();
     };
     this.controlMenu();
   }
-  toggleCollapsed(): void {
+  // toggleCollapsed(): void {
 
-    if (this.selectedTheme.layout == 'twoColumn') {
-      this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
-      if (this.selectedTheme.isTwoColumnCollapsed) {
-        this.selectedTheme.menuColumn = 'w-1/6';
-      } else if (!this.selectedTheme.isTwoColumnCollapsed) {
-        this.selectedTheme.menuColumn = 'w-1/5';
-      }
-    }
-    else {
-      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-    }
-    if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
-      // this.selectedTheme.topHeaderMenu = 'w-1/12';
-      // this.selectedTheme.topHeader = 'w-11/12';
-    }
-    else if (!this.selectedTheme.isCollapsed) {
-      this.selectedTheme.menuColumn = 'w-2/12';
-    }
-  }
+  //   if (this.selectedTheme.layout == 'twoColumn') {
+  //     this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
+  //     if (this.selectedTheme.isTwoColumnCollapsed) {
+  //       this.selectedTheme.menuColumn = 'w-1/6';
+  //     } else if (!this.selectedTheme.isTwoColumnCollapsed) {
+  //       this.selectedTheme.menuColumn = 'w-1/5';
+  //     }
+  //   }
+  //   else {
+  //     this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+  //   }
+  //   if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
+  //     // this.selectedTheme.topHeaderMenu = 'w-1/12';
+  //     // this.selectedTheme.topHeader = 'w-11/12';
+  //   }
+  //   else if (!this.selectedTheme.isCollapsed) {
+  //     this.selectedTheme.menuColumn = 'w-2/12';
+  //   }
+  // }
 
 
   notifyEmit(data: any) {
@@ -121,23 +122,27 @@ export class SiteLayoutComponent implements OnInit {
       this.makeMenuData();
     }
   }
-  notifyEmitForDropdown(data: any) {
+  // notifyEmitForDropdown(data: any) {
 
-    this.tabs = [];
-    data.children.forEach((i: any) => {
-      if (i.type == 'mainTab') {
-        this.tabs.push(i);
-      }
-    });
-  }
+  //   this.tabs = [];
+  //   data.children.forEach((i: any) => {
+  //     if (i.type == 'mainTab') {
+  //       this.tabs.push(i);
+  //     }
+  //   });
+  // }
 
   loadTabsAndButtons(data: any) {
     debugger
-    data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];
+    this.modules = [];
     this.selectedTheme.menuChildArrayTwoColumn = [];
-    if (data.children.length > 0) {
+    if (Array.isArray(data)) {
+      this.modules = JSON.parse(JSON.stringify(data));
+    }
+    else if (data.children.length > 0) {
+      data.isOpen = !data.isOpen;
       data.children.forEach((i: any) => {
         if (this.selectedTheme.layout == 'twoColumn') {
           this.selectedTheme.rowClass = 'w-10/12';
@@ -151,10 +156,6 @@ export class SiteLayoutComponent implements OnInit {
           this.dropdown.push(i);
         }
       });
-    }
-    else if (this.selectedTheme.layout == 'twoColumn') {
-      this.selectedTheme.rowClass = 'w-11/12';
-      this.selectedTheme.menuColumn = '-w-1/12';
     }
   }
   makeMenuData() {
@@ -181,10 +182,10 @@ export class SiteLayoutComponent implements OnInit {
     this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({
       next: (res) => {
         if (res.length > 0) {
-          let menus : any = [];
+          let menus: any = [];
           debugger
           res.forEach((element: any) => {
-            let newID = element.name.replace('','_')
+            let newID = element.name.replace('', '_')
             const newNode = {
               id: newID + '_' + Guid.newGuid(),
               key: newID + '_' + Guid.newGuid(),
@@ -195,7 +196,7 @@ export class SiteLayoutComponent implements OnInit {
               isTitle: false,
               expanded: true,
               color: "",
-              application:true,
+              application: true,
               children: [
               ],
             }
@@ -205,13 +206,9 @@ export class SiteLayoutComponent implements OnInit {
           if (!res[0]?.selectedTheme?.showMenu) {
             this.selectedTheme['showMenu'] = true;
           }
-          this.makeMenuData();
-          // this.menuItems.forEach((e: any) => {
-          //   e["menuIcon"] = "up"
-          // });
+          this.getAllMenu();
+          // this.makeMenuData();
         }
-        else
-          this.newSelectedTheme.allMenuItems = [];
       },
       error: (err) => {
         console.error(err);
@@ -233,6 +230,38 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.showMenu = true;
       // this.selectedTheme.topHeaderMenu = 'w-1/6';
       // this.selectedTheme.topHeader = 'w-10/12';
+    }
+  }
+
+  getAllMenu() {
+    this.requestSubscription = this.builderService.genericApis('jsonModuleSetting').subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.menuList = res;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    })
+  }
+
+  callMenus(api?: any) {
+    debugger
+    this.router.navigate(['/pages',this.dataSharedService.selectApplication,api]);
+    const filterdMenu = this.menuList.filter((item: any) => item.moduleName
+      == api);
+    if (filterdMenu.length > 0) {
+      this.selectedTheme = filterdMenu[0].selectedTheme ? filterdMenu[0].selectedTheme : this.newSelectedTheme;
+      this.selectedTheme.allMenuItems = filterdMenu[0].menuData;
+      if (!filterdMenu[0].selectedTheme.showMenu) {
+        this.selectedTheme['showMenu'] = true;
+      }
+      this.makeMenuData();
+    }
+    else {
+      this.newSelectedTheme.allMenuItems = [];
     }
   }
 }

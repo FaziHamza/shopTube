@@ -109,6 +109,7 @@ export class BuilderClickButtonService {
       iconSize: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconSize'],
       iconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconColor'],
       border: node.formly[0].fieldGroup[0].props['additionalProperties']?.border,
+      borderRadius: node.formly[0].fieldGroup[0].props['additionalProperties']?.borderRadius,
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

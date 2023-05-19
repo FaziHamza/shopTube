@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'src/app/models/menu';
 import { BuilderService } from 'src/app/services/builder.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -39,7 +40,7 @@ export class AppSideMenuComponent implements OnInit {
     allMenuItems: [],
   }
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public builderService: BuilderService,) { }
+    public builderService: BuilderService,public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
     this.loadModules();
@@ -117,10 +118,13 @@ export class AppSideMenuComponent implements OnInit {
     debugger
     event.stopPropagation();
     if (data.application) {
-      this.selectApplicationModuleData = this.moduleData.filter((item : any)=> item.applicationName == data.title)
+      this.dataSharedService.selectApplication = data.title;
+      this.selectApplicationModuleData = this.moduleData.filter((item : any)=> item.applicationName == data.title);
+      this.notify.emit(this.selectApplicationModuleData);
     } 
     else {
       let checkTabsAndDropdown = false;
+      // this.dataSharedService.selectApplication = '';
       data.children.forEach((element: any) => {
         if (!checkTabsAndDropdown) {
           if (element.type == 'mainTab' || element.type == 'dropdown') {

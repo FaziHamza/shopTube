@@ -1332,6 +1332,7 @@ export class BuilderComponent implements OnInit {
                         labelPosition: "text-left",
                         titleIcon: "",
                         tooltip: "",
+                        default: "",
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -2535,6 +2536,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['iconSize'] = event.form?.iconSize;
             props['additionalProperties']['iconType'] = event.form?.iconType;
             props['additionalProperties']['iconColor'] = event.form?.iconColor;
+            props['additionalProperties']['borderRadius'] = event.form?.borderRadius;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;

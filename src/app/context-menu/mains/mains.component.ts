@@ -6,7 +6,7 @@ import { NzImageService } from 'ng-zorro-antd/image';
   templateUrl: './mains.component.html',
   styleUrls: ['./mains.component.scss']
 })
-export class MainsComponent implements OnInit {
+export class MainsComponent implements OnInit { 
   @Input() item:any;
   @Input() dataModel:any;
   @Input() isLast:any;

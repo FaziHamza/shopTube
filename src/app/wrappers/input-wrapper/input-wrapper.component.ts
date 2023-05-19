@@ -10,6 +10,7 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() value = '';
   @Input() placeholder = '';
   ngOnInit(): void {
+    debugger
     if(this.to.type == 'password'){
       this.to['additionalProperties'].prefixicon = 'eye-invisible';
     }

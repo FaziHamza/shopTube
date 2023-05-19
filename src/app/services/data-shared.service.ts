@@ -16,7 +16,7 @@ export class DataSharedService {
   footerData:any = [];
   public data: any;
   copyJson : any = {};
-
+  selectApplication : any = '';
   constructor() { }
 
   setData(data: string) {
