@@ -3,7 +3,7 @@
         [nzPrefix]="to['additionalProperties']?.addonRight" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-time-picker [(ngModel)]="time" (ngModelChange)="log($event)"
             [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
-            [nzAddOn]="customAddon" [nzAllowEmpty]="to['additionalProperties']?.allowClear"
+           [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzAddOn]="customAddon" [nzAllowEmpty]="to['additionalProperties']?.allowClear"
             [nzStatus]="to['additionalProperties']?.status" [nzNowText]="to['additionalProperties']?.firstBtnText" [nzOkText]="to['additionalProperties']?.secondBtnText"
             [nzMinuteStep]="to['additionalProperties']?.minuteStep" [nzSecondStep]="to['additionalProperties']?.secondStep"
             [nzHourStep]="to['additionalProperties']?.hoursStep" [nzDisabled]="to.disabled" [nzStatus]="to['additionalProperties']?.status"
@@ -15,7 +15,7 @@
     <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [(ngModel)]="time" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-time-picker [nzAddOn]="customAddon" [nzAllowEmpty]="to['additionalProperties']?.allowClear"  (ngModelChange)="log($event)"
-            [nzStatus]="to['additionalProperties']?.status" [nzNowText]="to['additionalProperties']?.firstBtnText" [nzOkText]="to['additionalProperties']?.secondBtnText"
+           [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzStatus]="to['additionalProperties']?.status" [nzNowText]="to['additionalProperties']?.firstBtnText" [nzOkText]="to['additionalProperties']?.secondBtnText"
             [nzMinuteStep]="to['additionalProperties']?.minuteStep" [nzSecondStep]="to['additionalProperties']?.secondStep"
             [nzHourStep]="to['additionalProperties']?.hoursStep" [nzDisabled]="to.disabled" [nzStatus]="to['additionalProperties']?.status"
             [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border" [nzPlaceHolder]="to.placeholder || ''"
@@ -34,7 +34,7 @@
 <nz-time-picker class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" [nzAddOn]="customAddon" [nzAllowEmpty]="to['additionalProperties']?.allowClear"
  [nzStatus]="to['additionalProperties']?.status" [nzNowText]="to['additionalProperties']?.firstBtnText"
 [nzOkText]="to['additionalProperties']?.secondBtnText" [nzMinuteStep]="to['additionalProperties']?.minuteStep" [(ngModel)]="time" (ngModelChange)="log($event)"
-[nzSecondStep]="to['additionalProperties']?.secondStep" [nzHourStep]="to['additionalProperties']?.hoursStep" [nzDisabled]="to.disabled"
+[style.border-radius]="to['additionalProperties']?.borderRadius" [nzSecondStep]="to['additionalProperties']?.secondStep" [nzHourStep]="to['additionalProperties']?.hoursStep" [nzDisabled]="to.disabled"
 [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border"
 [nzPlaceHolder]="to.placeholder || ''" [nzUse12Hours]="to['additionalProperties']?.use12Hours"
 [nzSuffixIcon]="customAddon || ''"></nz-time-picker>

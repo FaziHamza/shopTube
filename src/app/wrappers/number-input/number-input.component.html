@@ -16,7 +16,7 @@
       [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
       <nz-input-number [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
         [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision" nzPrecisionMode="cut" nzInputMode=""
-        [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border" [nzDisabled]="to.disabled"
+      [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border" [nzDisabled]="to.disabled"
         [nzReadOnly]="to.readonly" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
         [formControl]="formControl"></nz-input-number>
     </nz-input-group>
@@ -37,7 +37,7 @@
     <nz-input-number style="width:100%"
       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision"
-      nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border"
+     [style.border-radius]="to['additionalProperties']?.borderRadius" nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border"
       [nzDisabled]="to.disabled" [nzReadOnly]="to.readonly" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
       [formControl]="formControl"></nz-input-number>
     <label

@@ -16,7 +16,7 @@
 
         <textarea
           [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
-          *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
+          *ngIf="to.type == 'textarea'" [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input [rows]="to.rows" [formlyAttributes]="field"
           [placeholder]="to.placeholder" [formControl]="formControl"></textarea>
         <label
           *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
@@ -29,10 +29,10 @@
         <input
           [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
           *ngIf="to.type != 'textarea'" [formlyAttributes]="field" nz-input [type]="to.type"
-          [placeholder]="to.placeholder" [nzStatus]="to['additionalProperties']?.status" [formControl]="formControl"
+          [style.border-radius]="to['additionalProperties']?.borderRadius"  [placeholder]="to.placeholder" [nzStatus]="to['additionalProperties']?.status" [formControl]="formControl"
           [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border" />
 
-        <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
+        <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field" [style.border-radius]="to['additionalProperties']?.borderRadius"
           [placeholder]="to.placeholder" [formControl]="formControl"></textarea>
       </nz-input-group>
     </ng-container>
@@ -43,7 +43,7 @@
   <div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
     <input
       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
+      [style.border-radius]="to['additionalProperties']?.borderRadius" [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
       [nzStatus]="to['additionalProperties']?.status" [formControl]="formControl"
       [nzSize]="to['additionalProperties']?.size" [nzBorderless]="to['additionalProperties']?.border" />
     <textarea *ngIf="to.type == 'textarea'" nz-input [rows]="to.rows" [formlyAttributes]="field"
