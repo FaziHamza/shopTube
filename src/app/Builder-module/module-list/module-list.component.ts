@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -14,15 +14,16 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class ModuleListComponent implements OnInit {
   requestSubscription: Subscription;
   applicationData: any = [];
-  moduleData: any = [];
+  @Input() moduleData:any;
+  // @Input() moduleData: any = [];
   applicationChild: any = [];
   selectedIndex = 0;
   constructor(public builderService: BuilderService, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
   }
 
   ngOnInit(): void {
-    this.loadApplication();
-    this.loadModules();
+    // this.loadApplication();
+    // this.loadModules();
   }
 
   loadApplication() {

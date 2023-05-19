@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { MenuItem } from 'src/app/models/menu';
+import { BuilderService } from 'src/app/services/builder.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -16,7 +18,10 @@ export class AppSideMenuComponent implements OnInit {
   // menuItems: MenuItem[] = [];
   newMenuArray: any = false;
   menuChildArrayTwoColumn: any = [];
+  moduleData: any = [];
+  selectApplicationModuleData: any = [];
   isTwoColumnCollapsed = false;
+  requestSubscription: Subscription;
   newSelectedTheme = {
     layout: 'vertical',
     colorScheme: 'light',
@@ -33,10 +38,11 @@ export class AppSideMenuComponent implements OnInit {
     isCollapsed: false,
     allMenuItems: [],
   }
-  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
+    public builderService: BuilderService,) { }
 
   ngOnInit(): void {
-
+    this.loadModules();
     this.makeMenuData();
   }
 
@@ -108,31 +114,36 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    let checkTabsAndDropdown = false;
+    debugger
     event.stopPropagation();
-    data.children.forEach((element: any) => {
-      if (!checkTabsAndDropdown) {
-        if (element.type == 'mainTab' || element.type == 'dropdown') {
-          checkTabsAndDropdown = true;
-        }
-      }
-    });
-    this.notify.emit(data);
-    this.menuChildArrayTwoColumn = [];
-    if (data.link && !checkTabsAndDropdown) {
-      let routerLink = data.link;
-      this.router.navigate([routerLink]);
-    }
-    else if (data.children.length > 0) {
-      data.children.forEach((i: any) => {
-        if (this.selectedTheme.layout == 'twoColumn') {
-          this.menuChildArrayTwoColumn.push(i);
+    if (data.application) {
+      this.selectApplicationModuleData = this.moduleData.filter((item : any)=> item.applicationName == data.title)
+    } 
+    else {
+      let checkTabsAndDropdown = false;
+      data.children.forEach((element: any) => {
+        if (!checkTabsAndDropdown) {
+          if (element.type == 'mainTab' || element.type == 'dropdown') {
+            checkTabsAndDropdown = true;
+          }
         }
       });
-    }
-    else {
-      this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
-      // this.router.navigate(['/pages/notfound']);
+      this.notify.emit(data);
+      this.menuChildArrayTwoColumn = [];
+      if (data.link && !checkTabsAndDropdown) {
+        let routerLink = data.link;
+        this.router.navigate([routerLink]);
+      }
+      else if (data.children.length > 0) {
+        data.children.forEach((i: any) => {
+          if (this.selectedTheme.layout == 'twoColumn') {
+            this.menuChildArrayTwoColumn.push(i);
+          }
+        });
+      }
+      else {
+        this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
+      }
     }
   }
 
@@ -182,7 +193,17 @@ export class AppSideMenuComponent implements OnInit {
       return 10;
     }
   }
-
+  loadModules(): void {
+    this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
+      next: (res) => {
+        this.moduleData = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
+  }
 
 }
 

@@ -3235,13 +3235,17 @@ export class BuilderComponent implements OnInit {
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
       this.htmlTabsData[0].children.forEach((a: any) => {
-        a.children.forEach((b: any) => {
-          b.children.forEach((c: any) => {
-            if (c.label.toUpperCase().includes(input)) {
-              this.searchControllData.push(c)
+        if(a.children.length > 0){
+          a.children.forEach((b: any) => {
+            if(b.children.length > 0){
+              b.children.forEach((c: any) => {
+                if (c.label.toUpperCase().includes(input)) {
+                  this.searchControllData.push(c)
+                }
+              });
             }
           });
-        });
+        }
       });
     }
   }
@@ -3520,17 +3524,15 @@ export class BuilderComponent implements OnInit {
             alert("Please provide a template name.");
           }
           if (
-            (!this.websiteBlockName || !this.webisteBlockType || !this.websiteBlockSave) ||
+            (!this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave) ||
             (this.websiteBlockName && !this.webisteBlockType && !this.websiteBlockSave) ||
             (!this.websiteBlockName && this.webisteBlockType && !this.websiteBlockSave)
           ) {
             alert("Please provide all the required information for saving the web block.");
           }
-
         }
-
-        const isTemplateNameValid = !this.saveAsTemplate && (!this.templateName && this.templateName !== '');
-        const isWebsiteBlockValid = (!this.websiteBlockName && this.websiteBlockName !== '') && (!this.webisteBlockType && this.webisteBlockType !== '') && !this.websiteBlockSave;
+        const isTemplateNameValid = !this.saveAsTemplate && (!this.templateName || this.templateName == '');
+        const isWebsiteBlockValid = (!this.websiteBlockName || this.websiteBlockName == '') && (this.webisteBlockType || this.webisteBlockType == '') && !this.websiteBlockSave;
 
         if (isTemplateNameValid && isWebsiteBlockValid) {
           this.saveJson();

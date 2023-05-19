@@ -28,9 +28,9 @@
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 "></div>
     <div [ngClass]='selectedTheme.rowClass' >
-      <ng-container *ngIf="dropdown.length" class="">
+      <!-- <ng-container *ngIf="dropdown.length" class="">
         <st-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
-      </ng-container>
+      </ng-container> -->
       <ng-container *ngIf="tabs.length" >
         <ng-container *ngFor="let item of tabs" >
           <!-- <st-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></st-layout-tabs> -->

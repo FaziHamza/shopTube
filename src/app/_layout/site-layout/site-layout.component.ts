@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
+import { Guid } from 'src/app/models/guid';
+import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -16,6 +20,7 @@ export class SiteLayoutComponent implements OnInit {
   // newMenuArray: any = false;
   tabs: any = [];
   dropdown: any = [];
+  requestSubscription: Subscription;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -43,7 +48,8 @@ export class SiteLayoutComponent implements OnInit {
   }
   // selectedTheme: any;
 
-  constructor(private employeeService: EmployeeService , public dataSharedService: DataSharedService) { }
+  constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
+    private toastr: NzMessageService,) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {
@@ -78,149 +84,18 @@ export class SiteLayoutComponent implements OnInit {
   }
 
 
-  // changeLayout(layoutType: any) {
-  //
-  //   // this.selectedTheme.horizontalRow = '';
-  //   // this.selectedTheme.rowClass = 'flex flex-wrap';
-  //   if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn') {
-  //     this.selectedTheme.menuMode = "inline",
-  //       this.selectedTheme.isCollapsed = false;
-  //     this.selectedTheme.topHeaderMenu = 'w-1/6'
-  //     this.selectedTheme.topHeader = 'w-10/12';
-  //     // this.selectedTheme.menuColumn = 'w-1/6';
-  //     // this.selectedTheme.rowClass = 'w-10/12';
-  //     if (layoutType == 'vertical' || layoutType == 'fluid') {
-  //       this.selectedTheme.horizontalRow = 'flex flex-wrap';
-  //       this.selectedTheme.menuColumn = 'w-1/6';
-  //       this.selectedTheme.rowClass = 'w-10/12';
-  //       if (layoutType == 'vertical')
-  //         this.selectedTheme.layout = layoutType;
-  //     }
-  //     if (layoutType == 'twoColumn') {
-  //       this.selectedTheme.layoutPosition = '';
-  //       this.selectedTheme.layout = layoutType;
-  //       this.selectedTheme.horizontalRow = 'flex flex-wrap'
-  //       this.selectedTheme.rowClass = 'w-11/12';
-  //       this.selectedTheme.isCollapsed = true;
-  //       this.selectedTheme.isTwoColumnCollapsed = false;
-  //       this.selectedTheme.menuColumn = '-w-1/12';
-  //       this.selectedTheme.topHeaderMenu = '';
-  //       this.selectedTheme.topHeader = '';
-  //       this.selectedTheme.layoutWidth = '';
-  //       if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
-  //         this.selectedTheme.rowClass = 'w-10/12';
-  //         this.selectedTheme.menuColumn = 'w-2/12';
-  //       }
-  //     }
-  //   }
-  //   else if (layoutType == 'horizental') {
-  //     this.selectedTheme.layout = layoutType;
-  //     this.horizentalLayout();
-  //     if (this.selectedTheme.layoutWidth == 'boxed')
-  //       this.selectedTheme.rowClass = 'w-full'
-  //   }
-  //   else if (layoutType == 'dark') {
-  //     this.selectedTheme.theme = true;
-  //   }
-  //   else if (layoutType == 'light') {
-  //     this.selectedTheme.theme = false;
-  //   }
-  //   else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
-  //     this.selectedTheme.isCollapsed = true;
-  //   }
-  //   else if (layoutType == 'boxed') {
-  //     if (this.selectedTheme.layout == 'horizental') {
-  //       this.selectedTheme.horizontalRow = 'flex flex-wrap';
-  //       this.selectedTheme.rowClass = 'w-full',
-  //         this.selectedTheme.menuMode = "horizontal",
-  //         this.selectedTheme.menuColumn = 'w-full',
-  //         this.selectedTheme.isCollapsed = false;
-  //     } else {
-  //       this.selectedTheme.isCollapsed = true;
-  //       this.selectedTheme.horizontalRow = 'flex flex-wrap';
-  //       this.selectedTheme.rowClass = 'w-10/12';
-  //       this.selectedTheme.checked = false;
-  //     }
-  //   }
-  //   else if (layoutType == 'default' || layoutType == 'compact') {
-  //     this.selectedTheme.isCollapsed = false;
-  //   }
-  //   // This conditions is used to assign value to object
-  //   if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn') {
-  //     this.selectedTheme.layout = layoutType;
-  //     if (this.selectedTheme.sideBarSize == 'compact') {
-  //       if (layoutType == 'horizental' || layoutType == 'twoColumn')
-  //         this.selectedTheme.sideBarSize = '';
-  //     }
-  //   } else if (layoutType == 'fluid' || layoutType == 'boxed') {
-  //     this.selectedTheme.layoutWidth = layoutType;
-  //     if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
-  //       this.horizentalLayout();
-  //       // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-  //       // this.selectedTheme.rowClass = 'h-5/6';
-  //       // this.selectedTheme.menuColumn = 'w-full',
-  //       // this.menuMode = "horizontal";
-  //     }
-  //   }
-  //   else if (layoutType == 'light' || layoutType == 'dark') {
-  //     this.selectedTheme.sieBarColor = layoutType;
-  //   }
-  //   else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact') {
-  //     this.selectedTheme.sideBarSize = layoutType;
-  //   }
-  //   else if (layoutType == 'fixed' || layoutType == 'scrollable') {
-  //     this.selectedTheme.layoutPosition = layoutType;
-  //   }
-  //   else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
-  //     this.selectedTheme.siderBarView = layoutType;
-  //   }
-  //   else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
-  //     this.selectedTheme.siderBarImages = layoutType;
-  //   }
-  //   this.makeMenuData();
-  // }
-
-  // setHovered(value: any, data?: any, item?: any) {
-  //   if (value != 'down' && value != 'up') {
-  //     if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
-  //       this.selectedTheme.isCollapsed = value;
-  //       // if(value){
-  //       //   this.selectedTheme.rowClass = 'w-10/12';
-  //       //   this.selectedTheme.menuColumn = 'w-1/6';
-  //       // }else{
-  //       //   this.selectedTheme.rowClass = 'w-11/12';
-  //       //   this.selectedTheme.menuColumn = 'w-1/12';
-  //       // }
-  //     }
-  //     if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
-  //       if (!this.selectedTheme.checked)
-  //         this.selectedTheme.isCollapsed = value;
-  //     }
-  //   }
-  //   else if (value == 'down' || value == 'up') {
-  //     data = value;
-  //     item.menuIcon = value;
-  //   }
-
-  // }
-
-  // changeIcon() {
-
-  //   this.selectedTheme.newMenuArray[0].icon == 'up' ? 'down' : 'up';
-  // }
-
   notifyEmit(data: any) {
-    
+
     if (data.screenType) {
       if (data.screenType == 'desktop') {
-        this.selectedTheme.showMenu =  true;
+        this.selectedTheme.showMenu = true;
         this.selectedTheme.isCollapsed = data.emitData;
         if (this.selectedTheme.isCollapsed) {
           this.selectedTheme.topHeaderMenu = 'w-1/12';
           this.selectedTheme.topHeader = 'w-full';
           this.selectedTheme.menuColumn = 'w-1/12';
           this.selectedTheme.rowClass = 'w-11/12';
-        } 
+        }
         else {
           this.selectedTheme.menuColumn = 'w-1/6';
           this.selectedTheme.rowClass = 'w-10/12';
@@ -247,7 +122,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   notifyEmitForDropdown(data: any) {
-    
+
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -257,8 +132,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-    
-    // event.preventDefault();
+    debugger
     data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];
@@ -283,17 +157,7 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.menuColumn = '-w-1/12';
     }
   }
-
-
-  // newMenuArrayFunc() {
-  //   this.newMenuArray = [];
-  //   if (this.menuItems.length > 7) {
-
-  //     // this.menuItems.splice(7);
-  //   }
-  // }
   makeMenuData() {
-
     let arrayList = [];
     arrayList = this.selectedTheme.allMenuItems;
     // this.selectedTheme.allMenuItems = [];
@@ -313,33 +177,48 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-
-  // horizentalLayout() {
-  //
-  //   this.makeMenuData();
-  //   this.selectedTheme.horizontalRow = 'flex flex-wrap';
-  //   this.selectedTheme.rowClass = 'w-10/12',
-  //     this.selectedTheme.menuMode = "horizontal",
-  //     this.selectedTheme.menuColumn = 'w-full',
-  //     this.selectedTheme.isCollapsed = false;
-  // }
   getMenu() {
-
-    this.employeeService.getJsonModules('Demo Template').subscribe((res) => {
-      if (res.length > 0) {
-        this.selectedTheme = res[0].selectedTheme;
-        this.selectedTheme.allMenuItems = res[0].menuData;
-        if (!res[0].selectedTheme.showMenu) {
-          this.selectedTheme['showMenu'] = true;
+    this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          let menus : any = [];
+          debugger
+          res.forEach((element: any) => {
+            let newID = element.name.replace('','_')
+            const newNode = {
+              id: newID + '_' + Guid.newGuid(),
+              key: newID + '_' + Guid.newGuid(),
+              title: element.name,
+              link: '',
+              icon: "appstore",
+              type: "input",
+              isTitle: false,
+              expanded: true,
+              color: "",
+              application:true,
+              children: [
+              ],
+            }
+            menus.push(newNode);
+          });
+          this.selectedTheme.allMenuItems = menus;
+          if (!res[0]?.selectedTheme?.showMenu) {
+            this.selectedTheme['showMenu'] = true;
+          }
+          this.makeMenuData();
+          // this.menuItems.forEach((e: any) => {
+          //   e["menuIcon"] = "up"
+          // });
         }
-        this.makeMenuData();
-        // this.menuItems.forEach((e: any) => {
-        //   e["menuIcon"] = "up"
-        // });
+        else
+          this.newSelectedTheme.allMenuItems = [];
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-      else
-        this.newSelectedTheme.allMenuItems = [];
-    })
+
+    });
   }
   controlMenu() {
     const screenWidth = window.innerWidth;
