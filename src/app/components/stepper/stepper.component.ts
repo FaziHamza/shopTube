@@ -7,9 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StepperComponent implements OnInit {
   @Input() step: any;
+  
   current = 0;
   ngOnInt(){
-
+    debugger
     this.step;
   }
 

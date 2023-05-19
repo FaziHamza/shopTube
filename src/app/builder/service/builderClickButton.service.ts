@@ -373,6 +373,7 @@ export class BuilderClickButtonService {
       checkData: node['checkData'],
       dbData: node['dbData'],
       tableData: node['tableData'],
+      borderRadius: node['borderRadius'],
       // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
     }
   }

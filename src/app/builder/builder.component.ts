@@ -2282,8 +2282,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.repeatable = event.form.repeatable;
             this.selectedNode.size = event.form.size;
             this.selectedNode.status = event.form.status;
-            this.selectedNode.isBordered = event.form.isBordered;
             this.selectedNode.formatAlignment = event.form.formatAlignment;
+            this.selectedNode.isBordered = event.form.isBordered;
+            this.selectedNode['borderRadius'] = event.form.borderRadius;
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
               this.clickBack();
@@ -3293,6 +3294,7 @@ export class BuilderComponent implements OnInit {
         fieldGroup[0].props['additionalProperties']['labelPosition'] = formValues.labelPosition;
 
         fieldGroup[0].props['additionalProperties']['formatAlignment'] = formValues.formatAlignment;
+        fieldGroup[0].props['additionalProperties']['borderRadius'] = formValues.borderRadius;
       }
     }
     return fieldGroup;

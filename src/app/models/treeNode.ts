@@ -448,6 +448,7 @@ export interface TreeNode {
 
   //list
   isBordered?: boolean;
+  borderRadius?: any;
   isSplit?: boolean;
   isEdit?: boolean;
   isUpdate?: boolean;

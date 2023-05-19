@@ -4784,6 +4784,18 @@ export class formFeildData {
             type: 'color',
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'borderRadius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Border Radius',
+            additionalProperties: {
+              tooltip: "Top-left corner Top-right corner Bottom-right corner Bottom-left corner",
+            }
+          }
+        },
         // {
         //   key: 'disabled',
         //   type: 'checkbox',
@@ -10090,29 +10102,29 @@ export class formFeildData {
             label: 'Rows'
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'borderRadius',
-          type: 'select',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Border Radius',
-            options: [
-              {
-                label: 'Default',
-                value: 'default'
-              },
-              {
-                label: 'Rounded',
-                value: 'rounded'
-              },
-              {
-                label: 'Full Rounded',
-                value: 'full_rounded'
-              },
-            ]
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'borderRadius',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Border Radius',
+        //     options: [
+        //       {
+        //         label: 'Default',
+        //         value: 'default'
+        //       },
+        //       {
+        //         label: 'Rounded',
+        //         value: 'rounded'
+        //       },
+        //       {
+        //         label: 'Full Rounded',
+        //         value: 'full_rounded'
+        //       },
+        //     ]
+        //   }
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'focus',

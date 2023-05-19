@@ -6,13 +6,9 @@
         *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon"
         [nzSuffix]="to['additionalProperties']?.addonLeft" [nzPrefix]="to['additionalProperties']?.addonRight"
         [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-        {{to['additionalProperties']?.borderRadius | json}}
-        <input
-          [ngStyle]="{'border-radius': to['additionalProperties']?.borderRadius === 'rounded' ? '0.25rem' : (to['additionalProperties']?.borderRadius === 'full_rounded' ? '1.25rem' : '')}"
-          [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
+        <input [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
           && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
-          *ngIf=" to.type !='textarea'"
-          [ngClass]=" to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper=='floating_filled' ||
+          *ngIf=" to.type !='textarea'" [ngClass]=" to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper=='floating_filled' ||
           to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
           [formlyAttributes]=" field" nz-input [type]="to.type" [placeholder]="to.placeholder"
           [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"

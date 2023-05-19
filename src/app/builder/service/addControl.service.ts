@@ -57,6 +57,7 @@ export class AddControlService {
       status: '',
       wrapper: '',
       formatAlignment: '',
+      borderRadius: '0px 0px 0px 0px',
       mapApi: '',
       tableHeader: [
         { name: 'fileHeader', },
@@ -535,10 +536,11 @@ export class AddControlService {
       border: true,
       nodes: "3",
       centerd: false,
-
+      selectTabColor:'red',
     }
   }
   getMainStepControl() {
+    debugger
     return {
       stepperType: 'default',
       selectedIndex: 0,
@@ -550,6 +552,7 @@ export class AddControlService {
       disabled: false,
       border: true,
       nodes: "3",
+      selectTabColor:'red',
     }
   }
   getlistWithComponentsControl() {
