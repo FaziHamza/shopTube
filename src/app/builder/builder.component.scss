@@ -2,7 +2,7 @@
     padding: 0px;
     position: absolute;
     height: 80px;
-    width: 7px !important;
+    width: 8px !important;
     top: 36%;
     display: flex;
     align-items: center;
@@ -13,7 +13,7 @@
     border-bottom-right-radius: 100px;
     // border-radius: 100px;
     cursor: pointer;
-    left: 10px;
+    left: 0px;
     background-color: #038edcb8 !important;
 }
 
@@ -39,7 +39,7 @@
     display: flex;
 
     .block-Button {
-        width: 70%;
+        width: 100%;
     }
 
     .website-block-menu {
