@@ -18,14 +18,14 @@
         </div>
     </nz-header>
 
-    <div [ngClass]='selectedTheme.horizontalRow' [dir]="this.selectedTheme.layout">
-        <div [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
+    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout" [dir]="this.selectedTheme.layout">
+        <div class="side-menu" [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
             <st-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
         </div>
         <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'"
             class="w-1/12 "></div>
-        <div [ngClass]='selectedTheme.rowClass'>
-            <ng-container *ngIf="dropdown.length" class="">
+        <div [ngClass]='selectedTheme.rowClass'  class="content-body">
+            <ng-container *ngIf="dropdown.length">
                 <st-layout-button (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
             </ng-container>
             <ng-container *ngIf="tabs.length">
@@ -34,7 +34,7 @@
                         [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
                 </ng-container>
             </ng-container>
-            <div dir="ltr" >
+            <div dir="ltr">
                 <router-outlet></router-outlet>
             </div>
         </div>

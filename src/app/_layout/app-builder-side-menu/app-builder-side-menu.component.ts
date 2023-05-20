@@ -17,7 +17,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     topHeader: 'w-10/12',
     menuMode: 'inline',
     menuColumn: 'w-2/12',
-    rowClass: 'w-10/12',
+    rowClass: 'w-11/12',
     horizontalRow: 'flex flex-wrap',
     layout: 'vertical',
     colorScheme: 'light',

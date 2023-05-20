@@ -1419,3 +1419,69 @@ a.fc-event:hover {
 .comment-drawer .ant-drawer-close {
   color: white !important;
 }
+
+.main-layout {
+  height: calc(100vh - 135px) !important;
+
+
+}
+
+.content-body {
+  padding: 20px;
+}
+
+.ant-layout-footer {
+  text-align: center;
+  z-index: 999;
+  border-top: 1px solid #f5f5f5;
+  background: white;
+}
+
+.side-menu {
+  background: white;
+  margin-top: 2px !important;
+
+  .ant-menu.ant-menu-inline-collapsed {
+    width: 100% !important;
+    height: calc(100vh - 135px);
+  }
+}
+
+.ant-menu {
+  transition: none !important;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-input-search {
+  .ant-input-group {
+    width: 101%;
+  }
+}
+.ant-input-search-button {
+  border-radius: 0px !important;
+}
+.website-block .block-Button {
+  flex-wrap: wrap;
+}
+.website-block {
+  justify-content: space-between;
+}
+.btnss-body {
+  width: 100%;
+.ant-btn {
+  min-width: 160px;
+}
+}
+.website-block-menu {
+  border-left: 1px solid #f5f5f5;
+}
+.comment-drawer {
+  .ng-star-inserted {
+    color: red;
+  }
+}

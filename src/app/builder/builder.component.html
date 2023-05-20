@@ -1,5 +1,5 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div class="flex pt-3">
+  <div class="flex">
     <div class="w-1/6">
       <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName"
         (ngModelChange)="getDataFromApi(selectApplicationName)">
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <nz-card nzTitle="" class="mt-4">
+  <nz-card nzTitle="">
     <div class="flex header-tab mb-1">
       <div class="w-1/5 jsonEdiotTab">
         <button nz-button nzType="primary" class="" title="Layer" (click)="LayerShow()"
@@ -284,11 +284,14 @@
                       <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
                         *ngFor="let item1 of item.children let i= index">
                         <div class="website-block" *ngIf="item1.id == 'website-block'">
-                          <div class="block-Button flex flex-wrap">
-                            <div class="p-1 w-1/6" *ngFor="let blockButton of websiteBlockButton">
-                              <button (click)="addTemplate(blockButton,'website-block')" nz-button nzType="default" nzBlock class="rounded">
-                                <i></i>{{blockButton.label}}
-                              </button>
+                          <div class="btnss-body">
+                            <div class="block-Button flex flex-wrap">
+                              <div class="p-1" *ngFor="let blockButton of websiteBlockButton">
+                                <button (click)="addTemplate(blockButton,'website-block')" nz-button nzType="default"
+                                  nzBlock class="rounded">
+                                  <i></i>{{blockButton.label}}
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div class="website-block-menu">
