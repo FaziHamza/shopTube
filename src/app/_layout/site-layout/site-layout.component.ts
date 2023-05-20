@@ -75,7 +75,7 @@ export class SiteLayoutComponent implements OnInit {
         }, 100);
 
       } else if (aplication == '' && module == '') {
-        this.getApplications();
+        // this.getApplications();
       }
     });
     window.onresize = () => {

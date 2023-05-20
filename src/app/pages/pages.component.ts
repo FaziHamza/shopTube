@@ -55,6 +55,7 @@ export class PagesComponent implements OnInit {
       // ----------------------------------------------------------------//
 
       if (params["schema"]) {
+        this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
         this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
           let commentList = res.filter((item: any) => this.screenName == item.screenId)
