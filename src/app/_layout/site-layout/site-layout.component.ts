@@ -60,7 +60,7 @@ export class SiteLayoutComponent implements OnInit {
     this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
       if (module) {
         this.getAllMenu();
-        const filteredMenu = this.menuList.filter((item: any) => item.moduleName === module);
+        const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
         if (filteredMenu.length > 0) {
           this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
           this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
@@ -264,8 +264,6 @@ export class SiteLayoutComponent implements OnInit {
 
   callMenus(api?: any) {
     debugger
-    let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
-    this.router.navigate(['/pages',this.dataSharedService.selectApplication,moduleRouting]);
     const filterdMenu = this.menuList.filter((item: any) => item.moduleName
       == api.name);
     if (filterdMenu.length > 0) {
@@ -279,6 +277,8 @@ export class SiteLayoutComponent implements OnInit {
     else {
       this.selectedTheme.allMenuItems = [];
     }
+    let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
+    this.router.navigate(['/pages',this.dataSharedService.selectApplication,moduleRouting]);
   }
 
 }

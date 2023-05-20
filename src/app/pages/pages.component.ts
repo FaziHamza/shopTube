@@ -45,8 +45,8 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
       if (params["application"] && params["module"]) {
-        let activeModule = params["module"].replace('-', /\s+/g);
-        let activeApplication = params["application"].replace('-', /\s+/g);
+        let activeModule = params["module"].replace('-', ' ');
+        let activeApplication = params["application"].replace( '-', ' ');
         this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
       } else {
         this.dataSharedService.urlModule.next({ aplication: '', module: '' });
