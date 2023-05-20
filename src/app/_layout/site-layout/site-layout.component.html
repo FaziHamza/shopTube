@@ -28,7 +28,7 @@
     </div>
     <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 ">
     </div>
-    <div [ngClass]='selectedTheme.rowClass' class="content-body">
+    <div [ngClass]='selectedTheme.rowClass' class="content-body block p-6 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
       <!-- <ng-container *ngIf="dropdown.length" class="">
         <st-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
       </ng-container> -->
@@ -39,8 +39,8 @@
             [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
         </ng-container>
       </ng-container>
-      <div class="flex flex-wrap p-2" *ngIf="modules.length > 0">
-        <div (click)="callMenus(modChild)" class="w-1/6 p-2 text-center" (mouseover)="modChild.select =  true" (mouseout)="modChild.select = false"
+      <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
+        <div (click)="callMenus(modChild)" class="w-1/6 p-4 my-2 text-center" (mouseover)="modChild.select =  true" (mouseout)="modChild.select = false"
           [ngClass]="{'select': modChild.select == true}" *ngFor="let modChild of modules">
           <div class="image">
             <img *ngIf="modChild.image" class="rounded-full" [src]="modChild.image" alt="image description"
