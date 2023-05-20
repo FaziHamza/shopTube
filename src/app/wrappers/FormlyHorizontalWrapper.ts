@@ -39,7 +39,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   fieldPadding: string;
   rtl: any;
   ngOnInit(): void {
-    debugger
+    
     const fullWidth = this.to['className'].includes('w-full');
     const labelPosition = this.to['additionalProperties']?.labelPosition + ' pl-2 pr-2' || '';
     this.labelColumn = `w-1/4 ${labelPosition}`;

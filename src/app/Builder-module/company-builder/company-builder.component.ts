@@ -214,7 +214,7 @@ export class CompanyBuilderComponent implements OnInit {
 
 
   openModal(type: any) {
-    debugger
+    
     if (type == 'application') {
       this.loadApplicationFields();
       this.applicationSubmit = true;
@@ -239,7 +239,7 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   submit() {
-    debugger
+    
     if (!this.applicationSubmit) {
       this.companySubmit();
     } else {
@@ -359,7 +359,7 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   callChild(company: any) {
-    debugger
+    
     const applicationData = this.listOfChildrenData.filter((item: any) => item.companyName == company.name);
     company['children'] = applicationData;
   }

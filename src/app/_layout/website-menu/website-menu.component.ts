@@ -10,7 +10,7 @@ export class WebsiteMenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
     this.menuData;
   }
 

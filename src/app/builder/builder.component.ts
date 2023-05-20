@@ -1461,7 +1461,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-    debugger
+    
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -3789,7 +3789,7 @@ export class BuilderComponent implements OnInit {
   }
 
   openModal(type?: any, data?: any): void {
-    debugger
+    
     if (type == 'webCode') {
       this.modalType = 'webCode'
       this.htmlBlockimagePreview = data;
@@ -3810,7 +3810,7 @@ export class BuilderComponent implements OnInit {
   }
 
   showWebBlockList(type: any) {
-    debugger
+    
     if (type == 'Website Block') {
       this.webBlock = true;
     }
@@ -3820,7 +3820,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-    debugger
+    
     if (checkType == 'website-block') {
       data.template.forEach((item: any)=>{
         this.nodes[0].children[1].children.push(item);

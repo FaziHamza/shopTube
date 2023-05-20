@@ -43,7 +43,7 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   onClickRow(api: string, item: any) {
-    debugger
+    
     this.builderService.genericApis(api).subscribe({
       next: (res: any) => {
         this.builderService.genericApisDeleteWithId(api, item.id).subscribe({

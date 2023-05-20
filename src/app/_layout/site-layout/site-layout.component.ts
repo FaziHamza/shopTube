@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
@@ -20,6 +20,7 @@ export class SiteLayoutComponent implements OnInit {
   dropdown: any = [];
   modules: any = [];
   menuList: any = [];
+  applicationRouting: any = '';
   requestSubscription: Subscription;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
@@ -49,14 +50,29 @@ export class SiteLayoutComponent implements OnInit {
   // selectedTheme: any;
 
   constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService,private router: Router ) { }
+    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.getMenu();
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
-      this.getMenu();
-
     }
+    this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
+      if (module) {
+        this.getAllMenu();
+        const filteredMenu = this.menuList.filter((item: any) => item.moduleName === module);
+        if (filteredMenu.length > 0) {
+          this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
+          this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
+          if (!filteredMenu[0].selectedTheme?.showMenu) {
+            this.selectedTheme.showMenu = true;
+          }
+          this.makeMenuData();
+        } else {
+          this.selectedTheme.allMenuItems = [];
+        }
+      }
+    });
     window.onresize = () => {
       this.controlMenu();
     };
@@ -133,7 +149,7 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   loadTabsAndButtons(data: any) {
-    debugger
+
     this.tabs = [];
     this.dropdown = [];
     this.modules = [];
@@ -183,12 +199,12 @@ export class SiteLayoutComponent implements OnInit {
       next: (res) => {
         if (res.length > 0) {
           let menus: any = [];
-          debugger
+
           res.forEach((element: any) => {
-            let newID = element.name.replace('', '_')
+            let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
             const newNode = {
-              id: newID + '_' + Guid.newGuid(),
-              key: newID + '_' + Guid.newGuid(),
+              id: newID,
+              key: newID,
               title: element.name,
               link: '',
               icon: "appstore",
@@ -206,8 +222,7 @@ export class SiteLayoutComponent implements OnInit {
           if (!res[0]?.selectedTheme?.showMenu) {
             this.selectedTheme['showMenu'] = true;
           }
-          this.getAllMenu();
-          // this.makeMenuData();
+          // this.getAllMenu();
         }
       },
       error: (err) => {
@@ -241,17 +256,18 @@ export class SiteLayoutComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
   }
 
   callMenus(api?: any) {
     debugger
-    this.router.navigate(['/pages',this.dataSharedService.selectApplication,api]);
+    let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
+    this.router.navigate(['/pages',this.dataSharedService.selectApplication,moduleRouting]);
     const filterdMenu = this.menuList.filter((item: any) => item.moduleName
-      == api);
+      == api.name);
     if (filterdMenu.length > 0) {
       this.selectedTheme = filterdMenu[0].selectedTheme ? filterdMenu[0].selectedTheme : this.newSelectedTheme;
       this.selectedTheme.allMenuItems = filterdMenu[0].menuData;
@@ -261,8 +277,9 @@ export class SiteLayoutComponent implements OnInit {
       this.makeMenuData();
     }
     else {
-      this.newSelectedTheme.allMenuItems = [];
+      this.selectedTheme.allMenuItems = [];
     }
   }
+
 }
 

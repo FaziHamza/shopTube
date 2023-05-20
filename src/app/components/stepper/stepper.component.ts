@@ -10,7 +10,7 @@ export class StepperComponent implements OnInit {
   
   current = 0;
   ngOnInt(){
-    debugger
+    
     this.step;
   }
 

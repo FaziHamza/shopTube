@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 export class DataSharedService {
   // activeTabIndex = 0;
   public change: Subject<{ event: any; field: any}> = new Subject();
+  public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
+
   screenCommentList : any[] = []
   selectedNode:any;
   screenModule:any;

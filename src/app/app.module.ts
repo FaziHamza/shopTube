@@ -39,6 +39,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyFieldStepper,
     LoginComponent,
     RegisterComponent,
+
   ],
   imports: [
     FormsModule,

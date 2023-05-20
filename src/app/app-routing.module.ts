@@ -7,7 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { BarChartComponent } from './components';
+import { BarChartComponent, DemoLayotPageComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
 
 const routes: Routes = [
@@ -18,12 +18,18 @@ const routes: Routes = [
       component: PagesComponent
     },
     {
-      path: 'pages/:module/:schema',
+      path: 'pages/:application/:module',
       component: PagesComponent
     },
     {
       path: 'pages/:application/:module/:schema',
       component: PagesComponent
+    },
+    
+    {
+      
+      path: 'layout/:application/:module',
+      component: DemoLayotPageComponent
     },
 
   ]},

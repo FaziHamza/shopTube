@@ -94,7 +94,7 @@ export class ScreenBuilderComponent implements OnInit {
   ];
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+      
       if (field.key === 'applicationName' && event) {
         this.builderService.getjsonModuleModuleListByapplicationName(event).subscribe((res) => {
           const moduleListOptions = res.map((item: any) => ({
@@ -158,7 +158,7 @@ export class ScreenBuilderComponent implements OnInit {
     }))
   }
   openModal() {
-    debugger
+    
     this.form.reset();
     this.isVisible = true;
     if (this.isSubmit) {
@@ -342,7 +342,7 @@ export class ScreenBuilderComponent implements OnInit {
     ];
   }
   handlePageChange(pageIndex: number): void {
-    debugger
+    
     const pageSize = this.pageSize;
     this.pageIndex = pageIndex;
     const startIndex = (pageIndex - 1) * pageSize;

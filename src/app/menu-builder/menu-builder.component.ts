@@ -1260,7 +1260,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getModule(name: any) {
-    debugger
+    
     this.selectApplicationName = name['name'];
     this.selectApplicationType = name['application_Type'] ? name['application_Type'] : '';
     if (name['name']) {

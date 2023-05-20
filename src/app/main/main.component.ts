@@ -271,13 +271,13 @@ export class MainComponent implements OnInit {
     return null;
   }
   copyJson(json: any) {
-    debugger
+    
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
     // alert('Copied to clipboard');
   }
   comment(json: any) {
-    debugger
+    
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Comment',
       nzContent: CommentModalComponent,

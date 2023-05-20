@@ -11,7 +11,7 @@ export class CommentListComponent implements OnInit {
   constructor(public dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {
-    debugger
+    
   }
 
 }

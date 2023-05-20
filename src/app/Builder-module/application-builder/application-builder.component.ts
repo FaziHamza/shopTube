@@ -45,7 +45,7 @@ export class ApplicationBuilderComponent implements OnInit {
     },
     {
       name: 'Application Name',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
@@ -53,7 +53,7 @@ export class ApplicationBuilderComponent implements OnInit {
     },
     {
       name: 'Company Name',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -73,7 +73,7 @@ export class ApplicationBuilderComponent implements OnInit {
     },
     {
       name: 'Application Type',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -123,9 +123,9 @@ export class ApplicationBuilderComponent implements OnInit {
         this.applicationData = res;
         this.jsonModuleSetting();
         const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-      nonEmptySearchArray.forEach((element: any) => {
-        this.search(element.searchValue, element);
-      });
+        nonEmptySearchArray.forEach((element: any) => {
+          this.search(element.searchValue, element);
+        });
       },
       error: (err) => {
         console.error(err);
@@ -183,7 +183,8 @@ export class ApplicationBuilderComponent implements OnInit {
       const message = this.moduleSubmit ? 'Module name already exists in the database.' : 'Application name already exists in the database.';
       this.toastr.warning(message, { nzDuration: 2000 });
       return;
-    } else {
+    }
+    else {
       const key = this.moduleSubmit ? 'moduleId' : 'applicationId';
       this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
 
@@ -277,7 +278,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   saveHeaderFooter(type: any) {
-    debugger
+
     if (this.isSubmit) {
       let screen = {
         name: this.myForm.value.name + '-' + type,

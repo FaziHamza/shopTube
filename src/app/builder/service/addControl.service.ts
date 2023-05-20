@@ -540,7 +540,7 @@ export class AddControlService {
     }
   }
   getMainStepControl() {
-    debugger
+    
     return {
       stepperType: 'default',
       selectedIndex: 0,

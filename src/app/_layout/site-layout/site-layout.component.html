@@ -40,7 +40,7 @@
         </ng-container>
       </ng-container>
       <div class="flex flex-wrap p-2" *ngIf="modules.length > 0">
-        <div (click)="callMenus(modChild.name)" class="w-1/6 p-2 text-center" (mouseover)="modChild.select =  true" (mouseout)="modChild.select = false"
+        <div (click)="callMenus(modChild)" class="w-1/6 p-2 text-center" (mouseover)="modChild.select =  true" (mouseout)="modChild.select = false"
           [ngClass]="{'select': modChild.select == true}" *ngFor="let modChild of modules">
           <div class="image">
             <img *ngIf="modChild.image" class="rounded-full" [src]="modChild.image" alt="image description"

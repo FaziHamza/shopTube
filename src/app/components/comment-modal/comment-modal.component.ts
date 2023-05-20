@@ -27,7 +27,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+    
     if (this.form.valid) {
       this.route.url.subscribe((segments) => {
         const component = segments[segments.length - 1].path;

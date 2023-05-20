@@ -51,7 +51,7 @@ export class AddControlCommonPropertiesComponent implements OnInit {
   readonly #modal = inject(NzModalRef);
 
   saveCommon(): void {
-    debugger
+    
     this.#modal.destroy(this.model );
   }
 }
