@@ -14,6 +14,10 @@ const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
   children:[
     {
+      path: 'home',
+      component: DemoLayotPageComponent
+    },
+    {
       path: 'pages/:schema',
       component: PagesComponent
     },
@@ -25,11 +29,13 @@ const routes: Routes = [
       path: 'pages/:application/:module/:schema',
       component: PagesComponent
     },
-    
     {
-      
       path: 'layout/:application/:module',
       component: DemoLayotPageComponent
+    },
+    {
+      path: '',
+      redirectTo: 'home', pathMatch: 'full'
     },
 
   ]},

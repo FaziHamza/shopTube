@@ -98,7 +98,27 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
+    this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
+      if (field.key === 'application_Type' && event) {
+        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+          const field = fieldGroup.fieldGroup[0];
+          return field.key === 'layout';
+        });
+        if (moduleFieldIndex !== -1) {
+          let optionArray = [
+            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'Layout 1' : 'Admin Panel 1'},
+            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'Layout 2' : 'Admin Panel 2'},
+            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'Layout 3' : 'Admin Panel 3'},
+            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'Layout 4' : 'Admin Panel 4'},
+            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'Layout 5' : 'Admin Panel 5'},
+          ];
+          this.fields[moduleFieldIndex].fieldGroup[0].props.options = event != 'mobile' ? optionArray : [];
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -353,6 +373,28 @@ export class ApplicationBuilderComponent implements OnInit {
                 { label: "Website", value: 'website' },
                 { label: "Mobile", value: 'mobile' },
                 { label: "Backend Application", value: 'backend_application' },
+              ]
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'layout',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Layout',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+
               ]
             }
           }

@@ -548,7 +548,7 @@ export class AddControlService {
       placement: 'horizontal',
       isNextChild: true,
       size: 'default',
-      status: 'process',
+      status: 'none',
       disabled: false,
       border: true,
       nodes: "3",

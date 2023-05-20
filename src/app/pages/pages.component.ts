@@ -46,9 +46,10 @@ export class PagesComponent implements OnInit {
       // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
       if (params["application"] && params["module"]) {
         let activeModule = params["module"].replace('-', ' ');
-        let activeApplication = params["application"].replace( '-', ' ');
+        let activeApplication = params["application"].replace('-', ' ');
         this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
-      } else {
+      }
+      else {
         this.dataSharedService.urlModule.next({ aplication: '', module: '' });
       }
       // ----------------------------------------------------------------//

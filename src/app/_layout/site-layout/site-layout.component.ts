@@ -53,24 +53,29 @@ export class SiteLayoutComponent implements OnInit {
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getMenu();
+    this.getApplications();
+    this.getAllMenu();
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
     }
     this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
       if (module) {
-        this.getAllMenu();
-        const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
-        if (filteredMenu.length > 0) {
-          this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
-          this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
-          if (!filteredMenu[0].selectedTheme?.showMenu) {
-            this.selectedTheme.showMenu = true;
+        setTimeout(() => {
+          const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
+          if (filteredMenu.length > 0) {
+            this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
+            this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
+            if (!filteredMenu[0].selectedTheme?.showMenu) {
+              this.selectedTheme.showMenu = true;
+            }
+            this.makeMenuData();
+          } else {
+            this.selectedTheme.allMenuItems = [];
           }
-          this.makeMenuData();
-        } else {
-          this.selectedTheme.allMenuItems = [];
-        }
+        }, 100);
+
+      } else if (aplication == '' && module == '') {
+        this.getApplications();
       }
     });
     window.onresize = () => {
@@ -194,7 +199,7 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-  getMenu() {
+  getApplications() {
     this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({
       next: (res) => {
         if (res.length > 0) {
@@ -222,7 +227,6 @@ export class SiteLayoutComponent implements OnInit {
           if (!res[0]?.selectedTheme?.showMenu) {
             this.selectedTheme['showMenu'] = true;
           }
-          // this.getAllMenu();
         }
       },
       error: (err) => {
@@ -264,21 +268,8 @@ export class SiteLayoutComponent implements OnInit {
 
   callMenus(api?: any) {
     debugger
-    const filterdMenu = this.menuList.filter((item: any) => item.moduleName
-      == api.name);
-    if (filterdMenu.length > 0) {
-      this.selectedTheme = filterdMenu[0].selectedTheme ? filterdMenu[0].selectedTheme : this.newSelectedTheme;
-      this.selectedTheme.allMenuItems = filterdMenu[0].menuData;
-      if (!filterdMenu[0].selectedTheme.showMenu) {
-        this.selectedTheme['showMenu'] = true;
-      }
-      this.makeMenuData();
-    }
-    else {
-      this.selectedTheme.allMenuItems = [];
-    }
     let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
-    this.router.navigate(['/pages',this.dataSharedService.selectApplication,moduleRouting]);
+    this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
 
 }

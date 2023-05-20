@@ -14,15 +14,16 @@ export class DemoLayotPageComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    // this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-    //   if (params["application"] && params["module"]) {
-    //     let activeModule = params["module"].replace('-', /\s+/g);
-    //     let activeApplication = params["module"].replace('-', /\s+/g);
-    //     this.dataSharedService.urlModule.next({ aplication: activeModule,  module :activeApplication});
-    //   }else{
-    //     this.dataSharedService.urlModule.next({ aplication: '' , module:'' });
-    //   }
-    // })
+    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+      if (params["application"] && params["module"]) {
+        let activeModule = params["module"].replace('-', ' ');
+        let activeApplication = params["application"].replace('-', ' ');
+        this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
+      }
+      else {
+        this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+      }
+    })
   }
 
 }

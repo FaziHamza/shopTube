@@ -3438,37 +3438,37 @@ export class formFeildData {
         //     label: 'percentage',
         //   }
         // },
-        {
-          key: 'status',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Status',
-            options: [
-              {
-                label: 'wait',
-                value: 'wait'
-              },
-              {
-                label: 'process',
-                value: 'process'
-              },
-              {
-                label: 'finish',
-                value: 'finish'
-              },
-              {
-                label: 'error',
-                value: 'error'
-              },
-              {
-                label: 'error',
-                value: 'error'
-              },
-            ]
-          }
-        },
+        // {
+        //   key: 'status',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Status',
+        //     options: [
+        //       {
+        //         label: 'wait',
+        //         value: 'wait'
+        //       },
+        //       {
+        //         label: 'process',
+        //         value: 'process'
+        //       },
+        //       {
+        //         label: 'finish',
+        //         value: 'finish'
+        //       },
+        //       {
+        //         label: 'error',
+        //         value: 'error'
+        //       },
+        //       {
+        //         label: 'error',
+        //         value: 'error'
+        //       },
+        //     ]
+        //   }
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'api',
@@ -3580,33 +3580,37 @@ export class formFeildData {
             ]
           }
         },
-        // {
-        //   key: 'status',
-        //   type: 'select',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Status',
-        //     options: [
-        //       {
-        //         label: 'wait',
-        //         value: 'wait'
-        //       },
-        //       {
-        //         label: 'process',
-        //         value: 'process'
-        //       },
-        //       {
-        //         label: 'finish',
-        //         value: 'finish'
-        //       },
-        //       {
-        //         label: 'error',
-        //         value: 'error'
-        //       },
-        //     ]
-        //   }
-        // },
+        {
+          key: 'status',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Status',
+            options: [
+              {
+                label: 'wait',
+                value: 'wait'
+              },
+              {
+                label: 'process',
+                value: 'process'
+              },
+              {
+                label: 'finish',
+                value: 'finish'
+              },
+              {
+                label: 'error',
+                value: 'error'
+              },
+              {
+                label: 'none',
+                value: 'none'
+              },
+            ]
+          }
+        },
         {
           key: 'nodes',
           type: 'input',
