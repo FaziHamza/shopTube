@@ -35,7 +35,7 @@ export class MenuBuilderComponent implements OnInit {
   dataMenuArrayLength: any = [];
   buttonLinkArray: any = [];
   filterMenuData: any = [];
-  applicationBuilder: any = [];
+  applicationBuilder: any[] = [];
   expandedKeys: any;
   isVisible: string;
   tabsChild: TreeNode;
@@ -191,6 +191,7 @@ export class MenuBuilderComponent implements OnInit {
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
         if (res[0].selectedTheme) {
+          this.selectedTheme.allMenuItems = this.nodes;
           this.selectedTheme = res[0].selectedTheme;
         } else {
           this.selectedTheme = {
@@ -1260,20 +1261,22 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getModule(name: any) {
-    
-    this.selectApplicationName = name['name'];
-    this.selectApplicationType = name['application_Type'] ? name['application_Type'] : '';
-    if (name['name']) {
-      this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name['name']).subscribe({
-        next: (res) => {
-          this.menuModule = res;
-          this.clickBack();
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      });
+    debugger
+    if(name){
+      let getApplication = this.applicationBuilder.find(a=>a.name == name);
+      if(getApplication){
+        this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+        this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
+          next: (res) => {
+            this.menuModule = res;
+            this.clickBack();
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          }
+        });
+      }
     }
   }
 
