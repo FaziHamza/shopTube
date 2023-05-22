@@ -9,11 +9,7 @@ import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { BarChartComponent, DemoLayotPageComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
-import { Layout1Component } from './admin/layout1/layout1.component';
-import { Layout5Component } from './admin/layout5/layout5.component';
-import { Layout4Component } from './admin/layout4/layout4.component';
-import { Layout3Component } from './admin/layout3/layout3.component';
-import { Layout2Component } from './admin/layout2/layout2.component';
+import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -39,6 +35,10 @@ const routes: Routes = [
       component: DemoLayotPageComponent
     },
     {
+      path: 'database',
+      component: CreateDatabaseComponent
+    },
+    {
       path: '',
       redirectTo: 'home', pathMatch: 'full'
     },
@@ -51,26 +51,6 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  },
-  {
-    path: 'layout1',
-    component: Layout1Component
-  },
-  {
-    path: 'layout2',
-    component: Layout2Component
-  },
-  {
-    path: 'layout3',
-    component: Layout3Component
-  },
-  {
-    path: 'layout4',
-    component: Layout4Component
-  },
-  {
-    path: 'layout5',
-    component: Layout5Component
   },
   {
     path: 'builder',

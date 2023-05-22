@@ -25,11 +25,7 @@ import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { Layout1Component } from './admin/layout1/layout1.component';
-import { Layout2Component } from './admin/layout2/layout2.component';
-import { Layout3Component } from './admin/layout3/layout3.component';
-import { Layout4Component } from './admin/layout4/layout4.component';
-import { Layout5Component } from './admin/layout5/layout5.component';
+import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -44,11 +40,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     FormlyFieldStepper,
     LoginComponent,
     RegisterComponent,
-    Layout1Component,
-    Layout2Component,
-    Layout3Component,
-    Layout4Component,
-    Layout5Component,
+    CreateDatabaseComponent,
 
   ],
   imports: [
