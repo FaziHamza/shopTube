@@ -59,6 +59,7 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme = this.newSelectedTheme;
     }
     this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
+      debugger
       if (module) {
         setTimeout(() => {
           const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
@@ -75,8 +76,9 @@ export class SiteLayoutComponent implements OnInit {
         }, 100);
 
       } else if (aplication == '' && module == '') {
-        // this.getApplications();
+        this.getApplications();
       }
+      this.tabs = [];
     });
     window.onresize = () => {
       this.controlMenu();

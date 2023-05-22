@@ -42,11 +42,11 @@
       <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
         <div (click)="callMenus(modChild)" class="w-1/6 p-4 my-2 text-center" (mouseover)="modChild.select =  true" (mouseout)="modChild.select = false"
           [ngClass]="{'select': modChild.select == true}" *ngFor="let modChild of modules">
-          <div class="image">
+          <div class="image mb-2">
             <img *ngIf="modChild.image" class="rounded-full" [src]="modChild.image" alt="image description"
               style="height: 100px; width: 100px;">
           </div>
-          <div>
+          <div class="mb-2">
             <span *ngIf="!modChild.image" nz-icon style="font-size: 50px" nzType="check-circle"
               nzTheme="outline"></span>
           </div>

@@ -40,27 +40,13 @@ export class PagesComponent implements OnInit {
   isPageContextShow = false;
   ngOnInit(): void {
     debugger
-    if (this.router.url.includes('/pages'))
-      this.isPageContextShow = true;
+    // if (this.router.url.includes('/pages'))
+    //   this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
       if (params["application"] && params["module"]) {
         let activeModule = params["module"].replace('-', ' ');
         let activeApplication = params["application"].replace('-', ' ');
-        this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
-      }
-      else {
-        this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-      }
-      // ----------------------------------------------------------------//
-
-      if (params["schema"]) {
-        this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-        this.screenName = params["schema"];
-        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
-          let commentList = res.filter((item: any) => this.screenName == item.screenId)
-          this.dataSharedService.screenCommentList = commentList;
-        })
         if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
           this.dataSharedService.checkModule = params["module"];
           if (params["module"]) {
@@ -79,7 +65,25 @@ export class PagesComponent implements OnInit {
               }
             });
           }
+          this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
         }
+        else{
+        }
+      }
+      else {
+        // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+      }
+      // ----------------------------------------------------------------//
+
+      if (params["schema"]) {
+        this.isPageContextShow = true;
+        // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+        this.screenName = params["schema"];
+        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
+          let commentList = res.filter((item: any) => this.screenName == item.screenId)
+          this.dataSharedService.screenCommentList = commentList;
+        })
+
         this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
           next: (res: any) => {
             if (res.length > 0) {
