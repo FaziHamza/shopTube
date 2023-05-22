@@ -1423,16 +1423,24 @@ a.fc-event:hover {
 .main-layout {
   height: calc(100vh - 135px) !important;
 
-
 }
 
 .content-body {
   padding: 20px;
 }
-
+.side-menu {
+  .ant-menu {
+    padding-bottom: 70px;
+  }
+}
 .ant-layout-footer {
   text-align: center;
+padding: 20px !important;
   z-index: 999;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   border-top: 1px solid #f5f5f5;
   background: white;
 }
