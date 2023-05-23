@@ -9962,7 +9962,7 @@ export class formFeildData {
           props: {
             label: 'Key',
             required: true,
-            pattern: /^[a-z0-9_]+$/,
+            pattern: /^[a-z0-9_.]+$/,
           }
         },
         {
