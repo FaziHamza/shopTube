@@ -10,6 +10,7 @@ import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component
 import { BarChartComponent, DemoLayotPageComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
 import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
+import { Layout1Component } from './admin/layout1/layout1.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -66,6 +67,16 @@ const routes: Routes = [
   {
     path: 'demo',
     component: DemoComponent
+  },
+  {
+    path: 'layout1',
+    component: Layout1Component,
+    children:[
+      {
+        path: 'pages/:schema',
+        component: PagesComponent
+      },
+    ]
   },
 ];
 

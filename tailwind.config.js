@@ -3,6 +3,12 @@
 module.exports = {
   mode: 'jit',
   purge: ['./src/**/*.{html,ts}'],
+  content: [
+    'node_modules/preline/dist/*.js',
+],
+plugins: [
+    require('preline/plugin'),
+],
   theme: {
     extend: {
       colors: {
@@ -47,7 +53,6 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: [],
 }
 
 

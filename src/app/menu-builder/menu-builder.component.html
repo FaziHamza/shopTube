@@ -197,5 +197,5 @@
       </div>
     </div>
   </div>
-  <st-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></st-layout-drawer>
+  <st-layout-drawer [selectedTheme]="selectedTheme" *ngIf="selectedTheme" (notify)="changeLayout($event)"></st-layout-drawer>
 </nz-spin>

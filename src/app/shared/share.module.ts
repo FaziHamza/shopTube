@@ -41,6 +41,7 @@ import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/in
 import { WebMenuComponent } from '../Website/web-menu/web-menu.component';
 import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header.component';
 import { WebsitePricingComponent } from '../Website/website-pricing/website-pricing.component';
+import { Layout1Component } from '../admin/layout1/layout1.component';
 // import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
@@ -63,6 +64,7 @@ import { WebsitePricingComponent } from '../Website/website-pricing/website-pric
     ],
   declarations: [
     GenericFieldComponent,
+    Layout1Component,
     PagesComponent,
     MainComponent,
     BusinessRuleGridComponent,
@@ -95,6 +97,7 @@ import { WebsitePricingComponent } from '../Website/website-pricing/website-pric
     FormsModule,
     GenericFieldComponent,
     PagesComponent,
+    Layout1Component,
     MainComponent,
     BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
