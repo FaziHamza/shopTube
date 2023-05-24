@@ -3237,9 +3237,12 @@ export class BuilderComponent implements OnInit {
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
-      this.htmlTabsData[0].children.forEach((a: any) => {
+      let filterData = this.htmlTabsData[0].children.filter((a:any)=>a.id !="website-block");
+      filterData.forEach((a: any) => {
+        console.log(a)
         if(a.children.length > 0){
           a.children.forEach((b: any) => {
+            if(b.children)
             if(b.children.length > 0){
               b.children.forEach((c: any) => {
                 if (c.label.toUpperCase().includes(input)) {
