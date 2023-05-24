@@ -36,4 +36,6 @@ export class DataSharedService {
   screenName: any
   //make wrapper of image upload insput used in configuration of image upload
   imageUrl: any;
+
+  element:any;
 }

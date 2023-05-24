@@ -1,6 +1,7 @@
 import { BuilderService } from './../../../services/builder.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { E } from '@formulajs/formulajs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class ActionRuleComponent implements OnInit {
     this.actionFormLoad();
     this.getActionData();
   }
+
   actionFormLoad() {
     this.actionForm = this.formBuilder.group({
       actionType: [''],
@@ -34,6 +36,7 @@ export class ActionRuleComponent implements OnInit {
       Actions: this.formBuilder.array([]),
     })
   }
+
   duplicateActionFormGroup(index: number, data: any) {
     let check = this.actionForm.value.Actions.filter((a: any) => a.type == data);
     // formArray.insert(0, );
@@ -57,45 +60,57 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    let dataForQuery = "";
-    this.genrateQuery = "";
-    this.genrateValue = "";
-    let firstKey = "";
-    let firstValue = "";
+    debugger
+    let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
-      const key = Object.keys(this.formlyModel)[i];
-      if (i == 0) {
-        firstKey = key
-        firstValue = !this.formlyModel[key] ? "'value1'" : `'${this.formlyModel[key]}'`;
+      const element = Object.keys(this.formlyModel)[i];
+      let keyPart = element.split('.')
+      let check = mainArray.find(a => a.name == keyPart[0])
+      if (!check) {
+        let obj: any = { name: keyPart[0], children: [] };
+        obj.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`);
+        mainArray.push(obj);
+      } else {
+        check.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`)
       }
-      this.genrateQuery += key + ', ';
-      this.genrateValue += !this.formlyModel[key] ? `'value${i + 1}', ` : `'${this.formlyModel[key]}', `;
     }
-    this.genrateQuery = this.genrateQuery.slice(0, -2);
-    this.genrateValue = this.genrateValue.slice(0, -2);
+    let dataForQuery = "";
 
-    if (this.actionForm.value.actionLink == 'select') {
-      dataForQuery = "select " + this.genrateQuery + " from " + this.dataSharedService.screenName;
-    } else if (this.actionForm.value.actionLink == 'get') {
-      dataForQuery = "select * from " + this.dataSharedService.screenName;
-    }
-    else if (this.actionForm.value.actionLink == 'post') {
-      dataForQuery = "insert into " + this.dataSharedService.screenName + "(" + this.genrateQuery + ") VALUES (" + this.genrateValue + ");";
-    }
-    else if (this.actionForm.value.actionLink == 'put') {
-      let updateQuery = "";
-      for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
-        const key = Object.keys(this.formlyModel)[i];
-        updateQuery += key + ' = ' + (!this.formlyModel[key] ? `'value${i + 1}', ` : `'${this.formlyModel[key]}', `);
+    for (let i = 0; i < mainArray.length; i++) {
+      const element = mainArray[i];
+
+      let fields = [];
+      let values: any[] = [];
+
+      for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
+        const key = Object.keys(this.formlyModel)[j];
+        const keys = key.split('.')
+        if (keys[0] == element.name) {
+          const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+          if (item) {
+            fields.push(key);
+            values.push(`'${item}'`);
+          }
+        }
       }
-      updateQuery = updateQuery.slice(0, -2);
-      dataForQuery = "UPDATE " + this.dataSharedService.screenName + " SET " + updateQuery + " WHERE " + firstKey + " = " + firstValue;
-    }
-    else if (this.actionForm.value.actionLink == 'delete') {
-      let deleteQuery = "DELETE FROM " + this.dataSharedService.screenName + " WHERE " + firstKey + " = " + firstValue;
-      dataForQuery = deleteQuery;
-    }
 
+
+      if (this.actionForm.value.actionLink == 'select') {
+        dataForQuery += "select " + fields.join(', ') + " from " + element.name;
+      } else if (this.actionForm.value.actionLink == 'get') {
+        dataForQuery += "select * from " + element.name;
+      } else if (this.actionForm.value.actionLink == 'post') {
+        dataForQuery += "insert into " + element.name + "(" + fields.join(', ') + ") VALUES (" + values.join(', ') + ");";
+      } else if (this.actionForm.value.actionLink == 'put') {
+        let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
+        dataForQuery += "UPDATE " + element.name + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
+      } else if (this.actionForm.value.actionLink == 'delete') {
+        let deleteQuery = "DELETE FROM " + element.name + " WHERE " + fields[0] + " = " + values[0];
+        dataForQuery += deleteQuery;
+      }
+
+
+    }
     this.ActionsForms.push(
       this.formBuilder.group({
         submit: [this.actionForm.value.submissionType],
@@ -104,14 +119,45 @@ export class ActionRuleComponent implements OnInit {
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
         referenceId: [''],
-        query: [this.actionForm.value.actionType === "query" ? dataForQuery : ""]
+        query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
-    )
+    );
   }
+  reorderQueries(queryString: any) {
+    let queries = queryString.split(';').map((query: any, index: any) => ({
+      id: index + 1,
+      query: query.trim(),
+    }));
+
+    // Parse foreign keys from queries
+    queries.forEach((query: any) => {
+      const matches = [...query.query.matchAll(/(\w+)_Id/g)];
+      query.foreignKeys = matches.map(match => match[1]);
+    });
+
+    let sortedQueries: any[] = [];
+    while (queries.length > 0) {
+      for (let i = 0; i < queries.length; i++) {
+        let currentQuery = queries[i];
+        if (currentQuery.foreignKeys.every((fk: any) => sortedQueries.find(sq => (sq.query) === fk))) {
+          sortedQueries.push(currentQuery);
+          queries.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+
+    // If you want the output to be a single string of sorted queries:
+    return sortedQueries.map(query => query.query).join('; ');
+  }
+
+
   // Remove FormGroup
   removeActionFormGroup(index: number) {
     this.ActionsForms.removeAt(index);
   }
+
   SaveAction() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonQuryResult = {
@@ -145,6 +191,7 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
+
   getActionData() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe((getRes => {
@@ -167,6 +214,7 @@ export class ActionRuleComponent implements OnInit {
         })
     }));
   }
+
   changePostgress(queryType: string, index: number) {
     const sqlType: any = this.ActionsForms.at(index).get('sqlType');
     if (sqlType == "postgress")
@@ -181,4 +229,5 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
+
 }
