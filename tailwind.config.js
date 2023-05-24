@@ -5,6 +5,8 @@ module.exports = {
   purge: ['./src/**/*.{html,ts}'],
   content: [
     'node_modules/preline/dist/*.js',
+    './pages/**/*.{html,js}',
+    './components/**/*.{html,js}',
 ],
 plugins: [
     require('preline/plugin'),

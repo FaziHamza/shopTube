@@ -22,6 +22,7 @@ export class SiteLayoutComponent implements OnInit {
   menuList: any = [];
   applicationRouting: any = '';
   requestSubscription: Subscription;
+  currentWebsiteUrl = "";
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -53,6 +54,9 @@ export class SiteLayoutComponent implements OnInit {
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    debugger
+    let url =  window.location.href.split('.com');
+    this.currentWebsiteUrl = url[0]+".com";
     this.getApplications();
     this.getAllMenu();
     if (!this.selectedTheme) {
