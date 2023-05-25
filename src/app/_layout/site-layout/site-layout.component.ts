@@ -20,9 +20,7 @@ export class SiteLayoutComponent implements OnInit {
   dropdown: any = [];
   modules: any = [];
   menuList: any = [];
-  applicationRouting: any = '';
   requestSubscription: Subscription;
-  currentWebsiteUrl = "";
   currentWebsiteLayout = "";
   currentUrl = "";
   newSelectedTheme = {
@@ -189,8 +187,8 @@ ngOnDestroy(){
       this.requestSubscription =  this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
         // this.dataSharedService.currentApplication.next(res[0]);
-        this.currentWebsiteLayout = res[0]?.layout
-        this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
+        this.currentWebsiteLayout = res[0]?.layout  ? res[0]?.layout : 'layout1'
+         this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
           next: (response) => {
             this.dataSharedService.currentMenu.next(response[0].menuData);
             if (getURL.includes('/home'))

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -14,9 +15,10 @@ export class Layout1Component implements OnInit {
   currentHeader: any;
   currentFooter: any;
   defaultPage: any;
-  // currentApplicationList:any;
-  constructor(private _dataShared: DataSharedService, private toastr: NzMessageService) { }
   requestSubscription: Subscription;
+  // currentApplicationList:any;
+  constructor(private _dataShared: DataSharedService, private toastr: NzMessageService,
+    private router:Router) { }
 
   ngOnInit(): void {
 
@@ -66,6 +68,10 @@ export class Layout1Component implements OnInit {
     //   if(res)
     //   this.currentApplicationList = res;
     // })
+  }
+  gotoPage(item:any){
+    debugger
+    this.router.navigate(item.link)
   }
 
 }
