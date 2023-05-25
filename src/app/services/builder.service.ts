@@ -343,6 +343,11 @@ export class BuilderService {
       this.baseUrl + "jsonModule?applicationName="+applicationName
     );
   }
+  getApplicationByDomainName(domain: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "jsonModule?domain="+domain
+    );
+  }
   deletejsonModule(id: number): Observable<any[]> {
 
     return this.http.delete<any[]>(

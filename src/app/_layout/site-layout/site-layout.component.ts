@@ -61,14 +61,20 @@ export class SiteLayoutComponent implements OnInit {
       if (res)
         this.currentWebsiteLayout = res;
     })
-
-    // if(this.currentUrl.includes('/home'))
-    this.currentWebsiteLayout = "website";
-    if (!this.selectedTheme) {
-      this.selectedTheme = this.newSelectedTheme;
-      this.getApplications();
-      this.getAllMenu();
+    this.currentUrl = window.location.host;
+    if (!this.currentUrl.includes('localhost')) {
+      this.getMenuByDomainName();
     }
+    else {
+      // if (this.currentUrl.includes('/home'))
+      this.currentWebsiteLayout = "website";
+      if (!this.selectedTheme) {
+        this.selectedTheme = this.newSelectedTheme;
+        this.getApplications();
+        this.getAllMenu();
+      }
+    }
+
     this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
       if (module) {
@@ -87,7 +93,7 @@ export class SiteLayoutComponent implements OnInit {
         }, 100);
 
       } else if (aplication == '' && module == '') {
-        this.getApplications();
+        // this.getApplications();
       }
       this.tabs = [];
     });
@@ -165,7 +171,26 @@ export class SiteLayoutComponent implements OnInit {
   //     }
   //   });
   // }
-
+  getMenuByDomainName() {
+    let getURL = window.location.href;
+    let check = this.currentUrl.includes(':');
+    if (check)
+      this.currentUrl = this.currentUrl.split(':')[0];
+    this.builderService.getApplicationByDomainName(this.currentUrl).subscribe(res => {
+      // this.dataSharedService.currentApplication.next(res[0]);
+      this.currentWebsiteLayout = res[0]?.layout
+      this.builderService.getJsonModules(res[0].name).subscribe(response => {
+        this.dataSharedService.currentMenu.next(response[0].menuData);
+        if (getURL.includes('/home'))
+          this.builderService.jsonBuilderSettingV1(res[0].name).subscribe(res => {
+            this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
+          })
+        else{
+          this.dataSharedService.defaultPage.next('');
+        }
+      })
+    })
+  }
   loadTabsAndButtons(data: any) {
 
     this.tabs = [];
@@ -213,7 +238,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getApplications() {
-    // this.currentUrl = window.location.href;
+    // this.currentUrl = window.location.host;
     // let url = window.location.href.split('.com');
     // this.currentWebsiteUrl = url[0] + ".com";
     this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({

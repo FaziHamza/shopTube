@@ -346,7 +346,7 @@ export class ApplicationBuilderComponent implements OnInit {
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
         debugger
-        if (this.moduleSubmit && this.isSubmit) {
+        if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
           this.defaultMenu();
         };
         // if (this.moduleSubmit) {

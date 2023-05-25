@@ -11,7 +11,8 @@ export class Layout1Component implements OnInit {
   currentMenu : any;
   currentHeader:any;
   currentFooter:any;
-  currentApplicationList:any;
+  defaultPage:any;
+  // currentApplicationList:any;
   constructor(private _dataShared:DataSharedService) { }
 
   ngOnInit(): void {
@@ -19,7 +20,7 @@ export class Layout1Component implements OnInit {
     this._dataShared.currentMenu.subscribe(res=>{
       debugger
       if(res)
-      this.currentMenu = res[0].menuData;
+      this.currentMenu = res;
     })
     this._dataShared.currentHeader.subscribe(res=>{
       debugger
@@ -29,11 +30,15 @@ export class Layout1Component implements OnInit {
       debugger
       this.currentFooter = res;
     })
-    this._dataShared.currentApplicationList.subscribe(res=>{
+    this._dataShared.defaultPage.subscribe(res=>{
       debugger
-      if(res)
-      this.currentApplicationList = res.filter((a:any)=>a.moduleId !="default_module");
+      this.defaultPage = res;
     })
+    // this._dataShared.currentApplication.subscribe(res=>{
+    //   debugger
+    //   if(res)
+    //   this.currentApplicationList = res;
+    // })
   }
 
 }

@@ -47,7 +47,7 @@
 
                 <div
                   class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-80 hidden z-10 bg-white md:shadow-2xl rounded-lg py-2 md:p-2 dark:bg-gray-800 dark:divide-gray-700 before:absolute top-full before:-top-5 before:left-0 before:w-full before:h-5">
-                  <a class="inline-flex gap-x-5 w-full p-4 text-gray-600 rounded-md hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                  <!-- <a class="inline-flex gap-x-5 w-full p-4 text-gray-600 rounded-md hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                     href="#" *ngFor="let item of currentApplicationList">
                     <svg class="flex-shrink-0 w-5 h-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                       fill="currentColor" viewBox="0 0 16 16">
@@ -60,9 +60,9 @@
                       <span class="block font-semibold mb-1 text-gray-800 dark:text-gray-200">{{item.name}}</span>
                       {{item.description}}
                     </div>
-                  </a>
+                  </a> -->
 
-                  <div class="my-2 border-t border-gray-100 dark:border-gray-800"></div>
+                  <!-- <div class="my-2 border-t border-gray-100 dark:border-gray-800"></div> -->
                   <!--
                   <a class="inline-flex gap-x-5 w-full p-4 text-gray-600 rounded-md hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                     href="#">
@@ -125,13 +125,15 @@
       {{currentMenu | json}}
     </div>
   </div> -->
-  <div *ngIf="currentHeader">
-    <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
+  <div *ngIf="defaultPage">
+    <st-pages [resData]="defaultPage" *ngIf="defaultPage.length  > 0"></st-pages>
   </div>
-  <div *ngIf="currentFooter">
+  <!-- <div *ngIf="currentFooter">
     <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+  </div> -->
+  <div *ngIf="!defaultPage">
+    <router-outlet></router-outlet>
   </div>
-  <router-outlet></router-outlet>
 
 </div>
 <div *ngIf="layout == 'layout2'">
