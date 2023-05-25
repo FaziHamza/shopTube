@@ -20,6 +20,9 @@ export class Layout1Component implements OnInit {
   constructor(private _dataShared: DataSharedService, private toastr: NzMessageService,
     private router:Router) { }
 
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   ngOnInit(): void {
 
     this.requestSubscription = this._dataShared.currentMenu.subscribe({

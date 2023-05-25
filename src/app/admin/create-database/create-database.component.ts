@@ -101,7 +101,9 @@ export class CreateDatabaseComponent implements OnInit {
     },
   ];
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService,) { }
-
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   ngOnInit(): void {
     this.getDatabaseTable();
   }
