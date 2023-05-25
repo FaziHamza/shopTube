@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -12,6 +14,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
 
   tabs: any = [];
   dropdown: any = [];
+  requestSubscription: Subscription;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -38,7 +41,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     showMenu: true,
   }
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private toastr: NzMessageService, private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {
@@ -74,7 +77,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
 
     if (data.screenType) {
       if (data.screenType == 'desktop') {
-        this.selectedTheme.showMenu =  true;
+        this.selectedTheme.showMenu = true;
         this.selectedTheme.isCollapsed = data.emitData;
         if (this.selectedTheme.isCollapsed) {
           this.selectedTheme.topHeaderMenu = 'w-1/12';
@@ -163,18 +166,24 @@ export class AppBuilderSideMenuComponent implements OnInit {
   }
   getMenu() {
 
-    this.employeeService.getJsonModules('MainMenuList').subscribe((res) => {
-      if (res.length > 0) {
-        this.selectedTheme = res[0].selectedTheme;
-        this.selectedTheme.allMenuItems = res[0].menuData;
-        if (!res[0].selectedTheme.showMenu) {
-          this.selectedTheme['showMenu'] = true;
+    this.requestSubscription = this.employeeService.getJsonModules('MainMenuList').subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.selectedTheme = res[0].selectedTheme;
+          this.selectedTheme.allMenuItems = res[0].menuData;
+          if (!res[0].selectedTheme.showMenu) {
+            this.selectedTheme['showMenu'] = true;
+          }
+          this.makeMenuData();
+          this.notifyEmit({ emitData: true, screenType: "desktop" })
         }
-        this.makeMenuData();
-        this.notifyEmit({emitData:true,screenType:"desktop"})
+        else
+          this.newSelectedTheme.allMenuItems = [];
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-      else
-        this.newSelectedTheme.allMenuItems = [];
     })
   }
   controlMenu() {

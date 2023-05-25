@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class CreateDatabaseComponent implements OnInit {
   editCache: { [key: number]: { edit: boolean; data: any } } = {};
   listOfData: any[] = [];
+  requestSubscription: Subscription;
   model: any = {};
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
@@ -165,9 +167,15 @@ export class CreateDatabaseComponent implements OnInit {
   submitForm() {
     if (this.myForm.valid) {
       this.myForm.value['schema'] = this.listOfData;
-      this.employeeService.saveDatabaseTable(this.myForm.value).subscribe(res => {
-        this.toastr.success("Save Successfully", { nzDuration: 3000 });
-        this.getDatabaseTable();
+      this.requestSubscription = this.employeeService.saveDatabaseTable(this.myForm.value).subscribe({
+        next: (res) => {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          this.getDatabaseTable();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
       })
     }
   }
@@ -182,9 +190,15 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
   getDatabaseTable() {
-    this.employeeService.getDatabaseTable().subscribe(res => {
-      if (res) {
-        this.data = res;
+    this.requestSubscription = this.employeeService.getDatabaseTable().subscribe({
+      next: (res) => {
+        if (res) {
+          this.data = res;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
   }

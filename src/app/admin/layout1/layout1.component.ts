@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -7,32 +9,57 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./layout1.component.scss']
 })
 export class Layout1Component implements OnInit {
-  @Input() layout:any;
-  currentMenu : any;
-  currentHeader:any;
-  currentFooter:any;
-  defaultPage:any;
+  @Input() layout: any;
+  currentMenu: any;
+  currentHeader: any;
+  currentFooter: any;
+  defaultPage: any;
   // currentApplicationList:any;
-  constructor(private _dataShared:DataSharedService) { }
+  constructor(private _dataShared: DataSharedService, private toastr: NzMessageService) { }
+  requestSubscription: Subscription;
 
   ngOnInit(): void {
 
-    this._dataShared.currentMenu.subscribe(res=>{
-      debugger
-      if(res)
-      this.currentMenu = res;
+    this.requestSubscription = this._dataShared.currentMenu.subscribe({
+      next: (res) => {
+        debugger
+        if (res)
+          this.currentMenu = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
-    this._dataShared.currentHeader.subscribe(res=>{
-      debugger
-      this.currentHeader = res;
+    this.requestSubscription = this._dataShared.currentHeader.subscribe({
+      next: (res) => {
+        debugger
+        this.currentHeader = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
-    this._dataShared.currentFooter.subscribe(res=>{
-      debugger
-      this.currentFooter = res;
+    this.requestSubscription = this._dataShared.currentFooter.subscribe({
+      next: (res) => {
+        debugger
+        this.currentFooter = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
-    this._dataShared.defaultPage.subscribe(res=>{
-      debugger
-      this.defaultPage = res;
+    this.requestSubscription = this._dataShared.defaultPage.subscribe({
+      next: (res) => {
+        debugger
+        this.defaultPage = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
     // this._dataShared.currentApplication.subscribe(res=>{
     //   debugger

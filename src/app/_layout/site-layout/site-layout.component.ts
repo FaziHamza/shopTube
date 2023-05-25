@@ -55,11 +55,21 @@ export class SiteLayoutComponent implements OnInit {
   constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
+ngOnDestroy(){
+  this.requestSubscription.unsubscribe();
+}
+
   ngOnInit(): void {
 
-    this.dataSharedService.currentDepartment.subscribe(res => {
-      if (res)
-        this.currentWebsiteLayout = res;
+    this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
+      next: (res) => {
+        if (res)
+          this.currentWebsiteLayout = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
     this.currentUrl = window.location.host;
     if (!this.currentUrl.includes('localhost')) {
@@ -75,7 +85,7 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
 
-    this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
+   this.requestSubscription =  this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
       if (module) {
         setTimeout(() => {
@@ -176,19 +186,37 @@ export class SiteLayoutComponent implements OnInit {
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
-    this.builderService.getApplicationByDomainName(this.currentUrl).subscribe(res => {
-      // this.dataSharedService.currentApplication.next(res[0]);
-      this.currentWebsiteLayout = res[0]?.layout
-      this.builderService.getJsonModules(res[0].name).subscribe(response => {
-        this.dataSharedService.currentMenu.next(response[0].menuData);
-        if (getURL.includes('/home'))
-          this.builderService.jsonBuilderSettingV1(res[0].name).subscribe(res => {
-            this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
-          })
-        else{
-          this.dataSharedService.defaultPage.next('');
-        }
-      })
+      this.requestSubscription =  this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
+      next: (res) => {
+        // this.dataSharedService.currentApplication.next(res[0]);
+        this.currentWebsiteLayout = res[0]?.layout
+        this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
+          next: (response) => {
+            this.dataSharedService.currentMenu.next(response[0].menuData);
+            if (getURL.includes('/home'))
+            this.requestSubscription = this.builderService.jsonBuilderSettingV1(res[0].name).subscribe({
+                next: (res) => {
+                  this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                }
+              })
+            else {
+              this.dataSharedService.defaultPage.next('');
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        })
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
     })
   }
   loadTabsAndButtons(data: any) {

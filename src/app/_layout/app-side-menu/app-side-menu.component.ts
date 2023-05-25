@@ -24,10 +24,10 @@ export class AppSideMenuComponent implements OnInit {
   isTwoColumnCollapsed = false;
   requestSubscription: Subscription;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public builderService: BuilderService,public dataSharedService: DataSharedService) { }
+    public builderService: BuilderService, public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    
+
     this.loadModules();
     this.makeMenuData();
   }
@@ -61,16 +61,22 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-    this.employeeService.getJsonModules('Home Page').subscribe((res) => {
-      if (res.length > 0) {
-        this.selectedTheme.allMenuItems = res[0].menuData;
-        this.makeMenuData();
-        this.selectedTheme.allMenuItems.forEach((e: any) => {
-          e["menuIcon"] = "up"
-        });
+    this.requestSubscription = this.employeeService.getJsonModules('Home Page').subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.selectedTheme.allMenuItems = res[0].menuData;
+          this.makeMenuData();
+          this.selectedTheme.allMenuItems.forEach((e: any) => {
+            e["menuIcon"] = "up"
+          });
+        }
+        else
+          this.menuItems = [];
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-      else
-        this.menuItems = [];
     })
   }
   makeMenuData() {
@@ -100,13 +106,13 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    
+
     event.stopPropagation();
     if (data.application) {
       this.dataSharedService.selectApplication = data.id;
-      this.selectApplicationModuleData = this.moduleData.filter((item : any)=> item.applicationName == data.title);
+      this.selectApplicationModuleData = this.moduleData.filter((item: any) => item.applicationName == data.title);
       this.notify.emit(this.selectApplicationModuleData);
-    } 
+    }
     else {
       let checkTabsAndDropdown = false;
       // this.dataSharedService.selectApplication = '';
