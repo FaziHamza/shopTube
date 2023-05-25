@@ -28,7 +28,7 @@
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
                     <span class="child-menu">
                       <span class="menu-item-icon">
-                        <st-icon *ngIf="item.icon" [type]="item.iconType == 'outline'" [icon]="item.icon"
+                        <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
                           [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
                       </span><span *ngIf="!this.selectedTheme.isCollapsed">{{item.title}}</span></span>
                     <ul>
@@ -38,7 +38,7 @@
                             (mouseover)="setHovered(false,'start',sub)" (mouseout)="setHovered(true,'start')">
                             <span class="subchild-menu">
                               <span class="menu-item-icon">
-                                <st-icon *ngIf="sub.icon" [type]="sub.iconType == 'outline'" [icon]="sub.icon"
+                                <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                                   [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
                               </span><span *ngIf="!this.selectedTheme.isCollapsed">{{sub.title}}</span></span>
                           </li>
@@ -47,16 +47,16 @@
                               (mouseover)="setHovered(false,'start',item)" (mouseout)="setHovered(true,'start')">
                               <span class="subchild-menu">
                                 <span class="menu-item-icon">
-                                  <st-icon *ngIf="sub.icon" [type]="sub.iconType == 'outline'" [icon]="sub.icon"
+                                  <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                                     [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
-                                </span><span *ngIf="!this.selectedTheme.isCollapsed">{{sub.title}}</span></span>
+                                </span><span *ngIf="!this.selectedTheme.isCollapsed">{{sub | json}}</span></span>
                               <ul>
                                 <li nz-menu-item *ngFor="let subSub of sub.children">
                                   <span class="subchild-menu">
                                     <span class="menu-item-icon">
                                       <st-icon *ngIf="subSub.icon" [type]="subSub.iconType == 'outline'" [icon]="subSub.icon"
                                         [size]="subSub.iconSize || 15" [color]="subSub.iconColor || ''"></st-icon>
-                                    </span><span *ngIf="!this.selectedTheme.isCollapsed">{{subSub.title}} 11</span></span></li>
+                                    </span><span *ngIf="!this.selectedTheme.isCollapsed">{{subSub.title}}</span></span></li>
                               </ul>
                             </li>
                           </ng-container>

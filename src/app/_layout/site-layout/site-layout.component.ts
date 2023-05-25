@@ -63,10 +63,11 @@ export class SiteLayoutComponent implements OnInit {
     })
 
     // if(this.currentUrl.includes('/home'))
-    this.getApplications();
-    this.getAllMenu();
+    this.currentWebsiteLayout = "website";
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
+      this.getApplications();
+      this.getAllMenu();
     }
     this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
