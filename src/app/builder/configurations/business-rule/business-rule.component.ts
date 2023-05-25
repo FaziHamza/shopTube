@@ -22,6 +22,9 @@ export class BusinessRuleComponent implements OnInit {
   ngOnInit(): void {
     this.dynamicBuisnessRule();
   }
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   buisnessRuleData: any = [];
   requestSubscription: Subscription;
   buisnessRuleIfList: any = [];

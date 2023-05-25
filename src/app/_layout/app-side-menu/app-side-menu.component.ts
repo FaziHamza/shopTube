@@ -31,7 +31,9 @@ export class AppSideMenuComponent implements OnInit {
     this.loadModules();
     this.makeMenuData();
   }
-
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   toggleCollapsed(): void {
   }
 

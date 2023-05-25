@@ -12,7 +12,9 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
-
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   @Input() screenModule: any;
   @Input() screenName: any;
   @Input() selectedNode: any;

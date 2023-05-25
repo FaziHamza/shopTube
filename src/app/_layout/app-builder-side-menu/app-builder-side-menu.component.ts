@@ -11,7 +11,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 
 export class AppBuilderSideMenuComponent implements OnInit {
   selectedTheme: any;
-
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   tabs: any = [];
   dropdown: any = [];
   requestSubscription: Subscription;

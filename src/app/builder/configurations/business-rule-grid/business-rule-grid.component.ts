@@ -11,6 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./business-rule-grid.component.scss']
 })
 export class BusinessRuleGridComponent implements OnInit {
+  ngOnDestroy(){
+    this.requestSubscription.unsubscribe();
+  }
   @Input() screenModule: any = [];
   @Input() screenName: any;
   @Input() GridType: any;
