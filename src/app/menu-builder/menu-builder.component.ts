@@ -634,6 +634,7 @@ export class MenuBuilderComponent implements OnInit {
   saveLoader: any = false;
 
   saveJsonMenu() {
+
     this.saveLoader = true;
 
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
@@ -647,25 +648,49 @@ export class MenuBuilderComponent implements OnInit {
       "selectedTheme": temporaryData
     };
     data.selectedTheme.allMenuItems = [];
-    this.builderService.getJsonModules(this.moduleName).subscribe((res => {
-      if (res.length > 0) {
-        this.moduleId = res[0].id
-        this.builderService.jsonDeleteModule(this.moduleId).subscribe((res => {
+
+    this.requestSubscription = this.builderService.getJsonModules(this.moduleName).subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.moduleId = res[0].id
+          this.requestSubscription = this.builderService.jsonDeleteModule(this.moduleId).subscribe({
+            next: (res) => {
+
+              this.requestSubscription = this.builderService.jsonSaveModule(data).subscribe({
+                next: (res) => {
+                  this.saveLoader = false;
+                  alert("Data Save");
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                  this.saveLoader = false;
+                }
+              }
+              )
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              this.saveLoader = false;
+            }
+          })
+        }
+        else {
           this.builderService.jsonSaveModule(data).subscribe((res => {
             this.saveLoader = false;
             alert("Data Save");
           }))
-        }))
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
       }
-      else {
-        this.builderService.jsonSaveModule(data).subscribe((res => {
-          this.saveLoader = false;
-          alert("Data Save");
-        }))
-      }
-    }));
-
+    })
   }
+
   downloadAllJson() {
 
     var resData: any = [];
@@ -1262,9 +1287,9 @@ export class MenuBuilderComponent implements OnInit {
 
   getModule(name: any) {
     debugger
-    if(name){
-      let getApplication = this.applicationBuilder.find(a=>a.name == name);
-      if(getApplication){
+    if (name) {
+      let getApplication = this.applicationBuilder.find(a => a.name == name);
+      if (getApplication) {
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
           next: (res) => {

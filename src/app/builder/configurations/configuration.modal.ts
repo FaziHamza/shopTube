@@ -47,7 +47,13 @@ export class formFeildData {
                   label: "Api",
                   value: "MultiAPIData"
                 },
-              ]
+              ],
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              }
             },
           },
         ]
@@ -106,7 +112,13 @@ export class formFeildData {
                   label: "Api",
                   value: "MultiAPIData"
                 },
-              ]
+              ],
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
             },
           },
         ]
@@ -235,7 +247,13 @@ export class formFeildData {
                 label: 'Text Center',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -255,7 +273,13 @@ export class formFeildData {
                 label: 'Right',
                 value: 'right'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -282,7 +306,13 @@ export class formFeildData {
                 label: 'Text',
                 value: 'text'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -306,7 +336,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -330,7 +366,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -381,7 +423,13 @@ export class formFeildData {
                 label: 'Modal',
                 value: 'modal'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           defaultValue: ''
         },
@@ -406,6 +454,12 @@ export class formFeildData {
                 value: 'dot'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -729,7 +783,13 @@ export class formFeildData {
                 label: 'Center',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -830,7 +890,13 @@ export class formFeildData {
                 label: 'Text Center',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -850,7 +916,13 @@ export class formFeildData {
                 label: 'Right',
                 value: 'right'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -873,7 +945,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -901,7 +979,13 @@ export class formFeildData {
                 label: 'Text',
                 value: 'text'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -921,7 +1005,13 @@ export class formFeildData {
                 label: 'Hover',
                 value: 'hover'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -957,7 +1047,13 @@ export class formFeildData {
                 label: 'TopRight',
                 value: 'topRight'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -999,6 +1095,12 @@ export class formFeildData {
                 value: 'dot'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -1152,7 +1254,13 @@ export class formFeildData {
               //   label: 'Modal Fullscreen',
               //   value: 'fullscreen'
               // },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -1215,7 +1323,13 @@ export class formFeildData {
                 label: 'Middle',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -1234,7 +1348,13 @@ export class formFeildData {
                 label: 'Right',
                 value: 'right'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -1257,7 +1377,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         // {
@@ -1316,7 +1442,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -1340,6 +1472,12 @@ export class formFeildData {
                 value: 'dot'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -1495,7 +1633,13 @@ export class formFeildData {
                 label: "dd-MM-yyyy",
                 value: "dd-MM-yyyy"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
       ]
@@ -1614,7 +1758,13 @@ export class formFeildData {
                 label: 'Chart Api',
                 value: 'salesdata'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -1764,7 +1914,13 @@ export class formFeildData {
                 label: 'Donut Chart',
                 value: 'donutChart'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'donutChart'
         },
@@ -1836,7 +1992,13 @@ export class formFeildData {
                 label: 'Donut Chart',
                 value: 'donutChart'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'donutChart'
         },
@@ -2040,7 +2202,13 @@ export class formFeildData {
                 label: 'Dark',
                 value: 'bg-dark'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -2098,7 +2266,13 @@ export class formFeildData {
                 label: 'Dark',
                 value: 'bg-dark'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -2134,7 +2308,13 @@ export class formFeildData {
                 label: "Browser Chart Api",
                 value: "browserdata"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'browserdata'
         },
@@ -2257,7 +2437,13 @@ export class formFeildData {
                 label: 'Dark',
                 value: 'bg-dark'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -2325,7 +2511,13 @@ export class formFeildData {
                 label: 'Dark',
                 value: 'bg-dark'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -2362,7 +2554,13 @@ export class formFeildData {
                 label: "Browser Chart Api",
                 value: "browserdata"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'browserdata'
         },
@@ -2494,7 +2692,13 @@ export class formFeildData {
                 label: 'Light Blue',
                 value: 'info'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'danger'
         },
@@ -2510,7 +2714,13 @@ export class formFeildData {
                 label: "Widget Section Chart Api",
                 value: "widgetChart"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -2717,7 +2927,13 @@ export class formFeildData {
                 label: 'Light Blue',
                 value: 'info'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'danger'
         },
@@ -2733,7 +2949,13 @@ export class formFeildData {
                 label: "Widget Section Chart Api",
                 value: "widgetSecondCard"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue:"widgetSecondCard",
         },
@@ -2870,7 +3092,13 @@ export class formFeildData {
                 label: "Analytics Chart Api",
                 value: "analyticsChart"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: "analyticsChart",
         },
@@ -2945,7 +3173,13 @@ export class formFeildData {
                       label: 'Line',
                       value: 'line'
                     },
-                  ]
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: true,
+                    showArrow: true,
+                    showSearch: true,
+                  },
                 },
                 // defaultValue: 'w-1/3'
               },
@@ -3000,7 +3234,13 @@ export class formFeildData {
                 label: 'h5',
                 value: 5
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -3024,7 +3264,13 @@ export class formFeildData {
                 label: 'center',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -3047,7 +3293,13 @@ export class formFeildData {
                 label: 'Lighter',
                 value: 'lighter'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           defaultValue: 'bold'
         },
@@ -3067,7 +3319,13 @@ export class formFeildData {
                 label: 'Normal',
                 value: 'font-normal'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -3223,7 +3481,13 @@ export class formFeildData {
                 label: 'Light',
                 value: 'font-light'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'w-1/3'
         },
@@ -3255,7 +3519,13 @@ export class formFeildData {
                 label: 'Extra Large',
                 value: ' text-xl'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -3286,7 +3556,13 @@ export class formFeildData {
                 label: 'Danger',
                 value: 'danger'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -3520,7 +3796,13 @@ export class formFeildData {
                 label: 'horizontal',
                 value: 'horizontal'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -3539,7 +3821,13 @@ export class formFeildData {
                 label: 'navigation',
                 value: 'navigation'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -3558,7 +3846,13 @@ export class formFeildData {
                 label: 'horizontal',
                 value: 'horizontal'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -3577,7 +3871,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -3608,7 +3908,13 @@ export class formFeildData {
                 label: 'none',
                 value: 'none'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -4049,6 +4355,12 @@ export class formFeildData {
                 value: 'left'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4072,6 +4384,12 @@ export class formFeildData {
                 value: 'small'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4105,7 +4423,13 @@ export class formFeildData {
                 value: 'editable-card'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4252,6 +4576,12 @@ export class formFeildData {
               //   value: 'dot'
               // },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -4345,6 +4675,12 @@ export class formFeildData {
                 value: 'right'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -4504,6 +4840,12 @@ export class formFeildData {
                 value: 'text-lg font-bold dark:text-white'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4528,6 +4870,12 @@ export class formFeildData {
                 value: 'bottomHeader'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4655,6 +5003,12 @@ export class formFeildData {
               },
 
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -4674,7 +5028,13 @@ export class formFeildData {
                 label: 'RTL',
                 value: 'rtl'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4697,7 +5057,13 @@ export class formFeildData {
                 label: 'Left',
                 value: 'text-left'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4720,7 +5086,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'default'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4743,7 +5115,13 @@ export class formFeildData {
                 label: 'NO',
                 value: ''
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4775,6 +5153,12 @@ export class formFeildData {
               //   value: 'formly-grid-wrapper'
               // },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           // defaultValue: 'Vertical'
         },
@@ -4955,6 +5339,12 @@ export class formFeildData {
                 value: 'text-center pt-3'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -4990,6 +5380,12 @@ export class formFeildData {
                 value: 'text-lg font-bold dark:text-white'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         // {
@@ -5221,7 +5617,13 @@ export class formFeildData {
                 value: 'small'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5328,7 +5730,13 @@ export class formFeildData {
                 label: 'Dark',
                 value: 'dark'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5357,7 +5765,13 @@ export class formFeildData {
                 label: 'Link 2',
                 value: 'progressBarTwo'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
 
@@ -5431,7 +5845,13 @@ export class formFeildData {
                 label: 'vertical',
                 value: 'vertical'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5454,7 +5874,13 @@ export class formFeildData {
                 label: 'Right',
                 value: 'right'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5565,7 +5991,13 @@ export class formFeildData {
                 label: 'Light Blue',
                 value: 'text-info'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5630,7 +6062,13 @@ export class formFeildData {
                 label: 'Light Blue',
                 value: 'text-info'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
 
@@ -5656,7 +6094,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'sharedMessage'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5767,7 +6211,13 @@ export class formFeildData {
                 value: 'bg-black'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
 
         },
@@ -5809,7 +6259,13 @@ export class formFeildData {
                 label: 'error',
                 value: 'error'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5920,7 +6376,13 @@ export class formFeildData {
                 label: 'Right',
                 value: 'text-right'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -5943,7 +6405,13 @@ export class formFeildData {
                 label: 'Textile',
                 value: 'textile'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -5963,7 +6431,13 @@ export class formFeildData {
                 label: 'Inner',
                 value: 'inner'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -5983,7 +6457,13 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6116,6 +6596,12 @@ export class formFeildData {
               //   value: 'dot'
               // },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6273,7 +6759,13 @@ export class formFeildData {
                 label: 'Custom',
                 value: 'custom'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -6297,7 +6789,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'timeLine'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6347,7 +6845,13 @@ export class formFeildData {
                       label: 'Gray',
                       value: 'grey'
                     },
-                  ]
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: true,
+                    showArrow: true,
+                    showSearch: true,
+                  },
                 },
               },
               {
@@ -6473,7 +6977,13 @@ export class formFeildData {
                 label: 'Audio 7',
                 value: 'https://pagalfree.com/musics/128-Ki%20Kariye%20-%20Code%20Name%20Tiranga%20128%20Kbps.mp3'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
       ]
@@ -6500,7 +7010,13 @@ export class formFeildData {
                 value: 'flip'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6527,7 +7043,13 @@ export class formFeildData {
                 label: 'right',
                 value: 'right'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6551,7 +7073,13 @@ export class formFeildData {
                 label: 'Carousel 2',
                 value: 'carousel2'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -6785,7 +7313,13 @@ export class formFeildData {
                 label: 'All',
                 value: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -6817,7 +7351,13 @@ export class formFeildData {
                 label: 'Previous, Next and Today',
                 value: 'prev,next today'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -6834,7 +7374,13 @@ export class formFeildData {
                 value: 'calenderStatusApi'
 
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -6964,7 +7510,13 @@ export class formFeildData {
                 value: 'kanbanboarddata'
 
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -7071,7 +7623,13 @@ export class formFeildData {
                       label: 'Dark',
                       value: 'bg-dark'
                     },
-                  ]
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: true,
+                    showArrow: true,
+                    showSearch: true,
+                  },
                 },
               },
             ]
@@ -7205,7 +7763,13 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7236,7 +7800,13 @@ export class formFeildData {
                 label: 'image',
                 value: 'image'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7259,7 +7829,13 @@ export class formFeildData {
                 label: 'Round',
                 value: 'round'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7282,7 +7858,13 @@ export class formFeildData {
                 label: 'Round',
                 value: 'round'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7337,7 +7919,13 @@ export class formFeildData {
                 label: 'gray',
                 value: 'bg-gray-500'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7400,7 +7988,13 @@ export class formFeildData {
                 label: 'Bottom',
                 value: 'bottom'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         // {
@@ -7437,7 +8031,13 @@ export class formFeildData {
                 label: 'Large',
                 value: 'large'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7664,7 +8264,13 @@ export class formFeildData {
                 value: 'bg-black'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         }
       ]
@@ -7708,7 +8314,13 @@ export class formFeildData {
                 label: 'Horizontal',
                 value: 'horizontal'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7731,7 +8343,13 @@ export class formFeildData {
                 label: 'Large',
                 value: 'large'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7919,7 +8537,13 @@ export class formFeildData {
                 label: 'Horizontal',
                 value: 'horizontal'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -7942,7 +8566,13 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8037,7 +8667,13 @@ export class formFeildData {
                 label: 'Ribbon',
                 value: 'ribbon'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8068,7 +8704,13 @@ export class formFeildData {
                 label: 'Warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8088,7 +8730,13 @@ export class formFeildData {
                 value: 'small'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         // {
@@ -8213,7 +8861,13 @@ export class formFeildData {
                 label: 'Affix Bottom',
                 value: 'affix-bottom'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -8311,7 +8965,13 @@ export class formFeildData {
               //   label: 'Number',
               //   value: 'number'
               // }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8330,7 +8990,13 @@ export class formFeildData {
                 label: 'Square',
                 value: 'square'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8494,7 +9160,13 @@ export class formFeildData {
                 label: 'Null',
                 value: 'null'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8553,7 +9225,13 @@ export class formFeildData {
                 label: 'Right bottom',
                 value: 'rightBottom'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8603,7 +9281,13 @@ export class formFeildData {
                 label: 'default',
                 value: 'Default'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8680,7 +9364,13 @@ export class formFeildData {
                 label: '404',
                 value: '404'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -8790,7 +9480,13 @@ export class formFeildData {
                 label: 'Warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -8833,7 +9529,13 @@ export class formFeildData {
                 label: 'Bottom full width',
                 value: 'toast-bottom-full-width'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
 
@@ -9094,7 +9796,13 @@ export class formFeildData {
                 label: 'rounded',
                 value: 'h-auto max-w-full rounded-lg'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9178,7 +9886,13 @@ export class formFeildData {
                 label: 'horizontal',
                 value: false
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9289,7 +10003,13 @@ export class formFeildData {
                 label: 'Both',
                 value: 'both'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9302,7 +10022,13 @@ export class formFeildData {
             options: [
               { value: 'default', label: 'Default' },
               { value: 'small', label: 'Small' }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9316,7 +10042,13 @@ export class formFeildData {
               { value: 'default', label: 'Default' },
               { value: 'middle', label: 'Middle' },
               { value: 'small', label: 'Small' }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9329,7 +10061,13 @@ export class formFeildData {
             options: [
               { value: 'gridNewApi', label: 'Api' },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9344,7 +10082,13 @@ export class formFeildData {
               { value: 'ascend', label: 'Ascend' },
               { value: null, label: 'No Need' },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9361,7 +10105,13 @@ export class formFeildData {
               { value: "[\"ascend\", \"descend\", null]", label: "All" },
               { value: '[null]', label: "No Need" },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -9648,7 +10398,13 @@ export class formFeildData {
                 label: 'Invoice Grid Data',
                 value: 'invoiceGrid',
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -9785,7 +10541,13 @@ export class formFeildData {
             label: 'User Grid Data',
             value: 'gridViewDataJson',
           }
-        ]
+        ],
+        additionalProperties: {
+          allowClear: true,
+          serveSearch: true,
+          showArrow: true,
+          showSearch: true,
+        },
       },
     }
   ]
@@ -9822,7 +10584,13 @@ export class formFeildData {
                 label: 'Email',
                 value: 'email'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           defaultValue: 'text'
         },
@@ -9846,7 +10614,13 @@ export class formFeildData {
                 label: 'Net',
                 value: 'net'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           expressionProperties: {
             hide: "model.type!='email'",
@@ -10084,7 +10858,13 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'getVariable',
-            options: []
+            options: [],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10094,7 +10874,13 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'setVariable',
-            options: []
+            options: [],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10434,7 +11220,13 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10508,7 +11300,13 @@ export class formFeildData {
                 label: 'Error',
                 value: 'error'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10532,7 +11330,13 @@ export class formFeildData {
                 label: 'Bottom',
                 value: 'bottom'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10547,7 +11351,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'mentionApi'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10621,7 +11431,13 @@ export class formFeildData {
                 label: 'Checkable',
                 value: 'checkable'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10712,7 +11528,13 @@ export class formFeildData {
                 label: 'loading',
                 value: 'loading'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10817,7 +11639,13 @@ export class formFeildData {
                 label: 'Warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10848,7 +11676,13 @@ export class formFeildData {
                 label: 'bottom',
                 value: 'bottom'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10871,7 +11705,13 @@ export class formFeildData {
                 label: 'Center',
                 value: 'text-center'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10921,7 +11761,13 @@ export class formFeildData {
                 label: 'dashboard',
                 value: 'dashboard'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10948,7 +11794,13 @@ export class formFeildData {
                 label: 'normal',
                 value: 'normal'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -10967,7 +11819,13 @@ export class formFeildData {
                 label: 'square ',
                 value: 'square'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11180,7 +12038,13 @@ export class formFeildData {
                 label: 'warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11196,7 +12060,13 @@ export class formFeildData {
                 value: 'transferApi'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11424,7 +12294,13 @@ export class formFeildData {
                 label: 'warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11447,7 +12323,13 @@ export class formFeildData {
                 label: 'Large',
                 value: 'large'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11462,7 +12344,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'treeSelectApi'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11547,7 +12435,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'treeSelectApi'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11608,7 +12502,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'treeApi'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            }
           }
         },
         {
@@ -11689,7 +12589,7 @@ export class formFeildData {
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Expandall',
+            label: 'Expand All',
           },
         },
       ]
@@ -11715,7 +12615,13 @@ export class formFeildData {
                 label: 'Hover',
                 value: 'hover'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11747,7 +12653,13 @@ export class formFeildData {
                 label: 'Small',
                 value: 'small'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11766,7 +12678,13 @@ export class formFeildData {
                 label: 'Warning',
                 value: 'warning'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11790,7 +12708,13 @@ export class formFeildData {
                 label: 'Api',
                 value: 'cascaderApi'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
 
@@ -11860,7 +12784,13 @@ export class formFeildData {
                 label: 'Material',
                 value: 'material'
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -11908,6 +12838,12 @@ export class formFeildData {
                 value: 'dot'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           }
         },
         {
@@ -11969,7 +12905,13 @@ export class formFeildData {
                 label: "Api",
                 value: "anchor"
               },
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -12070,7 +13012,13 @@ export class formFeildData {
                 label: 'Vertical',
                 value: 'vertical'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -12613,7 +13561,13 @@ export class formFeildData {
                 label: 'none',
                 value: 'none'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
@@ -13723,7 +14677,13 @@ export class formFeildData {
                 value: 'none'
               },
 
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           defaultValue: 'relative'
         },
@@ -13751,7 +14711,13 @@ export class formFeildData {
                 label: 'default',
                 value: ''
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
           defaultValue: 'top'
         },
@@ -13771,7 +14737,13 @@ export class formFeildData {
                 label: 'multiple',
                 value: 'multiple'
               }
-            ]
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
           },
         },
         {
