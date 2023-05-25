@@ -891,7 +891,7 @@ export class MenuBuilderComponent implements OnInit {
             name: makeData.jsonModule[0].name
           }
           this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
-            console.log("module save");
+            console.log("Application save");
           }))
         }
       };

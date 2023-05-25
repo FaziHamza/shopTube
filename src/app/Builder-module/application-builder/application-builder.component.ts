@@ -44,7 +44,7 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: 'Application Name',
+      name: 'Department Name',
       visible: false,
       searchValue: '',
       sortOrder: null,
@@ -72,7 +72,7 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: 'Application Type',
+      name: 'Department Type',
       visible: false,
       searchValue: '',
       sortOrder: null,
@@ -100,7 +100,6 @@ export class ApplicationBuilderComponent implements OnInit {
   ];
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (field.key === 'application_Type' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
@@ -108,11 +107,11 @@ export class ApplicationBuilderComponent implements OnInit {
         });
         if (moduleFieldIndex !== -1) {
           let optionArray = [
-            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'Layout 1' : 'Admin Panel 1'},
-            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'Layout 2' : 'Admin Panel 2'},
-            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'Layout 3' : 'Admin Panel 3'},
-            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'Layout 4' : 'Admin Panel 4'},
-            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'Layout 5' : 'Admin Panel 5'},
+            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'layout1' : 'Admin Panel 1' },
+            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'layout2' : 'Admin Panel 2' },
+            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'layout3' : 'Admin Panel 3' },
+            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'layout4' : 'Admin Panel 4' },
+            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'layout5' : 'Admin Panel 5' },
           ];
           this.fields[moduleFieldIndex].fieldGroup[0].props.options = event != 'mobile' ? optionArray : [];
         }
@@ -154,6 +153,44 @@ export class ApplicationBuilderComponent implements OnInit {
       }
 
     });
+  }
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
+    this.loading = true;
+    if (isSubmit && key == "applicationId") {
+      let obj = {
+        name: "Default Application",
+        moduleId: "default_application",
+        applicationName: value.name
+      }
+      this.builderService.addModule(obj).subscribe(res => {
+        this.builderService.jsonModuleSetting().subscribe(res => {
+          setTimeout(() => {
+            let screen = {
+              name: "Default Application Screen Header",
+              screenId: "Default_Application_Screen_Header_"+obj.moduleId,
+              applicationName: value.name,
+              moduleName: "Default Application",
+            }
+            this.builderService.addScreenModule(screen).subscribe(() => {
+              let screen = {
+                name: "Default Application Screen Footer",
+                screenId: "Default_Application_Screen_Footer"+obj.moduleId,
+                applicationName: value.name,
+                moduleName: "Default Application",
+              }
+              this.builderService.addScreenModule(screen).subscribe(() => {
+                this.loading = false;
+                // this.jsonApplicationBuilder();
+                this.toastr.warning("Default things Added", { nzDuration: 2000 });
+                setTimeout(() => {
+                  this.jsonApplicationBuilder();
+                },2000)
+              })
+            })
+          }, 500);
+        })
+      })
+    }
   }
   openModal(type: any) {
     if (type == 'module') {
@@ -200,7 +237,7 @@ export class ApplicationBuilderComponent implements OnInit {
       : this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id);
 
     if (findData) {
-      const message = this.moduleSubmit ? 'Module name already exists in the database.' : 'Application name already exists in the database.';
+      const message = this.moduleSubmit ? 'Application name already exists in the database.' : 'Department name already exists in the database.';
       this.toastr.warning(message, { nzDuration: 2000 });
       return;
     }
@@ -214,14 +251,16 @@ export class ApplicationBuilderComponent implements OnInit {
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        if (this.moduleSubmit) {
-          setTimeout(() => {
-            this.saveHeaderFooter('header');
-          }, 2000);
-          this.footerSaved = false;
-        }
-
-        this.jsonApplicationBuilder();
+        // if (this.moduleSubmit) {
+        //   setTimeout(() => {
+        //     this.saveHeaderFooter('header');
+        //   }, 2000);
+        //   this.footerSaved = false;
+        // }
+        if (this.isSubmit && key == "applicationId")
+          this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+        else
+          this.jsonApplicationBuilder();
         this.jsonModuleSetting();
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
@@ -249,9 +288,9 @@ export class ApplicationBuilderComponent implements OnInit {
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
-        data.name == 'Application Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+        data.name == 'Department Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
           (data.name == 'Company Name' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Application Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+          (data.name == 'Department Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }
@@ -327,8 +366,8 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Name',
-              placeholder: 'Application Name...',
+              label: 'Department Name',
+              placeholder: 'Department Name...',
               required: true,
             }
           },
@@ -362,7 +401,7 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Type',
+              label: 'Department Type',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
@@ -394,12 +433,29 @@ export class ApplicationBuilderComponent implements OnInit {
                 showSearch: true,
               },
               options: [
-
+                { label: "Layout1", value: 'layout1' },
+                { label: "Layout2", value: 'layout2' },
+                { label: "Layout3", value: 'layout3' },
               ]
             }
           }
         ]
       },
+      {
+        fieldGroup: [
+          {
+            key: 'domain',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Domain Name',
+              placeholder: 'Domain Name...',
+              required: true,
+            }
+          },
+        ],
+      }
     ];
   }
 
@@ -417,8 +473,8 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Module Name',
-              placeholder: 'Module Name...',
+              label: 'Application Name',
+              placeholder: 'Application Name...',
               required: true,
             }
           },
@@ -432,7 +488,7 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application',
+              label: 'Department',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,

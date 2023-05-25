@@ -95,9 +95,9 @@
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
                         <thead>
                             <tr>
-                                <th>Application Name</th>
+                                <th>Department Name</th>
                                 <th>Company Name</th>
-                                <th>Application Type</th>
+                                <th>Department Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -137,7 +137,7 @@
 
 <!-- Drawer -->
 <nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
-    [nzTitle]="applicationSubmit ?  'Add Application' : 'Add Organization'" (nzOnClose)="handleCancel()">
+    [nzTitle]="applicationSubmit ?  'Add Deparment' : 'Add Organization'" (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
         <form [formGroup]="form">
             <div class="flex flex-wrap">

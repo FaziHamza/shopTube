@@ -1,5 +1,5 @@
 <!-- <st-pagetitle title="Pages" [breadcrumbItems]="breadCrumbItems"></st-pagetitle> -->
-<nz-card nzTitle="Application List" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Department List" [nzExtra]="extraTemplate">
     <!-- <div class="flex flex-wrap justify-between">
         <div class="pagination pb-2">
             <nz-select [(ngModel)]="pageSize">
@@ -82,16 +82,16 @@
                 <tr [nzExpand]="data.expand">
                     <button nz-button nzType="primary" (click)="openModal('module')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
-                        Module</button>
+                        Application</button>
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
                         [nzShowPagination]="false">
                         <thead>
                             <tr>
-                                <th>Module</th>
+                                <th>Application</th>
                                 <th>Owner</th>
                                 <th>Email</th>
                                 <th>Description</th>
-                                <th>Application</th>
+                                <th>Department</th>
                                 <th>Image</th>
                                 <th>Action</th>
                             </tr>
@@ -128,13 +128,13 @@
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal('application')"><span nz-icon nzType="plus"
             nzTheme="outline"></span>Add
-        Application</button>
+        Deparment</button>
     <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span nz-icon nzType="download"
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Drawer -->
 <nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
-    [nzTitle]="moduleSubmit ? 'Add Module' : 'Add Application'" (nzOnClose)="handleCancel()">
+    [nzTitle]="moduleSubmit ? 'Add Application' : 'Add Deparment'" (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
         <form [formGroup]="myForm">
             <div class="flex flex-wrap">
