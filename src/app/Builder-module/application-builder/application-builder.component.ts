@@ -257,9 +257,9 @@ export class ApplicationBuilderComponent implements OnInit {
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.isSubmit && key == "applicationId")
-          this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
-        else
+        // if (this.isSubmit && key == "applicationId")
+        //   this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+        // else
           this.jsonApplicationBuilder();
         this.jsonModuleSetting();
         this.handleCancel();

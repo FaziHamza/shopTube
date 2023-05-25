@@ -212,9 +212,9 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getApplications() {
-    this.currentUrl = window.location.href;
-    let url = window.location.href.split('.com');
-    this.currentWebsiteUrl = url[0] + ".com";
+    // this.currentUrl = window.location.href;
+    // let url = window.location.href.split('.com');
+    // this.currentWebsiteUrl = url[0] + ".com";
     this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({
       next: (res) => {
         if (res.length > 0) {
@@ -222,49 +222,50 @@ export class SiteLayoutComponent implements OnInit {
           // let checkHttp = this.currentWebsiteUrl.includes('http');
           // if (!checkHttp)
           //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
-          if (this.dataSharedService.currentUrl != this.currentUrl) {
-            this.dataSharedService.currentUrl = this.currentUrl;
-            let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
-            if (!checkLayout) {
-              let splitHttp = this.currentWebsiteUrl.split("//");
-              checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
-            }
+          // if (this.dataSharedService.currentUrl != this.currentUrl) {
+          //   this.dataSharedService.currentUrl = this.currentUrl;
+          //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
+          //   if (!checkLayout) {
+          //     let splitHttp = this.currentWebsiteUrl.split("//");
+          //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
+          //   }
 
-            this.currentWebsiteLayout = checkLayout?.layout;
-            let checkLayoutType = this.currentUrl.includes("pages");
-            if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
-              this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
-                this.dataSharedService.currentApplicationList.next(res);
-                let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
-                if (getDefaultModule) {
-                  this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
-                    let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
-                    if (filterDefaultScreen.length > 0) {
-                      this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
-                        if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
-                          this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-                        else
-                          this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-                      })
-                      this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
-                        if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
-                          this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-                        else
-                          this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-                      })
-                    }
-                  })
-                  this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
-                    this.dataSharedService.currentMenu.next(res);
-                  })
-                }
-              })
-              // this.dataSharedService.currentModule.next(checkLayout.name);
-            }
-            else {
-              this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
-            }
-          }
+          //   this.currentWebsiteLayout = checkLayout?.layout;
+          //   let checkLayoutType = this.currentUrl.includes("pages");
+          //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
+          //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
+          //       this.dataSharedService.currentApplicationList.next(res);
+          //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
+          //       if (getDefaultModule) {
+          //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
+          //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
+          //           if (filterDefaultScreen.length > 0) {
+          //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
+          //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
+          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+          //               else
+          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+          //             })
+          //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
+          //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
+          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+          //               else
+          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+          //             })
+          //           }
+          //         })
+          //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
+          //           this.dataSharedService.currentMenu.next(res);
+          //         })
+          //       }
+          //     })
+          //     // this.dataSharedService.currentModule.next(checkLayout.name);
+          //   }
+          //   else {
+          //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
+          //   }
+          // }
+          this.currentWebsiteLayout = "website";
 
           res.forEach((element: any) => {
             let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
