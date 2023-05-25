@@ -2,6 +2,8 @@ import { BuilderService } from './../../../services/builder.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { E } from '@formulajs/formulajs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -20,8 +22,10 @@ export class ActionRuleComponent implements OnInit {
   genrateValue: any;
   sqlType: string = "sql";
   generatedSqlQuery: any;
+  requestSubscription: Subscription;
+
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
-    public dataSharedService: DataSharedService,) { }
+    public dataSharedService: DataSharedService, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
     this.actionFormLoad();
@@ -174,45 +178,78 @@ export class ActionRuleComponent implements OnInit {
     if (jsonQuryResult != null) {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
-        this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe((getRes => {
-          if (getRes.length == 0) {
-            this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe((saveRes => {
-              alert("Data Save");
-            }));
+        this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
+          next: (getRes) => {
+            if (getRes.length == 0) {
+              this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
+                next: (saveRes) => {
+                  alert("Data Save");
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                }
+              });
+            }
+            else {
+              this.requestSubscription = this.builderService.jsonActionRuleRemove(getRes[0].id).subscribe({
+                next: (delRes) => {
+
+                  this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
+                    next: (saveRes) => {
+                      alert("Data Save");
+                    },
+                    error: (err) => {
+                      console.error(err);
+                      this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    }
+                  });
+
+
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                }
+              });
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
-          else {
-            this.builderService.jsonActionRuleRemove(getRes[0].id).subscribe((delRes => {
-              this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe((saveRes => {
-                alert("Data Save");
-              }));
-            }));
-          }
-        }));
+        });
       }
     }
   }
 
   getActionData() {
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe((getRes => {
-      if (getRes.length > 0)
-        this.actionForm = this.formBuilder.group({
-          actionType: [getRes[0]?.queryData[0]?.type],
-          actionLink: [getRes[0].actionLink],
-          submissionType: [getRes[0].actionType],
-          Actions: this.formBuilder.array(getRes[0].queryData.map((getQueryActionRes: any) =>
-            this.formBuilder.group({
-              submit: [getQueryActionRes.submit],
-              type: [getQueryActionRes.type],
-              sqlType: [getQueryActionRes.sqlType],
-              email: [getQueryActionRes.email],
-              confirmEmail: [getQueryActionRes.confirmEmail],
-              referenceId: [getQueryActionRes.referenceId],
-              query: [getQueryActionRes.query]
-            })
-          )),
-        })
-    }));
+    this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
+      next: (getRes) => {
+        if (getRes.length > 0)
+          this.actionForm = this.formBuilder.group({
+            actionType: [getRes[0]?.queryData[0]?.type],
+            actionLink: [getRes[0].actionLink],
+            submissionType: [getRes[0].actionType],
+            Actions: this.formBuilder.array(getRes[0].queryData.map((getQueryActionRes: any) =>
+              this.formBuilder.group({
+                submit: [getQueryActionRes.submit],
+                type: [getQueryActionRes.type],
+                sqlType: [getQueryActionRes.sqlType],
+                email: [getQueryActionRes.email],
+                confirmEmail: [getQueryActionRes.confirmEmail],
+                referenceId: [getQueryActionRes.referenceId],
+                query: [getQueryActionRes.query]
+              })
+            )),
+          })
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 
   changePostgress(queryType: string, index: number) {

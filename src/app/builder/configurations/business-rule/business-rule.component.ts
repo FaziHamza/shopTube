@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BuilderService } from 'src/app/services/builder.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-business-rule',
@@ -10,17 +12,18 @@ import { ruleFactory } from '@elite-libs/rules-machine';
 })
 export class BusinessRuleComponent implements OnInit {
   @Output() businessRuleNotify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() screenModule:any;
-  @Input() screenName:any;
-  @Input() selectedNode:any;
-  @Input() nodes:any;
-  @Input() formlyModel:any;
-  constructor(private formBuilder: FormBuilder,private builderService:BuilderService) { }
+  @Input() screenModule: any;
+  @Input() screenName: any;
+  @Input() selectedNode: any;
+  @Input() nodes: any;
+  @Input() formlyModel: any;
+  constructor(private formBuilder: FormBuilder, private builderService: BuilderService, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
     this.dynamicBuisnessRule();
   }
   buisnessRuleData: any = [];
+  requestSubscription: Subscription;
   buisnessRuleIfList: any = [];
   BuisnessRuleCondationList: any;
   buisnessForm: FormGroup;
@@ -55,37 +58,43 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-        if(getRes.length > 0){
-          this.buisnessForm = this.formBuilder.group({
-            buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
-              this.formBuilder.group({
-                ifCondition: [getBuisnessRuleRes.ifCondition],
-                oprator: [getBuisnessRuleRes.oprator],
-                getValue: [getBuisnessRuleRes.getValue],
-                target: [getBuisnessRuleRes.target],
-                opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                resultValue: [getBuisnessRuleRes.resultValue],
-                conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
-                  this.formBuilder.group({
-                    condifCodition: getConditionalRes.condifCodition,
-                    condOperator: getConditionalRes.condOperator,
-                    condValue: getConditionalRes.condValue,
-                    condType: getConditionalRes.condType
-                  })
-                )),
-                thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                  this.formBuilder.group({
-                    thenTarget: getthenCodRes.thenTarget,
-                    thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
-                    thenResultValue: getthenCodRes.thenResultValue
-                  })
-                ))
-              })))
-          });
-        }
+      this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+        next: (getRes) => {
+          if (getRes.length > 0) {
+            this.buisnessForm = this.formBuilder.group({
+              buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
+                this.formBuilder.group({
+                  ifCondition: [getBuisnessRuleRes.ifCondition],
+                  oprator: [getBuisnessRuleRes.oprator],
+                  getValue: [getBuisnessRuleRes.getValue],
+                  target: [getBuisnessRuleRes.target],
+                  opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
+                  resultValue: [getBuisnessRuleRes.resultValue],
+                  conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                    this.formBuilder.group({
+                      condifCodition: getConditionalRes.condifCodition,
+                      condOperator: getConditionalRes.condOperator,
+                      condValue: getConditionalRes.condValue,
+                      condType: getConditionalRes.condType
+                    })
+                  )),
+                  thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                    this.formBuilder.group({
+                      thenTarget: getthenCodRes.thenTarget,
+                      thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                      thenResultValue: getthenCodRes.thenResultValue
+                    })
+                  ))
+                })))
+            });
+          }
 
-      }))
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
     }
   }
 
@@ -198,22 +207,46 @@ export class BusinessRuleComponent implements OnInit {
     if (jsonRuleValidation != null) {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
-        this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe((getRes => {
-          if (getRes.length == 0) {
-            this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe((saveRes => {
-              this.businessRuleNotify.emit();
-              alert("Data Save");
-            }));
+        this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+          next: (getRes) => {
+            if (getRes.length == 0) {
+              this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
+                next: (saveRes) => {
+                  this.businessRuleNotify.emit();
+                  alert("Data Save");
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                }
+              });
+            }
+            else {
+              this.requestSubscription = this.builderService.jsonBisnessRuleRemove(getRes[0].id).subscribe({
+                next: (delRes) => {
+                  this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
+                    next: (saveRes) => {
+                      this.businessRuleNotify.emit();
+                      alert("Data Saved");
+                    },
+                    error: (err) => {
+                      console.error(err);
+                      this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    }
+                  });
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                }
+              });
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
-          else {
-            this.builderService.jsonBisnessRuleRemove(getRes[0].id).subscribe((delRes => {
-              this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe((saveRes => {
-                this.businessRuleNotify.emit();
-                alert("Data Saved");
-              }));
-            }));
-          }
-        }));
+        });
       }
     }
     const fishRhyme = ruleFactory(this.bussinessRuleObj);
@@ -222,10 +255,10 @@ export class BusinessRuleComponent implements OnInit {
     // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
     console.log(fishRhyme(this.formlyModel));
   }
-  checkValueIntegerOrNot(value:any){
-    return /^[0-9]+$/.test(value) ?  parseInt(value) : value
+  checkValueIntegerOrNot(value: any) {
+    return /^[0-9]+$/.test(value) ? parseInt(value) : value
   }
-  applyCondition(value:any){
-    return /^[0-9]+$/.test(value) ?  '' : '"'
+  applyCondition(value: any) {
+    return /^[0-9]+$/.test(value) ? '' : '"'
   }
 }
