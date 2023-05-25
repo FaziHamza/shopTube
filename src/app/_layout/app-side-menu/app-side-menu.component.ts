@@ -23,22 +23,6 @@ export class AppSideMenuComponent implements OnInit {
   selectApplicationModuleData: any = [];
   isTwoColumnCollapsed = false;
   requestSubscription: Subscription;
-  newSelectedTheme = {
-    layout: 'vertical',
-    colorScheme: 'light',
-    layoutWidth: 'fluid',
-    layoutPosition: 'fixed',
-    topBarColor: 'light',
-    sideBarSize: 'default',
-    siderBarView: 'sidebarViewDefault',
-    sieBarColor: 'light',
-    siderBarImages: '',
-    menuMode: 'inline',
-    checked: false,
-    theme: false,
-    isCollapsed: false,
-    allMenuItems: [],
-  }
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService,public dataSharedService: DataSharedService) { }
 

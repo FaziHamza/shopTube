@@ -185,8 +185,8 @@ export class MenuBuilderComponent implements OnInit {
     }));
   }
   getFormLayers(data: any) {
-
     this.builderService.getJsonModules(data).subscribe((res => {
+      debugger
       if (res.length > 0) {
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
@@ -217,6 +217,7 @@ export class MenuBuilderComponent implements OnInit {
             menuChildArrayTwoColumn: [],
             isTwoColumnCollapsed: false,
             allMenuItems: [],
+            showMenu:true
           }
         }
         this.selectedTheme.allMenuItems = this.nodes;
@@ -916,7 +917,7 @@ export class MenuBuilderComponent implements OnInit {
             name: makeData.jsonModule[0].name
           }
           this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
-            console.log("module save");
+            console.log("Application save");
           }))
         }
       };

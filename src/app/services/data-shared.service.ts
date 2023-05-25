@@ -8,8 +8,14 @@ export class DataSharedService {
   // activeTabIndex = 0;
   public change: Subject<{ event: any; field: any}> = new Subject();
   public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
-
+  public currentDepartment: Subject<any> = new Subject();
+  public currentHeader: Subject<any> = new Subject();
+  public currentFooter: Subject<any> = new Subject();
+  public currentMenu: Subject<any> = new Subject();
+  // public currentApplication: Subject<any> = new Subject();
+  public defaultPage: Subject<any> = new Subject();
   screenCommentList : any[] = []
+  currentUrl:any;
   selectedNode:any;
   screenModule:any;
   nodes:any;

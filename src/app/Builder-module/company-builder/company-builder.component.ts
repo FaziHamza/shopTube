@@ -48,7 +48,7 @@ export class CompanyBuilderComponent implements OnInit {
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
-      
+
     },
     {
       name: 'Address',
@@ -214,7 +214,7 @@ export class CompanyBuilderComponent implements OnInit {
 
 
   openModal(type: any) {
-    
+
     if (type == 'application') {
       this.loadApplicationFields();
       this.applicationSubmit = true;
@@ -239,7 +239,7 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   submit() {
-    
+
     if (!this.applicationSubmit) {
       this.companySubmit();
     } else {
@@ -289,7 +289,7 @@ export class CompanyBuilderComponent implements OnInit {
 
     let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
     if (findData) {
-      this.toastr.warning('Application name already exists in the database.', { nzDuration: 2000 });
+      this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
       const action$ = this.isSubmit
@@ -359,7 +359,7 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   callChild(company: any) {
-    
+
     const applicationData = this.listOfChildrenData.filter((item: any) => item.companyName == company.name);
     company['children'] = applicationData;
   }
@@ -385,8 +385,8 @@ export class CompanyBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Name',
-              placeholder: 'Application Name...',
+              label: 'Department Name',
+              placeholder: 'Department Name...',
               required: true,
             }
           },
@@ -420,7 +420,7 @@ export class CompanyBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Type',
+              label: 'Department Type',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
@@ -436,6 +436,45 @@ export class CompanyBuilderComponent implements OnInit {
           }
         ]
       },
+      {
+        fieldGroup: [
+          {
+            key: 'layout',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Layout',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+                { label: "Layout1", value: 'layout1' },
+                { label: "Layout2", value: 'layout2' },
+                { label: "Layout3", value: 'layout3' },
+              ]
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'domain',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Domain Name',
+              placeholder: 'Domain Name...',
+              required: true,
+            }
+          },
+        ],
+      }
     ];
   }
   fieldsLoad() {

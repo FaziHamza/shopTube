@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { Guid } from 'src/app/models/guid';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -44,7 +45,7 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: 'Application Name',
+      name: 'Department Name',
       visible: false,
       searchValue: '',
       sortOrder: null,
@@ -71,26 +72,26 @@ export class ApplicationBuilderComponent implements OnInit {
       },
       sortDirections: ['ascend', 'descend', null],
     },
-    {
-      name: 'Application Type',
-      visible: false,
-      searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const name1 = a.application_Type;
-        const name2 = b.application_Type;
-        if (name1 === undefined && name2 === undefined) {
-          return 0;
-        } else if (name1 === undefined) {
-          return 1;
-        } else if (name2 === undefined) {
-          return -1;
-        } else {
-          return name1.localeCompare(name2);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
+    // {
+    //   name: 'Department Type',
+    //   visible: false,
+    //   searchValue: '',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => {
+    //     const name1 = a.application_Type;
+    //     const name2 = b.application_Type;
+    //     if (name1 === undefined && name2 === undefined) {
+    //       return 0;
+    //     } else if (name1 === undefined) {
+    //       return 1;
+    //     } else if (name2 === undefined) {
+    //       return -1;
+    //     } else {
+    //       return name1.localeCompare(name2);
+    //     }
+    //   },
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
     {
       name: 'Action',
       sortOrder: null,
@@ -100,7 +101,6 @@ export class ApplicationBuilderComponent implements OnInit {
   ];
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (field.key === 'application_Type' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
@@ -108,11 +108,11 @@ export class ApplicationBuilderComponent implements OnInit {
         });
         if (moduleFieldIndex !== -1) {
           let optionArray = [
-            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'Layout 1' : 'Admin Panel 1'},
-            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'Layout 2' : 'Admin Panel 2'},
-            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'Layout 3' : 'Admin Panel 3'},
-            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'Layout 4' : 'Admin Panel 4'},
-            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'Layout 5' : 'Admin Panel 5'},
+            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'layout1' : 'Admin Panel 1' },
+            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'layout2' : 'Admin Panel 2' },
+            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'layout3' : 'Admin Panel 3' },
+            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'layout4' : 'Admin Panel 4' },
+            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'layout5' : 'Admin Panel 5' },
           ];
           this.fields[moduleFieldIndex].fieldGroup[0].props.options = event != 'mobile' ? optionArray : [];
         }
@@ -155,6 +155,137 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
+    this.loading = true;
+    if (isSubmit && key == "applicationId") {
+      let obj = {
+        name: "Default Application",
+        moduleId: "default_application",
+        applicationName: value.name
+      }
+      this.builderService.addModule(obj).subscribe(res => {
+        this.builderService.jsonModuleSetting().subscribe(res => {
+          setTimeout(() => {
+            let screen = {
+              name: "Default Application Screen Header",
+              screenId: "Default_Application_Screen_Header_" + obj.moduleId,
+              applicationName: value.name,
+              moduleName: "Default Application",
+            }
+            this.builderService.addScreenModule(screen).subscribe(() => {
+              let screen = {
+                name: "Default Application Screen Footer",
+                screenId: "Default_Application_Screen_Footer" + obj.moduleId,
+                applicationName: value.name,
+                moduleName: "Default Application",
+              }
+              this.builderService.addScreenModule(screen).subscribe(() => {
+                this.loading = false;
+                // this.jsonApplicationBuilder();
+                this.toastr.warning("Default things Added", { nzDuration: 2000 });
+                setTimeout(() => {
+                  this.jsonApplicationBuilder();
+                }, 2000)
+              })
+            })
+          }, 500);
+        })
+      })
+    }
+  }
+
+  defaultMenu() {
+    this.loading = true;
+    setTimeout(() => {
+      let menu = {
+        "moduleName": this.myForm.value.name,
+        "menuData": [
+          {
+            "id": "menu_" + Guid.newGuid(),
+            "key": "menu_"+ Guid.newGuid(),
+            "title": "Menu",
+            "link": "",
+            "icon": "appstore",
+            "type": "input",
+            "isTitle": false,
+            "children": []
+          }
+        ],
+        "moduleId": this.myForm.value.name,
+        "selectedTheme": {
+          "topHeaderMenu": "w-1/6",
+          "topHeader": "w-10/12",
+          "menuMode": "inline",
+          "menuColumn": "w-2/12",
+          "rowClass": "w-10/12",
+          "horizontalRow": "flex flex-wrap",
+          "layout": "vertical",
+          "colorScheme": "light",
+          "layoutWidth": "fluid",
+          "layoutPosition": "fixed",
+          "topBarColor": "light",
+          "sideBarSize": "default",
+          "siderBarView": "sidebarViewDefault",
+          "sieBarColor": "light",
+          "siderBarImages": "",
+          "checked": false,
+          "theme": false,
+          "isCollapsed": false,
+          "newMenuArray": [],
+          "menuChildArrayTwoColumn": [],
+          "isTwoColumnCollapsed": false,
+          "allMenuItems": [],
+          "showMenu": true
+        },
+        "id": 59
+      }
+      // let byDefaultMenu = {
+      //   'menuData': [
+      //     {
+      //       id: 'Menu_' + Guid.newGuid(),
+      //       key: 'menu_' + Guid.newGuid(),
+      //       title: 'Menu_1',
+      //       link: '',
+      //       icon: "appstore",
+      //       type: "input",
+      //       isTitle: false,
+      //       expanded: true,
+      //       color: "",
+      //       children: [],
+      //     }
+      //   ],
+      //   'moduleName': this.myForm.value.name
+      // };
+      this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
+        next: (res) => {
+          let screen = {
+            name: this.myForm.value.name,
+            screenId: this.myForm.value.name,
+            applicationName: '',
+            moduleName: this.myForm.value.name,
+          }
+          setTimeout(() => {
+            this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
+              next: (res) => {
+                this.loading = false;
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                this.loading = false;
+              }
+            })
+          }, 500)
+
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.loading = false;
+        }
+      })
+    }, 500)
+  }
   openModal(type: any) {
     if (type == 'module') {
       this.loadModuleFields();
@@ -191,6 +322,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }));
   }
   onSubmit() {
+    debugger
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -200,27 +332,32 @@ export class ApplicationBuilderComponent implements OnInit {
       : this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id);
 
     if (findData) {
-      const message = this.moduleSubmit ? 'Module name already exists in the database.' : 'Application name already exists in the database.';
+      const message = this.moduleSubmit ? 'Application name already exists in the database.' : 'Department name already exists in the database.';
       this.toastr.warning(message, { nzDuration: 2000 });
       return;
     }
     else {
       const key = this.moduleSubmit ? 'moduleId' : 'applicationId';
       this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
-
       const action$ = !this.moduleSubmit ? (this.isSubmit
         ? this.builderService.addApplicationBuilder(this.myForm.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        if (this.moduleSubmit) {
-          setTimeout(() => {
-            this.saveHeaderFooter('header');
-          }, 2000);
-          this.footerSaved = false;
-        }
-
+        debugger
+        if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
+          this.defaultMenu();
+        };
+        // if (this.moduleSubmit) {
+        //   setTimeout(() => {
+        //     this.saveHeaderFooter('header');
+        //   }, 2000);
+        //   this.footerSaved = false;
+        // }
+        // if (this.isSubmit && key == "applicationId")
+        //   this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+        // else
         this.jsonApplicationBuilder();
         this.jsonModuleSetting();
         this.handleCancel();
@@ -249,9 +386,9 @@ export class ApplicationBuilderComponent implements OnInit {
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
-        data.name == 'Application Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
+        data.name == 'Department Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
           (data.name == 'Company Name' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Application Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+          (data.name == 'Department Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }
@@ -279,6 +416,7 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(company: any) {
+    debugger
     const moduleData = this.listOfChildrenData.filter((item: any) => item.applicationName == company.name);
     company['children'] = moduleData;
   }
@@ -327,8 +465,8 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application Name',
-              placeholder: 'Application Name...',
+              label: 'Department Name',
+              placeholder: 'Department Name...',
               required: true,
             }
           },
@@ -354,52 +492,7 @@ export class ApplicationBuilderComponent implements OnInit {
           }
         ]
       },
-      {
-        fieldGroup: [
-          {
-            key: 'application_Type',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Application Type',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [
-                { label: "Website", value: 'website' },
-                { label: "Mobile", value: 'mobile' },
-                { label: "Backend Application", value: 'backend_application' },
-              ]
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'layout',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Layout',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [
 
-              ]
-            }
-          }
-        ]
-      },
     ];
   }
 
@@ -417,8 +510,8 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Module Name',
-              placeholder: 'Module Name...',
+              label: 'Application Name',
+              placeholder: 'Application Name...',
               required: true,
             }
           },
@@ -432,7 +525,7 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Application',
+              label: 'Department',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
@@ -504,6 +597,69 @@ export class ApplicationBuilderComponent implements OnInit {
           }
         ],
       },
+      {
+        fieldGroup: [
+          {
+            key: 'application_Type',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application Type',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+                { label: "Website", value: 'website' },
+                { label: "Mobile", value: 'mobile' },
+                { label: "Backend Application", value: 'backend_application' },
+              ]
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'layout',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Layout',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+                { label: "Layout1", value: 'layout1' },
+                { label: "Layout2", value: 'layout2' },
+                { label: "Layout3", value: 'layout3' },
+              ]
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'domain',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Domain Name',
+              placeholder: 'Domain Name...',
+              required: true,
+            }
+          },
+        ],
+      }
     ];
   }
   loadSearchArray() {

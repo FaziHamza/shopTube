@@ -258,6 +258,11 @@ export class BuilderService {
       this.baseUrl + "jsonScreenModule", modal
     );
   }
+  getScreenByModuleName(moduleName: any): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.baseUrl + "jsonScreenModule?applicationName="+ moduleName
+    );
+  }
   updateScreenModule(id: any, modal: any): Observable<any[]> {
     return this.http.put<any[]>(
       this.baseUrl + "jsonScreenModule/" + id, modal
@@ -331,6 +336,16 @@ export class BuilderService {
   addModule(modal: any): Observable<any[]> {
     return this.http.post<any[]>(
       this.baseUrl + "jsonModule", modal
+    );
+  }
+  getModuleByApplicationName(applicationName: any): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.baseUrl + "jsonModule?applicationName="+applicationName
+    );
+  }
+  getApplicationByDomainName(domain: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "jsonModule?domain="+domain
     );
   }
   deletejsonModule(id: number): Observable<any[]> {

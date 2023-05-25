@@ -1,4 +1,4 @@
-<div class="layout1">
+<div class="layout1" *ngIf="currentWebsiteLayout.includes('website')">
 
 
   <nz-layout>
@@ -72,3 +72,5 @@
   </nz-layout>
 
 </div>
+
+<st-layout1 *ngIf="currentWebsiteLayout.includes('layout')"  [layout]="currentWebsiteLayout"></st-layout1>
