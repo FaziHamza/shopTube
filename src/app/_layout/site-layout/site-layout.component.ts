@@ -191,7 +191,7 @@ export class SiteLayoutComponent implements OnInit {
         if (res.length > 0) {
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
-          res[0]?.application_Type == 'backend_application' ? this.getApplications():null;
+         
           if (getURL.includes('/home')) {
             const observables = [
               this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
@@ -204,7 +204,13 @@ export class SiteLayoutComponent implements OnInit {
                 this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
                 this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
                 this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
-                this.dataSharedService.menus = results[3] ? results[3].length > 0 ? results[3][0].menuData : [] : []
+                this.dataSharedService.menus = results[3] ? results[3].length > 0 ? results[3][0].menuData : [] : [];
+                if (this.currentWebsiteLayout == 'backend_application' && results[3] && results[3][0].selectedTheme) {
+                  this.selectedTheme = results[3][0].selectedTheme;
+                  this.selectedTheme.allMenuItems = results[3][0].menuData
+                } else {
+                  this.selectedTheme = undefined;
+                }
               },
               error: (err) => {
                 console.error(err);
@@ -222,13 +228,20 @@ export class SiteLayoutComponent implements OnInit {
               next: (results) => {
                 this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
                 this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
-                this.dataSharedService.menus = results[2] ? results[2].length > 0 ? results[2][0].menuData : [] : []
+                this.dataSharedService.menus = results[2] ? results[2].length > 0 ? results[2][0].menuData : [] : [];
+            
+                if (this.currentWebsiteLayout == 'backend_application' && results[3] && results[3][0].selectedTheme) {
+                  this.selectedTheme = results[3][0].selectedTheme;
+                } else {
+                  this.selectedTheme = undefined;
+                }
               },
               error: (err) => {
                 console.error(err);
                 this.toastr.error("An error occurred", { nzDuration: 3000 });
               }
             });
+            
           }
         }
       },

@@ -158,6 +158,7 @@ export class MenuBuilderComponent implements OnInit {
       menuChildArrayTwoColumn: [],
       isTwoColumnCollapsed: false,
       allMenuItems: [],
+      showMenu: true,
     }
     // this.jsonModuleSetting();
     this.loadApplications();
@@ -217,7 +218,7 @@ export class MenuBuilderComponent implements OnInit {
             menuChildArrayTwoColumn: [],
             isTwoColumnCollapsed: false,
             allMenuItems: [],
-            showMenu:true
+            showMenu: true,
           }
         }
         this.selectedTheme.allMenuItems = this.nodes;
@@ -378,7 +379,10 @@ export class MenuBuilderComponent implements OnInit {
         type: "input",
         isTitle: false,
         expanded: true,
-        color: "",
+        // color: "",
+        iconType: "outline",
+        iconSize: "15",
+        iconColor: "",
         children: [
         ],
       } as any;
@@ -981,9 +985,9 @@ export class MenuBuilderComponent implements OnInit {
           }
           this.selectedNode.isTitle = event.form.isTitle;
           this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode.iconType = event.form.iconType;
-          this.selectedNode.iconSize = event.form.iconSize;
-          this.selectedNode.iconColor = event.form.iconColor;
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
 

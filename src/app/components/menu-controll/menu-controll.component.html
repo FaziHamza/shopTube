@@ -1,10 +1,10 @@
 <div class="flex-flex-wrap" *ngIf="_dataShared.menus.length > 0 ">
-    <!-- {{_dataShared.menus | json}} -->
     <ul nz-menu nzMode="horizontal">
-        <li *ngFor="let item of _dataShared.menus" nz-menu-item>
-            <span nz-icon nzType="mail"></span>
+        <!-- {{_dataShared.menus | json}} -->
+        <li *ngFor="let item of _dataShared.menus" nz-menu-item (click)="route(item)">
+            <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                    [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon></span>
             {{item.title}}
         </li>
     </ul>
-    <!-- <li *ngFor="let item of _dataShared.menus" nz-menu-item>{{item.title}}</li> -->
 </div>

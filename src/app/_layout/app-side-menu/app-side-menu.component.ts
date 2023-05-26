@@ -27,7 +27,6 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-
     this.loadModules();
     this.makeMenuData();
   }
@@ -108,7 +107,6 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-
     event.stopPropagation();
     if (data.application) {
       this.dataSharedService.selectApplication = data.id;

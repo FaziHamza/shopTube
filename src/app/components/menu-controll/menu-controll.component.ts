@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -11,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class MenuControllComponent implements OnInit {
   data : any = [];
   requestSubscription: Subscription;
-  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService) { 
+  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) { 
     // this.requestSubscription = this._dataShared.menus.subscribe({
     //   next: (res) => {
     //     debugger
@@ -25,8 +26,15 @@ export class MenuControllComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+
     
   }
 
+  route(data : any): void {
+    if (data.link) {
+      let routerLink = data.link;
+      this.router.navigate([routerLink]);
+      this.dataSharedService.defaultPage.next("")
+    }
+  }
 }
