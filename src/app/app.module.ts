@@ -41,7 +41,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LoginComponent,
     RegisterComponent,
     CreateDatabaseComponent,
-
   ],
   imports: [
     FormsModule,

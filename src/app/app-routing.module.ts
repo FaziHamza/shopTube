@@ -28,6 +28,10 @@ const routes: Routes = [
       component: PagesComponent
     },
     {
+      path: 'home/pages/:schema',
+      component: PagesComponent
+    },
+    {
       path: 'pages/:application/:module/:schema',
       component: PagesComponent
     },

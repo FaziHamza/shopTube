@@ -156,6 +156,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
+    debugger
     if (isSubmit && key == "moduleId") {
       let obj = {
         name: value.name + "_default",
@@ -182,10 +183,10 @@ export class ApplicationBuilderComponent implements OnInit {
             this.builderService.addScreenModule(screen).subscribe(() => {
               this.loading = false;
               // this.jsonApplicationBuilder();
-              this.toastr.warning("Default things Added", { nzDuration: 2000 });
-              setTimeout(() => {
-                this.jsonApplicationBuilder();
-              }, 2000)
+              this.toastr.success("Default things Added", { nzDuration: 2000 });
+              // setTimeout(() => {
+              //   this.jsonApplicationBuilder();
+              // }, 2000)
             })
           })
         }, 1000);
@@ -354,8 +355,11 @@ export class ApplicationBuilderComponent implements OnInit {
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.moduleSubmit && key == "moduleId")
-          this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+        if (this.moduleSubmit && key == "moduleId"){
+          setTimeout(() => {
+            this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+          }, 1000);
+        }
         // else
         this.jsonApplicationBuilder();
         this.jsonModuleSetting();

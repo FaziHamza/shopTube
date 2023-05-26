@@ -1401,6 +1401,11 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "list With Components"
               },
+              {
+                parameter: "menu",
+                icon: "uil uil-file-alt",
+                label: "Menu"
+              },
             ]
           },
         ]

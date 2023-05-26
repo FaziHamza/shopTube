@@ -12,9 +12,12 @@ export class DataSharedService {
   public currentHeader: Subject<any> = new Subject();
   public currentFooter: Subject<any> = new Subject();
   public currentMenu: Subject<any> = new Subject();
+  public screenId: Subject<any> = new Subject();
+  // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   public defaultPage: Subject<any> = new Subject();
   screenCommentList : any[] = []
+  public menus : any[] = []
   currentUrl:any;
   selectedNode:any;
   screenModule:any;

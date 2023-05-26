@@ -1,4 +1,4 @@
-<div class="layout1" *ngIf="currentWebsiteLayout.includes('website')">
+<div class="layout1" *ngIf="currentWebsiteLayout == 'backend_application'">
 
 
   <nz-layout>
@@ -72,5 +72,5 @@
   </nz-layout>
 
 </div>
-
-<st-layout1 *ngIf="currentWebsiteLayout.includes('layout')"  [layout]="currentWebsiteLayout"></st-layout1>
+<!-- <button nz-button nzType="primary" routerLink="/pages/Screen">Button</button> -->
+<st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'"  [layout]="currentWebsiteLayout"></st-layout1>

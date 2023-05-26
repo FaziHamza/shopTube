@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, forkJoin } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -71,11 +71,12 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.currentUrl = window.location.host;
     if (!this.currentUrl.includes('localhost')) {
+      this.selectedTheme = this.newSelectedTheme;
       this.getMenuByDomainName();
     }
     else {
       // if (this.currentUrl.includes('/home'))
-      this.currentWebsiteLayout = "website";
+      this.currentWebsiteLayout = "backend_application";
       if (!this.selectedTheme) {
         this.selectedTheme = this.newSelectedTheme;
         this.getApplications();
@@ -180,36 +181,56 @@ export class SiteLayoutComponent implements OnInit {
   //   });
   // }
   getMenuByDomainName() {
+    debugger
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
-        // this.dataSharedService.currentApplication.next(res[0]);
-        this.currentWebsiteLayout = res[0]?.layout ? res[0]?.layout : 'layout1';
-        if (getURL.includes('/home'))
-          this.requestSubscription = this.builderService.jsonBuilderSettingV1(res[0].name+"_default").subscribe({
-            next: (res) => {
-              this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          })
-        else {
-          this.dataSharedService.defaultPage.next('');
+        if (res.length > 0) {
+          // this.dataSharedService.currentApplication.next(res[0]);
+          this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
+          res[0]?.application_Type == 'backend_application' ? this.getApplications():null;
+          if (getURL.includes('/home')) {
+            const observables = [
+              this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
+              this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
+              this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
+              this.builderService.getJsonModules(res[0].name),
+            ];
+            forkJoin(observables).subscribe({
+              next: (results) => {
+                this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+                this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
+                this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
+                this.dataSharedService.menus = results[3] ? results[3].length > 0 ? results[3][0].menuData : [] : []
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
+          else {
+            const observables = [
+              this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
+              this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
+              this.builderService.getJsonModules(res[0].name),
+            ];
+            forkJoin(observables).subscribe({
+              next: (results) => {
+                this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
+                this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
+                this.dataSharedService.menus = results[2] ? results[2].length > 0 ? results[2][0].menuData : [] : []
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
         }
-        //  this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
-        //   next: (response) => {
-
-        //   },
-        //   error: (err) => {
-        //     console.error(err);
-        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-        //   }
-        // })
       },
       error: (err) => {
         console.error(err);
@@ -317,7 +338,7 @@ export class SiteLayoutComponent implements OnInit {
           //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
           //   }
           // }
-          this.currentWebsiteLayout = "website";
+          this.currentWebsiteLayout = "backend_application";
 
           res.forEach((element: any) => {
             let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');

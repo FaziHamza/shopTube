@@ -24,7 +24,7 @@ import {
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -91,7 +91,8 @@ import { Layout1Component } from '../admin/layout1/layout1.component';
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    MenuControllComponent
   ],
   exports: [
     FormsModule,
@@ -142,7 +143,8 @@ import { Layout1Component } from '../admin/layout1/layout1.component';
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    MenuControllComponent
   ],
   providers: [
   ],

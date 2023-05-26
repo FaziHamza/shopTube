@@ -1,0 +1,10 @@
+<div class="flex-flex-wrap" *ngIf="_dataShared.menus.length > 0 ">
+    <!-- {{_dataShared.menus | json}} -->
+    <ul nz-menu nzMode="horizontal">
+        <li *ngFor="let item of _dataShared.menus" nz-menu-item>
+            <span nz-icon nzType="mail"></span>
+            {{item.title}}
+        </li>
+    </ul>
+    <!-- <li *ngFor="let item of _dataShared.menus" nz-menu-item>{{item.title}}</li> -->
+</div>
