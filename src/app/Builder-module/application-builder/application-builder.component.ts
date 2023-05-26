@@ -156,40 +156,39 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
-    this.loading = true;
-    if (isSubmit && key == "applicationId") {
+    if (isSubmit && key == "moduleId") {
       let obj = {
-        name: "Default Application",
-        moduleId: "default_application",
-        applicationName: value.name
+        name: value.name + "_default",
+        screenId: value.name + "_default",
+        applicationName: value.name,
+        moduleName: value.name,
       }
-      this.builderService.addModule(obj).subscribe(res => {
-        this.builderService.jsonModuleSetting().subscribe(res => {
-          setTimeout(() => {
+      this.builderService.addScreenModule(obj).subscribe(res => {
+        this.loading = true;
+        setTimeout(() => {
+          let screen = {
+            name: value.name + "_header",
+            screenId: value.name + "_header",
+            applicationName: value.name,
+            moduleName: value.name,
+          }
+          this.builderService.addScreenModule(screen).subscribe(() => {
             let screen = {
-              name: "Default Application Screen Header",
-              screenId: "Default_Application_Screen_Header_" + obj.moduleId,
+              name: value.name + "_footer",
+              screenId: value.name + "_footer",
               applicationName: value.name,
-              moduleName: "Default Application",
+              moduleName: value.name,
             }
             this.builderService.addScreenModule(screen).subscribe(() => {
-              let screen = {
-                name: "Default Application Screen Footer",
-                screenId: "Default_Application_Screen_Footer" + obj.moduleId,
-                applicationName: value.name,
-                moduleName: "Default Application",
-              }
-              this.builderService.addScreenModule(screen).subscribe(() => {
-                this.loading = false;
-                // this.jsonApplicationBuilder();
-                this.toastr.warning("Default things Added", { nzDuration: 2000 });
-                setTimeout(() => {
-                  this.jsonApplicationBuilder();
-                }, 2000)
-              })
+              this.loading = false;
+              // this.jsonApplicationBuilder();
+              this.toastr.warning("Default things Added", { nzDuration: 2000 });
+              setTimeout(() => {
+                this.jsonApplicationBuilder();
+              }, 2000)
             })
-          }, 500);
-        })
+          })
+        }, 1000);
       })
     }
   }
@@ -202,7 +201,7 @@ export class ApplicationBuilderComponent implements OnInit {
         "menuData": [
           {
             "id": "menu_" + Guid.newGuid(),
-            "key": "menu_"+ Guid.newGuid(),
+            "key": "menu_" + Guid.newGuid(),
             "title": "Menu",
             "link": "",
             "icon": "appstore",
@@ -346,17 +345,17 @@ export class ApplicationBuilderComponent implements OnInit {
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
         debugger
-        if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
-          this.defaultMenu();
-        };
+        // if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
+        //   this.defaultMenu();
+        // };
         // if (this.moduleSubmit) {
         //   setTimeout(() => {
         //     this.saveHeaderFooter('header');
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        // if (this.isSubmit && key == "applicationId")
-        //   this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+        if (this.moduleSubmit && key == "moduleId")
+          this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
         // else
         this.jsonApplicationBuilder();
         this.jsonModuleSetting();
