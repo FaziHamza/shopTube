@@ -53,9 +53,9 @@ export class SiteLayoutComponent implements OnInit {
   constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
-ngOnDestroy(){
-  this.requestSubscription.unsubscribe();
-}
+  ngOnDestroy() {
+    this.requestSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
 
@@ -83,7 +83,7 @@ ngOnDestroy(){
       }
     }
 
-   this.requestSubscription =  this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
+    this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
       if (module) {
         setTimeout(() => {
@@ -184,32 +184,32 @@ ngOnDestroy(){
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
-      this.requestSubscription =  this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
+    this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
         // this.dataSharedService.currentApplication.next(res[0]);
-        this.currentWebsiteLayout = res[0]?.layout  ? res[0]?.layout : 'layout1'
-         this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
-          next: (response) => {
-            this.dataSharedService.currentMenu.next(response[0].menuData);
-            if (getURL.includes('/home'))
-            this.requestSubscription = this.builderService.jsonBuilderSettingV1(res[0].name).subscribe({
-                next: (res) => {
-                  this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              })
-            else {
-              this.dataSharedService.defaultPage.next('');
+        this.currentWebsiteLayout = res[0]?.layout ? res[0]?.layout : 'layout1';
+        if (getURL.includes('/home'))
+          this.requestSubscription = this.builderService.jsonBuilderSettingV1(res[0].name+"_default").subscribe({
+            next: (res) => {
+              this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
             }
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        })
+          })
+        else {
+          this.dataSharedService.defaultPage.next('');
+        }
+        //  this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
+        //   next: (response) => {
+
+        //   },
+        //   error: (err) => {
+        //     console.error(err);
+        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //   }
+        // })
       },
       error: (err) => {
         console.error(err);

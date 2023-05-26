@@ -161,7 +161,7 @@ export class ApplicationBuilderComponent implements OnInit {
         name: value.name + "_default",
         screenId: value.name + "_default",
         applicationName: value.name,
-        moduleName: value.name,
+        moduleName: value.name+"_default",
       }
       this.builderService.addScreenModule(obj).subscribe(res => {
         this.loading = true;
@@ -170,14 +170,14 @@ export class ApplicationBuilderComponent implements OnInit {
             name: value.name + "_header",
             screenId: value.name + "_header",
             applicationName: value.name,
-            moduleName: value.name,
+            moduleName: value.name+"_header",
           }
           this.builderService.addScreenModule(screen).subscribe(() => {
             let screen = {
               name: value.name + "_footer",
               screenId: value.name + "_footer",
               applicationName: value.name,
-              moduleName: value.name,
+              moduleName: value.name+"_footer",
             }
             this.builderService.addScreenModule(screen).subscribe(() => {
               this.loading = false;
