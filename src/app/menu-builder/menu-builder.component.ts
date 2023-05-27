@@ -192,9 +192,10 @@ export class MenuBuilderComponent implements OnInit {
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
         if (res[0].selectedTheme) {
-          this.selectedTheme.allMenuItems = this.nodes;
           this.selectedTheme = res[0].selectedTheme;
-        } else {
+          this.selectedTheme.allMenuItems = this.nodes;
+        }
+        else {
           this.selectedTheme = {
             topHeaderMenu: 'w-1/6',
             topHeader: 'w-10/12',
@@ -220,8 +221,8 @@ export class MenuBuilderComponent implements OnInit {
             allMenuItems: [],
             showMenu: true,
           }
+          this.selectedTheme.allMenuItems = this.nodes;
         }
-        this.selectedTheme.allMenuItems = this.nodes;
         this.makeMenuData();
       }
       else {

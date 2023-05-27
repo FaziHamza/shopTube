@@ -1,0 +1,25 @@
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+    color: white !important;
+}
+
+.ant-menu {
+    background: transparent !important;
+}
+
+.ant-menu-horizontal {
+    border-bottom: none !important;
+    line-height: 45px !important;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected {
+    background: #1890ff !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+.ant-menu-horizontal>.ant-menu-item:hover {
+    background: #1890ff !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}

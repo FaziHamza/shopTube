@@ -75,9 +75,9 @@
         <st-main [mainData]="dataSharedService.footerData"></st-main>
       </nz-footer>
     </div>
-    <div *ngIf="currentFooter && !currentUrl.includes('localhost')">
+    <nz-footer *ngIf="currentFooter && !currentUrl.includes('localhost')">
       <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
-    </div>
+    </nz-footer>
   </nz-layout>
 
 </div>
