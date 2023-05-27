@@ -49,7 +49,7 @@
                                 <li nz-menu-item *ngFor="let subSub of sub.children">
                                   <span class="subchild-menu">
                                     <span class="menu-item-icon">
-                                      <st-icon *ngIf="subSub.icon" [type]="subSub.iconType == 'outline'"
+                                      <st-icon *ngIf="subSub.icon" [type]="subSub.iconType || 'outline'"
                                         [icon]="subSub.icon" [size]="subSub.iconSize || 15"
                                         [color]="subSub.iconColor || ''"></st-icon>
                                     </span><span *ngIf="!this.selectedTheme.isCollapsed">{{subSub.title}}</span></span>

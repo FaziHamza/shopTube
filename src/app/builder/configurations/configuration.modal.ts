@@ -474,6 +474,16 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Radius',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -1115,6 +1125,16 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Radius',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -1488,6 +1508,16 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Badge Count',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Radius',
           }
         },
         {
