@@ -1428,6 +1428,7 @@ a.fc-event:hover {
 .content-body {
   padding: 20px;
 }
+
 // .side-menu {
 //   .ant-menu {
 //     padding-bottom: 70px;
@@ -1508,4 +1509,16 @@ a.fc-event:hover {
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+}
+
+.ant-menu-inline-collapsed {
+  .sidenav-title {
+    display: none !important;
+  }
+
+}
+
+.sidenav-title {
+  margin-left: 8px;
+
 }
