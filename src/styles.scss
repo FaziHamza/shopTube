@@ -1420,22 +1420,31 @@ a.fc-event:hover {
   color: white !important;
 }
 
+
 .main-layout {
-  height: calc(100vh - 135px) !important;
+  min-height: calc(100vh - 105px);
+  margin-bottom: 120px;
+}
+
+.menu-builder-card {
+  .main-layout {
+    height: auto !important;
+  }
 
 }
 
 .content-body {
   padding: 20px;
 }
-.side-menu {
-  .ant-menu {
-    padding-bottom: 70px;
-  }
-}
+
+// .side-menu {
+//   .ant-menu {
+//     padding-bottom: 70px;
+//   }
+// }
 .ant-layout-footer {
   text-align: center;
-padding: 20px !important;
+  padding: 20px !important;
   z-index: 999;
   position: fixed;
   bottom: 0;
@@ -1451,7 +1460,7 @@ padding: 20px !important;
 
   .ant-menu.ant-menu-inline-collapsed {
     width: 100% !important;
-    height: calc(100vh - 135px);
+    height: 100vh;
   }
 }
 
@@ -1470,29 +1479,51 @@ padding: 20px !important;
     width: 101%;
   }
 }
+
 .ant-input-search-button {
   border-radius: 0px !important;
 }
+
 .website-block .block-Button {
   flex-wrap: wrap;
 }
+
 .website-block {
   justify-content: space-between;
 }
+
 .btnss-body {
   width: 100%;
-.ant-btn {
-  min-width: 160px;
+
+  .ant-btn {
+    min-width: 160px;
+  }
 }
-}
+
 .website-block-menu {
   border-left: 1px solid #f5f5f5;
 }
+
 .comment-drawer {
   .ng-star-inserted {
     color: red;
   }
 }
-.layout1{
+.table-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.ant-menu-inline-collapsed {
+  .sidenav-title {
+    display: none !important;
+  }
+
+}
+
+.sidenav-title {
+  margin-left: 8px;
 
 }

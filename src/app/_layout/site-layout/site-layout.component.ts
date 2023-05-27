@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, forkJoin } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-
 
 @Component({
   selector: 'st-site-layout',
@@ -16,6 +15,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
+  currentHeader: any;
+  currentFooter: any;
+  defaultPage: any;
   tabs: any = [];
   dropdown: any = [];
   modules: any = [];
@@ -23,6 +25,7 @@ export class SiteLayoutComponent implements OnInit {
   requestSubscription: Subscription;
   currentWebsiteLayout = "";
   currentUrl = "";
+  fullCurrentUrl = "";
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -58,6 +61,36 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
+      next: (res) => {
+        debugger
+        this.currentHeader = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+    this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
+      next: (res) => {
+        debugger
+        this.currentFooter = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+    this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
+      next: (res) => {
+        debugger
+        this.defaultPage = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
 
     this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
       next: (res) => {
@@ -70,17 +103,19 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
-    if (!this.currentUrl.includes('localhost')) {
+    this.fullCurrentUrl = window.location.href;
+    this.currentWebsiteLayout = "backend_application";
+    if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
+      this.selectedTheme = this.newSelectedTheme;
       this.getMenuByDomainName();
     }
-    else {
+    else if (!window.location.href.includes('/menu-builder')) {
       // if (this.currentUrl.includes('/home'))
-      this.currentWebsiteLayout = "website";
       if (!this.selectedTheme) {
         this.selectedTheme = this.newSelectedTheme;
-        this.getApplications();
-        this.getAllMenu();
       }
+      this.getApplications();
+      this.getAllMenu();
     }
 
     this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
@@ -180,36 +215,41 @@ export class SiteLayoutComponent implements OnInit {
   //   });
   // }
   getMenuByDomainName() {
+    debugger
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
-        // this.dataSharedService.currentApplication.next(res[0]);
-        this.currentWebsiteLayout = res[0]?.layout ? res[0]?.layout : 'layout1';
-        if (getURL.includes('/home'))
-          this.requestSubscription = this.builderService.jsonBuilderSettingV1(res[0].name+"_default").subscribe({
-            next: (res) => {
-              this.dataSharedService.defaultPage.next(res.length > 0 ? res[0].menuData : '');
+        if (res.length > 0) {
+          // this.dataSharedService.currentApplication.next(res[0]);
+          this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
+          const observables = [
+            this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
+            this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
+            this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
+            this.builderService.getJsonModules(res[0].name),
+          ];
+          forkJoin(observables).subscribe({
+            next: (results) => {
+              this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+              this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
+              this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
+              this.dataSharedService.menus = results[3] ? results[3].length > 0 ? results[3][0].menuData : [] : [];
+              if (this.currentWebsiteLayout == 'backend_application' && results[3] && results[3][0].selectedTheme) {
+                this.selectedTheme = results[3][0].selectedTheme;
+                this.selectedTheme.allMenuItems = results[3][0].menuData
+              } else {
+                this.selectedTheme = undefined;
+              }
             },
             error: (err) => {
               console.error(err);
               this.toastr.error("An error occurred", { nzDuration: 3000 });
             }
-          })
-        else {
-          this.dataSharedService.defaultPage.next('');
+          });
         }
-        //  this.requestSubscription = this.builderService.getJsonModules(res[0].name).subscribe({
-        //   next: (response) => {
-
-        //   },
-        //   error: (err) => {
-        //     console.error(err);
-        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-        //   }
-        // })
       },
       error: (err) => {
         console.error(err);
@@ -317,7 +357,7 @@ export class SiteLayoutComponent implements OnInit {
           //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
           //   }
           // }
-          this.currentWebsiteLayout = "website";
+          this.currentWebsiteLayout = "backend_application";
 
           res.forEach((element: any) => {
             let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');

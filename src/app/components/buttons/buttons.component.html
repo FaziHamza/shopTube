@@ -10,6 +10,7 @@
   [nzSize]="buttonData.nzSize"
   [nzType]="buttonData.nztype"
   [type]="buttonData.isSubmit ? 'submit' : 'button'"
+  [style.border-radius.px]="buttonData.radius || 0"
   [ngStyle]="{
     'background-color': bgColor || buttonData.color,
     'border-color': borderColor || buttonData.borderColor,
@@ -54,6 +55,7 @@
     [nzSize]="buttonData.nzSize"
     [nzBlock]="buttonData.nzBlock"
     [nzLoading]="buttonData.nzLoading"
+    [style.border-radius.px]="buttonData.radius || 0"
     [ngStyle]="{ 'background-color': bgColor || buttonData.color ,
     'border-color': borderColor || buttonData.borderColor
   }"
@@ -105,6 +107,7 @@
           [nzVisible]="buttonData.visible"
           [nzDanger]="buttonData.nzDanger"
           [nzShape]="buttonData.nzShape"
+          [style.border-radius.px]="buttonData.radius || 0"
           [ngStyle]="{
             'background-color': bgColor || buttonData.color,
             'color': hoverTextColor || buttonData.textColor,
@@ -134,17 +137,6 @@
               [type]="buttonData.iconType"
             ></st-icon>
           </span>
-
-    <!-- <span>
-      {{ buttonData.title }}
-      <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.btnIcon">
-        <st-icon [type]="buttonData.iconType"
-                [icon]="buttonData.btnIcon"
-                [size]="buttonData.iconSize"
-                [color]="buttonData.iconColor">
-        </st-icon>
-      </span>
-    </span> -->
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>

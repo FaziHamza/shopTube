@@ -1,0 +1,30 @@
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+    color: white !important;
+}
+
+.ant-menu {
+    padding: 7px 0px;
+    background: transparent !important;
+
+    .ant-menu-item {
+        height: 35px;
+        padding: 6px 12px;
+        border-radius: 2px;
+    }
+}
+
+.ant-menu-horizontal {
+    border-bottom: none !important;
+    line-height: revert !important;
+}
+
+
+
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected {
+    background: #1890ff !important;
+}
+
+.ant-menu-horizontal>.ant-menu-item:hover {
+    background: #1890ff !important;
+}

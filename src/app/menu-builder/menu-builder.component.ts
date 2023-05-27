@@ -158,6 +158,7 @@ export class MenuBuilderComponent implements OnInit {
       menuChildArrayTwoColumn: [],
       isTwoColumnCollapsed: false,
       allMenuItems: [],
+      showMenu: true,
     }
     // this.jsonModuleSetting();
     this.loadApplications();
@@ -191,9 +192,10 @@ export class MenuBuilderComponent implements OnInit {
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
         if (res[0].selectedTheme) {
-          this.selectedTheme.allMenuItems = this.nodes;
           this.selectedTheme = res[0].selectedTheme;
-        } else {
+          this.selectedTheme.allMenuItems = this.nodes;
+        }
+        else {
           this.selectedTheme = {
             topHeaderMenu: 'w-1/6',
             topHeader: 'w-10/12',
@@ -217,10 +219,10 @@ export class MenuBuilderComponent implements OnInit {
             menuChildArrayTwoColumn: [],
             isTwoColumnCollapsed: false,
             allMenuItems: [],
-            showMenu:true
+            showMenu: true,
           }
+          this.selectedTheme.allMenuItems = this.nodes;
         }
-        this.selectedTheme.allMenuItems = this.nodes;
         this.makeMenuData();
       }
       else {
@@ -378,7 +380,10 @@ export class MenuBuilderComponent implements OnInit {
         type: "input",
         isTitle: false,
         expanded: true,
-        color: "",
+        // color: "",
+        iconType: "outline",
+        iconSize: "15",
+        iconColor: "",
         children: [
         ],
       } as any;
@@ -981,9 +986,9 @@ export class MenuBuilderComponent implements OnInit {
           }
           this.selectedNode.isTitle = event.form.isTitle;
           this.selectedNode.textColor = event.form.textColor;
-          this.selectedNode.iconType = event.form.iconType;
-          this.selectedNode.iconSize = event.form.iconSize;
-          this.selectedNode.iconColor = event.form.iconColor;
+          this.selectedNode['iconType'] = event.form.iconType;
+          this.selectedNode['iconSize'] = event.form.iconSize;
+          this.selectedNode['iconColor'] = event.form.iconColor;
         }
         break;
 

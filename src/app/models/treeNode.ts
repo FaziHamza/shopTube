@@ -384,6 +384,7 @@ export interface TreeNode {
   isLayout?: boolean;
   subItems?: any;
   menuData?: any;
+  selectedTheme?: any;
   key?: any;
   nzTitle?: any;
   nzExpandIconPosition?: any;

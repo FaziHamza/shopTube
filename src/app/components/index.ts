@@ -1,3 +1,4 @@
+export * from "./menu-controll/menu-controll.component";
 export * from "./accordion-button/accordion-button.component";
 export * from "./affix/affix.component"
 export * from "./anchor/anchor.component"

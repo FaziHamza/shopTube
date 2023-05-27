@@ -637,7 +637,7 @@
         </div>
     </ng-template>
     <ng-template #hTwo>
-        <div *ngIf="item.type == 'mainDiv'; else eightySix">
+        <div *ngIf="item.type == 'mainDiv'; else hThree">
             <div class="flex flex-wrap">
                 <div class={{itemChild.className}} *ngFor="let itemChild of item.children">
                     <div *ngIf="itemChild.type == 'div'" [class]="itemChild.divClass"
@@ -650,6 +650,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </ng-template>
+    <ng-template #hThree>
+        <div *ngIf="item.type == 'menu' ; else hTwo">
+            <st-menu-controll></st-menu-controll>
         </div>
     </ng-template>
 </div>

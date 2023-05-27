@@ -959,6 +959,9 @@ export class BuilderComponent implements OnInit {
       case "dropdownButton":
         newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
         break;
+      case "menu":
+        newNode = { ...newNode, ...this.addControlService.getMenuControl() };
+        break;
       case "linkbutton":
         newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
         break;

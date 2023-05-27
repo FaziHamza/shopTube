@@ -292,6 +292,11 @@ export class AddControlService {
       badgeCount: '',
     }
   }
+  getMenuControl() {
+    return {
+      
+    }
+  }
   getCardWithComponentsControl() {
     return {
       isNextChild: true,

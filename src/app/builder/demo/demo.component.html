@@ -1,36 +1,19 @@
-<div class="wrapper">
-      <button nz-button nzType="primary" (click)="toggleCollapsed()">
-        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-      </button>
-      <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
-        <li
-          nz-menu-item
-          nz-tooltip
-          nzTooltipPlacement="right"
-          [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''"
-          nzSelected
-        >
-          <span nz-icon nzType="mail"></span>
-          <span>Navigation One</span>
+<div *ngFor="let item of menuItems">
+  <ul nz-menu nzMode="inline">
+    <li nz-submenu [nzTitle]="itemTemplate">
+      <ul>
+        <li nz-menu-item>
+          <span>Submenu Item 1</span>
         </li>
-        <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">
-          <ul>
-            <li nz-menu-item>Option 5</li>
-            <li nz-menu-item>Option 6</li>
-            <li nz-submenu nzTitle="Submenu">
-              <ul>
-                <li nz-menu-item>Option 7</li>
-                <li nz-menu-item>Option 8</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzTitle="Navigation Three" nzIcon="setting">
-          <ul>
-            <li nz-menu-item>Option 9</li>
-            <li nz-menu-item>Option 10</li>
-            <li nz-menu-item>Option 11</li>
-          </ul>
+        <li nz-menu-item>
+          <span>Submenu Item 2</span>
         </li>
       </ul>
-    </div>
+    </li>
+  </ul>
+  <ng-template #itemTemplate>
+    <i nz-icon [nzType]="item.icon"></i>
+    <span>{{ item.title }}</span>
+  </ng-template>
+</div>menu
+
