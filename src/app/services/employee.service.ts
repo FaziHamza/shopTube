@@ -11,6 +11,7 @@ import { TreeNode } from '../models/treeNode';
 })
 export class EmployeeService {
   protected baseUrl = environment.serverApiUrl;
+  protected nestUrl = environment.nestBaseUrl;
   protected finalUrl = "";
   constructor(public http: HttpClient) { }
 
@@ -77,6 +78,11 @@ export class EmployeeService {
   saveDatabaseTable(obj:any): Observable<any> {
     return this.http.post<any>(
       this.baseUrl + "databaseTable",obj
+    );
+  }
+  saveSQLDatabaseTable(api:string,obj:any): Observable<any> {
+    return this.http.post<any>(
+      this.nestUrl + api,obj
     );
   }
 

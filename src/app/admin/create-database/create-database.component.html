@@ -32,7 +32,7 @@
           <h3 [ngStyle]="{ margin: '16px 0' }"><b>Table Fields</b></h3>
         </div>
         <div class="w-3/6 text-right">
-          <button nz-button nzType="primary" class="my-2 " title="Save" (click)="submitForm()" ngbTooltip="Save Table" *ngIf="tableId == 0">Save </button>
+          <button nz-button nzType="primary" class="my-2 " title="Save" (click)="submitFormv1()" ngbTooltip="Save Table" *ngIf="tableId == 0">Save </button>
           <button nz-button nzType="primary" class="my-2 " title="Update" (click)="updateForm()" ngbTooltip="Update Table" *ngIf="tableId !=0">Update </button>
           <button nz-button nzType="primary" class="my-2 mx-2" title="Cancel" (click)="tableId == 0" ngbTooltip="Cancel" *ngIf="tableId !=0">Cancel </button>
         </div>

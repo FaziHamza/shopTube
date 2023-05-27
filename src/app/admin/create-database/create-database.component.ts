@@ -101,7 +101,7 @@ export class CreateDatabaseComponent implements OnInit {
     },
   ];
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService,) { }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
   ngOnInit(): void {
@@ -165,6 +165,40 @@ export class CreateDatabaseComponent implements OnInit {
       record.id = index + 1;
     });
     this.listOfData = [...this.listOfData];
+  }
+  submitFormv1() {
+    debugger
+    if (this.myForm.valid) {
+      const fields: { [key: string]: any } = {};
+      this.listOfData.forEach((element: any) => {
+        fields[element.fieldName] = element.type
+      });
+      var data = {
+        "tableName": this.myForm.value.tableName,
+        "schema": fields
+      }
+      console.log(data);
+      this.employeeService.saveSQLDatabaseTable('knex',data).subscribe({
+        next: (res) => {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          // this.getDatabaseTable();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+      this.employeeService.saveSQLDatabaseTable('cron-post',data).subscribe({
+        next: (res) => {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          // this.getDatabaseTable();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    }
   }
   submitForm() {
     if (this.myForm.valid) {

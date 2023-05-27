@@ -12,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
   @Input() screenModule: any;
@@ -94,8 +94,9 @@ export class ActionRuleComponent implements OnInit {
         if (keys[0] == element.name) {
           const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
           if (item) {
-            fields.push(key);
-            values.push(`'${item}'`);
+            const keyvalue = key.replace(`${element.name}.`,'');
+            fields.push(keyvalue);
+            values.push(`$${keyvalue}`);
           }
         }
       }
@@ -111,7 +112,7 @@ export class ActionRuleComponent implements OnInit {
         let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
         dataForQuery += "UPDATE " + element.name + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
       } else if (this.actionForm.value.actionLink == 'delete') {
-        let deleteQuery = "DELETE FROM " + element.name + " WHERE " + fields[0] + " = " + values[0];
+        let deleteQuery = "DELETE FROM" + element.name + " WHERE " + fields[0] + " = " + values[0];
         dataForQuery += deleteQuery;
       }
 
@@ -165,6 +166,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   SaveAction() {
+    debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonQuryResult = {
       "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -177,6 +179,63 @@ export class ActionRuleComponent implements OnInit {
       "actionType": this.actionForm.value.submissionType,
       "actionLink": this.actionForm.value.actionLink
     }
+    this.actionForm.value.Actions.forEach((element: any) => {
+      const data = {
+        "moduleName": this.screenName,
+        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+        "btnActionType": this.selectedNode.actionType ? this.selectedNode.actionType : "",
+        "actionType": this.actionForm.value.submissionType,
+        "actionLink": this.actionForm.value.actionLink,
+        "quryType": element.referenceId,
+        "quries": element.query,
+        "submit": element.submit,
+        "type": element.type,
+        "sqlType": element.sqlType,
+        "email": element.email,
+        "confirmEmail": element.confirmEmail,
+        "referenceId": element.referenceId,
+        "query": element.query
+      }
+      if (data != null) {
+        if (mainModuleId[0].screenId != null) {
+          this.builderService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
+            next: (res) => {
+              this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              
+              for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
+                const key = Object.keys(this.formlyModel)[j];
+                const keys = key.split('.')
+                if (keys[0] == element.name) {
+                  const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+                  if (item) {
+                  }
+                }
+              }
+              // const empData = {
+              //   "name": "string",
+              //   "lastname": "string",
+              //   "email": data.email
+              // }
+              // this.builderService.saveSQLDatabaseTable('knex-crud/Employee', data).subscribe({
+              //   next: (res) => {
+              //     this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              //   },
+              //   error: (err) => {
+              //     console.error(err);
+              //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+              //   }
+              // })
+
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          });
+        }
+      }
+    });
+
     if (jsonQuryResult != null) {
       const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {

@@ -11,6 +11,7 @@ import { TreeNode } from '../models/treeNode';
 })
 export class BuilderService {
   protected baseUrl = environment.serverApiUrl;
+  protected nestUrl = environment.nestBaseUrl;
   protected finalUrl = "";
   constructor(public http: HttpClient) { }
 
@@ -377,6 +378,11 @@ export class BuilderService {
   jsonScreenDataSave(modal: any): Observable<any[]> {
     return this.http.post<any[]>(
       this.baseUrl + "screenData", modal
+    );
+  }
+  saveSQLDatabaseTable(api:string,obj:any): Observable<any> {
+    return this.http.post<any>(
+      this.nestUrl + api,obj
     );
   }
 }

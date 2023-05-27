@@ -43,11 +43,11 @@ export class MainComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
     private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
-    private clipboard: Clipboard , private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
+    private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
-    if(this.router.url.includes('/pages'))
+    if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
   }
 
@@ -204,7 +204,6 @@ export class MainComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-
     if (data.isSubmit) {
       // this.mainData
       // this.mainData.forEach((element:any) => {
@@ -243,7 +242,29 @@ export class MainComponent implements OnInit {
     }
   }
   saveData1(data: any) {
+    debugger
+    const objModel:any = this.form.value;
+    let nestedObject: any = null;
+    Object.keys(objModel).forEach(key => {
+      const value = objModel[key];
+      if (typeof value === "object" && value !== null) {
+        nestedObject = value;
+      }
+    });
+    const empData = {
+      screenId: 'Crms',
+      modalData: nestedObject
+    };
 
+    this.builderService.saveSQLDatabaseTable('knex-crud/saveData', empData).subscribe({
+      next: (res) => {
+        this.toastr.success("Save Successfully", { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
     if (data.dataTable) {
       this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
         next: (res) => {
@@ -271,13 +292,13 @@ export class MainComponent implements OnInit {
     return null;
   }
   copyJson(json: any) {
-    
+
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
     // alert('Copied to clipboard');
   }
   comment(json: any) {
-    
+
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Comment',
       nzContent: CommentModalComponent,
@@ -293,6 +314,6 @@ export class MainComponent implements OnInit {
       }
     });
   }
-  
+
 
 }

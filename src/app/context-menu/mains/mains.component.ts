@@ -36,7 +36,6 @@ export class MainsComponent implements OnInit {
     this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
   saveData(data : any){
-
     this.notify.emit(data);
   }
   handleIndexChange(e: number): void {
