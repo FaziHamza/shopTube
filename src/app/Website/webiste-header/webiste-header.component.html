@@ -27,6 +27,7 @@
           [icon]="item.btnIcon"
           [color]="item.iconColor"
           [size]="item.iconSize"
+        [hoverIconColor]="item?.hoverIconColor || ''"
           [type]="item.iconType"
         ></st-icon>
         <span
@@ -37,6 +38,7 @@
         </span>
         <st-icon *ngIf="item.iconPlacement == 'right'"
           [icon]="item.btnIcon"
+         [hoverIconColor]="item?.hoverIconColor || ''"
           [color]="item.iconColor"
           [size]="item.iconSize"
           [type]="item.iconType"

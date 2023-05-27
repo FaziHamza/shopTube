@@ -8,6 +8,6 @@
 <ng-template #iconTemplate>
     <span *ngIf="resulData.icon" class="ant-scroll-number-custom-component">
       <st-icon  [type]="'outline'" [icon]="resulData.icon"
-        [size]="15" [color]="''"></st-icon>
+      [hoverIconColor]="resulData?.hoverIconColor || ''"  [size]="15" [color]="''"></st-icon>
     </span>
   </ng-template>

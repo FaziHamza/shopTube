@@ -90,14 +90,14 @@
         <div *ngIf="item.type =='icon'; else fifteen">
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                    [color]="item.iconColor"></st-icon>
+                    [color]="item.iconColor" [hoverIconColor]="item.hoverIconColor"></st-icon>
             </nz-badge>
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
-                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [hoverIconColor]="item.hoverIconColor"
                     [color]="item.iconColor"></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
-              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"></st-icon>
+              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor" [hoverIconColor]="item.hoverIconColor"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
@@ -374,7 +374,7 @@
                 [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)">
                 <span *ngIf="child?.icon">
                     <st-icon [type]="item?.iconType || 'outline'" [icon]="child?.icon" [size]="item?.iconSize"
-                        [color]="item?.iconColor"></st-icon>
+                    [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
                 </span>
                 <!-- <span
                       nz-icon [nzType]='child.icon'></span> -->

@@ -8,7 +8,7 @@
         </nz-select>
     </div>
   </div>
-  <nz-card class="card m-2">
+  <nz-card class="card menu-builder-card m-2">
     <div class="">
       <div class="flex header-tab">
         <div class="w-1/4 jsonEdiotTab">
@@ -116,9 +116,9 @@
           </as-split-area>
           <as-split-area [size]="sizes[1] ">
             <st-site-layout [selectedTheme]="selectedTheme"
-              *ngIf="nodes.length > 0 && selectApplicationType != 'website'"></st-site-layout>
-            <st-website-menu *ngIf="nodes.length > 0 && selectApplicationType == 'website'"
-              [menuData]="nodes"></st-website-menu>
+              *ngIf="nodes.length > 0"></st-site-layout>
+            <!-- <st-website-menu *ngIf="nodes.length > 0 && selectApplicationType == 'website'"
+              [menuData]="nodes"></st-website-menu> -->
             <div class="col-border col-body-conter" style="position: relative ;">
               <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
                 nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="config"
@@ -199,5 +199,5 @@
       </div>
     </div>
   </nz-card>
-  <st-layout-drawer [selectedTheme]="selectedTheme" (notify)="changeLayout($event)"></st-layout-drawer>
+  <st-layout-drawer [selectedTheme]="selectedTheme" [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
 </nz-spin>

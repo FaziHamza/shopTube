@@ -1336,6 +1336,7 @@ export class BuilderComponent implements OnInit {
                         titleIcon: "",
                         tooltip: "",
                         default: "",
+                        hoverIconColor:'',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -2541,6 +2542,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['iconType'] = event.form?.iconType;
             props['additionalProperties']['iconColor'] = event.form?.iconColor;
             props['additionalProperties']['borderRadius'] = event.form?.borderRadius;
+            props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;

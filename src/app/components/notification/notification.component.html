@@ -5,7 +5,7 @@
                 <span>
                     <st-icon *ngIf="notificationData?.icon" [type]="notificationData?.iconType || 'outline'"
                         [icon]="notificationData?.icon" [size]="notificationData?.iconSize"
-                        [color]="notificationData?.iconColor"></st-icon>
+                        [hoverIconColor]="notificationData?.hoverIconColor || ''"   [color]="notificationData?.iconColor"></st-icon>
                 </span>
                 <!-- <span nz-icon [nzType]="notificationData.icon" [style.color]="notificationData.color"></span> -->
             </span>

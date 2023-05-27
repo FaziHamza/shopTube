@@ -236,7 +236,8 @@ export class SiteLayoutComponent implements OnInit {
               this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
               this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
               this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
-              this.dataSharedService.menus = results[3] ? results[3].length > 0 ? results[3][0].menuData : [] : [];
+              this.dataSharedService.menus = results[3] ?  results[3][0].selectedTheme ?  results[3][0].selectedTheme : {} : {};
+              this.dataSharedService.menus.allMenuItems = results[3][0].menuData
               if (this.currentWebsiteLayout == 'backend_application' && results[3] && results[3][0].selectedTheme) {
                 this.selectedTheme = results[3][0].selectedTheme;
                 this.selectedTheme.allMenuItems = results[3][0].menuData

@@ -5,6 +5,6 @@
 <ng-template #characterIcon>
     <span *ngIf="rateData.icon">
         <st-icon  [type]="rateData?.iconType || 'outline'" [icon]="rateData?.icon"
-          [size]="rateData?.iconSize" [color]="rateData?.iconColor"></st-icon>
+        [hoverIconColor]="rateData?.hoverIconColor || ''"  [size]="rateData?.iconSize" [color]="rateData?.iconColor"></st-icon>
       </span>
 </ng-template>
