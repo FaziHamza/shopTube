@@ -6,9 +6,9 @@
                 [nzTitle]='item.title'></nz-statistic>
                 <ng-template #prefixTpl>
                     <st-icon *ngIf="statisticData?.prefixIcon" [type]="statisticData?.iconType"
-                        [icon]="statisticData.prefixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
+                      [hoverIconColor]="statisticData?.hoverIconColor || ''"  [icon]="statisticData.prefixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
                 <ng-template #suffixTpl><st-icon *ngIf="statisticData?.suffixIcon" [type]="statisticData?.iconType"
-                        [icon]="statisticData.suffixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
+                      [hoverIconColor]="statisticData?.hoverIconColor || ''"  [icon]="statisticData.suffixIcon" [size]="statisticData?.iconSize" [color]="statisticData?.iconColor"></st-icon></ng-template>
             </nz-card>
         </nz-col>
     </ng-container>

@@ -21,13 +21,13 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
       <ng-template #prefixTemplateUser>
          <span>
          <st-icon *ngIf="to['additionalProperties']?.suffixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.suffixicon"
-         [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
+         [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
          </span>
       </ng-template>
       <ng-template #suffixTemplateInfo>
          <span>
          <st-icon *ngIf="to['additionalProperties']?.prefixicon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.prefixicon"
-         [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor" ></st-icon>
+         [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor" ></st-icon>
          </span>
       </ng-template>
    </ng-container>

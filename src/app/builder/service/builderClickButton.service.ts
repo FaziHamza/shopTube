@@ -110,6 +110,7 @@ export class BuilderClickButtonService {
       iconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconColor'],
       border: node.formly[0].fieldGroup[0].props['additionalProperties']?.border,
       borderRadius: node.formly[0].fieldGroup[0].props['additionalProperties']?.borderRadius,
+      hoverIconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.hoverIconColor,
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

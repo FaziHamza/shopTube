@@ -236,6 +236,7 @@ export class AddControlService {
       hoverBorderColor: '',
       borderColor: '',
       iconPlacement: 'left',
+      hoverIconColor: '',
     }
   }
   getDropdownButtonControl() {
@@ -260,6 +261,8 @@ export class AddControlService {
       iconType: 'outline',
       nztype: "default",
       textColor: "",
+      hoverIconColor: '',
+
       iconSize: 15,
       hoverTextColor: '',
       dataTable: '',
@@ -296,6 +299,8 @@ export class AddControlService {
       height: 0,
       footerText: 'Footer',
       bgColor: '',
+      hoverIconColor: '',
+
       headerTextColor: '',
       footerTextColor: '',
       mapApi: '',
@@ -489,6 +494,8 @@ export class AddControlService {
       loading: false,
       nztype: 'default',
       size: 'default',
+      hoverIconColor: '',
+
       imageSrc: '',
       imageAlt: '',
       description: 'Description',
@@ -513,6 +520,8 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       mapApi: '',
+      hoverIconColor: '',
+
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
@@ -534,6 +543,8 @@ export class AddControlService {
       isNextChild: true,
       hideTabs: false,
       border: true,
+      hoverIconColor: '',
+
       nodes: "3",
       centerd: false,
       selectTabColor:'red',
@@ -549,6 +560,8 @@ export class AddControlService {
       isNextChild: true,
       size: 'default',
       status: 'none',
+      hoverIconColor: '',
+
       disabled: false,
       border: true,
       nodes: "3",
@@ -560,7 +573,10 @@ export class AddControlService {
       isNextChild: true,
       nodes: "3",
       mapApi: '',
+      hoverIconColor: '',
+
       tableHeader: [
+        
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
         { name: 'defaultValue' },
@@ -593,6 +609,8 @@ export class AddControlService {
       className: "w-full",
       disabled: false,
       description: "description",
+      hoverIconColor: '',
+
       isNextChild: true,
       status: '',
       subtitle: '',
@@ -650,6 +668,8 @@ export class AddControlService {
       iconSize: 15,
       dataTable: '',
       btnLabelPaddingClass: '',
+      hoverIconColor: '',
+
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
@@ -712,6 +732,8 @@ export class AddControlService {
       nztype: 'default',
       beforecopyIcon: '',
       aftercopyIcon: '',
+      hoverIconColor: '',
+
       editableIcon: '',
       link: '',
       iconType: 'outline',
@@ -1055,6 +1077,8 @@ export class AddControlService {
       mode: 'left',
       iconType: 'outline',
       iconSize: 15,
+      hoverIconColor: '',
+
       iconColor: '',
       data: [
         {
@@ -1129,6 +1153,8 @@ export class AddControlService {
       nzDisabled: false,
       isNextChild: true,
       nzExpandedIcon: '',
+      hoverIconColor: '',
+
       nzShowArrow: true,
       extra: '',
     }
@@ -1141,6 +1167,8 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       height: 0,
+      hoverIconColor: '',
+
       iconColor: '',
       isNextChild: true,
       dashed: false,
@@ -1158,6 +1186,8 @@ export class AddControlService {
       duration: 3000,
       placement: "topRight",
       closeIcon: "close-circle",
+      hoverIconColor: '',
+
       description: "message",
       animate: true,
       pauseOnHover: true,
@@ -1171,6 +1201,8 @@ export class AddControlService {
       isNextChild: false,
       icon: 'star',
       showCount: 5,
+      hoverIconColor: '',
+
       ngvalue: 0,
       disabled: false,
       iconType: 'outline',
@@ -1190,6 +1222,8 @@ export class AddControlService {
       format: false,
       iconType: 'outline',
       iconSize: 15,
+      hoverIconColor: '',
+
       icon: 'star',
       height: 0,
     }
@@ -1230,6 +1264,8 @@ export class AddControlService {
       isNextChild: false,
       suffixIcon: "like",
       iconType: "outline",
+      hoverIconColor: '',
+
       iconSize: 15,
       statisticArray: [
         {
@@ -1304,6 +1340,8 @@ export class AddControlService {
       okBtnText: 'Ok',
       closeIcon: 'close',
       width: 250,
+      hoverIconColor: '',
+
       showCloseIcon: true,
       zIndex: 1000,
       iconType: 'outline',
@@ -1319,6 +1357,8 @@ export class AddControlService {
       content: 'Pop Confirm',
       trigger: 'hover',
       placement: 'top',
+      hoverIconColor: '',
+
       visible: false,
       mouseEnterDelay: 0,
       mouseLeaveDelay: 0,
@@ -1349,6 +1389,8 @@ export class AddControlService {
       standAlone: false,
       dot: true,
       showDot: true,
+      hoverIconColor: '',
+
       overflowCount: '',
       showZero: false,
       nztype: 'count',
@@ -1376,6 +1418,8 @@ export class AddControlService {
       placement: 'top',
       visible: false,
       isNextChild: false,
+      hoverIconColor: '',
+
       mouseEnterDelay: 0,
       mouseLeaveDelay: 0,
       backdrop: false,
@@ -1434,6 +1478,8 @@ export class AddControlService {
       mode: "closeable",
       isNextChild: false,
       checked: false,
+      hoverIconColor: '',
+
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
@@ -1466,6 +1512,8 @@ export class AddControlService {
       delayTime: 1000,
       loaderText: "Loading...",
       isNextChild: false,
+      hoverIconColor: '',
+
       simple: false,
       spinning: true,
     }
@@ -1476,6 +1524,8 @@ export class AddControlService {
       showSearch: true,
       firstBoxTitle: 'Source',
       secondBoxTitle: 'Target',
+      hoverIconColor: '',
+
       leftButtonLabel: 'to left',
       rightButtonLabel: 'to right',
       isNextChild: false,
@@ -1546,6 +1596,8 @@ export class AddControlService {
       icon: false,
       isNextChild: false,
       width: true,
+      hoverIconColor: '',
+
       hideUnMatched: false,
       status: 'default',
       checkable: false,
@@ -1586,6 +1638,8 @@ export class AddControlService {
       draggable: false,
       multiple: false,
       isNextChild: false,
+      hoverIconColor: '',
+
       expandAll: false,
       expand: true,
       expandIcon: 'folder',
@@ -1649,6 +1703,8 @@ export class AddControlService {
       size: 'default',
       status: 'default',
       expandIcon: 'down',
+      hoverIconColor: '',
+
       showInput: true,
       disabled: false,
       iconType: 'outline',
@@ -1710,6 +1766,8 @@ export class AddControlService {
       isVisible: false,
       placement: "right",
       size: "default",
+      hoverIconColor: '',
+
       width: 500,
       height: 500,
       offsetX: 0,
@@ -1739,6 +1797,8 @@ export class AddControlService {
       content: "contentTpl",
       text: "Description",
       link: "#API",
+      hoverIconColor: '',
+
       btnText: "Create Now",
       color: "bg-blue-600",
     }
@@ -1750,6 +1810,8 @@ export class AddControlService {
       footerText: "this is footer",
       formatter: "vertical",
       size: "default",
+      hoverIconColor: '',
+
       isBordered: true,
       isSplit: false,
       isEdit: true,
@@ -1825,6 +1887,8 @@ export class AddControlService {
       isCheckable: false,
       isMultiple: false,
       isExpandAll: false,
+      hoverIconColor: '',
+
       nodes: [
         {
           title: 'parent 1',
@@ -1906,6 +1970,8 @@ export class AddControlService {
       icon: "smile",
       color: "#108ee9",
       duration: 3000,
+      hoverIconColor: '',
+
       pauseOnHover: true,
       isNextChild: false,
       animate: true,
@@ -1923,8 +1989,10 @@ export class AddControlService {
       isNextChild: false,
       icon: 'star',
       iconType: 'outline',
+      hoverIconColor: '',
       iconSize: 15,
       badgeType: 'none',
+      
       badgeCount: '',
       dot_ribbon_color: '#E93F3F',
     }

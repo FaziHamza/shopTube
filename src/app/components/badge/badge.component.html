@@ -27,7 +27,7 @@
   <ng-template #iconTemplate>
     <span *ngIf="badgeData.icon" class="ant-scroll-number-custom-component">
       <st-icon  [type]="badgeData.iconType || 'outline'" [icon]="badgeData.icon"
-        [size]="badgeData.iconSize" [color]="badgeData.iconColor"></st-icon>
+        [size]="badgeData.iconSize" [hoverIconColor]="badgeData?.hoverIconColor || ''" [color]="badgeData.iconColor"></st-icon>
     </span>
   </ng-template>
 

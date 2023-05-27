@@ -36,6 +36,6 @@
 <ng-template #iconTemplate>
     <span *ngIf="drawerData.icon" class="ant-scroll-number-custom-component">
       <st-icon  [type]="drawerData.iconType || 'outline'" [icon]="drawerData.icon"
-        [size]="drawerData.iconSize" [color]="drawerData.iconColor"></st-icon>
+      [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize" [color]="drawerData.iconColor"></st-icon>
     </span>
   </ng-template>

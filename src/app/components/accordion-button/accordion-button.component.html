@@ -16,5 +16,5 @@
 </ng-template>
 <ng-template #expandedIcon>
     <st-icon *ngIf="accordionData?.nzExpandedIcon" [type]="accordionData?.iconType" [icon]="accordionData?.nzExpandedIcon"
-        [size]="accordionData?.iconSize" [color]="accordionData?.iconColor"></st-icon>
+    [hoverIconColor]="accordionData?.hoverIconColor || ''"  [size]="accordionData?.iconSize" [color]="accordionData?.iconColor"></st-icon>
 </ng-template>
