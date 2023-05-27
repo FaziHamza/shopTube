@@ -6,7 +6,7 @@
         [nzDisabled]="tabs.disabled" nzClosable >
         <ng-template #titleTemplate>
             <span *ngIf="items.icon">
-                <st-icon [type]="items.iconType" [icon]="items.icon" [size]="items.iconSize" [color]="items?.iconColor"></st-icon>
+                <st-icon [type]="items.iconType" [hoverIconColor]="items?.hoverIconColor || ''" [icon]="items.icon" [size]="items.iconSize" [color]="items?.iconColor"></st-icon>
             </span>
             {{items.title}}
             <span nz-tooltip *ngIf='items.tooltip' [nzTooltipTitle]='items.tooltip'><span nz-icon

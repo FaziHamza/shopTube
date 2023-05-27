@@ -16,7 +16,7 @@
 &nbsp;
 <ng-template #expandIcon>
     <span *ngIf="cascaderData?.expandIcon">
-        <st-icon  [type]="cascaderData?.iconType || 'outline'" [icon]="cascaderData?.expandIcon"
+        <st-icon  [type]="cascaderData?.iconType || 'outline'" [icon]="cascaderData?.expandIcon" [hoverIconColor]="cascaderData?.hoverIconColor || ''"
           [size]="cascaderData?.iconSize" [color]="cascaderData?.iconColor"></st-icon>
       </span>
 </ng-template>

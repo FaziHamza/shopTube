@@ -24,6 +24,7 @@
     <st-icon *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
       [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [size]="buttonData.iconSize"
       [type]="buttonData.iconType"
     ></st-icon>
@@ -37,6 +38,7 @@
       [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor"
       [size]="buttonData.iconSize"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [type]="buttonData.iconType"
     ></st-icon>
   </span>
@@ -68,6 +70,7 @@
     <st-icon *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
       [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [size]="buttonData.iconSize"
       [type]="buttonData.iconType"
     ></st-icon>
@@ -81,6 +84,7 @@
       [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor"
       [size]="buttonData.iconSize"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [type]="buttonData.iconType"
     ></st-icon>
   </span>
@@ -116,6 +120,7 @@
               [icon]="buttonData.btnIcon"
               [color]="buttonData.iconColor"
               [size]="buttonData.iconSize"
+              [hoverIconColor]="buttonData?.hoverIconColor || ''"
               [type]="buttonData.iconType"
             ></st-icon>
             <span
@@ -128,6 +133,7 @@
               [icon]="buttonData.btnIcon"
               [color]="buttonData.iconColor"
               [size]="buttonData.iconSize"
+              [hoverIconColor]="buttonData?.hoverIconColor || ''"
               [type]="buttonData.iconType"
             ></st-icon>
           </span>

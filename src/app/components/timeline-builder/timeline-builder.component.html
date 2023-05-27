@@ -11,7 +11,7 @@
         <ng-template #characterIcon>
             <span *ngIf="item?.dotIcon">
                 <st-icon  [type]="timelineData?.iconType || 'outline'" [icon]="item?.dotIcon"
-                  [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
+                 [hoverIconColor]="timelineData?.hoverIconColor || ''" [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
               </span>
         </ng-template>
     </ng-container>
@@ -21,6 +21,6 @@
 <ng-template #pendingIcon>
     <span *ngIf="timelineData?.mainIcon">
         <st-icon  [type]="timelineData?.iconType || 'outline'" [icon]="timelineData?.mainIcon"
-          [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
+         [hoverIconColor]="timelineData?.hoverIconColor || ''" [size]="timelineData?.iconSize" [color]="timelineData?.iconColor"></st-icon>
       </span>
 </ng-template>

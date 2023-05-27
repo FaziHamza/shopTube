@@ -22,18 +22,18 @@ nz-typography
 <ng-template #beforecopiedIcon>
   <span>
     <st-icon *ngIf="data?.beforecopyIcon" [type]="data?.iconType || 'outline'" [icon]="data?.beforecopyIcon"
-      [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
+     [hoverIconColor]="data?.hoverIconColor || ''" [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
   </span>
   </ng-template>
 <ng-template #aftercopiedIcon>
   <span>
     <st-icon *ngIf="data?.aftercopyIcon" [type]="data?.iconType || 'outline'" [icon]="data?.aftercopyIcon"
-      [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
+     [hoverIconColor]="data?.hoverIconColor || ''" [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
   </span>
   </ng-template>
 <ng-template #editIcon>
   <span>
     <st-icon *ngIf="data?.editableIcon" [type]="data?.iconType || 'outline'" [icon]="data?.editableIcon"
-      [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
+     [hoverIconColor]="data?.hoverIconColor || ''" [size]="data?.iconSize" [color]="data?.iconColor"></st-icon>
   </span>
   </ng-template>

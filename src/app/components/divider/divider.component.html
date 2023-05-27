@@ -4,7 +4,7 @@
     <ng-template #text>
         <span>
             <st-icon *ngIf="dividerData?.icon" [type]="dividerData?.iconType || 'outline'" [icon]="dividerData?.icon"
-                [size]="dividerData?.iconSize" [color]="dividerData?.iconColor"></st-icon>
+            [hoverIconColor]="dividerData?.hoverIconColor || ''"    [size]="dividerData?.iconSize" [color]="dividerData?.iconColor"></st-icon>
             {{dividerData.dividerText}}
         </span>
     </ng-template>

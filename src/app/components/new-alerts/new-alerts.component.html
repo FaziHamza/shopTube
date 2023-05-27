@@ -12,7 +12,7 @@
 <ng-template #customIcon>
   <span *ngIf="alertData.icon">
     <st-icon [type]="alertData.iconType || 'outline'" [icon]="alertData.icon" [size]="alertData.iconSize"
-      [color]="alertData.iconColor"></st-icon>
+    [hoverIconColor]="alertData?.hoverIconColor || ''"  [color]="alertData.iconColor"></st-icon>
   </span>
   {{alertData.text}}
 </ng-template>

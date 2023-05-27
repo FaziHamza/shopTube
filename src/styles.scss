@@ -1420,9 +1420,17 @@ a.fc-event:hover {
   color: white !important;
 }
 
+
 .main-layout {
-  height: calc(100vh - 105px);
+  min-height: calc(100vh - 105px);
   margin-bottom: 120px;
+}
+
+.menu-builder-card {
+  .main-layout {
+    height: auto !important;
+  }
+
 }
 
 .content-body {
