@@ -1,6 +1,4 @@
 <div class="layout1" *ngIf="currentWebsiteLayout == 'backend_application'">
-
-
   <nz-layout>
     <nz-header [dir]="selectedTheme?.layout" nz-menu
       [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
@@ -10,17 +8,23 @@
           <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
         </div>
         <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader' [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
-       || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
+          || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
           *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'" nz-menu
           [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
           <!-- <button nz-button nzType="primary" (click)="toggleCollapsed()">
           <span nz-icon  [nzType]="selectedTheme.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
         </button> -->
-          <st-menu (notify)="notifyEmit($event)"></st-menu>
+          <st-menu *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')" (notify)="notifyEmit($event)"></st-menu>
+          <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
+            <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
+          </div>
         </div>
         <div [ngClass]='selectedTheme.topHeader'
           *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
-          <st-menu (notify)="notifyEmit($event)"></st-menu>
+          <st-menu *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')" (notify)="notifyEmit($event)"></st-menu>
+          <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
+            <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
+          </div>
         </div>
       </div>
     </nz-header>
@@ -64,13 +68,18 @@
       </div>
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
     </div>
-    <nz-footer class="bg-white-500 text-black-500"
-      *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer>
-    <nz-footer class="bg-white-500 text-black-500" *ngIf="dataSharedService.footerData.length">
-      <st-main [mainData]="dataSharedService.footerData"></st-main>
-    </nz-footer>
+    <div *ngIf="currentUrl.includes('localhost')">
+      <nz-footer class="bg-white-500 text-black-500"
+        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer>
+      <nz-footer class="bg-white-500 text-black-500" *ngIf="dataSharedService.footerData.length">
+        <st-main [mainData]="dataSharedService.footerData"></st-main>
+      </nz-footer>
+    </div>
+    <div *ngIf="currentFooter && !currentUrl.includes('localhost')">
+      <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+    </div>
   </nz-layout>
 
 </div>
 <!-- <button nz-button nzType="primary" routerLink="/pages/Screen">Button</button> -->
-<st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'"  [layout]="currentWebsiteLayout"></st-layout1>
+<st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'" [layout]="currentWebsiteLayout"></st-layout1>

@@ -19,31 +19,26 @@
                     <st-icon *ngIf="item.icon" [type]="item.iconType == 'outline'" [icon]="item.icon"
                       [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
                   </span><span *ngIf="!this.selectedTheme.isCollapsed">{{item.title}}</span></li>
-                <ng-template #customIcon>
-                  <span nz-icon nzType="step-backward" nzTheme="outline"></span>
-                </ng-template>
                 <ng-container *ngIf="item.children.length && shouldExecute(item.children[0]);else menu">
                   <!-- <li nz-submenu [nzTitle]="item.title" [ngTemplateOutlet]="customIcon" -->
-                  <li nz-submenu (mouseover)="setHovered('up', item.menuIcon,item)"
+                  <li [nzTitle]="itemTemplate" nz-submenu (mouseover)="setHovered('up', item.menuIcon,item)"
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
-                    <span class="child-menu">
-                      <span class="menu-item-icon">
-                        <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                          [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                      </span><span *ngIf="!this.selectedTheme.isCollapsed">{{item.title}}</span></span>
+                    <ng-template #itemTemplate>
+                      <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                        [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
+                      <span>{{ item.title }}</span>
+                    </ng-template>
                     <ul>
                       <ng-container *ngFor="let sub of item.children">
                         <ng-container *ngIf="shouldExecute(sub) && selectedTheme.layout != 'twoColumn'">
                           <li nz-menu-item *ngIf="sub.children.length == 0" (click)="loadTabsAndButtons($event, sub)"
                             (mouseover)="setHovered(false,'start',sub)" (mouseout)="setHovered(true,'start')">
-                            <span class="subchild-menu">
-                              <span class="menu-item-icon">
-                                <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
-                                  [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
-                              </span><span *ngIf="!this.selectedTheme.isCollapsed">{{sub.title}}</span></span>
+                            <span><st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
+                                [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
+                              <span *ngIf="!this.selectedTheme.isCollapsed">{{sub.title}}</span></span>
                           </li>
                           <ng-container *ngIf="sub.children.length > 0">
-                            <li nz-submenu  (click)="loadTabsAndButtons($event, sub)"
+                            <li nz-submenu (click)="loadTabsAndButtons($event, sub)"
                               (mouseover)="setHovered(false,'start',item)" (mouseout)="setHovered(true,'start')">
                               <span class="subchild-menu">
                                 <span class="menu-item-icon">
@@ -54,9 +49,11 @@
                                 <li nz-menu-item *ngFor="let subSub of sub.children">
                                   <span class="subchild-menu">
                                     <span class="menu-item-icon">
-                                      <st-icon *ngIf="subSub.icon" [type]="subSub.iconType == 'outline'" [icon]="subSub.icon"
-                                        [size]="subSub.iconSize || 15" [color]="subSub.iconColor || ''"></st-icon>
-                                    </span><span *ngIf="!this.selectedTheme.isCollapsed">{{subSub.title}}</span></span></li>
+                                      <st-icon *ngIf="subSub.icon" [type]="subSub.iconType == 'outline'"
+                                        [icon]="subSub.icon" [size]="subSub.iconSize || 15"
+                                        [color]="subSub.iconColor || ''"></st-icon>
+                                    </span><span *ngIf="!this.selectedTheme.isCollapsed">{{subSub.title}}</span></span>
+                                </li>
                               </ul>
                             </li>
                           </ng-container>
@@ -69,20 +66,10 @@
                   <li class="nav-item" *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip
                     nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
                     (click)="loadTabsAndButtons($event,item)">
-                    <span [style.font-size.px]="item.iconSize || 15" [style.color]="item.iconColor || ''" nz-icon
-                      *ngIf="item.iconType == undefined" [nzType]="item.icon"
-                      [nzTheme]='item.iconType || "outline"'></span>
-                    <span [style.font-size.px]="item.iconSize || 15" [style.color]="item.iconColor || ''" nz-icon
-                      *ngIf="item.iconType == 'outline' || item.iconType == 'fill' || item.iconType == 'twotone'"
-                      [nzType]="item.icon" [nzTheme]='item.iconType'></span>
-                    <i [style.font-size.px]="item.iconSize || 15" [style.color]="item.iconColor || ''"
-                      *ngIf="item.iconType == 'font_awsome'" [class]="item.icon"></i>
-                    <span [style.font-size.px]="item.iconSize || 15" [style.color]="item.iconColor || ''"
-                      *ngIf="item.iconType == 'material'">
-                      <i class="material-icons">{{item.icon}}</i>
-                    </span>
-                    <span class="title" [style.margin-left.px]="getStyleValue(item , selectedTheme)"
-                      [style.margin-right.px]="getStyle(item , selectedTheme)">{{item.title}}</span>
+                    <span class="menu-item-icon">
+                      <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                        [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon></span>
+                    <span>{{item.title}}</span>
                   </li>
                 </ng-template>
               </ng-container>
