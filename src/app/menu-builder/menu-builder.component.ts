@@ -189,6 +189,8 @@ export class MenuBuilderComponent implements OnInit {
     this.builderService.getJsonModules(data).subscribe((res => {
       debugger
       if (res.length > 0) {
+        let getModule = this.menuModule.find((a: any) => a.name == data);
+        this.selectApplicationType = getModule['application_Type'] ? getModule['application_Type'] : '';
         this.moduleId = res[0].id
         this.nodes = res[0].menuData;
         if (res[0].selectedTheme) {
@@ -1147,10 +1149,23 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-
+    debugger
     // this.selectedTheme.horizontalRow = '';
     // this.selectedTheme.rowClass = 'flex flex-wrap';
-    if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
+    const isValidColor = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(layoutType);
+    if(isValidColor){
+      this.selectedTheme['backGroundColor'] = layoutType;
+    }
+    else if(layoutType == 'font-thin' || layoutType == 'font-light' || layoutType == 'font-normal'||
+    layoutType == 'font-medium' || layoutType == 'font-semibold' || layoutType == 'font-bold'||
+    layoutType == 'font-extrabold' || layoutType == 'font-black' || layoutType == 'italic' ||
+    layoutType == 'underline'){
+      this.selectedTheme['font'] = layoutType;
+    }
+    else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
+      this.selectedTheme['design'] = layoutType;
+    }
+    else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.menuMode = "inline",
         this.selectedTheme.isCollapsed = false;
       this.selectedTheme.topHeaderMenu = 'w-1/6'
@@ -1220,7 +1235,8 @@ export class MenuBuilderComponent implements OnInit {
         if (layoutType == 'horizental' || layoutType == 'twoColumn')
           this.selectedTheme.sideBarSize = '';
       }
-    } else if (layoutType == 'fluid' || layoutType == 'boxed') {
+    }
+    else if (layoutType == 'fluid' || layoutType == 'boxed') {
       this.selectedTheme.layoutWidth = layoutType;
       if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
         this.horizentalLayout();
@@ -1296,7 +1312,7 @@ export class MenuBuilderComponent implements OnInit {
     if (name) {
       let getApplication = this.applicationBuilder.find(a => a.name == name);
       if (getApplication) {
-        this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+        // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
           next: (res) => {
             this.menuModule = res;

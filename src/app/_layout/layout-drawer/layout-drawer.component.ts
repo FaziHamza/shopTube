@@ -7,10 +7,20 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
   styleUrls: ['./layout-drawer.component.scss']
 })
 export class LayoutDrawerComponent implements OnInit {
-  @Input() selectedTheme : any;
+  @Input() selectedTheme: any;
+  @Input() applicationType: any;
   size: NzButtonSize = 'large';
   @Output() notify: EventEmitter<any> = new EventEmitter();
   visible = false;
+  font = '';
+  color = '';
+
+  constructor() { }
+
+  ngOnInit(): void {
+    debugger
+
+  }
   open(): void {
     this.visible = true;
   }
@@ -18,12 +28,7 @@ export class LayoutDrawerComponent implements OnInit {
   close(): void {
     this.visible = false;
   }
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  changeLayout(layoutType: any){
+  changeLayout(layoutType: any) {
     this.notify.emit(layoutType);
   }
 
