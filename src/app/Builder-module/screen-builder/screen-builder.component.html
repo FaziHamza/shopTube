@@ -24,8 +24,7 @@
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
                     <th nzCustomFilter *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
-                        <nz-filter-trigger [nzVisible]="column.visible || false"
-                             [nzDropdownMenu]="menu">
+                        <nz-filter-trigger [nzVisible]="column.visible || false" [nzDropdownMenu]="menu">
                             <span nz-icon nzType="search"></span>
                         </nz-filter-trigger>
                     </th>
@@ -78,10 +77,15 @@
             </div>
         </div>
     </div> -->
-    <div class="pagination">
-        <label class="label">Pagination</label>
-        <div class="input-container">
-            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+    <div class="table-controls">
+        <div class="pagination">
+            <label class="label">Pagination</label>
+            <div class="input-container">
+                <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+            </div>
+        </div>
+        <div>
+            <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
         </div>
     </div>
 </nz-card>
