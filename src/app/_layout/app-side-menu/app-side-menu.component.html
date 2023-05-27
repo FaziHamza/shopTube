@@ -26,7 +26,7 @@
                     <ng-template #itemTemplate>
                       <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
                         [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                      <span>{{ item.title }}</span>
+                      <span class="sidenav-title">{{ item.title }}</span>
                     </ng-template>
                     <ul>
                       <ng-container *ngFor="let sub of item.children">
@@ -69,7 +69,7 @@
                     <span class="menu-item-icon">
                       <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
                         [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon></span>
-                    <span>{{item.title}}</span>
+                    <span class="sidenav-title">{{item.title}}</span>
                   </li>
                 </ng-template>
               </ng-container>
