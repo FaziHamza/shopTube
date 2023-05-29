@@ -66,7 +66,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    
+    debugger
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -153,8 +153,6 @@ export class ActionRuleComponent implements OnInit {
         }
       }
     }
-
-
     // If you want the output to be a single string of sorted queries:
     return sortedQueries.map(query => query.query).join('; ');
   }
@@ -166,7 +164,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   SaveAction() {
-    
+    debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonQuryResult = {
       "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -193,8 +191,7 @@ export class ActionRuleComponent implements OnInit {
         "sqlType": element.sqlType,
         "email": element.email,
         "confirmEmail": element.confirmEmail,
-        "referenceId": element.referenceId,
-        "query": element.query
+        "referenceId": element.referenceId
       }
       if (data != null) {
         if (mainModuleId[0].screenId != null) {
@@ -202,30 +199,15 @@ export class ActionRuleComponent implements OnInit {
             next: (res) => {
               this.toastr.success("Save Successfully", { nzDuration: 3000 });
               
-              for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
-                const key = Object.keys(this.formlyModel)[j];
-                const keys = key.split('.')
-                if (keys[0] == element.name) {
-                  const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
-                  if (item) {
-                  }
-                }
-              }
-              // const empData = {
-              //   "name": "string",
-              //   "lastname": "string",
-              //   "email": data.email
-              // }
-              // this.builderService.saveSQLDatabaseTable('knex-crud/Employee', data).subscribe({
-              //   next: (res) => {
-              //     this.toastr.success("Save Successfully", { nzDuration: 3000 });
-              //   },
-              //   error: (err) => {
-              //     console.error(err);
-              //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+              // for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
+              //   const key = Object.keys(this.formlyModel)[j];
+              //   const keys = key.split('.')
+              //   if (keys[0] == element.name) {
+              //     const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+              //     if (item) {
+              //     }
               //   }
-              // })
-
+              // }
             },
             error: (err) => {
               console.error(err);

@@ -252,11 +252,12 @@ export class MainComponent implements OnInit {
       }
     });
     const empData = {
-      screenId: 'Crms',
+      screenId: 'CRMAPP',
       modalData: nestedObject
     };
 
-    this.builderService.saveSQLDatabaseTable('knex-crud/saveData', empData).subscribe({
+    console.log(empData);
+    this.builderService.saveSQLDatabaseTable('knex-crud', empData).subscribe({
       next: (res) => {
         this.toastr.success("Save Successfully", { nzDuration: 3000 });
       },
@@ -265,19 +266,19 @@ export class MainComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-    if (data.dataTable) {
-      this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
-        next: (res) => {
-          this.toastr.success("Data saved!", { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      });
-    } else {
-      this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
-    }
+    // if (data.dataTable) {
+    //   this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
+    //     next: (res) => {
+    //       this.toastr.success("Data saved!", { nzDuration: 3000 });
+    //     },
+    //     error: (err) => {
+    //       console.error(err); // Log the error to the console
+    //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    //     }
+    //   });
+    // } else {
+    //   this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
+    // }
   }
   findObjectByType(data: any, key: any) {
     if (data.type === key) {
