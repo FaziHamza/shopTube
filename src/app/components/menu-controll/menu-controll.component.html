@@ -1,13 +1,11 @@
 <div class="flex-flex-wrap {{_dataShared.menus?.font}}" *ngIf="_dataShared.menus?.allMenuItems.length > 0">
-    <ul nz-menu nzMode="horizontal" [style.background]="_dataShared.menus?.backGroundColor">
-        <ng-container *ngFor="let item of _dataShared.menus?.allMenuItems" nz-menu-item (click)="route(item)">
-            <li *ngIf="item.children.length == 0" [ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeColor'] ? _dataShared.menus['activeColor'] : '' ) : '' }" >
-                <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                        [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                    <span [style.color]="_dataShared.menus['textColor']"> {{item.title}}</span>
-                </span>
-            </li>
-        </ng-container>
+    <ul nz-menu nzMode="horizontal" [style.background]="_dataShared.menus['backGroundColor']">
+        <li *ngFor="let item of _dataShared.menus?.allMenuItems" nz-menu-item (click)="route(item)"
+            [ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeColor'] ? _dataShared.menus['activeColor'] : '' ) : '' }">
+            <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                    [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
+                <span [style.color]="_dataShared.menus['textColor']"> {{item.title}}</span>
+            </span>
+        </li>
     </ul>
 </div>
-
