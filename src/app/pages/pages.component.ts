@@ -39,7 +39,7 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   ngOnInit(): void {
-    debugger
+    
     // if (this.router.url.includes('/pages'))
     //   this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {

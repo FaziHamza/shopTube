@@ -156,7 +156,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
-    debugger
+    
     if (isSubmit && key == "moduleId") {
       let obj = {
         name: value.name + "_default",
@@ -322,7 +322,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }));
   }
   onSubmit() {
-    debugger
+    
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -345,7 +345,7 @@ export class ApplicationBuilderComponent implements OnInit {
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        debugger
+        
         // if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();
         // };
@@ -419,7 +419,7 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(company: any) {
-    debugger
+    
     const moduleData = this.listOfChildrenData.filter((item: any) => item.applicationName == company.name);
     company['children'] = moduleData;
   }

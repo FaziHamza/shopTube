@@ -187,7 +187,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   getFormLayers(data: any) {
     this.builderService.getJsonModules(data).subscribe((res => {
-      debugger
+      
       if (res.length > 0) {
         let getModule = this.menuModule.find((a: any) => a.name == data);
         this.selectApplicationType = getModule['application_Type'] ? getModule['application_Type'] : '';
@@ -1149,18 +1149,17 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    debugger
-    // this.selectedTheme.horizontalRow = '';
-    // this.selectedTheme.rowClass = 'flex flex-wrap';
-    const isValidColor = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(layoutType);
-    if(isValidColor){
-      this.selectedTheme['backGroundColor'] = layoutType;
+    
+    if (layoutType.includes('backGroundColor')) {
+      this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
+    } else if (layoutType.includes('textColor')) {
+      this.selectedTheme['textColor'] = layoutType.split('_')[0];
+    } 
+    else if (layoutType.includes('font')) {
+      this.selectedTheme['font'] = layoutType.split('_')[0];
     }
-    else if(layoutType == 'font-thin' || layoutType == 'font-light' || layoutType == 'font-normal'||
-    layoutType == 'font-medium' || layoutType == 'font-semibold' || layoutType == 'font-bold'||
-    layoutType == 'font-extrabold' || layoutType == 'font-black' || layoutType == 'italic' ||
-    layoutType == 'underline'){
-      this.selectedTheme['font'] = layoutType;
+    else if (layoutType.includes('activeColor')) {
+      this.selectedTheme['activeColor'] = layoutType.split('_')[0];
     }
     else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
       this.selectedTheme['design'] = layoutType;
@@ -1308,7 +1307,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getModule(name: any) {
-    debugger
+    
     if (name) {
       let getApplication = this.applicationBuilder.find(a => a.name == name);
       if (getApplication) {

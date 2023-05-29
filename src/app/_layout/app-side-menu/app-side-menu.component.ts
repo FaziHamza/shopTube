@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
@@ -23,17 +23,18 @@ export class AppSideMenuComponent implements OnInit {
   selectApplicationModuleData: any = [];
   isTwoColumnCollapsed = false;
   requestSubscription: Subscription;
+  isActiveShow : any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public builderService: BuilderService, public dataSharedService: DataSharedService) { }
+    public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.loadModules();
     this.makeMenuData();
   }
-  ngOnDestroy(){
+
+
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
-  }
-  toggleCollapsed(): void {
   }
 
   setHovered(value: any, data?: any, item?: any) {
@@ -107,6 +108,8 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
+    debugger
+    this.isActiveShow = data.id;
     event.stopPropagation();
     if (data.application) {
       this.dataSharedService.selectApplication = data.id;
@@ -115,7 +118,6 @@ export class AppSideMenuComponent implements OnInit {
     }
     else {
       let checkTabsAndDropdown = false;
-      // this.dataSharedService.selectApplication = '';
       data.children.forEach((element: any) => {
         if (!checkTabsAndDropdown) {
           if (element.type == 'mainTab' || element.type == 'dropdown') {

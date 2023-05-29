@@ -242,7 +242,7 @@ export class MainComponent implements OnInit {
     }
   }
   saveData1(data: any) {
-    debugger
+    
     const objModel:any = this.form.value;
     let nestedObject: any = null;
     Object.keys(objModel).forEach(key => {

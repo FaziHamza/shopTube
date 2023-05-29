@@ -66,7 +66,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    debugger
+    
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -166,7 +166,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   SaveAction() {
-    debugger
+    
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
     const jsonQuryResult = {
       "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,

@@ -27,7 +27,7 @@ export class Layout1Component implements OnInit {
 
     this.requestSubscription = this._dataShared.currentMenu.subscribe({
       next: (res) => {
-        debugger
+        
         if (res)
           this.currentMenu = res;
       },
@@ -38,7 +38,7 @@ export class Layout1Component implements OnInit {
     })
     this.requestSubscription = this._dataShared.currentHeader.subscribe({
       next: (res) => {
-        debugger
+        
         this.currentHeader = res;
       },
       error: (err) => {
@@ -48,7 +48,7 @@ export class Layout1Component implements OnInit {
     })
     this.requestSubscription = this._dataShared.currentFooter.subscribe({
       next: (res) => {
-        debugger
+        
         this.currentFooter = res;
       },
       error: (err) => {
@@ -58,7 +58,7 @@ export class Layout1Component implements OnInit {
     })
     this.requestSubscription = this._dataShared.defaultPage.subscribe({
       next: (res) => {
-        debugger
+        
         this.defaultPage = res;
       },
       error: (err) => {
@@ -67,13 +67,13 @@ export class Layout1Component implements OnInit {
       }
     })
     // this._dataShared.currentApplication.subscribe(res=>{
-    //   debugger
+    //   
     //   if(res)
     //   this.currentApplicationList = res;
     // })
   }
   gotoPage(item:any){
-    debugger
+    
     this.router.navigate(item.link)
   }
 

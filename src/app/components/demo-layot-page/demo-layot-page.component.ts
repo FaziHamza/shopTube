@@ -13,7 +13,7 @@ export class DemoLayotPageComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       if (params["application"] && params["module"]) {
         let activeModule = params["module"].replace('-', ' ');
