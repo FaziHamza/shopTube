@@ -134,10 +134,30 @@ nz-footer {
 }
 
 .nav-item {
-  span{
+  span {
     font-size: 0.925rem;
     color: #7c7f90;
     font-weight: 500;
-    font-family: Rubik,sans-serif;
+    font-family: Rubik, sans-serif;
   }
 }
+
+// .ant-menu:not(.ant-menu-horizontal) {
+//   .ant-menu-item-selected {
+//     background-color: transparent !important;
+//   }
+// }
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: none;
+  // background: transparent !important;
+}
+.ant-menu-inline {
+  .ant-menu-item::after,
+  .ant-menu-vertical .ant-menu-item::after,
+  .ant-menu-vertical-left .ant-menu-item::after,
+  .ant-menu-vertical-right .ant-menu-item::after {
+    border-right: none !important;
+  }
+}
+
+

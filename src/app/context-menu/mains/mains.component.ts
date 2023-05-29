@@ -1,5 +1,6 @@
 import { Component,  EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-mains',
@@ -14,9 +15,10 @@ export class MainsComponent implements OnInit {
   @Input() screenName: any;
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
-  constructor(private nzImageService: NzImageService,) { }
+  constructor(private nzImageService: NzImageService,public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
+   
   }
   imagePreview(data: any) {
     let image = '';

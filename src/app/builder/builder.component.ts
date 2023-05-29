@@ -248,12 +248,12 @@ export class BuilderComponent implements OnInit {
         "menuData": newData,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
       };
-      if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectModuleName) {
-        data['module'] = this.selectModuleName;
-        this.dataSharedService.headerData = [];
-        this.dataSharedService.footerData = [];
-        this.dataSharedService.checkModule = '';
-      }
+      // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectModuleName) {
+      //   data['module'] = this.selectModuleName;
+      //   this.dataSharedService.headerData = [];
+      //   this.dataSharedService.footerData = [];
+      //   this.dataSharedService.checkModule = '';
+      // }
       this.screenId = mainModuleId[0].screenId;
       // if (this.screenId > 0) {
 
@@ -317,6 +317,23 @@ export class BuilderComponent implements OnInit {
           this.previousScreenName = data;
           this.isSavedDb = false;
           const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
+          if (newScreenName[0].name.includes('_header') && this.selectModuleName) {
+            let applicationType = this.moduleList.filter((item : any) => item.name == this.selectModuleName);
+            if(applicationType[0].application_Type == "website"){
+              this.requestSubscription = this.builderService.getJsonModules(this.selectModuleName).subscribe({
+                next: (result) => {
+                  if (result.length > 0) {
+                    this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
+                    this.dataSharedService.menus.allMenuItems = result[0].menuData
+                  }
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                }
+              })
+            }
+          }
           this.requestSubscription = this.builderService.screenById(newScreenName[0].screenId).subscribe({
             next: (res) => {
               if (res.length > 0) {
@@ -1336,7 +1353,7 @@ export class BuilderComponent implements OnInit {
                         titleIcon: "",
                         tooltip: "",
                         default: "",
-                        hoverIconColor:'',
+                        hoverIconColor: '',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -1465,7 +1482,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-    
+    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -3242,19 +3259,19 @@ export class BuilderComponent implements OnInit {
     this.searchControllData = [];
     var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
     if (input && input != " ") {
-      let filterData = this.htmlTabsData[0].children.filter((a:any)=>a.id !="website-block");
+      let filterData = this.htmlTabsData[0].children.filter((a: any) => a.id != "website-block");
       filterData.forEach((a: any) => {
         console.log(a)
-        if(a.children.length > 0){
+        if (a.children.length > 0) {
           a.children.forEach((b: any) => {
-            if(b.children)
-            if(b.children.length > 0){
-              b.children.forEach((c: any) => {
-                if (c.label.toUpperCase().includes(input)) {
-                  this.searchControllData.push(c)
-                }
-              });
-            }
+            if (b.children)
+              if (b.children.length > 0) {
+                b.children.forEach((c: any) => {
+                  if (c.label.toUpperCase().includes(input)) {
+                    this.searchControllData.push(c)
+                  }
+                });
+              }
           });
         }
       });
@@ -3797,7 +3814,7 @@ export class BuilderComponent implements OnInit {
   }
 
   openModal(type?: any, data?: any): void {
-    
+
     if (type == 'webCode') {
       this.modalType = 'webCode'
       this.htmlBlockimagePreview = data;
@@ -3818,7 +3835,7 @@ export class BuilderComponent implements OnInit {
   }
 
   showWebBlockList(type: any) {
-    
+
     if (type == 'Website Block') {
       this.webBlock = true;
     }
@@ -3828,9 +3845,9 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-    
+
     if (checkType == 'website-block') {
-      data.template.forEach((item: any)=>{
+      data.template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
       })
     } else {

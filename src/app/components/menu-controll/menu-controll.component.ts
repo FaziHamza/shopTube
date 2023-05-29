@@ -10,27 +10,19 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./menu-controll.component.scss']
 })
 export class MenuControllComponent implements OnInit {
-  data : any = [];
+  @Input() data : any;
+  isActiveShow : any;
   requestSubscription: Subscription;
   constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) { 
-    // this.requestSubscription = this._dataShared.menus.subscribe({
-    //   next: (res) => {
-    //     debugger
-    //     this.data = res
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //   }
-    // })
   }
 
   ngOnInit(): void {
-
+   
     
   }
 
   route(data : any): void {
+    this.isActiveShow = data.id;
     if (data.link) {
       let routerLink = data.link;
       this.router.navigate([routerLink]);

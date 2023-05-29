@@ -61,9 +61,10 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
-        debugger
+        
         this.currentHeader = res;
       },
       error: (err) => {
@@ -73,7 +74,7 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
       next: (res) => {
-        debugger
+        
         this.currentFooter = res;
       },
       error: (err) => {
@@ -83,7 +84,7 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
       next: (res) => {
-        debugger
+        
         this.defaultPage = res;
       },
       error: (err) => {
@@ -110,7 +111,6 @@ export class SiteLayoutComponent implements OnInit {
       this.getMenuByDomainName();
     }
     else if (!window.location.href.includes('/menu-builder')) {
-      // if (this.currentUrl.includes('/home'))
       if (!this.selectedTheme) {
         this.selectedTheme = this.newSelectedTheme;
       }
@@ -140,10 +140,10 @@ export class SiteLayoutComponent implements OnInit {
       }
       this.tabs = [];
     });
-    window.onresize = () => {
-      this.controlMenu();
-    };
-    this.controlMenu();
+    // window.onresize = () => {
+    //   this.controlMenu();
+    // };
+    // this.controlMenu();
   }
   // toggleCollapsed(): void {
 
@@ -215,7 +215,7 @@ export class SiteLayoutComponent implements OnInit {
   //   });
   // }
   getMenuByDomainName() {
-    debugger
+    
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)

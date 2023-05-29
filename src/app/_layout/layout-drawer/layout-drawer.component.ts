@@ -12,13 +12,11 @@ export class LayoutDrawerComponent implements OnInit {
   size: NzButtonSize = 'large';
   @Output() notify: EventEmitter<any> = new EventEmitter();
   visible = false;
-  font = '';
-  color = '';
 
   constructor() { }
 
   ngOnInit(): void {
-    debugger
+    
 
   }
   open(): void {

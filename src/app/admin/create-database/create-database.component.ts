@@ -138,7 +138,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.updateEditCache();
   }
   updateEditCache(): void {
-    debugger
+    
     this.listOfData.forEach((item, index) => {
       this.editCache[index + 1] = {
         edit: false,
@@ -167,7 +167,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.listOfData = [...this.listOfData];
   }
   submitFormv1() {
-    debugger
+    
     if (this.myForm.valid) {
       const fields: { [key: string]: any } = {};
       this.listOfData.forEach((element: any) => {

@@ -15,7 +15,7 @@ export class IconComponent implements OnInit {
   mainColor: any;
 
   ngOnInit(): void {
-    debugger
+    
     this.color;
     this.icon;
     this.size;
@@ -27,7 +27,7 @@ export class IconComponent implements OnInit {
 
   }
   applyColor(allow: boolean) {
-    debugger
+    
     if (allow) {
       this.mainColor = this.color;
       this.color = this.hoverIconColor;
