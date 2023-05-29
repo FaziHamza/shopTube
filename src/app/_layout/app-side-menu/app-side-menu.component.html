@@ -16,7 +16,7 @@
             <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
               <ng-container *ngFor="let item of selectedTheme.allMenuItems">
                 <li
-                  [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                  [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                   class="menu-title" *ngIf="item.isTitle && shouldExecute(item);"><span class="menu-item-icon">
                     <st-icon *ngIf="item.icon" [type]="item.iconType == 'outline'" [icon]="item.icon"
                       [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
@@ -25,22 +25,42 @@
                 </li>
                 <ng-container *ngIf="item.children.length && shouldExecute(item.children[0]);else menu">
                   <li
-                    [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                    [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                     [nzTitle]="itemTemplate" nz-submenu (mouseover)="setHovered('up', item.menuIcon,item)"
                     (mouseout)="setHovered('down',item.menuIcon,item)" (click)="loadTabsAndButtons($event,item)">
                     <ng-template #itemTemplate>
-                      <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                        [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                      <span class="sidenav-title" [style.color]="selectedTheme['textColor']">{{
-                        item.title }}</span>
+                      <span class="menu-item-icon">
+                        <st-icon
+                          *ngIf="item.icon"
+                          [type]="item.iconType || 'outline'"
+                          [icon]="item.icon"
+                          [size]="item.iconSize || 15"
+                          [color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor']"
+                        ></st-icon>
+                      </span>
+                      <span class="sidenav-title"
+                        [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
+                      >{{ item.title }}</span>
                     </ng-template>
                     <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor">
                       <ng-container *ngFor="let sub of item.children">
                         <ng-container *ngIf="shouldExecute(sub) && selectedTheme.layout != 'twoColumn'">
                           <li
-                            [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                            [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                             nz-menu-item *ngIf="sub.children.length == 0" (click)="loadTabsAndButtons($event, sub)"
                             (mouseover)="setHovered(false,'start',sub)" (mouseout)="setHovered(true,'start')">
+                            <span class="menu-item-icon">
+                              <st-icon
+                                *ngIf="sub.icon"
+                                [type]="sub.iconType || 'outline'"
+                                [icon]="sub.icon"
+                                [size]="sub.iconSize || 15"
+                                [color]="isActiveShow === sub.id ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor']"
+                              ></st-icon>
+                            </span>
+                            <span class="sidenav-title"
+                              [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
+                            >{{ sub.title }}</span>
                             <span><st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                                 [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
                               <span *ngIf="!this.selectedTheme.isCollapsed"
@@ -48,7 +68,7 @@
                           </li>
                           <ng-container *ngIf="sub.children.length > 0">
                             <li [nzTitle]="subTemplate"
-                              [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                              [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                               nz-submenu (click)="loadTabsAndButtons($event, sub)"
                               (mouseover)="setHovered(false,'start',item)" (mouseout)="setHovered(true,'start')">
                               <ng-template #subTemplate>
@@ -59,7 +79,7 @@
                               </ng-template>
                               <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor">
                                 <li
-                                  [ngStyle]="{ 'background': isActiveShow == subSub.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                                  [ngStyle]="{ 'background': isActiveShow == subSub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                                   nz-menu-item *ngFor="let subSub of sub.children">
                                   <span>
                                     <st-icon *ngIf="subSub.icon" [type]="subSub.iconType || 'outline'"
@@ -78,15 +98,29 @@
                 </ng-container>
                 <ng-template #menu>
                   <li
-                    [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
-                    class="nav-item" *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item nz-tooltip
-                    nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
-                    (click)="loadTabsAndButtons($event,item)">
+                    [ngStyle]="{
+                      'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
+                    }"
+                    class="nav-item"
+                    *ngIf="shouldExecute(item) && !item.isTitle"
+                    nz-menu-item
+                    nz-tooltip
+                    nzTooltipPlacement="right"
+                    [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
+                    (click)="loadTabsAndButtons($event, item)"
+                  >
                     <span class="menu-item-icon">
-                      <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                        [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon></span>
+                      <st-icon
+                        *ngIf="item.icon"
+                        [type]="item.iconType || 'outline'"
+                        [icon]="item.icon"
+                        [size]="item.iconSize || 15"
+                        [color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor']"
+                      ></st-icon>
+                    </span>
                     <span class="sidenav-title"
-                      [style.color]="selectedTheme['textColor']? selectedTheme['textColor'] : ''">{{item.title}}</span>
+                      [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
+                    >{{ item.title }}</span>
                   </li>
                 </ng-template>
               </ng-container>
@@ -101,7 +135,7 @@
                     <ng-container
                       *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
                       <div class="box block"
-                        [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }">
+                        [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }">
                         <span nz-icon nzType="appstore" nzTheme="outline"></span>
                         <p class="my-4" *ngIf="shouldExecute(item)" (click)="loadTabsAndButtons($event,item)">
                           {{item.label}}</p>
@@ -110,7 +144,7 @@
                             <li nz-submenu [nzTitle]="sub.title">
                               <ul *ngFor="let subChild of sub.children">
                                 <li
-                                  [ngStyle]="{ 'background': isActiveShow == subChild.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                                  [ngStyle]="{ 'background': isActiveShow == subChild.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                                   nz-menu-item *ngIf="shouldExecute(subChild)">{{subChild.title}}</li>
                               </ul>
                             </li>
@@ -121,11 +155,11 @@
                   </ng-template>
                   <ng-template #menu>
                     <div class="box block"
-                      [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                      [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                       *ngIf="shouldExecute(item)">
                       <span nz-icon [nzType]="item.icon"></span>
                       <li
-                        [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeColor'] ? selectedTheme['activeColor'] : '' ) : '' }"
+                        [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                         nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
                         <span>{{item.title}}</span>
                       </li>

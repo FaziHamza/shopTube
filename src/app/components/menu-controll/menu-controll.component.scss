@@ -31,13 +31,19 @@
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: none;
-  }
-  .ant-menu-inline {
+}
+
+.ant-menu-inline {
+
     .ant-menu-item::after,
     .ant-menu-vertical .ant-menu-item::after,
     .ant-menu-vertical-left .ant-menu-item::after,
     .ant-menu-vertical-right .ant-menu-item::after {
-      border-right: none !important;
+        border-right: none !important;
     }
-  }
-  
+}
+
+.ant-menu-horizontal {
+    line-height: 45px !important;
+    border: none !important; 
+}

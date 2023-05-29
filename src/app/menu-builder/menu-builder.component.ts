@@ -1158,8 +1158,14 @@ export class MenuBuilderComponent implements OnInit {
     else if (layoutType.includes('font')) {
       this.selectedTheme['font'] = layoutType.split('_')[0];
     }
-    else if (layoutType.includes('activeColor')) {
-      this.selectedTheme['activeColor'] = layoutType.split('_')[0];
+    else if (layoutType.includes('activeBackgroundColor')) {
+      this.selectedTheme['activeBackgroundColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('activeTextColor')) {
+      this.selectedTheme['activeTextColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('hoverTextColor')) {
+      this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
     }
     else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
       this.selectedTheme['design'] = layoutType;

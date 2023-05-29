@@ -5,8 +5,8 @@
 <nz-drawer [nzWidth]="'50%'" [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Theme Customizer"
     [nzExtra]="extra">
     <ng-container *nzDrawerContent>
-        <div class="flex">
-            <div class="w-1/2 p-2">
+        <div class="flex flex-wrap">
+            <div class="w-1/4 p-1">
                 <label>Font Family</label>
                 <nz-select style="width:100%" nzShowSearch nzAllowClear nzPlaceHolder="Select Font"
                     [(ngModel)]="selectedTheme['font']" (ngModelChange)="changeLayout(selectedTheme['font']+'_'+'font')">
@@ -24,20 +24,30 @@
                     <nz-option nzLabel="line-through" nzValue="line-through"></nz-option>
                 </nz-select>
             </div>
-            <div class="w-1/2 p-2">
+            <div class="w-1/4 p-1">
                 <label>BackGround color</label>
                 <input nz-input type="color" [(ngModel)]="selectedTheme['backGroundColor']"
                     (input)="changeLayout(selectedTheme['backGroundColor']+'_'+'backGroundColor')" />
             </div>
-            <div class="w-1/2 p-2">
+            <div class="w-1/4 p-1">
                 <label>Text color</label>
                 <input nz-input type="color" [(ngModel)]="selectedTheme['textColor']"
                     (input)="changeLayout(selectedTheme['textColor']+'_'+'textColor')" />
             </div>
-            <div class="w-1/2 p-2">
-                <label>Active color</label>
-                <input nz-input type="color" [(ngModel)]="selectedTheme['activeColor']"
-                    (input)="changeLayout(selectedTheme['activeColor']+'_'+'activeColor')" />
+            <div class="w-1/4 p-1">
+                <label>Active BackGround color</label>
+                <input nz-input type="color" [(ngModel)]="selectedTheme['activeBackgroundColor']"
+                    (input)="changeLayout(selectedTheme['activeBackgroundColor']+'_'+'activeBackgroundColor')" />
+            </div>
+            <div class="w-1/4 p-1">
+                <label>Active Text color</label>
+                <input nz-input type="color" [(ngModel)]="selectedTheme['activeTextColor']"
+                    (input)="changeLayout(selectedTheme['activeTextColor']+'_'+'activeTextColor')" />
+            </div>
+            <div class="w-1/4 p-1">
+                <label>Hover Text color</label>
+                <input nz-input type="color" [(ngModel)]="selectedTheme['hoverTextColor']"
+                    (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')" />
             </div>
         </div>
         <div *ngIf="applicationType == 'backend_application' || !applicationType">

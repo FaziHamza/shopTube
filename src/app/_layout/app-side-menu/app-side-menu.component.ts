@@ -23,7 +23,8 @@ export class AppSideMenuComponent implements OnInit {
   selectApplicationModuleData: any = [];
   isTwoColumnCollapsed = false;
   requestSubscription: Subscription;
-  isActiveShow : any;
+  isActiveShow: any;
+  hoverActiveShow: any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2) { }
 
@@ -38,17 +39,15 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   setHovered(value: any, data?: any, item?: any) {
-
+    debugger
+    if (value) {
+      this.hoverActiveShow = data.id;
+    } else {
+      this.hoverActiveShow = null;
+    }
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.selectedTheme.isCollapsed = value;
-        // if(value){
-        //   this.rowClass = 'w-10/12';
-        //   this.menuColumn = 'w-1/6';
-        // }else{
-        //   this.rowClass = 'w-11/12';
-        //   this.menuColumn = 'w-1/12';
-        // }
       }
       if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
         if (!this.selectedTheme.checked)
@@ -201,6 +200,21 @@ export class AppSideMenuComponent implements OnInit {
       }
     });
   }
+
+  // getMenuItemColor(item: any, type: any): string {
+  //   if (this.hoverActiveShow === item.id) {
+  //     return this.selectedTheme['hoverTextColor'];
+  //   } else if (this.isActiveShow === item.id) {
+  //     return this.selectedTheme['activeTextColor'] || item['iconColor'];
+  //   } else if (type == 'text') {
+  //     return this.selectedTheme['textColor'];
+  //   }
+  //   else if(type == 'color') {
+  //     return item['iconColor'];
+  //   }else{
+  //     return ''
+  //   }
+  // }
 
 }
 
