@@ -67,7 +67,7 @@ export class PagesComponent implements OnInit {
           }
           this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
         }
-        else{
+        else {
         }
       }
       else {
@@ -80,7 +80,7 @@ export class PagesComponent implements OnInit {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
         this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
-          let commentList = res.filter((item: any) => this.screenName == item.screenId)
+          let commentList = res.filter((item: any) =>  item.screenId == this.screenName)
           this.dataSharedService.screenCommentList = commentList;
         })
 
@@ -94,6 +94,17 @@ export class PagesComponent implements OnInit {
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
               this.checkDynamicSection();
               this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
+              if (params["commentId"] != "all") {
+                this.builderService.getCommentById(params["commentId"]).subscribe(res => {
+                  let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+                  findObj.highLight = true;
+                })
+              }else{
+                this.dataSharedService.screenCommentList.forEach(element => {
+                  let findObj = this.findObjectById(this.resData[0], element.commentId);
+                  findObj.highLight = true;
+                });
+              }
             }
           },
           error: (err) => {
@@ -102,6 +113,7 @@ export class PagesComponent implements OnInit {
         });
 
       }
+
     });
   }
   jsonParseWithObject(data: any) {
@@ -848,6 +860,24 @@ export class PagesComponent implements OnInit {
       this.dataSharedService.footerData = response.menuData[0].children[1].children[0].children[1].children;
     } else {
       this.dataSharedService.headerData = response.menuData[0].children[1].children[0].children[1].children;
+    }
+  }
+  findObjectById(data: any, key: any) {
+    if (data) {
+      if (data.id && key) {
+        if (data.id === key) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectById(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
     }
   }
 }
