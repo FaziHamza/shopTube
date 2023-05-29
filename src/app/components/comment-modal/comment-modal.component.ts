@@ -14,6 +14,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class CommentModalComponent implements OnInit {
   @Input() data: any = {};
+  @Input() screenName: any;
   form: FormGroup;
   requestSubscription: Subscription;
   constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute, public dataSharedService: DataSharedService) {
@@ -27,32 +28,29 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     if (this.form.valid) {
-      this.route.url.subscribe((segments) => {
-        const component = segments[segments.length - 1].path;
-        const currentDate = new Date();
-        const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
-        let commentObj = {
-          commentId: this.data.id,
-          type: this.data.type,
-          screenId: component,
-          comment: this.form.value.comment,
-          date: new Date(),
-          time:commentTime
+      const currentDate = new Date();
+      const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
+      let commentObj = {
+        commentId: this.data.id,
+        type: this.data.type,
+        screenId: this.screenName,
+        comment: this.form.value.comment,
+        date: new Date(),
+        time: commentTime
+      }
+      this.requestSubscription = this.builderService.genericApisPost('commentList', commentObj).subscribe({
+        next: (res) => {
+          this.getCommentsData()
+          this.#modal.destroy();
+          this.toastr.success("Data saved Successfully", { nzDuration: 3000 }); // Show an error message to the user
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.#modal.destroy();
         }
-        this.requestSubscription = this.builderService.genericApisPost('commentList', commentObj).subscribe({
-          next: (res) => {
-            this.getCommentsData()
-            this.#modal.destroy();
-            this.toastr.success("Data saved Successfully", { nzDuration: 3000 }); // Show an error message to the user
-          },
-          error: (err) => {
-            console.error(err); // Log the error to the console
-            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            this.#modal.destroy();
-          }
-        });
       });
     }
   }

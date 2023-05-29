@@ -1,8 +1,8 @@
 <nz-timeline>
-    <ng-container *ngFor="let item of dataSharedService.screenCommentList">
-        <nz-timeline-item>
-            <nz-card [nzTitle]="item.commentId" class="custom-card" >
-                <div class="date">{{item.time }} {{ item.date | date: 'dd/MM/yyyy' }}</div>
+    <ng-container *ngFor="let item of dataSharedService.screenCommentList" >
+        <nz-timeline-item >
+            <nz-card [nzTitle]="item.commentId" class="custom-card" (click)="gotoPages(item)">
+                <div class="date"> {{ item.date | date: 'dd/MM/yyyy' }}  {{item.time }}</div>
                 <div class="comment">{{ item.comment }}</div>
                 <div class="type">{{ item.type }}</div>
             </nz-card>

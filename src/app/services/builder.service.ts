@@ -365,6 +365,11 @@ export class BuilderService {
       this.baseUrl + "jsonBuilderValidationRule?moduleId=" + moduleId
     );
   }
+  getCommentById(id: any): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "commentList?id="+id
+    );
+  }
   jsonSaveValidationRule(modal: any): Observable<any[]> {
     return this.http.post<any[]>(
       this.baseUrl + "jsonBuilderValidationRule", modal
