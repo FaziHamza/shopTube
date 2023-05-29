@@ -304,7 +304,8 @@ export class MainComponent implements OnInit {
       nzContent: CommentModalComponent,
       nzViewContainerRef: this.viewContainerRef,
       nzComponentParams: {
-        data: json
+        data: json,
+        screenName: this.screenName,
       },
       // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
       nzFooter: []
