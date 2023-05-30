@@ -23,7 +23,8 @@ import { FieldWrapper } from '@ngx-formly/core';
       <ng-template #fieldComponent></ng-template>
    </div>
    <div *ngIf="showError" class="text-red-500 text-sm block pl-2">
-      <formly-validation-message [field]="field"></formly-validation-message>
+   <span>{{to['additionalProperties']?.requiredMessage}}</span>
+   <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
    </div>
 </div>
 

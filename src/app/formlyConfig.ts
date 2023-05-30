@@ -106,9 +106,9 @@ export const formlyCustomeConfig: ConfigOption = {
     //   },
 
   ],
-  validationMessages: [
-    { name: 'required', message: 'This field is required' },
-  ],
+  // validationMessages: [
+  //   { name: 'required', message: 'This field is required' },
+  // ],
   wrappers: [
     { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
     { name: 'formly-vertical-wrapper', component: FormlyVerticalWrapper },

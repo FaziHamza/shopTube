@@ -64,7 +64,7 @@ export class SiteLayoutComponent implements OnInit {
    debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
-        
+
         this.currentHeader = res;
       },
       error: (err) => {
@@ -74,7 +74,7 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
       next: (res) => {
-        
+
         this.currentFooter = res;
       },
       error: (err) => {
@@ -84,7 +84,7 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
       next: (res) => {
-        
+
         this.defaultPage = res;
       },
       error: (err) => {
@@ -104,8 +104,12 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
+    if(this.currentUrl.includes('localhost')){
+      this.currentWebsiteLayout = "backend_application";
+    }else{
+      this.currentWebsiteLayout = "";
+    }
     this.fullCurrentUrl = window.location.href;
-    this.currentWebsiteLayout = "backend_application";
     if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenuByDomainName();
@@ -215,7 +219,7 @@ export class SiteLayoutComponent implements OnInit {
   //   });
   // }
   getMenuByDomainName() {
-    
+
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
