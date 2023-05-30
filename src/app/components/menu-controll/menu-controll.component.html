@@ -1,10 +1,12 @@
 <div class="flex-flex-wrap {{_dataShared.menus?.font}}" *ngIf="_dataShared.menus?.allMenuItems.length > 0">
     <ul nz-menu nzMode="horizontal" [style.background]="_dataShared.menus['backGroundColor'] ? _dataShared.menus['backGroundColor'] : 'transparent'">
-        <li *ngFor="let item of _dataShared.menus?.allMenuItems" nz-menu-item (click)="route(item)"
+        <li (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" 
+        *ngFor="let item of _dataShared.menus?.allMenuItems" nz-menu-item (click)="route(item)"
             [ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeColor'] ? _dataShared.menus['activeColor'] : '' ) : '' }">
             <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                    [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                <span [style.color]="_dataShared.menus['textColor']"> {{item.title}}</span>
+                    [size]="item.iconSize || 15" [color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] :
+                    ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                <span [style.color]="_dataShared.menus['textColor']"><span [style.color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{item.title}}</span></span>
             </span>
         </li>
     </ul>
