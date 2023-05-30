@@ -87,12 +87,10 @@ export class PagesComponent implements OnInit {
         this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
           next: (res: any) => {
             if (res.length > 0) {
-
               this.screenId = res[0].moduleId;
               this.getUIRuleData(res[0].moduleName);
               this.getBusinessRule(this.screenName);
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-              this.dataSharedService.defaultPage.next('');
               this.checkDynamicSection();
               this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
               if (params["commentId"] != "all") {

@@ -715,7 +715,7 @@ export class AddControlService {
       color: '#000000',
       headingApi: "",
       text: "Editor.js",
-      heading: 3,
+      heading: 'text-base',
       fontstyle: 'font-normal',
       link: '',
     }

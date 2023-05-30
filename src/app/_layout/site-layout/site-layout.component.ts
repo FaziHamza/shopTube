@@ -104,13 +104,11 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
-    this.currentWebsiteLayout = "backend_application";
-
-    // if(this.currentUrl.includes('localhost')){
-    //   this.currentWebsiteLayout = "backend_application";
-    // }else{
-    //   this.currentWebsiteLayout = "";
-    // }
+    if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
+      this.currentWebsiteLayout = "backend_application";
+    }else{
+      this.currentWebsiteLayout = "";
+    }
     this.fullCurrentUrl = window.location.href;
     if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
       this.selectedTheme = this.newSelectedTheme;
@@ -239,7 +237,11 @@ export class SiteLayoutComponent implements OnInit {
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
+              if(window.location.href.includes("/home")){
               this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+              }else{
+                this.dataSharedService.defaultPage.next('');
+              }
               this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
               this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
               this.dataSharedService.menus = results[3] ?  results[3][0].selectedTheme ?  results[3][0].selectedTheme : {} : {};
