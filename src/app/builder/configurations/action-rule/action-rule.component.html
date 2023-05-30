@@ -1,3 +1,4 @@
+<div #monacoComponent></div>
 <div class="general_faq mt-3">
   <form [formGroup]="actionForm">
     <div class="flex flex-wrap">
@@ -51,8 +52,8 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-
-              <textarea nz-input type="text" rows="3" class="form-control" formControlName="email"></textarea>
+              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email" (init)="editorInit($event)"></ngx-monaco-editor>
+              <!-- <textarea nz-input type="text" rows="3" class="form-control" formControlName="email"></textarea> -->
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'query'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
@@ -64,8 +65,11 @@
                 <label nz-radio-button nzValue="mySql">MySql</label>
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
-              <textarea nz-input type="text" rows="3" class="form-control" [id]="'query' + i"
-                formControlName="query"></textarea>
+              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
+               formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor>
+
+              <!-- <textarea nz-input type="text" rows="3" class="form-control" [id]="'query' + i"
+                formControlName="query"></textarea> -->
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
@@ -76,8 +80,10 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-              <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
-                formControlName="confirmEmail"></textarea>
+              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
+              formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor>
+              <!-- <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
+                formControlName="confirmEmail"></textarea> -->
             </div>
           </div>
           <div class="w-2/12 " style="margin-top: 7%;">

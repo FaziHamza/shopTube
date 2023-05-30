@@ -1534,3 +1534,9 @@ a.fc-event:hover {
 .ant-menu-horizontal>.ant-menu-item::after, .ant-menu-horizontal>.ant-menu-submenu::after{
   transition:none !important;
 }
+
+ngx-monaco-editor {
+  height: 20%;
+  // /* width: 98%; */
+  margin: 15px;
+}
