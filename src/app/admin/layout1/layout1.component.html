@@ -1,10 +1,10 @@
 <div *ngIf="currentHeader">
   <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
 </div>
-<div *ngIf="defaultPage">
-  <st-pages [resData]="defaultPage" *ngIf="defaultPage.length  > 0"></st-pages>
+<div *ngIf="_dataShared.defaultPageNodes">
+  <st-pages [resData]="_dataShared.defaultPageNodes" *ngIf="_dataShared.defaultPageNodes.length  > 0"></st-pages>
 </div>
-<div *ngIf="!defaultPage">
+<div *ngIf="!_dataShared.defaultPageNodes">
   <router-outlet></router-outlet>
 </div>
 <div *ngIf="currentFooter">
