@@ -1354,6 +1354,7 @@ export class BuilderComponent implements OnInit {
                         tooltip: "",
                         default: "",
                         hoverIconColor: '',
+                        requiredMessage:'This field is required',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -1558,6 +1559,7 @@ export class BuilderComponent implements OnInit {
       case "cascader":
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.formData = _formFieldData.cascaderFields;
+        delete configObj.options
         break;
       case "tree":
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);
@@ -2532,6 +2534,7 @@ export class BuilderComponent implements OnInit {
               this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
             }
             props['additionalProperties']['border'] = event.form.border;
+            props['additionalProperties']['requiredMessage'] = event.form.requiredMessage;
             props['additionalProperties']['optionWidth'] = event.form.optionWidth;
             props['additionalProperties']['step'] = event.form.step;
             props['additionalProperties']['format'] = event.form.format;
@@ -3261,7 +3264,6 @@ export class BuilderComponent implements OnInit {
     if (input && input != " ") {
       let filterData = this.htmlTabsData[0].children.filter((a: any) => a.id != "website-block");
       filterData.forEach((a: any) => {
-        console.log(a)
         if (a.children.length > 0) {
           a.children.forEach((b: any) => {
             if (b.children)

@@ -231,6 +231,7 @@ export class AddControlService {
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
+      btnopacity: '',
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
@@ -294,7 +295,7 @@ export class AddControlService {
   }
   getMenuControl() {
     return {
-      
+
     }
   }
   getCardWithComponentsControl() {
@@ -556,7 +557,7 @@ export class AddControlService {
     }
   }
   getMainStepControl() {
-    
+
     return {
       stepperType: 'default',
       selectedIndex: 0,
@@ -581,7 +582,7 @@ export class AddControlService {
       hoverIconColor: '',
 
       tableHeader: [
-        
+
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
         { name: 'defaultValue' },
@@ -1997,7 +1998,7 @@ export class AddControlService {
       hoverIconColor: '',
       iconSize: 15,
       badgeType: 'none',
-      
+
       badgeCount: '',
       dot_ribbon_color: '#E93F3F',
     }
