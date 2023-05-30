@@ -239,6 +239,7 @@ export class MenuBuilderComponent implements OnInit {
     this.nodes = [...this.nodes];
   }
   downloadJson() {
+    debugger
     const blob = new Blob([JSON.stringify(this.nodes)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -700,102 +701,117 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   downloadAllJson() {
-
-    var resData: any = [];
-    this.screenIdList = [];
-    this.buttonLinkArray = [];
-    const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName)
-    let arr: any = [];
-    arr["jsonModule"] = [];
-    arr.jsonModule.push(mainModuleId[0]);
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
+    const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
+    const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
       "moduleName": this.moduleName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].moduleId : "",
+      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].id : "",
+      "selectedTheme": temporaryData
     };
-    arr["jsonModuleSetting"] = [];
-    arr["jsonBuilderSetting"] = [];
-    this.dataMenuArrayLength = data.menuData.length - 1;
-    arr.jsonModuleSetting.push(data);
-    data.menuData.forEach((element: any) => {
-      this.callApiData(element, arr);
-      element.children.forEach((element1: any) => {
-        this.callApiData(element1, arr);
-        element1.children.forEach((element2: any) => {
-          this.callApiData(element2, arr);
-          element2.children.forEach((element3: any) => {
-            this.callApiData(element3, arr);
-            element3.children.forEach((element4: any) => {
-              this.callApiData(element4, arr);
-              element4.children.forEach((element5: any) => {
-                this.callApiData(element5, arr);
-                element5.children.forEach((element6: any) => {
-                  this.callApiData(element6, arr);
-                  element6.children.forEach((element7: any) => {
-                    this.callApiData(element7, arr);
-                    element7.children.forEach((element8: any) => {
-                      this.callApiData(element8, arr);
-                      element8.children.forEach((element9: any) => {
-                        this.callApiData(element9, arr);
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-    var downloadFileScreen = 0;
-    var downloadButtonScreen = 0;
-    var screenIdListLength = this.screenIdList.length;
-    this.screenIdList.forEach((element: any) => {
-      this.builderService.screenById(element).subscribe((res => {
-        downloadFileScreen++;
-        if (res.length > 0) {
-          resData.push(res[0]);
-          this.getButtonLink(res[0].menuData);
-        }
-        if (screenIdListLength == downloadFileScreen) {
-          if (this.buttonLinkArray.length > 0) {
-            var length = this.buttonLinkArray.length;
-            this.buttonLinkArray.forEach((element1: any) => {
-              this.builderService.screenById(element1).subscribe((res => {
-                downloadButtonScreen++;
-                if (res.length > 0) {
-                  resData.push(res[0]);
-                  this.getButtonLink(res[0].menuData);
-                }
-                if (length == downloadButtonScreen) {
-                  arr.jsonBuilderSetting.push(resData);
-                  let obj = Object.assign({}, arr);
-                  const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
-                  const a = document.createElement('a');
-                  a.href = URL.createObjectURL(blob);
-                  a.download = 'file.';
-                  document.body.appendChild(a);
-                  a.click();
-                }
-              }))
-            });
-          }
-          else {
-            arr.jsonBuilderSetting.push(resData);
-            let obj = Object.assign({}, arr);
-            const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'file.';
-            document.body.appendChild(a);
-            a.click();
-          }
-        }
+    const blob = new Blob([JSON.stringify(this.selectedTheme)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'file.';
+    document.body.appendChild(a);
+    a.click();
+    // var resData: any = [];
+    // this.screenIdList = [];
+    // this.buttonLinkArray = [];
+    // const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName)
+    // let arr: any = [];
+    // arr["jsonModule"] = [];
+    // arr.jsonModule.push(mainModuleId[0]);
+    // var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
+    // var data =
+    // {
+    //   "moduleName": this.moduleName,
+    //   "menuData": currentData,
+    //   "moduleId": mainModuleId.length > 0 ? mainModuleId[0].moduleId : "",
+    // };
+    // arr["jsonModuleSetting"] = [];
+    // arr["jsonBuilderSetting"] = [];
+    // this.dataMenuArrayLength = data.menuData.length - 1;
+    // arr.jsonModuleSetting.push(data);
+    // data.menuData.forEach((element: any) => {
+    //   this.callApiData(element, arr);
+    //   element.children.forEach((element1: any) => {
+    //     this.callApiData(element1, arr);
+    //     element1.children.forEach((element2: any) => {
+    //       this.callApiData(element2, arr);
+    //       element2.children.forEach((element3: any) => {
+    //         this.callApiData(element3, arr);
+    //         element3.children.forEach((element4: any) => {
+    //           this.callApiData(element4, arr);
+    //           element4.children.forEach((element5: any) => {
+    //             this.callApiData(element5, arr);
+    //             element5.children.forEach((element6: any) => {
+    //               this.callApiData(element6, arr);
+    //               element6.children.forEach((element7: any) => {
+    //                 this.callApiData(element7, arr);
+    //                 element7.children.forEach((element8: any) => {
+    //                   this.callApiData(element8, arr);
+    //                   element8.children.forEach((element9: any) => {
+    //                     this.callApiData(element9, arr);
+    //                   });
+    //                 });
+    //               });
+    //             });
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
+    // });
+    // var downloadFileScreen = 0;
+    // var downloadButtonScreen = 0;
+    // var screenIdListLength = this.screenIdList.length;
+    // this.screenIdList.forEach((element: any) => {
+    //   this.builderService.screenById(element).subscribe((res => {
+    //     downloadFileScreen++;
+    //     if (res.length > 0) {
+    //       resData.push(res[0]);
+    //       this.getButtonLink(res[0].menuData);
+    //     }
+    //     if (screenIdListLength == downloadFileScreen) {
+    //       if (this.buttonLinkArray.length > 0) {
+    //         var length = this.buttonLinkArray.length;
+    //         this.buttonLinkArray.forEach((element1: any) => {
+    //           this.builderService.screenById(element1).subscribe((res => {
+    //             downloadButtonScreen++;
+    //             if (res.length > 0) {
+    //               resData.push(res[0]);
+    //               this.getButtonLink(res[0].menuData);
+    //             }
+    //             if (length == downloadButtonScreen) {
+    //               arr.jsonBuilderSetting.push(resData);
+    //               let obj = Object.assign({}, arr);
+    //               const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
+    //               const a = document.createElement('a');
+    //               a.href = URL.createObjectURL(blob);
+    //               a.download = 'file.';
+    //               document.body.appendChild(a);
+    //               a.click();
+    //             }
+    //           }))
+    //         });
+    //       }
+    //       else {
+    //         arr.jsonBuilderSetting.push(resData);
+    //         let obj = Object.assign({}, arr);
+    //         const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
+    //         const a = document.createElement('a');
+    //         a.href = URL.createObjectURL(blob);
+    //         a.download = 'file.';
+    //         document.body.appendChild(a);
+    //         a.click();
+    //       }
+    //     }
 
-      }))
-    });
+    //   }))
+    // });
   }
   callApiData(element?: any, arr?: any) {
     if (element.type != "buttons" && element.type != "dashonicTabs") {
@@ -882,53 +898,62 @@ export class MenuBuilderComponent implements OnInit {
       reader.onloadend = () => {
         let contents = reader.result as string;
         var makeData = JSON.parse(contents);
-        makeData.jsonBuilderSetting[0].forEach((element: any) => {
-          var data =
-          {
-            "moduleName": element.moduleName,
-            "menuData": element.menuData,
-            "moduleId": element.moduleId,
-          };
-          this.builderService.jsonBuilderSettingV1(element.moduleName).subscribe(((res: any) => {
-            if (res.length > 0) {
-              var a = 1;
-              res.forEach((element1: any) => {
-                this.builderService.jsonDeleteBuilder(element1.id).subscribe((res1 => {
-                  if (res1) {
-                    if (a == 1) {
-                      a++;
-                      this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
-                        console.log("save Screens");
-                      }));
-                    }
-                  }
-                }));
-              });
-            }
-            else {
-              this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
-                console.log("save");
-              }));
-            }
-          }))
-          // this.builderService.jsonDeleteBuilderBySreenName(element.moduleName).subscribe((res => {
-          //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
-          //     console.log("save");
-          //   }));
-          // }))
+        this.selectedTheme = makeData;
+         this.nodes = makeData.allMenuItems;
+         this.makeMenuData();
+        // let getModule = this.menuModule.find((a: any) => a.name == data);
+        // this.selectApplicationType = getModule['application_Type'] ? getModule['application_Type'] : '';
+        // this.moduleId = makeData[0].id
+        // this.nodes = makeData.menuData;
+        // makeData.jsonBuilderSetting[0].forEach((element: any) => {
+        //   var data =
+        //   {
+        //     "moduleName": element.moduleName,
+        //     "menuData": element.menuData,
+        //     "moduleId": element.moduleId,
+        //   };
+        //   this.builderService.jsonBuilderSettingV1(element.moduleName).subscribe(((res: any) => {
+        //     if (res.length > 0) {
+        //       var a = 1;
+        //       res.forEach((element1: any) => {
+        //         this.builderService.jsonDeleteBuilder(element1.id).subscribe((res1 => {
+        //           if (res1) {
+        //             if (a == 1) {
+        //               a++;
+        //               this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
+        //                 console.log("save Screens");
+        //               }));
+        //             }
+        //           }
+        //         }));
+        //       });
+        //     }
+        //     else {
+        //       this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
+        //         console.log("save");
+        //       }));
+        //     }
+        //   }))
+        //   // this.builderService.jsonDeleteBuilderBySreenName(element.moduleName).subscribe((res => {
+        //   //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
+        //   //     console.log("save");
+        //   //   }));
+        //   // }))
 
-        });
-        if (makeData.jsonModule && makeData.jsonModule.length > 0) {
-          var moduleData = {
-            applicationName: makeData.jsonModule[0].applicationName,
-            name: makeData.jsonModule[0].name
-          }
-          this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
-            console.log("Application save");
-          }))
-        }
+        // });
+        // if (makeData.jsonModule && makeData.jsonModule.length > 0) {
+        //   var moduleData = {
+        //     applicationName: makeData.jsonModule[0].applicationName,
+        //     name: makeData.jsonModule[0].name
+        //   }
+        //   this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
+        //     console.log("Application save");
+        //   }))
+        // }
       };
-      // reader.readAsText(event.target.files[0]);`
+      if(event.target.files){
+         reader.readAsText(event.target.files[0]);
+      }
     }
   }
   closeConfigurationList() {
