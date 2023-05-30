@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class MenuControllComponent implements OnInit {
   @Input() data : any;
   isActiveShow : any;
+  hoverActiveShow: any;
   requestSubscription: Subscription;
   constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) { 
   }

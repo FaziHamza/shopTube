@@ -40,11 +40,11 @@ export class AppSideMenuComponent implements OnInit {
 
   setHovered(value: any, data?: any, item?: any) {
     debugger
-    if (value) {
-      this.hoverActiveShow = data.id;
-    } else {
-      this.hoverActiveShow = null;
-    }
+    // if (!value) {
+    //   this.hoverActiveShow = data.id;
+    // } else {
+    //   this.hoverActiveShow = null;
+    // }
     if (value != 'down' && value != 'up') {
       if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
         this.selectedTheme.isCollapsed = value;
@@ -172,22 +172,6 @@ export class AppSideMenuComponent implements OnInit {
       return false;
     }
     return true;
-  }
-  getStyleValue(item: any, selectedTheme: any): number {
-    if (item.iconType === 'font_awesome') {
-      return 10;
-    } if (selectedTheme.isCollapsed) {
-      return 35;
-    } else {
-      return 10;
-    }
-  }
-  getStyle(item: any, selectedTheme: any): number {
-    if (selectedTheme.isCollapsed) {
-      return 35;
-    } else {
-      return 10;
-    }
   }
   loadModules(): void {
     this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({

@@ -97,6 +97,4 @@ export class ButtonsComponent implements OnInit {
     this.hoverTextColor = buttonData.textColor || '';
     this.borderColor = buttonData.borderColor || '';
   }
-
-
 }

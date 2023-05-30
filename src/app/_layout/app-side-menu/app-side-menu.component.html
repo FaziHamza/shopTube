@@ -101,6 +101,7 @@
                     [ngStyle]="{
                       'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
                     }"
+                    (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null"
                     class="nav-item"
                     *ngIf="shouldExecute(item) && !item.isTitle"
                     nz-menu-item
@@ -115,11 +116,12 @@
                         [type]="item.iconType || 'outline'"
                         [icon]="item.icon"
                         [size]="item.iconSize || 15"
-                        [color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor']"
+                        [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
+                        ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"
                       ></st-icon>
                     </span>
                     <span class="sidenav-title"
-                      [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
+                    [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])"
                     >{{ item.title }}</span>
                   </li>
                 </ng-template>
