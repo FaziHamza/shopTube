@@ -1527,3 +1527,10 @@ a.fc-event:hover {
   margin-left: 8px;
 
 }
+
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after{
+  border: none !important;
+}
+.ant-menu-horizontal>.ant-menu-item::after, .ant-menu-horizontal>.ant-menu-submenu::after{
+  transition:none !important;
+}

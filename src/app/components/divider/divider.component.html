@@ -1,13 +1,38 @@
-<nz-divider *ngIf="dividerData.dividerText || dividerData.icon" [nzDashed]='dividerData.dashed'
-    [nzType]='dividerData.dividerType' [nzText]="text" [nzPlain]="dividerData.plain"
-    [nzOrientation]="dividerData.orientation">
-    <ng-template #text>
-        <span>
-            <st-icon *ngIf="dividerData?.icon" [type]="dividerData?.iconType || 'outline'" [icon]="dividerData?.icon"
-            [hoverIconColor]="dividerData?.hoverIconColor || ''"    [size]="dividerData?.iconSize" [color]="dividerData?.iconColor"></st-icon>
-            {{dividerData.dividerText}}
-        </span>
-    </ng-template>
+<nz-divider
+  *ngIf="dividerData.dividerText || dividerData.icon"
+  [nzDashed]="dividerData.dashed"
+  [nzType]="dividerData.dividerType"
+  [nzText]="text"
+  [nzPlain]="dividerData.plain"
+  [nzOrientation]="dividerData.orientation"
+  [ngStyle]="{
+    'border-top-color': dividerData.dividerType == 'horizontal' ? dividerData['color']  : 'none',
+    'border-left': dividerData.dividerType == 'vertical' ? dividerData['color']: 'none'
+  }"
+>
+  <ng-template #text>
+    <span [style.color]="dividerData['color']">
+      <st-icon
+        *ngIf="dividerData?.icon"
+        [type]="dividerData?.iconType || 'outline'"
+        [icon]="dividerData?.icon"
+        [hoverIconColor]="dividerData?.hoverIconColor || ''"
+        [size]="dividerData?.iconSize"
+        [style.color]="dividerData?.iconColor"
+      ></st-icon>
+      <span>{{ dividerData.dividerText }}</span>
+    </span>
+  </ng-template>
 </nz-divider>
-<nz-divider *ngIf="!dividerData.dividerText && !dividerData.icon" [nzDashed]='dividerData.dashed'
-    [nzType]='dividerData.dividerType'></nz-divider>
+
+<nz-divider
+  *ngIf="!dividerData.dividerText && !dividerData.icon"
+  [style.height.px]="dividerData.dividerType === 'vertical' && dividerData['height'] && dividerData['height'] !== 0 ? dividerData['height'] : 'auto'"
+  [ngStyle]="{
+    'border-top': dividerData.dividerType === 'horizontal' ? '1px solid ' + dividerData['color'] : 'none',
+    'border-left': dividerData.dividerType === 'vertical' ? '1px solid ' + dividerData['color'] : 'none'
+  }"
+  
+  [nzDashed]="dividerData.dashed"
+  [nzType]="dividerData.dividerType"
+></nz-divider>

@@ -10,7 +10,7 @@ import { FieldWrapper } from '@ngx-formly/core';
    <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon"
    [size]="to['additionalProperties']?.iconSize" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [color]="to['additionalProperties']?.iconColor"></st-icon>
    </span>
-   <span *ngIf="to.required">*</span>{{to.label}}
+   {{to.label}} <span *ngIf="to.required" class="text-red-600">*</span>
    <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
    <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
    </span>
@@ -20,7 +20,8 @@ import { FieldWrapper } from '@ngx-formly/core';
    </div>
    <div *ngIf="showError && to.label" class="w-1/3 {{to['additionalProperties']?.labelPosition}}"></div>
    <div *ngIf="showError" class="w-2/3 text-red-500 text-sm block" style="padding: 0px" >
-      <formly-validation-message [field]="field"></formly-validation-message>
+   <span>{{to['additionalProperties']?.requiredMessage}}</span>
+   <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
    </div>
 </div>
   `,
