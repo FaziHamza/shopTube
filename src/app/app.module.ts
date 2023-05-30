@@ -26,6 +26,7 @@ import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -50,6 +51,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
+    MonacoEditorModule.forRoot(),
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),

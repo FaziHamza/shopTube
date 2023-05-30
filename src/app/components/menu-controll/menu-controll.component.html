@@ -1,11 +1,69 @@
 <div class="flex-flex-wrap {{_dataShared.menus?.font}}" *ngIf="_dataShared.menus?.allMenuItems.length > 0">
-    <ul nz-menu nzMode="horizontal" [style.background]="_dataShared.menus['backGroundColor'] ? _dataShared.menus['backGroundColor'] : 'transparent'">
-        <li *ngFor="let item of _dataShared.menus?.allMenuItems" nz-menu-item (click)="route(item)"
-            [ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeColor'] ? _dataShared.menus['activeColor'] : '' ) : '' }">
-            <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
-                    [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
-                <span [style.color]="_dataShared.menus['textColor']"> {{item.title}}</span>
-            </span>
-        </li>
+    <ul nz-menu nzMode="horizontal"
+        [style.background]="_dataShared.menus['backGroundColor'] ? _dataShared.menus['backGroundColor'] : 'transparent'">
+        <ng-container *ngFor="let item of _dataShared.menus?.allMenuItems">
+            <li *ngIf="item.children.length == 0" (mouseenter)="hoverActiveShow = item.id"
+                (mouseleave)="hoverActiveShow = null" nz-menu-item (click)="route(item)"
+                [ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeBackgroundColor'] ? _dataShared.menus['activeBackgroundColor'] : '' ) : '' }">
+                <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                        [size]="item.iconSize || 15"
+                        [color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] :
+                        ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                    <span [style.color]="_dataShared.menus['textColor']"><span
+                            [style.color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{item.title}}</span></span>
+                </span>
+            </li>
+            <li (mouseenter)="hoverActiveShow = item.id"
+                (mouseleave)="hoverActiveShow = null"[ngStyle]="{ 'background': isActiveShow == item.id ? (_dataShared.menus['activeBackgroundColor'] ? _dataShared.menus['activeBackgroundColor'] : '' ) : '' }" *ngIf="item.children.length > 0" nz-submenu [nzTitle]="itemTemplate" (click)="route(item)">
+                <ng-template #itemTemplate>
+                    <span><st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
+                        [size]="item.iconSize || 15"
+                        [color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] :
+                        ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                            <span [style.color]="_dataShared.menus['textColor']"><span
+                            [style.color]="(hoverActiveShow === item.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === item.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{item.title}}</span></span>
+                </span>
+                </ng-template>
+                <ul [style.background]="_dataShared.menus['backGroundColor'] ? _dataShared.menus['backGroundColor'] : 'transparent'">
+                    <ng-container *ngFor="let sub of item.children">
+                        <li (mouseenter)="hoverActiveShow = sub.id"
+                        (mouseleave)="hoverActiveShow = null" nz-menu-item *ngIf="sub.children.length == 0" (click)="route(sub)"
+                        [ngStyle]="{ 'background': isActiveShow == sub.id ? (_dataShared.menus['activeBackgroundColor'] ? _dataShared.menus['activeBackgroundColor'] : '' ) : '' }"
+                        ><span><st-icon *ngIf="sub.icon"
+                                    [type]="sub.iconType || 'outline'" [icon]="sub.icon" [size]="sub.iconSize || 15"
+                                    [color]="(hoverActiveShow === sub.id) ? _dataShared.menus['hoverTextColor'] :
+                                            ((isActiveShow === sub.id) ? (_dataShared.menus['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                                    <span [style.color]="_dataShared.menus['textColor']"><span
+                                        [style.color]="(hoverActiveShow === sub.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === sub.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{sub.title}}</span></span>
+                                    </span>
+                        </li>
+                        <li (mouseenter)="hoverActiveShow = sub.id"
+                            (mouseleave)="hoverActiveShow = null" *ngIf="sub.children.length > 0" (click)="route(sub)" nz-submenu [nzTitle]="subTemplate"
+                            [ngStyle]="{ 'background': isActiveShow == sub.id ? (_dataShared.menus['activeBackgroundColor'] ? _dataShared.menus['activeBackgroundColor'] : '' ) : '' }">
+                            <ng-template #subTemplate>
+                                <span><st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
+                                    [size]="sub.iconSize || 15"
+                                    [color]="(hoverActiveShow === sub.id) ? _dataShared.menus['hoverTextColor'] :
+                                    ((isActiveShow === sub.id) ? (_dataShared.menus['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                                <span [style.color]="_dataShared.menus['textColor']"><span
+                                        [style.color]="(hoverActiveShow === sub.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === sub.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{sub.title}}</span></span>
+                            </span>
+                            </ng-template>
+                            <ul [style.background]="_dataShared.menus['backGroundColor'] ? _dataShared.menus['backGroundColor'] : 'transparent'">
+                              <li (mouseenter)="hoverActiveShow = subSub.id"
+                              (mouseleave)="hoverActiveShow = null" *ngFor="let subSub of sub.children" (click)="route(subSub)" nz-menu-item
+                                [ngStyle]="{ 'background': isActiveShow == subSub.id ? (_dataShared.menus['activeBackgroundColor'] ? _dataShared.menus['activeBackgroundColor'] : '' ) : '' }"><span><st-icon *ngIf="subSub.icon" [type]="subSub.iconType || 'outline'" [icon]="subSub.icon"
+                                [size]="subSub.iconSize || 15"
+                                [color]="(hoverActiveShow === subSub.id) ? _dataShared.menus['hoverTextColor'] :
+                                ((isActiveShow === subSub.id) ? (_dataShared.menus['activeTextColor'] || subSub['iconColor']) : subSub['iconColor'])"></st-icon>
+                            <span [style.color]="_dataShared.menus['textColor']"><span
+                                    [style.color]="(hoverActiveShow === subSub.id) ? _dataShared.menus['hoverTextColor'] : ((isActiveShow === subSub.id) ? (_dataShared.menus['activeTextColor'] || _dataShared.menus['textColor']) : _dataShared.menus['textColor'])">{{subSub.title}}</span></span>
+                            </span></li>
+                            </ul>
+                          </li>
+                    </ng-container>
+                </ul>
+            </li>
+        </ng-container>
     </ul>
 </div>

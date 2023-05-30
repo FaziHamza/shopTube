@@ -12,13 +12,14 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class MenuControllComponent implements OnInit {
   @Input() data : any;
   isActiveShow : any;
+  hoverActiveShow: any;
   requestSubscription: Subscription;
-  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) { 
+  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) {
   }
 
   ngOnInit(): void {
-   
-    
+
+
   }
 
   route(data : any): void {
@@ -26,7 +27,8 @@ export class MenuControllComponent implements OnInit {
     if (data.link) {
       let routerLink = data.link;
       this.router.navigate([routerLink]);
-      this.dataSharedService.defaultPage.next("")
+      this.dataSharedService.defaultPageNodes = '';
+      // this.dataSharedService.defaultPage.next("")
     }
   }
 }
