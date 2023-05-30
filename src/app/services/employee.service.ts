@@ -85,6 +85,16 @@ export class EmployeeService {
       this.nestUrl + api,obj
     );
   }
+  updateSQLDatabaseTable(api:string,obj:any): Observable<any> {
+    return this.http.put<any>(
+      this.nestUrl + api,obj
+    );
+  }
+  getSQLDatabaseTable(api:string): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + api
+    );
+  }
 
 
 }

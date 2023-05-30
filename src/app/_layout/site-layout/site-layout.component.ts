@@ -61,56 +61,12 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   debugger
-    this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
-      next: (res) => {
-
-        this.currentHeader = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-    this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
-      next: (res) => {
-
-        this.currentFooter = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-    this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
-      next: (res) => {
-
-        this.defaultPage = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-
-    this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
-      next: (res) => {
-        if (res)
-          this.currentWebsiteLayout = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
     this.currentUrl = window.location.host;
-    this.currentWebsiteLayout = "backend_application";
-
-    // if(this.currentUrl.includes('localhost')){
-    //   this.currentWebsiteLayout = "backend_application";
-    // }else{
-    //   this.currentWebsiteLayout = "";
-    // }
+    if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
+      this.currentWebsiteLayout = "backend_application";
+    }else{
+      this.currentWebsiteLayout = "";
+    }
     this.fullCurrentUrl = window.location.href;
     if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
       this.selectedTheme = this.newSelectedTheme;
@@ -232,21 +188,22 @@ export class SiteLayoutComponent implements OnInit {
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
           const observables = [
-            this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
+            // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
             this.builderService.getJsonModules(res[0].name),
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-              this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
-              this.dataSharedService.currentHeader.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
-              this.dataSharedService.currentFooter.next(results[2] ? results[2].length > 0 ? results[2][0].menuData : "" : '');
-              this.dataSharedService.menus = results[3] ?  results[3][0].selectedTheme ?  results[3][0].selectedTheme : {} : {};
-              this.dataSharedService.menus.allMenuItems = results[3][0].menuData
-              if (this.currentWebsiteLayout == 'backend_application' && results[3] && results[3][0].selectedTheme) {
-                this.selectedTheme = results[3][0].selectedTheme;
-                this.selectedTheme.allMenuItems = results[3][0].menuData
+                // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+              // this.dataSharedService.defaultPageNodes = results[2]? results[2].length > 0? results[2][0].menuData : "" : '';
+              this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
+              this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
+              this.dataSharedService.menus = results[2] ? results[2][0].selectedTheme ? results[2][0].selectedTheme : {} : {};
+              this.dataSharedService.menus.allMenuItems = results[2][0].menuData
+              if (this.currentWebsiteLayout == 'backend_application' && results[2] && results[2][0].selectedTheme) {
+                this.selectedTheme = results[2][0].selectedTheme;
+                this.selectedTheme.allMenuItems = results[2][0].menuData
               } else {
                 this.selectedTheme = undefined;
               }

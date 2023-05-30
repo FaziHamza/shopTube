@@ -15,7 +15,8 @@ export class DataSharedService {
   public screenId: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
-  public defaultPage: Subject<any> = new Subject();
+  // public defaultPage: Subject<any> = new Subject();
+  defaultPageNodes:any;
   screenCommentList : any[] = []
   public menus : any;
   currentUrl:any;

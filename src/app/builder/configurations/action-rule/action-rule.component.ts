@@ -1,10 +1,14 @@
 import { BuilderService } from './../../../services/builder.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { E } from '@formulajs/formulajs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import {
+
+} from 'ngx-monaco-editor';
+
 
 @Component({
   selector: 'st-action-rule',
@@ -12,6 +16,18 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
+  userTheme: string = "vs-dark";
+  userLanguage: string = "javascript";
+  editorOptions: any = {
+    theme: this.userTheme,
+    language: this.userLanguage,
+    roundedSelection: true,
+    autoIndent: 'full'
+  };
+  editor: any;
+  editorInit(editor: any) {
+    this.editor = editor
+  }
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
@@ -94,7 +110,7 @@ export class ActionRuleComponent implements OnInit {
         if (keys[0] == element.name) {
           const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
           if (item) {
-            const keyvalue = key.replace(`${element.name}.`,'');
+            const keyvalue = key.replace(`${element.name}.`, '');
             fields.push(keyvalue);
             values.push(`$${keyvalue}`);
           }
@@ -198,7 +214,7 @@ export class ActionRuleComponent implements OnInit {
           this.builderService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
             next: (res) => {
               this.toastr.success("Save Successfully", { nzDuration: 3000 });
-              
+
               // for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
               //   const key = Object.keys(this.formlyModel)[j];
               //   const keys = key.split('.')

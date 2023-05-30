@@ -17,7 +17,7 @@ export class Layout1Component implements OnInit {
   defaultPage: any;
   requestSubscription: Subscription;
   // currentApplicationList:any;
-  constructor(private _dataShared: DataSharedService, private toastr: NzMessageService,
+  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService,
     private router:Router) { }
 
   ngOnDestroy(){
@@ -27,7 +27,7 @@ export class Layout1Component implements OnInit {
 
     this.requestSubscription = this._dataShared.currentMenu.subscribe({
       next: (res) => {
-        
+
         if (res)
           this.currentMenu = res;
       },
@@ -38,7 +38,7 @@ export class Layout1Component implements OnInit {
     })
     this.requestSubscription = this._dataShared.currentHeader.subscribe({
       next: (res) => {
-        
+
         this.currentHeader = res;
       },
       error: (err) => {
@@ -48,7 +48,7 @@ export class Layout1Component implements OnInit {
     })
     this.requestSubscription = this._dataShared.currentFooter.subscribe({
       next: (res) => {
-        
+
         this.currentFooter = res;
       },
       error: (err) => {
@@ -56,24 +56,24 @@ export class Layout1Component implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-    this.requestSubscription = this._dataShared.defaultPage.subscribe({
-      next: (res) => {
-        
-        this.defaultPage = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+    // this.requestSubscription = this._dataShared.defaultPage.subscribe({
+    //   next: (res) => {
+
+    //     this.defaultPage = res;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
     // this._dataShared.currentApplication.subscribe(res=>{
-    //   
+    //
     //   if(res)
     //   this.currentApplicationList = res;
     // })
   }
   gotoPage(item:any){
-    
+
     this.router.navigate(item.link)
   }
 
