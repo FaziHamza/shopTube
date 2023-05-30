@@ -386,6 +386,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'btnopacity',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Opacity'
+          }
+        },
+        {
           key: 'href',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1243,47 +1252,6 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'btnType',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Open Type',
-            options: [
-              {
-                label: 'New Page',
-                value: '_blank'
-              },
-              {
-                label: 'Current Page',
-                value: ''
-              },
-              {
-                label: 'Modal',
-                value: 'modal'
-              },
-              // {
-              //   label: 'Modal Large',
-              //   value: 'lg'
-              // },
-              // {
-              //   label: 'Modal Extra Large',
-              //   value: 'xl'
-              // },
-              // {
-              //   label: 'Modal Fullscreen',
-              //   value: 'fullscreen'
-              // },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
-        {
           key: 'color',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1291,6 +1259,26 @@ export class formFeildData {
           props: {
             type: "color",
             label: 'Background color'
+          }
+        },
+        {
+          key: 'hoverTextColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover text color'
+          }
+        },
+        {
+          key: 'textColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Text color'
           }
         },
         {
@@ -1322,6 +1310,35 @@ export class formFeildData {
             type: "color",
             label: 'Border Color'
           }
+        },
+        {
+          key: 'btnType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Open Type',
+            options: [
+              {
+                label: 'New Page',
+                value: '_blank'
+              },
+              {
+                label: 'Current Page',
+                value: ''
+              },
+              {
+                label: 'Modal',
+                value: 'modal'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
         },
         {
           key: 'format',
@@ -2835,6 +2852,16 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Div Radius',
+            type:'number',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'imageSrc',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -3484,7 +3511,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'color',
-            label: 'Heading Color',
+            label: 'Text Color',
           }
         },
         {
@@ -5922,6 +5949,36 @@ export class formFeildData {
             label: 'Divider Format'
           },
         },
+        {
+          key: 'color',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Divider color',
+            type:'color',
+          },
+        },
+        {
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Vertical height',
+            type:'number',
+          },
+        },
+        // {
+        //   key: 'solid',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Divider Solid',
+        //     type:'number',
+        //   },
+        // },
         {
           key: 'dashed',
           type: 'checkbox',
@@ -10945,6 +11002,15 @@ export class formFeildData {
         //     ]
         //   }
         // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'requiredMessage',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Required Message',
+          },
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'focus',

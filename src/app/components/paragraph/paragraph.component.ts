@@ -21,11 +21,13 @@ export class ParagraphComponent implements OnInit {
     }
   }
   linkColor(allow :boolean) {
-    if(allow && this.data.link){
-      this.currentColor = this.data.color;
-      this.data.color = 'blue';
-    }else{
-      this.data.color = this.currentColor;
+    if(this.data.link){
+      if(allow){
+        this.currentColor = this.data.color;
+        this.data.color = 'blue';
+      }else{
+        this.data.color = this.currentColor;
+      }
     }
   }
 

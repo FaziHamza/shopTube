@@ -10,7 +10,8 @@
   [nzSize]="buttonData.nzSize"
   [nzType]="buttonData.nztype"
   [type]="buttonData.isSubmit ? 'submit' : 'button'"
-  [style.border-radius.px]="buttonData.radius || 0"
+  [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
+  [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
   [ngStyle]="{
     'background-color': bgColor || buttonData.color,
     'border-color': borderColor || buttonData.borderColor,
@@ -56,9 +57,11 @@
     [nzBlock]="buttonData.nzBlock"
     [nzLoading]="buttonData.nzLoading"
     [style.border-radius.px]="buttonData.radius || 0"
-    [ngStyle]="{ 'background-color': bgColor || buttonData.color ,
-    'border-color': borderColor || buttonData.borderColor
-  }"
+    [ngStyle]="{
+      'background-color': bgColor || buttonData.color,
+      'border-color': borderColor || buttonData.borderColor,
+      'color': hoverTextColor || buttonData.textColor
+    }"
     [class]="[buttonData.color, buttonData.hoverColor]"
     (mouseover)="bgColor = buttonData?.hoverColor"
     (mouseout)="bgColor = buttonData?.color"

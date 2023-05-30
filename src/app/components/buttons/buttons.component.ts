@@ -21,6 +21,8 @@ export class ButtonsComponent implements OnInit {
   color: "hover:bg-[#000000]";
   borderColor: any;
   isVisible = false;
+  saveHoverIconColor : any;
+  hoverOpacity = '';
   nodes: TreeNode[];
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
 
@@ -81,18 +83,24 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData : any): void {
+
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     this.notify.emit(buttonData);
   }
 
   handleButtonMouseOver(buttonData : any): void {
+    this.hoverOpacity = '1';
     this.bgColor = buttonData.hoverColor || '';
     this.hoverTextColor = buttonData.hoverTextColor || '';
     this.borderColor = buttonData.hoverBorderColor || '';
+    this.saveHoverIconColor = buttonData['iconColor'];
+    buttonData['iconColor'] = buttonData['hoverIconColor'];
   }
 
   handleButtonMouseOut(buttonData : any): void {
+    this.hoverOpacity = '';
+    buttonData['iconColor'] = this.saveHoverIconColor;
     this.bgColor = buttonData.color || '';
     this.hoverTextColor = buttonData.textColor || '';
     this.borderColor = buttonData.borderColor || '';

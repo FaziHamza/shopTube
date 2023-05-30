@@ -92,12 +92,15 @@ export class PagesComponent implements OnInit {
               this.getUIRuleData(res[0].moduleName);
               this.getBusinessRule(this.screenName);
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+              this.dataSharedService.defaultPage.next('');
               this.checkDynamicSection();
               this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
               if (params["commentId"] != "all") {
                 this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-                  let findObj = this.findObjectById(this.resData[0], res[0].commentId);
-                  findObj.highLight = true;
+                  if(res.length > 0 ){
+                    let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+                    findObj.highLight = true;
+                  }
                 })
               }else{
                 this.dataSharedService.screenCommentList.forEach(element => {
