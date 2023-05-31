@@ -62,13 +62,11 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUrl = window.location.host;
-    this.currentWebsiteLayout = "backend_application";
-
-    // if(this.currentUrl.includes('localhost')){
-    //   this.currentWebsiteLayout = "backend_application";
-    // }else{
-    //   this.currentWebsiteLayout = "";
-    // }
+    if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
+      this.currentWebsiteLayout = "backend_application";
+    }else{
+      this.currentWebsiteLayout = "";
+    }
     this.fullCurrentUrl = window.location.href;
     if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
       this.selectedTheme = this.newSelectedTheme;

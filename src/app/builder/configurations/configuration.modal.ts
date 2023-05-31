@@ -3272,25 +3272,57 @@ export class formFeildData {
             label: 'Heading Level',
             options: [
               {
-                label: 'h1',
-                value: 1
+                label: 'text-xs',
+                value: 'text-xs'
               },
               {
-                label: 'h2',
-                value: 2
+                label: 'text-sm',
+                value: 'text-sm'
               },
               {
-                label: 'h3',
-                value: 3
+                label: 'text-base',
+                value: 'text-base'
               },
               {
-                label: 'h4',
-                value: 4
+                label: 'text-lg',
+                value: 'text-lg'
               },
               {
-                label: 'h5',
-                value: 5
+                label: 'text-xl',
+                value: 'text-xl'
               },
+              {
+                label: 'text-2xl',
+                value: 'text-2xl'
+              },
+              {
+                label: 'text-3xl',
+                value: 'text-3xl'
+              },
+              {
+                label: 'text-4xl',
+                value: 'text-4xl'
+              },
+              {
+                label: 'text-5xl',
+                value: 'text-5xl'
+              },
+              {
+                label: 'text-6xl',
+                value: 'text-6xl'
+              },
+              {
+                label: 'text-7xl',
+                value: 'text-7xl'
+              },
+              {
+                label: 'text-8xl',
+                value: 'text-8xl'
+              },
+              {
+                label: 'text-9xl',
+                value: 'text-9xl'
+              }
             ],
             additionalProperties: {
               allowClear: true,
@@ -3376,6 +3408,7 @@ export class formFeildData {
                 label: 'Normal',
                 value: 'font-normal'
               },
+              
             ],
             additionalProperties: {
               allowClear: true,
