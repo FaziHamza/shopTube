@@ -1,7 +1,7 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
     <nz-input-group [ngClass]="showError ? 'input-border' : ''"
         *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon"
-        [nzSuffix]="to['additionalProperties']?.addonLeft" [nzPrefix]="to['additionalProperties']?.addonRight"
+        [nzSuffix]="to['additionalProperties']?.addonRight" [nzPrefix]="to['additionalProperties']?.addonLeft"
         [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-range-picker (ngModelChange)="onModelChange($event, field)"
            [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"

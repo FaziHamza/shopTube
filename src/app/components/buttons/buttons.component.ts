@@ -107,7 +107,6 @@ export class ButtonsComponent implements OnInit {
   }
 
   hoverStyle(data : any , mouseOver : any) : void {
-    debugger
     if(mouseOver){
     this.buttonData.dropdownOptions.forEach((option : any) => option.label == data.label ? option['hover'] = true : option['hover'] = false);
     }else{

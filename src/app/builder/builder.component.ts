@@ -1584,7 +1584,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.commentFields;
         break;
       case "rate":
-        configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
+        // configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
         break;
