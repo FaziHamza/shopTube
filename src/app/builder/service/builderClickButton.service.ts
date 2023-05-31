@@ -30,10 +30,10 @@ export class BuilderClickButtonService {
     };
   }
   getRateFieldsConfig(node: any) {
-    const mappedOptions = node.options.map((option: any) => ({ label: option }));
-    return {
-      options: mappedOptions
-    };
+    // const mappedOptions = node.options.map((option: any) => ({ label: option }));
+    // return {
+    //   options: mappedOptions
+    // };
   }
   getStatisticConfig(node: any) {
     return { options: node.statisticArray };

@@ -1552,3 +1552,6 @@ ngx-monaco-editor {
   // /* width: 98%; */
   margin: 15px;
 }
+img, svg, video, canvas, audio, iframe, embed, object{
+  display: inline-block !important;
+}
