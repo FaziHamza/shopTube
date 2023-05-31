@@ -143,7 +143,8 @@
   </button>
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
-      <li nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
+      <li [ngStyle]="{'background': option['hover'] ? 'red' : 'transparent'} " nz-menu-item *ngFor="let option of buttonData.dropdownOptions" (mouseover)="hoverStyle(option , true)" 
+      (mouseout)="hoverStyle(option , false)">
         <a *ngIf="option.link" [href]="option.link">{{ option.label }}</a>
         <a *ngIf="!option.link">{{ option.label }}</a>
       </li>

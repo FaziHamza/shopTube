@@ -3265,73 +3265,72 @@ export class formFeildData {
       fieldGroup: [
         {
           key: 'heading',
-          type: 'select',
+          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Level',
-            options: [
-              {
-                label: 'text-xs',
-                value: 'text-xs'
-              },
-              {
-                label: 'text-sm',
-                value: 'text-sm'
-              },
-              {
-                label: 'text-base',
-                value: 'text-base'
-              },
-              {
-                label: 'text-lg',
-                value: 'text-lg'
-              },
-              {
-                label: 'text-xl',
-                value: 'text-xl'
-              },
-              {
-                label: 'text-2xl',
-                value: 'text-2xl'
-              },
-              {
-                label: 'text-3xl',
-                value: 'text-3xl'
-              },
-              {
-                label: 'text-4xl',
-                value: 'text-4xl'
-              },
-              {
-                label: 'text-5xl',
-                value: 'text-5xl'
-              },
-              {
-                label: 'text-6xl',
-                value: 'text-6xl'
-              },
-              {
-                label: 'text-7xl',
-                value: 'text-7xl'
-              },
-              {
-                label: 'text-8xl',
-                value: 'text-8xl'
-              },
-              {
-                label: 'text-9xl',
-                value: 'text-9xl'
-              }
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
+            // options: [
+            //   {
+            //     label: 'text-xs',
+            //     value: 'text-xs'
+            //   },
+            //   {
+            //     label: 'text-sm',
+            //     value: 'text-sm'
+            //   },
+            //   {
+            //     label: 'text-base',
+            //     value: 'text-base'
+            //   },
+            //   {
+            //     label: 'text-lg',
+            //     value: 'text-lg'
+            //   },
+            //   {
+            //     label: 'text-xl',
+            //     value: 'text-xl'
+            //   },
+            //   {
+            //     label: 'text-2xl',
+            //     value: 'text-2xl'
+            //   },
+            //   {
+            //     label: 'text-3xl',
+            //     value: 'text-3xl'
+            //   },
+            //   {
+            //     label: 'text-4xl',
+            //     value: 'text-4xl'
+            //   },
+            //   {
+            //     label: 'text-5xl',
+            //     value: 'text-5xl'
+            //   },
+            //   {
+            //     label: 'text-6xl',
+            //     value: 'text-6xl'
+            //   },
+            //   {
+            //     label: 'text-7xl',
+            //     value: 'text-7xl'
+            //   },
+            //   {
+            //     label: 'text-8xl',
+            //     value: 'text-8xl'
+            //   },
+            //   {
+            //     label: 'text-9xl',
+            //     value: 'text-9xl'
+            //   }
+            // ],
+            // additionalProperties: {
+            //   allowClear: true,
+            //   serveSearch: true,
+            //   showArrow: true,
+            //   showSearch: true,
+            // },
           },
-          // defaultValue: 'w-1/3'
         },
         {
           key: 'textAlign',
