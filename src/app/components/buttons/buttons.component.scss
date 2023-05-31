@@ -1,3 +1,11 @@
 :host ::ng-deep a.ant-btn {
     padding: 0px !important;
 }
+
+:host ::ng-deep .ant-dropdown-menu-item:hover{
+    background: transparent !important;
+}
+
+:host ::ng-deep .ant-dropdown-menu-item.ant-dropdown-menu-item-active, .ant-dropdown-menu-item.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-item-active, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-submenu-title:hover {
+    background: transparent !important;
+}
