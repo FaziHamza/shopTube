@@ -61,6 +61,48 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
+    this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
+      next: (res) => {
+
+        this.currentHeader = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+    this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
+      next: (res) => {
+
+        this.currentFooter = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+    // this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
+    //   next: (res) => {
+
+    //     this.defaultPage = res;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
+
+    this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
+      next: (res) => {
+        if (res)
+          this.currentWebsiteLayout = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
     this.currentUrl = window.location.host;
     if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
       this.currentWebsiteLayout = "backend_application";
