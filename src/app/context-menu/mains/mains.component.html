@@ -58,7 +58,7 @@
     </ng-template>
     <ng-template #tenth>
         <div *ngIf="item.type == 'heading'; else eleventh">
-            <st-heading [headingData]="item"></st-heading>
+            <st-heading [style.background]="'red'"[headingData]="item"></st-heading>
         </div>
     </ng-template>
     <ng-template #eleventh>
@@ -179,10 +179,10 @@
         <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-simple-card-with-header-body-footer [cardData]="item">
+                <st-simple-card-with-header-body-footer  [cardData]="item">
                 </st-simple-card-with-header-body-footer>
             </nz-ribbon>
-            <st-simple-card-with-header-body-footer *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-simple-card-with-header-body-footer  *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [cardData]="item">
             </st-simple-card-with-header-body-footer>
         </div>
@@ -540,8 +540,9 @@
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div  *ngIf="item.type == 'div'; else eightySix">
-            <div  [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
+        <div   *ngIf="item.type == 'div'; else eightySix">
+            <!-- <div  style="background: red;" [style.opacity]="0.1" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{ -->
+            <div  style="background: red;" [style.opacity]="0.1" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
                   'height': item.height && item.height != 0 ? item.height + 'px' : 'auto',
                   'width': item.width && item.width != 0 && item.imageSrc ? item.width + 'px' : 'auto'
               }"
