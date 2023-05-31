@@ -2,10 +2,16 @@
     padding: 0px !important;
 }
 
-:host ::ng-deep .ant-dropdown-menu-item:hover{
-    background: transparent !important;
+.ant-dropdown-menu-item {
+    position: relative;
+    display: block !important;
+    align-items: center;
 }
 
-:host ::ng-deep .ant-dropdown-menu-item.ant-dropdown-menu-item-active, .ant-dropdown-menu-item.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-item-active, .ant-dropdown-menu-submenu-title.ant-dropdown-menu-submenu-title-active, .ant-dropdown-menu-submenu-title:hover {
-    background: transparent !important;
+.bottom-border {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.ant-dropdown-menu {
+    padding: 0px 0 !important;
 }

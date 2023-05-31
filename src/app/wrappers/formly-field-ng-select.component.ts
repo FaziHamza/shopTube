@@ -5,7 +5,6 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 @Component({
   selector: 'st-formly-field-ng-select',
   template: `
-  <p>aaaaa</p>
   <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
     <nz-input-group  [nzSuffix]="to['additionalProperties']?.addonLeft" [nzPrefix]="to['additionalProperties']?.addonRight" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
       <nz-select (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">

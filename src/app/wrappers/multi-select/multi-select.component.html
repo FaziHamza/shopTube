@@ -1,6 +1,6 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-    <nz-input-group [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
-        [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
+    <nz-input-group [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonRight"
+        [nzPrefix]="to['additionalProperties']?.addonLeft" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <nz-select [nzStatus]="to['additionalProperties']?.status"
         [(ngModel)]="selectedValue" (ngModelChange)="log($event , field)"
             [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"

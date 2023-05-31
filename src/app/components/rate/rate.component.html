@@ -1,3 +1,4 @@
+{{rateData | json}}
 <nz-rate [(ngModel)]="rateData.ngvalue" [nzAllowHalf]="rateData.allowHalf" [nzTooltips]="rateData.options" (nzOnBlur)="onRateBlur()"
     (nzOnKeyDown)="onRateKeyDown($event)" (nzOnHoverChange)="onRateHoverChange($event)" (nzOnFocus)="onRateFocus()"
     [nzAllowClear]="rateData.clear" [nzAutoFocus]="rateData.focus" [nzCharacter]="characterIcon"

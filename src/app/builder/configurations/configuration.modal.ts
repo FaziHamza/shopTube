@@ -1144,6 +1144,76 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'optionWidth',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Option Width',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hoverBgColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Hover Bg Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hoverTextColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Hover Text Color',
+          }
+        },
+        {
+          key: 'optionsPlacement',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Options Placement',
+            options: [
+
+              {
+                label: 'Left',
+                value: 'text-left',
+              },
+              {
+                label: 'Right',
+                value: 'text-right',
+              },
+              {
+                label: 'Center',
+                value: 'text-center',
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'optionBorder',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Option Border',
+          },
+          defaultValue: false
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -3582,39 +3652,39 @@ export class formFeildData {
         },
         {
           key: 'textSize',
-          type: 'select',
+          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Text Size',
-            options: [
-              {
-                label: 'Extra Small',
-                value: ' text-xs'
-              },
-              {
-                label: 'Small',
-                value: ' text-sm'
-              },
-              {
-                label: 'Medium',
-                value: ' text-base'
-              },
-              {
-                label: 'Large',
-                value: ' text-lg'
-              },
-              {
-                label: 'Extra Large',
-                value: ' text-xl'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
+            label: 'Text Class',
+            // options: [
+            //   {
+            //     label: 'Extra Small',
+            //     value: ' text-xs'
+            //   },
+            //   {
+            //     label: 'Small',
+            //     value: ' text-sm'
+            //   },
+            //   {
+            //     label: 'Medium',
+            //     value: ' text-base'
+            //   },
+            //   {
+            //     label: 'Large',
+            //     value: ' text-lg'
+            //   },
+            //   {
+            //     label: 'Extra Large',
+            //     value: ' text-xl'
+            //   },
+            // ],
+            // additionalProperties: {
+            //   allowClear: true,
+            //   serveSearch: true,
+            //   showArrow: true,
+            //   showSearch: true,
+            // },
           },
         },
         {
@@ -4710,6 +4780,16 @@ export class formFeildData {
           props: {
             type: 'color',
             label: 'Footer Text Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Border Radius',
+            type:'number',
           }
         },
         {
@@ -6750,6 +6830,16 @@ export class formFeildData {
           props: {
             type: 'color',
             label: 'Ribbon Color',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Border Radius',
+            type:'number',
           }
         },
         {
