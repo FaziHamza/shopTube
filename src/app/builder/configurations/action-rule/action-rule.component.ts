@@ -123,7 +123,7 @@ export class ActionRuleComponent implements OnInit {
       } else if (this.actionForm.value.actionLink == 'get') {
         dataForQuery += "select * from " + element.name;
       } else if (this.actionForm.value.actionLink == 'post') {
-        dataForQuery += "insert into " + element.name + "(" + fields.join(', ') + ") VALUES (" + values.join(', ') + ");";
+        dataForQuery += "insert into " + element.name + "(" + fields.join(', ') + ") OUTPUT INSERTED.ID VALUES (" + values.join(', ') + ");";
       } else if (this.actionForm.value.actionLink == 'put') {
         let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
         dataForQuery += "UPDATE " + element.name + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
@@ -182,17 +182,6 @@ export class ActionRuleComponent implements OnInit {
   SaveAction() {
     debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    const jsonQuryResult = {
-      "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-      "title": this.selectedNode.title,
-      "type": this.selectedNode.type,
-      "btnActionType": this.selectedNode.actionType,
-      "moduleName": this.screenName,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-      "queryData": this.actionForm.value.Actions,
-      "actionType": this.actionForm.value.submissionType,
-      "actionLink": this.actionForm.value.actionLink
-    }
     this.actionForm.value.Actions.forEach((element: any) => {
       const data = {
         "moduleName": this.screenName,
@@ -234,52 +223,63 @@ export class ActionRuleComponent implements OnInit {
       }
     });
 
-    if (jsonQuryResult != null) {
-      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-      if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
-          next: (getRes) => {
-            if (getRes.length == 0) {
-              this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
-                next: (saveRes) => {
-                  alert("Data Save");
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              });
-            }
-            else {
-              this.requestSubscription = this.builderService.jsonActionRuleRemove(getRes[0].id).subscribe({
-                next: (delRes) => {
+    // const jsonQuryResult = {
+    //   "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+    //   "title": this.selectedNode.title,
+    //   "type": this.selectedNode.type,
+    //   "btnActionType": this.selectedNode.actionType,
+    //   "moduleName": this.screenName,
+    //   "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+    //   "queryData": this.actionForm.value.Actions,
+    //   "actionType": this.actionForm.value.submissionType,
+    //   "actionLink": this.actionForm.value.actionLink
+    // }
+    // if (jsonQuryResult != null) {
+    //   const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    //   if (mainModuleId[0].screenId != null) {
+    //     this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
+    //       next: (getRes) => {
+    //         if (getRes.length == 0) {
+    //           this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
+    //             next: (saveRes) => {
+    //               alert("Data Save");
+    //             },
+    //             error: (err) => {
+    //               console.error(err);
+    //               this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //             }
+    //           });
+    //         }
+    //         else {
+    //           this.requestSubscription = this.builderService.jsonActionRuleRemove(getRes[0].id).subscribe({
+    //             next: (delRes) => {
 
-                  this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
-                    next: (saveRes) => {
-                      alert("Data Save");
-                    },
-                    error: (err) => {
-                      console.error(err);
-                      this.toastr.error("An error occurred", { nzDuration: 3000 });
-                    }
-                  });
+    //               this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
+    //                 next: (saveRes) => {
+    //                   alert("Data Save");
+    //                 },
+    //                 error: (err) => {
+    //                   console.error(err);
+    //                   this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //                 }
+    //               });
 
 
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              });
-            }
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        });
-      }
-    }
+    //             },
+    //             error: (err) => {
+    //               console.error(err);
+    //               this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //             }
+    //           });
+    //         }
+    //       },
+    //       error: (err) => {
+    //         console.error(err);
+    //         this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //       }
+    //     });
+    //   }
+    // }
   }
 
   getActionData() {
