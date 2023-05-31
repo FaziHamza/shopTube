@@ -542,7 +542,7 @@
     <ng-template #eightyFive>
         <div   *ngIf="item.type == 'div'; else eightySix">
             <!-- <div  style="background: red;" [style.opacity]="0.1" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{ -->
-            <div  style="background: red;" [style.opacity]="0.1" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
+            <div  [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
                   'height': item.height && item.height != 0 ? item.height + 'px' : 'auto',
                   'width': item.width && item.width != 0 && item.imageSrc ? item.width + 'px' : 'auto'
               }"
