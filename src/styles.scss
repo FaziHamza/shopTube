@@ -19,7 +19,7 @@
 @import "~jsoneditor/dist/jsoneditor.min.css";
 @import url("https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css");
 @import "./node_modules/@perfectmemory/ngx-contextmenu/src/assets/stylesheets/base.scss";
-
+@import "assets/style//main.min.scss";
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
@@ -1540,3 +1540,4 @@ ngx-monaco-editor {
   // /* width: 98%; */
   margin: 15px;
 }
+
