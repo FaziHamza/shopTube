@@ -4,9 +4,9 @@
 @import url("https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+// @import "tailwindcss/utilities";
 
 // @tailwind base;
 // @tailwind components;
@@ -19,7 +19,9 @@
 @import "~jsoneditor/dist/jsoneditor.min.css";
 @import url("https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css");
 @import "./node_modules/@perfectmemory/ngx-contextmenu/src/assets/stylesheets/base.scss";
-@import "assets/style//main.min.scss";
+@import "assets/style/main.min.scss";
+@import "input.css";
+
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
@@ -1509,6 +1511,7 @@ a.fc-event:hover {
     color: red;
   }
 }
+
 .table-controls {
   display: flex;
   justify-content: flex-end;
@@ -1528,11 +1531,20 @@ a.fc-event:hover {
 
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after{
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
   border: none !important;
 }
-.ant-menu-horizontal>.ant-menu-item::after, .ant-menu-horizontal>.ant-menu-submenu::after{
-  transition:none !important;
+
+.ant-menu-horizontal>.ant-menu-item::after,
+.ant-menu-horizontal>.ant-menu-submenu::after {
+  transition: none !important;
 }
 
 ngx-monaco-editor {
@@ -1540,4 +1552,3 @@ ngx-monaco-editor {
   // /* width: 98%; */
   margin: 15px;
 }
-
