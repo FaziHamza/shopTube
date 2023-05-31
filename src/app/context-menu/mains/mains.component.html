@@ -58,7 +58,7 @@
     </ng-template>
     <ng-template #tenth>
         <div *ngIf="item.type == 'heading'; else eleventh">
-            <st-heading [style.background]="'red'"[headingData]="item"></st-heading>
+            <st-heading [style.background]="'red'" [headingData]="item"></st-heading>
         </div>
     </ng-template>
     <ng-template #eleventh>
@@ -89,15 +89,16 @@
     <ng-template #forteenth>
         <div *ngIf="item.type =='icon'; else fifteen">
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
-                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                    [color]="item.iconColor" [hoverIconColor]="item.hoverIconColor"></st-icon>
+                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
+                    [hoverIconColor]="item.hoverIconColor"></st-icon>
             </nz-badge>
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
-                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [hoverIconColor]="item.hoverIconColor"
-                    [color]="item.iconColor"></st-icon>
+                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor"></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
-              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor" [hoverIconColor]="item.hoverIconColor"></st-icon>
+              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
+                [hoverIconColor]="item.hoverIconColor"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
@@ -179,10 +180,10 @@
         <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-simple-card-with-header-body-footer  [cardData]="item">
+                <st-simple-card-with-header-body-footer [cardData]="item">
                 </st-simple-card-with-header-body-footer>
             </nz-ribbon>
-            <st-simple-card-with-header-body-footer  *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-simple-card-with-header-body-footer *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [cardData]="item">
             </st-simple-card-with-header-body-footer>
         </div>
@@ -374,7 +375,7 @@
                 [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)">
                 <span *ngIf="child?.icon">
                     <st-icon [type]="item?.iconType || 'outline'" [icon]="child?.icon" [size]="item?.iconSize"
-                    [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
+                        [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
                 </span>
                 <!-- <span
                       nz-icon [nzType]='child.icon'></span> -->
@@ -540,15 +541,16 @@
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div   *ngIf="item.type == 'div'; else eightySix">
-            <!-- <div  style="background: red;" [style.opacity]="0.1" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{ -->
-            <div  [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
-                  'height': item.height && item.height != 0 ? item.height + 'px' : 'auto',
-                  'width': item.width && item.width != 0 && item.imageSrc ? item.width + 'px' : 'auto'
-              }"
-                style="background-image: url({{item.imageSrc}}); background-repeat: no-repeat; background-size: cover; overflow-y: auto;">
-                <st-main [mainData]="item.children"></st-main>
-            </div>
+        <div *ngIf="item.type == 'div'; else eightySix" [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
+            'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
+            'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
+            'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',
+            'background-repeat': 'no-repeat',
+            'background-size': '100% 100%',
+            'overflow-y': 'auto',
+            'display': 'flex'
+          }">
+            <st-main [mainData]="item.children"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>
@@ -641,8 +643,7 @@
         <div *ngIf="item.type == 'mainDiv'; else hThree">
             <div class="flex flex-wrap">
                 <div class={{itemChild.className}} *ngFor="let itemChild of item.children">
-                    <div *ngIf="itemChild.type == 'div'" [class]="itemChild.divClass"
-                        [ngStyle]="{
+                    <div *ngIf="itemChild.type == 'div'" [class]="itemChild.divClass" [ngStyle]="{
                         'height': itemChild.height && item.height != 0 ? itemChild.height + 'px' : 'auto',
                         'width': itemChild.width && itemChild.width != 0 && itemChild.imageSrc ? itemChild.width + 'px' : 'auto'
                     }"
@@ -655,7 +656,7 @@
     </ng-template>
     <ng-template #hThree>
         <div *ngIf="item.type == 'menu' ; else hTwo">
-            <st-menu-controll ></st-menu-controll>
+            <st-menu-controll></st-menu-controll>
         </div>
     </ng-template>
 </div>
