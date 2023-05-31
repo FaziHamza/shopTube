@@ -318,8 +318,8 @@ export class BuilderComponent implements OnInit {
           this.isSavedDb = false;
           const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
           if (newScreenName[0].name.includes('_header') && this.selectModuleName) {
-            let applicationType = this.moduleList.filter((item : any) => item.name == this.selectModuleName);
-            if(applicationType[0].application_Type == "website"){
+            let applicationType = this.moduleList.filter((item: any) => item.name == this.selectModuleName);
+            if (applicationType[0].application_Type == "website") {
               this.requestSubscription = this.builderService.getJsonModules(this.selectModuleName).subscribe({
                 next: (result) => {
                   if (result.length > 0) {
@@ -1354,7 +1354,7 @@ export class BuilderComponent implements OnInit {
                         tooltip: "",
                         default: "",
                         hoverIconColor: '',
-                        requiredMessage:'This field is required',
+                        requiredMessage: 'This field is required',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -1584,7 +1584,9 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.commentFields;
         break;
       case "rate":
-        // configObj = { ...configObj, ...this.clickButtonService.getRateFieldsConfig(selectedNode) };
+        if(!configObj.options[0].label){
+        configObj.options = configObj.options.map((option: any) => ({ label: option }));
+        }
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
         break;
@@ -2430,7 +2432,7 @@ export class BuilderComponent implements OnInit {
         if (event.tableDta) {
           this.selectedNode.options = event.tableDta.map((option: any) => option.label);
         } else {
-          this.selectedNode.options = this.selectedNode.options;
+          this.selectedNode.options = this.selectedNode.options.map((option: any) => option.label);
         }
         break;
 
