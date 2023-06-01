@@ -24,5 +24,12 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
     this.sharedService.onChange(event, this.field);
     console.log(event, model);
   }
+  getFloatFieldClass(): string {
+    if (this.to['additionalProperties']?.wrapper === 'floating_filled' || this.to['additionalProperties']?.wrapper === 'floating_outlined') {
+      return this.to['additionalProperties']?.floatFieldClass || '';
+    } else {
+      return '';
+    }
+  }
 }
 

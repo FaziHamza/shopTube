@@ -39,7 +39,6 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   setHovered(value: any, data?: any, item?: any) {
-    debugger
     // if (!value) {
     //   this.hoverActiveShow = data.id;
     // } else {
@@ -107,7 +106,6 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
-    debugger
     this.isActiveShow = data.id;
     event.stopPropagation();
     if (data.application) {

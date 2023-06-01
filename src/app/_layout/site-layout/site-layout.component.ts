@@ -16,6 +16,7 @@ export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   currentHeader: any;
+  logo: any;
   currentFooter: any;
   defaultPage: any;
   tabs: any = [];
@@ -227,9 +228,12 @@ export class SiteLayoutComponent implements OnInit {
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
         if (res.length > 0) {
+          debugger
+          this.logo = res.image;
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
           const observables = [
+           
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
