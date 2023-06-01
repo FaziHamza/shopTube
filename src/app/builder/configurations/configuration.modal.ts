@@ -11051,7 +11051,7 @@ export class formFeildData {
           type: 'input',
           props: {
 
-            label: 'Add On Left Icon'
+            label: 'Suffix Icon'
           }
         },
         {
@@ -11061,7 +11061,7 @@ export class formFeildData {
           type: 'input',
           props: {
 
-            label: 'Add On Right Icon'
+            label: 'Prefix Icon'
           }
         },
         {

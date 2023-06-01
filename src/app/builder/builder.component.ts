@@ -192,6 +192,7 @@ export class BuilderComponent implements OnInit {
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
   async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
+    debugger
     if (content === 'delete') {
       const nodes = await this.dataService.deleteDb(this.screenName);
       alert('this Screen Delete db successfully!')
@@ -200,6 +201,7 @@ export class BuilderComponent implements OnInit {
     const nodes = await this.dataService.getNodes(this.screenName);
 
     if (this.oldIndex === undefined) {
+      // this.oldIndex = 0;
       this.decryptData(nodes[nodes.length - 1]);
       this.oldIndex = nodes.length - 1;
       return;
@@ -220,6 +222,7 @@ export class BuilderComponent implements OnInit {
 
   oldIndex: number;
   decryptData(data: any) {
+    debugger
     let decryptData = this._encryptionService.decryptData(data?.data)
     this.nodes = this.jsonParseWithObject(decryptData);
   }
@@ -2527,14 +2530,10 @@ export class BuilderComponent implements OnInit {
             props['maskString'] = event.form.maskString;
             props['masktitle'] = event.form.masktitle;
             props['rows'] = event.form.rows;
-            if (props['additionalProperties']?.wrapper != 'floating_filled' || props['additionalProperties']?.wrapper != 'floating_filled' || props['additionalProperties']?.wrapper != 'floating_standard') {
-              props['additionalProperties']['addonRight'] = event.form.addonRight;
+            props['additionalProperties']['addonRight'] = event.form.addonRight;
               props['additionalProperties']['addonLeft'] = event.form.addonLeft;
               props['additionalProperties']['prefixicon'] = event.form.prefixicon;
               props['additionalProperties']['suffixicon'] = event.form.suffixicon;
-            } else {
-              this.toastr.error('Right , left text and icon are not allowed in case of floating wrappers', { nzDuration: 3000 });
-            }
             props['additionalProperties']['border'] = event.form.border;
             props['additionalProperties']['requiredMessage'] = event.form.requiredMessage;
             props['additionalProperties']['optionWidth'] = event.form.optionWidth;
@@ -3299,14 +3298,14 @@ export class BuilderComponent implements OnInit {
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
           fieldGroup[0].props['additionalProperties']['wrapper'] = [formValues.wrappers][0];
-          if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
-            fieldGroup[0].props['additionalProperties']['size'] = 'default';
-            fieldGroup[0].props['additionalProperties']['addonRight'] = '';
-            fieldGroup[0].props['additionalProperties']['addonLeft'] = '';
-            fieldGroup[0].props['additionalProperties']['prefixicon'] = '';
-            fieldGroup[0].props['additionalProperties']['suffixicon'] = '';
-            fieldGroup[0].props.placeholder = " ";
-          }
+          // if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
+          //   fieldGroup[0].props['additionalProperties']['size'] = 'default';
+          //   fieldGroup[0].props['additionalProperties']['addonRight'] = '';
+          //   fieldGroup[0].props['additionalProperties']['addonLeft'] = '';
+          //   fieldGroup[0].props['additionalProperties']['prefixicon'] = '';
+          //   fieldGroup[0].props['additionalProperties']['suffixicon'] = '';
+          //   fieldGroup[0].props.placeholder = " ";
+          // }
           if (formValues.wrappers == 'floating_filled') {
             fieldGroup[0].props['additionalProperties']['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
             fieldGroup[0].props['additionalProperties']['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';

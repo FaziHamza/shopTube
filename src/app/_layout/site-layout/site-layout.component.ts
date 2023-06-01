@@ -229,7 +229,7 @@ export class SiteLayoutComponent implements OnInit {
       next: (res) => {
         if (res.length > 0) {
           debugger
-          this.logo = res.image;
+          this.logo = res[0].image;
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
           const observables = [
