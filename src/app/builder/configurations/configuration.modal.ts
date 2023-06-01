@@ -3629,6 +3629,10 @@ export class formFeildData {
                 value: 'font-bold'
               },
               {
+                label: 'Semi bold',
+                value: 'font-semibold'
+              },
+              {
                 label: 'Italic',
                 value: 'italic'
               },
