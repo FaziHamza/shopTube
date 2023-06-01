@@ -3629,6 +3629,10 @@ export class formFeildData {
                 value: 'font-bold'
               },
               {
+                label: 'Semi bold',
+                value: 'font-semibold'
+              },
+              {
                 label: 'Italic',
                 value: 'italic'
               },
@@ -11047,7 +11051,7 @@ export class formFeildData {
           type: 'input',
           props: {
 
-            label: 'Add On Left Icon'
+            label: 'Suffix Icon'
           }
         },
         {
@@ -11057,7 +11061,7 @@ export class formFeildData {
           type: 'input',
           props: {
 
-            label: 'Add On Right Icon'
+            label: 'Prefix Icon'
           }
         },
         {

@@ -2,8 +2,8 @@
 *ngIf="to.type != 'number'">
   <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius" 
   [ngClass]="showError ? 'input-border' : ''"
-  [nzSuffix]="(to['additionalProperties']?.addonRight || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : ''" 
-  [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : ''"
+  [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined" 
+  [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
   [nzSize]="to['additionalProperties']?.size" 
   [nzStatus]="to['additionalProperties']?.status">
   <input [style.border-radius]="to['additionalProperties']?.borderRadius" 
@@ -38,26 +38,26 @@
 </div>
 <nz-input-number 
 *ngIf="to.type == 'number'" style="width:100%" [formControl]="formControl" [nzStep]="1"></nz-input-number>
-<ng-template #prefixTemplateUser>
+<ng-template #suffixTemplateInfo>
   <ng-container *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
     <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
       [icon]="to['additionalProperties']?.suffixicon" 
       [size]="to['additionalProperties']?.iconSize"
      [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" 
-     [color]="to['additionalProperties']?.iconColor"></st-icon>
+     [color]="to['additionalProperties']?.iconColor" (click)="showPassword(to)"></st-icon>
   </ng-container>
   <ng-template #addonLeftText>
     {{to['additionalProperties']?.addonLeft}}
   </ng-template>
 </ng-template>
-<ng-template #suffixTemplateInfo>
+<ng-template #prefixTemplateUser >
   <ng-container *ngIf="to['additionalProperties']?.prefixicon ; else addonRightText">
     <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
       [icon]="to['additionalProperties']?.prefixicon" 
       [size]="to['additionalProperties']?.iconSize"
     [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"  
     [color]="to['additionalProperties']?.iconColor" 
-    (click)="showPassword(to)"></st-icon>
+    ></st-icon>
   </ng-container>
   <ng-template #addonRightText>
     {{to['additionalProperties']?.addonRight}}
