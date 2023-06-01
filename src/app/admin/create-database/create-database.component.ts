@@ -109,7 +109,6 @@ export class CreateDatabaseComponent implements OnInit {
     this.getDatabaseTablev1();
   }
   cancelEdit(index: number): void {
-    debugger
     this.editCache[index] = {
       data: { ...this.listOfData[index] },
       edit: false
@@ -122,7 +121,6 @@ export class CreateDatabaseComponent implements OnInit {
     this.editCache[id].edit = false;
   }
   enableEditCache(): void {
-    debugger
     this.listOfData.forEach((item, index) => {
       this.editCache[index + 1] = {
         edit: false,
@@ -136,14 +134,12 @@ export class CreateDatabaseComponent implements OnInit {
     // };
   }
   deleteRow(data: any): void {
-    debugger
     const idx = this.listOfData.indexOf(data);
     this.listOfData.splice(idx as number, 1);
     this.updateData();
     this.updateEditCache();
   }
   updateEditCache(): void {
-    debugger
     this.listOfData.forEach((item, index) => {
       this.editCache[index + 1] = {
         edit: false,
@@ -152,7 +148,6 @@ export class CreateDatabaseComponent implements OnInit {
     });
   }
   startEdit(id: number): void {
-    debugger
     this.editCache[id].edit = true;
   }
   addRow(): void {
@@ -168,20 +163,19 @@ export class CreateDatabaseComponent implements OnInit {
     this.enableEditCache();
   }
   updateData() {
-    debugger
     this.listOfData.forEach((record, index) => {
       record.id = index + 1;
     });
     this.listOfData = [...this.listOfData];
   }
-
+  tableFields: any;
   getDatabaseTablev1() {
-    debugger
     this.employeeService.getSQLDatabaseTable('knex-crud/tables').subscribe({
       next: (objTRes) => {
         if (objTRes) {
           this.employeeService.getSQLDatabaseTable('knex-crud/table_schema').subscribe({
             next: (objFRes) => {
+              this.tableFields = objFRes;
               this.data = [];
               if (objFRes) {
                 objFRes.forEach((element: any) => {
@@ -216,8 +210,9 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
-
-    if (this.myForm.valid) {
+    if (this.listOfData.length == 0) {
+      this.toastr.error("Please provide table fields ", { nzDuration: 3000 });
+    } else if (this.myForm.valid) {
       const fields: { [key: string]: any } = {};
       this.listOfData.forEach((element: any) => {
         fields[element.fieldName] = element.type
@@ -231,7 +226,6 @@ export class CreateDatabaseComponent implements OnInit {
         next: (res) => {
           debugger
           this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          // this.getDatabaseTable();
         },
         error: (err) => {
           console.error(err);
@@ -258,6 +252,7 @@ export class CreateDatabaseComponent implements OnInit {
             this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
               next: (res) => {
                 this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                // this.getDatabaseTablev1();
               },
               error: (err) => {
                 console.error(err);
@@ -273,7 +268,7 @@ export class CreateDatabaseComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-  
+
     }
   }
 
@@ -290,16 +285,16 @@ export class CreateDatabaseComponent implements OnInit {
         "schema": fields
       }
       // console.log(data);
-      // this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
-      //   next: (res) => {
-      //     this.toastr.success("Save Successfully", { nzDuration: 3000 });
-      //     // this.getDatabaseTable();
-      //   },
-      //   error: (err) => {
-      //     console.error(err);
-      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-      //   }
-      // });
+      this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
+        next: (res) => {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          // this.getDatabaseTable();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
       const objTableNames = {
         "tableName": this.myForm.value.tableName,
         "comment": this.myForm.value.comment,
@@ -309,41 +304,42 @@ export class CreateDatabaseComponent implements OnInit {
       this.employeeService.updateSQLDatabaseTable('knex-crud/tables/' + this.tableId, objTableNames).subscribe({
         next: (res) => {
           this.toastr.success("update Table Name Successfully", { nzDuration: 3000 });
+          this.listOfData.forEach(element => {
+            const objFields = {
+              "table_id": element.update ? this.tableId : 0,
+              "fieldName": element.fieldName,
+              "type": element.type,
+              "description": element.description,
+              "isActive": true
+            }
+            const selectedField = this.tableFields.find((x:any) => x.fieldName == element.fieldName)
+            if (objFields.table_id == 0) {
+              objFields.table_id = this.tableId;
+              this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
+                next: (res) => {
+                  this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("fields not inserted", { nzDuration: 3000 });
+                }
+              });
+            } else {
+              this.employeeService.updateSQLDatabaseTable('knex-crud/table_schema/' + selectedField.id, objFields).subscribe({
+                next: (res) => {
+                  this.toastr.success("update Table Fields Successfully", { nzDuration: 3000 });
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.toastr.error("fields not inserted", { nzDuration: 3000 });
+                }
+              });
+            }
+          });
         },
         error: (err) => {
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
-      this.listOfData.forEach(element => {
-        const objFields = {
-          "table_id": element.update ? this.tableId : 0,
-          "fieldName": element.fieldName,
-          "type": element.type,
-          "description": element.description,
-          "isActive": true
-        }
-        if (objFields.table_id == 0) {
-          objFields.table_id = this.tableId;
-          this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-            next: (res) => {
-              this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("fields not inserted", { nzDuration: 3000 });
-            }
-          });
-        } else {
-          this.employeeService.updateSQLDatabaseTable('knex-crud/table_schema/' + element.id, objFields).subscribe({
-            next: (res) => {
-              this.toastr.success("update Table Fields Successfully", { nzDuration: 3000 });
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("fields not inserted", { nzDuration: 3000 });
-            }
-          });
         }
       });
     }
@@ -388,10 +384,14 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   editTableData(item: any) {
-    debugger
     this.tableId = item.id
     this.model = item;
     this.listOfData = item.schema;
     this.updateEditCache();
+  }
+  cancelEditTable() {
+    this.tableId = 0
+    this.model = {};
+    this.listOfData = [];
   }
 }
