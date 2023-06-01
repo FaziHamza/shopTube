@@ -226,17 +226,18 @@ export class CreateDatabaseComponent implements OnInit {
         "tableName": this.myForm.value.tableName,
         "schema": fields
       }
-      // console.log(data);
-      // this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
-      //   next: (res) => {
-      //     this.toastr.success("Save Successfully", { nzDuration: 3000 });
-      //     // this.getDatabaseTable();
-      //   },
-      //   error: (err) => {
-      //     console.error(err);
-      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-      //   }
-      // });
+      console.log(data);
+      this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
+        next: (res) => {
+          debugger
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          // this.getDatabaseTable();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
       const objTableNames = {
         "tableName": this.myForm.value.tableName,
         "comment": this.myForm.value.comment,
@@ -245,31 +246,34 @@ export class CreateDatabaseComponent implements OnInit {
       }
       this.employeeService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
         next: (res) => {
-          this.toastr.success("Save Table Name Successfully", { nzDuration: 3000 });
+
+          this.listOfData.forEach(element => {
+            const objFields = {
+              "table_id": res?.id,
+              "fieldName": element.fieldName,
+              "type": element.type,
+              "description": element.description,
+              "isActive": true
+            }
+            this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
+              next: (res) => {
+                this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("fields not inserted", { nzDuration: 3000 });
+              }
+            });
+          });
+
+          // this.toastr.success("Save Table Name Successfully", { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-      this.listOfData.forEach(element => {
-        const objFields = {
-          "table_id": 1,
-          "fieldName": element.fieldName,
-          "type": element.type,
-          "description": element.description,
-          "isActive": true
-        }
-        this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-          next: (res) => {
-            this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("fields not inserted", { nzDuration: 3000 });
-          }
-        });
-      });
+  
     }
   }
 

@@ -257,7 +257,7 @@ export class MainComponent implements OnInit {
     };
 
     console.log(empData);
-    this.builderService.saveSQLDatabaseTable('knex-crud', empData).subscribe({
+    this.builderService.saveSQLDatabaseTable('knex-crud/SaveDb', empData).subscribe({
       next: (res) => {
         this.toastr.success("Save Successfully", { nzDuration: 3000 });
       },
