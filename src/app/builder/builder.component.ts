@@ -2390,6 +2390,7 @@ export class BuilderComponent implements OnInit {
       case "treeSelect":
       case "tree": case "treeView": case "cascader":
         if (event.tableDta) {
+          debugger
           this.selectedNode.nodes = event.tableDta;
         }
         if (event.form.api) {
@@ -3208,6 +3209,8 @@ export class BuilderComponent implements OnInit {
   addDynamic(abc: any, subType: any, mainType: any,) {
     try {
       if (this.selectedNode.children) {
+        this.addControl = true;
+        this.showNotification = false;
         let nodesLength = this.selectedNode.children?.length;
         if (nodesLength < abc) {
           for (let k = 0; k < abc; k++) {
@@ -3252,6 +3255,9 @@ export class BuilderComponent implements OnInit {
             }
           }
         }
+        this.addControl = false;
+        this.showNotification = true;
+        this.toastr.success('Control Updated', { nzDuration: 3000 });
       }
     }
     catch (error) {

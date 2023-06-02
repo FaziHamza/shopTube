@@ -12686,7 +12686,7 @@ export class formFeildData {
           },
           defaultValue: false
         },
-
+        
       ]
     },
   ];
@@ -12813,6 +12813,55 @@ export class formFeildData {
           props: {
             label: 'Expand All',
           },
+        },
+        {
+          key: 'nodes',
+          type: 'repeatSection',
+          fieldArray: {
+            fieldGroup: [
+              {
+                key: 'expand',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                props: {
+                  label: 'expand',
+                },
+              },
+              {
+                key: 'expandable',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                props: {
+                  label: 'expandable',
+                },
+              },
+              {
+                key: 'title',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                props: {
+                  label: 'title',
+                },
+              },
+              {
+                key: 'key',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                props: {
+                  label: 'key'
+                }
+              },
+              {
+                key: 'children',
+                type: 'input',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                props: {
+                  label: 'children'
+                }
+              },
+            
+            ]
+          }
         },
       ]
     },

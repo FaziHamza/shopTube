@@ -43,21 +43,22 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   onClickRow(api: string, item: any) {
-    
-    this.builderService.genericApis(api).subscribe({
-      next: (res: any) => {
-        this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
-          next: (res: any) => {
-            this.builderService.genericApisPost(api, item).subscribe({
-              next: (res: any) => {
-                res;
-              }
-            });
-          }
-        });
-      }
-    });
-    console.log(JSON.stringify(item));
+    if(api){
+      this.builderService.genericApis(api).subscribe({
+        next: (res: any) => {
+          this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
+            next: (res: any) => {
+              this.builderService.genericApisPost(api, item).subscribe({
+                next: (res: any) => {
+                  res;
+                }
+              });
+            }
+          });
+        }
+      });
+      console.log(JSON.stringify(item));
+    }
   }
   onClickColumn(api: string, item: any) {
     this.builderService.genericApisWithId(api,item.key).subscribe({
@@ -89,7 +90,8 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = obj;
         // this.loadTableData();
       })
-    } else {
+    } 
+    else {
       this.loadTableData();
     }
     if (this.screenId)
