@@ -3448,6 +3448,10 @@ export class formFeildData {
                 value: 'bold'
               },
               {
+                label: 'Semi bold',
+                value: 'font-semibold'
+              },
+              {
                 label: 'Lighter',
                 value: 'lighter'
               }
