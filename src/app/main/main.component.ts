@@ -242,22 +242,29 @@ export class MainComponent implements OnInit {
     }
   }
   saveData1(data: any) {
-    
-    const objModel:any = this.form.value;
-    let nestedObject: any = null;
-    Object.keys(objModel).forEach(key => {
-      const value = objModel[key];
-      if (typeof value === "object" && value !== null) {
-        nestedObject = value;
-      }
-    });
+
+    const objModel: any = this.form.value;
+    var nestedObject = {};
+    for (var key in objModel) {
+      Object.assign(nestedObject, objModel[key]);
+    }
+
+    console.log(nestedObject);
+
+    // let nestedObject: any = null;
+    // Object.keys(objModel).forEach(key => {
+    //   const value = objModel[key];
+    //   if (typeof value === "object" && value !== null) {
+    //     nestedObject = value;
+    //   }
+    // });
     const empData = {
       screenId: 'CRMAPP',
-      modalData: nestedObject
+      modalData: this.form.value
     };
 
     console.log(empData);
-    this.builderService.saveSQLDatabaseTable('knex-crud/SaveDb', empData).subscribe({
+    this.builderService.saveSQLDatabaseTable('knex-query', empData).subscribe({
       next: (res) => {
         this.toastr.success("Save Successfully", { nzDuration: 3000 });
       },
