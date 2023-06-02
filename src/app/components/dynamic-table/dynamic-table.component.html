@@ -25,9 +25,9 @@
         (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let header of tableHeaders">
         <!-- <th *ngIf="!header?.isColumnClick || (header?.isColumnClick && header.name != 'defaultValue')" [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" -->
-        <th *ngIf="header.name != 'defaultValue'" [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
-          [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
-          [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
+        <th *ngIf="header.name != 'defaultValue' && header.name != 'children' && header.name != 'expandable'"
+          [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
+          [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
           (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
           {{header.name}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
         </th>
@@ -38,21 +38,25 @@
   <tbody>
     <ng-template #recursiveList let-data1>
       <ng-container *ngFor="let item of data1 ; let i = index">
+        <!-- {{item | json}} -->
         <tr [ngStyle]="{'background': item?.color}"
           (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-          <td *ngIf="data.expandable" [(nzExpand)]="item.expand"></td>
+          <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of data['tableKey']; let index = index">
-            <td [nzEllipsis]="true" *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'checked' 
-                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue'">
-              <div
-                *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) ">
+            <!-- {{header | json}} -->
+            <td [nzEllipsis]="true"  class="5"
+              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked' 
+                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
+              <div class="1"
+                *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]">
                 <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
+                  <!-- {{item | json}} -->
                   {{item[header.name]}}
                 </div>
                 <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
               </div>
-              <div
+              <div class="2"
                 *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
                 <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                   [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
@@ -62,7 +66,7 @@
                 </nz-select>
               </div>
 
-              <div *ngIf="tableHeaders[index]?.dataType =='image'">
+              <div *ngIf="tableHeaders[index]?.dataType =='image'" class="4">
                 <img nz-image width="80px" height="80px"
                   nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
               </div>
@@ -78,7 +82,6 @@
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Button
               </button>
-              <!-- <button nz-button nzType="primary" type="button">Button</button> -->
             </td>
           </ng-container>
 
@@ -88,11 +91,13 @@
             </a>
           </td>
         </tr>
-        <tr [nzExpand]="item.expand" *ngIf="item.children?.length">
-          <td [attr.colspan]="item.children?.length + 3">
-            <dynamic-table [tableData]="item.children"></dynamic-table>
+        <tr [nzExpand]="item.expand">
+          <td colspan="4">
+            <dynamic-table *ngIf="item?.children?.length" [tableId]='tableId' [checkType]='true'
+              [tableData]='item.children' [tableHeaders]='tableHeaders' [data]="data"></dynamic-table>
           </td>
         </tr>
+
         <!-- <ng-container *ngIf="item.children?.length > 0 && data.expandable" >
           <tr *ngFor="let child of item.children" [nzExpand]="item.expand">
             <td colspan="8">

@@ -553,7 +553,7 @@ export class AddControlService {
 
       nodes: "3",
       centerd: false,
-      selectTabColor:'red',
+      selectTabColor: 'red',
     }
   }
   getMainStepControl() {
@@ -571,7 +571,7 @@ export class AddControlService {
       disabled: false,
       border: true,
       nodes: "3",
-      selectTabColor:'red',
+      selectTabColor: 'red',
     }
   }
   getlistWithComponentsControl() {
@@ -703,7 +703,7 @@ export class AddControlService {
   mainDivControl() {
     return {
       isNextChild: true,
-      divRepeat:1,
+      divRepeat: 1,
     }
   }
   headingControl() {
@@ -1658,10 +1658,14 @@ export class AddControlService {
           title: '0-0',
           key: '0-0',
           expanded: true,
+          "expand": false,
+          "expandable": true,
           children: [
             {
               title: '0-0-0',
               key: '0-0-0',
+              "expand": false,
+              "expandable": true,
               children: [
                 { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
                 { title: '0-0-0-1', key: '0-0-0-1', isLeaf: true },
@@ -1671,6 +1675,8 @@ export class AddControlService {
             {
               title: '0-0-1',
               key: '0-0-1',
+              "expand": false,
+              "expandable": true,
               children: [
                 { title: '0-0-1-0', key: '0-0-1-0', isLeaf: true },
                 { title: '0-0-1-1', key: '0-0-1-1', isLeaf: true },
@@ -1680,6 +1686,8 @@ export class AddControlService {
             {
               title: '0-0-2',
               key: '0-0-2',
+              "expand": false,
+              "expandable": true,
               isLeaf: true
             }
           ]
@@ -1687,6 +1695,8 @@ export class AddControlService {
         {
           title: '0-1',
           key: '0-1',
+          "expand": false,
+          "expandable": true,
           children: [
             { title: '0-1-0-0', key: '0-1-0-0', isLeaf: true },
             { title: '0-1-0-1', key: '0-1-0-1', isLeaf: true },
@@ -1696,7 +1706,9 @@ export class AddControlService {
         {
           title: '0-2',
           key: '0-2',
-          isLeaf: true
+          "expand": false,
+          "expandable": true,
+          // isLeaf: true
         }
       ],
     }

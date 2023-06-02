@@ -25,16 +25,21 @@
         </div>
       </div>
 
-    <button nz-button nzType="primary" class="my-2 " title="Json save" (click)="addRow()" ngbTooltip="Save screen"><i
-        class="fa fa-plus"></i> </button>
+      <button nz-button nzType="primary" class="my-2 " title="Json save" (click)="addRow()" ngbTooltip="Save screen"><i
+          class="fa fa-plus"></i> </button>
       <div class="flex flex-wrap">
         <div class="w-3/6">
           <h3 [ngStyle]="{ margin: '16px 0' }"><b>Table Fields</b></h3>
         </div>
         <div class="w-3/6 text-right">
-          <button nz-button nzType="primary" class="my-2 " title="Save" (click)="submitFormv1()" ngbTooltip="Save Table" *ngIf="tableId == 0">Save </button>
-          <button nz-button nzType="primary" class="my-2 " title="Update" (click)="updateFormv1()" ngbTooltip="Update Table" *ngIf="tableId !=0">Update </button>
-          <button nz-button nzType="primary" class="my-2 mx-2" title="Cancel" (click)="tableId == 0" ngbTooltip="Cancel" *ngIf="tableId !=0">Cancel </button>
+          <button nz-button nzType="primary" class="my-2 " title="Save" (click)="submitFormv1()" ngbTooltip="Save Table"
+            *ngIf="tableId == 0">Save </button>
+          <button nz-button nzType="primary" class="my-2 " title="Update" (click)="updateFormv1()"
+            ngbTooltip="Update Table" *ngIf="tableId !=0">Update </button>
+          <button nz-button nzType="primary" class="my-2 mx-2" title="Cancel" (click)="cancelEditTable()"
+            ngbTooltip="Cancel" *ngIf="tableId !=0">Cancel </button>
+          <button nz-button nzType="primary" class="my-2 mx-2" title="Clear" (click)="cancelEditTable()"
+            ngbTooltip="Clear" *ngIf="tableId ==0">Clear </button>
         </div>
       </div>
     </form>
@@ -44,6 +49,7 @@
           <th>Field Name</th>
           <th>Type</th>
           <th>Description</th>
+          <th>Status</th>
           <th nzWidth="5%"></th>
           <th nzWidth="5%"></th>
         </tr>
@@ -54,6 +60,7 @@
             <td>{{ data.fieldName }}</td>
             <td>{{ data.type }}</td>
             <td>{{ data.description }}</td>
+            <td>{{ data.status }}</td>
             <td>
               <a (click)="startEdit(index+1)" class="pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -73,7 +80,8 @@
                     <path d="m9.5 11l.5 5m4.5-5l-.5 5" opacity=".5" />
                   </g>
                 </svg>
-              </a></td>
+              </a>
+            </td>
 
           </ng-container>
           <ng-template #editTemplate>
@@ -87,6 +95,14 @@
             </td>
             <td><input type="text" nz-input [(ngModel)]="editCache[index+1].data.description"
                 [ngModelOptions]="{ standalone: true }" /> </td>
+            <td>
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                [(ngModel)]="editCache[index+1].data.status">
+                <nz-option nzLabel="Approved" nzValue="Approved"></nz-option>
+                <nz-option nzLabel="Pending" nzValue="Pending"></nz-option>
+                <nz-option nzLabel="Reject" nzValue="Reject"></nz-option>
+              </nz-select>
+            </td>
             <td>
               <a (click)="saveEdit(index+1)" class="save pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="color:#49a1bb"
