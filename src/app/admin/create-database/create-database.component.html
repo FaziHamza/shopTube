@@ -95,8 +95,14 @@
             </td>
             <td><input type="text" nz-input [(ngModel)]="editCache[index+1].data.description"
                 [ngModelOptions]="{ standalone: true }" /> </td>
-            <td><input type="text" nz-input [(ngModel)]="editCache[index+1].data.status"
-                [ngModelOptions]="{ standalone: true }" /> </td>
+            <td>
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                [(ngModel)]="editCache[index+1].data.status">
+                <nz-option nzLabel="Active" nzValue="Active"></nz-option>
+                <nz-option nzLabel="Pending" nzValue="Pending"></nz-option>
+                <nz-option nzLabel="Disable" nzValue="Disable"></nz-option>
+              </nz-select>
+            </td>
             <td>
               <a (click)="saveEdit(index+1)" class="save pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="color:#49a1bb"

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
@@ -210,21 +210,21 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
-    if (this.listOfData.length == 0) {
+    if (this.listOfData.length === 0) {
       this.toastr.error("Please provide table fields ", { nzDuration: 3000 });
     } else if (this.myForm.valid) {
       const fields: { [key: string]: any } = {};
       this.listOfData.forEach((element: any) => {
-        fields[element.fieldName] = element.type
+        fields[element.fieldName] = element.type;
       });
-      var data = {
+      const data = {
         "tableName": this.myForm.value.tableName,
         "schema": fields
-      }
+      };
       console.log(data);
       this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
         next: (res) => {
-          debugger
+          debugger;
           this.toastr.success("Save Successfully", { nzDuration: 3000 });
         },
         error: (err) => {
@@ -237,38 +237,44 @@ export class CreateDatabaseComponent implements OnInit {
         "comment": this.myForm.value.comment,
         "totalFields": this.myForm.value.totalFields,
         "isActive": true
-      }
+      };
       this.employeeService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
         next: (res) => {
-
-          this.listOfData.forEach(element => {
+          const observables = this.listOfData.map(element => {
             const objFields = {
               "table_id": res?.id,
               "fieldName": element.fieldName,
               "type": element.type,
               "description": element.description,
+              "status": element.status,
               "isActive": true
-            }
-            this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-              next: (res) => {
-                this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                // this.getDatabaseTablev1();
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("fields not inserted", { nzDuration: 3000 });
-              }
-            });
+            };
+            return this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
+              catchError(error => of(error)) // Handle error and continue the forkJoin
+            );
           });
 
-          // this.toastr.success("Save Table Name Successfully", { nzDuration: 3000 });
+          forkJoin(observables).subscribe({
+            next: (results) => {
+              if (results.every(result => !(result instanceof Error))) {
+                this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                this.cancelEditTable();
+                this.getDatabaseTablev1();
+              } else {
+                this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+              }
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+            }
+          });
         },
         error: (err) => {
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-
     }
   }
 
@@ -312,7 +318,7 @@ export class CreateDatabaseComponent implements OnInit {
               "description": element.description,
               "isActive": true
             }
-            const selectedField = this.tableFields.find((x:any) => x.fieldName == element.fieldName)
+            const selectedField = this.tableFields.find((x: any) => x.fieldName == element.fieldName)
             if (objFields.table_id == 0) {
               objFields.table_id = this.tableId;
               this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
