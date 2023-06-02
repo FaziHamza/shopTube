@@ -88,13 +88,12 @@ export class CreateDatabaseComponent implements OnInit {
     {
       fieldGroup: [
         {
-          key: 'relation',
-          type: 'input',
+          key: 'isActive',
+          type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
+          defaultValue: true,
           props: {
-            label: 'Relation',
-            placeholder: 'Relation',
+            label: 'Is Active'
           }
         }
       ]
@@ -156,6 +155,7 @@ export class CreateDatabaseComponent implements OnInit {
       fieldName: '',
       type: '',
       description: '',
+      isActive: true,
       update: false,
     }
     this.listOfData.unshift(newRow);
@@ -188,6 +188,7 @@ export class CreateDatabaseComponent implements OnInit {
                     "tableName": element.tableName,
                     "comment": element.comment,
                     "totalFields": element.totalFields,
+                    "isActive": element.isActive,
                     "schema": objFRes.filter((x: any) => x.table_id == element.id)
                   }
                   this.data.push(objlistData);
@@ -215,28 +216,31 @@ export class CreateDatabaseComponent implements OnInit {
     } else if (this.myForm.valid) {
       const fields: { [key: string]: any } = {};
       this.listOfData.forEach((element: any) => {
-        fields[element.fieldName] = element.type;
+        if (element.status == 'Approved')
+          fields[element.fieldName] = element.type;
       });
       const data = {
         "tableName": this.myForm.value.tableName,
         "schema": fields
       };
       console.log(data);
-      this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
-        next: (res) => {
-          debugger;
-          this.toastr.success("Save Successfully", { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      if (this.myForm.value.isActive)
+        this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
+          next: (res) => {
+            debugger;
+            this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+
       const objTableNames = {
         "tableName": this.myForm.value.tableName,
         "comment": this.myForm.value.comment,
         "totalFields": this.myForm.value.totalFields,
-        "isActive": true
+        "isActive": this.myForm.value.isActive
       };
       this.employeeService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
         next: (res) => {
