@@ -1399,11 +1399,6 @@ video {
   padding-right: 1.25rem;
 }
 
-.px-56 {
-  padding-left: 14rem;
-  padding-right: 14rem;
-}
-
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -2048,12 +2043,12 @@ video {
     width: 50%;
   }
 
-  .sm\:w-full {
-    width: 100%;
-  }
-
   .sm\:w-5\/12 {
     width: 41.666667%;
+  }
+
+  .sm\:w-full {
+    width: 100%;
   }
 
   .sm\:max-w-md {
