@@ -1,0 +1,85 @@
+<nz-card nzTitle="Language" [nzExtra]="extraTemplate">
+    <nz-table #sortTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter *ngIf="column.name != '' && column.name != 'Action' && column.name != 'Image'"
+                        [nzSortFn]="column.sortFn">{{column.name}}
+                        <nz-filter-trigger [(nzVisible)]="column.visible" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
+                    </th>
+                    <th *ngIf="column.name == 'Action' || column.name == 'Image'">
+                        {{column.name}}
+                    </th>
+                    <th *ngIf="column.name == ''" style="width:10px">
+                        {{column.name}}
+                    </th>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of sortTable.data">
+                <td>{{ data.companyName }}</td>
+                <td>{{ data.applicationName }}</td>
+                <td>{{ data.english }}</td>
+                <td>{{ data.arabic }}</td>
+                <td>{{ data.chinese }}</td>
+                <td>{{ data.russian }}</td>
+                <td>
+                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('company'),editItem(data )]"></span>
+                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data.id , 'company')"></span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <div class="pagination">
+        <label class="label">Pagination</label>
+        <div class="input-container">
+            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
+        </div>
+    </div>
+</nz-card>
+<ng-template #extraTemplate>
+    <button nz-button nzType="primary" (click)="openModal('company')"><span nz-icon nzType="plus"
+            nzTheme="outline"></span>Add
+    </button>
+</ng-template>
+
+<!-- Drawer -->
+<nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
+    [nzTitle]="'Add Language'" (nzOnClose)="handleCancel()">
+    <ng-container *nzDrawerContent>
+        <form [formGroup]="form">
+            <div class="flex flex-wrap">
+                <div class="w-1/2" *ngFor="let item of fields">
+                    <div class="theme-body">
+                        <div *ngIf="item">
+                            <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                                [form]="form"></formly-form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</nz-drawer>
+<ng-template #footerTpl>
+    <button class="mr-2" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
+            nzTheme="outline"></span>Close</button>
+    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span nz-icon
+            nzType="database" nzTheme="outline"></span>Submit</button>
+    <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span nz-icon
+            nzType="redo" nzTheme="outline"></span>Update</button>
+</ng-template>

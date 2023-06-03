@@ -3854,13 +3854,15 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-
+    debugger
     if (checkType == 'website-block') {
       data.template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
       })
     } else {
-      this.nodes[0].children[1].children = data.template;
+      data.template.forEach((item: any) => {
+        this.nodes[0].children[1].children.push(item);
+      })
     }
     this.updateNodes();
     this.toastr.success('Control Added', { nzDuration: 3000 });
