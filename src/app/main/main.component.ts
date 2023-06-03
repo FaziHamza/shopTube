@@ -203,6 +203,25 @@ export class MainComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
+  convertModel(model: any, parentKey = "") {
+    const convertedModel: any = {};
+
+    for (const key in model) {
+      if (model.hasOwnProperty(key)) {
+        const value = model[key];
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null) {
+          Object.assign(convertedModel, this.convertModel(value, newKey));
+        } else {
+          convertedModel[newKey] = value;
+        }
+      }
+    }
+
+    return convertedModel;
+  }
+
   saveData(data: any) {
     if (data.isSubmit) {
       // this.mainData
@@ -242,14 +261,13 @@ export class MainComponent implements OnInit {
     }
   }
   saveData1(data: any) {
+    let oneModelData = this.convertModel(this.form.value);
 
-    const objModel: any = this.form.value;
-    var nestedObject = {};
-    for (var key in objModel) {
-      Object.assign(nestedObject, objModel[key]);
-    }
-
-    console.log(nestedObject);
+    // const objModel: any = this.form.value;
+    // var nestedObject = {};
+    // for (var key in objModel) {
+    //   Object.assign(nestedObject, objModel[key]);
+    // }
 
     // let nestedObject: any = null;
     // Object.keys(objModel).forEach(key => {
@@ -260,7 +278,7 @@ export class MainComponent implements OnInit {
     // });
     const empData = {
       screenId: 'CRMAPP',
-      modalData: this.form.value
+      modalData: oneModelData
     };
 
     console.log(empData);

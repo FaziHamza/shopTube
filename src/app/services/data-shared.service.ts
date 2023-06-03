@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataSharedService {
   // activeTabIndex = 0;
+  private languageChange: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public change: Subject<{ event: any; field: any}> = new Subject();
   public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
   public currentDepartment: Subject<any> = new Subject();
@@ -48,4 +49,10 @@ export class DataSharedService {
   imageUrl: any;
 
   element:any;
+  getLanguageChange(): Observable<string> {
+    return this.languageChange.asObservable();
+  }
+  setLanguageChange(val: string): void {
+    this.languageChange.next(val);
+  }
 }

@@ -59,7 +59,7 @@
             <ul nz-menu nzSelectable class="web-app-dropdown" style="padding:0px !important">
               <div class="header">
                 <h6> Web Apps </h6>
-                <a href="#"> View All</a>
+                <a href="#"> {{"Name" | translate}}</a>
               </div>
               <div class="divider">
                 New
@@ -146,6 +146,18 @@
                   <h5>Your order is placed</h5>
                   <h6>If several languages coalesce the grammar </h6>
                   <small><i class="fa-regular fa-clock"></i> 3 min ago</small>
+                </div>
+              </div>
+            </ul>
+          </nz-dropdown-menu>
+          <a nz-dropdown [nzDropdownMenu]="menu6">
+            <i class="fa-regular fa-bell"></i>
+          </a>
+          <nz-dropdown-menu #menu6="nzDropdownMenu">
+            <ul nz-menu nzSelectable class="notify-dropdown" style="padding:0px !important">
+              <div class="notification" *ngFor="let language of languages">
+                <div class="detail">
+                  <h5 (click)="setLanguage(language.id)">{{language.title}}</h5>
                 </div>
               </div>
             </ul>
