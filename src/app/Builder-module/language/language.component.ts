@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'st-language',
@@ -13,7 +14,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./language.component.scss']
 })
 export class LanguageComponent implements OnInit {
-
+  private translationsUrl = 'assets/i18n/en.json';
   applicationName: any;
   applicationData: any = [];
   copmanyData: any = [];
@@ -182,7 +183,7 @@ export class LanguageComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,private http: HttpClient) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
       if (field.key === 'company' && event) {
@@ -245,14 +246,25 @@ export class LanguageComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.loading = true;
+      // this.loading = true;
       if (this.isSubmit) {
-        var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.genericApisPost('language', currentData).subscribe((res => {
-          this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-          this.getLangauge();
-          this.loading = false;
-        }))
+        this.saveTranslation('abc','Abc')
+
+
+        // var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
+        // this.builderService.genericApisPost('language', currentData).subscribe((res => {
+        //   this.builderService.saveTranslation('abc', 'ABC')
+        //   .then(() => {
+        //     console.log('Translation saved successfully');
+        //   })
+        //   .catch((error) => {
+        //     console.error('Error saving translation:', error);
+        //   });
+        //   this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
+
+        //   this.getLangauge();
+        //   this.loading = false;
+        // }))
       }
       else {
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
@@ -452,5 +464,20 @@ export class LanguageComponent implements OnInit {
       };
     });
   }
+ 
+  getTranslations(): Promise<any> {
+    return this.http.get<any>(this.translationsUrl).toPromise();
+  }
 
+  saveTranslation(key: string, translation: string): Promise<void> {
+    debugger
+    return this.getTranslations()
+      .then((translations) => {
+        translations[key] = translation;
+        return this.http.put<void>(this.translationsUrl, translations).toPromise();
+      })
+      .catch((error) => {
+        console.error('Error saving translation:', error);
+      });
+  }
 }

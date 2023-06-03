@@ -395,6 +395,11 @@ export class BuilderService {
       this.nestUrl + api,obj
     );
   }
+  saveTranslation(key: string, translation: string): Promise<void> {
+    const url = `assets/i18n/en.json`; 
+    const payload = { key, translation };
+    return this.http.post<void>(url, payload).toPromise();
+  }
 }
 
 
