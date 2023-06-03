@@ -8,6 +8,7 @@ import { ScreenBuilderComponent } from '../Builder-module/screen-builder/screen-
 import { ApplicationBuilderComponent } from '../Builder-module/application-builder/application-builder.component';
 import { CompanyBuilderComponent } from '../Builder-module/company-builder/company-builder.component';
 import { ModuleListComponent } from '../Builder-module/module-list/module-list.component';
+import { LanguageComponent } from '../Builder-module';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'application-builder',
         component: ApplicationBuilderComponent
+      },
+      {
+        path: 'language',
+        component: LanguageComponent
       },
       {
         path: 'company-builder',

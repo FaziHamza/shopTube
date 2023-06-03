@@ -139,6 +139,11 @@ export class BuilderService {
       this.baseUrl + api, data
     );
   }
+  genericPost(id: any, modal: any , api : any): Observable<any[]> {
+    return this.http.put<any[]>(
+      this.baseUrl + api + "/" + id, modal
+    );
+  }
   genericApisDeleteWithId(api: any, id: any): Observable<any[]> {
     return this.http.delete<any[]>(
       this.baseUrl + `${api}/` + id
