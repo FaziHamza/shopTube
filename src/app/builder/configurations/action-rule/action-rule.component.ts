@@ -112,7 +112,7 @@ export class ActionRuleComponent implements OnInit {
           if (item) {
             const keyvalue = key.replace(`${element.name}.`, '');
             fields.push(keyvalue);
-            values.push(`$${keyvalue}`);
+            values.push(`$${key}`);
           }
         }
       }
