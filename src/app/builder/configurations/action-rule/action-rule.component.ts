@@ -111,8 +111,8 @@ export class ActionRuleComponent implements OnInit {
           const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
           if (item) {
             const keyvalue = key.replace(`${element.name}.`, '');
-            fields.push(keyvalue);
-            values.push(`$${key}`);
+            fields.push(keyvalue.toLocaleLowerCase());
+            values.push(`$${key.toLocaleLowerCase()}`);
           }
         }
       }
@@ -121,14 +121,14 @@ export class ActionRuleComponent implements OnInit {
       if (this.actionForm.value.actionLink == 'select') {
         dataForQuery += "select " + fields.join(', ') + " from " + element.name;
       } else if (this.actionForm.value.actionLink == 'get') {
-        dataForQuery += "select * from " + element.name;
+        dataForQuery += "select * from " + element.name.toLocaleLowerCase();
       } else if (this.actionForm.value.actionLink == 'post') {
-        dataForQuery += "insert into " + element.name + "(" + fields.join(', ') + ") OUTPUT INSERTED.ID VALUES (" + values.join(', ') + ");";
+        dataForQuery += "insert into " + element.name.toLocaleLowerCase() + "(" + fields.join(', ') + ") OUTPUT INSERTED.ID VALUES (" + values.join(', ') + ");";
       } else if (this.actionForm.value.actionLink == 'put') {
         let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
-        dataForQuery += "UPDATE " + element.name + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
+        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
       } else if (this.actionForm.value.actionLink == 'delete') {
-        let deleteQuery = "DELETE FROM" + element.name + " WHERE " + fields[0] + " = " + values[0];
+        let deleteQuery = "DELETE FROM" + element.name.toLocaleLowerCase() + " WHERE " + fields[0] + " = " + values[0];
         dataForQuery += deleteQuery;
       }
 

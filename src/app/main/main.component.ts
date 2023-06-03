@@ -212,9 +212,9 @@ export class MainComponent implements OnInit {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
 
         if (typeof value === 'object' && value !== null) {
-          Object.assign(convertedModel, this.convertModel(value, newKey));
+          Object.assign(convertedModel, this.convertModel(value, newKey.toLocaleLowerCase()));
         } else {
-          convertedModel[newKey] = value;
+          convertedModel[newKey.toLocaleLowerCase()] = value;
         }
       }
     }
