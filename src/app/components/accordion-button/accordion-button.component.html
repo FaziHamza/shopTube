@@ -1,12 +1,14 @@
-<nz-collapse class="p" [nzAccordion]="true" [nzBordered]='accordionData.nzBordered' [nzGhost]='accordionData.nzGhost'
-    [nzExpandIconPosition]='accordionData.nzExpandIconPosition'>
-    <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled' [nzHeader]="accordionData.title" [nzActive]='true'
-        [nzExtra]="tooltip" [nzExpandedIcon]='expandedIcon' [nzShowArrow]='accordionData.nzShowArrow'>
+<nz-collapse [nzAccordion]="true" [nzBordered]='accordionData.nzBordered' [nzGhost]='accordionData.nzGhost'
+    [nzExpandIconPosition]="'right'" >
+    <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled' [nzHeader]="titleTemp" [nzActive]='true'
+        [nzExtra]="tooltip"  [nzShowArrow]='false' [nzExtra]="extraTpl">
         <st-main [mainData]="accordionData.children"></st-main>
     </nz-collapse-panel>
 </nz-collapse>
 <ng-template #extraTpl>
-    <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
+    <st-icon *ngIf="accordionData?.nzExpandedIcon" [type]="accordionData?.iconType"
+        [icon]="accordionData?.nzExpandedIcon" [hoverIconColor]="accordionData?.hoverIconColor || ''"
+        [size]="accordionData?.iconSize" [color]="accordionData?.iconColor"></st-icon>
 </ng-template>
 
 <ng-template #tooltip>
@@ -15,6 +17,8 @@
     </span>
 </ng-template>
 <ng-template #expandedIcon>
-    <st-icon *ngIf="accordionData?.nzExpandedIcon" [type]="accordionData?.iconType" [icon]="accordionData?.nzExpandedIcon"
-    [hoverIconColor]="accordionData?.hoverIconColor || ''"  [size]="accordionData?.iconSize" [color]="accordionData?.iconColor"></st-icon>
+    
+</ng-template>
+<ng-template #titleTemp>
+    <p [class]="accordionData.titleClass">{{accordionData.title}}</p>
 </ng-template>
