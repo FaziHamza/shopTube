@@ -23,6 +23,9 @@ import { MenuBuilderComponent } from "../menu-builder/menu-builder.component";
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import {  MonacoEditorModule } from "ngx-monaco-editor";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { HttpClient } from "@angular/common/http";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 @NgModule({
   declarations: [
@@ -48,6 +51,15 @@ import {  MonacoEditorModule } from "ngx-monaco-editor";
     ShareModule,
     GoogleChartsModule,
     ContextMenuModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => {
+          return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+        },
+        deps: [HttpClient]
+      }
+    }),
   ],
 })
 

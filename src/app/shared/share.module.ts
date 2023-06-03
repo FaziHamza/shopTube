@@ -42,6 +42,9 @@ import { WebMenuComponent } from '../Website/web-menu/web-menu.component';
 import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header.component';
 import { WebsitePricingComponent } from '../Website/website-pricing/website-pricing.component';
 import { Layout1Component } from '../admin/layout1/layout1.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
@@ -60,6 +63,15 @@ import { Layout1Component } from '../admin/layout1/layout1.component';
       RouterModule,
       GoogleChartsModule,
       ContextMenuModule,
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: (http: HttpClient) => {
+            return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+          },
+          deps: [HttpClient]
+        }
+      }),
       // WebsiteModules,
     ],
   declarations: [

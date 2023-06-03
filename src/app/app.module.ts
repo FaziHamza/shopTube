@@ -27,6 +27,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -61,6 +63,15 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     ShareModule,
     GoogleChartsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => {
+          return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+        },
+        deps: [HttpClient]
+      }
+    }),
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [

@@ -710,13 +710,13 @@ export class AddControlService {
     return {
       isNextChild: false,
       style: "font-weight:bold;",
-      fontweight: "bold",
+      fontweight: "font-bold",
       textAlign: "text-left",
       color: '#000000',
       headingApi: "",
       text: "Editor.js",
       heading: 'text-base',
-      fontstyle: 'font-normal',
+      fontstyle: '',
       link: '',
     }
   }

@@ -16,7 +16,7 @@ nz-typography
 [nzExpandable]="data.expandable"
 [nzEllipsisRows]="data.ellipsisRows"
 [nzType]="data.nztype"
-[class]=" data.textSize ? data.fontstyle + ' ' +  data.textSize : data.fontstyle + ' text-md'"
+[class]=" data.textSize ? data.fontstyle + ' ' +  data.textSize + ' ' + data.fontweight : data.fontstyle + ' text-md' + ' ' + data.fontweight"
 [style.color]="data.color"
 ></p>
 <ng-template #beforecopiedIcon>
