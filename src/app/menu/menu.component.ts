@@ -2,6 +2,8 @@ import { EmployeeService } from './../services/employee.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataSharedService } from '../services/data-shared.service';
+import { StorageService } from '../services/storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'st-menu',
@@ -9,16 +11,50 @@ import { DataSharedService } from '../services/data-shared.service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  selectedLanguageObj: any | undefined;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   applicationBuilder: any;
   screenSetting: any;
-  selectedApp:string = '';
+  selectedApp: string = '';
   isCollapsed: boolean = false;
   isVisible: boolean = false;
-  constructor(private employeeService: EmployeeService, private notification: NzNotificationService , public dataSharedService: DataSharedService) { }
+  languages = [
+    {
+      id: 'en',
+      title: 'English',
+      flag: 'us.png'
+    },
+    {
+      id: 'arabic',
+      title: 'Arabic',
+      flag: 'arabic.png'
+    }
+  ];
+  constructor(private employeeService: EmployeeService, private notification: NzNotificationService,
+    public dataSharedService: DataSharedService, private storageService: StorageService, private translate: TranslateService) {
+    const currentLanguageString = this.storageService.getString("currentLanguage");
+    let currentLanguage: any;
+    if (currentLanguageString !== null) {
+      currentLanguage = JSON.parse(currentLanguageString);
+      this.translate.setDefaultLang(currentLanguage);
+    } else {
+      this.translate.setDefaultLang('en');
+      this.storageService.storeString(
+        'currentLanguage',
+        JSON.stringify('en')
+      );
+    }
+  }
 
   ngOnInit(): void {
     this.getApllicationAndModule();
+    const currentLanguageString = this.storageService.getString("currentLanguage");
+    let currentLanguage: any;
+
+    if (currentLanguageString !== null) {
+      currentLanguage = JSON.parse(currentLanguageString);
+      this.selectedLanguageObj = this.languages.find(language => language.id == currentLanguage);
+    }
   }
   getApllicationAndModule() {
     this.employeeService.jsonApplicationBuilder().subscribe((res => {
@@ -33,9 +69,9 @@ export class MenuComponent implements OnInit {
     this.selectedApp = moduleName;
     this.employeeService.getJsonModules(moduleName).subscribe((res => {
       if (res.length > 0) {
-        let obj ={
-          emitData : res[0],
-          screenType : ''
+        let obj = {
+          emitData: res[0],
+          screenType: ''
         };
         this.notify.emit(obj);
       }
@@ -48,18 +84,30 @@ export class MenuComponent implements OnInit {
       }
     }));
   }
-  collapse(screenType : any){
+  collapse(screenType: any) {
     this.isCollapsed = !this.isCollapsed;
-    let obj ={
-      emitData : this.isCollapsed,
-      screenType : screenType
+    let obj = {
+      emitData: this.isCollapsed,
+      screenType: screenType
     };
     this.notify.emit(obj);
   }
-  openComment(){
+  openComment() {
     this.isVisible = true;
   }
   handleCancel(): void {
     this.isVisible = false;
+  }
+  setLanguage(lang: string): void {
+
+    this.selectedLanguageObj = this.languages.find(
+      (record) => record.id === lang
+    );
+    this.dataSharedService.setLanguageChange(lang);
+    this.storageService.storeString(
+      'currentLanguage',
+      JSON.stringify(lang)
+    );
+    this.translate.use(lang);
   }
 }

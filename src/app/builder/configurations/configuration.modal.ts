@@ -3440,20 +3440,40 @@ export class formFeildData {
             label: 'Font Weight',
             options: [
               {
-                label: 'Normal',
-                value: 'normal'
+                label: 'font-thin',
+                value: 'font-thin'
               },
               {
-                label: 'Bold',
-                value: 'bold'
+                label: 'font-extralight',
+                value: 'font-extralight'
               },
               {
-                label: 'Semi bold',
+                label: 'font-light',
+                value: 'font-light'
+              },
+              {
+                label: 'font-normal',
+                value: 'font-normal'
+              },
+              {
+                label: 'font-medium',
+                value: 'font-medium'
+              },
+              {
+                label: 'font-semibold',
                 value: 'font-semibold'
               },
               {
-                label: 'Lighter',
-                value: 'lighter'
+                label: 'font-bold',
+                value: 'font-bold'
+              },
+              {
+                label: 'font-extrabold',
+                value: 'font-extrabold'
+              },
+              {
+                label: 'font-black',
+                value: 'font-black'
               }
             ],
             additionalProperties: {
@@ -3478,10 +3498,25 @@ export class formFeildData {
                 value: 'italic'
               },
               {
-                label: 'Normal',
-                value: 'font-normal'
+                label: 'underline',
+                value: 'underline'
               },
-
+              {
+                label: 'line-through',
+                value: 'line-through'
+              },
+              {
+                label: 'uppercase',
+                value: 'uppercase'
+              },
+              {
+                label: 'lowercase',
+                value: 'lowercase'
+              },
+              {
+                label: 'capitalize',
+                value: 'capitalize'
+              },
             ],
             additionalProperties: {
               allowClear: true,
@@ -3626,27 +3661,31 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Font Weight',
+            label: 'Font Style',
             options: [
-              {
-                label: 'Bold',
-                value: 'font-bold'
-              },
-              {
-                label: 'Semi bold',
-                value: 'font-semibold'
-              },
               {
                 label: 'Italic',
                 value: 'italic'
               },
               {
-                label: 'Normal',
-                value: 'font-normal'
+                label: 'underline',
+                value: 'underline'
               },
               {
-                label: 'Light',
-                value: 'font-light'
+                label: 'line-through',
+                value: 'line-through'
+              },
+              {
+                label: 'uppercase',
+                value: 'uppercase'
+              },
+              {
+                label: 'lowercase',
+                value: 'lowercase'
+              },
+              {
+                label: 'capitalize',
+                value: 'capitalize'
               },
             ],
             additionalProperties: {
@@ -3656,7 +3695,60 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'w-1/3'
+        },
+        {
+          key: 'fontweight',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Font Weight',
+            options: [
+              {
+                label: 'font-thin',
+                value: 'font-thin'
+              },
+              {
+                label: 'font-extralight',
+                value: 'font-extralight'
+              },
+              {
+                label: 'font-light',
+                value: 'font-light'
+              },
+              {
+                label: 'font-normal',
+                value: 'font-normal'
+              },
+              {
+                label: 'font-medium',
+                value: 'font-medium'
+              },
+              {
+                label: 'font-semibold',
+                value: 'font-semibold'
+              },
+              {
+                label: 'font-bold',
+                value: 'font-bold'
+              },
+              {
+                label: 'font-extrabold',
+                value: 'font-extrabold'
+              },
+              {
+                label: 'font-black',
+                value: 'font-black'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+          defaultValue: 'bold'
         },
         {
           key: 'textSize',
