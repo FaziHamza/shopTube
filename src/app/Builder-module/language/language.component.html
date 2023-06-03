@@ -1,5 +1,5 @@
 <nz-card nzTitle="Language" [nzExtra]="extraTemplate">
-    <nz-table #sortTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+    <nz-table #sortTable [nzLoading]="loading" [nzData]="languageData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
@@ -28,8 +28,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of sortTable.data">
-                <td>{{ data.companyName }}</td>
-                <td>{{ data.applicationName }}</td>
+                <td>{{ data.company }}</td>
+                <td>{{ data.application }}</td>
+                <td>{{ data.fieldKey }}</td>
                 <td>{{ data.english }}</td>
                 <td>{{ data.arabic }}</td>
                 <td>{{ data.chinese }}</td>
