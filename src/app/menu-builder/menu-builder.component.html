@@ -11,7 +11,7 @@
   <nz-card class="card menu-builder-card m-2">
     <div class="">
       <div class="flex header-tab">
-        <div class="w-1/4 jsonEdiotTab">
+        <div class=" jsonEdiotTab">
           <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()">
             <span nz-icon nzType="group" nzTheme="outline"></span>
           </button>
@@ -24,13 +24,13 @@
           <button nz-button nzType="primary" class="ml-2" (click)="clearChildNode()">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         </div>
-        <div class="w-1/2 ml-2">
+        <div class=" ml-2 jsonsearchTab">
           <nz-select nzShowSearch nzAllowClear [(ngModel)]="moduleName" nzPlaceHolder="Select Module..."
             (ngModelChange)="getFormLayers($event)">
             <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of menuModule"></nz-option>
           </nz-select>
         </div>
-        <div class="w-1/4 jsonEdiotTab ml-1">
+        <div class=" jsonbuttonTab ml-1">
           <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="primary">
             Json Actions
             <span nz-icon class="ml-1" nzType="down"></span>
