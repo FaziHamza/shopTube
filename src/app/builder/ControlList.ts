@@ -94,6 +94,11 @@ export const htmlTabsData = [
                 label: "List/Data Grid"
               },
               {
+                parameter: "invoiceGrid",
+                icon: "uil uil-file-alt",
+                label: "Invoice Grid"
+              },
+              {
                 parameter: "divider",
                 icon: "uil uil-file-alt",
                 label: "Divider"

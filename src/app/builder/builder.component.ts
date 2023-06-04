@@ -848,6 +848,7 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
+    debugger
     let obj = {
       title: value,
       key: value.toLowerCase() + "_" + Guid.newGuid()
@@ -916,6 +917,10 @@ export class BuilderComponent implements OnInit {
         copyJsonIcon: false,
       }
     }
+    if (value == 'invoiceGrid') {
+      newNode.type = 'gridList'
+      newNode.id = this.moduleId + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
+    };
     switch (value) {
       case "page":
         newNode = { ...newNode, ...this.addControlService.getPageControl() };
@@ -1087,6 +1092,9 @@ export class BuilderComponent implements OnInit {
 
       case "gridList":
         newNode = { ...newNode, ...this.addControlService.gridListControl() };
+        break;
+      case "invoiceGrid":
+        newNode = { ...newNode, ...this.addControlService.invoiceGridControl() };
         break;
 
       case "column":
@@ -1587,8 +1595,8 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.commentFields;
         break;
       case "rate":
-        if(!configObj.options[0].label){
-        configObj.options = configObj.options.map((option: any) => ({ label: option }));
+        if (!configObj.options[0].label) {
+          configObj.options = configObj.options.map((option: any) => ({ label: option }));
         }
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
@@ -1662,7 +1670,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.toastrFeilds;
         break;
       case "invoice":
-        configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
+        // configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.invoiceFeilds;
         break;
       case "rangeSlider":
@@ -2532,9 +2540,9 @@ export class BuilderComponent implements OnInit {
             props['masktitle'] = event.form.masktitle;
             props['rows'] = event.form.rows;
             props['additionalProperties']['addonRight'] = event.form.addonRight;
-              props['additionalProperties']['addonLeft'] = event.form.addonLeft;
-              props['additionalProperties']['prefixicon'] = event.form.prefixicon;
-              props['additionalProperties']['suffixicon'] = event.form.suffixicon;
+            props['additionalProperties']['addonLeft'] = event.form.addonLeft;
+            props['additionalProperties']['prefixicon'] = event.form.prefixicon;
+            props['additionalProperties']['suffixicon'] = event.form.suffixicon;
             props['additionalProperties']['border'] = event.form.border;
             props['additionalProperties']['requiredMessage'] = event.form.requiredMessage;
             props['additionalProperties']['optionWidth'] = event.form.optionWidth;
@@ -2645,26 +2653,6 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.base64Image = this.dataSharedService.imageUrl;
         }
         break;
-      case "invoice":
-        if (this.selectedNode) {
-          this.selectedNode.invoiceNumberLabel = event.form.invoiceNumberLabel;
-          this.selectedNode.datelabel = event.form.datelabel;
-          this.selectedNode.paymentTermsLabel = event.form.paymentTermsLabel;
-          this.selectedNode.poNumber = event.form.poNumber;
-          this.selectedNode.billToLabel = event.form.billToLabel;
-          this.selectedNode.dueDateLabel = event.form.dueDateLabel;
-          this.selectedNode.shipToLabel = event.form.shipToLabel;
-          this.selectedNode.notesLabel = event.form.notesLabel;
-          this.selectedNode.subtotalLabel = event.form.subtotalLabel;
-          this.selectedNode.dicountLabel = event.form.dicountLabel;
-          this.selectedNode.shippingLabel = event.form.shippingLabel;
-          this.selectedNode.taxLabel = event.form.taxLabel;
-          this.selectedNode.termsLabel = event.form.termsLabel;
-          this.selectedNode.totalLabel = event.form.totalLabel;
-          this.selectedNode.amountpaidLabel = event.form.amountpaidLabel;
-          this.selectedNode.balanceDueLabel = event.form.balanceDueLabel;
-        }
-        break;
       case "calender":
         if (this.selectedNode.id) {
           if (event.form.statusApi != undefined) {
@@ -2685,6 +2673,7 @@ export class BuilderComponent implements OnInit {
       case "gridList":
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
+          this.selectedNode.className = event.form?.className;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.rowClickApi = event.form?.rowClickApi;
           this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;

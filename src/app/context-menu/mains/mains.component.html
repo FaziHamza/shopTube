@@ -58,7 +58,7 @@
     </ng-template>
     <ng-template #tenth>
         <div *ngIf="item.type == 'heading'; else eleventh">
-            <st-heading [style.background]="'red'" [headingData]="item"></st-heading>
+            <st-heading [headingData]="item"></st-heading>
         </div>
     </ng-template>
     <ng-template #eleventh>

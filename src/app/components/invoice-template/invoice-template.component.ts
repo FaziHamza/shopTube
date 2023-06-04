@@ -11,10 +11,11 @@ export class InvoiceTemplateComponent implements OnInit {
   showShipping: boolean = false;
   image: any;
   subTotal = 0;
-  total : any = 0;
+  total: any = 0;
   newAmount = 0;
-  balanceDue : any = 0;
+  balanceDue: any = 0;
   invoiceObject: any;
+  isVisible = false;
   @Input() invoiceData: any;
   form: FormGroup;
   constructor(private formBuilder: FormBuilder) { }
@@ -106,7 +107,7 @@ export class InvoiceTemplateComponent implements OnInit {
 
 
 
-  openModal(content: any) {
+  openModal() {
     this.invoiceObject = {
       image: this.image,
       invoiceNumber: this.form.value.invoiceNumber,
@@ -130,8 +131,8 @@ export class InvoiceTemplateComponent implements OnInit {
       grid: '',
       heading: '',
     }
-    if (this.invoiceData.invoiceChild.length > 0) {
-      this.invoiceData.invoiceChild.forEach((element: any) => {
+    if (this.invoiceData.children.length > 0) {
+      this.invoiceData.children.forEach((element: any) => {
         if (element.type == 'gridList') {
           this.invoiceObject.grid = element;
         } else if (element.type == 'header') {
@@ -139,6 +140,16 @@ export class InvoiceTemplateComponent implements OnInit {
         }
       });
     }
-    // this.modalService.open(content, { size: "xl", centered: true });
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }
