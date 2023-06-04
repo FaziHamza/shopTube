@@ -302,7 +302,7 @@
         </div>
     </ng-template>
     <ng-template #fourtyThree>
-        <div *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+        <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
             <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth"
