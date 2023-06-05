@@ -29,6 +29,7 @@ import { CreateDatabaseComponent } from './admin/create-database/create-database
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MapComponent } from './components/map/map.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -44,6 +45,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     LoginComponent,
     RegisterComponent,
     CreateDatabaseComponent,
+    MapComponent,
   ],
   imports: [
     FormsModule,
