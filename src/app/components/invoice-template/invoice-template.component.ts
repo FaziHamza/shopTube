@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-invoice-template',
@@ -11,16 +14,18 @@ export class InvoiceTemplateComponent implements OnInit {
   showShipping: boolean = false;
   image: any;
   subTotal = 0;
-  total : any = 0;
+  total: any = 0;
   newAmount = 0;
-  balanceDue : any = 0;
+  balanceDue: any = 0;
   invoiceObject: any;
+  isVisible = false;
   @Input() invoiceData: any;
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  requestSubscription: Subscription;
+  constructor(private formBuilder: FormBuilder , public dataSharedService: DataSharedService , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-
+    debugger
     this.form = this.formBuilder.group({
       image: '',
       invoiceNumber: '',
@@ -38,22 +43,43 @@ export class InvoiceTemplateComponent implements OnInit {
       tax: 0,
       amountPaid: 0,
     });
-    // this.applyDisount();
-    // this.findDueBalance();
-    // this.findtax();
-    if (this.invoiceData.invoiceChild.length > 0) {
-      this.invoiceData.invoiceChild.forEach((element: any) => {
-        if (element.type == 'gridList') {
-          element.rowData.forEach((element1: any) => {
-            if (element1.amount) {
-              this.subTotal = this.subTotal + element1.amount
-            }
-          });
-        }
-      });
-      this.total = this.subTotal;
-      this.balanceDue = this.total;
-    }
+
+    this.requestSubscription = this.dataSharedService.invoiceSum.subscribe({
+      next: (res) => {
+        debugger
+        this.form.patchValue({
+          tax: 0,
+          amountPaid: 0,
+          discount: 0,
+          shipping: 0
+        });
+        
+        res.forEach((item : any) => {
+          this.subTotal = this.subTotal + (item.quantity * item.price)
+        });
+        this.total = this.subTotal;
+        this.balanceDue = this.total;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+
+
+    // if (this.invoiceData.invoiceChild.length > 0) {
+    //   this.invoiceData.invoiceChild.forEach((element: any) => {
+    //     if (element.type == 'gridList') {
+    //       element.rowData.forEach((element1: any) => {
+    //         if (element1.amount) {
+    //           this.subTotal = this.subTotal + element1.amount
+    //         }
+    //       });
+    //     }
+    //   });
+    //   this.total = this.subTotal;
+    //   this.balanceDue = this.total;
+    // }
   }
 
   showDiscount() {
@@ -106,7 +132,7 @@ export class InvoiceTemplateComponent implements OnInit {
 
 
 
-  openModal(content: any) {
+  openModal() {
     this.invoiceObject = {
       image: this.image,
       invoiceNumber: this.form.value.invoiceNumber,
@@ -130,8 +156,8 @@ export class InvoiceTemplateComponent implements OnInit {
       grid: '',
       heading: '',
     }
-    if (this.invoiceData.invoiceChild.length > 0) {
-      this.invoiceData.invoiceChild.forEach((element: any) => {
+    if (this.invoiceData.children.length > 0) {
+      this.invoiceData.children.forEach((element: any) => {
         if (element.type == 'gridList') {
           this.invoiceObject.grid = element;
         } else if (element.type == 'header') {
@@ -139,6 +165,16 @@ export class InvoiceTemplateComponent implements OnInit {
         }
       });
     }
-    // this.modalService.open(content, { size: "xl", centered: true });
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }

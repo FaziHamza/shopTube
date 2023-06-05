@@ -358,10 +358,9 @@ export class CompanyBuilderComponent implements OnInit {
     a.click();
   }
 
-  callChild(company: any) {
-
-    const applicationData = this.listOfChildrenData.filter((item: any) => item.companyName == company.name);
-    company['children'] = applicationData;
+  callChild(organization: any) {
+    const applicationData = this.listOfChildrenData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == organization.name);
+    organization['children'] = applicationData;
   }
 
   jsonApplicationBuilder() {
@@ -395,7 +394,7 @@ export class CompanyBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'companyName',
+            key: 'organizationName',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -412,69 +411,69 @@ export class CompanyBuilderComponent implements OnInit {
           }
         ]
       },
-      {
-        fieldGroup: [
-          {
-            key: 'application_Type',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Department Type',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [
-                { label: "Website", value: 'website' },
-                { label: "Mobile", value: 'mobile' },
-                { label: "Backend Application", value: 'backend_application' },
-              ]
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'layout',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Layout',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [
-                { label: "Layout1", value: 'layout1' },
-                { label: "Layout2", value: 'layout2' },
-                { label: "Layout3", value: 'layout3' },
-              ]
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'domain',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Domain Name',
-              placeholder: 'Domain Name...',
-              required: true,
-            }
-          },
-        ],
-      }
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'application_Type',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Department Type',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [
+      //           { label: "Website", value: 'website' },
+      //           { label: "Mobile", value: 'mobile' },
+      //           { label: "Backend Application", value: 'backend_application' },
+      //         ]
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'layout',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Layout',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [
+      //           { label: "Layout1", value: 'layout1' },
+      //           { label: "Layout2", value: 'layout2' },
+      //           { label: "Layout3", value: 'layout3' },
+      //         ]
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'domain',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Domain Name',
+      //         placeholder: 'Domain Name...',
+      //         required: true,
+      //       }
+      //     },
+      //   ],
+      // }
     ];
   }
   fieldsLoad() {

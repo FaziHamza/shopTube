@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'st-language',
@@ -13,9 +14,10 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./language.component.scss']
 })
 export class LanguageComponent implements OnInit {
-
+  private translationsUrl = 'assets/i18n/en.json';
   applicationName: any;
   applicationData: any = [];
+  optionsArray: any = [];
   copmanyData: any = [];
   schema: any;
   isSubmit: boolean = true;
@@ -34,6 +36,8 @@ export class LanguageComponent implements OnInit {
   requestSubscription: Subscription;
   fields: any = [];
   searchArray: any = [];
+  screens: any = [];
+  builderScreens: any = [];
   listOfColumns: any = [
     {
       name: 'Company Name',
@@ -182,21 +186,40 @@ export class LanguageComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
+  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private http: HttpClient) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
-      if (field.key === 'company' && event) {
+      let key = '';
+      if (field.key === 'company') {
+        key = 'application'
+      } else if (field.key === 'application') {
+        key = 'screen_menu'
+      } else if (field.key === 'screen_menu') {
+        key = 'fieldKey'
+      }
+      if ((field.key === 'company' || field.key === 'application' || field.key === 'screen_menu') && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
-          return field.key === 'application';
+          return field.key === key;
         });
         if (moduleFieldIndex !== -1) {
-          let optionArray = this.applicationData.filter((item: any) => item.companyName == event);
-          const options = optionArray.map((item: any) => ({
-            label: item.name,
-            value: item.name
-          }));
-          this.fields[moduleFieldIndex].fieldGroup[0].props.options = options;
+          this.screens;
+          if (field.key === 'company' || field.key === 'application') {
+            let optionArray = field.key == 'company' ? this.applicationData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == event) : this.screens.filter((item: any) => item.applicationName == event);
+            const options = optionArray.map((item: any) => ({
+              label: item.name,
+              value: item.name
+            }));
+            this.fields[moduleFieldIndex].fieldGroup[0].props.options = options;
+          }
+          else if (field.key === 'screen_menu') {
+            let screen = this.builderScreens.filter((item: any) => item.moduleName == event);
+            if (this.model.select_Type == 'screen') {
+              this.optionsArray = [];
+              this.createOptionsArray(screen[0].menuData[0]);
+              this.fields[moduleFieldIndex].fieldGroup[0].props.options = this.optionsArray;
+            }
+          }
         }
       }
     });
@@ -207,6 +230,8 @@ export class LanguageComponent implements OnInit {
     this.applications();
     this.getLangauge();
     this.loadSearchArray();
+    this.getScreens();
+    this.getBuilderScreens();
   }
   companyData() {
     this.loading = true
@@ -223,7 +248,30 @@ export class LanguageComponent implements OnInit {
       this.loading = false;
     }));
   }
-
+  getScreens() {
+    this.loading = true
+    this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
+      next: (res) => {
+        this.screens = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
+  getBuilderScreens() {
+    this.loading = true
+    this.requestSubscription = this.builderService.genericApis('jsonBuilderSetting').subscribe({
+      next: (res) => {
+        this.builderScreens = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
 
   openModal(type: any) {
     this.fieldsLoad();
@@ -247,9 +295,18 @@ export class LanguageComponent implements OnInit {
     if (this.form.valid) {
       this.loading = true;
       if (this.isSubmit) {
+        // this.saveTranslation('abc', 'Abc')
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
         this.builderService.genericApisPost('language', currentData).subscribe((res => {
+          // this.builderService.saveTranslation('abc', 'ABC')
+          //   .then(() => {
+          //     console.log('Translation saved successfully');
+          //   })
+          //   .catch((error) => {
+          //     console.error('Error saving translation:', error);
+          //   });
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
+
           this.getLangauge();
           this.loading = false;
         }))
@@ -311,6 +368,7 @@ export class LanguageComponent implements OnInit {
 
   applications() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
+      debugger
       this.applicationData = res;
       this.fieldsLoad();
       this.loading = false;
@@ -329,6 +387,35 @@ export class LanguageComponent implements OnInit {
     }));
 
     this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'select_Type',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Type',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+                {
+                  label: 'Screen',
+                  value: 'screen'
+                },
+                {
+                  label: 'Menu',
+                  value: 'menu'
+                },
+              ]
+            }
+          }
+        ]
+      },
       {
         fieldGroup: [
           {
@@ -372,18 +459,59 @@ export class LanguageComponent implements OnInit {
       {
         fieldGroup: [
           {
+            key: 'screen_menu',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Screen / Menu',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [],
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
             key: 'fieldKey',
-            type: 'input',
+            type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
               label: 'Field Key',
-              placeholder: 'Key...',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [],
               required: true,
             }
-          },
-        ],
+          }
+        ]
       },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'fieldKey',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Field Key',
+      //         placeholder: 'Key...',
+      //         required: true,
+      //       }
+      //     },
+      //   ],
+      // },
       {
         fieldGroup: [
           {
@@ -452,5 +580,29 @@ export class LanguageComponent implements OnInit {
       };
     });
   }
+  createOptionsArray(node: any) {
+    if(node.title){
+      this.optionsArray.push({ label: node.title, value: node.title });
+    }
+    if (node.children) {
+      node.children.forEach((child: any) => {
+        this.createOptionsArray(child);
+      });
+    }
+  }
+  getTranslations(): Promise<any> {
+    return this.http.get<any>(this.translationsUrl).toPromise();
+  }
 
+  saveTranslation(key: string, translation: string): Promise<void> {
+    debugger
+    return this.getTranslations()
+      .then((translations) => {
+        translations[key] = translation;
+        return this.http.put<void>(this.translationsUrl, translations).toPromise();
+      })
+      .catch((error) => {
+        console.error('Error saving translation:', error);
+      });
+  }
 }

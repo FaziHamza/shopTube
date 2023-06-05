@@ -7,7 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { BarChartComponent, DemoLayotPageComponent } from './components';
+import { BarChartComponent, DemoLayotPageComponent, FileManagerComponent, googleMapComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
 import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 import { Layout1Component } from './admin/layout1/layout1.component';
@@ -75,6 +75,14 @@ const routes: Routes = [
   {
     path: 'demo',
     component: DemoComponent
+  },
+  {
+    path: 'file-manager',
+    component: FileManagerComponent
+  },
+  {
+    path: 'map',
+    component: googleMapComponent
   },
   {
     path: 'layout1',

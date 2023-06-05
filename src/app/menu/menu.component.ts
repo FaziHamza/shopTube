@@ -28,6 +28,16 @@ export class MenuComponent implements OnInit {
       id: 'arabic',
       title: 'Arabic',
       flag: 'arabic.png'
+    },
+    {
+      id: 'russian',
+      title: 'Russian',
+      flag: 'russian.png'
+    },
+    {
+      id: 'chinese',
+      title: 'Chinese',
+      flag: 'chinese.png'
     }
   ];
   constructor(private employeeService: EmployeeService, private notification: NzNotificationService,

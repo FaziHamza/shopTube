@@ -24,7 +24,7 @@ import {
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -45,6 +45,7 @@ import { Layout1Component } from '../admin/layout1/layout1.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { GoogleMapsModule } from '@angular/google-maps';
 // import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
@@ -62,6 +63,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
       FullCalendarModule,
       RouterModule,
       GoogleChartsModule,
+      GoogleMapsModule,
       ContextMenuModule,
       TranslateModule.forRoot({
         loader: {
@@ -104,7 +106,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
-    MenuControllComponent
+    MenuControllComponent,
+    PrintInvoiceComponent,FileManagerComponent,googleMapComponent
   ],
   exports: [
     FormsModule,
@@ -156,7 +159,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
-    MenuControllComponent
+    MenuControllComponent,
+    PrintInvoiceComponent,FileManagerComponent,googleMapComponent
   ],
   providers: [
   ],

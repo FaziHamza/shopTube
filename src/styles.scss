@@ -1552,6 +1552,70 @@ ngx-monaco-editor {
   // /* width: 98%; */
   margin: 15px;
 }
-img, svg, video, canvas, audio, iframe, embed, object{
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
   display: inline-block !important;
+}
+
+.floting-standerd-input {
+  float: none !important;
+  margin-bottom: 15px !important;
+}
+
+.ant-select-selector {
+  outline: 2px solid transparent !important;
+  box-shadow: none !important;
+}
+
+.menu-item-icon .fa-period {
+  margin-bottom: 22px !important;
+}
+
+.image-preview {
+  position: relative;
+
+  button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #1890ff;
+    background: white;
+    font-weight: 500;
+    border-radius: 100px;
+  }
+
+  img {
+    border-radius: 6px;
+  }
+}
+
+.jsonEdiotTab {
+  width: 335px;
+  display: flex;
+
+  button {
+    width: 100%;
+  }
+}
+
+.jsonsearchTab {
+  width: calc(100% - 515px);
+}
+
+.jsonbuttonTab {
+  width: 180px;
+
+  button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

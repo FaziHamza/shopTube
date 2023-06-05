@@ -21,7 +21,7 @@
                     <st-icon *ngIf="item.icon" [type]="item.iconType == 'outline'" [icon]="item.icon"
                       [size]="item.iconSize || 15" [color]="item.iconColor || ''"></st-icon>
                   </span><span *ngIf="!this.selectedTheme.isCollapsed"
-                    [style.color]="selectedTheme['textColor']">{{item.title}}</span>
+                    [style.color]="selectedTheme['textColor']">{{item.title | translate}}</span>
                 </li>
                 <ng-container *ngIf="item.children.length && shouldExecute(item.children[0]);else menu">
                   <li
@@ -40,7 +40,7 @@
                       </span>
                       <span class="sidenav-title"
                         [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
-                      >{{ item.title }}</span>
+                      >{{ item.title | translate}}</span>
                     </ng-template>
                     <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor">
                       <ng-container *ngFor="let sub of item.children">
@@ -60,7 +60,7 @@
                             </span>
                             <span class="sidenav-title"
                               [style.color]="isActiveShow === item.id ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor']"
-                            >{{ sub.title }}</span>
+                            >{{ sub.title | translate}}</span>
                           </li>
                           <li [nzTitle]="subTemplate" *ngIf="sub.children.length > 0"
                             [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
@@ -70,7 +70,7 @@
                               <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                                 [size]="sub.iconSize || 15" [color]="sub.iconColor || ''"></st-icon>
                               <span class="sidenav-title" [style.color]="selectedTheme['textColor']">{{
-                                sub.title }}</span>
+                                sub.title | translate}}</span>
                             </ng-template>
                             <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor">
                               <li
@@ -81,7 +81,7 @@
                                     [icon]="subSub.icon" [size]="subSub.iconSize || 15"
                                     [color]="subSub.iconColor || ''"></st-icon>
                                 </span><span *ngIf="!this.selectedTheme.isCollapsed"
-                                  [style.color]="selectedTheme?.textColor ? selectedTheme?.textColor : ''">{{subSub.title}}</span>
+                                  [style.color]="selectedTheme?.textColor ? selectedTheme?.textColor : ''">{{subSub.title | translate}}</span>
                               </li>
                             </ul>
                           </li>
@@ -116,7 +116,7 @@
                     </span>
                     <span class="sidenav-title"
                     [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])"
-                    >{{ item.title }}</span>
+                    >{{ item.title | translate}}</span>
                   </li>
                 </ng-template>
               </ng-container>
@@ -141,7 +141,7 @@
                               <ul *ngFor="let subChild of sub.children">
                                 <li
                                   [ngStyle]="{ 'background': isActiveShow == subChild.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-                                  nz-menu-item *ngIf="shouldExecute(subChild)">{{subChild.title}}</li>
+                                  nz-menu-item *ngIf="shouldExecute(subChild)">{{subChild.title | translate}}</li>
                               </ul>
                             </li>
                           </ng-container>
@@ -157,7 +157,7 @@
                       <li
                         [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                         nz-menu-item nz-tooltip nzTooltipPlacement="right" (click)="loadTabsAndButtons($event,item)">
-                        <span>{{item.title}}</span>
+                        <span>{{item.title | translate}}</span>
                       </li>
                     </div>
                   </ng-template>
@@ -167,7 +167,7 @@
             <!-- THIS BUTTON IS USED IN HORIZENTAL WHNEN LENGTH OF MENU IS GREATER THAN 7 -->
             <ng-container *ngIf="selectedTheme.menuMode == 'horizontal' && selectedTheme.allMenuItems.length >= 7 ">
               <ng-container *ngFor="let mainMenu of selectedTheme.newMenuArray" (click)="changeIcon()">
-                <li nz-submenu [nzTitle]="mainMenu.label" nzIcon="appstore">
+                <li nz-submenu [nzTitle]="mainMenu.label | translate" nzIcon="appstore">
                   <ul *ngFor="let item of mainMenu.subMenu">
                     <ng-container *ngIf="item.isTitle;else subMenu">
                       <span nz-icon nzType="appstore"></span>
@@ -175,7 +175,7 @@
                     <ng-template #subMenu>
                       <ng-container
                         *ngIf="item.children && item.children.length && shouldExecute(item.children[0]);else menu">
-                        <li nz-submenu [nzTitle]="item.title" nzIcon="appstore"
+                        <li nz-submenu [nzTitle]="item.title | translate" nzIcon="appstore"
                           (click)="loadTabsAndButtons($event,item)">
                           <ul>
                             <li *ngFor="let sub of item.children" nz-submenu class="bg-transparent"
@@ -190,7 +190,7 @@
                     </ng-template>
                     <ng-template #menu>
                       <li nz-menu-item (click)="loadTabsAndButtons($event,item)" nz-tooltip nzTooltipPlacement="right">
-                        <span class="title">{{item.title}}</span>
+                        <span class="title">{{item.title | translate}}</span>
                       </li>
                     </ng-template>
                   </ul>
