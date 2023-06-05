@@ -47,6 +47,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@perfectmemory/ngx-contextmenu": "^8.1.0",
+    "@angular/google-maps": "^13.3.9",
     "ang-jsoneditor": "^1.10.5",
     "angular-google-charts": "^2.2.3",
     "angular-split": "^14.1.0",

@@ -91,21 +91,21 @@
                 <tr [nzExpand]="data.expand">
                     <button nz-button nzType="primary" (click)="openModal('application')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
-                        Application</button>
+                        Department</button>
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle" [nzShowPagination]="false">
                         <thead>
                             <tr>
                                 <th>Department Name</th>
-                                <th>Company Name</th>
-                                <th>Department Type</th>
+                                <th>Organization Name</th>
+                                <!-- <th>Department Type</th> -->
                                 <th>Action</th>
                             </tr>
                         </thead>
         <tbody>
             <tr *ngFor="let data of innerTable.data">
                 <td>{{ data.name }}</td>
-                <td>{{ data.companyName }}</td>
-                <td>{{ data.application_Type }}</td>
+                <td>{{ data.companyName ?  data.companyName : data.organizationName}}</td>
+                <!-- <td>{{ data.application_Type }}</td> -->
                 <td>
                     <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('application'),editItem(data)]"></span>
