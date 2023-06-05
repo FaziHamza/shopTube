@@ -75,22 +75,27 @@ export class EmployeeService {
       this.baseUrl + "databaseTable"
     );
   }
-  saveDatabaseTable(obj:any): Observable<any> {
+  saveDatabaseTable(obj: any): Observable<any> {
     return this.http.post<any>(
-      this.baseUrl + "databaseTable",obj
+      this.baseUrl + "databaseTable", obj
     );
   }
-  saveSQLDatabaseTable(api:string,obj:any): Observable<any> {
+  saveSQLDatabaseTable(api: string, obj: any): Observable<any> {
     return this.http.post<any>(
-      this.nestUrl + api,obj
+      this.nestUrl + api, obj
     );
   }
-  updateSQLDatabaseTable(api:string,obj:any): Observable<any> {
+  updateSQLDatabaseTable(api: string, obj: any): Observable<any> {
     return this.http.put<any>(
-      this.nestUrl + api,obj
+      this.nestUrl + api, obj
     );
   }
-  getSQLDatabaseTable(api:string): Observable<any> {
+  deleteSQLDatabaseTable(api: string, obj: number): Observable<any> {
+    return this.http.delete<any>(
+      this.nestUrl + api + obj
+    );
+  }
+  getSQLDatabaseTable(api: string): Observable<any> {
     return this.http.get<any>(
       this.nestUrl + api
     );
