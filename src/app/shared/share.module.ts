@@ -24,7 +24,7 @@ import {
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -104,7 +104,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
-    MenuControllComponent
+    MenuControllComponent,
+    PrintInvoiceComponent,FileManagerComponent
   ],
   exports: [
     FormsModule,
@@ -156,7 +157,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
-    MenuControllComponent
+    MenuControllComponent,
+    PrintInvoiceComponent,FileManagerComponent
   ],
   providers: [
   ],
