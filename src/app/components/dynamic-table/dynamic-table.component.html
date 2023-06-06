@@ -41,11 +41,12 @@
         <!-- {{item | json}} -->
         <tr [ngStyle]="{'background': item?.color}"
           (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
+          <th *ngIf="!item.expandable" nzWidth="40px"></th>
           <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
           <ng-container *ngFor="let header of data['tableKey']; let index = index">
             <!-- {{header | json}} -->
-            <td [nzEllipsis]="true"  class="5"
+            <td [nzEllipsis]="true" class="5"
               *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked' 
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
               <div class="1"

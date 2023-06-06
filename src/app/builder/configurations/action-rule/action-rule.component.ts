@@ -98,9 +98,11 @@ export class ActionRuleComponent implements OnInit {
     }
     let dataForQuery = "";
 
+    let joinTables: any[] = [];
+    let joinFields: any[] = [];
     for (let i = 0; i < mainArray.length; i++) {
       const element = mainArray[i];
-
+      joinTables.push(element.name);
       let fields = [];
       let values: any[] = [];
 
@@ -114,11 +116,14 @@ export class ActionRuleComponent implements OnInit {
             fields.push(keyvalue.toLocaleLowerCase());
             if (keyvalue.includes('_id')) {
               let s = (keyvalue).toLowerCase()
-              s= s.replace('_id', '');
-              s =(`${s}.${keyvalue}`);
+              s = s.replace('_id', '');
+              s = (`${s}.${keyvalue}`);
               values.push(`$${s.toLocaleLowerCase()}`);
-            } else
+              joinFields.push(`${s.toLocaleLowerCase()}`);
+            } else {
               values.push(`$${key.toLocaleLowerCase()}`);
+              joinFields.push(`${key.toLocaleLowerCase()}`);
+            }
           }
         }
       }
@@ -127,7 +132,26 @@ export class ActionRuleComponent implements OnInit {
       if (this.actionForm.value.actionLink == 'select') {
         dataForQuery += "select " + fields.join(', ') + " from " + element.name;
       } else if (this.actionForm.value.actionLink == 'get') {
-        dataForQuery += "select * from " + element.name.toLocaleLowerCase();
+        let joining = "";
+        let lastTable = "";
+        if (mainArray.length == i + 1) {
+          joinTables.forEach((element, index) => {
+            if (joining == "")
+              joining = element.toLocaleLowerCase();
+            else {
+              let tableId;
+              if (index % 2 === 0) {
+                // Include ${lastTable}.id in the selectFields array
+                tableId = `${lastTable}.id`;
+              } else {
+                tableId = joining == lastTable ? `${joining}.id` : `${lastTable}.${lastTable}_id`;
+              }
+              joining += `${lastTable != joining ? lastTable : ''} INNER JOIN ${element.toLocaleLowerCase()} ON ${tableId} = ${element.toLocaleLowerCase()}.${lastTable.toLocaleLowerCase()}_id `
+            }
+            lastTable = element.toLocaleLowerCase();
+          });
+          dataForQuery += `select ${joinFields.join(', ')} from ${joining};`;
+        }
       } else if (this.actionForm.value.actionLink == 'post') {
         dataForQuery += "insert into " + element.name.toLocaleLowerCase() + "(" + fields.join(', ') + ") OUTPUT INSERTED.ID VALUES (" + values.join(', ') + ");";
       } else if (this.actionForm.value.actionLink == 'put') {

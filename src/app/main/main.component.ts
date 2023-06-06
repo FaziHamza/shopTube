@@ -14,6 +14,7 @@ import { DataSharedService } from '../services/data-shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CommentModalComponent } from '../components';
+import { EmployeeService } from '../services/employee.service';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class MainComponent implements OnInit {
   requestSubscription: Subscription;
   isShowContextMenu = false;
 
-  constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService,
+  constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
     private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
 
@@ -224,6 +225,7 @@ export class MainComponent implements OnInit {
 
   saveData(data: any) {
     if (data.isSubmit) {
+      let oneModelData = this.convertModel(this.form.value);
       // this.mainData
       // this.mainData.forEach((element:any) => {
       //   if(element.type == "gridList"){
@@ -237,7 +239,7 @@ export class MainComponent implements OnInit {
       let tableData = this.mainData.filter((a: any) => a.type == "gridList");
       if (tableData.length > 0) {
         tableData[0]['api'] = data.dataTable;
-        let saveForm = JSON.parse(JSON.stringify(this.form.value));
+        let saveForm = JSON.parse(JSON.stringify(oneModelData));
         // saveForm["id"] = '';
         // this.form.value["id"] = tableData[0]['tableKey'].length
         const firstObjectKeys = Object.keys(saveForm);
@@ -282,15 +284,60 @@ export class MainComponent implements OnInit {
     };
 
     console.log(empData);
-    this.builderService.saveSQLDatabaseTable('knex-query', empData).subscribe({
+    const tableNames = new Set();
+
+    for (const key in empData.modalData) {
+      const tableName = key.split('.')[0];
+      tableNames.add(tableName);
+    }
+    const Arraytables = Array.from(tableNames)
+    const remainingTables = Arraytables.slice(1);
+
+    let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
+    relationIds = relationIds.toString();
+    const tables = (Array.from(tableNames)).toString();
+    console.log(tables);
+    this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
       next: (res) => {
         this.toastr.success("Save Successfully", { nzDuration: 3000 });
+        // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+        this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
+          next: (res) => {
+            let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+
+            if (tableData.length > 0) {
+              // tableData[0]['api'] = data.dataTable;
+              let saveForm = JSON.parse(JSON.stringify(res[0]));
+              // saveForm["id"] = '';
+              // this.form.value["id"] = tableData[0]['tableKey'].length
+              const firstObjectKeys = Object.keys(saveForm);
+              let obj = firstObjectKeys.map(key => ({ name: key }));
+              // obj.unshift({name: 'id'});
+              if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+                tableData[0].tableData = [];
+                tableData[0]['tableKey'] = obj;
+                tableData[0].tableHeaders = tableData[0]['tableKey'];
+                saveForm.id = tableData[0].tableData.length + 1
+                res.forEach((element: any) => {
+                  // element.id = (element.id).toString();
+                  tableData[0].tableData?.push(element);
+                });
+              } else {
+                tableData[0]['tableKey'] = obj;
+                tableData[0].tableHeaders = tableData[0]['tableKey'];
+                saveForm.id = tableData[0].tableData.length + 1;
+                tableData[0].tableData?.push(saveForm);
+              }
+
+            }
+          }
+        });
       },
       error: (err) => {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
     // if (data.dataTable) {
     //   this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
     //     next: (res) => {
