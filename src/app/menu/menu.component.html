@@ -151,10 +151,14 @@
             </ul>
           </nz-dropdown-menu>
           <a nz-dropdown [nzDropdownMenu]="menu6">
-            <i class="fa-regular fa-bell"></i>
+            <i class="fa-light fa-earth-americas"></i>
           </a>
           <nz-dropdown-menu #menu6="nzDropdownMenu">
             <ul nz-menu nzSelectable class="notify-dropdown" style="padding:0px !important">
+              <div class="header Language-drop-head">
+                <h6> Language </h6>
+              </div>
+
               <div class="notification" *ngFor="let language of languages">
                 <div class="detail">
                   <h5 (click)="setLanguage(language.id)">{{language.title}}</h5>

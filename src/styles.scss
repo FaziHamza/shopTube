@@ -135,7 +135,7 @@ object {
   }
 }
 
-.ant-btn>span+.anticon {
+.ant-btn > span + .anticon {
   margin-left: 0px !important;
 }
 
@@ -192,7 +192,7 @@ object {
   }
 
   .ant-input-group-lg .ant-input,
-  .ant-input-group-lg>.ant-input-group-addon {
+  .ant-input-group-lg > .ant-input-group-addon {
     padding: 6.5px 11px;
     font-size: 16px;
     height: 55px !important;
@@ -203,7 +203,7 @@ object {
   }
 
   .ant-input-group-sm .ant-input,
-  .ant-input-group-sm>.ant-input-group-addon {
+  .ant-input-group-sm > .ant-input-group-addon {
     padding: 0 7px;
     height: 55px !important;
   }
@@ -350,9 +350,9 @@ object {
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .ant-input-group-addon:first-child,
   .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .ant-input-group>.ant-input:first-child,
-  .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .ant-input-group > .ant-input:first-child,
+  .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
   }
@@ -385,9 +385,8 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu-title {
-
-    & .ant-menu-item-icon+span,
-    & .anticon+span {
+    & .ant-menu-item-icon + span,
+    & .anticon + span {
       margin-left: 10px;
       margin-right: 10px !important;
       opacity: 1;
@@ -483,14 +482,14 @@ object {
   vertical-align: middle;
 }
 
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
   margin-left: -1px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -507,7 +506,7 @@ object {
   box-shadow: none !important;
 }
 
-.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -523,10 +522,10 @@ object {
 // .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-dayGridMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:first-child, .fc .fc-toolbar .fc-button-group .fc-listMonth-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button:last-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:first-child, .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button:last-child {
 //   border-radius: 0.358rem;
 // }
-.fc .fc-button-group>.fc-button.fc-button-active,
-.fc .fc-button-group>.fc-button:active,
-.fc .fc-button-group>.fc-button:focus,
-.fc .fc-button-group>.fc-button:hover {
+.fc .fc-button-group > .fc-button.fc-button-active,
+.fc .fc-button-group > .fc-button:active,
+.fc .fc-button-group > .fc-button:focus,
+.fc .fc-button-group > .fc-button:hover {
   z-index: 1;
 }
 
@@ -693,7 +692,6 @@ a.fc-event:hover {
 }
 
 @media screen and (max-width: 789px) {
-
   // .web-view {
   //   display: none !important;
   // }
@@ -768,7 +766,6 @@ a.fc-event:hover {
 //   border-color: transparent;
 // }
 .floating_outlined {
-
   .ant-input-group .ant-input:focus,
   .ant-input-group .ant-input:hover {
     outline: none !important;
@@ -835,9 +832,9 @@ a.fc-event:hover {
     .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
     .floating_filled .height .ant-input-group-addon:first-child,
     .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-    .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-    .floating_filled .height .ant-input-group>.ant-input:first-child,
-    .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+    .floating_filled .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+    .floating_filled .height .ant-input-group > .ant-input:first-child,
+    .floating_filled .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
       border-right: none !important;
       border-bottom-right-radius: 0 !important;
       border-color: red !important;
@@ -847,9 +844,9 @@ a.fc-event:hover {
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .height .ant-input-group-addon:first-child,
   .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .height .ant-input-group>.ant-input:first-child,
-  .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .height .ant-input-group > .ant-input:first-child,
+  .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-right: none !important;
     border-bottom-right-radius: 0 !important;
   }
@@ -1047,9 +1044,9 @@ a.fc-event:hover {
   .floating_filled .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .floating_filled .height .ant-input-group-addon:first-child,
   .floating_filled .height .ant-input-group-addon:first-child .ant-select .ant-select-selector,
-  .floating_filled .height .ant-input-group>.ant-input-affix-wrapper:not(:last-child) .ant-input,
-  .floating_filled .height .ant-input-group>.ant-input:first-child,
-  .floating_filled .height .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
+  .floating_filled .height .ant-input-group > .ant-input-affix-wrapper:not(:last-child) .ant-input,
+  .floating_filled .height .ant-input-group > .ant-input:first-child,
+  .floating_filled .height .ant-input-group > .ant-input:first-child .ant-select .ant-select-selector {
     border-right: none !important;
     border-bottom-right-radius: 0 !important;
     border-color: red !important;
@@ -1087,7 +1084,6 @@ a.fc-event:hover {
 // }
 
 .rtlMenu {
-
   .ant-menu-submenu-arrow,
   .ant-menu-submenu-expand-icon {
     right: 0px !important;
@@ -1185,11 +1181,17 @@ a.fc-event:hover {
     padding: 0px 15px;
     background: $bg-light;
   }
-
+  .notification:hover {
+    background: #f5f5f5;
+    cursor: pointer;
+    h5 {
+      color: $main;
+    }
+  }
   .notification {
     padding: 10px 15px;
     border-bottom: 1px solid #f5f5f5;
-
+    cursor: pointer;
     display: flex;
 
     .user-img {
@@ -1422,7 +1424,6 @@ a.fc-event:hover {
   color: white !important;
 }
 
-
 .main-layout {
   min-height: calc(100vh - 105px);
   margin-bottom: 120px;
@@ -1432,7 +1433,6 @@ a.fc-event:hover {
   .main-layout {
     height: auto !important;
   }
-
 }
 
 .content-body {
@@ -1523,27 +1523,25 @@ a.fc-event:hover {
   .sidenav-title {
     display: none !important;
   }
-
 }
 
 .sidenav-title {
   margin-left: 8px;
-
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
-.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after {
   border: none !important;
 }
 
-.ant-menu-horizontal>.ant-menu-item::after,
-.ant-menu-horizontal>.ant-menu-submenu::after {
+.ant-menu-horizontal > .ant-menu-item::after,
+.ant-menu-horizontal > .ant-menu-submenu::after {
   transition: none !important;
 }
 
@@ -1617,5 +1615,11 @@ object {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+}
+.Language-drop-head {
+  background: $main;
+  h6 {
+    color: white;
   }
 }
