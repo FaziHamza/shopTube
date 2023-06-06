@@ -53,21 +53,21 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: 'Company Name',
+      name: 'Organization Name',
       visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const companyNameA = a.companyName;
-        const companyNameB = b.companyName;
-        if (companyNameA === undefined && companyNameB === undefined) {
+        const dataA = a.companyName ? a.companyName : a.organizationName;
+        const dataB = b.companyName ? b.companyName : b.organizationName;
+        if (dataA === undefined && dataB === undefined) {
           return 0;
-        } else if (companyNameA === undefined) {
+        } else if (dataA === undefined) {
           return 1;
-        } else if (companyNameB === undefined) {
+        } else if (dataB === undefined) {
           return -1;
         } else {
-          return companyNameA.localeCompare(companyNameB);
+          return dataA.localeCompare(dataB);
         }
       },
       sortDirections: ['ascend', 'descend', null],
@@ -127,7 +127,7 @@ export class ApplicationBuilderComponent implements OnInit {
     ];
     this.loadData();
     this.jsonApplicationBuilder();
-    this.loadSearchArray();
+    // this.loadSearchArray();
   }
 
   jsonApplicationBuilder() {
@@ -156,13 +156,13 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
-    
+
     if (isSubmit && key == "moduleId") {
       let obj = {
         name: value.name + "_default",
         screenId: value.name + "_default",
         applicationName: value.name,
-        moduleName: value.name+"_default",
+        moduleName: value.name + "_default",
       }
       this.builderService.addScreenModule(obj).subscribe(res => {
         this.loading = true;
@@ -171,14 +171,14 @@ export class ApplicationBuilderComponent implements OnInit {
             name: value.name + "_header",
             screenId: value.name + "_header",
             applicationName: value.name,
-            moduleName: value.name+"_header",
+            moduleName: value.name + "_header",
           }
           this.builderService.addScreenModule(screen).subscribe(() => {
             let screen = {
               name: value.name + "_footer",
               screenId: value.name + "_footer",
               applicationName: value.name,
-              moduleName: value.name+"_footer",
+              moduleName: value.name + "_footer",
             }
             this.builderService.addScreenModule(screen).subscribe(() => {
               this.loading = false;
@@ -239,23 +239,6 @@ export class ApplicationBuilderComponent implements OnInit {
         },
         "id": 59
       }
-      // let byDefaultMenu = {
-      //   'menuData': [
-      //     {
-      //       id: 'Menu_' + Guid.newGuid(),
-      //       key: 'menu_' + Guid.newGuid(),
-      //       title: 'Menu_1',
-      //       link: '',
-      //       icon: "appstore",
-      //       type: "input",
-      //       isTitle: false,
-      //       expanded: true,
-      //       color: "",
-      //       children: [],
-      //     }
-      //   ],
-      //   'moduleName': this.myForm.value.name
-      // };
       this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
         next: (res) => {
           let screen = {
@@ -322,7 +305,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }));
   }
   onSubmit() {
-    
+
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -345,7 +328,7 @@ export class ApplicationBuilderComponent implements OnInit {
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
-        
+
         // if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();
         // };
@@ -355,7 +338,7 @@ export class ApplicationBuilderComponent implements OnInit {
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.moduleSubmit && key == "moduleId"){
+        if (this.moduleSubmit && key == "moduleId") {
           setTimeout(() => {
             this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
           }, 1000);
@@ -390,7 +373,7 @@ export class ApplicationBuilderComponent implements OnInit {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
         data.name == 'Department Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'Company Name' ? (item?.companyName ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Company Name' ? ((item?.companyName ? item?.companyName : item.organizationName) ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
           (data.name == 'Department Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
@@ -419,7 +402,7 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(company: any) {
-    
+
     const moduleData = this.listOfChildrenData.filter((item: any) => item.applicationName == company.name);
     company['children'] = moduleData;
   }
@@ -478,7 +461,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'companyName',
+            key: 'organizationName',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',

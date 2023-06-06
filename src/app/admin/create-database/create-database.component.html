@@ -55,23 +55,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of editRowTable.data;let index = index">
-          <ng-container *ngIf="!editCache[index+1].edit; else editTemplate">
+        <tr *ngFor="let data of editRowTable.data">
+          <ng-container *ngIf="!editCache[data.id].edit; else editTemplate">
             <td>{{ data.fieldName }}</td>
             <td>{{ data.type }}</td>
             <td>{{ data.description }}</td>
             <td>{{ data.status }}</td>
             <td>
-              <a (click)="startEdit(index+1)" class="pen-icon">
+              <a (click)="startEdit(data.id)" class="pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
                     d="M4 22h4m12 0h-8m1.888-18.337l.742-.742a3.146 3.146 0 1 1 4.449 4.45l-.742.74m-4.449-4.448s.093 1.576 1.483 2.966c1.39 1.39 2.966 1.483 2.966 1.483m-4.449-4.45L7.071 10.48c-.462.462-.693.692-.891.947a5.24 5.24 0 0 0-.599.969c-.139.291-.242.601-.449 1.22l-.875 2.626m14.08-8.13L14.93 11.52m-3.41 3.41c-.462.462-.692.692-.947.891c-.3.234-.625.435-.969.599c-.291.139-.601.242-1.22.448l-2.626.876m0 0l-.641.213a.848.848 0 0 1-1.073-1.073l.213-.641m1.501 1.5l-1.5-1.5" />
                 </svg>
               </a>
-
             </td>
-            <td><a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data)"
-                class="delete-icon">
+            <td>
+              <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data)" class="delete-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
                     <path d="M9.17 4a3.001 3.001 0 0 1 5.66 0" opacity=".5" />
@@ -82,29 +81,32 @@
                 </svg>
               </a>
             </td>
-
           </ng-container>
           <ng-template #editTemplate>
-            <td><input type="text" nz-input [(ngModel)]="editCache[index+1].data.fieldName"
-                [ngModelOptions]="{ standalone: true }" /> </td>
             <td>
-              <nz-select nzShowSearch nzAllowClear [(ngModel)]="editCache[index+1].data.type">
+              <input type="text" nz-input [(ngModel)]="editCache[data.id].data.fieldName"
+                [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <nz-select nzShowSearch nzAllowClear [(ngModel)]="editCache[data.id].data.type">
                 <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
                   *ngFor="let item of fieldType"></nz-option>
               </nz-select>
             </td>
-            <td><input type="text" nz-input [(ngModel)]="editCache[index+1].data.description"
-                [ngModelOptions]="{ standalone: true }" /> </td>
+            <td>
+              <input type="text" nz-input [(ngModel)]="editCache[data.id].data.description"
+                [ngModelOptions]="{ standalone: true }" />
+            </td>
             <td>
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
-                [(ngModel)]="editCache[index+1].data.status">
+                [(ngModel)]="editCache[data.id].data.status">
                 <nz-option nzLabel="Approved" nzValue="Approved"></nz-option>
                 <nz-option nzLabel="Pending" nzValue="Pending"></nz-option>
                 <nz-option nzLabel="Reject" nzValue="Reject"></nz-option>
               </nz-select>
             </td>
             <td>
-              <a (click)="saveEdit(index+1)" class="save pen-icon">
+              <a (click)="saveEdit(data.id)" class="save pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="color:#49a1bb"
                   viewBox="0 0 24 24">
                   <path fill="currentColor"
@@ -113,7 +115,7 @@
               </a>
             </td>
             <td>
-              <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(index+1)"
+              <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.id)"
                 class="delete-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
@@ -123,13 +125,11 @@
                     <path d="m9.5 11l.5 5m4.5-5l-.5 5" opacity=".5" />
                   </g>
                 </svg>
-
               </a>
             </td>
           </ng-template>
         </tr>
       </tbody>
     </nz-table>
-
   </div>
 </div>

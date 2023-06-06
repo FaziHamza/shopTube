@@ -69,7 +69,7 @@
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
                     <td>{{ data.name }}</td>
-                    <td>{{ data.companyName }}</td>
+                    <td>{{ data.companyName ? data.companyName:data.organizationName}}</td>
                     <td>
                         <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                             nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('application'),editItem(data)]"></span>
