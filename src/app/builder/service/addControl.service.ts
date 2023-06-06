@@ -2524,6 +2524,11 @@ export class AddControlService {
       height: 400,
     }
   }
+  mapControl() {
+    return {
+      isNextChild: false,
+    }
+  }
   areaChartControl() {
     return {
       isNextChild: false,

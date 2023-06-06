@@ -1301,8 +1301,8 @@ export class BuilderComponent implements OnInit {
       case "steppedAreaChart":
         newNode = { ...newNode, ...this.addControlService.steppedAreaChartControl() };
         break;
-      case "timelineChart":
-        newNode = { ...newNode, ...this.addControlService.timelineChartControl() };
+      case "map":
+        newNode = { ...newNode, ...this.addControlService.mapControl() };
         break;
       default:
         if (data?.parameter === 'input') {

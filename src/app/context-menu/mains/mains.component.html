@@ -654,8 +654,13 @@
         </div>
     </ng-template>
     <ng-template #hThree>
-        <div *ngIf="item.type == 'menu' ; else hTwo">
+        <div *ngIf="item.type == 'menu' ; else hFour">
             <st-menu-controll></st-menu-controll>
+        </div>
+    </ng-template>
+    <ng-template #hFour>
+        <div *ngIf="item.type == 'map'">
+            <st-google-map></st-google-map>
         </div>
     </ng-template>
 </div>

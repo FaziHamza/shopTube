@@ -3,7 +3,7 @@
 (mouseleave)="linkColor(false)" 
 (click)="pageRoute(data.link)"
 nz-typography
-[nzContent]="data.text"
+[nzContent]="data.text | translate"
 [nzEditable]="data.editable"
 [nzEditIcon]="editIcon"
 [nzEditTooltip]="data.editableTooltip"

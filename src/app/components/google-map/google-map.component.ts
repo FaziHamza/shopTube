@@ -15,101 +15,112 @@ import { GoogleMapsService, Maps } from 'src/app/services/google-maps.service';
   styleUrls: ['./google-map.component.scss']
 })
 export class googleMapComponent {
-
-  @ViewChild('search')
-  public searchElementRef: ElementRef;
-
-  @ViewChild('map')
-  public mapElementRef: ElementRef;
-
-
-
-  public place: google.maps.places.PlaceResult;
-
-  public locationFields = [
-    'name',
-    'cityName',
-    'stateCode',
-    'countryName',
-    'countryCode',
-  ];
-
-  private map: google.maps.Map;
-
-  constructor(apiService: GoogleMapsService, private ngZone: NgZone) {
-    apiService.api.then((maps) => {
-      this.initAutocomplete(maps);
-      this.initMap(maps);
-    });
+  mapOptions: google.maps.MapOptions = {
+    center: { lat: 38.9987208, lng: -77.2538699 },
+    zoom: 14
   }
 
-  initAutocomplete(maps: Maps) {
-    debugger
-    let autocomplete = new maps.places.Autocomplete(
-      this.searchElementRef.nativeElement
-    );
-    autocomplete.addListener('place_changed', () => {
-      this.ngZone.run(() => {
-        debugger
-        let lat = autocomplete.getPlace()?.geometry?.location?.lat();
-        let lng = autocomplete.getPlace()?.geometry?.location?.lng();
+  marker = {
+    position: { lat: 38.9987208, lng: -77.2538699 },
+  }
+  lat: number = 51.678418;
+  lng: number = 7.809007;
+  // @ViewChild('search')
+  // public searchElementRef: ElementRef;
 
-        let center = { lat: lat, lng: lng };
-        // this.mapOptions.center = { lat: Number(lat), lng: Number(lng) }
-        // this.marker.position = { lat: Number(lat), lng: Number(lng) }
-        // this.locationFormControls['geo_latitude'].setValue(lat?.toString());
-        // this.locationFormControls['geo_longitude'].setValue(lng?.toString());
-        // this.locationFormControls['address_street'].setValue(autocomplete.getPlace()?.formatted_address);
-        this.onPlaceChange(autocomplete.getPlace());
-      });
-    });
-  }
-  onPlaceChange(place: google.maps.places.PlaceResult) {
-    debugger;
-  
-    if (place.address_components) {
-      const streetNumber = place.address_components.find(component => {
-        return component.types.includes("street_number");
-      })?.long_name;
-      const sublocalities = place.address_components.filter(component => {
-        return component.types.includes("sublocality");
-      }).map(sublocality => sublocality.long_name);
-      const streetNumberSublocality = [streetNumber, ...sublocalities].filter(Boolean).join(', ');
-  
-      this.address = {
-        street: streetNumberSublocality ? streetNumberSublocality : '',
-        city: place.address_components.find(component => {
-          return component.types.includes("locality");
-        })?.long_name || '', // Provide a default value of an empty string if 'long_name' is undefined
-        state: place.address_components.find(component => {
-          return component.types.includes("administrative_area_level_1");
-        })?.short_name || '', // Provide a default value of an empty string if 'short_name' is undefined
-        zipcode: place.address_components.find(component => {
-          return component.types.includes("postal_code");
-        })?.long_name || '' // Provide a default value of an empty string if 'long_name' is undefined
-      };
-      
-    }
-  }
-  
-  initMap(maps: Maps) {
-    this.map = new maps.Map(this.mapElementRef.nativeElement, {
-      zoom: 7,
-    });
-    this.map.addListener('click', (event: { latLng: google.maps.LatLng; }) => {
+  // @ViewChild('map')
+  // public mapElementRef: ElementRef;
 
-    });
-  }
-  address = {
-    street: '',
-    city: '',
-    state: '',
-    zipcode: ''
-  };
 
-  onSubmit() {
-    console.log(this.address);
+
+  // public place: google.maps.places.PlaceResult;
+
+  // public locationFields = [
+  //   'name',
+  //   'cityName',
+  //   'stateCode',
+  //   'countryName',
+  //   'countryCode',
+  // ];
+
+  // private map: google.maps.Map;
+
+  constructor() {
+    // apiService.api.then((maps) => {
+    //   this.initAutocomplete(maps);
+    //   this.initMap(maps);
+    // });
   }
+  // ngAfterViewInit() {
+  //   apiService.api.then((maps) => {
+  //     this.initAutocomplete(maps);
+  //     this.initMap(maps);
+  //   });
+  // }
+  // initAutocomplete(maps: Maps) {
+  //   debugger
+  //   let autocomplete = new maps.places.Autocomplete(
+  //     this.searchElementRef.nativeElement
+  //   );
+  //   autocomplete.addListener('place_changed', () => {
+  //     this.ngZone.run(() => {
+  //       debugger
+  //       let lat = autocomplete.getPlace()?.geometry?.location?.lat();
+  //       let lng = autocomplete.getPlace()?.geometry?.location?.lng();
+
+  //       let center = { lat: lat, lng: lng };
+  //       this.mapOptions.center = { lat: Number(lat), lng: Number(lng) }
+  //       this.marker.position = { lat: Number(lat), lng: Number(lng) }
+  //       this.onPlaceChange(autocomplete.getPlace());
+  //     });
+  //   });
+  // }
+  // onPlaceChange(place: google.maps.places.PlaceResult) {
+  //   debugger;
+
+  //   if (place.address_components) {
+  //     const streetNumber = place.address_components.find(component => {
+  //       return component.types.includes("street_number");
+  //     })?.long_name;
+  //     const sublocalities = place.address_components.filter(component => {
+  //       return component.types.includes("sublocality");
+  //     }).map(sublocality => sublocality.long_name);
+  //     const streetNumberSublocality = [streetNumber, ...sublocalities].filter(Boolean).join(', ');
+
+  //     this.address = {
+  //       street: streetNumberSublocality ? streetNumberSublocality : '',
+  //       city: place.address_components.find(component => {
+  //         return component.types.includes("locality");
+  //       })?.long_name || '', // Provide a default value of an empty string if 'long_name' is undefined
+  //       state: place.address_components.find(component => {
+  //         return component.types.includes("administrative_area_level_1");
+  //       })?.short_name || '', // Provide a default value of an empty string if 'short_name' is undefined
+  //       zipcode: place.address_components.find(component => {
+  //         return component.types.includes("postal_code");
+  //       })?.long_name || '' // Provide a default value of an empty string if 'long_name' is undefined
+  //     };
+
+  //   }
+  // }
+
+  // initMap(maps: Maps) {
+  //   this.map = new maps.Map(this.mapElementRef.nativeElement, {
+  //     zoom: 7,
+  //   });
+  //   this.map.addListener('click', (event: { latLng: google.maps.LatLng; }) => {
+
+  //   });
+  // }
+  // address = {
+  //   street: '',
+  //   city: '',
+  //   state: '',
+  //   zipcode: ''
+  // };
+
+  // onSubmit() {
+  //   console.log(this.address);
+  // }
 
 
 

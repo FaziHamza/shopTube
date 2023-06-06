@@ -28,20 +28,42 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of sortTable.data">
-                <td>{{ data.company }}</td>
-                <td>{{ data.application }}</td>
-                <td>{{ data.fieldKey }}</td>
-                <td>{{ data.english }}</td>
-                <td>{{ data.arabic }}</td>
-                <td>{{ data.chinese }}</td>
-                <td>{{ data.russian }}</td>
-                <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('company'),editItem(data )]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data.id , 'company')"></span>
-                </td>
+                <ng-container *ngIf="!data.edit; else editTemplate">
+                    <td>{{ data.select_Type }}</td>
+                    <td>{{ data.company }}</td>
+                    <td>{{ data.application }}</td>
+                    <td>{{ data.screen_menu }}</td>
+                    <td>{{ data.fieldKey }}</td>
+                    <td>{{ data.english }}</td>
+                    <td>{{ data.arabic }}</td>
+                    <td>{{ data.chinese }}</td>
+                    <td>{{ data.russian }}</td>
+                    <td>
+                        <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                            nzTooltipTitle="Edit" nz-tooltip (click)="editItem(data)"></span>
+                        <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                            (nzOnConfirm)="deleteRow(data.id , 'company')"></span>
+                    </td>
+                </ng-container>
+                <ng-template #editTemplate>
+                    <td>{{ data.select_Type }}</td>
+                    <td>{{ data.company }}</td>
+                    <td>{{ data.application }}</td>
+                    <td>{{ data.screen_menu }}</td>
+                    <td>{{ data.fieldKey }}</td>
+                    <td><input type="text" nz-input [(ngModel)]="data.english" /></td>
+                    <td><input type="text" nz-input [(ngModel)]="data.arabic" /></td>
+                    <td><input type="text" nz-input [(ngModel)]="data.chinese" /></td>
+                    <td><input type="text" nz-input [(ngModel)]="data.russian" /></td>
+                    <td>
+                        <span (click)="saveEdit(data)" class="text-blue-500 hover:cursor-pointer" nz-icon
+                            nzType="save" nzTheme="outline"></span>
+                        <span nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data)" nz-icon
+                            class="text-red-500 pl-2 hover:cursor-pointer" nzType="close-circle"
+                            nzTheme="outline"></span>
+                    </td>
+                </ng-template>
             </tr>
         </tbody>
     </nz-table>

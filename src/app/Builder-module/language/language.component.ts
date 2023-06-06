@@ -17,6 +17,7 @@ export class LanguageComponent implements OnInit {
   private translationsUrl = 'assets/i18n/en.json';
   applicationName: any;
   applicationData: any = [];
+  menus: any = [];
   optionsArray: any = [];
   copmanyData: any = [];
   schema: any;
@@ -38,20 +39,41 @@ export class LanguageComponent implements OnInit {
   searchArray: any = [];
   screens: any = [];
   builderScreens: any = [];
+  modules: any = [];
   listOfColumns: any = [
     {
-      name: 'Company Name',
+      name: 'Select Type',
       visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const name1 = a.company;
-        const name2 = b.company;
-        if (name1 === undefined && name2 === undefined) {
+        const name1 = a.select_Type;
+        const name2 = b.select_Type;
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
+          return -1;
+        } else {
+          return name1.localeCompare(name2);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Organization Name',
+      visible: false,
+      searchValue: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const name1 = a.companyName;
+        const name2 = b.companyName;
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+          return 0;
+        } else if (name1 === undefined || name1 === '') {
+          return 1;
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -67,11 +89,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.application;
         const name2 = b.application;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -80,6 +102,27 @@ export class LanguageComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
+      name: 'screen / menu',
+      visible: false,
+      searchValue: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const name1 = a.screen_menu;
+        const name2 = b.screen_menu;
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+          return 0;
+        } else if (name1 === undefined || name1 === '') {
+          return 1;
+        } else if (name2 === undefined || name2 === '') {
+          return -1;
+        } else {
+          return name1.localeCompare(name2);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
+
+    {
       name: 'Field Key',
       visible: false,
       searchValue: '',
@@ -87,11 +130,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.fieldKey;
         const name2 = b.fieldKey;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -107,11 +150,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.english;
         const name2 = b.english;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -127,11 +170,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.arabic;
         const name2 = b.arabic;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -147,11 +190,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.chinese;
         const name2 = b.chinese;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -167,11 +210,11 @@ export class LanguageComponent implements OnInit {
       sortFn: (a: any, b: any) => {
         const name1 = a.russian;
         const name2 = b.russian;
-        if (name1 === undefined && name2 === undefined) {
+        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
           return 0;
-        } else if (name1 === undefined) {
+        } else if (name1 === undefined || name1 === '') {
           return 1;
-        } else if (name2 === undefined) {
+        } else if (name2 === undefined || name2 === '') {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -188,52 +231,75 @@ export class LanguageComponent implements OnInit {
   ];
   constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private http: HttpClient) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+      debugger;
       let key = '';
-      if (field.key === 'company') {
-        key = 'application'
-      } else if (field.key === 'application') {
-        key = 'screen_menu'
-      } else if (field.key === 'screen_menu') {
-        key = 'fieldKey'
+      const { key: fieldKey } = field;
+
+      if (fieldKey === 'company') {
+        key = 'application';
+      } else if (fieldKey === 'application') {
+        key = 'screen_menu';
+      } else if (fieldKey === 'screen_menu') {
+        key = 'fieldKey';
       }
-      if ((field.key === 'company' || field.key === 'application' || field.key === 'screen_menu') && event) {
+
+      if (['company', 'application', 'screen_menu'].includes(fieldKey) && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-          const field = fieldGroup.fieldGroup[0];
-          return field.key === key;
+          const { key: groupKey } = fieldGroup.fieldGroup[0];
+          return groupKey === key;
         });
+
         if (moduleFieldIndex !== -1) {
-          this.screens;
-          if (field.key === 'company' || field.key === 'application') {
-            let optionArray = field.key == 'company' ? this.applicationData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == event) : this.screens.filter((item: any) => item.applicationName == event);
+          if (fieldKey == 'company' || fieldKey == 'application') {
+            let optionArray;
+
+            if (fieldKey === 'company') {
+              optionArray = this.applicationData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == event);
+            } else if (fieldKey === 'application' && this.model.select_Type == 'screen') {
+              optionArray = this.screens.filter((item: any) => item.applicationName == event);
+            } else if (fieldKey === 'application' && this.model.select_Type == 'menu') {
+              optionArray = this.modules.filter((item: any) => item.applicationName == event);
+            }
+
             const options = optionArray.map((item: any) => ({
               label: item.name,
               value: item.name
             }));
+
             this.fields[moduleFieldIndex].fieldGroup[0].props.options = options;
           }
-          else if (field.key === 'screen_menu') {
-            let screen = this.builderScreens.filter((item: any) => item.moduleName == event);
+          else if (fieldKey === 'screen_menu') {
             if (this.model.select_Type == 'screen') {
+              let data = this.builderScreens.filter((item: any) => item.moduleName == event);
               this.optionsArray = [];
-              this.createOptionsArray(screen[0].menuData[0]);
+              this.createOptionsArray(data[0].menuData[0]);
+              this.fields[moduleFieldIndex].fieldGroup[0].props.options = this.optionsArray;
+            } else if (this.model.select_Type == 'menu') {
+              let data = this.menus.filter((item: any) => item.moduleName == event);
+              this.optionsArray = [];
+              data[0].menuData.forEach((element: any) => {
+                this.createOptionsArray(element);
+              });
               this.fields[moduleFieldIndex].fieldGroup[0].props.options = this.optionsArray;
             }
           }
         }
       }
     });
+
   }
 
   ngOnInit(): void {
-    this.companyData();
+    this.organizationData();
     this.applications();
     this.getLangauge();
-    this.loadSearchArray();
+    // this.loadSearchArray();
     this.getScreens();
     this.getBuilderScreens();
+    this.getModules();
+    this.getMenus();
   }
-  companyData() {
+  organizationData() {
     this.loading = true
     this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.copmanyData = res;
@@ -243,6 +309,11 @@ export class LanguageComponent implements OnInit {
   getLangauge() {
     this.loading = true
     this.builderService.genericApis('language').subscribe((res => {
+      if (res.length > 0) {
+        res.forEach((element: any) => {
+          element['edit'] = false;
+        });
+      }
       this.languageData = res;
       this.listOfData = res;
       this.loading = false;
@@ -253,6 +324,7 @@ export class LanguageComponent implements OnInit {
     this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
       next: (res) => {
         this.screens = res;
+        this.loading = false;
       },
       error: (err) => {
         console.error(err);
@@ -265,6 +337,7 @@ export class LanguageComponent implements OnInit {
     this.requestSubscription = this.builderService.genericApis('jsonBuilderSetting').subscribe({
       next: (res) => {
         this.builderScreens = res;
+        this.loading = false;
       },
       error: (err) => {
         console.error(err);
@@ -272,7 +345,40 @@ export class LanguageComponent implements OnInit {
       }
     })
   }
-
+  getModules() {
+    this.loading = true
+    this.requestSubscription = this.builderService.genericApis('jsonModule').subscribe({
+      next: (res) => {
+        this.modules = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
+  getMenus() {
+    this.loading = true
+    this.requestSubscription = this.builderService.genericApis('jsonModuleSetting').subscribe({
+      next: (res) => {
+        this.menus = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
+  applications() {
+    this.loading = true;
+    this.builderService.jsonApplicationBuilder().subscribe((res => {
+      this.applicationData = res;
+      this.fieldsLoad();
+      this.loading = false;
+    }));
+  }
   openModal(type: any) {
     this.fieldsLoad();
     if (this.isSubmit) {
@@ -325,8 +431,18 @@ export class LanguageComponent implements OnInit {
 
 
   editItem(item: any) {
-    this.model = JSON.parse(JSON.stringify(item));
+    item['edit'] = true
+    // this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
+  }
+  saveEdit(item: any) {
+    this.model = JSON.parse(JSON.stringify(item));
+    item['edit'] = true
+    this.isSubmit = false;
+    this.submit();
+  }
+  cancelEdit(item : any){
+    item['edit'] = false
   }
   deleteRow(id: any, type: any): void {
     this.builderService.genericApisDeleteWithId('language', id).subscribe((res => {
@@ -347,7 +463,9 @@ export class LanguageComponent implements OnInit {
           (data.name == 'English' ? (item?.english ? item.english.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
           (data.name == 'Arabic' ? (item?.arabic ? item.arabic.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
           (data.name == 'Chinese' ? (item?.chinese ? item.chinese.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Russian' ? (item?.russian ? item.russian.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+          (data.name == 'Russian' ? (item?.russian ? item.russian.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'select_Type' ? (item?.select_Type ? item.select_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'screen_menu' ? (item?.screen_menu ? item.screen_menu.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }
@@ -366,14 +484,7 @@ export class LanguageComponent implements OnInit {
     }
   }
 
-  applications() {
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
-      debugger
-      this.applicationData = res;
-      this.fieldsLoad();
-      this.loading = false;
-    }));
-  }
+
 
   fieldsLoad() {
     debugger
@@ -581,7 +692,7 @@ export class LanguageComponent implements OnInit {
     });
   }
   createOptionsArray(node: any) {
-    if(node.title){
+    if (node.title) {
       this.optionsArray.push({ label: node.title, value: node.title });
     }
     if (node.children) {

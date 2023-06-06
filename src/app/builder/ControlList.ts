@@ -1411,6 +1411,11 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Menu"
               },
+              {
+                parameter: "map",
+                icon: "uil uil-file-alt",
+                label: "map"
+              },
             ]
           },
         ]
