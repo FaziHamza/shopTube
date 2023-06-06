@@ -40,6 +40,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.gridInitilize();
   }
   onClickRow(api: string, item: any) {
