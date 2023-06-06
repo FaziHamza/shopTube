@@ -1,4 +1,14 @@
 <nz-card nzTitle="Language" [nzExtra]="extraTemplate">
+    <div class="flex flex-wrap mb-2">
+        <div class="w-1/4" *ngFor="let item of screenFields">
+            <div class="theme-body">
+                <div *ngIf="item">
+                    <formly-form [model]="screenFieldsModel" [fields]="item.fieldGroup" [options]="options"
+                        [form]="form"></formly-form>
+                </div>
+            </div>
+        </div>
+    </div>
     <nz-table #sortTable [nzLoading]="loading" [nzData]="languageData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>
@@ -29,10 +39,10 @@
         <tbody>
             <tr *ngFor="let data of sortTable.data">
                 <ng-container *ngIf="!data.edit; else editTemplate">
-                    <td>{{ data.select_Type }}</td>
+                    <!-- <td>{{ data.select_Type }}</td>
                     <td>{{ data.company }}</td>
                     <td>{{ data.application }}</td>
-                    <td>{{ data.screen_menu }}</td>
+                    <td>{{ data.screen_menu }}</td> -->
                     <td>{{ data.fieldKey }}</td>
                     <td>{{ data.english }}</td>
                     <td>{{ data.arabic }}</td>
@@ -47,18 +57,18 @@
                     </td>
                 </ng-container>
                 <ng-template #editTemplate>
-                    <td>{{ data.select_Type }}</td>
+                    <!-- <td>{{ data.select_Type }}</td>
                     <td>{{ data.company }}</td>
                     <td>{{ data.application }}</td>
-                    <td>{{ data.screen_menu }}</td>
+                    <td>{{ data.screen_menu }}</td> -->
                     <td>{{ data.fieldKey }}</td>
                     <td><input type="text" nz-input [(ngModel)]="data.english" /></td>
                     <td><input type="text" nz-input [(ngModel)]="data.arabic" /></td>
                     <td><input type="text" nz-input [(ngModel)]="data.chinese" /></td>
                     <td><input type="text" nz-input [(ngModel)]="data.russian" /></td>
                     <td>
-                        <span (click)="saveEdit(data)" class="text-blue-500 hover:cursor-pointer" nz-icon
-                            nzType="save" nzTheme="outline"></span>
+                        <span (click)="saveEdit(data)" class="text-blue-500 hover:cursor-pointer" nz-icon nzType="save"
+                            nzTheme="outline"></span>
                         <span nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data)" nz-icon
                             class="text-red-500 pl-2 hover:cursor-pointer" nzType="close-circle"
                             nzTheme="outline"></span>

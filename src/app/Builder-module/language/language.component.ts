@@ -34,93 +34,95 @@ export class LanguageComponent implements OnInit {
   form: any = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
+  screenFieldsModel: any = {};
   requestSubscription: Subscription;
   fields: any = [];
+  screenFields: any = [];
   searchArray: any = [];
   screens: any = [];
   builderScreens: any = [];
   modules: any = [];
   listOfColumns: any = [
-    {
-      name: 'Select Type',
-      visible: false,
-      searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const name1 = a.select_Type;
-        const name2 = b.select_Type;
-        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
-          return 0;
-        } else if (name1 === undefined || name1 === '') {
-          return 1;
-        } else if (name2 === undefined || name2 === '') {
-          return -1;
-        } else {
-          return name1.localeCompare(name2);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
-    {
-      name: 'Organization Name',
-      visible: false,
-      searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const name1 = a.companyName;
-        const name2 = b.companyName;
-        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
-          return 0;
-        } else if (name1 === undefined || name1 === '') {
-          return 1;
-        } else if (name2 === undefined || name2 === '') {
-          return -1;
-        } else {
-          return name1.localeCompare(name2);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
-    {
-      name: 'Application Name',
-      visible: false,
-      searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const name1 = a.application;
-        const name2 = b.application;
-        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
-          return 0;
-        } else if (name1 === undefined || name1 === '') {
-          return 1;
-        } else if (name2 === undefined || name2 === '') {
-          return -1;
-        } else {
-          return name1.localeCompare(name2);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
-    {
-      name: 'screen / menu',
-      visible: false,
-      searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => {
-        const name1 = a.screen_menu;
-        const name2 = b.screen_menu;
-        if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
-          return 0;
-        } else if (name1 === undefined || name1 === '') {
-          return 1;
-        } else if (name2 === undefined || name2 === '') {
-          return -1;
-        } else {
-          return name1.localeCompare(name2);
-        }
-      },
-      sortDirections: ['ascend', 'descend', null],
-    },
+    // {
+    //   name: 'Select Type',
+    //   visible: false,
+    //   searchValue: '',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => {
+    //     const name1 = a.select_Type;
+    //     const name2 = b.select_Type;
+    //     if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+    //       return 0;
+    //     } else if (name1 === undefined || name1 === '') {
+    //       return 1;
+    //     } else if (name2 === undefined || name2 === '') {
+    //       return -1;
+    //     } else {
+    //       return name1.localeCompare(name2);
+    //     }
+    //   },
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
+    // {
+    //   name: 'Organization Name',
+    //   visible: false,
+    //   searchValue: '',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => {
+    //     const name1 = a.companyName;
+    //     const name2 = b.companyName;
+    //     if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+    //       return 0;
+    //     } else if (name1 === undefined || name1 === '') {
+    //       return 1;
+    //     } else if (name2 === undefined || name2 === '') {
+    //       return -1;
+    //     } else {
+    //       return name1.localeCompare(name2);
+    //     }
+    //   },
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
+    // {
+    //   name: 'Application Name',
+    //   visible: false,
+    //   searchValue: '',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => {
+    //     const name1 = a.application;
+    //     const name2 = b.application;
+    //     if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+    //       return 0;
+    //     } else if (name1 === undefined || name1 === '') {
+    //       return 1;
+    //     } else if (name2 === undefined || name2 === '') {
+    //       return -1;
+    //     } else {
+    //       return name1.localeCompare(name2);
+    //     }
+    //   },
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
+    // {
+    //   name: 'screen / menu',
+    //   visible: false,
+    //   searchValue: '',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => {
+    //     const name1 = a.screen_menu;
+    //     const name2 = b.screen_menu;
+    //     if ((name1 === undefined || name1 === '') && (name2 === undefined || name2 === '')) {
+    //       return 0;
+    //     } else if (name1 === undefined || name1 === '') {
+    //       return 1;
+    //     } else if (name2 === undefined || name2 === '') {
+    //       return -1;
+    //     } else {
+    //       return name1.localeCompare(name2);
+    //     }
+    //   },
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
 
     {
       name: 'Field Key',
@@ -239,25 +241,40 @@ export class LanguageComponent implements OnInit {
         key = 'application';
       } else if (fieldKey === 'application') {
         key = 'screen_menu';
-      } else if (fieldKey === 'screen_menu') {
+      }
+      else if (fieldKey === 'screen_menu') {
         key = 'fieldKey';
       }
+      else if (fieldKey === 'company_ScreenField') {
+        key = 'application_ScreenField';
+      }
+      else if (fieldKey === 'application_ScreenField') {
+        key = 'screen_menu_ScreenField';
+      }
 
-      if (['company', 'application', 'screen_menu'].includes(fieldKey) && event) {
-        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-          const { key: groupKey } = fieldGroup.fieldGroup[0];
-          return groupKey === key;
-        });
 
+      if (['company', 'application', 'screen_menu', 'company_ScreenField', 'application_ScreenField', 'screen_menu_ScreenField'].includes(fieldKey) && event) {
+        let moduleFieldIndex: any;
+        if (fieldKey == 'company' || fieldKey == 'application') {
+          moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+            const { key: groupKey } = fieldGroup.fieldGroup[0];
+            return groupKey === key;
+          });
+        } else if (fieldKey == 'company_ScreenField' || fieldKey == 'application_ScreenField') {
+          moduleFieldIndex = this.screenFields.findIndex((fieldGroup: any) => {
+            const { key: groupKey } = fieldGroup.fieldGroup[0];
+            return groupKey === key;
+          });
+        }
         if (moduleFieldIndex !== -1) {
-          if (fieldKey == 'company' || fieldKey == 'application') {
+          if (fieldKey == 'company' || fieldKey == 'application' || fieldKey == 'company_ScreenField' || fieldKey == 'application_ScreenField') {
             let optionArray;
 
-            if (fieldKey === 'company') {
+            if (fieldKey === 'company' || fieldKey == 'company_ScreenField') {
               optionArray = this.applicationData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == event);
-            } else if (fieldKey === 'application' && this.model.select_Type == 'screen') {
+            } else if ((fieldKey === 'application' || fieldKey == 'application_ScreenField') && (this.model.select_Type == 'screen' || this.screenFieldsModel.select_Type_ScreenField == 'screen')) {
               optionArray = this.screens.filter((item: any) => item.applicationName == event);
-            } else if (fieldKey === 'application' && this.model.select_Type == 'menu') {
+            } else if ((fieldKey === 'application' || fieldKey == 'application_ScreenField') && (this.model.select_Type == 'menu' || this.screenFieldsModel.select_Type_ScreenField == 'screen')) {
               optionArray = this.modules.filter((item: any) => item.applicationName == event);
             }
 
@@ -265,8 +282,11 @@ export class LanguageComponent implements OnInit {
               label: item.name,
               value: item.name
             }));
-
-            this.fields[moduleFieldIndex].fieldGroup[0].props.options = options;
+            if (fieldKey == 'company' || fieldKey == 'application') {
+              this.fields[moduleFieldIndex].fieldGroup[0].props.options = options;
+            } else if (fieldKey == 'company_ScreenField' || fieldKey == 'application_ScreenField') {
+              this.screenFields[moduleFieldIndex].fieldGroup[0].props.options = options;
+            }
           }
           else if (fieldKey === 'screen_menu') {
             if (this.model.select_Type == 'screen') {
@@ -282,6 +302,9 @@ export class LanguageComponent implements OnInit {
               });
               this.fields[moduleFieldIndex].fieldGroup[0].props.options = this.optionsArray;
             }
+          }
+          else if (fieldKey === 'select_Type_ScreenField') {
+            
           }
         }
       }
@@ -375,6 +398,7 @@ export class LanguageComponent implements OnInit {
     this.loading = true;
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.applicationData = res;
+      this.screenFieldsLoad();
       this.fieldsLoad();
       this.loading = false;
     }));
@@ -441,7 +465,7 @@ export class LanguageComponent implements OnInit {
     this.isSubmit = false;
     this.submit();
   }
-  cancelEdit(item : any){
+  cancelEdit(item: any) {
     item['edit'] = false
   }
   deleteRow(id: any, type: any): void {
@@ -678,6 +702,109 @@ export class LanguageComponent implements OnInit {
             }
           },
         ],
+      },
+    ];
+  };
+  screenFieldsLoad() {
+    debugger
+    const options = this.copmanyData.map((item: any) => ({
+      label: item.name,
+      value: item.name
+    }));
+    const applicationOptions = this.applicationData.map((item: any) => ({
+      label: item.name,
+      value: item.name
+    }));
+
+    this.screenFields = [
+      {
+        fieldGroup: [
+          {
+            key: 'select_Type_ScreenField',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Type',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [
+                {
+                  label: 'Screen',
+                  value: 'screen'
+                },
+                {
+                  label: 'Menu',
+                  value: 'menu'
+                },
+              ]
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'company_ScreenField',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Company',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: options
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'application_ScreenField',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: applicationOptions
+            }
+          }
+        ]
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'screen_menu_ScreenField',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Screen / Menu',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: true,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: [],
+            }
+          }
+        ]
       },
     ];
   };

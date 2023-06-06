@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, HostListener } from '@angular/core';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { filter, fromEvent, Subscription, take } from 'rxjs';
@@ -14,8 +14,8 @@ import * as formulajs from '@formulajs/formulajs' // import entire package
 export class DemoComponent implements OnInit {
   @ViewChild('userMenu') userMenu: TemplateRef<any>;
   menuItems: any = [];
-
-
+  data: any = [];
+  columns: any = [];
   overlayRef: OverlayRef | null;
   source: any;
   tableData: any;
@@ -24,8 +24,6 @@ export class DemoComponent implements OnInit {
   fileAlarmsData: string;
   file: any;
   title: string;
-  columns: any;
-  columnslist: any;
   colspanList: any;
   colspanRow: any;
   RowLevel1: any;
@@ -35,6 +33,9 @@ export class DemoComponent implements OnInit {
   sub: Subscription;
   showContextMenu = false;
   isCollapsed = false;
+  storeRows: any = [];
+  storeColumns: any = [];
+  // @HostListener('window:resize')
   // xPos = 0;
   // yPos = 0;
   // menuItems = [
@@ -45,7 +46,19 @@ export class DemoComponent implements OnInit {
   constructor(private http: HttpClient,
     public viewContainerRef: ViewContainerRef,) { }
   ngOnInit(): void {
-    console.log("this is formula JS: "+formulajs.SUM([1, 2, 3]));
+
+    this.data = [
+      { name: 'John Doe', age: 25, city: 'New York' },
+      { name: 'Jane Smith', age: 32, city: 'London' },
+      { name: 'Tom Johnson', age: 28, city: 'Sydney' }
+    ];
+    this.columns = ['Name', 'Age', 'City'];
+    this.storeRows = this.data;
+    this.storeColumns = this.columns;
+    window.onresize = () => {
+      this.controlMenu();
+    };
+    console.log("this is formula JS: " + formulajs.SUM([1, 2, 3]));
     this.menuItems = [
       {
         title: 'Navigation One',
@@ -186,6 +199,35 @@ export class DemoComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
   // @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
-
-
+  controlMenu() {
+    debugger
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 789) {
+      this.data = this.storeRows;
+      this.columns = this.storeColumns;
+      if (this.data.length > 0) {
+        let newData: any = [];
+        this.storeRows = this.data;
+        this.data.forEach((item: any) => {
+          for (let key in item) {
+            this.columns.forEach((columnData: any) => {
+              if (item.hasOwnProperty(key) && columnData.toLowerCase().includes(key.toLowerCase())) {
+                let value = item[key];
+                let obj: any = {};
+                obj[columnData] = columnData;
+                obj[key] = value;
+                newData.push(obj);
+              };
+            });
+          };
+        });
+        this.storeColumns = JSON.parse(JSON.stringify(this.columns));
+        this.columns = [];
+        this.data = newData;
+      }
+    } else {
+      this.data = this.storeRows;
+      this.columns = this.storeColumns;
+    }
+  }
 }
