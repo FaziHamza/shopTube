@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'dynamic-table',
@@ -37,7 +38,8 @@ export class DynamicTableComponent implements OnInit {
     { key: "Zubair", value: "Zubair" },
     { key: "Husnain", value: "Husnain" },
   ];
-  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService) {
+  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
+    private employeeService: EmployeeService,) {
     // this.getHeader();
   }
 
@@ -371,13 +373,17 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
-    const id = this.tableData.length - 1;
+    const id = this.tableData.length -1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
     this.tableData = [...this.tableData, newRow];
   };
-  deleteRow(id: string): void {
-    this.tableData = this.tableData.filter((d: any) => d.id !== id);
+  deleteRow(data: any): void {
+    debugger
+    this.employeeService.deleteSQLDatabaseTable('knex-query', 1).subscribe({
+
+    });
+    this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
   };
   startEdit(id: string): void {
     this.editId = id;

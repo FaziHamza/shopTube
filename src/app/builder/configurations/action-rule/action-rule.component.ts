@@ -119,11 +119,10 @@ export class ActionRuleComponent implements OnInit {
               s = s.replace('_id', '');
               s = (`${s}.${keyvalue}`);
               values.push(`$${s.toLocaleLowerCase()}`);
-              joinFields.push(`${s.toLocaleLowerCase()}`);
             } else {
               values.push(`$${key.toLocaleLowerCase()}`);
-              joinFields.push(`${key.toLocaleLowerCase()}`);
             }
+            joinFields.push(`${key.toLocaleLowerCase()}`);
           }
         }
       }
@@ -150,15 +149,15 @@ export class ActionRuleComponent implements OnInit {
             }
             lastTable = element.toLocaleLowerCase();
           });
-          dataForQuery += `select ${joinFields.join(', ')} from ${joining};`;
+          dataForQuery += `select * from ${joining};`;
         }
       } else if (this.actionForm.value.actionLink == 'post') {
-        dataForQuery += "insert into " + element.name.toLocaleLowerCase() + "(" + fields.join(', ') + ") OUTPUT INSERTED.ID VALUES (" + values.join(', ') + ");";
+        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${fields.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${values.join(', ')});`;
       } else if (this.actionForm.value.actionLink == 'put') {
         let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
-        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + fields[0] + " = " + values[0];
+        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `${element.name.toLocaleLowerCase()}.id = $${element.name.toLocaleLowerCase()}.id; `;
       } else if (this.actionForm.value.actionLink == 'delete') {
-        let deleteQuery = "DELETE FROM" + element.name.toLocaleLowerCase() + " WHERE " + fields[0] + " = " + values[0];
+        let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `${element.name.toLocaleLowerCase()}.id` + " = " + `$${element.name.toLocaleLowerCase()}.id; `;
         dataForQuery += deleteQuery;
       }
 
