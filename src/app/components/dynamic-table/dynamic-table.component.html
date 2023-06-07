@@ -13,7 +13,6 @@
 </div>
 <br />
 <br />
-{{tableData | json}}
 <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData" *ngIf="data"
 [nzScroll]="{ x: '100vw', y: null }" [nzLoading]="data?.nzLoading"
 [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
@@ -22,7 +21,7 @@
 [nzShowSizeChanger]="data.nzShowSizeChanger">
 <thead *ngIf="data.showColumnHeader == undefined ? true : data.showColumnHeader && tableHeaders.length > 0">
   <tr >
-    <th nzWidth="40px" *ngIf="data.expandable"></th>
+    <!-- <th nzWidth="40px" *ngIf="data.expandable"></th> -->
     <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
       (nzCheckedChange)="checkAll($event)"></th>
     <ng-container *ngFor="let header of tableHeaders">
@@ -44,12 +43,12 @@
       <!-- {{item | json}} -->
       <tr [ngStyle]="{'background': item?.color}"
         (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-        <!-- <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
-        <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td> -->
+        <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
+        <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
         <ng-container *ngFor="let header of data['tableKey']; let index = index">
           <!-- {{header | json}} -->
           <td [nzEllipsis]="true" class="5"
-            *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked' 
+            *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
             && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children' && item[header.name]">
             <div class="1"
               *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]">

@@ -33,7 +33,7 @@ export class DataSharedService {
   selectApplication : any = '';
   constructor() { }
 
-  setData(data: string) {
+  setData(data: any) {
     this.data = data;
     this.invoiceSum.next(this.data);
   }
