@@ -24,7 +24,23 @@ nz-badge {
     z-index: 5;
 }
 
-.ant-picker-range.ant-picker-small .ant-picker-active-bar, .ant-tag>.anticon+span, .ant-tag>span+.anticon {
+.ant-picker-range.ant-picker-small .ant-picker-active-bar,
+.ant-tag>.anticon+span,
+.ant-tag>span+.anticon {
     margin-left: 0px !important;
 }
 
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+.tooltip-icon {
+    margin: 2px;
+    
+}
+
+.component-wrapper {
+    flex: 1;
+    /* Allow the component to occupy remaining space */
+}
