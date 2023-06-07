@@ -261,7 +261,7 @@ export class LanguageComponent implements OnInit {
             const { key: groupKey } = fieldGroup.fieldGroup[0];
             return groupKey === key;
           });
-        } 
+        }
         else if (fieldKey == 'organization_ScreenField' || fieldKey == 'department_ScreenField') {
           moduleFieldIndex = this.screenFields.findIndex((fieldGroup: any) => {
             const { key: groupKey } = fieldGroup.fieldGroup[0];
@@ -270,10 +270,10 @@ export class LanguageComponent implements OnInit {
         }
         if (moduleFieldIndex !== -1) {
           if (fieldKey == 'organization' || fieldKey == 'department' || fieldKey == 'organization_ScreenField' || fieldKey == 'department_ScreenField') {
-            let optionArray;
+            let optionArray = [];
 
             if (fieldKey === 'organization' || fieldKey == 'organization_ScreenField') {
-              optionArray = this.applicationData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == event);
+              optionArray = this.applicationData.filter((item: any) => item.companyName  == event);
             } else if ((fieldKey === 'department' || fieldKey == 'department_ScreenField') && (this.model.select_Type == 'screen' || this.screenFieldsModel.select_Type_ScreenField == 'screen')) {
               optionArray = this.screens.filter((item: any) => item.applicationName == event);
             } else if ((fieldKey === 'department' || fieldKey == 'department_ScreenField') && (this.model.select_Type == 'menu' || this.screenFieldsModel.select_Type_ScreenField == 'menu')) {
@@ -338,7 +338,7 @@ export class LanguageComponent implements OnInit {
           element['edit'] = false;
         });
       }
-      // this.languageData = res;
+      this.languageData = res;
       this.reslanguageData = res;
       this.listOfData = res;
       this.loading = false;
@@ -844,5 +844,8 @@ export class LanguageComponent implements OnInit {
       .catch((error) => {
         console.error('Error saving translation:', error);
       });
+  }
+  clear(){
+    this.languageData = this.reslanguageData
   }
 }

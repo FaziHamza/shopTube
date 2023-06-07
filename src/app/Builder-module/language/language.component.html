@@ -78,15 +78,17 @@
         </tbody>
     </nz-table>
     <div class="pagination">
-        <label class="label">Pagination</label>
+        <!-- <label class="label">Pagination</label>
         <div class="input-container">
             <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
-        </div>
+        </div> -->
     </div>
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" (click)="openModal('company')"><span nz-icon nzType="plus"
             nzTheme="outline"></span>Add
+    </button>
+    <button nz-button nzType="primary" class="mx-2" (click)="clear()">Clear
     </button>
 </ng-template>
 
