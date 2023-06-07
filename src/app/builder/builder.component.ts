@@ -3852,7 +3852,9 @@ export class BuilderComponent implements OnInit {
       })
     } else {
       data.template.forEach((item: any) => {
-        this.nodes[0].children[1].children.push(item);
+        let data = JSON.parse(JSON.stringify(item)); 
+        this.traverseAndChange(data);
+        this.nodes[0].children[1].children.push(data);
       })
     }
     this.updateNodes();

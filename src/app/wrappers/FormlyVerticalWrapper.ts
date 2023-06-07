@@ -5,11 +5,11 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'formly-vertical-wrapper',
   template: `
 <span *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'top' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-  <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="twotone"></span>
+  <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
   <div class="pr-1" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
     <div [class]='to["additionalProperties"]?.labelPosition'>
       <span style="margin-top: 4px" *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'left' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-        <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="twotone"></span>
+        <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
       </span>
       <label class="label-style" [attr.for]="id" class="col-form-label {{to['additionalProperties']?.labelPosition}} pl-1" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
         <span>
@@ -19,7 +19,7 @@ import { FieldWrapper } from '@ngx-formly/core';
           <span *ngIf="to.required">*</span>{{to.label}}
         </span>
         <span *ngIf="to['additionalProperties']?.tooltip && (to['additionalProperties']?.tooltipPosition == 'right' || to['additionalProperties']?.tooltipPosition == undefined) && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-          <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="twotone"></span>
+          <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
         </span>
       </label>
     </div>

@@ -20,7 +20,7 @@
                 <span class="tooltip-icon"
                     *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
                     <span
-                        *ngIf="item.type != 'progressBar' && item.type != 'alert'
+                        *ngIf="item.type != 'progressBar' && item.type != 'alert'&& item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'
                         && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
                         && !item?.tooltipWithoutIcon || false" nz-tooltip
                         [nzTooltipTitle]="item.tooltip">
@@ -33,7 +33,7 @@
                     <span class="tooltip-icon"
                         *ngIf="item?.tooltipPosition == 'left'">
                         <span
-                            *ngIf="item.type != 'progressBar' && item.type != 'alert'
+                            *ngIf="item.type != 'progressBar' && item.type != 'alert' && item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'
                         && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
                         && !item?.tooltipWithoutIcon || false" nz-tooltip
                             [nzTooltipTitle]="item.tooltip">
@@ -51,7 +51,7 @@
                     <span class="tooltip-icon"
                         *ngIf="item?.tooltipPosition == 'right'">
                         <span
-                            *ngIf="item.type != 'progressBar' && item.type != 'alert'
+                            *ngIf="item.type != 'progressBar' && item.type != 'alert'&& item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'
                       && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip && !item?.tooltipWithoutIcon || false "
                             nz-tooltip [nzTooltipTitle]="item.tooltip">
                             <span nz-icon nzType="question-circle"

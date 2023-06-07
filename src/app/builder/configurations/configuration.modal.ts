@@ -3339,7 +3339,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Heading Level',
+            label: 'Heading Class',
             // options: [
             //   {
             //     label: 'text-xs',
@@ -10056,11 +10056,11 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'imageResponsiveClass',
+          key: 'imageClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Image Responsive class',
+            label: 'Image class',
           }
         },
         {
@@ -10103,35 +10103,35 @@ export class formFeildData {
             label: 'zIndex',
           }
         },
-        {
-          key: 'imageClass',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Image Shape',
-            options: [
-              {
-                label: 'Simple',
-                value: ''
-              },
-              {
-                label: 'rounded-circle',
-                value: 'h-auto max-w-full rounded-full'
-              },
-              {
-                label: 'rounded',
-                value: 'h-auto max-w-full rounded-lg'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        // {
+        //   key: 'imageClass',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Image Shape',
+        //     options: [
+        //       {
+        //         label: 'Simple',
+        //         value: ''
+        //       },
+        //       {
+        //         label: 'rounded-circle',
+        //         value: 'h-auto max-w-full rounded-full'
+        //       },
+        //       {
+        //         label: 'rounded',
+        //         value: 'h-auto max-w-full rounded-lg'
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: true,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
           key: 'image',
           type: 'image-upload',
