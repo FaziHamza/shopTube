@@ -13,7 +13,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() itemData: any;
   @Input() tableId: any;
   @Input() checkType: boolean;
-  @Input() tableData: any;
+  @Input() tableData: any[];
   @Input() tableHeaders: any[];
   @Input() data: any;
   editId: string | null = null;
