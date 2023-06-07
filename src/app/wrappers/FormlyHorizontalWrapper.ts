@@ -4,39 +4,39 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
-   <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-   <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
-   </span>
-    <div class="flex flex-wrap pb-1 pr-1" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
-    <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-   <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
-   </span>
-   <label class="label-style py-1 px-2 text-muted" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to['additionalProperties']?.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
-   <span>
+   <span *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'top' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
+  <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
+</span>
+<div class="flex flex-wrap pb-1 pr-1" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
+  <span style="margin-top: 4px" *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'left' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
+    <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
+  </span>
+  <label class="label-style py-1 px-2 text-muted" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to['additionalProperties']?.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']">
+    <span>
       <span class="mr-1 mb-1">
-      <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon"
-      [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
+        <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
       <!-- <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span> -->
-     {{ to.label }}  <span *ngIf="to.required" class="text-red-600">*</span>
-   </span>
-   <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-   <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
-   </span>
-   </label>
-   <div [ngClass]="[(!to.label) || (!to.label && to['className'].include('w-full')) ? 'w-full' : fieldColumn]">
-      <ng-template #fieldComponent></ng-template>
-   </div>
-   <div *ngIf="to['additionalProperties']?.error != null"  class="{{labelColumn}}"></div>
-   <div *ngIf="to['additionalProperties']?.error != null" class="text-red-500 text-sm block {{fieldColumn}}">
-      <p class="m-0 p-0">{{to['additionalProperties']?.error }}</p>
-   </div>
-   <div *ngIf="showError"  class="{{labelColumn}}"></div>
-   <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
+      {{ to.label }}
+      <span *ngIf="to.required" class="text-red-600">*</span>
+    </span>
+    <span *ngIf="to['additionalProperties']?.tooltip && (to['additionalProperties']?.tooltipPosition == 'right' || to['additionalProperties']?.tooltipPosition == undefined) && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
+      <span nz-icon nzType="question-circle" [style.color]="to['additionalProperties']['toolTipColor']" nzTheme="outline"></span>
+    </span>
+  </label>
+  <div [ngClass]="[(!to.label) || (!to.label && to['className'].include('w-full')) ? 'w-full' : fieldColumn]">
+    <ng-template #fieldComponent></ng-template>
+  </div>
+  <div *ngIf="to['additionalProperties']?.error != null" class="{{labelColumn}}"></div>
+  <div *ngIf="to['additionalProperties']?.error != null" class="text-red-500 text-sm block {{fieldColumn}}">
+    <p class="m-0 p-0">{{to['additionalProperties']?.error }}</p>
+  </div>
+  <div *ngIf="showError" class="{{labelColumn}}"></div>
+  <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
     {{showError | json}}
     <span>{{to['additionalProperties']?.requiredMessage}}</span>
-      <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
-   </div>
+    <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
+  </div>
 </div>
   `,
 })

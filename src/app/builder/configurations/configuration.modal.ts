@@ -10056,6 +10056,15 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'imageResponsiveClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Image Responsive class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'imageWidth',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
