@@ -4,7 +4,13 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-horizontal-wrapper',
   template: `
+   <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
+   <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+   </span>
     <div class="flex flex-wrap pb-1 pr-1" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
+    <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
+   <span nz-icon nzType="question-circle" nzTheme="twotone"></span>
+   </span>
    <label class="label-style py-1 px-2 text-muted" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to['additionalProperties']?.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']" >
    <span>
       <span class="mr-1 mb-1">

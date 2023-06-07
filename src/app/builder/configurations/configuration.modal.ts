@@ -11244,6 +11244,45 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'toolTipColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'ToolTip Color',
+            type: 'color',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipPosition',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'focus',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11378,6 +11417,45 @@ export class formFeildData {
           },
           defaultValue: 'w-1/2  px-1'
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'toolTipColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'ToolTip Color',
+            type: 'color',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipPosition',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'getVariable',
@@ -11408,16 +11486,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'copyJsonIcon',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Allow Copy Json',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'copyJsonIcon',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Allow Copy Json',
+        //   },
+        //   defaultValue: false
+        // },
       ]
     },
   ]
