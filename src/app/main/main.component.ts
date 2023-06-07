@@ -319,7 +319,7 @@ export class MainComponent implements OnInit {
                 tableData[0].tableHeaders = tableData[0]['tableKey'];
                 saveForm.id = tableData[0].tableData.length + 1
                 res.forEach((element: any) => {
-                  // element.id = (element.id).toString();
+                  element.id = (element.id).toString();
                   tableData[0].tableData?.push(element);
                 });
               } else {

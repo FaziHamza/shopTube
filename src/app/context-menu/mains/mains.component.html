@@ -1,12 +1,4 @@
 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
-    <div *ngIf="item.type != 'button' && item.type != 'linkbutton' && item.type != 'buttonGroup' && item.type != 'dropdownButton'
-  && item.type != 'multiFileUpload' && item.type != 'progressBar' && item.type != 'alert'
-  && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input'">
-        <div *ngIf="item.tooltip && !item?.tooltipWithoutIcon || false" style="text-align: right;">
-            <span nz-tooltip [nzTooltipTitle]='item.tooltip'><span nz-icon nzType="question-circle"
-                    nzTheme="twotone"></span></span>
-        </div>
-    </div>
     <div *ngIf="item.type == 'multiFileUpload';else one">
         <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
     </div>
@@ -306,10 +298,10 @@
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
             <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth"
-                [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
+                 class="{{item.imageClass}}"  [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
                 [nzFallback]="item.fallback" />
             <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
+                [style.width.px]="item.imageWidth" class="{{item.imageClass}}" [nzSrc]='item.base64Image' [alt]='item.alt'
                 [nzFallback]="item.fallback" />
         </div>
     </ng-template>

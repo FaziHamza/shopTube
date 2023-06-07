@@ -1,6 +1,6 @@
 <nz-card nzTitle="Language" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap mb-2">
-        <div class="w-1/4" *ngFor="let item of screenFields">
+        <div class="w-1/2" *ngFor="let item of screenFields">
             <div class="theme-body">
                 <div *ngIf="item">
                     <formly-form [model]="screenFieldsModel" [fields]="item.fieldGroup" [options]="options"

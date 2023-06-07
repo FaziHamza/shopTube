@@ -62,7 +62,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
 

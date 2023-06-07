@@ -2573,6 +2573,8 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['iconColor'] = event.form?.iconColor;
             props['additionalProperties']['borderRadius'] = event.form?.borderRadius;
             props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
+            props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
+            props['additionalProperties']['toolTipColor'] = event.form?.toolTipColor;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
@@ -3850,7 +3852,9 @@ export class BuilderComponent implements OnInit {
       })
     } else {
       data.template.forEach((item: any) => {
-        this.nodes[0].children[1].children.push(item);
+        let data = JSON.parse(JSON.stringify(item)); 
+        this.traverseAndChange(data);
+        this.nodes[0].children[1].children.push(data);
       })
     }
     this.updateNodes();

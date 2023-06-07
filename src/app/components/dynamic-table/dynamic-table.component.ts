@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'dynamic-table',
@@ -13,7 +14,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() itemData: any;
   @Input() tableId: any;
   @Input() checkType: boolean;
-  @Input() tableData: any;
+  @Input() tableData: any[];
   @Input() tableHeaders: any[];
   @Input() data: any;
   editId: string | null = null;
@@ -29,21 +30,31 @@ export class DynamicTableComponent implements OnInit {
   scrollY: string | null = null;
   @Input() screenId: any;
   @Input() dataModel: any;
+  storeRows: any = [];
+  storeColumns: any = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
     { key: "Zubair", value: "Zubair" },
     { key: "Husnain", value: "Husnain" },
   ];
-  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService) {
+  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
+    private employeeService: EmployeeService,) {
     // this.getHeader();
   }
 
   ngOnInit(): void {
+    debugger
+    this.storeRows = JSON.parse(JSON.stringify(this.data.tableData));
+    this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
+    // this.controlMenu();
+    // window.onresize = () => {
+    //   this.controlMenu();
+    // };
     this.gridInitilize();
   }
   onClickRow(api: string, item: any) {
-    if(api){
+    if (api) {
       this.builderService.genericApis(api).subscribe({
         next: (res: any) => {
           this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
@@ -61,7 +72,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   onClickColumn(api: string, item: any) {
-    this.builderService.genericApisWithId(api,item.key).subscribe({
+    this.builderService.genericApisWithId(api, item.key).subscribe({
       next: (res: any) => {
         this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
           next: (res: any) => {
@@ -90,7 +101,7 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = obj;
         // this.loadTableData();
       })
-    } 
+    }
     else {
       this.loadTableData();
     }
@@ -362,13 +373,17 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
-    const id = this.tableData.length - 1;
+    const id = this.tableData.length -1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
     this.tableData = [...this.tableData, newRow];
   };
-  deleteRow(id: string): void {
-    this.tableData = this.tableData.filter((d: any) => d.id !== id);
+  deleteRow(data: any): void {
+    debugger
+    this.employeeService.deleteSQLDatabaseTable('knex-query', 1).subscribe({
+
+    });
+    this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
   };
   startEdit(id: string): void {
     this.editId = id;
@@ -542,5 +557,106 @@ export class DynamicTableComponent implements OnInit {
   select(rowIndex: number, value: any) {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
+  }
+
+
+  controlMenu() {
+    debugger
+
+    // if (this.tableData.length > 0) {
+    //   let newData: any = [];
+    //   this.storeRows = this.tableData;
+    //   this.tableData.forEach((item: any) => {
+    //     let id: any = item['id'];
+    //     for (let key in item) {
+    //       this.tableHeaders.forEach((columnData: any) => {
+    //         if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
+    //           let value = item[key];
+    //           let obj: any = {};
+    //           obj['id'] = id;
+    //           obj[columnData.name] = columnData.name;
+    //           obj[key] = value;
+    //           if (key.toLowerCase() != 'id') {
+    //             newData.push(obj);
+    //           }
+    //         };
+    //       });
+    //     };
+    //   });
+    //   let tablekey: any = [];
+    //   const firstObjectKeys = Object.keys(this.tableData[0]);
+    //   this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+    //   this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+    //   this.tableHeaders.forEach(j => {
+    //     this.data['tableKey'].forEach((rowKey: any) => {
+    //       if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
+    //         let obj = { 'name': j.name };
+    //         tablekey.push(obj);
+    //         let obj1 = { 'name': rowKey.name };
+    //         tablekey.push(obj1);
+    //       }
+    //     });
+    //   });
+    //   this.tableData = JSON.parse(JSON.stringify(newData));
+    //   this.data['tableKey'] = tablekey;
+    //   this.storeColumns = this.tableHeaders;
+    //   this.tableHeaders = [];
+    //   this.data['showColumnHeader'] = false;
+    // }
+
+
+
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 789) {
+      this.tableData = this.storeRows;
+      this.tableHeaders = this.storeColumns;
+      if (this.tableData.length > 0) {
+        let newData: any = [];
+        this.storeRows = this.tableData;
+        this.tableData.forEach((item: any) => {
+          let id: any = item['id'];
+          for (let key in item) {
+            this.tableHeaders.forEach((columnData: any) => {
+              if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
+                let value = item[key];
+                let obj: any = {};
+                obj['id'] = id;
+                obj[columnData.name] = columnData.name;
+                obj[key] = value;
+                if (key.toLowerCase() != 'id') {
+                  newData.push(obj);
+                }
+              };
+            });
+          };
+        });
+        let tablekey: any = [];
+        const firstObjectKeys = Object.keys(this.tableData[0]);
+        this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+        this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+        this.tableHeaders.forEach(j => {
+          this.data['tableKey'].forEach((rowKey: any) => {
+            if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
+              let obj = { 'name': j.name };
+              tablekey.push(obj);
+              let obj1 = { 'name': rowKey.name };
+              tablekey.push(obj1);
+            }
+          });
+        });
+        this.tableData = JSON.parse(JSON.stringify(newData));
+        this.data['tableKey'] = tablekey;
+        this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
+        this.tableHeaders = [];
+        this.data['showColumnHeader'] = false;
+      }
+    }
+    else {
+      this.tableData = this.storeRows;
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      // this.tableHeaders = this.storeColumns;
+    }
   }
 }

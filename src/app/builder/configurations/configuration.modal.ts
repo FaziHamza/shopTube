@@ -3339,7 +3339,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Heading Level',
+            label: 'Heading Class',
             // options: [
             //   {
             //     label: 'text-xs',
@@ -10056,6 +10056,15 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'imageClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Image class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'imageWidth',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -10094,35 +10103,35 @@ export class formFeildData {
             label: 'zIndex',
           }
         },
-        {
-          key: 'imageClass',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Image Shape',
-            options: [
-              {
-                label: 'Simple',
-                value: ''
-              },
-              {
-                label: 'rounded-circle',
-                value: 'h-auto max-w-full rounded-full'
-              },
-              {
-                label: 'rounded',
-                value: 'h-auto max-w-full rounded-lg'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        // {
+        //   key: 'imageClass',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Image Shape',
+        //     options: [
+        //       {
+        //         label: 'Simple',
+        //         value: ''
+        //       },
+        //       {
+        //         label: 'rounded-circle',
+        //         value: 'h-auto max-w-full rounded-full'
+        //       },
+        //       {
+        //         label: 'rounded',
+        //         value: 'h-auto max-w-full rounded-lg'
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: true,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
           key: 'image',
           type: 'image-upload',
@@ -11244,6 +11253,45 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'toolTipColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'ToolTip Color',
+            type: 'color',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipPosition',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'focus',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11378,6 +11426,45 @@ export class formFeildData {
           },
           defaultValue: 'w-1/2  px-1'
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'toolTipColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'ToolTip Color',
+            type: 'color',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipPosition',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'getVariable',
@@ -11408,16 +11495,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'copyJsonIcon',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Allow Copy Json',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'copyJsonIcon',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Allow Copy Json',
+        //   },
+        //   defaultValue: false
+        // },
       ]
     },
   ]
