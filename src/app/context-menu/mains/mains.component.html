@@ -49,14 +49,10 @@
         </div>
     </ng-template>
     <ng-template #tenth>
-        <div *ngIf="item.type == 'heading'; else eleventh">
-            <st-heading [headingData]="item"></st-heading>
-        </div>
+        <st-heading *ngIf="item.type == 'heading'; else eleventh" [headingData]="item"></st-heading>
     </ng-template>
     <ng-template #eleventh>
-        <div *ngIf="item.type =='paragraph' ; else twelth">
-            <st-paragraph [data]="item"></st-paragraph>
-        </div>
+        <st-paragraph *ngIf="item.type =='paragraph' ; else twelth" [data]="item"></st-paragraph>
     </ng-template>
     <ng-template #twelth>
         <div
@@ -385,7 +381,7 @@
                 [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
                 [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay"
                 nz-button nz-popover nzType="primary"
-                [nzPopoverTitle]="item.title"
+                [nzPopoverTitle]="item.title | translate"
                 [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
         </div>
     </ng-template>
@@ -411,7 +407,7 @@
                 </span>
                 <!-- <span
                       nz-icon [nzType]='child.icon'></span> -->
-                <span>{{child.title}}</span>
+                <span>{{child.title | translate}}</span>
             </nz-tag>
         </div>
     </ng-template>

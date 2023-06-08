@@ -31,7 +31,7 @@
         [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
         [nzFilterFn]="header?.filterFn"
         (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
-        {{header.name}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+        {{header.name | translate}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
       </th>
     </ng-container>
     <th>Delete</th>
@@ -54,7 +54,7 @@
               *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]">
               <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
                 <!-- {{item | json}} -->
-                {{item[header.name]}}
+                {{item[header.name] | translate}}
               </div>
               <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
             </div>
@@ -77,13 +77,13 @@
           <td *ngIf="header.name == 'headerButton'">
             <button (click)="showModal('Header')" type="button"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Button
+              Button 
             </button>
           </td>
           <td *ngIf="header.name == 'footerButton'">
             <button type="button" (click)="showModal('Footer')"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Button
+              Button 
             </button>
           </td>
         </ng-container>

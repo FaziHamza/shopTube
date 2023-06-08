@@ -3,7 +3,7 @@
 <nz-drawer [nzClosable]="drawerData.isClosable" 
 [nzVisible]="visible" 
 [nzPlacement]="drawerData.placement"
-    [nzTitle]="drawerData.title" 
+    [nzTitle]="drawerData.title | translate" 
     (nzOnClose)="close()" 
     [nzClosable]="true"
     [nzCloseIcon]="iconTemplate" 

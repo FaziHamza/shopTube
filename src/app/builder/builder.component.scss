@@ -46,3 +46,10 @@
         width: 30%;
     }
 }
+
+.text-wrap {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

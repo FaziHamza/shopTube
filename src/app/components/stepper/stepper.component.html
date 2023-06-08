@@ -3,10 +3,10 @@
     (nzIndexChange)="handleIndexChange($event)">
     <ng-container *ngFor="let item of step.children">
         <nz-step [nzDescription]="item.description" *ngIf="!item.icon" [nzDisabled]="item.disabled"
-        [nzTitle]="item.title" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
+        [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
         ></nz-step>
         <nz-step [nzDescription]="item.description" *ngIf="item.icon" [nzIcon]="characterIcon" [nzDisabled]="item.disabled"
-        [nzTitle]="item.title" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
+        [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
         ></nz-step>
         <ng-template #characterIcon>
             <st-icon *ngIf="item.icon" [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"

@@ -4,7 +4,7 @@
         <nz-timeline-item [nzColor]="item.timecolor" [nzDot]="characterIcon" [nzPosition]="item.position"
             [nzLabel]="item.labelText"><nz-card>
                 <div style="color:#74788d">{{item.date}}</div>
-                <div style="font-size: 16px!important; margin-top: 1rem!important;">{{item.title}}</div>
+                <div style="font-size: 16px!important; margin-top: 1rem!important;">{{item.title | translate}}</div>
                 <div style="color:#74788d">{{item.timeLineDescription}}</div>
             </nz-card>
         </nz-timeline-item>

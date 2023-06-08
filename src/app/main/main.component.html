@@ -11,14 +11,14 @@
                         <ng-template contextMenuItem (execute)="comment(item)"
                             [visible]="isShowContextMenu">Comment</ng-template>
                     </context-menu>
-                    <span
+                    <!-- <span
                         *ngIf="!item?.tooltipWithoutIcon && (item?.tooltipPosition == 'top' || item?.tooltipPosition == undefined)"
                         nz-tooltip
                         [nzTooltipTitle]="item.tooltip">
                         <span nz-icon nzType="question-circle"
                             [class]="item['toolTipClass']"
                             nzTheme="outline"></span>
-                    </span>
+                    </span> -->
 
                     <st-mains [item]="item" [dataModel]="dataModel"
                         (notify)="saveData($event)" [screenName]="screenName"

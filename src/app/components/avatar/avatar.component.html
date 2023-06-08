@@ -4,7 +4,7 @@
         (nzError)="handleAvatarError($event)"
         [ngStyle]="{'background-color':avatarData.bgColor , 'color':avatarData.color}"
         style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
-    <p class="font-semibold">{{avatarData.title}}</p>
+    <p class="font-semibold">{{avatarData.title | translate}}</p>
 </ng-container>
 
 

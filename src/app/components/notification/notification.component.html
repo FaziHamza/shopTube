@@ -9,7 +9,7 @@
                 </span>
                 <!-- <span nz-icon [nzType]="notificationData.icon" [style.color]="notificationData.color"></span> -->
             </span>
-            <div class="ant-notification-notice-message">{{notificationData.title}}</div>
+            <div class="ant-notification-notice-message">{{notificationData.title | translate}}</div>
             <div class="ant-notification-notice-description">{{notificationData.content}}
             </div>
             <span *ngIf="notificationData.isEdit" class="ant-notification-notice-btn">

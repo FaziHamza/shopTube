@@ -33,7 +33,8 @@
     <label
           *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' ||to['additionalProperties']?.wrapper=='floating_standard' 
           ||to['additionalProperties']?.wrapper == 'floating_outlined'"
-          [ngClass]="to['additionalProperties']?.floatLabelClass">{{to.label}}</label>
+          [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}
+        </label>
 </nz-input-group>
 </div>
 <nz-input-number 

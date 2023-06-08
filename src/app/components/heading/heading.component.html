@@ -3,7 +3,7 @@
     <span
         *ngIf="!headingData?.tooltipWithoutIcon && headingData?.tooltipPosition == 'left'"
         nz-tooltip
-        [nzTooltipTitle]="headingData.tooltip">
+        [nzTooltipTitle]="headingData.tooltip | translate">
         <span nz-icon nzType="question-circle"
             [class]="headingData['toolTipClass']"
             nzTheme="outline"></span>
@@ -19,39 +19,39 @@
                         [class]="headingData.fontstyle"
                         [style.color]="headingData.color"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text}}</h1>
+                        {{headingData.text | translate}}</h1>
                     <h2 nz-typography *ngIf="headingData.heading === 2"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight"
                         [style.color]="headingData.color"
-                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">{{headingData.text}}</h2>
+                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">{{headingData.text | translate}}</h2>
                     <h3 nz-typography *ngIf="headingData.heading === 3"
                         [class]="headingData.fontstyle"
                         [style.color]="headingData.color"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text}}</h3>
+                        {{headingData.text | translate}}</h3>
                     <h4 nz-typography *ngIf="headingData.heading === 4"
                         [class]="headingData.fontstyle"
                         [style.color]="headingData.color"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text}}</h4>
+                        {{headingData.text | translate}}</h4>
                     <h5 nz-typography *ngIf="headingData.heading === 5"
                         [class]="headingData.fontstyle"
                         [style.color]="headingData.color"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text}}</h5>
+                        {{headingData.text | translate}}</h5>
                 </div>
             </div>
             <ng-template #paragraph>
                 <p nz-typography (click)="pageRoute(headingData.link)"
                     [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
-                    [style.color]="headingData.color">{{headingData.text}}</p>
+                    [style.color]="headingData.color">{{headingData.text | translate}}</p>
             </ng-template>
         </div>
     </span>
     <span
         *ngIf="!headingData?.tooltipWithoutIcon && headingData?.tooltipPosition == 'right'"
         nz-tooltip
-        [nzTooltipTitle]="headingData.tooltip">
+        [nzTooltipTitle]="headingData.tooltip | translate">
         <span nz-icon nzType="question-circle"
             [class]="headingData['toolTipClass']"
             nzTheme="outline"></span>
