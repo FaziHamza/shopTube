@@ -55,5 +55,28 @@
   "Get freelance work": "获取自由职业工作",
   "New design projects delivered to your inbox each morning.": "每天早上将新的设计项目发送到您的收件箱",
   "Sell your goods": "销售您的商品",
-  "Get your goods in front of millions of potential customers with ease.": "轻松地将您的商品展示给数百万潜在客户"
+  "Get your goods in front of millions of potential customers with ease.": "轻松地将您的商品展示给数百万潜在客户",
+  "CRMAPP": {
+    "Input": "wer"
+  },
+  "Demo Application": {
+    "CRMAPP": {
+      "Input": "3",
+      "heading": " Chinese"
+    },
+    "CRMAPP1": {
+      "Input": "3"
+    },
+    "Demo Template": {
+      "General": "345",
+      "input fields": {
+        "heading": "4532"
+      }
+    }
+  },
+  "Demo Application1": {
+    "CRMAPP1": {
+      "Input": "3"
+    }
+  }
 }

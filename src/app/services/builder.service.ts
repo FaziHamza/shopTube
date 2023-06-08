@@ -139,6 +139,11 @@ export class BuilderService {
       this.baseUrl + api, data
     );
   }
+  languageUpdate(api: any, data: any): Observable<any> {
+    return this.http.put<any>(
+      this.nestUrl + api, data
+    );
+  }
   genericPost(id: any, modal: any , api : any): Observable<any[]> {
     return this.http.put<any[]>(
       this.baseUrl + api + "/" + id, modal
@@ -396,7 +401,7 @@ export class BuilderService {
     );
   }
   saveTranslation(key: string, translation: string): Promise<void> {
-    const url = `assets/i18n/en.json`; 
+    const url = `assets/i18n/en.json`;
     const payload = { key, translation };
     return this.http.post<void>(url, payload).toPromise();
   }

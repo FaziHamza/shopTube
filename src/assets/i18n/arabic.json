@@ -55,5 +55,28 @@
   "Get freelance work": "احصل على عمل حر",
   "New design projects delivered to your inbox each morning.": "مشاريع تصميم جديدة يتم تسليمها إلى صندوق الوارد الخاص بك كل صباح.",
   "Sell your goods": "بيع سلعك",
-  "Get your goods in front of millions of potential customers with ease.": "احصل على سلعك أمام الملايين من العملاء المحتملين بسهولة."
+  "Get your goods in front of millions of potential customers with ease.": "احصل على سلعك أمام الملايين من العملاء المحتملين بسهولة.",
+  "CRMAPP": {
+    "Input": "wer"
+  },
+  "Demo Application": {
+    "CRMAPP": {
+      "Input": "2",
+      "heading": "Arabic"
+    },
+    "CRMAPP1": {
+      "Input": "2"
+    },
+    "Demo Template": {
+      "General": "324",
+      "input fields": {
+        "heading": "43123"
+      }
+    }
+  },
+  "Demo Application1": {
+    "CRMAPP1": {
+      "Input": "2"
+    }
+  }
 }

@@ -11253,12 +11253,11 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'toolTipColor',
+          key: 'toolTipClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'ToolTip Color',
-            type: 'color',
+            label: 'ToolTip Class',
           },
         },
         {
@@ -11428,12 +11427,11 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'toolTipColor',
+          key: 'toolTipClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'ToolTip Color',
-            type: 'color',
+            label: 'ToolTip Class',
           },
         },
         {
