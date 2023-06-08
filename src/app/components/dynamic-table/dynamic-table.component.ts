@@ -54,7 +54,9 @@ export class DynamicTableComponent implements OnInit {
     this.gridInitilize();
   }
   onClickRow(api: string, item: any) {
+    debugger
     if (api) {
+
       this.builderService.genericApis(api).subscribe({
         next: (res: any) => {
           this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
@@ -373,18 +375,42 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
-    const id = this.tableData.length -1;
+    const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
     this.tableData = [...this.tableData, newRow];
   };
   deleteRow(data: any): void {
     debugger
-    this.employeeService.deleteSQLDatabaseTable('knex-query', 1).subscribe({
+    let oneModelData = this.convertModel(data);
+    const model = {
+      screenId: 'CRMAPP',
+      modalData: data
+    };
+    this.employeeService.saveSQLDatabaseTable('knex-delete-queries', model).subscribe({
 
     });
     this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
   };
+  convertModel(model: any, parentKey = "") {
+    const convertedModel: any = {};
+
+    for (const key in model) {
+      if (model.hasOwnProperty(key)) {
+        const value = model[key];
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null) {
+          Object.assign(convertedModel, this.convertModel(value, newKey.toLocaleLowerCase()));
+        } else {
+          convertedModel[newKey.toLocaleLowerCase()] = value;
+        }
+      }
+    }
+
+    return convertedModel;
+  }
+
   startEdit(id: string): void {
     this.editId = id;
   }

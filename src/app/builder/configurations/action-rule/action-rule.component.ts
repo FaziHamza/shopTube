@@ -129,8 +129,12 @@ export class ActionRuleComponent implements OnInit {
 
 
       if (this.actionForm.value.actionLink == 'select') {
-        dataForQuery += "select " + fields.join(', ') + " from " + element.name;
+        dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
       } else if (this.actionForm.value.actionLink == 'get') {
+        if (mainArray.length == i + 1) {
+          dataForQuery += `select ${joinFields.join(', ')} from ${element.name.toLocaleLowerCase()};`;
+        }
+      } else if (this.actionForm.value.actionLink == 'getJoin') {
         let joining = "";
         let lastTable = "";
         if (mainArray.length == i + 1) {
@@ -149,7 +153,7 @@ export class ActionRuleComponent implements OnInit {
             }
             lastTable = element.toLocaleLowerCase();
           });
-          dataForQuery += `select * from ${joining};`;
+          dataForQuery += `select ${joinFields.join(', ')} from ${joining};`;
         }
       } else if (this.actionForm.value.actionLink == 'post') {
         dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${fields.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${values.join(', ')});`;
