@@ -66,6 +66,12 @@
     },
     "CRMAPP1": {
       "Input": "3"
+    },
+    "Demo Template": {
+      "General": "345",
+      "input fields": {
+        "heading": "4532"
+      }
     }
   },
   "Demo Application1": {
