@@ -1366,6 +1366,8 @@ export class BuilderComponent implements OnInit {
                         default: "",
                         hoverIconColor: '',
                         requiredMessage: 'This field is required',
+                        tooltipPosition: 'right',
+                        toolTipClass: '',
                       },
                       rows: 1,
                       maxLength: 10000000,
