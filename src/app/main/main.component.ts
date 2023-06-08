@@ -50,7 +50,9 @@ export class MainComponent implements OnInit {
     this.getJoiValidation();
     if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
-  }
+      
+      this.getFromQuery();
+    }
 
   submit() {
 
@@ -301,37 +303,7 @@ export class MainComponent implements OnInit {
       next: (res) => {
         this.toastr.success("Save Successfully", { nzDuration: 3000 });
         // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-        this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
-          next: (res) => {
-            let tableData = this.mainData.filter((a: any) => a.type == "gridList");
-
-            if (tableData.length > 0) {
-              // tableData[0]['api'] = data.dataTable;
-              let saveForm = JSON.parse(JSON.stringify(res[0]));
-              // saveForm["id"] = '';
-              // this.form.value["id"] = tableData[0]['tableKey'].length
-              const firstObjectKeys = Object.keys(saveForm);
-              let obj = firstObjectKeys.map(key => ({ name: key }));
-              // obj.unshift({name: 'id'});
-              if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-                tableData[0].tableData = [];
-                tableData[0]['tableKey'] = obj;
-                tableData[0].tableHeaders = tableData[0]['tableKey'];
-                saveForm.id = tableData[0].tableData.length + 1
-                res.forEach((element: any) => {
-                  element.id = (element.id).toString();
-                  tableData[0].tableData?.push(element);
-                });
-              } else {
-                tableData[0]['tableKey'] = obj;
-                tableData[0].tableHeaders = tableData[0]['tableKey'];
-                saveForm.id = tableData[0].tableData.length + 1;
-                tableData[0].tableData?.push(saveForm);
-              }
-
-            }
-          }
-        });
+        this.getFromQuery();
       },
       error: (err) => {
         console.error(err);
@@ -351,6 +323,39 @@ export class MainComponent implements OnInit {
     // } else {
     //   this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
     // }
+  }
+  getFromQuery() {
+    this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
+      next: (res) => {
+        let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+
+        if (tableData.length > 0) {
+          // tableData[0]['api'] = data.dataTable;
+          let saveForm = JSON.parse(JSON.stringify(res[0]));
+          // saveForm["id"] = '';
+          // this.form.value["id"] = tableData[0]['tableKey'].length
+          const firstObjectKeys = Object.keys(saveForm);
+          let obj = firstObjectKeys.map(key => ({ name: key }));
+          // obj.unshift({name: 'id'});
+          if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+            tableData[0].tableData = [];
+            tableData[0]['tableKey'] = obj;
+            tableData[0].tableHeaders = tableData[0]['tableKey'];
+            saveForm.id = tableData[0].tableData.length + 1
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData[0].tableData?.push(element);
+            });
+          } else {
+            tableData[0]['tableKey'] = obj;
+            tableData[0].tableHeaders = tableData[0]['tableKey'];
+            saveForm.id = tableData[0].tableData.length + 1;
+            tableData[0].tableData?.push(saveForm);
+          }
+
+        }
+      }
+    });
   }
   findObjectByType(data: any, key: any) {
     if (data.type === key) {
