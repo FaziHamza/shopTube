@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -39,7 +40,7 @@ export class DynamicTableComponent implements OnInit {
     { key: "Husnain", value: "Husnain" },
   ];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
-    private employeeService: EmployeeService,) {
+    private employeeService: EmployeeService, private toastr: NzMessageService,) {
     // this.getHeader();
   }
 
@@ -382,34 +383,20 @@ export class DynamicTableComponent implements OnInit {
   };
   deleteRow(data: any): void {
     debugger
-    let oneModelData = this.convertModel(data);
     const model = {
       screenId: 'CRMAPP',
       modalData: data
     };
-    this.employeeService.saveSQLDatabaseTable('knex-delete-queries', model).subscribe({
-
-    });
-    this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-  };
-  convertModel(model: any, parentKey = "") {
-    const convertedModel: any = {};
-
-    for (const key in model) {
-      if (model.hasOwnProperty(key)) {
-        const value = model[key];
-        const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-        if (typeof value === 'object' && value !== null) {
-          Object.assign(convertedModel, this.convertModel(value, newKey.toLocaleLowerCase()));
-        } else {
-          convertedModel[newKey.toLocaleLowerCase()] = value;
-        }
+    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/delete', model).subscribe({
+      next: (res) => {
+        this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    }
-
-    return convertedModel;
-  }
+    });
+  };
 
   startEdit(id: string): void {
     this.editId = id;

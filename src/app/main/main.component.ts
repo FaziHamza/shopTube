@@ -50,9 +50,9 @@ export class MainComponent implements OnInit {
     this.getJoiValidation();
     if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
-      
-      this.getFromQuery();
-    }
+
+    this.getFromQuery();
+  }
 
   submit() {
 
@@ -325,9 +325,10 @@ export class MainComponent implements OnInit {
     // }
   }
   getFromQuery() {
+    let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+    tableData[0].tableData = [];
     this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
       next: (res) => {
-        let tableData = this.mainData.filter((a: any) => a.type == "gridList");
 
         if (tableData.length > 0) {
           // tableData[0]['api'] = data.dataTable;
@@ -350,9 +351,12 @@ export class MainComponent implements OnInit {
             tableData[0]['tableKey'] = obj;
             tableData[0].tableHeaders = tableData[0]['tableKey'];
             saveForm.id = tableData[0].tableData.length + 1;
-            tableData[0].tableData?.push(saveForm);
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData[0].tableData?.push(element);
+            });
+            // tableData[0].tableData?.push(saveForm);
           }
-
         }
       }
     });
