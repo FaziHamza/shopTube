@@ -55,5 +55,22 @@
   "Get freelance work": "Получайте фриланс-работу",
   "New design projects delivered to your inbox each morning.": "Новые дизайн-проекты доставляются в вашу электронную почту каждое утро",
   "Sell your goods": "Продавайте свои товары",
-  "Get your goods in front of millions of potential customers with ease.": "Легко представьте свои товары миллионам потенциальных клиентов"
+  "Get your goods in front of millions of potential customers with ease.": "Легко представьте свои товары миллионам потенциальных клиентов",
+  "CRMAPP": {
+    "Input": "werwe"
+  },
+  "Demo Application": {
+    "CRMAPP": {
+      "Input": "4",
+      "heading": "Russian"
+    },
+    "CRMAPP1": {
+      "Input": "4"
+    }
+  },
+  "Demo Application1": {
+    "CRMAPP1": {
+      "Input": "4"
+    }
+  }
 }

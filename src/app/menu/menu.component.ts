@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   isVisible: boolean = false;
   languages = [
     {
-      id: 'en',
+      id: 'english',
       title: 'English',
       flag: 'us.png'
     },
@@ -48,10 +48,10 @@ export class MenuComponent implements OnInit {
       currentLanguage = JSON.parse(currentLanguageString);
       this.translate.setDefaultLang(currentLanguage);
     } else {
-      this.translate.setDefaultLang('en');
+      this.translate.setDefaultLang('english');
       this.storageService.storeString(
         'currentLanguage',
-        JSON.stringify('en')
+        JSON.stringify('english')
       );
     }
   }
