@@ -135,8 +135,8 @@ export class BuilderService {
     );
   }
   genericApisPost(api: any, data: any): Observable<any> {
-    return this.http.post<any>(
-      this.baseUrl + api, data
+    return this.http.put<any>(
+      this.nestUrl + api, data
     );
   }
   genericPost(id: any, modal: any , api : any): Observable<any[]> {
@@ -396,7 +396,7 @@ export class BuilderService {
     );
   }
   saveTranslation(key: string, translation: string): Promise<void> {
-    const url = `assets/i18n/en.json`; 
+    const url = `assets/i18n/en.json`;
     const payload = { key, translation };
     return this.http.post<void>(url, payload).toPromise();
   }

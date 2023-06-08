@@ -7,6 +7,7 @@ export const environment = {
   defaultauth: 'fake-backend',
   serverApiUrl:"http://localhost:3000/",
   serverBaseUrl:"http://3.111.85.6:3000/",
+  nestBaseUrl:"http://localhost:4500/",
   firebaseConfig: {
     apiKey: '',
     authDomain: '',
@@ -18,6 +19,8 @@ export const environment = {
     measurementId: '',
   }
 };
+
+// ng serve --host=0.0.0.0 --disable-host-check
 
 /*
  * For easier debugging in development mode, you can import the following file
