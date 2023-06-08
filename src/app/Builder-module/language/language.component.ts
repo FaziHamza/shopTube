@@ -360,7 +360,7 @@ export class LanguageComponent implements OnInit {
       if (this.isSubmit) {
         // this.saveTranslation('abc', 'Abc')
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
-        this.builderService.genericApisPost('language', currentData).subscribe((res => {
+        this.builderService.languageUpdate('saveTranslation', currentData).subscribe((res => {
           // this.builderService.saveTranslation('abc', 'ABC')
           //   .then(() => {
           //     console.log('Translation saved successfully');

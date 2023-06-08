@@ -135,6 +135,11 @@ export class BuilderService {
     );
   }
   genericApisPost(api: any, data: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + api, data
+    );
+  }
+  languageUpdate(api: any, data: any): Observable<any> {
     return this.http.put<any>(
       this.nestUrl + api, data
     );
