@@ -47,8 +47,8 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    this.storeRows = JSON.parse(JSON.stringify(this.data.tableData));
-    this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
+    // this.storeRows = JSON.parse(JSON.stringify(this.data.tableData));
+    // this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
     // this.controlMenu();
     // window.onresize = () => {
     //   this.controlMenu();

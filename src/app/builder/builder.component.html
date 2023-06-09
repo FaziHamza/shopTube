@@ -213,11 +213,11 @@
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'"
               [nzVisible]="IsShowConfig" nzPlacement="right"
               [nzTitle]="'Control List'" [nzExtra]="config"
-              (nzOnClose)="closeConfigurationList()">
+               [nzClosable]="false">
               <ng-container *nzDrawerContent>
                 <div id="mySidenav-right" class="sidenav-right">
                   <div class="mySidenav-right">
-                    <div class="side-nav-header">
+                    <!-- <div class="side-nav-header">
                       <h6>
                         Control List
                       </h6>
@@ -225,74 +225,73 @@
                         onclick="closeNav2()">
                         <i class="uil uil-times-square"></i>
                       </a>
-                    </div>
+                    </div> -->
                     <div class="side-nav-body">
-                      <div>
-                        <nz-tabset>
-                          <nz-tab nzTitle="Configuration">
-                            <div class=" general_faq mt-3">
-                              <div style="position:relative ;">
-                                <st-generic-field [modal]="formModalData"
-                                  (notify)="notifyEmit($event)"
-                                  [itemData]="fieldData" [type]="fieldData.type"
-                                  *ngIf="fieldData">
-                                </st-generic-field>
-                              </div>
+                      <nz-tabset>
+                        <nz-tab nzTitle="Configuration">
+                          <div class=" general_faq mt-3">
+                            <div style="position:relative ;">
+                              <st-generic-field [modal]="formModalData"
+                                (notify)="notifyEmit($event)"
+                                [itemData]="fieldData" [type]="fieldData.type"
+                                *ngIf="fieldData">
+                              </st-generic-field>
                             </div>
-                          </nz-tab>
-                          <nz-tab nzTitle="UI Rule">
-                            <st-uirule [selectedNode]="selectedNode"
-                              *ngIf="selectedNode && nodes.length  > 0"
-                              [screenName]="screenName"
-                              [screenModule]="screenModule" [nodes]="nodes"
-                              (ruleNotify)="getUIRuleData($event)"></st-uirule>
-                            <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
-                          </nz-tab>
-                          <nz-tab nzTitle="Validation Rule">
-                            <st-generic-field
-                              [modal]="validationFieldData.modelData"
-                              (notify)="notifyEmit($event)"
-                              [itemData]="validationFieldData"
-                              [type]="validationFieldData.type"
-                              *ngIf="validationFieldData">
-                            </st-generic-field>
-                            <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
-                          </nz-tab>
-                          <nz-tab nzTitle="Buisness Rule">
-                            <st-business-rule [selectedNode]="selectedNode"
-                              *ngIf="selectedNode"
-                              [screenName]="screenName"
-                              [screenModule]="screenModule" [nodes]="nodes"
-                              (businessRuleNotify)="getBusinessRule()"
-                              [formlyModel]="this.formlyModel"></st-business-rule>
-                          </nz-tab>
-                          <nz-tab nzTitle="Actions">
-                            <st-action-rule [selectedNode]="selectedNode"
-                              *ngIf="selectedNode" [screenName]="screenName"
-                              [formlyModel]="this.formlyModel"
-                              [screenModule]="screenModule"></st-action-rule>
-                          </nz-tab>
-                          <nz-tab nzTitle="Grid Rules">
-                            <st-business-rule-grid
-                              *ngIf="selectedNode && nodes.length  > 0"
-                              [selectedNode]="selectedNode"
-                              [screenName]="screenName"
-                              [screenModule]="screenModule"
-                              [nodes]="nodes"></st-business-rule-grid>
-                          </nz-tab>
-                        </nz-tabset>
-                      </div>
+                          </div>
+                        </nz-tab>
+                        <nz-tab nzTitle="UI Rule">
+                          <st-uirule [selectedNode]="selectedNode"
+                            *ngIf="selectedNode && nodes.length  > 0"
+                            [screenName]="screenName"
+                            [screenModule]="screenModule" [nodes]="nodes"
+                            (ruleNotify)="getUIRuleData($event)"></st-uirule>
+                          <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
+                        </nz-tab>
+                        <nz-tab nzTitle="Validation Rule">
+                          <st-generic-field
+                            [modal]="validationFieldData.modelData"
+                            (notify)="notifyEmit($event)"
+                            [itemData]="validationFieldData"
+                            [type]="validationFieldData.type"
+                            *ngIf="validationFieldData">
+                          </st-generic-field>
+                          <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
+                        </nz-tab>
+                        <nz-tab nzTitle="Buisness Rule">
+                          <st-business-rule [selectedNode]="selectedNode"
+                            *ngIf="selectedNode"
+                            [screenName]="screenName"
+                            [screenModule]="screenModule" [nodes]="nodes"
+                            (businessRuleNotify)="getBusinessRule()"
+                            [formlyModel]="this.formlyModel"></st-business-rule>
+                        </nz-tab>
+                        <nz-tab nzTitle="Actions">
+                          <st-action-rule [selectedNode]="selectedNode"
+                            *ngIf="selectedNode" [screenName]="screenName"
+                            [formlyModel]="this.formlyModel"
+                            [screenModule]="screenModule"></st-action-rule>
+                        </nz-tab>
+                        <nz-tab nzTitle="Grid Rules">
+                          <st-business-rule-grid
+                            *ngIf="selectedNode && nodes.length  > 0"
+                            [selectedNode]="selectedNode"
+                            [screenName]="screenName"
+                            [screenModule]="screenModule"
+                            [nodes]="nodes"></st-business-rule-grid>
+                        </nz-tab>
+                      </nz-tabset>
                     </div>
                   </div>
                 </div>
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <button nz-button nzType="default"
+              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone" (click)="closeConfigurationList()"></span>
+              <!-- <button nz-button nzType="default"
                 (click)="closeConfigurationList()">Cancel</button>
               &nbsp;
               <button nz-button nzType="primary"
-                (click)="closeConfigurationList()">OK</button>
+                (click)="closeConfigurationList()">OK</button> -->
             </ng-template>
 
             <!-- side-nav-right -->
