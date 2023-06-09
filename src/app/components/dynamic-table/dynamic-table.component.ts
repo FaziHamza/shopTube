@@ -387,11 +387,11 @@ export class DynamicTableComponent implements OnInit {
   };
   deleteRow(data: any): void {
     const model = {
-      screenId: 'CRMAPP',
+      screenId: this.screenName,
       postType: 'delete',
       modalData: data
     };
-    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/delete', model).subscribe({
+    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
       next: (res) => {
         this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
         this.toastr.success("Delete Successfully", { nzDuration: 3000 });

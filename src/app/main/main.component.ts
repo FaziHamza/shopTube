@@ -271,6 +271,15 @@ export class MainComponent implements OnInit {
       this.saveData1(data);
     }
   }
+  setInternalValuesEmpty = (obj: any) => {
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        this.setInternalValuesEmpty(obj[key]);
+      } else {
+        obj[key] = '';
+      }
+    }
+  };
   saveData1(data: any) {
     let oneModelData = this.convertModel(this.form.value);
 
@@ -288,7 +297,7 @@ export class MainComponent implements OnInit {
     //   }
     // });
     const empData = {
-      screenId: 'CRMAPP',
+      screenId: this.screenName,
       modalData: oneModelData
     };
 
@@ -319,6 +328,7 @@ export class MainComponent implements OnInit {
       this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
         next: (res) => {
           this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          this.setInternalValuesEmpty(this.form.value)
           // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
           this.getFromQuery();
         },
@@ -332,12 +342,12 @@ export class MainComponent implements OnInit {
       if (this.form.get(dynamicPropertyName)) {
         this.form.get(dynamicPropertyName);
         const model = {
-          screenId: 'CRMAPP',
+          screenId: this.screenName,
           postType: 'put',
           modalData: this.form.value[dynamicPropertyName]
         };
 
-        this.employeeService.saveSQLDatabaseTable('knex-delete-queries/delete', model).subscribe({
+        this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
             this.getFromQuery();
@@ -366,7 +376,7 @@ export class MainComponent implements OnInit {
   }
   getFromQuery() {
     let tableData = this.mainData.filter((a: any) => a.type == "gridList");
-    this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
+    this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
 
         if (tableData.length > 0) {
