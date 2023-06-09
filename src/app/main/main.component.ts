@@ -25,7 +25,7 @@ import { EmployeeService } from '../services/employee.service';
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
   @Input() dataModel !: any;
-  form = new FormGroup({});
+  form: any = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   selectedTags: any[] = [];
@@ -224,6 +224,13 @@ export class MainComponent implements OnInit {
 
     return convertedModel;
   }
+  updateModel(data: any) {
+    debugger
+    const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
+    if (this.form.get(dynamicPropertyName)) {
+      this.form.get(dynamicPropertyName)?.patchValue(data);
+    }
+  }
 
   saveData(data: any) {
     if (data.isSubmit) {
@@ -264,6 +271,15 @@ export class MainComponent implements OnInit {
       this.saveData1(data);
     }
   }
+  setInternalValuesEmpty = (obj: any) => {
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        this.setInternalValuesEmpty(obj[key]);
+      } else {
+        obj[key] = '';
+      }
+    }
+  };
   saveData1(data: any) {
     let oneModelData = this.convertModel(this.form.value);
 
@@ -281,7 +297,7 @@ export class MainComponent implements OnInit {
     //   }
     // });
     const empData = {
-      screenId: 'CRMAPP',
+      screenId: this.screenName,
       modalData: oneModelData
     };
 
@@ -292,24 +308,58 @@ export class MainComponent implements OnInit {
       const tableName = key.split('.')[0];
       tableNames.add(tableName);
     }
+
     const Arraytables = Array.from(tableNames)
     const remainingTables = Arraytables.slice(1);
-
-    let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
-    relationIds = relationIds.toString();
-    const tables = (Array.from(tableNames)).toString();
-    console.log(tables);
-    this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
-      next: (res) => {
-        this.toastr.success("Save Successfully", { nzDuration: 3000 });
-        // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-        this.getFromQuery();
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+    let id;
+    for (const key in empData.modalData) {
+      if (empData.modalData.hasOwnProperty(key) &&
+        key.endsWith('.id') &&
+        empData.modalData[key] !== "") {
+        id = key;
       }
-    });
+    }
+
+    if (id == undefined) {
+      let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
+      relationIds = relationIds.toString();
+      const tables = (Array.from(tableNames)).toString();
+      console.log(tables);
+      this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
+        next: (res) => {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          this.setInternalValuesEmpty(this.form.value)
+          // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+          this.getFromQuery();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    } else {
+      const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
+      if (this.form.get(dynamicPropertyName)) {
+        this.form.get(dynamicPropertyName);
+        const model = {
+          screenId: this.screenName,
+          postType: 'put',
+          modalData: this.form.value[dynamicPropertyName]
+        };
+
+        this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
+          next: (res) => {
+            this.toastr.success("Update Successfully", { nzDuration: 3000 });
+            this.getFromQuery();
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+      }
+    }
+
     // if (data.dataTable) {
     //   this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.form.value).subscribe({
     //     next: (res) => {
@@ -326,8 +376,7 @@ export class MainComponent implements OnInit {
   }
   getFromQuery() {
     let tableData = this.mainData.filter((a: any) => a.type == "gridList");
-    tableData[0].tableData = [];
-    this.employeeService.getSQLDatabaseTable(`knex-query/CRMAPP`).subscribe({
+    this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
 
         if (tableData.length > 0) {
@@ -350,6 +399,7 @@ export class MainComponent implements OnInit {
           } else {
             tableData[0]['tableKey'] = obj;
             tableData[0].tableHeaders = tableData[0]['tableKey'];
+            tableData[0].tableData = [];
             saveForm.id = tableData[0].tableData.length + 1;
             res.forEach((element: any) => {
               element.id = (element.id).toString();

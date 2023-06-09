@@ -20,6 +20,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
+  @Output() notifyDbClick: EventEmitter<any> = new EventEmitter();
   GridType: string = '';
   // key: any;
   screenNameaa: any;
@@ -57,6 +58,9 @@ export class DynamicTableComponent implements OnInit {
     window.onresize = () => {
       this.controlMenu();
     };
+  }
+  updateModel(data: any) {
+    this.notifyDbClick.emit(data);
   }
   onClickRow(api: string, item: any) {
     if (api) {
@@ -384,14 +388,15 @@ export class DynamicTableComponent implements OnInit {
     this.tableData = [...this.tableData, newRow];
   };
   deleteRow(data: any): void {
-    debugger
     const model = {
-      screenId: 'CRMAPP',
+      screenId: this.screenName,
+      postType: 'delete',
       modalData: data
     };
-    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/delete', model).subscribe({
+    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
       next: (res) => {
         this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+        this.toastr.success("Delete Successfully", { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

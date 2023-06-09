@@ -70,6 +70,9 @@ export class ActionRuleComponent implements OnInit {
         type: [check[0].type],
         email: [check[0].email],
         sqlType: [check[0].sqlType],
+        actionLink: [check[0].actionLink],
+        actionType: [check[0].actionType],
+        submissionType: [check[0].submissionType],
         confirmEmail: [check[0].confirmEmail],
         referenceId: [check[0].referenceId],
         query: [check[0].query]
@@ -128,9 +131,10 @@ export class ActionRuleComponent implements OnInit {
       }
 
 
-      if (this.actionForm.value.actionLink == 'select') {
-        dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
-      } else if (this.actionForm.value.actionLink == 'get') {
+      // if (this.actionForm.value.actionLink == 'select') {
+      //   dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
+      // } else 
+      if (this.actionForm.value.actionLink == 'get') {
         if (mainArray.length == i + 1) {
           dataForQuery += `select ${joinFields.join(', ')} from ${element.name.toLocaleLowerCase()};`;
         }
@@ -156,12 +160,18 @@ export class ActionRuleComponent implements OnInit {
           dataForQuery += `select ${joinFields.join(', ')} from ${joining};`;
         }
       } else if (this.actionForm.value.actionLink == 'post') {
-        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${fields.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${values.join(', ')});`;
+        const columnName = fields.filter(item => item !== 'id');
+        const columnValues = values.filter(item => !item.includes('.id'));
+        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${columnValues.join(', ')});`;
       } else if (this.actionForm.value.actionLink == 'put') {
-        let updateQuery = fields.map((field, index) => `${field} = ${values[index]}`).join(', ');
-        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `${element.name.toLocaleLowerCase()}.id = $${element.name.toLocaleLowerCase()}.id; `;
+        const columnName = fields.filter(item => item !== 'id');
+        const columnValues = values.filter(item => !item.includes('.id'));
+        let updateQuery = columnName.map((field, index) => `${field} = '${columnValues[index]}'`).join(', ');
+        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `id = $id; `;
+        // dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `${element.name.toLocaleLowerCase()}.id = $${element.name.toLocaleLowerCase()}.id; `;
       } else if (this.actionForm.value.actionLink == 'delete') {
-        let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `${element.name.toLocaleLowerCase()}.id` + " = " + `$${element.name.toLocaleLowerCase()}.id; `;
+        let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `id` + " = " + `$id; `;
+        // let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `${element.name.toLocaleLowerCase()}.id` + " = " + `$${element.name.toLocaleLowerCase()}.id; `;
         dataForQuery += deleteQuery;
       }
 
@@ -172,6 +182,9 @@ export class ActionRuleComponent implements OnInit {
         submit: [this.actionForm.value.submissionType],
         type: [this.actionForm.value.actionType],
         sqlType: ["sql"],
+        actionLink: [this.actionForm.value.actionLink],
+        actionType: [this.actionForm.value.actionType],
+        submissionType: [this.actionForm.value.submissionType],
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
         referenceId: [''],
@@ -219,9 +232,9 @@ export class ActionRuleComponent implements OnInit {
       const data = {
         "moduleName": this.screenName,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-        "btnActionType": this.selectedNode.actionType ? this.selectedNode.actionType : "",
-        "actionType": this.actionForm.value.submissionType,
-        "actionLink": this.actionForm.value.actionLink,
+        "btnActionType": element.submissionType ? element.submissionType : "",
+        "actionType": element.actionType,
+        "actionLink": element.actionLink,
         "quryType": element.referenceId,
         "quries": element.query,
         "submit": element.submit,
@@ -329,6 +342,9 @@ export class ActionRuleComponent implements OnInit {
                 submit: [getQueryActionRes.submit],
                 type: [getQueryActionRes.type],
                 sqlType: [getQueryActionRes.sqlType],
+                actionType: [getQueryActionRes.actionType],
+                actionLink: [getQueryActionRes.actionLink],
+                submissionType: [getQueryActionRes.submissionType],
                 email: [getQueryActionRes.email],
                 confirmEmail: [getQueryActionRes.confirmEmail],
                 referenceId: [getQueryActionRes.referenceId],

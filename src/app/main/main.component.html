@@ -2,8 +2,7 @@
     <div class="card-content  flex flex-wrap">
         <div class="{{!item.hideExpression   ? item.className : ''}}"
             *ngFor="let item of mainData ; index as i; last as isLast">
-            <div [ngClass]="{'highLight': item.highLight == true}"
-                *ngIf="!item.hideExpression">
+            <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                     <context-menu #oneContextMenu>
                         <ng-template contextMenuItem (execute)="copyJson(item)"
@@ -27,47 +26,15 @@
                         <span nz-icon nzType="question-circle"
                             [style.color]="item['toolTipColor']"
                             nzTheme="outline"></span>
-                    </span>
+                    </span> -->
+
+                    <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"
+                        [screenName]="screenName" [screenId]="screenId" (notifyDbClick)="updateModel($event)"
+                        [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
                 </span>
-                <div>
-                   
-
-
-                    <div class="component-wrapper">
-                        <span class="tooltip-icon"
-                        *ngIf="item?.tooltipPosition == 'left'">
-                        <span
-                            *ngIf="item.type != 'progressBar' && item.type != 'alert'
-                        && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
-                        && !item?.tooltipWithoutIcon || false" nz-tooltip
-                            [nzTooltipTitle]="item.tooltip">
-                            <span nz-icon nzType="question-circle"
-                                [style.color]="item['toolTipColor']"
-                                nzTheme="outline"></span>
-                        </span>
-                    </span>
-
-                        <st-mains [item]="item" [isLast]="isLast"
-                            (notify)="saveData($event)" [form]="form"
-                            [screenName]="screenName" [screenId]="screenId"
-                            *ngIf="item && !isShowContextMenu"></st-mains>
-
-                            
-                    <span class="tooltip-icon"
-                    *ngIf="item?.tooltipPosition == 'right'">
-                    <span
-                        *ngIf="item.type != 'progressBar' && item.type != 'alert'
-                  && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip && !item?.tooltipWithoutIcon || false "
-                        nz-tooltip [nzTooltipTitle]="item.tooltip">
-                        <span nz-icon nzType="question-circle"
-                            [style.color]="item['toolTipColor']"
-                            nzTheme="outline"></span>
-                    </span>
-                </span>
-                    </div>
-
-
-                </div>
+                <st-mains [item]="item" [isLast]='isLast' (notify)="saveData($event)"
+                    (notifyDbClick)="updateModel($event)" [form]="form" [screenName]="screenName" [screenId]="screenId"
+                    *ngIf="item && !isShowContextMenu"></st-mains>
             </div>
         </div>
     </div>

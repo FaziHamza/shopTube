@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input,  Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
@@ -22,7 +22,7 @@ export class BlockButtonsCardComponent {
   nodes: TreeNode[];
   size: NzButtonSize = 'large';
   color: "hover:bg-[#000000]";
-  borderColor:any;
+  borderColor: any;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
   ) { }
   ngOnInit(): void {
@@ -96,8 +96,8 @@ export class BlockButtonsCardComponent {
 
     bgColor = hoverColor;
   }
-  saveData(data : any){
-    
+  saveData(data: any) {
+
     this.notify.emit(data);
   }
 }
