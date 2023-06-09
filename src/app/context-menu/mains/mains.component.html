@@ -57,20 +57,14 @@
     <ng-template #twelth>
         <div
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
-            <nz-badge
-                *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'"
-                [nzCount]="item?.badgeCount">
-                <st-block-buttons-card (notify)="saveData($event)"
-                    [softIconList]="item">
+            <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
+                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
-            <nz-badge nzDot
-                *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
-                <st-block-buttons-card (notify)="saveData($event)"
-                    [softIconList]="item">
+            <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
+                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
-            <st-block-buttons-card
-                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 (notify)="saveData($event)" [softIconList]="item">
             </st-block-buttons-card>
         </div>
@@ -83,29 +77,21 @@
     <ng-template #forteenth>
         <div *ngIf="item.type =='icon'; else fifteen">
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
-                <st-icon [type]="item.iconType" [icon]="item.icon"
-                    [size]="item.iconSize" [color]="item.iconColor"
+                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
                     [hoverIconColor]="item.hoverIconColor"></st-icon>
             </nz-badge>
-            <nz-badge [nzCount]="item?.badgeCount"
-                *ngIf="item?.badgeType == 'count'">
-                <st-icon [type]="item.iconType" [icon]="item.icon"
-                    [size]="item.iconSize"
-                    [hoverIconColor]="item.hoverIconColor"
-                    [color]="item.iconColor"></st-icon>
+            <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
+                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor"></st-icon>
             </nz-badge>
-            <st-icon
-                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-                [type]="
-              item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                [color]="item.iconColor"
+            <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
+              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
                 [hoverIconColor]="item.hoverIconColor"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
-            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'"
-                [nzColor]="item.dot_ribbon_color"
+            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
                 <st-card-with-components [item]="item"></st-card-with-components>
             </nz-ribbon>
@@ -115,23 +101,19 @@
           <nz-badge *ngIf="item?.badgeType == 'dot'" [nzColor]="item.dot_ribbon_color" nzDot>
               <st-card-with-components [item]="item"></st-card-with-components>
           </nz-badge> -->
-            <st-card-with-components
-                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-card-with-components *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [item]="item"></st-card-with-components>
         </div>
     </ng-template>
     <ng-template #sixteen>
         <div *ngIf="item.type =='gridList';else seventeen">
-            <dynamic-table [tableId]='item.tableId' [checkType]="false"
-                [tableData]='item.tableData'
-                [tableHeaders]='item.tableHeaders' [dataModel]="dataModel"
-                [screenId]="screenId" [data]="item"
-                [screenName]="screenName"></dynamic-table>
+            <dynamic-table [tableId]='item.tableId' [checkType]="false" [tableData]='item.tableData'
+                [tableHeaders]='item.tableHeaders' [dataModel]="dataModel" [screenId]="screenId" [data]="item"
+                (notifyDbClick)="updateModel($event)" [screenName]="screenName"></dynamic-table>
         </div>
     </ng-template>
     <ng-template #seventeen>
-        <div
-            *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
+        <div *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen">
             <st-table></st-table>
             <!-- <st-tui-grid [gridData]="item"></st-tui-grid> -->
 
@@ -183,16 +165,13 @@
         </div>
     </ng-template>
     <ng-template #twentysix>
-        <div
-            *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
-            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'"
-                [nzColor]="item.dot_ribbon_color"
+        <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
+            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
                 <st-simple-card-with-header-body-footer [cardData]="item">
                 </st-simple-card-with-header-body-footer>
             </nz-ribbon>
-            <st-simple-card-with-header-body-footer
-                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-simple-card-with-header-body-footer *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [cardData]="item">
             </st-simple-card-with-header-body-footer>
         </div>
@@ -253,8 +232,7 @@
             <div *ngFor="let data of item.children">
                 <div
                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
-                    <st-block-buttons-card (notify)="saveData($event)"
-                        [softIconList]="data">
+                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
                     </st-block-buttons-card>
                 </div>
             </div>
@@ -264,8 +242,7 @@
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
-                <formly-form [fields]="item.formly" [model]="dataModel"
-                    [form]="form">
+                <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
                 </formly-form>
             </div>
             <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button> -->
@@ -278,8 +255,7 @@
     <ng-template #thirtySeven>
         <div *ngIf="item.type == 'textEditor'; else thirtyEight">
             <nz-card>
-                <st-editor-js-wrapper [(ngModel)]="item.editorJson"
-                    [minHeight]="'300px'"
+                <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
                     [data]="item.editorJson"></st-editor-js-wrapper>
             </nz-card>
             <!-- <pre>{{ item.editorJson | json }}</pre> -->
@@ -314,22 +290,15 @@
         </div>
     </ng-template>
     <ng-template #fourtyThree>
-        <div class="image-preview"
-            *ngIf="item.type == 'imageUpload' ; else fourtyFour">
-            <button class="mb-2" nz-button nzType="primary"
-                *ngIf="item.imagePreview"
+        <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+            <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
-            <img *ngIf="item.source" nz-image
-                [style.height.px]="item.imagHieght"
-                [style.width.px]="item.imageWidth"
-                class="{{item.imageClass}}" [nzSrc]='item.source'
-                [alt]='item.alt' [nzDisablePreview]="false"
+            <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth"
+                class="{{item.imageClass}}" [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
                 [nzFallback]="item.fallback" />
-            <img *ngIf="item.base64Image" nz-image
-                [style.height.px]="item.imagHieght"
-                [style.width.px]="item.imageWidth" class="{{item.imageClass}}"
-                [nzSrc]='item.base64Image' [alt]='item.alt'
-                [nzFallback]="item.fallback" />
+            <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
+                [style.width.px]="item.imageWidth" class="{{item.imageClass}}" [nzSrc]='item.base64Image'
+                [alt]='item.alt' [nzFallback]="item.fallback" />
         </div>
     </ng-template>
     <ng-template #fourtyFour>
@@ -374,36 +343,27 @@
     </ng-template>
     <ng-template #fiftyTwo>
         <div *ngIf="item.type == 'popOver' ; else fiftyThree">
-            <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
-                [nzPopoverTrigger]="item.trigger"
-                [nzPopoverPlacement]="item.placement"
-                [nzPopoverVisible]="item.visible"
-                [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
-                [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay"
-                nz-button nz-popover nzType="primary"
-                [nzPopoverTitle]="item.title | translate"
+            <button [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter" [nzPopoverTrigger]="item.trigger"
+                [nzPopoverPlacement]="item.placement" [nzPopoverVisible]="item.visible"
+                [nzPopoverMouseEnterDelay]="item.mouseEnterDelay" [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay"
+                nz-button nz-popover nzType="primary" [nzPopoverTitle]="item.title | translate"
                 [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
         </div>
     </ng-template>
     <ng-template #fiftyThree>
         <div clas="p-1" *ngIf="item.type == 'segmented'; else fiftyFour">
-            <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled"
-                [nzSize]="item.size"
-                [(ngModel)]="item.defaultSelectedIndex"
-                [nzOptions]="item.options"
+            <nz-segmented [nzBlock]="item.block" [nzDisabled]="item.disabled" [nzSize]="item.size"
+                [(ngModel)]="item.defaultSelectedIndex" [nzOptions]="item.options"
                 (nzValueChange)="handleIndexChange($event)"></nz-segmented>
         </div>
     </ng-template>
     <ng-template #fiftyFour>
         <div *ngIf="item.type == 'tag' ; else fiftyFive">
-            <nz-tag *ngFor="let child of item.options ; index as i"
-                [nzColor]='child.tagColor' [nzMode]="item.mode"
+            <nz-tag *ngFor="let child of item.options ; index as i" [nzColor]='child.tagColor' [nzMode]="item.mode"
                 [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)">
                 <span *ngIf="child?.icon">
-                    <st-icon [type]="item?.iconType || 'outline'"
-                        [icon]="child?.icon" [size]="item?.iconSize"
-                        [hoverIconColor]="item?.hoverIconColor || ''"
-                        [color]="item?.iconColor"></st-icon>
+                    <st-icon [type]="item?.iconType || 'outline'" [icon]="child?.icon" [size]="item?.iconSize"
+                        [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
                 </span>
                 <!-- <span
                       nz-icon [nzType]='child.icon'></span> -->
@@ -413,8 +373,7 @@
     </ng-template>
     <ng-template #fiftyFive>
         <div *ngIf="item.type == 'spin' ; else fiftySix">
-            <nz-spin [nzSimple]="item.simple" [nzSpinning]="item.spinning"
-                [nzSize]='item.size'
+            <nz-spin [nzSimple]="item.simple" [nzSpinning]="item.spinning" [nzSize]='item.size'
                 [nzDelay]="item.delayTime" [nzTip]='item.loaderText'></nz-spin>
         </div>
     </ng-template>
@@ -505,14 +464,12 @@
     </ng-template>
     <ng-template #seventyThree>
         <div *ngIf="item.type == 'barChart' else seventyFour">
-            <st-bar-chart [charts]="item"
-                [chartData]="item.chartData?item.chartData:item.tableData"></st-bar-chart>
+            <st-bar-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-bar-chart>
         </div>
     </ng-template>
     <ng-template #seventyFour>
         <div *ngIf="item.type == 'pieChart' else seventyFive">
-            <st-pie-chart [charts]="item"
-                [chartData]="item.chartData?item.chartData:item.tableData"></st-pie-chart>
+            <st-pie-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-pie-chart>
         </div>
     </ng-template>
     <ng-template #seventyFive>
@@ -523,43 +480,35 @@
     </ng-template>
     <ng-template #seventySix>
         <div *ngIf="item.type == 'candlestickChart' else seventySeven">
-            <st-candlestick-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
+            <st-candlestick-chart [chartData]="item.chartData?item.chartData:item.tableData"
                 [charts]="item"></st-candlestick-chart>
         </div>
     </ng-template>
     <ng-template #seventySeven>
         <div *ngIf="item.type == 'columnChart' else seventyEight">
-            <st-column-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
+            <st-column-chart [chartData]="item.chartData?item.chartData:item.tableData"
                 [charts]="item"></st-column-chart>
         </div>
     </ng-template>
     <ng-template #seventyEight>
         <div *ngIf="item.type == 'ganttChart' else seventyNine">
-            <st-gantt-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
-                [charts]="item"></st-gantt-chart>
+            <st-gantt-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-gantt-chart>
         </div>
     </ng-template>
     <ng-template #seventyNine>
         <div *ngIf="item.type == 'geoChart' else eighty">
-            <st-geo-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
-                [charts]="item"></st-geo-chart>
+            <st-geo-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-geo-chart>
         </div>
     </ng-template>
     <ng-template #eighty>
         <div *ngIf="item.type == 'histogramChart' else eightyOne">
-            <st-histogram-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
+            <st-histogram-chart [chartData]="item.chartData?item.chartData:item.tableData"
                 [charts]="item"></st-histogram-chart>
         </div>
     </ng-template>
     <ng-template #eightyOne>
         <div *ngIf="item.type == 'lineChart' else eightyTwo">
-            <st-line-chart [charts]="item"
-                [chartData]="item.chartData?item.chartData:item.tableData"></st-line-chart>
+            <st-line-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-line-chart>
         </div>
     </ng-template>
     <ng-template #eightyTwo>
@@ -576,14 +525,12 @@
     </ng-template>
     <ng-template #eightyFour>
         <div *ngIf="item.type == 'areaChart'; else eightyFive">
-            <st-area-chart [charts]="item"
-                [chartData]="item.chartData?item.chartData:item.tableData"></st-area-chart>
+            <st-area-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-area-chart>
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div *ngIf="item.type == 'div'; else eightySix"
-            [style.border-radius.px]="item['radius']" [class]="item.divClass"
-            [ngStyle]="{
+        <div *ngIf="item.type == 'div'; else eightySix" [style.border-radius.px]="item['radius']"
+            [class]="item.divClass" [ngStyle]="{
             'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
             'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
             'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',
@@ -610,24 +557,19 @@
     </ng-template>
     <ng-template #eightyEight>
         <div *ngIf="item.type == 'timelineChart'; else eightyNine">
-            <st-timeline-chart
-                [chartData]="item.chartData ? item.chartData : item.tableData"
+            <st-timeline-chart [chartData]="item.chartData ? item.chartData : item.tableData"
                 [charts]="item"></st-timeline-chart>
 
         </div>
     </ng-template>
     <ng-template #eightyNine>
         <div *ngIf="item.type == 'orgChart' ; else ninty">
-            <st-org-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
-                [charts]="item"></st-org-chart>
+            <st-org-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-org-chart>
         </div>
     </ng-template>
     <ng-template #ninty>
         <div *ngIf="item.type == 'tableChart' ; else nintyOne">
-            <st-table-chart
-                [chartData]="item.chartData?item.chartData:item.tableData"
-                [charts]="item"></st-table-chart>
+            <st-table-chart [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart>
         </div>
     </ng-template>
     <ng-template #nintyOne>
@@ -637,9 +579,7 @@
     </ng-template>
     <ng-template #nintyTwo>
         <div *ngIf="item.type == 'treeMapChart' ; else nintyThree">
-            <st-tree-map
-                [chartData]="item.chartData ? item.chartData : item.tableData"
-                [charts]="item"></st-tree-map>
+            <st-tree-map [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-tree-map>
         </div>
     </ng-template>
     <ng-template #nintyThree>
@@ -690,10 +630,8 @@
     <ng-template #hTwo>
         <div *ngIf="item.type == 'mainDiv'; else hThree">
             <div class="flex flex-wrap">
-                <div class={{itemChild.className}}
-                    *ngFor="let itemChild of item.children">
-                    <div *ngIf="itemChild.type == 'div'"
-                        [class]="itemChild.divClass" [ngStyle]="{
+                <div class={{itemChild.className}} *ngFor="let itemChild of item.children">
+                    <div *ngIf="itemChild.type == 'div'" [class]="itemChild.divClass" [ngStyle]="{
                         'height': itemChild.height && item.height != 0 ? itemChild.height + 'px' : 'auto',
                         'width': itemChild.width && itemChild.width != 0 && itemChild.imageSrc ? itemChild.width + 'px' : 'auto'
                     }"
