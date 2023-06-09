@@ -1429,6 +1429,53 @@ export class BuilderComponent implements OnInit {
     }
     this.makeFaker();
   }
+  gotoNextConfig(){
+
+    let parent: any;
+    let node: any;
+    let nextNode: any;
+    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
+      parent = this.selectedNode;
+      nextNode = parent;
+    } else {
+      parent = this.selectdParentNode;
+      node = this.selectedNode;
+
+      if (parent && parent.children && parent.children.length > 0) {
+        const idx = parent.children.indexOf(node);
+        nextNode = parent.children[idx + 1];
+      }
+    }
+    if(!nextNode){
+      this.toastr.error("Sorry there is no child");
+      return;
+    }
+    this.openConfig(parent,nextNode);
+  }
+  gotoBackConfig(){
+
+    let parent: any;
+    let node: any;
+    let nextNode: any;
+    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
+      parent = this.selectedNode;
+      nextNode = this.selectedNode.children[0];
+    } else {
+      parent = this.selectdParentNode;
+      node = this.selectedNode;
+
+      if (parent && parent.children && parent.children.length > 0) {
+        const idx = parent.children.indexOf(node);
+        nextNode = parent.children[idx - 1];
+
+      }
+    }
+    if(!nextNode){
+       this.toastr.error("Sorry there is no child");
+       return;
+    }
+    this.openConfig(parent,nextNode);
+  }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
     let wrapper: any = 'form-field-horizontal'
@@ -3853,7 +3900,7 @@ export class BuilderComponent implements OnInit {
       })
     } else {
       data.template.forEach((item: any) => {
-        let data = JSON.parse(JSON.stringify(item)); 
+        let data = JSON.parse(JSON.stringify(item));
         this.traverseAndChange(data);
         this.nodes[0].children[1].children.push(data);
       })

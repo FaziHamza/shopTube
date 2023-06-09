@@ -286,11 +286,16 @@
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <button nz-button nzType="default"
+              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone" (click)="closeConfigurationList()"></span>
+              <button nz-button nzType="primary"
+              (click)="gotoBackConfig()">Back</button>
+              <button nz-button nzType="primary"
+              (click)="gotoNextConfig()">Next</button>
+              <!-- <button nz-button nzType="default"
                 (click)="closeConfigurationList()">Cancel</button>
               &nbsp;
               <button nz-button nzType="primary"
-                (click)="closeConfigurationList()">OK</button>
+                (click)="closeConfigurationList()">OK</button> -->
             </ng-template>
 
             <!-- side-nav-right -->
@@ -312,7 +317,7 @@
                               <button nz-button class=" rounded w-auto"
                                 *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                                 (click)="addControlToJson(searchItems.parameter,searchItems)"><i
-                                  class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span> 
+                                  class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
                               </button>
                               <ng-container
                                 *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
