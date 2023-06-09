@@ -32,13 +32,14 @@ export class DynamicTableComponent implements OnInit {
   @Input() screenId: any;
   @Input() dataModel: any;
   storeRows: any = [];
-  storeColumns: any = [];
+  storeColums: any = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
     { key: "Zubair", value: "Zubair" },
     { key: "Husnain", value: "Husnain" },
   ];
+  responsiveTable : boolean = false;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private employeeService: EmployeeService, private toastr: NzMessageService,) {
     // this.getHeader();
@@ -46,18 +47,19 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    // this.storeRows = JSON.parse(JSON.stringify(this.data.tableData));
-    // this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
-    // this.controlMenu();
-    // window.onresize = () => {
-    //   this.controlMenu();
-    // };
+    if (this.tableData.length > 0) {
+      this.storeRows = JSON.parse(JSON.stringify(this.tableData));
+    }
+    if (this.tableHeaders.length > 0) {
+      this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
+    }
     this.gridInitilize();
+    window.onresize = () => {
+      this.controlMenu();
+    };
   }
   onClickRow(api: string, item: any) {
-    debugger
     if (api) {
-
       this.builderService.genericApis(api).subscribe({
         next: (res: any) => {
           this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
@@ -404,6 +406,7 @@ export class DynamicTableComponent implements OnInit {
   stopEdit(): void {
     this.editId = null;
   }
+
   loadTableData() {
     if (this.tableData) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
@@ -575,54 +578,10 @@ export class DynamicTableComponent implements OnInit {
 
   controlMenu() {
     debugger
-
-    // if (this.tableData.length > 0) {
-    //   let newData: any = [];
-    //   this.storeRows = this.tableData;
-    //   this.tableData.forEach((item: any) => {
-    //     let id: any = item['id'];
-    //     for (let key in item) {
-    //       this.tableHeaders.forEach((columnData: any) => {
-    //         if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
-    //           let value = item[key];
-    //           let obj: any = {};
-    //           obj['id'] = id;
-    //           obj[columnData.name] = columnData.name;
-    //           obj[key] = value;
-    //           if (key.toLowerCase() != 'id') {
-    //             newData.push(obj);
-    //           }
-    //         };
-    //       });
-    //     };
-    //   });
-    //   let tablekey: any = [];
-    //   const firstObjectKeys = Object.keys(this.tableData[0]);
-    //   this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-    //   this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-    //   this.tableHeaders.forEach(j => {
-    //     this.data['tableKey'].forEach((rowKey: any) => {
-    //       if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
-    //         let obj = { 'name': j.name };
-    //         tablekey.push(obj);
-    //         let obj1 = { 'name': rowKey.name };
-    //         tablekey.push(obj1);
-    //       }
-    //     });
-    //   });
-    //   this.tableData = JSON.parse(JSON.stringify(newData));
-    //   this.data['tableKey'] = tablekey;
-    //   this.storeColumns = this.tableHeaders;
-    //   this.tableHeaders = [];
-    //   this.data['showColumnHeader'] = false;
-    // }
-
-
-
+    console.log("control menu")
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 789) {
+    if (screenWidth <= 756) {
       this.tableData = this.storeRows;
-      this.tableHeaders = this.storeColumns;
       if (this.tableData.length > 0) {
         let newData: any = [];
         this.storeRows = this.tableData;
@@ -634,7 +593,8 @@ export class DynamicTableComponent implements OnInit {
                 let value = item[key];
                 let obj: any = {};
                 obj['id'] = id;
-                obj[columnData.name] = columnData.name;
+                let columnKey = columnData.name + '_' + 'column';
+                obj[columnKey] = columnData.name;
                 obj[key] = value;
                 if (key.toLowerCase() != 'id') {
                   newData.push(obj);
@@ -650,7 +610,7 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders.forEach(j => {
           this.data['tableKey'].forEach((rowKey: any) => {
             if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
-              let obj = { 'name': j.name };
+              let obj = { 'name': j.name + '_' + 'column' };
               tablekey.push(obj);
               let obj1 = { 'name': rowKey.name };
               tablekey.push(obj1);
@@ -659,17 +619,23 @@ export class DynamicTableComponent implements OnInit {
         });
         this.tableData = JSON.parse(JSON.stringify(newData));
         this.data['tableKey'] = tablekey;
-        this.storeColumns = JSON.parse(JSON.stringify(this.tableHeaders));
-        this.tableHeaders = [];
         this.data['showColumnHeader'] = false;
+        // this.gridInitilize();
+        this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders)); 
+        this.tableHeaders.forEach(headElement => {
+          if (headElement['dataType'] == 'select') {
+            headElement['dataType'] = 'input';
+          }
+        });
+        this.responsiveTable = true;
       }
     }
     else {
+      this.tableHeaders = this.storeColums;
+      this.data['showColumnHeader'] = true;
       this.tableData = this.storeRows;
-      const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-      // this.tableHeaders = this.storeColumns;
+      this.loadTableData();
+      this.responsiveTable = false;
     }
   }
 }

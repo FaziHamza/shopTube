@@ -2573,7 +2573,6 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['iconSize'] = event.form?.iconSize;
             props['additionalProperties']['iconType'] = event.form?.iconType;
             props['additionalProperties']['iconColor'] = event.form?.iconColor;
-            props['additionalProperties']['borderRadius'] = event.form?.borderRadius;
             props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
             props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
             props['additionalProperties']['toolTipClass'] = event.form?.toolTipClass;

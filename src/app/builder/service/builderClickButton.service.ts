@@ -109,7 +109,6 @@ export class BuilderClickButtonService {
       iconSize: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconSize'],
       iconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.['iconColor'],
       border: node.formly[0].fieldGroup[0].props['additionalProperties']?.border,
-      borderRadius: node.formly[0].fieldGroup[0].props['additionalProperties']?.borderRadius,
       hoverIconColor: node.formly[0].fieldGroup[0].props['additionalProperties']?.hoverIconColor,
       toolTipClass: node.formly[0].fieldGroup[0].props['additionalProperties']?.toolTipClass,
       tooltipPosition: node.formly[0].fieldGroup[0].props['additionalProperties']?.tooltipPosition,

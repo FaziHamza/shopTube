@@ -122,6 +122,9 @@
     </ng-template>
     <ng-template #sixteen>
         <div *ngIf="item.type =='gridList';else seventeen">
+            <!-- {{item.tableData | json}}
+            <p>Header</p>
+            {{item.tableHeaders | json}} -->
             <dynamic-table [tableId]='item.tableId' [checkType]="false"
                 [tableData]='item.tableData'
                 [tableHeaders]='item.tableHeaders' [dataModel]="dataModel"

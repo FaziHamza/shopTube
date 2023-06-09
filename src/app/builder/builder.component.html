@@ -213,7 +213,7 @@
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'"
               [nzVisible]="IsShowConfig" nzPlacement="right"
               [nzTitle]="'Control List'" [nzExtra]="config"
-               [nzClosable]="false">
+              (nzOnClose)="closeConfigurationList()" >
               <ng-container *nzDrawerContent>
                 <div id="mySidenav-right" class="sidenav-right">
                   <div class="mySidenav-right">
@@ -286,12 +286,11 @@
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone" (click)="closeConfigurationList()"></span>
-              <!-- <button nz-button nzType="default"
+              <button nz-button nzType="default"
                 (click)="closeConfigurationList()">Cancel</button>
               &nbsp;
               <button nz-button nzType="primary"
-                (click)="closeConfigurationList()">OK</button> -->
+                (click)="closeConfigurationList()">OK</button>
             </ng-template>
 
             <!-- side-nav-right -->
