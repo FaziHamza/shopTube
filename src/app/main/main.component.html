@@ -2,8 +2,7 @@
     <div class="card-content  flex flex-wrap">
         <div class="{{!item.hideExpression   ? item.className : ''}}"
             *ngFor="let item of mainData ; index as i; last as isLast">
-            <div [ngClass]="{'highLight': item.highLight == true}"
-                *ngIf="!item.hideExpression">
+            <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
                 <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                     <context-menu #oneContextMenu>
                         <ng-template contextMenuItem (execute)="copyJson(item)"
@@ -20,14 +19,12 @@
                             nzTheme="outline"></span>
                     </span> -->
 
-                    <st-mains [item]="item" [dataModel]="dataModel"
-                        (notify)="saveData($event)" [screenName]="screenName"
-                        [screenId]="screenId"
+                    <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"
+                        [screenName]="screenName" [screenId]="screenId" (notifyDbClick)="updateModel($event)"
                         [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
                 </span>
-                <st-mains [item]="item" [isLast]='isLast'
-                    (notify)="saveData($event)" [form]="form"
-                    [screenName]="screenName" [screenId]="screenId"
+                <st-mains [item]="item" [isLast]='isLast' (notify)="saveData($event)"
+                    (notifyDbClick)="updateModel($event)" [form]="form" [screenName]="screenName" [screenId]="screenId"
                     *ngIf="item && !isShowContextMenu"></st-mains>
             </div>
         </div>
