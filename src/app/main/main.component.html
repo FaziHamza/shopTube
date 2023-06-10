@@ -10,23 +10,14 @@
                         <ng-template contextMenuItem (execute)="comment(item)"
                             [visible]="isShowContextMenu">Comment</ng-template>
                     </context-menu>
-                    <st-mains [item]="item" [dataModel]="dataModel"
-                        (notify)="saveData($event)"
-                        [screenName]="screenName" [screenId]="screenId"
-                        [isLast]='isLast' [form]="form"
-                        *ngIf="item"></st-mains>
-                </span>
-                <span class="tooltip-icon"
-                    *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
-                    <span
-                        *ngIf="item.type != 'progressBar' && item.type != 'alert'
-                        && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
-                        && !item?.tooltipWithoutIcon || false" nz-tooltip
+                    <!-- <span
+                        *ngIf="!item?.tooltipWithoutIcon && (item?.tooltipPosition == 'top' || item?.tooltipPosition == undefined)"
+                        nz-tooltip
                         [nzTooltipTitle]="item.tooltip">
                         <span nz-icon nzType="question-circle"
-                            [style.color]="item['toolTipColor']"
+                            [class]="item['toolTipClass']"
                             nzTheme="outline"></span>
-                    </span>
+                    </span> -->
 
                     <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"
                         [screenName]="screenName" [screenId]="screenId" (notifyDbClick)="updateModel($event)"
