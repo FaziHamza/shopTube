@@ -10,22 +10,25 @@
                         <ng-template contextMenuItem (execute)="comment(item)"
                             [visible]="isShowContextMenu">Comment</ng-template>
                     </context-menu>
-                    <!-- <span
-                        *ngIf="!item?.tooltipWithoutIcon && (item?.tooltipPosition == 'top' || item?.tooltipPosition == undefined)"
-                        nz-tooltip
-                        [nzTooltipTitle]="item.tooltip">
-                        <span nz-icon nzType="question-circle"
-                            [class]="item['toolTipClass']"
-                            nzTheme="outline"></span>
-                    </span> -->
-
                     <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"
-                        [screenName]="screenName" [screenId]="screenId" (notifyDbClick)="updateModel($event)"
-                        [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
+                        [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
+                        *ngIf="item"></st-mains>
                 </span>
-                <st-mains [item]="item" [isLast]='isLast' (notify)="saveData($event)"
-                    (notifyDbClick)="updateModel($event)" [form]="form" [screenName]="screenName" [screenId]="screenId"
-                    *ngIf="item && !isShowContextMenu"></st-mains>
+                <span class="tooltip-icon"
+                    *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
+                    <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
+                        && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
+                        && !item?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="item.tooltip">
+                        <span nz-icon nzType="question-circle" [style.color]="item['toolTipColor']"
+                            nzTheme="outline"></span>
+                    </span>
+                </span>
+                <div>
+
+                    <st-mains [item]="item" [isLast]="isLast" (notify)="saveData($event)" [form]="form"
+                        [screenName]="screenName" [screenId]="screenId" *ngIf="item && !isShowContextMenu"></st-mains>
+
+                </div>
             </div>
         </div>
     </div>

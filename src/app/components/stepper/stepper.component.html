@@ -1,4 +1,4 @@
-<nz-steps [nzCurrent]="current" [nzStatus]="step.status" [nzCurrent]="current" [nzType]='step.stepperType' [nzDirection]="step.direction"
+<nz-steps [class]="step.styleType || 'steper1'" [nzCurrent]="current" [nzStatus]="step.status" [nzCurrent]="current" [nzType]='step.stepperType' [nzDirection]="step.direction"
     [nzLabelPlacement]="step.placement" [nzSize]="step.size" [nzStartIndex]="step.selectedIndex"
     (nzIndexChange)="handleIndexChange($event)">
     <ng-container *ngFor="let item of step.children">

@@ -1,13 +1,12 @@
-<div
-    [class]="!headingData?.tooltipWithoutIcon &&  headingData.tooltip && headingData?.tooltipPosition != 'top'? 'flex' : ''">
-    <span
+<div>
+    <!-- <span
         *ngIf="!headingData?.tooltipWithoutIcon && headingData?.tooltipPosition == 'left'"
         nz-tooltip
         [nzTooltipTitle]="headingData.tooltip | translate">
         <span nz-icon nzType="question-circle"
             [class]="headingData['toolTipClass']"
             nzTheme="outline"></span>
-    </span>
+    </span> -->
     <span>
         <div [class]="headingData.link ? ' cursor-pointer' : ''">
             <div [class]="headingData.textAlign "
@@ -23,7 +22,8 @@
                     <h2 nz-typography *ngIf="headingData.heading === 2"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight"
                         [style.color]="headingData.color"
-                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">{{headingData.text | translate}}</h2>
+                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">{{headingData.text
+                        | translate}}</h2>
                     <h3 nz-typography *ngIf="headingData.heading === 3"
                         [class]="headingData.fontstyle"
                         [style.color]="headingData.color"
@@ -44,16 +44,17 @@
             <ng-template #paragraph>
                 <p nz-typography (click)="pageRoute(headingData.link)"
                     [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
-                    [style.color]="headingData.color">{{headingData.text | translate}}</p>
+                    [style.color]="headingData.color">{{headingData.text |
+                    translate}}</p>
             </ng-template>
         </div>
     </span>
-    <span
+    <!-- <span
         *ngIf="!headingData?.tooltipWithoutIcon && headingData?.tooltipPosition == 'right'"
         nz-tooltip
         [nzTooltipTitle]="headingData.tooltip | translate">
         <span nz-icon nzType="question-circle"
             [class]="headingData['toolTipClass']"
             nzTheme="outline"></span>
-    </span>
+    </span> -->
 </div>

@@ -96,7 +96,7 @@ export class BuilderComponent implements OnInit {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
-    this.clearChildNode();
+    // this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
 
     //   this.nodes = res[0].menuData;
@@ -239,6 +239,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
+    
     if (this.screenPage) {
       this.saveLoader = true;
       if (this.selectedNode) {
@@ -304,10 +305,10 @@ export class BuilderComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
         }
-
       })
+    } else {
+      alert("Please Select Screen");
     }
-
   }
   expandedKeys: any;
   previousScreenName: string = '';
@@ -439,6 +440,8 @@ export class BuilderComponent implements OnInit {
       this.isSavedDb = true;
       this.showNotification = true;
       this.toastr.success('Control Added', { nzDuration: 3000 });
+    }else {
+      alert("Please Select Screen")
     }
   }
   textJsonObj = {
@@ -1386,7 +1389,7 @@ export class BuilderComponent implements OnInit {
                       // disabled: this.getLastNodeWrapper("disabled"),
                       readonly: false,
                       hidden: false,
-                      options: this.makeFormlyOptions(data?.options),
+                      options: this.makeFormlyOptions(data?.options, data.type),
                       keyup: (model: any) => {
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
@@ -1405,22 +1408,33 @@ export class BuilderComponent implements OnInit {
     this.addNode(node, newNode);
     this.updateNodes();
   }
-  makeFormlyOptions(option: any) {
+  makeFormlyOptions(option: any, type: any) {
+    debugger
     if (option) {
-      let data = [
-        {
-          label: "option1",
-          value: "1"
-        },
-        {
-          label: "option2",
-          value: "2"
-        },
-        {
-          label: "option3",
-          value: "3"
-        }
-      ];
+      let data = []
+      if (type == 'checkbox') {
+        data = [
+          {
+            label: "option1",
+            value: "1"
+          },
+        ]
+      } else {
+        data = [
+          {
+            label: "option1",
+            value: "1"
+          },
+          {
+            label: "option2",
+            value: "2"
+          },
+          {
+            label: "option3",
+            value: "3"
+          }
+        ];
+      }
       return data;
     } else
       return [];
@@ -3446,44 +3460,48 @@ export class BuilderComponent implements OnInit {
   jsonUpload(event: any) {
     let contents: any;
     event;
-    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        contents = reader.result as string;
-        var makeData = JSON.parse(contents);
-        var currentData = JSON.parse(
-          JSON.stringify(makeData.menuData, function (key, value) {
-            if (typeof value == 'function') {
-              return value.toString();
-            } else {
-              return value;
-            }
-          }) || '{}');
+    if (this.screenName) {
+      if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          contents = reader.result as string;
+          var makeData = JSON.parse(contents);
+          var currentData = JSON.parse(
+            JSON.stringify(makeData.menuData, function (key, value) {
+              if (typeof value == 'function') {
+                return value.toString();
+              } else {
+                return value;
+              }
+            }) || '{}');
 
-        var data =
-        {
-          "moduleName": makeData.moduleName,
-          "menuData": currentData,
-          "moduleId": makeData.moduleId,
+          var data =
+          {
+            "moduleName": makeData.moduleName,
+            "menuData": currentData,
+            "moduleId": makeData.moduleId,
+          };
+          this.moduleId = makeData.moduleId;
+          this.nodes = makeData.menuData;
+          // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
+          //   if (res.length > 0) {
+          //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
+          //       this.employeeService.jsonSaveBuilder(data).subscribe((res => {
+          //         alert("Data Save");
+          //       }))
+          //     }))
+          //   }
+          //   else {
+          //     this.employeeService.jsonSaveBuilder(data).subscribe((res => {
+          //       alert("Data Save");
+          //     }))
+          //   }
+          // }))
         };
-        this.moduleId = makeData.moduleId;
-        this.nodes = makeData.menuData;
-        // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
-        //   if (res.length > 0) {
-        //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
-        //       this.employeeService.jsonSaveBuilder(data).subscribe((res => {
-        //         alert("Data Save");
-        //       }))
-        //     }))
-        //   }
-        //   else {
-        //     this.employeeService.jsonSaveBuilder(data).subscribe((res => {
-        //       alert("Data Save");
-        //     }))
-        //   }
-        // }))
-      };
-      reader.readAsText(event.target.files[0]);
+        reader.readAsText(event.target.files[0]);
+      }
+    } else {
+      alert("Please Select Screen");
     }
   }
   ngOnDestroy() {

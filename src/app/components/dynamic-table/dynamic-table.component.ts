@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -34,27 +34,29 @@ export class DynamicTableComponent implements OnInit {
   @Input() dataModel: any;
   storeRows: any = [];
   storeColums: any = [];
+  responsiveTable: boolean = false;
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
     { key: "Zubair", value: "Zubair" },
     { key: "Husnain", value: "Husnain" },
   ];
-  responsiveTable : boolean = false;
+  editingEntry: any = null;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
-    private employeeService: EmployeeService, private toastr: NzMessageService,) {
+    private employeeService: EmployeeService, private toastr: NzMessageService,private cdr: ChangeDetectorRef) {
     // this.getHeader();
   }
 
   ngOnInit(): void {
     debugger
-    if (this.tableData.length > 0) {
-      this.storeRows = JSON.parse(JSON.stringify(this.tableData));
-    }
-    if (this.tableHeaders.length > 0) {
-      this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
-    }
-    this.gridInitilize();
+    // if (this.tableData.length > 0) {
+    //   this.storeRows = JSON.parse(JSON.stringify(this.tableData));
+    // }
+    // if (this.tableHeaders.length > 0) {
+    //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
+    // }
+    // this.gridInitilize();
+    this.loadTableData();
     window.onresize = () => {
       this.controlMenu();
     };
@@ -579,68 +581,84 @@ export class DynamicTableComponent implements OnInit {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }
+  isEditing(entry: any): boolean {
+    return this.editingEntry === entry;
+  }
 
+  // Method to start editing an entry
+  editValue(entry: any): void {
+    this.editingEntry = entry;
+  }
+
+  // Method to save the updated value of an entry
 
   controlMenu() {
     debugger
-    console.log("control menu")
+   
     const screenWidth = window.innerWidth;
     if (screenWidth <= 756) {
-      this.tableData = this.storeRows;
-      if (this.tableData.length > 0) {
-        let newData: any = [];
-        this.storeRows = this.tableData;
-        this.tableData.forEach((item: any) => {
-          let id: any = item['id'];
-          for (let key in item) {
-            this.tableHeaders.forEach((columnData: any) => {
-              if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
-                let value = item[key];
-                let obj: any = {};
-                obj['id'] = id;
-                let columnKey = columnData.name + '_' + 'column';
-                obj[columnKey] = columnData.name;
-                obj[key] = value;
-                if (key.toLowerCase() != 'id') {
-                  newData.push(obj);
-                }
-              };
-            });
-          };
-        });
-        let tablekey: any = [];
-        const firstObjectKeys = Object.keys(this.tableData[0]);
-        this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-        this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-        this.tableHeaders.forEach(j => {
-          this.data['tableKey'].forEach((rowKey: any) => {
-            if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
-              let obj = { 'name': j.name + '_' + 'column' };
-              tablekey.push(obj);
-              let obj1 = { 'name': rowKey.name };
-              tablekey.push(obj1);
-            }
-          });
-        });
-        this.tableData = JSON.parse(JSON.stringify(newData));
-        this.data['tableKey'] = tablekey;
-        this.data['showColumnHeader'] = false;
-        // this.gridInitilize();
-        this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders)); 
-        this.tableHeaders.forEach(headElement => {
-          if (headElement['dataType'] == 'select') {
-            headElement['dataType'] = 'input';
-          }
-        });
-        this.responsiveTable = true;
-      }
+      // this.tableData = this.storeRows;
+      // if (this.tableData.length > 0) {
+      //   let newData: any = [];
+      //   this.storeRows = this.tableData;
+      //   this.tableData.forEach((item: any) => {
+      //     let id: any = item['id'];
+      //     for (let key in item) {
+      //       this.tableHeaders.forEach((columnData: any) => {
+      //         if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
+      //           let value = item[key];
+      //           let obj: any = {};
+      //           obj['id'] = id;
+      //           let columnKey = columnData.name + '_' + 'column';
+      //           obj[columnKey] = columnData.name;
+      //           obj[key] = value;
+      //           if (key.toLowerCase() != 'id') {
+      //             newData.push(obj);
+      //           }
+      //         };
+      //       });
+      //     };
+      //   });
+      //   let tablekey: any = [];
+      //   const firstObjectKeys = Object.keys(this.tableData[0]);
+      //   this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      //   this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      //   this.tableHeaders.forEach(j => {
+      //     this.data['tableKey'].forEach((rowKey: any) => {
+      //       if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
+      //         let obj = { 'name': j.name + '_' + 'column' };
+      //         tablekey.push(obj);
+      //         let obj1 = { 'name': rowKey.name };
+      //         tablekey.push(obj1);
+      //       }
+      //     });
+      //   });
+      //   this.tableData = JSON.parse(JSON.stringify(newData));
+      //   this.data['tableKey'] = tablekey;
+      //   this.data['showColumnHeader'] = false;
+      //   // this.gridInitilize();
+      //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders)); 
+      //   this.tableHeaders.forEach(headElement => {
+      //     if (headElement['dataType'] == 'select') {
+      //       headElement['dataType'] = 'input';
+      //     }
+      //   });
+      // }
+      this.data['showColumnHeader'] = false;
+      this.responsiveTable = true;
+      // console.log(screenWidth);
+      // console.log(this.responsiveTable);
+      this.cdr.detectChanges(); 
     }
     else {
-      this.tableHeaders = this.storeColums;
+      // this.tableHeaders = this.storeColums;
+      // this.tableData = this.storeRows;
+      // this.loadTableData();
       this.data['showColumnHeader'] = true;
-      this.tableData = this.storeRows;
-      this.loadTableData();
       this.responsiveTable = false;
     }
+  }
+  getObjectKeys(obj: object): string[] {
+    return Object.keys(obj);
   }
 }
