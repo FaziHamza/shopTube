@@ -8,6 +8,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import {
 
 } from 'ngx-monaco-editor';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class ActionRuleComponent implements OnInit {
   requestSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
+    private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
@@ -246,7 +248,7 @@ export class ActionRuleComponent implements OnInit {
       }
       if (data != null) {
         if (mainModuleId[0].screenId != null) {
-          this.builderService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
+          this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
             next: (res) => {
               this.toastr.success("Save Successfully", { nzDuration: 3000 });
 
@@ -329,35 +331,70 @@ export class ActionRuleComponent implements OnInit {
   }
 
   getActionData() {
+    debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
-      next: (getRes) => {
-        if (getRes.length > 0)
-          this.actionForm = this.formBuilder.group({
-            actionType: [getRes[0]?.queryData[0]?.type],
-            actionLink: [getRes[0].actionLink],
-            submissionType: [getRes[0].actionType],
-            Actions: this.formBuilder.array(getRes[0].queryData.map((getQueryActionRes: any) =>
-              this.formBuilder.group({
-                submit: [getQueryActionRes.submit],
-                type: [getQueryActionRes.type],
-                sqlType: [getQueryActionRes.sqlType],
-                actionType: [getQueryActionRes.actionType],
-                actionLink: [getQueryActionRes.actionLink],
-                submissionType: [getQueryActionRes.submissionType],
-                email: [getQueryActionRes.email],
-                confirmEmail: [getQueryActionRes.confirmEmail],
-                referenceId: [getQueryActionRes.referenceId],
-                query: [getQueryActionRes.query]
+    if (mainModuleId[0].screenId != null) {
+      this.requestSubscription = this.employeeService.getSQLDatabaseTable('knex-crud/SQLQueries').subscribe({
+        next: (res) => {
+          if (res.length > 0) {
+            const getRes = res.filter((x: any) => x.moduleId == mainModuleId[0].screenId)
+            if (getRes.length > 0) {
+              this.actionForm = this.formBuilder.group({
+                actionType: [getRes[0].actionType],
+                actionLink: [getRes[0].actionLink],
+                submissionType: [getRes[0].btnActionType],
+                Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
+                  this.formBuilder.group({
+                    submit: [getQueryActionRes.submit],
+                    type: [getQueryActionRes.type],
+                    sqlType: [getQueryActionRes.sqlType],
+                    actionType: [getQueryActionRes.actionType],
+                    actionLink: [getQueryActionRes.actionLink],
+                    submissionType: [getQueryActionRes.btnActionType],
+                    email: [getQueryActionRes.email],
+                    confirmEmail: [getQueryActionRes.confirmEmail],
+                    referenceId: [getQueryActionRes.referenceId],
+                    query: [getQueryActionRes.quries]
+                  })
+                )),
               })
-            )),
-          })
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+            }
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+    // this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
+    //   next: (getRes) => {
+    //     if (getRes.length > 0)
+    //       this.actionForm = this.formBuilder.group({
+    //         actionType: [getRes[0]?.queryData[0]?.type],
+    //         actionLink: [getRes[0].actionLink],
+    //         submissionType: [getRes[0].actionType],
+    //         Actions: this.formBuilder.array(getRes[0].queryData.map((getQueryActionRes: any) =>
+    //           this.formBuilder.group({
+    //             submit: [getQueryActionRes.submit],
+    //             type: [getQueryActionRes.type],
+    //             sqlType: [getQueryActionRes.sqlType],
+    //             actionType: [getQueryActionRes.actionType],
+    //             actionLink: [getQueryActionRes.actionLink],
+    //             submissionType: [getQueryActionRes.submissionType],
+    //             email: [getQueryActionRes.email],
+    //             confirmEmail: [getQueryActionRes.confirmEmail],
+    //             referenceId: [getQueryActionRes.referenceId],
+    //             query: [getQueryActionRes.query]
+    //           })
+    //         )),
+    //       })
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
 
   changePostgress(queryType: string, index: number) {
