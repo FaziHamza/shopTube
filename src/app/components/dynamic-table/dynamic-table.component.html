@@ -7,6 +7,7 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
+<!-- {{responsiveTable | json}} -->
 <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
@@ -26,7 +27,7 @@
   <thead>
     <tr
       *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-      <th *ngIf="data.showCheckbox" nzWidth="60px" [(nzChecked)]="allChecked"
+      <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
         [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="checkAll($event)"></th>
       <ng-container *ngFor="let header of tableHeaders">
@@ -109,15 +110,44 @@
           </td>
         </tr>
         <ng-container *ngIf="responsiveTable">
-          <tr  *ngFor="let entry of item | keyvalue">
-            <td class="font-bold">{{entry.key}}</td>
-            <td>{{entry.value}}</td>
+          <tr *ngFor="let entryKey of getObjectKeys(item)">
+            <ng-container
+              *ngFor="let header of data['tableKey']; let index = index">
+              <ng-container *ngIf="header.name == entryKey">
+                <td class="font-bold">{{ entryKey }}</td>
+                <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
+                <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'" [(nzChecked)]="item.checked"
+                  (nzCheckedChange)="refreshStatus()"></td>
+                  <td *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]" (click)="editValue(entryKey)">
+                    <ng-container *ngIf="editingEntry == entryKey">
+                      <input nz-input type="text" [(ngModel)]="item[entryKey]">
+                    </ng-container>
+                    <ng-container *ngIf="editingEntry != entryKey">
+                      {{ item[entryKey] }}
+                    </ng-container>
+                  </td>
+                <td
+                  *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
+                  <nz-select nzAllowClear nzShowSearch style="width: 100px"
+                    nzPlaceHolder="Select Value"
+                    [(ngModel)]="item.defaultValue"
+                    (ngModelChange)="select(i, $event)">
+                    <nz-option *ngFor="let option of item[header.name]"
+                      [nzLabel]="option.type ? option.type : option.key"
+                      [nzValue]="option.value ? option.value : option">
+                    </nz-option>
+                  </nz-select>
+                </td>
+              </ng-container>
+            </ng-container>
           </tr>
-          <tr colspan="1">
+          <tr>
             <td class="font-bold">Action</td>
-            <td >
-              <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
-                <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+            <td>
+              <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                (nzOnConfirm)="deleteRow(item)">
+                <span class="text-red-500" nz-icon nzType="delete"
+                  nzTheme="outline"></span>
               </a>
             </td>
           </tr>
@@ -131,7 +161,6 @@
         </td>
       </tr> -->
 
-        <!-- <ng-container *ngIf="item.children?.length > 0 && data.expandable" >
         <!-- <ng-container *ngIf="item.children?.length > 0 && data.expandable" >
     <tr *ngFor="let child of item.children" [nzExpand]="item.expand">
       <td colspan="8">

@@ -1381,7 +1381,7 @@ export class BuilderComponent implements OnInit {
                       // disabled: this.getLastNodeWrapper("disabled"),
                       readonly: false,
                       hidden: false,
-                      options: this.makeFormlyOptions(data?.options),
+                      options: this.makeFormlyOptions(data?.options, data.type),
                       keyup: (model: any) => {
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
@@ -1400,22 +1400,33 @@ export class BuilderComponent implements OnInit {
     this.addNode(node, newNode);
     this.updateNodes();
   }
-  makeFormlyOptions(option: any) {
+  makeFormlyOptions(option: any, type: any) {
+    debugger
     if (option) {
-      let data = [
-        {
-          label: "option1",
-          value: "1"
-        },
-        {
-          label: "option2",
-          value: "2"
-        },
-        {
-          label: "option3",
-          value: "3"
-        }
-      ];
+      let data = []
+      if (type == 'checkbox') {
+        data = [
+          {
+            label: "option1",
+            value: "1"
+          },
+        ]
+      } else {
+        data = [
+          {
+            label: "option1",
+            value: "1"
+          },
+          {
+            label: "option2",
+            value: "2"
+          },
+          {
+            label: "option3",
+            value: "3"
+          }
+        ];
+      }
       return data;
     } else
       return [];
@@ -1429,7 +1440,7 @@ export class BuilderComponent implements OnInit {
     }
     this.makeFaker();
   }
-  gotoNextConfig(){
+  gotoNextConfig() {
 
     let parent: any;
     let node: any;
@@ -1446,13 +1457,13 @@ export class BuilderComponent implements OnInit {
         nextNode = parent.children[idx + 1];
       }
     }
-    if(!nextNode){
+    if (!nextNode) {
       this.toastr.error("Sorry there is no child");
       return;
     }
-    this.openConfig(parent,nextNode);
+    this.openConfig(parent, nextNode);
   }
-  gotoBackConfig(){
+  gotoBackConfig() {
 
     let parent: any;
     let node: any;
@@ -1470,11 +1481,11 @@ export class BuilderComponent implements OnInit {
 
       }
     }
-    if(!nextNode){
-       this.toastr.error("Sorry there is no child");
-       return;
+    if (!nextNode) {
+      this.toastr.error("Sorry there is no child");
+      return;
     }
-    this.openConfig(parent,nextNode);
+    this.openConfig(parent, nextNode);
   }
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
