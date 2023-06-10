@@ -43,6 +43,29 @@ export class DemoComponent implements OnInit {
   //   { label: 'Copy', action: () => { console.log('Copy clicked'); } },
   //   { label: 'Paste', action: () => { console.log('Paste clicked'); } }
   // ];
+
+  myData= [
+    {
+      "id": 1,
+      "Name": "John Brown",
+      "MyAge": 32,
+    },
+    {
+      "id": 2,
+      "Name": "Jim Green",
+      "MyAge": 42,
+    },
+    {
+      "id": 3,
+      "Name": "Joe Black",
+      "MyAge": 32,
+    },
+    {
+      "id": 4,
+      "Name": "Jim Red",
+      "MyAge": 32,
+    }
+  ]
   constructor(private http: HttpClient,
     public viewContainerRef: ViewContainerRef,) { }
   ngOnInit(): void {

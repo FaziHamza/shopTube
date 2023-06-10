@@ -37,10 +37,16 @@ nz-badge {
 
 // .tooltip-icon {
 //     margin: 2px;
+//     position: absolute;
+//     // left: 0;
+//     top: 5px;
+//     z-index: 99;
+//     right: -10px;
     
 // }
 
 // .component-wrapper {
-//     flex: 1;
+//     // flex: 1;
 //     /* Allow the component to occupy remaining space */
+//     position: relative;
 // }

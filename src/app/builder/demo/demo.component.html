@@ -7,11 +7,27 @@
   <tbody>
     <tr *ngFor="let item of data">
       <td *ngIf="item.Name">{{ item.Name }}</td>
-      <td *ngIf="item.Age">{{ item.Age }}</td>
-      <td *ngIf="item.name">{{ item.City }}</td>
       <td *ngIf="item.name">{{ item.name }}</td>
+      <td *ngIf="item.Age">{{ item.Age }}</td>
       <td *ngIf="item.age">{{ item.age }}</td>
+      <td *ngIf="item.City">{{ item.City }}</td>
       <td *ngIf="item.city">{{ item.city }}</td>
     </tr>
   </tbody>
 </nz-table>
+
+
+
+<div *ngFor="let item of myData; let i = index">
+  <table class="data-table">
+    <tr *ngFor="let entry of item | keyvalue">
+      <th>{{ entry.key }}</th>
+      <td>{{ entry.value }}</td>
+    </tr>
+    <tr>
+      <th>Action</th>
+      <td><button style="background-color: red ;color: white;" type="button" class="btn btn-info" >Delete</button></td>
+    </tr>
+  </table>
+  <hr>
+</div>
