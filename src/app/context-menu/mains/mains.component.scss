@@ -15,5 +15,11 @@
   /* Adjust the object-fit if needed */
 }
 
+.component-wrapper2 {
+  display: flex;
+  align-items: center;
 
-
+  .w-100 {
+    width: 100%;
+  }
+}
