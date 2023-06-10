@@ -1,6 +1,6 @@
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
-import { Component,OnInit, inject,Input} from '@angular/core';
+import { Component, OnInit, inject, Input } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -43,6 +43,37 @@ export class AddControlCommonPropertiesComponent implements OnInit {
         },
       ],
     },
+    {
+      fieldGroup: [
+        {
+          key: 'isSubmit',
+          type: 'checkbox',
+          default: false,
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Submit',
+          },
+          expressionProperties: {
+            hide: "model.type!='insertButton'",
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'type',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          hideExpression: true,
+          props: {
+            label: 'type',
+            placeholder: 'type',
+          }
+        },
+      ],
+    }
   ];
   constructor() { }
 
@@ -51,7 +82,7 @@ export class AddControlCommonPropertiesComponent implements OnInit {
   readonly #modal = inject(NzModalRef);
 
   saveCommon(): void {
-    
-    this.#modal.destroy(this.model );
+
+    this.#modal.destroy(this.model);
   }
 }
