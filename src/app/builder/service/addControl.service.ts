@@ -567,7 +567,7 @@ export class AddControlService {
       size: 'default',
       status: 'none',
       hoverIconColor: '',
-
+      styleType : 'steper 1',
       disabled: false,
       border: true,
       nodes: "3",

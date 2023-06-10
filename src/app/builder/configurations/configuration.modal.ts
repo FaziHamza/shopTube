@@ -4065,6 +4065,39 @@ export class formFeildData {
           }
         },
         {
+          key: 'styleType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Style Type',
+            options: [
+              {
+                label: 'steper 1',
+                value: 'steper1'
+              },
+              {
+                label: 'steper 2',
+                value: 'steper2'
+              },
+              {
+                label: 'steper 3',
+                value: 'steper3'
+              },
+              {
+                label: 'steper 4',
+                value: 'steper4'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
           key: 'stepperType',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

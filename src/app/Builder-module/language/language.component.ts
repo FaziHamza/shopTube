@@ -356,22 +356,15 @@ export class LanguageComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.loading = true;
+      // this.loading = true;
       if (this.isSubmit) {
         // this.saveTranslation('abc', 'Abc')
         var currentData = JSON.parse(JSON.stringify(this.model) || '{}');
         this.builderService.languageUpdate('saveTranslation', currentData).subscribe((res => {
-          // this.builderService.saveTranslation('abc', 'ABC')
-          //   .then(() => {
-          //     console.log('Translation saved successfully');
-          //   })
-          //   .catch((error) => {
-          //     console.error('Error saving translation:', error);
-          //   });
+            this.saveDataInSql(currentData);
           this.toastr.success('Your data has been Saved.', { nzDuration: 2000 });
-
           this.getLangauge();
-          this.loading = false;
+          // this.loading = false;
         }))
       }
       else {
@@ -397,6 +390,7 @@ export class LanguageComponent implements OnInit {
     item['edit'] = true
     this.isSubmit = false;
     this.submit();
+    this.saveDataInSql(item);
   }
   cancelEdit(item: any) {
     item['edit'] = false
@@ -458,129 +452,12 @@ export class LanguageComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'select_Type',
-            type: 'select',
+            key: 'name',
+            type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Type',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [
-                {
-                  label: 'Screen',
-                  value: 'screen'
-                },
-                {
-                  label: 'Menu',
-                  value: 'menu'
-                },
-              ]
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'organization',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Organization',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: options
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'department',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Department',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: applicationOptions
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'application',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Application',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [],
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'screens',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Screens',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [],
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'fieldKey',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Field Key',
-              additionalProperties: {
-                allowClear: true,
-                serveSearch: true,
-                showArrow: true,
-                showSearch: true,
-              },
-              options: [],
-              required: true,
+              label: 'Name',
             }
           }
         ]
@@ -588,74 +465,204 @@ export class LanguageComponent implements OnInit {
       // {
       //   fieldGroup: [
       //     {
+      //       key: 'select_Type',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Type',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [
+      //           {
+      //             label: 'Screen',
+      //             value: 'screen'
+      //           },
+      //           {
+      //             label: 'Menu',
+      //             value: 'menu'
+      //           },
+      //         ]
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'organization',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Organization',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: options
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'department',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Department',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: applicationOptions
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'application',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Application',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [],
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'screens',
+      //       type: 'select',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Screens',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [],
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
       //       key: 'fieldKey',
-      //       type: 'input',
+      //       type: 'select',
       //       wrappers: ["formly-vertical-theme-wrapper"],
       //       defaultValue: '',
       //       props: {
       //         label: 'Field Key',
-      //         placeholder: 'Key...',
+      //         additionalProperties: {
+      //           allowClear: true,
+      //           serveSearch: true,
+      //           showArrow: true,
+      //           showSearch: true,
+      //         },
+      //         options: [],
       //         required: true,
+      //       }
+      //     }
+      //   ]
+      // },
+      // // {
+      // //   fieldGroup: [
+      // //     {
+      // //       key: 'fieldKey',
+      // //       type: 'input',
+      // //       wrappers: ["formly-vertical-theme-wrapper"],
+      // //       defaultValue: '',
+      // //       props: {
+      // //         label: 'Field Key',
+      // //         placeholder: 'Key...',
+      // //         required: true,
+      // //       }
+      // //     },
+      // //   ],
+      // // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'english',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'English',
+      //         placeholder: 'English...',
       //       }
       //     },
       //   ],
       // },
-      {
-        fieldGroup: [
-          {
-            key: 'english',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'English',
-              placeholder: 'English...',
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'arabic',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Arabic',
-              placeholder: 'Arabic...',
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'chinese',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Chinese',
-              placeholder: 'Chinese...',
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'russian',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Russian',
-              placeholder: 'Russian...',
-            }
-          },
-        ],
-      },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'arabic',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Arabic',
+      //         placeholder: 'Arabic...',
+      //       }
+      //     },
+      //   ],
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'chinese',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Chinese',
+      //         placeholder: 'Chinese...',
+      //       }
+      //     },
+      //   ],
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'russian',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         label: 'Russian',
+      //         placeholder: 'Russian...',
+      //       }
+      //     },
+      //   ],
+      // },
     ];
   };
   // screenFieldsLoad() {
@@ -849,15 +856,17 @@ export class LanguageComponent implements OnInit {
       let optionArray = [];
       if (this.select_Type_ScreenField == 'screen') {
         optionArray = this.screens.filter((item: any) => item.moduleName == event);
+        debugger
         if (optionArray.length > 0) {
           optionArray = optionArray.map((item: any) => ({
             label: item.name,
-            value: item.name
+            value: item.screenId
           }));
         }
         this.Screen_Filter = optionArray;
       }
       else if (this.select_Type_ScreenField == 'menu') {
+        alert(event + ' ' + 'menu')
         this.languageData = this.reslanguageData.filter(a => a.application === event);
         this.Screen_Filter = [];
       }
@@ -868,7 +877,8 @@ export class LanguageComponent implements OnInit {
   }
   getGridData(event: any) {
     debugger
-    this.languageData = this.reslanguageData.filter(a => (a.screen_application === event) || (a.screens === event));
+    alert(event + ' ' + 'screen');
+    // this.languageData = this.reslanguageData.filter(a => (a.screen_application === event) || (a.screens === event));
   }
   SelectType(event: any) {
     this.organization_ScreenField = '';
@@ -878,5 +888,18 @@ export class LanguageComponent implements OnInit {
     this.department_ScreenFieldFilter = [];
     this.Screen_Filter = [];
     this.application_ScreenFieldFilter = [];
+  }
+
+  saveDataInSql(data: any) {
+    this.requestSubscription = this.builderService.saveSQLDatabaseTable('api', data).subscribe({
+      next: (res) => {
+        this.screens = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
   }
 }

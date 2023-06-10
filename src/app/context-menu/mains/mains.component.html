@@ -1,11 +1,11 @@
-<div class="component-wrapper2" nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
-    <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'left'">
+<div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
+    <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'left'">
         <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
     && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
     && !item?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="item.tooltip">
             <span nz-icon nzType="question-circle" [style.color]="item['toolTipColor']" nzTheme="outline"></span>
         </span>
-    </span>
+    </span> -->
     <div *ngIf="item.type == 'multiFileUpload';else one">
         <st-multi-file-upload [multiFileUploadData]="item"></st-multi-file-upload>
     </div>
@@ -213,7 +213,7 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <div class="w-100" *ngIf="item.type == 'mainStep'; else thirtyTwo">
+        <div  *ngIf="item.type == 'mainStep'; else thirtyTwo">
             <st-stepper [step]="item">
             </st-stepper>
         </div>
@@ -246,7 +246,7 @@
         </div>
     </ng-template>
     <ng-template #thirtySix>
-        <div class="w-100" *ngIf="item.formlyType == 'input'; else thirtySeven">
+        <div  *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
                 <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
@@ -659,13 +659,13 @@
             <st-google-map></st-google-map>
         </div>
     </ng-template>
-    <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'right'">
+    <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'right'">
         <span
             *ngIf="item.type != 'progressBar' && item.type != 'alert'
                   && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip && !item?.tooltipWithoutIcon || false "
             nz-tooltip [nzTooltipTitle]="item.tooltip">
             <span nz-icon nzType="question-circle" [style.color]="item['toolTipColor']" nzTheme="outline"></span>
         </span>
-    </span>
+    </span> -->
 
 </div>
