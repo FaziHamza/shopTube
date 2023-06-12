@@ -10,7 +10,7 @@
                         <ng-template contextMenuItem (execute)="comment(item)"
                             [visible]="isShowContextMenu">Comment</ng-template>
                     </context-menu>
-                    <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)"
+                    <st-mains [item]="item" [dataModel]="dataModel" (notify)="saveData($event)" (notifyDbClick)="updateModel($event)"
                         [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
                         *ngIf="item"></st-mains>
                 </span>
@@ -25,7 +25,7 @@
                 </span>
                 <div>
 
-                    <st-mains [item]="item" [isLast]="isLast" (notify)="saveData($event)" [form]="form"
+                    <st-mains [item]="item" [isLast]="isLast" (notify)="saveData($event)" [form]="form" (notifyDbClick)="updateModel($event)"
                         [screenName]="screenName" [screenId]="screenId" *ngIf="item && !isShowContextMenu"></st-mains>
 
                 </div>
