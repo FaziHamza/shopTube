@@ -4,7 +4,7 @@
             <div class="invoice-body-outer">
                 <div class="right">
                     <div class="mb-2">
-                        <input nz-input type="file" id="imageUpload" style="display:none"
+                        <input nz-input type="file" class="img-up2" id="imageUpload" style="display:none"
                             (change)="displayImage($event)" />
                         <nz-card *ngIf="!image" class="card" onclick="document.getElementById('imageUpload').click()"
                             style="height: 150px; width: 252px;">
