@@ -1394,7 +1394,7 @@ export class BuilderComponent implements OnInit {
                       keyup: (model: any) => {
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
-                        this.checkConditionUIRule(model, currentVal);
+                        // this.checkConditionUIRule(model, currentVal);
                       }
                     },
                   },
@@ -2596,7 +2596,7 @@ export class BuilderComponent implements OnInit {
                 this.selectedNode.type = event.form.formlyTypes.configType;
                 this.selectedNode.formlyType = event.form.formlyTypes.parameter;
                 fieldGroup[0]['type'] = event.form.formlyTypes.type;
-                props['fieldType'] = event.form.fieldType;
+                props['type'] = event.form.formlyTypes.fieldType;
                 props['options'] = this.makeFormlyOptions(event.form.formlyTypes?.options, event.form.formlyTypes.type);
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
                 // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
@@ -2659,7 +2659,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
             props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
             props['additionalProperties']['toolTipClass'] = event.form?.toolTipClass;
-            props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
+            // props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
@@ -3763,7 +3763,8 @@ export class BuilderComponent implements OnInit {
           this.showModal = false;
         }
 
-      } catch (error) {
+      } 
+      catch (error) {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }

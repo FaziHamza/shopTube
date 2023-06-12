@@ -66,7 +66,10 @@ export class MainComponent implements OnInit {
       this.form.value;
       console.log(this.form.value);
       this.dataModel
-    }
+    } 
+    // else {
+    //   alert(this.validationCheckStatus);
+    // }
   }
   handleIndexChange(e: number): void {
     console.log(e);
@@ -135,17 +138,17 @@ export class MainComponent implements OnInit {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
-            else if (jsonScreenRes[0].type == "email") {
-              // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
-              // }
-              const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
-              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
-              const schema = {
-                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
-              };
-              this.ruleObj = schema;
-            }
+              else if (jsonScreenRes[0].type == "email") {
+                // this.ruleObj = {
+                //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
+                // }
+                const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
+                const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
+                const schema = {
+                  [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
+                };
+                this.ruleObj = schema;
+              }
             Object.assign(this.ruleValidation, this.ruleObj);
           }
         }
@@ -158,9 +161,15 @@ export class MainComponent implements OnInit {
     return true;
   }
   validationChecker() {
-    for (let index = 0; index < this.mainData[0].formly[0].fieldGroup.length; index++) {
-      this.mainData[0].formly[0].fieldGroup[index].props.error = null;
-    }
+    this.mainData.forEach((item: any) => {
+      if(item.formly){
+        item.formly[0].fieldGroup[0].props.error = null;
+      }
+      // for (let index = 0; index < this.mainData[0].formly[0].fieldGroup.length; index++) {
+      //   this.mainData[0].formly[0].fieldGroup[index].props.error = null;
+      // }
+    });
+
     this.validationCheckStatus = [];
     const cc = this.schemaValidation.validate(Object.assign({}, this.formlyModel), { abortEarly: false });
     if (cc?.error) {
@@ -171,17 +180,24 @@ export class MainComponent implements OnInit {
           for (let i = 0; i < this.setErrorToInput.length; i++) {
             const element = this.setErrorToInput[i];
             if (V2.formly[0].fieldGroup[index].key.includes(this.setErrorToInput[i].context.key)) {
-              if (this.setErrorToInput[i].message == '"' + this.setErrorToInput[i].context.key + '" ' + "is not allowed")
-                V2.formly[0].fieldGroup[index].props.error = null;
-              else
-                V2.formly[0].fieldGroup[index].props.error = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label)
+              if (this.setErrorToInput[i].message == '"' + this.setErrorToInput[i].context.key + '" ' + "is not allowed"){
+                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+                // V2.formly[0].fieldGroup[index].props['required'] = false;
+              }
+              else{
+                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label);
+                // V2.formly[0].fieldGroup[index].props['required'] = true;
+              }
+            }
+            else{
+              V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
             }
           }
-          if (V2.formly[0].fieldGroup[index].props.error)
-            this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props.error);
+          if ( V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage)
+            this.validationCheckStatus.push( V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage);
         }
       });
-      // this.cd.detectChanges();
+      this.cd.detectChanges();
     }
   }
   filterInputElements(data: ElementData[]): any[] {
