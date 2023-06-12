@@ -227,7 +227,8 @@ export class AddControlService {
       iconSize: 15,
       hoverTextColor: '',
       textColor: '',
-      isSubmit: false, btnType: "",
+      // isSubmit: false, 
+      btnType: "",
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
@@ -724,7 +725,7 @@ export class AddControlService {
     return {
       editable: false,
       color: '',
-      fontstyle: 'font-normal',
+      fontstyle: '',
       text: 'A random paragraph generate when add paragraph componenet',
       editableTooltip: '',
       copyable: false,

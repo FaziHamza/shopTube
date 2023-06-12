@@ -48,7 +48,7 @@
   <tbody>
     <ng-template #recursiveList let-data1>
       <ng-container *ngFor="let item of data1 ; let i = index">
-        <tr [ngStyle]="{'background': item?.color}" *ngIf="!responsiveTable"
+        <tr [ngStyle]="{'background': item?.color}" *ngIf="!responsiveTable" (dblclick)="updateModel(item)"
           (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
           <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
           <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked"

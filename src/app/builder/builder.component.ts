@@ -12,7 +12,7 @@ import { actionTypeFeild, formFeildData } from './configurations/configuration.m
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
@@ -22,6 +22,7 @@ import { AddControlService } from './service/addControl.service';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 import { ThirdPartyDraggable } from '@fullcalendar/interaction';
+import { ActionRuleComponent } from './configurations';
 
 @Component({
   selector: 'st-builder',
@@ -853,8 +854,10 @@ export class BuilderComponent implements OnInit {
   addControlToJson(value: string, data?: any) {
     debugger
     let obj = {
+      type: data?.parameter,
       title: value,
-      key: value.toLowerCase() + "_" + Guid.newGuid()
+      key: value.toLowerCase() + "_" + Guid.newGuid(),
+      isSubmit: false
     }
     if (data?.parameter === 'input') {
       obj.title = data?.label;
@@ -864,7 +867,6 @@ export class BuilderComponent implements OnInit {
       this.controls(value, data, obj);
     }
     else {
-
       const modal = this.modalService.create<AddControlCommonPropertiesComponent>({
         nzTitle: 'Change Control Value',
         nzContent: AddControlCommonPropertiesComponent,
@@ -919,6 +921,9 @@ export class BuilderComponent implements OnInit {
         highLight: false,
         copyJsonIcon: false,
       }
+    }
+    if (value == 'insertButton' || value == 'updateButton' || value == 'deleteButton') {
+      newNode.isSubmit = res.isSubmit;
     }
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList'
@@ -3578,7 +3583,114 @@ export class BuilderComponent implements OnInit {
   handleCancel(): void {
     this.showModal = false;
   }
+  saveInDB() {
+    debugger
+    let mainArray: any[] = [];
+    for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
+      const element = Object.keys(this.formlyModel)[i];
+      let keyPart = element.split('.')
+      let check = mainArray.find(a => a.name == keyPart[0])
+      if (!check) {
+        let obj: any = { name: keyPart[0], children: [] };
+        obj.children.push(keyPart[1]);
+        mainArray.push(obj);
+      } else {
+        check.children.push(keyPart[1])
+      }
+    }
+    this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
+      next: (objTRes) => {
+        if (objTRes) {
+          this.builderService.getSQLDatabaseTable('knex-crud/table_schema').subscribe({
+            next: (objFRes) => {
+              if (objFRes) {
+                for (let i = 0; i < mainArray.length; i++) {
+                  const element = mainArray[i];
+                  const tableElement = objTRes.filter((x: any) => x.tableName == element.name);
+                  
+                  if (tableElement.length > 0) {
+                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id)
+                    mainArray[i].children.map((objFieldName: any) => {
+                      if (objFieldName != 'id') {
+                        const fieldElement = tableFields.filter((x: any) => x.fieldName == objFieldName)
+                        if (fieldElement.length > 0) {
+
+                        } else {
+                          const objFields = {
+                            "table_id": tableElement[0].id,
+                            "fieldName": objFieldName,
+                            "type": "VARCHAR",
+                            "description": "",
+                            "status": "Pending",
+                            "isActive": true
+                          };
+                          this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
+                            next: (res) => {
+                              this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                            },
+                            error: (err) => {
+                              console.error(err);
+                              this.toastr.error("An error occurred", { nzDuration: 3000 });
+                            }
+                          });
+                        }
+                      }
+                    });
+                  } else {
+                    const objTableNames = {
+                      "tableName": element.name,
+                      "comment": "",
+                      "totalFields": "",
+                      "isActive": false
+                    };
+                    this.builderService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
+                      next: (res) => {
+                        mainArray[i].children.map((objFieldName: any) => {
+                          if (objFieldName != 'id') {
+                            const objFields = {
+                              "table_id": res.id,
+                              "fieldName": objFieldName,
+                              "type": "VARCHAR",
+                              "description": "",
+                              "status": "Pending",
+                              "isActive": true
+                            };
+                            this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
+                              next: (res) => {
+                                this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                              },
+                              error: (err) => {
+                                console.error(err);
+                                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                              }
+                            });
+                          }
+                        });
+                      },
+                      error: (err) => {
+                        console.error(err);
+                        this.toastr.error("An error occurred", { nzDuration: 3000 });
+                      }
+                    });
+                  }
+                }
+              }
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
+  }
   handleOk(): void {
+    this.saveInDB();
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
     }

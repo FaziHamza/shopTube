@@ -326,10 +326,14 @@ export class MainComponent implements OnInit {
       console.log(tables);
       this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
         next: (res) => {
-          this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          this.setInternalValuesEmpty(this.form.value)
-          // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-          this.getFromQuery();
+          if (res[0]?.error)
+            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+          else {
+            this.toastr.success("Save Successfully", { nzDuration: 3000 });
+            this.setInternalValuesEmpty(this.form.value)
+            // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+            this.getFromQuery();
+          }
         },
         error: (err) => {
           console.error(err);

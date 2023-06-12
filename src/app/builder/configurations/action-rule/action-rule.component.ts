@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { E } from '@formulajs/formulajs';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import {
 
@@ -36,13 +36,15 @@ export class ActionRuleComponent implements OnInit {
   @Input() screenName: any;
   @Input() selectedNode: any;
   @Input() formlyModel: any;
+  @Input() nodes: any;
   actionForm: FormGroup;
   genrateQuery: any;
   genrateValue: any;
   sqlType: string = "sql";
   generatedSqlQuery: any;
   requestSubscription: Subscription;
-
+  screenActions: any[];
+  nodeList: { title: string, key: string }[] = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService) { }
@@ -50,12 +52,31 @@ export class ActionRuleComponent implements OnInit {
   ngOnInit(): void {
     this.actionFormLoad();
     this.getActionData();
+    this.extractNodes(this.nodes, this.nodeList);
   }
+  // getNodeList() {
+  //   debugger
+  //   for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
+  //     if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
+  //       this.nodeList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
+  //     }
+  //   }
+  // }
+  extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
+    for (const node of nodes) {
+      const { title, key, children } = node;
+      nodeList.push({ title, key });
 
+      if (children && children.length > 0) {
+        this.extractNodes(children, nodeList);
+      }
+    }
+  }
   actionFormLoad() {
     this.actionForm = this.formBuilder.group({
       actionType: [''],
       actionLink: [''],
+      elementName: [''],
       submissionType: [''],
       Actions: this.formBuilder.array([]),
     })
@@ -63,15 +84,13 @@ export class ActionRuleComponent implements OnInit {
 
   duplicateActionFormGroup(index: number, data: any) {
     let check = this.actionForm.value.Actions.filter((a: any) => a.type == data);
-    // formArray.insert(0, );
-    // const formArray  = this.ActionsForms;
-    // formArray.insert(0, this.formBuilder.control(formArray.length + 1));
-    // this.ActionsForms.insert(index as number + 1,this.formBuilder.control(ActionsForms.length + 1));
     this.ActionsForms.insert(index as number + 1,
       this.formBuilder.group({
+        id: 0,
         type: [check[0].type],
         email: [check[0].email],
         sqlType: [check[0].sqlType],
+        elementName: [check[0].elementName],
         actionLink: [check[0].actionLink],
         actionType: [check[0].actionType],
         submissionType: [check[0].submissionType],
@@ -79,8 +98,6 @@ export class ActionRuleComponent implements OnInit {
         referenceId: [check[0].referenceId],
         query: [check[0].query]
       }));
-    // this.ActionsForms.push();
-    // this.ActionsForms.splice(index as number + 1, 0, newNode);
   }
   get ActionsForms() {
     return this.actionForm.get('Actions') as FormArray;
@@ -131,8 +148,6 @@ export class ActionRuleComponent implements OnInit {
           }
         }
       }
-
-
       // if (this.actionForm.value.actionLink == 'select') {
       //   dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
       // } else 
@@ -181,10 +196,12 @@ export class ActionRuleComponent implements OnInit {
     }
     this.ActionsForms.push(
       this.formBuilder.group({
+        id: 0,
         submit: [this.actionForm.value.submissionType],
         type: [this.actionForm.value.actionType],
         sqlType: ["sql"],
         actionLink: [this.actionForm.value.actionLink],
+        elementName: [this.actionForm.value.elementName],
         actionType: [this.actionForm.value.actionType],
         submissionType: [this.actionForm.value.submissionType],
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
@@ -221,20 +238,35 @@ export class ActionRuleComponent implements OnInit {
     return sortedQueries.map(query => query.query).join('; ');
   }
 
-
   // Remove FormGroup
-  removeActionFormGroup(index: number) {
-    this.ActionsForms.removeAt(index);
+  removeActionFormGroup(index: number, data: any) {
+    debugger
+    if (data.id == 0) {
+      this.ActionsForms.removeAt(index);
+    } else {
+      this.requestSubscription = this.employeeService.deleteSQLDatabaseTable('knex-crud/SQLQueries/', data.id).subscribe({
+        next: (res) => {
+          this.ActionsForms.removeAt(index);
+          this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    }
+
   }
 
   SaveAction() {
     debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    this.actionForm.value.Actions.forEach((element: any) => {
-      const data = {
+    const observables = this.actionForm.value.Actions.map((element: any) => {
+      let data: any = {
         "moduleName": this.screenName,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
         "btnActionType": element.submissionType ? element.submissionType : "",
+        "elementName": element.elementName,
         "actionType": element.actionType,
         "actionLink": element.actionLink,
         "quryType": element.referenceId,
@@ -246,30 +278,73 @@ export class ActionRuleComponent implements OnInit {
         "confirmEmail": element.confirmEmail,
         "referenceId": element.referenceId
       }
-      if (data != null) {
-        if (mainModuleId[0].screenId != null) {
-          this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
-            next: (res) => {
-              this.toastr.success("Save Successfully", { nzDuration: 3000 });
-
-              // for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
-              //   const key = Object.keys(this.formlyModel)[j];
-              //   const keys = key.split('.')
-              //   if (keys[0] == element.name) {
-              //     const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
-              //     if (item) {
-              //     }
-              //   }
-              // }
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          });
-        }
+      if (element.id == 0) {
+        return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
+      } else {
+        return this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
       }
     });
+
+    forkJoin(observables).subscribe({
+      next: (results: any) => {
+        if (results.every((result: any) => !(result instanceof Error))) {
+          this.getActionData();
+          this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+        } else {
+          this.toastr.error("Actions not saved", { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Actions not saved", { nzDuration: 3000 });
+      }
+    });
+    // const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    // this.actionForm.value.Actions.forEach((element: any) => {
+    //   let data: any = {
+    //     "moduleName": this.screenName,
+    //     "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+    //     "btnActionType": element.submissionType ? element.submissionType : "",
+    //     "elementName": element.elementName,
+    //     "actionType": element.actionType,
+    //     "actionLink": element.actionLink,
+    //     "quryType": element.referenceId,
+    //     "quries": element.query,
+    //     "submit": element.submit,
+    //     "type": element.type,
+    //     "sqlType": element.sqlType,
+    //     "email": element.email,
+    //     "confirmEmail": element.confirmEmail,
+    //     "referenceId": element.referenceId
+    //   }
+    //   if (mainModuleId[0].screenId != null) {
+    //     if (element.id == 0) {
+    //       this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
+    //         next: (res) => {
+    //           this.toastr.success("Save Successfully", { nzDuration: 3000 });
+    //         },
+    //         error: (err) => {
+    //           console.error(err);
+    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //         }
+    //       });
+    //     } else {
+    //       this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).subscribe({
+    //         next: (res) => {
+    //           this.toastr.success("Save Successfully", { nzDuration: 3000 });
+    //         },
+    //         error: (err) => {
+    //           console.error(err);
+    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
 
     // const jsonQuryResult = {
     //   "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -329,7 +404,9 @@ export class ActionRuleComponent implements OnInit {
     //   }
     // }
   }
+  updateActionData() {
 
+  }
   getActionData() {
     debugger
     const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
@@ -339,16 +416,20 @@ export class ActionRuleComponent implements OnInit {
           if (res.length > 0) {
             const getRes = res.filter((x: any) => x.moduleId == mainModuleId[0].screenId)
             if (getRes.length > 0) {
+              this.screenActions = getRes;
               this.actionForm = this.formBuilder.group({
+                elementName: [getRes[0].elementName],
                 actionType: [getRes[0].actionType],
                 actionLink: [getRes[0].actionLink],
                 submissionType: [getRes[0].btnActionType],
                 Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
                   this.formBuilder.group({
+                    id: [getQueryActionRes.id],
                     submit: [getQueryActionRes.submit],
                     type: [getQueryActionRes.type],
                     sqlType: [getQueryActionRes.sqlType],
                     actionType: [getQueryActionRes.actionType],
+                    elementName: [getQueryActionRes.elementName],
                     actionLink: [getQueryActionRes.actionLink],
                     submissionType: [getQueryActionRes.btnActionType],
                     email: [getQueryActionRes.email],

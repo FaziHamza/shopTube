@@ -395,15 +395,42 @@ export class BuilderService {
       this.baseUrl + "screenData", modal
     );
   }
-  saveSQLDatabaseTable(api:string,obj:any): Observable<any> {
-    return this.http.post<any>(
-      this.nestUrl + api,obj
-    );
-  }
+  //NestJS
   saveTranslation(key: string, translation: string): Promise<void> {
     const url = `assets/i18n/en.json`;
     const payload = { key, translation };
     return this.http.post<void>(url, payload).toPromise();
+  }
+  
+  getDatabaseTable(): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + "databaseTable"
+    );
+  }
+  saveDatabaseTable(obj: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + "databaseTable", obj
+    );
+  }
+  saveSQLDatabaseTable(api: string, obj: any): Observable<any> {
+    return this.http.post<any>(
+      this.nestUrl + api, obj
+    );
+  }
+  updateSQLDatabaseTable(api: string, obj: any): Observable<any> {
+    return this.http.put<any>(
+      this.nestUrl + api, obj
+    );
+  }
+  deleteSQLDatabaseTable(api: string, obj: number): Observable<any> {
+    return this.http.delete<any>(
+      this.nestUrl + api + obj
+    );
+  }
+  getSQLDatabaseTable(api: string): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + api
+    );
   }
 }
 
