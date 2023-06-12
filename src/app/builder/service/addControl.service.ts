@@ -725,7 +725,7 @@ export class AddControlService {
     return {
       editable: false,
       color: '',
-      fontstyle: 'font-normal',
+      fontstyle: '',
       text: 'A random paragraph generate when add paragraph componenet',
       editableTooltip: '',
       copyable: false,
