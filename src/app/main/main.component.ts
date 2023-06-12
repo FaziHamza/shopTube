@@ -200,7 +200,7 @@ export class MainComponent implements OnInit {
       this.cd.detectChanges();
     }
     else{
-      filteredNodes = this.filterInputElements(this.mainData);
+      // filteredNodes = this.filterInputElements(this.mainData);
       filteredNodes.forEach((V2: any) => {
         for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
           V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
