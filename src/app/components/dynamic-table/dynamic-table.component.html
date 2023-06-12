@@ -114,7 +114,7 @@
             <ng-container
               *ngFor="let header of data['tableKey']; let index = index">
               <ng-container *ngIf="header.name == entryKey">
-                <td class="font-bold">{{ entryKey }}</td>
+                <td class="font-bold bg-blue-500 text-white hover:text-black">{{ entryKey }}</td>
                 <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
                 <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'" [(nzChecked)]="item.checked"
                   (nzCheckedChange)="refreshStatus()"></td>
@@ -142,7 +142,7 @@
             </ng-container>
           </tr>
           <tr>
-            <td class="font-bold">Action</td>
+            <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
             <td>
               <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                 (nzOnConfirm)="deleteRow(item)">
@@ -151,6 +151,7 @@
               </a>
             </td>
           </tr>
+          <br>
         </ng-container>
         
 

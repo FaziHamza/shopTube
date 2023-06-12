@@ -102,14 +102,13 @@ export class MainComponent implements OnInit {
     this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
   getJoiValidation() {
-    if (this.screenId > 0) {
-      this.builderService.jsonGetScreenValidationRule(this.screenId).subscribe((getRes => {
-        this.joiValidationData = getRes;
-      }))
-    }
+    debugger
+    this.builderService.jsonGetScreenValidationRule(this.screenId).subscribe((getRes => {
+      this.joiValidationData = getRes;
+    }))
   }
   joiValidation() {
-
+    debugger
     let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.mainData.length; j++) {

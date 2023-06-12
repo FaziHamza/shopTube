@@ -81,6 +81,7 @@ export class BuilderComponent implements OnInit {
   websiteBlockSave: boolean = false;
   dbWebsiteBlockArray: any = [];
   dbHtmlCodeBlockArray: any = [];
+  formlyTypes: any = [];
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     // private formBuilder: FormBuilder,
@@ -125,7 +126,7 @@ export class BuilderComponent implements OnInit {
     this.makeDatainTemplateTab('website-block', 'websiteBlockTemplate');
     let filterdButtons = this.htmlTabsData[0].children.filter((item: any) => item.id == 'website-block')
     this.websiteBlockTypeArray = filterdButtons[0].children;
-
+    this.makeFormlyTypeOptions(htmlTabsData[0]);
 
   }
   jsonModuleSetting() {
@@ -238,7 +239,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
-    
+
     if (this.screenPage) {
       this.saveLoader = true;
       if (this.selectedNode) {
@@ -439,7 +440,7 @@ export class BuilderComponent implements OnInit {
       this.isSavedDb = true;
       this.showNotification = true;
       this.toastr.success('Control Added', { nzDuration: 3000 });
-    }else {
+    } else {
       alert("Please Select Screen")
     }
   }
@@ -607,11 +608,10 @@ export class BuilderComponent implements OnInit {
     // this.cdr.detach();
   }
   getJoiValidation(id: any) {
-    if (id > 0) {
-      this.builderService.jsonGetScreenValidationRule(id).subscribe((getRes => {
-        this.joiValidationData = getRes;
-      }))
-    }
+    debugger
+    this.builderService.jsonGetScreenValidationRule(id).subscribe((getRes => {
+      this.joiValidationData = getRes;
+    }))
   }
   getUIRuleData(data: any) {
     this.requestSubscription = this.builderService.jsonUIRuleGetData(this.screenName).subscribe({
@@ -1371,6 +1371,7 @@ export class BuilderComponent implements OnInit {
                         requiredMessage: 'This field is required',
                         tooltipPosition: 'right',
                         toolTipClass: '',
+                        formlyTypes:'',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -1838,6 +1839,11 @@ export class BuilderComponent implements OnInit {
       case "url":
       case "customMasking":
         configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
+        _formFieldData?.commonFormlyConfigurationFields[0]?.fieldGroup?.forEach((configField: any) => {
+          if (configField.key == 'formlyTypes') {
+            configField.props.options = this.formlyTypes;
+          }
+        });
         this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
         switch (type) {
           case "search":
@@ -2342,8 +2348,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   notifyEmit(event: actionTypeFeild): void {
-
-
+    debugger
     let needToUpdate = true;
     switch (event.type) {
       case "body":
@@ -2562,13 +2567,13 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode) {
           needToUpdate = false;
           this.selectedNode.title = event.form.title;
+          this.selectedNode['key'] = event.form?.key;
+          this.selectedNode['id'] = event.form?.id;
           this.selectedNode['copyJsonIcon'] = event.form.copyJsonIcon;
           this.selectedNode.className = event.form.className;
           this.selectedNode['tooltip'] = event.form.tooltip;
           this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode['id'] = event.form?.id;
-          this.selectedNode['key'] = event.form?.key;
           this.selectedNode.formly?.forEach(elementV1 => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
@@ -2581,6 +2586,18 @@ export class BuilderComponent implements OnInit {
             fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
+            if(event.form.formlyTypes){
+              if (event.form.formlyTypes['parameter']) {
+                this.selectedNode.type = event.form.formlyTypes.configType;
+                this.selectedNode.formlyType = event.form.formlyTypes.parameter;
+                fieldGroup[0]['type'] = event.form.formlyTypes.type;
+                props['fieldType'] = event.form.fieldType;
+                props['options'] = this.makeFormlyOptions(event.form.formlyTypes?.options, event.form.formlyTypes.type);
+                // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
+                // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
+              };
+            }
+            
             props.label = event.form.title;
             // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
@@ -2637,12 +2654,11 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
             props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
             props['additionalProperties']['toolTipClass'] = event.form?.toolTipClass;
+            props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
-            } else {
-              props['options'] = event.form.options;
-            }
+            } 
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
             //   props['defaultValue'] = arr;
@@ -2660,6 +2676,7 @@ export class BuilderComponent implements OnInit {
               })
             }
           });
+          this.updateNodes();
         }
         break;
       case "inputValidationRule":
@@ -2681,10 +2698,10 @@ export class BuilderComponent implements OnInit {
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
           if (mainModuleId.length > 0) {
-            this.builderService.jsonGetValidationRule(mainModuleId[0].screenId, event.form.id).subscribe((getRes => {
+            this.builderService.jsonGetValidationRule(mainModuleId[0].screenId, this.selectedNode.id).subscribe((getRes => {
               getRes;
               if (getRes.length > 0) {
-                this.builderService.jsonDeleteValidationRule(event.form.id).subscribe((delRes => {
+                this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
                   this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
                     alert("Data Save");
                   }))
@@ -3963,5 +3980,25 @@ export class BuilderComponent implements OnInit {
       updatedObj.children = updatedObj.children.map((child: any) => this.updateIdsAndKeys(child));
     }
     return updatedObj;
+  }
+
+  makeFormlyTypeOptions(node: any) {
+    debugger
+    if (node) {
+      if (node?.parameter == 'input') {
+        let obj = {
+          label: node.label,
+          value: node,
+        };
+        this.formlyTypes.push(obj);
+      }
+      if (node?.children) {
+        if (node?.children.length > 0) {
+          node.children.forEach((child: any) => {
+            this.makeFormlyTypeOptions(child);
+          });
+        }
+      }
+    }
   }
 }
