@@ -172,9 +172,9 @@ export class MainComponent implements OnInit {
 
     this.validationCheckStatus = [];
     const cc = this.schemaValidation.validate(Object.assign({}, this.formlyModel), { abortEarly: false });
+    let filteredNodes = this.filterInputElements(this.mainData);
     if (cc?.error) {
       this.setErrorToInput = cc.error.details;
-      const filteredNodes = this.filterInputElements(this.mainData);
       filteredNodes.forEach((V2: any) => {
         for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
           for (let i = 0; i < this.setErrorToInput.length; i++) {
@@ -198,6 +198,14 @@ export class MainComponent implements OnInit {
         }
       });
       this.cd.detectChanges();
+    }
+    else{
+      filteredNodes = this.filterInputElements(this.mainData);
+      filteredNodes.forEach((V2: any) => {
+        for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
+          V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+        }
+      })
     }
   }
   filterInputElements(data: ElementData[]): any[] {
