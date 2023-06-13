@@ -1835,3 +1835,14 @@ object {
   }
 }
 
+.scroll {
+  height: 100vh !important;
+  // width: 34.5vh;
+  // height: calc(100vh - 0px);
+  /* 50px is the height of the header or any other element that takes up space above the menu */
+  overflow-y: auto !important;
+  /* add vertical scroll if necessary */
+  // position: fixed !important;
+  top: 64px;
+  left: 0;
+}

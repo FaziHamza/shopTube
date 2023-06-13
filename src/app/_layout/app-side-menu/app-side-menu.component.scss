@@ -49,17 +49,7 @@ nz-footer {
   overflow-y: auto;
 }
 
-.scroll {
-  height: 100vh;
-  width: 34.5vh;
-  // height: calc(100vh - 0px);
-  /* 50px is the height of the header or any other element that takes up space above the menu */
-  overflow-y: auto;
-  /* add vertical scroll if necessary */
-  position: fixed;
-  top: 64px;
-  left: 0;
-}
+
 
 .selected {
   background-color: rgba(80, 195, 230, .2);
