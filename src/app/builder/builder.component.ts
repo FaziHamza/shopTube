@@ -1454,9 +1454,15 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
+    if(JSON.stringify(this.selectdParentNode) == JSON.stringify(this.selectedNode)){
+      parent = this.selectdParentNode;
+      nextNode = this.selectedNode.children  ? this.selectedNode.children[0] : {};
+    }
+    else if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
       parent = this.selectedNode;
       nextNode = parent;
+      this.selectdParentNode = parent;
+      this.selectedNode = nextNode;
     } else {
       parent = this.selectdParentNode;
       node = this.selectedNode;
@@ -1477,17 +1483,59 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
-      parent = this.selectedNode;
-      nextNode = this.selectedNode.children[0];
+    if(this.selectdParentNode.children){
+      if(JSON.stringify(this.selectdParentNode.children[0]) == JSON.stringify(this.selectedNode)){
+        parent = this.selectdParentNode;
+        nextNode = this.selectdParentNode.children  ? this.selectdParentNode.children[0] : {};
+      }
+      else{
+        parent = this.selectdParentNode;
+        node = this.selectedNode;
+
+        if (parent && parent.children && parent.children.length > 0) {
+          const idx = parent.children.indexOf(node);
+          nextNode = parent.children[idx - 1];
+
+        }
+      }
+      if (!nextNode) {
+        this.toastr.error("Sorry there is no child");
+        return;
+      }
+      this.openConfig(parent, nextNode);
+    }
+  }
+  nextNode(): void {
+    let parent = this.selectdParentNode;
+    let nextNode: any;
+    if (parent && parent.children) {
+      const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
+      if (currentIndex !== -1 && currentIndex < parent.children.length - 1) {
+        nextNode = parent.children[currentIndex + 1];
+      } else {
+        parent = this.selectedNode;
+        nextNode = this.selectedNode.children ? this.selectedNode.children[0] : {};
+      }
+      if (!nextNode) {
+        this.toastr.error("Sorry there is no child");
+        return;
+      }
+      this.openConfig(parent, nextNode);
+    }
+  }
+
+backNode(): void {
+  let parent = this.selectdParentNode;
+  let nextNode: any;
+  if (parent && parent.children) {
+    const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
+    if (currentIndex !== -1 && currentIndex > 0) {
+      nextNode = parent.children[currentIndex - 1];
     } else {
-      parent = this.selectdParentNode;
-      node = this.selectedNode;
-
-      if (parent && parent.children && parent.children.length > 0) {
-        const idx = parent.children.indexOf(node);
-        nextNode = parent.children[idx - 1];
-
+      const prevParent = this.findParentNode(this.nodes, parent);
+      if (prevParent) {
+        parent = prevParent;
+        nextNode = prevParent.children[prevParent.children?.length -1];
       }
     }
     if (!nextNode) {
@@ -1496,6 +1544,21 @@ export class BuilderComponent implements OnInit {
     }
     this.openConfig(parent, nextNode);
   }
+}
+findParentNode(nodes: any[], node: any): any {
+  for (const n of nodes) {
+    if (n.children && n.children.includes(node)) {
+      return n;
+    } else if (n.children) {
+      const parent = this.findParentNode(n.children, node);
+      if (parent) {
+        return parent;
+      }
+    }
+  }
+  return null;
+}
+
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
     let wrapper: any = 'form-field-horizontal'
@@ -2602,7 +2665,7 @@ export class BuilderComponent implements OnInit {
                 // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
             }
-            
+
             props.label = event.form.title;
             // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
@@ -2663,7 +2726,7 @@ export class BuilderComponent implements OnInit {
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
-            } 
+            }
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
             //   props['defaultValue'] = arr;
@@ -3607,7 +3670,7 @@ export class BuilderComponent implements OnInit {
                 for (let i = 0; i < mainArray.length; i++) {
                   const element = mainArray[i];
                   const tableElement = objTRes.filter((x: any) => x.tableName == element.name);
-                  
+
                   if (tableElement.length > 0) {
                     const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id)
                     mainArray[i].children.map((objFieldName: any) => {
@@ -3763,7 +3826,7 @@ export class BuilderComponent implements OnInit {
           this.showModal = false;
         }
 
-      } 
+      }
       catch (error) {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
