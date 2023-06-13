@@ -32,7 +32,8 @@ import { FieldWrapper } from '@ngx-formly/core';
     <p class="m-0 p-0">{{to['additionalProperties']?.error }}</p>
   </div>
   <div *ngIf="showError" class="{{labelColumn}}"></div>
-  <div class="text-red-500 text-sm block {{fieldColumn}}">
+  {{showError | json}}
+  <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
     <span>{{to['additionalProperties']?.requiredMessage}}</span>
     <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
   </div>

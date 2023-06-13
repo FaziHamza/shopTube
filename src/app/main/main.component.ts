@@ -190,7 +190,10 @@ export class MainComponent implements OnInit {
               }
             }
             else{
-              V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+              let check = this.setErrorToInput.filter((error : any) => error.context.key == V2.formly[0].fieldGroup[index].key);
+              if(check.length == 0){
+                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+              }
             }
           }
           if ( V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage)
