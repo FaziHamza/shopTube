@@ -1376,7 +1376,7 @@ export class BuilderComponent implements OnInit {
                         requiredMessage: 'This field is required',
                         tooltipPosition: 'right',
                         toolTipClass: '',
-                        formlyTypes:'',
+                        formlyTypes: '',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -1454,9 +1454,15 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
+    if(JSON.stringify(this.selectdParentNode) == JSON.stringify(this.selectedNode)){
+      parent = this.selectdParentNode;
+      nextNode = this.selectedNode.children  ? this.selectedNode.children[0] : {};
+    }
+    else if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
       parent = this.selectedNode;
       nextNode = parent;
+      this.selectdParentNode = parent;
+      this.selectedNode = nextNode;
     } else {
       parent = this.selectdParentNode;
       node = this.selectedNode;
@@ -1477,17 +1483,59 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
-      parent = this.selectedNode;
-      nextNode = this.selectedNode.children[0];
+    if(this.selectdParentNode.children){
+      if(JSON.stringify(this.selectdParentNode.children[0]) == JSON.stringify(this.selectedNode)){
+        parent = this.selectdParentNode;
+        nextNode = this.selectdParentNode.children  ? this.selectdParentNode.children[0] : {};
+      }
+      else{
+        parent = this.selectdParentNode;
+        node = this.selectedNode;
+
+        if (parent && parent.children && parent.children.length > 0) {
+          const idx = parent.children.indexOf(node);
+          nextNode = parent.children[idx - 1];
+
+        }
+      }
+      if (!nextNode) {
+        this.toastr.error("Sorry there is no child");
+        return;
+      }
+      this.openConfig(parent, nextNode);
+    }
+  }
+  nextNode(): void {
+    let parent = this.selectdParentNode;
+    let nextNode: any;
+    if (parent && parent.children) {
+      const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
+      if (currentIndex !== -1 && currentIndex < parent.children.length - 1) {
+        nextNode = parent.children[currentIndex + 1];
+      } else {
+        parent = this.selectedNode;
+        nextNode = this.selectedNode.children ? this.selectedNode.children[0] : {};
+      }
+      if (!nextNode) {
+        this.toastr.error("Sorry there is no child");
+        return;
+      }
+      this.openConfig(parent, nextNode);
+    }
+  }
+
+backNode(): void {
+  let parent = this.selectdParentNode;
+  let nextNode: any;
+  if (parent && parent.children) {
+    const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
+    if (currentIndex !== -1 && currentIndex > 0) {
+      nextNode = parent.children[currentIndex - 1];
     } else {
-      parent = this.selectdParentNode;
-      node = this.selectedNode;
-
-      if (parent && parent.children && parent.children.length > 0) {
-        const idx = parent.children.indexOf(node);
-        nextNode = parent.children[idx - 1];
-
+      const prevParent = this.findParentNode(this.nodes, parent);
+      if (prevParent) {
+        parent = prevParent;
+        nextNode = prevParent.children[prevParent.children?.length -1];
       }
     }
     if (!nextNode) {
@@ -1496,6 +1544,21 @@ export class BuilderComponent implements OnInit {
     }
     this.openConfig(parent, nextNode);
   }
+}
+findParentNode(nodes: any[], node: any): any {
+  for (const n of nodes) {
+    if (n.children && n.children.includes(node)) {
+      return n;
+    } else if (n.children) {
+      const parent = this.findParentNode(n.children, node);
+      if (parent) {
+        return parent;
+      }
+    }
+  }
+  return null;
+}
+
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
     let wrapper: any = 'form-field-horizontal'
@@ -2591,7 +2654,7 @@ export class BuilderComponent implements OnInit {
             fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
-            if(event.form.formlyTypes){
+            if (event.form.formlyTypes) {
               if (event.form.formlyTypes['parameter']) {
                 this.selectedNode.type = event.form.formlyTypes.configType;
                 this.selectedNode.formlyType = event.form.formlyTypes.parameter;
@@ -2602,7 +2665,8 @@ export class BuilderComponent implements OnInit {
                 // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
             }
-            
+
+
             props.label = event.form.title;
             // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
@@ -2663,7 +2727,7 @@ export class BuilderComponent implements OnInit {
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;
-            } 
+            }
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
             //   props['defaultValue'] = arr;
@@ -3583,6 +3647,61 @@ export class BuilderComponent implements OnInit {
   handleCancel(): void {
     this.showModal = false;
   }
+  isTableSave: boolean = false;
+  newCases: string[] = [];
+  deleteCases: any[] = [];
+  deleteDBFields() {
+    if (this.deleteCases.length > 0) {
+      const deleteObservables = this.deleteCases.map(element => {
+        return this.builderService.deleteSQLDatabaseTable('knex-crud/table_schema/', element.id).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
+      });
+      forkJoin(deleteObservables).subscribe({
+        next: (results) => {
+          if (results.every(result => !(result instanceof Error))) {
+            this.toastr.success("Delete Fields Successfully", { nzDuration: 3000 });
+          } else {
+            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+        }
+      });
+    }
+  }
+  saveDBFields(table_id: any) {
+    if (this.newCases.length > 0) {
+      const observables = this.newCases.map(element => {
+        const objFields = {
+          "table_id": table_id,
+          "fieldName": element,
+          "type": "VARCHAR",
+          "description": "",
+          "status": "Pending",
+          "isActive": true
+        }
+        return this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
+      });
+      forkJoin(observables).subscribe({
+        next: (results) => {
+          if (results.every(result => !(result instanceof Error))) {
+            this.toastr.success("Save Fields Successfully", { nzDuration: 3000 });
+          } else {
+            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+        }
+      });
+    }
+  }
   saveInDB() {
     debugger
     let mainArray: any[] = [];
@@ -3607,35 +3726,38 @@ export class BuilderComponent implements OnInit {
                 for (let i = 0; i < mainArray.length; i++) {
                   const element = mainArray[i];
                   const tableElement = objTRes.filter((x: any) => x.tableName == element.name);
-                  
-                  if (tableElement.length > 0) {
-                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id)
-                    mainArray[i].children.map((objFieldName: any) => {
-                      if (objFieldName != 'id') {
-                        const fieldElement = tableFields.filter((x: any) => x.fieldName == objFieldName)
-                        if (fieldElement.length > 0) {
 
-                        } else {
-                          const objFields = {
-                            "table_id": tableElement[0].id,
-                            "fieldName": objFieldName,
-                            "type": "VARCHAR",
-                            "description": "",
-                            "status": "Pending",
-                            "isActive": true
-                          };
-                          this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-                            next: (res) => {
-                              this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                            },
-                            error: (err) => {
-                              console.error(err);
-                              this.toastr.error("An error occurred", { nzDuration: 3000 });
-                            }
-                          });
+                  //For Delete Field Case
+                  if (tableElement.length > 0) {
+                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id);
+                    for (const item of tableFields) {
+                      const fieldName = item.fieldName;
+                      if (!mainArray[i].children.includes(fieldName)) {
+                        const deleteCase = {
+                          id: item.id,
+                          table_id: item.table_id,
+                          fieldName: fieldName,
+                          status: item.status
+                        };
+                        this.deleteCases.push(deleteCase);
+                      }
+                    }
+                    //For New Field Case
+                    for (const fieldName of mainArray[i].children) {
+                      let exists = false;
+                      for (const item of tableFields) {
+                        if (item.fieldName === fieldName) {
+                          exists = true;
+                          break;
                         }
                       }
-                    });
+                      if (!exists) {
+                        if (fieldName != 'id')
+                          this.newCases.push(fieldName);
+                      }
+                    }
+                    this.saveDBFields(tableElement[0]?.id);
+                    this.deleteDBFields();
                   } else {
                     const objTableNames = {
                       "tableName": element.name,
@@ -3690,7 +3812,9 @@ export class BuilderComponent implements OnInit {
     });
   }
   handleOk(): void {
-    this.saveInDB();
+    if (this.isTableSave)
+      this.saveInDB();
+
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
     }
@@ -3763,7 +3887,7 @@ export class BuilderComponent implements OnInit {
           this.showModal = false;
         }
 
-      } 
+      }
       catch (error) {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
