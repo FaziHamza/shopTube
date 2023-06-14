@@ -1376,7 +1376,7 @@ export class BuilderComponent implements OnInit {
                         requiredMessage: 'This field is required',
                         tooltipPosition: 'right',
                         toolTipClass: '',
-                        formlyTypes:'',
+                        formlyTypes: '',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -2654,7 +2654,7 @@ findParentNode(nodes: any[], node: any): any {
             fieldGroup[0]['key'] = event.form.key
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
-            if(event.form.formlyTypes){
+            if (event.form.formlyTypes) {
               if (event.form.formlyTypes['parameter']) {
                 this.selectedNode.type = event.form.formlyTypes.configType;
                 this.selectedNode.formlyType = event.form.formlyTypes.parameter;
@@ -2665,6 +2665,7 @@ findParentNode(nodes: any[], node: any): any {
                 // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
             }
+
 
             props.label = event.form.title;
             // props['key'] = event.form.key
@@ -3646,6 +3647,61 @@ findParentNode(nodes: any[], node: any): any {
   handleCancel(): void {
     this.showModal = false;
   }
+  isTableSave: boolean = false;
+  newCases: string[] = [];
+  deleteCases: any[] = [];
+  deleteDBFields() {
+    if (this.deleteCases.length > 0) {
+      const deleteObservables = this.deleteCases.map(element => {
+        return this.builderService.deleteSQLDatabaseTable('knex-crud/table_schema/', element.id).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
+      });
+      forkJoin(deleteObservables).subscribe({
+        next: (results) => {
+          if (results.every(result => !(result instanceof Error))) {
+            this.toastr.success("Delete Fields Successfully", { nzDuration: 3000 });
+          } else {
+            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+        }
+      });
+    }
+  }
+  saveDBFields(table_id: any) {
+    if (this.newCases.length > 0) {
+      const observables = this.newCases.map(element => {
+        const objFields = {
+          "table_id": table_id,
+          "fieldName": element,
+          "type": "VARCHAR",
+          "description": "",
+          "status": "Pending",
+          "isActive": true
+        }
+        return this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
+          catchError(error => of(error)) // Handle error and continue the forkJoin
+        );
+      });
+      forkJoin(observables).subscribe({
+        next: (results) => {
+          if (results.every(result => !(result instanceof Error))) {
+            this.toastr.success("Save Fields Successfully", { nzDuration: 3000 });
+          } else {
+            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+        }
+      });
+    }
+  }
   saveInDB() {
     debugger
     let mainArray: any[] = [];
@@ -3671,34 +3727,37 @@ findParentNode(nodes: any[], node: any): any {
                   const element = mainArray[i];
                   const tableElement = objTRes.filter((x: any) => x.tableName == element.name);
 
+                  //For Delete Field Case
                   if (tableElement.length > 0) {
-                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id)
-                    mainArray[i].children.map((objFieldName: any) => {
-                      if (objFieldName != 'id') {
-                        const fieldElement = tableFields.filter((x: any) => x.fieldName == objFieldName)
-                        if (fieldElement.length > 0) {
-
-                        } else {
-                          const objFields = {
-                            "table_id": tableElement[0].id,
-                            "fieldName": objFieldName,
-                            "type": "VARCHAR",
-                            "description": "",
-                            "status": "Pending",
-                            "isActive": true
-                          };
-                          this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-                            next: (res) => {
-                              this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                            },
-                            error: (err) => {
-                              console.error(err);
-                              this.toastr.error("An error occurred", { nzDuration: 3000 });
-                            }
-                          });
+                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id);
+                    for (const item of tableFields) {
+                      const fieldName = item.fieldName;
+                      if (!mainArray[i].children.includes(fieldName)) {
+                        const deleteCase = {
+                          id: item.id,
+                          table_id: item.table_id,
+                          fieldName: fieldName,
+                          status: item.status
+                        };
+                        this.deleteCases.push(deleteCase);
+                      }
+                    }
+                    //For New Field Case
+                    for (const fieldName of mainArray[i].children) {
+                      let exists = false;
+                      for (const item of tableFields) {
+                        if (item.fieldName === fieldName) {
+                          exists = true;
+                          break;
                         }
                       }
-                    });
+                      if (!exists) {
+                        if (fieldName != 'id')
+                          this.newCases.push(fieldName);
+                      }
+                    }
+                    this.saveDBFields(tableElement[0]?.id);
+                    this.deleteDBFields();
                   } else {
                     const objTableNames = {
                       "tableName": element.name,
@@ -3753,7 +3812,9 @@ findParentNode(nodes: any[], node: any): any {
     });
   }
   handleOk(): void {
-    this.saveInDB();
+    if (this.isTableSave)
+      this.saveInDB();
+
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
     }

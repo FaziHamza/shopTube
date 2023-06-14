@@ -178,14 +178,13 @@
                 Position.</p>
             <div class="flex flex-wrap pt-2">
                 <nz-button-group [nzSize]="size">
-                    <button
-                        [ngClass]="selectedTheme.layouutPosiion == 'fixed' ? 'selected' : ''"
-                        nz-button
-                        nzType="default" (click)="changeLayout('fixed')">
+                    <button nz-button
+                        [ngClass]="{'shadow bg-blue-500 text-white rounded-md': selectedTheme.layoutPosition == 'fixed'}"
+                        (click)="changeLayout('fixed')">
                         Fixed
                     </button>
                     <button
-                        [ngClass]="selectedTheme.layouutPosiion == 'scrollable' ? 'selected' : ''"
+                        [ngClass]="{'shadow bg-blue-500 text-white rounded-md': selectedTheme.layoutPosition == 'scrollable'}"
                         nz-button
                         nzType="default" (click)="changeLayout('scrollable')">
                         Scrollable
@@ -225,7 +224,7 @@
                         (click)="changeLayout('assets/images/menu/image-4.avif')">
                 </div>
             </div>
-            <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
+            <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
             <p class="text-gray-500 text-xs">Choose Default or Detached Sidebar
                 view.</p>
             <div class="flex flex-wrap pt-2">
@@ -243,7 +242,7 @@
                         (click)="changeLayout('detatatched')">
                     <p class="mt-2 font-bold">Compact</p>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div *ngIf="applicationType == 'website'">
 
