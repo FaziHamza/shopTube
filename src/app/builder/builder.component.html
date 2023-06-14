@@ -213,7 +213,7 @@
             <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'"
               [nzVisible]="IsShowConfig" nzPlacement="right"
               [nzTitle]="'Control List'" [nzExtra]="config"
-              (nzOnClose)="closeConfigurationList()" >
+              (nzOnClose)="closeConfigurationList()">
               <ng-container *nzDrawerContent>
                 <div id="mySidenav-right" class="sidenav-right">
                   <div class="mySidenav-right">
@@ -286,11 +286,13 @@
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone" (click)="closeConfigurationList()"></span>
+              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon
+                nzType="close-circle" nzTheme="twotone"
+                (click)="closeConfigurationList()"></span>
               <button nz-button nzType="primary"
-              (click)="backNode()">Back</button>
+                (click)="backNode()">Back</button>
               <button nz-button nzType="primary"
-              (click)="nextNode()">Next</button>
+                (click)="nextNode()">Next</button>
               <!-- <button nz-button nzType="default"
                 (click)="closeConfigurationList()">Cancel</button>
               &nbsp;
@@ -317,7 +319,8 @@
                               <button nz-button class=" rounded w-auto"
                                 *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                                 (click)="addControlToJson(searchItems.parameter,searchItems)"><i
-                                  class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
+                                  class={{searchItems.icon}}></i><span
+                                  class="text-wrap">{{searchItems.label}}</span>
                               </button>
                               <ng-container
                                 *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
@@ -325,14 +328,14 @@
                                   *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
                                   (click)="addFunctionsInHtml(searchItems.parameter)"><i
                                     class={{searchItems.icon}}></i>
-                                    <span class="text-wrap">{{searchItems.label}}</span>
+                                  <span class="text-wrap">{{searchItems.label}}</span>
                                 </button>
                               </ng-container>
                               <button nz-button nzType="default" nzBlock
                                 class="rounded"
                                 *ngIf=" searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'">
                                 <span nz-icon nzType="eye"
-                                  (mouseover)="openModal('webCode' ,searchItems)"></span><span class="text-wrap">{{searchItems.label}}</span>
+                                  (mouseover)="openModal('webCode' ,searchItems)"></span>{{searchItems.label}}
                               </button>
                             </div>
                           </div>
@@ -395,9 +398,10 @@
                                 <button nz-button nzType="default" nzBlock
                                   class="rounded"
                                   *ngIf="item1.id == 'webCode'">
-                                  <span nz-icon nzType="eye"
-                                    (mouseover)="openModal('webCode',item3)"></span><span
-                                    class="text-wrap">{{item3.label}}</span>
+                                  <span class="text-wrap">
+                                    <span class="mr-2" nz-icon nzType="eye"
+                                      (mouseover)="openModal('webCode',item3)"></span>{{item3.label}}
+                                  </span>
                                 </button>
                                 <button *ngIf="item1.id == 'template'" nz-button
                                   nzType="default" nzBlock
@@ -471,7 +475,8 @@
       </nz-select>
       <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want
         to save as block?</label>
-      <label class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to save table?</label>
+      <label class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
+        save table?</label>
     </div>
   </ng-container>
 </nz-modal>
