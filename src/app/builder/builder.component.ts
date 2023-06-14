@@ -1454,9 +1454,9 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if(JSON.stringify(this.selectdParentNode) == JSON.stringify(this.selectedNode)){
+    if (JSON.stringify(this.selectdParentNode) == JSON.stringify(this.selectedNode)) {
       parent = this.selectdParentNode;
-      nextNode = this.selectedNode.children  ? this.selectedNode.children[0] : {};
+      nextNode = this.selectedNode.children ? this.selectedNode.children[0] : {};
     }
     else if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
       parent = this.selectedNode;
@@ -1483,12 +1483,12 @@ export class BuilderComponent implements OnInit {
     let parent: any;
     let node: any;
     let nextNode: any;
-    if(this.selectdParentNode.children){
-      if(JSON.stringify(this.selectdParentNode.children[0]) == JSON.stringify(this.selectedNode)){
+    if (this.selectdParentNode.children) {
+      if (JSON.stringify(this.selectdParentNode.children[0]) == JSON.stringify(this.selectedNode)) {
         parent = this.selectdParentNode;
-        nextNode = this.selectdParentNode.children  ? this.selectdParentNode.children[0] : {};
+        nextNode = this.selectdParentNode.children ? this.selectdParentNode.children[0] : {};
       }
-      else{
+      else {
         parent = this.selectdParentNode;
         node = this.selectedNode;
 
@@ -1509,7 +1509,7 @@ export class BuilderComponent implements OnInit {
     let parent = this.selectdParentNode;
     let nextNode: any;
     if (parent && parent.children) {
-      const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
+      const currentIndex = parent.children.findIndex((node: any) => node.id === this.selectedNode.id);
       if (currentIndex !== -1 && currentIndex < parent.children.length - 1) {
         nextNode = parent.children[currentIndex + 1];
       } else {
@@ -1524,40 +1524,40 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-backNode(): void {
-  let parent = this.selectdParentNode;
-  let nextNode: any;
-  if (parent && parent.children) {
-    const currentIndex = parent.children.findIndex((node:any) => node.id === this.selectedNode.id);
-    if (currentIndex !== -1 && currentIndex > 0) {
-      nextNode = parent.children[currentIndex - 1];
-    } else {
-      const prevParent = this.findParentNode(this.nodes, parent);
-      if (prevParent) {
-        parent = prevParent;
-        nextNode = prevParent.children[prevParent.children?.length -1];
+  backNode(): void {
+    let parent = this.selectdParentNode;
+    let nextNode: any;
+    if (parent && parent.children) {
+      const currentIndex = parent.children.findIndex((node: any) => node.id === this.selectedNode.id);
+      if (currentIndex !== -1 && currentIndex > 0) {
+        nextNode = parent.children[currentIndex - 1];
+      } else {
+        const prevParent = this.findParentNode(this.nodes, parent);
+        if (prevParent) {
+          parent = prevParent;
+          nextNode = prevParent.children[prevParent.children?.length - 1];
+        }
       }
-    }
-    if (!nextNode) {
-      this.toastr.error("Sorry there is no child");
-      return;
-    }
-    this.openConfig(parent, nextNode);
-  }
-}
-findParentNode(nodes: any[], node: any): any {
-  for (const n of nodes) {
-    if (n.children && n.children.includes(node)) {
-      return n;
-    } else if (n.children) {
-      const parent = this.findParentNode(n.children, node);
-      if (parent) {
-        return parent;
+      if (!nextNode) {
+        this.toastr.error("Sorry there is no child");
+        return;
       }
+      this.openConfig(parent, nextNode);
     }
   }
-  return null;
-}
+  findParentNode(nodes: any[], node: any): any {
+    for (const n of nodes) {
+      if (n.children && n.children.includes(node)) {
+        return n;
+      } else if (n.children) {
+        const parent = this.findParentNode(n.children, node);
+        if (parent) {
+          return parent;
+        }
+      }
+    }
+    return null;
+  }
 
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
@@ -1675,6 +1675,15 @@ findParentNode(nodes: any[], node: any): any {
     const selectedNode = this.selectedNode;
     let configObj: any;
     selectedNode.id = selectedNode.id?.toLowerCase();
+    if (typeof selectedNode.className === "string") {
+      let classes: any = selectedNode.className;
+      if (classes) {
+        let classList = classes.split(" ");
+        selectedNode.className = [...classList];
+      }
+    }
+
+
     configObj = selectedNode;
     switch (type) {
       case "drawer":
@@ -2619,7 +2628,6 @@ findParentNode(nodes: any[], node: any): any {
       case "image":
       case "telephone":
       case "textarea":
-      case "multiselect":
       case "time":
       case "timepicker":
       case "month":
@@ -2634,11 +2642,12 @@ findParentNode(nodes: any[], node: any): any {
       case "url":
         if (this.selectedNode) {
           needToUpdate = false;
+
           this.selectedNode.title = event.form.title;
           this.selectedNode['key'] = event.form?.key;
           this.selectedNode['id'] = event.form?.id;
           this.selectedNode['copyJsonIcon'] = event.form.copyJsonIcon;
-          this.selectedNode.className = event.form.className;
+          // this.selectedNode.className = event.form.className;
           this.selectedNode['tooltip'] = event.form.tooltip;
           this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
           this.selectedNode.hideExpression = event.form.hideExpression;
@@ -2664,6 +2673,25 @@ findParentNode(nodes: any[], node: any): any {
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
                 // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
+            }
+            if (Array.isArray(event.form.className)) {
+              if (event.form.className.length > 0) {
+                let classArray: any;
+                for (let i = 0; i < event.form.className.length; i++) {
+                  if (i == 0) {
+                    classArray = event.form.className[i];
+                  }
+                  else {
+                    classArray = classArray + ' ' + event.form.className[i];
+                  }
+                };
+                this.selectedNode['className'] = classArray;
+                props['className'] = classArray;
+              }
+            }
+            else {
+              props['className'] = event.form.className;
+              this.selectedNode['className'] = event.form.className;
             }
 
 
@@ -2723,6 +2751,8 @@ findParentNode(nodes: any[], node: any): any {
             props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
             props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
             props['additionalProperties']['toolTipClass'] = event.form?.toolTipClass;
+            props['additionalProperties']['classesArray'] = event.form?.classesArray;
+            props['additionalProperties']['selectType'] = event.form?.selectType;
             // props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
@@ -3324,6 +3354,23 @@ findParentNode(nodes: any[], node: any): any {
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      if (Array.isArray(event.form.className)) {
+        if (event.form.className.length > 0) {
+          let classArray: any;
+          for (let i = 0; i < event.form.className.length; i++) {
+            if (i == 0) {
+              classArray = event.form.className[i];
+            }
+            else {
+              classArray = classArray + ' ' + event.form.className[i];
+            }
+          };
+          this.selectedNode['className'] = classArray;
+        }
+      }
+      else {
+        this.selectedNode['className'] = event.form.className;
+      }
       this.selectedNode = { ...this.selectedNode, ...event.form };
       this.updateNodes();
     }
