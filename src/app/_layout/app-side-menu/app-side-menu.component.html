@@ -8,7 +8,6 @@
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
       <div [ngClass]="{'w-4/5': selectedTheme.menuMode === 'horizontal'}">
         <ul
-          
           [class]="selectedTheme?.font"
           [style.background]="selectedTheme.backGroundColor" nz-menu
           [ngClass]="this.selectedTheme.layout == 'rtl' ? 'rtlMenu' : ''"
