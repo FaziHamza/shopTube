@@ -69,7 +69,7 @@ export interface TreeNode {
   paddingTop?: any;
   paddingBottom?: any;
   showValue?: boolean;
-  className?: string;
+  className?: any;
   margin?: any;
   sectionClassName?: any;
   selectedIndex?: any;

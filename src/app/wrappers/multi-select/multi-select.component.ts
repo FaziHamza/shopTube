@@ -31,5 +31,9 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
       return '';
     }
   }
+  onModelChange(event: any, model: any) {
+    this.sharedService.onChange(event, this.field,);
+    console.log(event, model, 'radio');
+  }
 }
 

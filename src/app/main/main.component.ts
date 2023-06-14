@@ -186,6 +186,7 @@ export class MainComponent implements OnInit {
               }
               else{
                 V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label);
+                this.dataSharedService.formlyShowError.next(true);
                 // V2.formly[0].fieldGroup[index].props['required'] = true;
               }
             }
@@ -193,6 +194,7 @@ export class MainComponent implements OnInit {
               let check = this.setErrorToInput.filter((error : any) => error.context.key == V2.formly[0].fieldGroup[index].key);
               if(check.length == 0){
                 V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+                // this.dataSharedService.formlyShowError.next(false);
               }
             }
           }

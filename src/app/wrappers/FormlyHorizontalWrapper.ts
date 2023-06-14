@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
+import { Subscription } from 'rxjs';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'formly-horizontal-wrapper',
@@ -33,7 +35,7 @@ import { FieldWrapper } from '@ngx-formly/core';
   </div>
   <div *ngIf="showError" class="{{labelColumn}}"></div>
   <!-- {{showError | json}} -->
-  <div *ngIf="showError" class="text-red-500 text-sm block {{fieldColumn}}">
+  <div *ngIf="hasError" class="text-red-500 text-sm block {{fieldColumn}}">
     <span>{{to['additionalProperties']?.requiredMessage}}</span>
     <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
   </div>
@@ -46,7 +48,31 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   errorColumn: string;
   fieldPadding: string;
   rtl: any;
+  requestSubscription: Subscription;
+  hasError: boolean = false;
+  constructor(public dataSharedService: DataSharedService) {
+    super();
+  }
+
   ngOnInit(): void {
+    this.requestSubscription = this.dataSharedService.formlyShowError.subscribe({
+      next: (res: any) => {
+        debugger
+        if (res)
+            this.hasError = res;
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    });
+    if (this.field.formControl) {
+      this.field.formControl.statusChanges.subscribe(() => {
+        debugger
+        if (this.field.formControl) {
+          this.hasError = this.field.formControl.invalid;
+        }
+      });
+    }
 
     const fullWidth = this.to['className'].includes('w-full');
     const labelPosition = this.to['additionalProperties']?.labelPosition + ' pl-2 pr-2' || '';
@@ -54,6 +80,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     this.fieldColumn = fullWidth ? 'w-3/4' : 'w-3/4';
     this.fieldPadding = this.getFieldPaddingClass(this.to['additionalProperties']?.size);
   }
+
 
   private getFieldPaddingClass(size: string): string {
     switch (size) {

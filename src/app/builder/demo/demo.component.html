@@ -18,7 +18,7 @@
 
 
 
-<div *ngFor="let item of myData; let i = index">
+<div *ngFor="let item of myData; let i = index" class="ant-modal-confirm-btns text-gray-500">
   <table class="data-table">
     <tr *ngFor="let entry of item | keyvalue">
       <th>{{ entry.key }}</th>

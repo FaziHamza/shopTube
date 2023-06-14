@@ -113,6 +113,8 @@ export class BuilderClickButtonService {
       toolTipClass: node.formly[0].fieldGroup[0].props['additionalProperties']?.toolTipClass,
       tooltipPosition: node.formly[0].fieldGroup[0].props['additionalProperties']?.tooltipPosition,
       tooltip: node.formly[0].fieldGroup[0].props['additionalProperties']['tooltip'],
+      classesArray: node.formly[0].fieldGroup[0].props['additionalProperties']['classesArray'],
+      selectType: node.formly[0].fieldGroup[0].props['additionalProperties']['selectType'],
       // formlyTypes: node.formly[0].fieldGroup[0].props['additionalProperties']['formlyTypes'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
