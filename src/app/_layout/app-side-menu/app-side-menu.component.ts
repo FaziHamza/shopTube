@@ -40,7 +40,6 @@ export class AppSideMenuComponent implements OnInit {
 
   setHovered(value: any, event : any) {
     event.stopPropagation();
-    debugger
     if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
       this.selectedTheme.isCollapsed = value;
     }

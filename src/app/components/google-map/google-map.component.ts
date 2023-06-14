@@ -1,11 +1,6 @@
 import {
-  Component,
-  Inject,
-  ElementRef,
-  ViewChild,
-  NgZone,
+  Component
 } from '@angular/core';
-import { GoogleMapsService, Maps } from 'src/app/services/google-maps.service';
 
 // import { GoogleMapsService, Maps } from 'src/app/services/google-maps.service.ts';
 
