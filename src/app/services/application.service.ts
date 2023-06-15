@@ -24,12 +24,12 @@ export class ApplicationService {
     }
     updateNestCommonAPI(api: string, id: any, modal: any): Observable<any[]> {
         return this.http.put<any[]>(
-            this.baseUrl + api + `/${id}`, modal
+            this.nestUrl + api + `/${id}`, modal
         );
     }
     deleteNestCommonAPI(api: string, id: any): Observable<any[]> {
         return this.http.delete<any[]>(
-            this.baseUrl + api + `/${id}`
+            this.nestUrl + api + `/${id}`
         );
     }
 }
