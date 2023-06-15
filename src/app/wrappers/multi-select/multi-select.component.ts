@@ -14,22 +14,19 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
     super();
   }
   ngOnInit(): void {
+    debugger
+    if (typeof this.formControl.value === 'string') {
+      if (this.formControl.value === '' || this.formControl.value === undefined) {
+        this.formControl.patchValue([]);
+      }
+    }
   }
   get list(): any {
     return this.to.options;
   }
-  log(event: any, model: any): void {
-    
-    this.formControl.patchValue(event);
-    this.sharedService.onChange(event, this.field);
-    console.log(event, model);
-  }
-  getFloatFieldClass(): string {
-    if (this.to['additionalProperties']?.wrapper === 'floating_filled' || this.to['additionalProperties']?.wrapper === 'floating_outlined') {
-      return this.to['additionalProperties']?.floatFieldClass || '';
-    } else {
-      return '';
-    }
+  onModelChange(event: any, model: any) {
+    this.sharedService.onChange(event, this.field,);
+    console.log(event, model, 'radio');
   }
 }
 

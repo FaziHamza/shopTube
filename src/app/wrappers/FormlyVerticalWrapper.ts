@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
+import { Subscription } from 'rxjs';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'formly-vertical-wrapper',
@@ -33,7 +35,7 @@ import { FieldWrapper } from '@ngx-formly/core';
     <div class="mt-1 pl-2">
       <ng-template #fieldComponent></ng-template>
     </div>
-    <div *ngIf="showError" class="text-red-500 text-sm block pl-2">
+    <div *ngIf="hasError" class="text-red-500 text-sm block pl-2">
       <span>{{to['additionalProperties']?.requiredMessage}}</span>
       <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
     </div>
@@ -42,8 +44,31 @@ import { FieldWrapper } from '@ngx-formly/core';
   `,
 })
 export class FormlyVerticalWrapper extends FieldWrapper {
+  constructor(public dataSharedService: DataSharedService) {
+    super();
+  }
+  requestSubscription: Subscription;
+  hasError: boolean = false;
   ngOnInit(): void {
     this.to;
+    this.requestSubscription = this.dataSharedService.formlyShowError.subscribe({
+      next: (res: any) => {
+        debugger
+        if (res)
+            this.hasError = res;
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    });
+    if (this.field.formControl) {
+      this.field.formControl.statusChanges.subscribe(() => {
+        debugger
+        if (this.field.formControl) {
+          this.hasError = this.field.formControl.invalid;
+        }
+      });
+    }
 
   }
 }

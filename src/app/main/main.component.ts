@@ -66,7 +66,7 @@ export class MainComponent implements OnInit {
       this.form.value;
       console.log(this.form.value);
       this.dataModel
-    } 
+    }
     // else {
     //   alert(this.validationCheckStatus);
     // }
@@ -119,10 +119,19 @@ export class MainComponent implements OnInit {
           let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.mainData[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length) {
             if (jsonScreenRes[0].type == "text") {
-              this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
+              const joiString = Joi.string()
+                .min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0)
+                .max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0);
+
+              if (jsonScreenRes[0].required) {
+                joiString.required();
               }
+
+              this.ruleObj = {
+                [jsonScreenRes[0].key]: joiString,
+              };
             }
+
             else if (jsonScreenRes[0].type == "number") {
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.number().integer().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
@@ -138,17 +147,17 @@ export class MainComponent implements OnInit {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
-              else if (jsonScreenRes[0].type == "email") {
-                // this.ruleObj = {
-                //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
-                // }
-                const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
-                const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
-                const schema = {
-                  [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
-                };
-                this.ruleObj = schema;
-              }
+            else if (jsonScreenRes[0].type == "email") {
+              // this.ruleObj = {
+              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
+              // }
+              const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
+              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
+              const schema = {
+                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
+              };
+              this.ruleObj = schema;
+            }
             Object.assign(this.ruleValidation, this.ruleObj);
           }
         }
@@ -162,7 +171,7 @@ export class MainComponent implements OnInit {
   }
   validationChecker() {
     this.mainData.forEach((item: any) => {
-      if(item.formly){
+      if (item.formly) {
         item.formly[0].fieldGroup[0].props.error = null;
       }
       // for (let index = 0; index < this.mainData[0].formly[0].fieldGroup.length; index++) {
@@ -180,26 +189,33 @@ export class MainComponent implements OnInit {
           for (let i = 0; i < this.setErrorToInput.length; i++) {
             const element = this.setErrorToInput[i];
             if (V2.formly[0].fieldGroup[index].key.includes(this.setErrorToInput[i].context.key)) {
-              if (this.setErrorToInput[i].message == '"' + this.setErrorToInput[i].context.key + '" ' + "is not allowed"){
+              if (this.setErrorToInput[i].message == '"' + this.setErrorToInput[i].context.key + '" ' + "is not allowed") {
                 V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
                 // V2.formly[0].fieldGroup[index].props['required'] = false;
               }
-              else{
+              else {
                 V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label);
                 // V2.formly[0].fieldGroup[index].props['required'] = true;
               }
             }
-            else{
-              V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+            else {
+              let check = this.setErrorToInput.filter((error: any) => error.context.key == V2.formly[0].fieldGroup[index].key);
+              if (check.length == 0) {
+                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
+                // this.dataSharedService.formlyShowError.next(false);
+              }
             }
           }
-          if ( V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage)
-            this.validationCheckStatus.push( V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage);
+          if (V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage)
+            this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage);
         }
       });
+      if (this.setErrorToInput.length > 0) {
+        this.dataSharedService.formlyShowError.next(true);
+      }
       this.cd.detectChanges();
     }
-    else{
+    else {
       // filteredNodes = this.filterInputElements(this.mainData);
       filteredNodes.forEach((V2: any) => {
         for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {

@@ -38,24 +38,14 @@ export class AppSideMenuComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
 
-  setHovered(value: any, data?: any, item?: any) {
-    // if (!value) {
-    //   this.hoverActiveShow = data.id;
-    // } else {
-    //   this.hoverActiveShow = null;
-    // }
-    if (value != 'down' && value != 'up') {
-      if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
-        this.selectedTheme.isCollapsed = value;
-      }
-      if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
-        if (!this.selectedTheme.checked)
-          this.selectedTheme.isCollapsed = value;
-      }
+  setHovered(value: any, event : any) {
+    event.stopPropagation();
+    if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
+      this.selectedTheme.isCollapsed = value;
     }
-    else if (value == 'down' || value == 'up') {
-      data = value;
-      item.menuIcon = value;
+    if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
+      if (!this.selectedTheme.checked)
+        this.selectedTheme.isCollapsed = value;
     }
 
   }
@@ -125,7 +115,7 @@ export class AppSideMenuComponent implements OnInit {
       this.notify.emit(data);
       this.menuChildArrayTwoColumn = [];
       if (data.link && !checkTabsAndDropdown) {
-        if(!window.location.href.includes('/menu-builder')){
+        if (!window.location.href.includes('/menu-builder')) {
           let routerLink = data.link;
           this.router.navigate([routerLink]);
         }

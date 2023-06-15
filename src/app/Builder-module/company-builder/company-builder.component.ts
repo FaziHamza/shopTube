@@ -359,7 +359,7 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   callChild(organization: any) {
-    const applicationData = this.listOfChildrenData.filter((item: any) => item.companyName ? item.companyName : item.organizationName == organization.name);
+    const applicationData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
     organization['children'] = applicationData;
   }
 
