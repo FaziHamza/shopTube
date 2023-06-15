@@ -11006,12 +11006,12 @@ export class formFeildData {
               serveSearch: true,
               showArrow: true,
               showSearch: true,
+              selectType:'tags'
             },
           },
           expressionProperties: {
             hide: "model.type!='email'",
           },
-          defaultValue: 'text',
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
