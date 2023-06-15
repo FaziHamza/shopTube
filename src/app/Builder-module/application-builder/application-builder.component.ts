@@ -14,10 +14,8 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./application-builder.component.scss']
 })
 export class ApplicationBuilderComponent implements OnInit {
-  companyName: any;
   companyBuilder: any;
-  applicationData: any = [];
-  schema: any;
+  departmentData: any = [];
   isSubmit: boolean = true;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
@@ -33,7 +31,7 @@ export class ApplicationBuilderComponent implements OnInit {
   requestSubscription: Subscription;
   fields: any = [];
   listOfChildrenData: any[] = [];
-  moduleSubmit: boolean = false;
+  applicationSubmit: boolean = false;
   checkRes: boolean = false;
   footerSaved: boolean = false;
   searchArray: any = [];
@@ -125,12 +123,12 @@ export class ApplicationBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.loadData();
-    this.jsonApplicationBuilder();
+    this.getOrganizationData();
+    this.getDepartment();
     // this.loadSearchArray();
   }
 
-  jsonApplicationBuilder() {
+  getDepartment() {
     this.loading = true
     this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
       next: (res) => {
@@ -140,8 +138,8 @@ export class ApplicationBuilderComponent implements OnInit {
         });
         this.listOfDisplayData = res;
         this.listOfData = res;
-        this.applicationData = res;
-        this.jsonModuleSetting();
+        this.departmentData = res;
+        this.getApplication();
         const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
         nonEmptySearchArray.forEach((element: any) => {
           this.search(element.searchValue, element);
@@ -157,7 +155,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
 
-    if (isSubmit && key == "moduleId") {
+    if (isSubmit && key == "applicationId") {
       let obj = {
         name: value.name + "_default",
         screenId: value.name + "_default",
@@ -198,7 +196,7 @@ export class ApplicationBuilderComponent implements OnInit {
     this.loading = true;
     setTimeout(() => {
       let menu = {
-        "moduleName": this.myForm.value.name,
+        "applicationName": this.myForm.value.name,
         "menuData": [
           {
             "id": "menu_" + Guid.newGuid(),
@@ -211,7 +209,7 @@ export class ApplicationBuilderComponent implements OnInit {
             "children": []
           }
         ],
-        "moduleId": this.myForm.value.name,
+        "applicationId": this.myForm.value.name,
         "selectedTheme": {
           "topHeaderMenu": "w-1/6",
           "topHeader": "w-10/12",
@@ -244,8 +242,8 @@ export class ApplicationBuilderComponent implements OnInit {
           let screen = {
             name: this.myForm.value.name,
             screenId: this.myForm.value.name,
-            applicationName: '',
-            moduleName: this.myForm.value.name,
+            departmentName: '',
+            applicationName: this.myForm.value.name,
           }
           setTimeout(() => {
             this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
@@ -270,12 +268,12 @@ export class ApplicationBuilderComponent implements OnInit {
     }, 500)
   }
   openModal(type: any) {
-    if (type == 'module') {
-      this.loadModuleFields();
-      this.moduleSubmit = true;
+    if (type == 'application') {
+      this.loadApplicationFields();
+      this.applicationSubmit = true;
     } else {
-      this.fieldsLoad();
-      this.moduleSubmit = false;
+      this.loadDepartmentFields();
+      this.applicationSubmit = false;
     }
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -295,57 +293,57 @@ export class ApplicationBuilderComponent implements OnInit {
     this.isVisible = false;
   }
 
-  loadData() {
+  getOrganizationData() {
     this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.companyBuilder = res.map(item => ({
         label: item.name,
         value: item.name
       }));
-      this.fieldsLoad();
+      this.loadDepartmentFields();
     }));
   }
   onSubmit() {
-
+    debugger
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
     }
-    const findData = this.moduleSubmit
+    const findData = this.applicationSubmit
       ? this.listOfChildrenData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id)
       : this.listOfDisplayData.find(a => a.name.toLowerCase() == this.myForm.value.name.toLowerCase() && a.id !== this.model?.id);
 
     if (findData) {
-      const message = this.moduleSubmit ? 'Application name already exists in the database.' : 'Department name already exists in the database.';
+      const message = this.applicationSubmit ? 'Application name already exists in the database.' : 'Department name already exists in the database.';
       this.toastr.warning(message, { nzDuration: 2000 });
       return;
     }
     else {
-      const key = this.moduleSubmit ? 'moduleId' : 'applicationId';
+      const key = this.applicationSubmit ? 'applicationId' : 'departmentId';
       this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
-      const action$ = !this.moduleSubmit ? (this.isSubmit
+      const action$ = !this.applicationSubmit ? (this.isSubmit
         ? this.builderService.addApplicationBuilder(this.myForm.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
         ? this.builderService.addModule(this.myForm.value)
         : this.builderService.updateModule(this.model.id, this.myForm.value);
       action$.subscribe((res) => {
 
-        // if (this.moduleSubmit && key == 'moduleId' && this.myForm.value) {
+        // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();
         // };
-        // if (this.moduleSubmit) {
+        // if (this.applicationSubmit) {
         //   setTimeout(() => {
         //     this.saveHeaderFooter('header');
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.moduleSubmit && key == "moduleId") {
+        if (this.applicationSubmit && key == "applicationId") {
           setTimeout(() => {
             this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
           }, 1000);
         }
         // else
-        this.jsonApplicationBuilder();
-        this.jsonModuleSetting();
+        this.getDepartment();
+        this.getApplication();
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
         this.isSubmit = true;
@@ -359,10 +357,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
 
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'module' ? this.builderService.deletejsonModule(id) : this.builderService.deleteApplicationBuilder(id);
+    const api$ = type == 'application' ? this.builderService.deletejsonModule(id) : this.builderService.deleteApplicationBuilder(id);
     api$.subscribe((res => {
-      this.jsonApplicationBuilder();
-      this.jsonModuleSetting();
+      this.getDepartment();
+      this.getApplication();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }))
   };
@@ -373,7 +371,7 @@ export class ApplicationBuilderComponent implements OnInit {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
         data.name == 'Department Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'Company Name' ? ((item?.companyName ? item?.companyName : item.organizationName) ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Organization Name' ? ((item?.companyName ? item?.companyName : item.organizationName) ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
           (data.name == 'Department Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
@@ -393,7 +391,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   downloadJson() {
-    let obj = Object.assign({}, this.applicationData);
+    let obj = Object.assign({}, this.departmentData);
     const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -401,12 +399,12 @@ export class ApplicationBuilderComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
   }
-  callChild(company: any) {
-
-    const moduleData = this.listOfChildrenData.filter((item: any) => item.applicationName == company.name);
-    company['children'] = moduleData;
+  callChild(department: any) {
+    debugger
+    const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
+    department['children'] = moduleData;
   }
-  jsonModuleSetting() {
+  getApplication() {
     this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
       next: (res) => {
         this.listOfChildrenData = res;
@@ -441,7 +439,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }
   }
 
-  fieldsLoad() {
+  loadDepartmentFields() {
     this.fields = [
       {
         fieldGroup: [
@@ -466,7 +464,7 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Company Name',
+              label: 'Organization Name',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
@@ -482,7 +480,7 @@ export class ApplicationBuilderComponent implements OnInit {
     ];
   }
 
-  loadModuleFields() {
+  loadApplicationFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
       value: item.name
@@ -506,7 +504,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'applicationName',
+            key: 'departmentName',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -533,7 +531,6 @@ export class ApplicationBuilderComponent implements OnInit {
             props: {
               label: 'Owner Name',
               placeholder: 'Owner Name...',
-              // required: true,
             }
           },
         ],

@@ -20,20 +20,25 @@
         </ng-template>
     </div> -->
 
-    <nz-table #nestedTable nzBordered [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize"
+    <nz-table #nestedTable nzBordered [nzLoading]="loading"
+        [nzData]="listOfDisplayData" [nzPageSize]="pageSize"
         nzBordered>
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th nzCustomFilter *ngIf="column.name != '' && column.name != 'Action'" [nzSortFn]="column.sortFn">
+                    <th nzCustomFilter
+                        *ngIf="column.name != '' && column.name != 'Action'"
+                        [nzSortFn]="column.sortFn">
                         {{column.name}}
                         <nz-filter-trigger [nzVisible]="column.visible || false"
-                            (nzVisibleChange)="column.visible = $event" [nzDropdownMenu]="menu">
+                            (nzVisibleChange)="column.visible = $event"
+                            [nzDropdownMenu]="menu">
                             <span nz-icon nzType="search"></span>
                         </nz-filter-trigger>
 
                     </th>
-                    <th nzWidth="60px" *ngIf="column.name == 'Action'" class="w-1/12">
+                    <th nzWidth="60px" *ngIf="column.name == 'Action'"
+                        class="w-1/12">
                         {{column.name}}
                     </th>
                     <th *ngIf="column.name == ''" style="width:10px">
@@ -42,8 +47,10 @@
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                         <div class="ant-table-filter-dropdown">
                             <div class="search-box">
-                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
-                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                                <input type="text" nz-input nzClear
+                                    (keyup)="search($event , column)"
+                                    placeholder="Search here..."
+                                    [(ngModel)]="column.searchValue" />
                             </div>
                         </div>
                     </nz-dropdown-menu>
@@ -69,20 +76,28 @@
                 <tr>
                     <td [(nzExpand)]="data.expand" (click)="callChild(data)"></td>
                     <td>{{ data.name }}</td>
-                    <td>{{ data.companyName ? data.companyName:data.organizationName}}</td>
+                    <td>{{ data.companyName ?
+                        data.companyName:data.organizationName}}</td>
                     <td>
-                        <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                            nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('application'),editItem(data)]"></span>
-                        <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data.id , 'application')"></span>
+                        <span class="text-blue-500 hover:cursor-pointer" nz-icon
+                            nzType="edit" nzTheme="outline"
+                            nzTooltipTitle="Edit" nz-tooltip
+                            (click)="[openModal('department'),editItem(data)]"></span>
+                        <span class="text-red-500 pl-2 hover:cursor-pointer"
+                            nz-icon nzType="delete" nzTheme="outline"
+                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm
+                            nzPopconfirmTitle="Sure to delete?"
+                            (nzOnConfirm)="deleteRow(data.id , 'department')"></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
-                    <button nz-button nzType="primary" (click)="openModal('module')"><span nz-icon nzType="plus"
+                    <button nz-button nzType="primary"
+                        (click)="openModal('application')"><span nz-icon
+                            nzType="plus"
                             nzTheme="outline"></span>Add
                         Application</button>
-                    <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
+                    <nz-table #innerTable nzBordered [nzData]="data?.children"
+                        nzSize="middle"
                         [nzShowPagination]="true">
                         <thead>
                             <tr>
@@ -98,30 +113,40 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-        <tbody>
-            <tr *ngFor="let data of innerTable.data">
-                <td>{{ data.name }}</td>
-                <td>{{ data.applicationName }}</td>
-                <td>{{ data.owner }}</td>
-                <td>{{ data.email }}</td>
-                <td>{{ data.description }}</td>
-                <td>{{ data.application_Type }}</td>
-                <td>{{ data.layout }}</td>
-                <td>{{ data.domain }}</td>
-                <td> <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt="" /></td>
-                <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('module'),editItem(data)]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data.id , 'module')"></span>
-                </td>
-            </tr>
+                        <tbody>
+                            <tr *ngFor="let data of innerTable.data">
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.applicationName ?
+                                    data.applicationName:data.departmentName }}</td>
+                                <td>{{ data.owner }}</td>
+                                <td>{{ data.email }}</td>
+                                <td>{{ data.description }}</td>
+                                <td>{{ data.application_Type }}</td>
+                                <td>{{ data.layout }}</td>
+                                <td>{{ data.domain }}</td>
+                                <td> <img nz-image width="50px" height="50px"
+                                        [nzSrc]="data.image" alt /></td>
+                                <td>
+                                    <span
+                                        class="text-blue-500 hover:cursor-pointer"
+                                        nz-icon nzType="edit" nzTheme="outline"
+                                        nzTooltipTitle="Edit" nz-tooltip
+                                        (click)="[openModal('application'),editItem(data)]"></span>
+                                    <span
+                                        class="text-red-500 pl-2 hover:cursor-pointer"
+                                        nz-icon nzType="delete"
+                                        nzTheme="outline"
+                                        nzTooltipTitle="Delete" nz-tooltip
+                                        nz-popconfirm
+                                        nzPopconfirmTitle="Sure to delete?"
+                                        (nzOnConfirm)="deleteRow(data.id , 'application')"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </tr>
+            </ng-template>
         </tbody>
-    </nz-table>
-    </tr>
-    </ng-template>
-    </tbody>
     </nz-table>
     <div class="pagination">
         <label class="label">Pagination</label>
@@ -131,20 +156,25 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" (click)="openModal('application')"><span nz-icon nzType="plus"
+    <button nz-button nzType="primary" (click)="openModal('department')"><span
+            nz-icon nzType="plus"
             nzTheme="outline"></span>Add
-        Deparment</button>
-    <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span nz-icon nzType="download"
+        Department</button>
+    <button nz-button nzType="primary" class="ml-2" (click)="downloadJson()"><span
+            nz-icon nzType="download"
             nzTheme="outline"></span>Download Json</button>
 </ng-template>
 <!-- Drawer -->
-<nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
-    [nzTitle]="moduleSubmit ? 'Add Application' : 'Add Deparment'" (nzOnClose)="handleCancel()">
+<nz-drawer nzWidth="1200px" [nzClosable]="true" [nzVisible]="isVisible"
+    [nzFooter]="footerTpl" nzPlacement="right"
+    [nzTitle]="applicationSubmit ? 'Add Application' : 'Add Department'"
+    (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
         <form [formGroup]="myForm">
             <div class="flex flex-wrap">
                 <div class="w-1/2 theme-body" *ngFor="let item of fields">
-                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                    <formly-form [model]="model" [fields]="item.fieldGroup"
+                        [options]="options"
                         [form]="myForm"></formly-form>
                 </div>
             </div>
@@ -152,10 +182,13 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <button class="mr-2" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
+    <button class="mr-2" nz-button nzType="primary" nzDanger
+        (click)="handleCancel()"><span nz-icon nzType="close"
             nzTheme="outline"></span>Close</button>
-    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()" [disabled]="!myForm.valid"><span nz-icon
+    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"
+        [disabled]="!myForm.valid"><span nz-icon
             nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button *ngIf="!isSubmit" nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><span nz-icon
+    <button nz-button *ngIf="!isSubmit" nzType="primary"
+        [disabled]="!myForm.valid" (click)="onSubmit()"><span nz-icon
             nzType="redo" nzTheme="outline"></span>Update</button>
 </ng-template>
