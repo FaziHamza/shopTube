@@ -216,7 +216,11 @@ export class organizationBuilderComponent implements OnInit {
   openModal(type: any) {
     debugger
     if (this.isSubmit) {
-      this.resetForm();
+      for (let prop in this.model) {
+        if (this.model.hasOwnProperty(prop)) {
+          this.model[prop] = null;
+        }
+      }
       this.form = new FormGroup({});
     }
     if (type == 'department') {
