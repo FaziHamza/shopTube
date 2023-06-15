@@ -32,6 +32,7 @@ export class organizationBuilderComponent implements OnInit {
   fields: any = [];
   searchArray: any = [];
   departmentSubmit: boolean = false;
+  organizationId: string;
   listOfColumns: any = [
     {
       name: '',
@@ -290,6 +291,7 @@ export class organizationBuilderComponent implements OnInit {
       this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
+      this.form.value.organizationId = this.organizationId;
       const action$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('department', this.form.value)
         : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
@@ -354,9 +356,9 @@ export class organizationBuilderComponent implements OnInit {
       data.searchIcon = "search";
     }
   }
-
   callChild(organization: any) {
     const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
+    this.organizationId = organization._id;
     organization['children'] = departmentData;
   }
 
