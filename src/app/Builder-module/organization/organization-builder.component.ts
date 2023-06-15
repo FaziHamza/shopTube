@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -40,7 +41,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Name',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
@@ -49,7 +50,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Address',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -69,7 +70,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Email',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -89,7 +90,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Contact',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -109,7 +110,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Website',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -129,7 +130,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Year Founded',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -149,7 +150,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Mission statement',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -180,7 +181,8 @@ export class organizationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(public builderService: BuilderService, private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -193,7 +195,7 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true
-    this.builderService.jsonCompanyBuilder().subscribe((res => {
+    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
       this.listOfDisplayData = res.map(obj => {
         obj.expand = false;
         return obj;
@@ -212,6 +214,10 @@ export class organizationBuilderComponent implements OnInit {
 
   openModal(type: any) {
     debugger
+    if (this.isSubmit) {
+      this.resetForm();
+      this.form = new FormGroup({});
+    }
     if (type == 'department') {
       this.loadDepartmentFields();
       this.departmentSubmit = true;
@@ -219,19 +225,13 @@ export class organizationBuilderComponent implements OnInit {
       this.LoadOrganizationFields();
       this.departmentSubmit = false;
     }
-    if (this.isSubmit) {
-      for (let prop in this.model) {
-        if (this.model.hasOwnProperty(prop)) {
-          this.model[prop] = null;
-        }
-      }
-    }
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
     }
   }
   handleCancel(): void {
+    debugger
     this.isVisible = false;
   }
 
@@ -248,9 +248,9 @@ export class organizationBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
-    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
-    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
+    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
+    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a._id != this.model?._id);
+    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a._id != this.model?._id);
     // if (findName) {
     //   this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
     //   return;
@@ -265,12 +265,13 @@ export class organizationBuilderComponent implements OnInit {
     // }
     else {
       const addOrUpdateCompany$ = this.isSubmit
-        ? this.builderService.addOrganization(this.form.value)
-        : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('organization', this.form.value)
+        : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
       addOrUpdateCompany$.subscribe((res) => {
         this.organizationBuilder();
         this.isSubmit = true;
+        this.resetForm();
         this.handleCancel();
         this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
       });
@@ -284,30 +285,39 @@ export class organizationBuilderComponent implements OnInit {
       return;
     }
 
-    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
     if (findData) {
       this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
       const action$ = this.isSubmit
-        ? this.builderService.addApplicationBuilder(this.form.value)
-        : this.builderService.updateApplicationBuilder(this.model.id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('department', this.form.value)
+        : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
       action$.subscribe((res) => {
         this.organizationBuilder();
-        this.getDepartment();
+        // this.getDepartment();
+        this.resetForm();
         this.isSubmit = true;
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
       });
     }
   }
-
+  resetForm() {
+    debugger
+    for (let prop in this.model) {
+      if (this.model.hasOwnProperty(prop)) {
+        this.model[prop] = null;
+      }
+    }
+    this.form = new FormGroup({});
+  }
   editItem(item: any) {
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'department' ? this.builderService.deleteApplicationBuilder(id) : this.builderService.deleteCompanyBuilder(id);
+    const api$ = type == 'department' ? this.applicationService.deleteNestCommonAPI('department', id) : this.applicationService.deleteNestCommonAPI('organization', id);
     api$.subscribe((res => {
       this.organizationBuilder();
       this.getDepartment();
@@ -346,12 +356,12 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   callChild(organization: any) {
-    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
+    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
     organization['children'] = departmentData;
   }
 
   getDepartment() {
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
+    this.applicationService.getNestCommonAPI('department').subscribe((res => {
       this.listOfChildrenData = res;
       this.loading = false;
     }));
