@@ -4,20 +4,18 @@ import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'st-company-builder',
-  templateUrl: './company-builder.component.html',
-  styleUrls: ['./company-builder.component.scss']
+  selector: 'st-organization-builder',
+  templateUrl: './organization-builder.component.html',
+  styleUrls: ['./organization-builder.component.scss']
 })
-export class CompanyBuilderComponent implements OnInit {
-  applicationName: any;
-  copmanyData: any = [];
-  schema: any;
+export class organizationBuilderComponent implements OnInit {
+  organizationData: any = [];
   isSubmit: boolean = true;
-  // form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any = [];
@@ -33,7 +31,7 @@ export class CompanyBuilderComponent implements OnInit {
   requestSubscription: Subscription;
   fields: any = [];
   searchArray: any = [];
-  applicationSubmit: boolean = false;
+  departmentSubmit: boolean = false;
   listOfColumns: any = [
     {
       name: '',
@@ -43,7 +41,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Name',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
@@ -52,7 +50,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Address',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -72,7 +70,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Email',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -92,7 +90,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Contact',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -112,7 +110,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Website',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -132,7 +130,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Year Founded',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -152,7 +150,7 @@ export class CompanyBuilderComponent implements OnInit {
     },
     {
       name: 'Mission statement',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -183,28 +181,29 @@ export class CompanyBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(public builderService: BuilderService, private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.jsonCompanyBuilder();
-    this.fieldsLoad();
+    this.organizationBuilder();
+    this.LoadOrganizationFields();
     this.loadSearchArray();
   }
-  jsonCompanyBuilder() {
+  organizationBuilder() {
     this.loading = true
-    this.builderService.jsonCompanyBuilder().subscribe((res => {
+    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
       this.listOfDisplayData = res.map(obj => {
         obj.expand = false;
         return obj;
       });
       this.listOfData = res;
-      this.copmanyData = res;
+      this.organizationData = res;
       this.loading = false;
-      this.jsonApplicationBuilder();
+      this.getDepartment();
       const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
       nonEmptySearchArray.forEach((element: any) => {
         this.search(element.searchValue, element);
@@ -214,20 +213,17 @@ export class CompanyBuilderComponent implements OnInit {
 
 
   openModal(type: any) {
-
-    if (type == 'application') {
-      this.loadApplicationFields();
-      this.applicationSubmit = true;
-    } else {
-      this.fieldsLoad();
-      this.applicationSubmit = false;
-    }
+    debugger
     if (this.isSubmit) {
-      for (let prop in this.model) {
-        if (this.model.hasOwnProperty(prop)) {
-          this.model[prop] = null;
-        }
-      }
+      this.resetForm();
+      this.form = new FormGroup({});
+    }
+    if (type == 'department') {
+      this.loadDepartmentFields();
+      this.departmentSubmit = true;
+    } else {
+      this.LoadOrganizationFields();
+      this.departmentSubmit = false;
     }
     this.isVisible = true;
     if (!this.isSubmit) {
@@ -235,26 +231,26 @@ export class CompanyBuilderComponent implements OnInit {
     }
   }
   handleCancel(): void {
+    debugger
     this.isVisible = false;
   }
 
   submit() {
-
-    if (!this.applicationSubmit) {
-      this.companySubmit();
+    if (!this.departmentSubmit) {
+      this.organizationSubmit();
     } else {
-      this.ApplicationSubmit();
+      this.departmentSave();
     }
   }
 
-  companySubmit() {
+  organizationSubmit() {
     if (!this.form.valid) {
       this.handleCancel();
       return;
     }
-    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
-    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
-    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
+    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
+    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a._id != this.model?._id);
+    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a._id != this.model?._id);
     // if (findName) {
     //   this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
     //   return;
@@ -269,51 +265,62 @@ export class CompanyBuilderComponent implements OnInit {
     // }
     else {
       const addOrUpdateCompany$ = this.isSubmit
-        ? this.builderService.addOrganization(this.form.value)
-        : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('organization', this.form.value)
+        : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
       addOrUpdateCompany$.subscribe((res) => {
-        this.jsonCompanyBuilder();
+        this.organizationBuilder();
         this.isSubmit = true;
+        this.resetForm();
         this.handleCancel();
         this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
       });
     }
   }
 
-  ApplicationSubmit() {
+  departmentSave() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
     }
 
-    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
     if (findData) {
       this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
       const action$ = this.isSubmit
-        ? this.builderService.addApplicationBuilder(this.form.value)
-        : this.builderService.updateApplicationBuilder(this.model.id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('department', this.form.value)
+        : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
       action$.subscribe((res) => {
-        this.jsonCompanyBuilder();
-        this.jsonApplicationBuilder();
+        this.organizationBuilder();
+        // this.getDepartment();
+        this.resetForm();
         this.isSubmit = true;
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
       });
     }
   }
-
+  resetForm() {
+    debugger
+    for (let prop in this.model) {
+      if (this.model.hasOwnProperty(prop)) {
+        this.model[prop] = null;
+      }
+    }
+    this.form = new FormGroup({});
+  }
   editItem(item: any) {
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.builderService.deleteApplicationBuilder(id) : this.builderService.deleteCompanyBuilder(id);
+    const api$ = type == 'department' ? this.applicationService.deleteNestCommonAPI('department', id) : this.applicationService.deleteNestCommonAPI('organization', id);
     api$.subscribe((res => {
-      this.jsonCompanyBuilder();
-      this.jsonApplicationBuilder();
+      this.organizationBuilder();
+      this.getDepartment();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }));
   }
@@ -348,29 +355,19 @@ export class CompanyBuilderComponent implements OnInit {
     }
   }
 
-  downloadJson() {
-    let obj = Object.assign({}, this.copmanyData);
-    const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'file.';
-    document.body.appendChild(a);
-    a.click();
-  }
-
   callChild(organization: any) {
-    const applicationData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
-    organization['children'] = applicationData;
+    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
+    organization['children'] = departmentData;
   }
 
-  jsonApplicationBuilder() {
-    this.builderService.jsonApplicationBuilder().subscribe((res => {
+  getDepartment() {
+    this.applicationService.getNestCommonAPI('department').subscribe((res => {
       this.listOfChildrenData = res;
       this.loading = false;
     }));
   }
 
-  loadApplicationFields() {
+  loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
       value: item.name
@@ -411,72 +408,9 @@ export class CompanyBuilderComponent implements OnInit {
           }
         ]
       },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'application_Type',
-      //       type: 'select',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Department Type',
-      //         additionalProperties: {
-      //           allowClear: true,
-      //           serveSearch: true,
-      //           showArrow: true,
-      //           showSearch: true,
-      //         },
-      //         options: [
-      //           { label: "Website", value: 'website' },
-      //           { label: "Mobile", value: 'mobile' },
-      //           { label: "Backend Application", value: 'backend_application' },
-      //         ]
-      //       }
-      //     }
-      //   ]
-      // },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'layout',
-      //       type: 'select',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Layout',
-      //         additionalProperties: {
-      //           allowClear: true,
-      //           serveSearch: true,
-      //           showArrow: true,
-      //           showSearch: true,
-      //         },
-      //         options: [
-      //           { label: "Layout1", value: 'layout1' },
-      //           { label: "Layout2", value: 'layout2' },
-      //           { label: "Layout3", value: 'layout3' },
-      //         ]
-      //       }
-      //     }
-      //   ]
-      // },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'domain',
-      //       type: 'input',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Domain Name',
-      //         placeholder: 'Domain Name...',
-      //         required: true,
-      //       }
-      //     },
-      //   ],
-      // }
     ];
   }
-  fieldsLoad() {
+  LoadOrganizationFields() {
     this.fields = [
       {
         fieldGroup: [
