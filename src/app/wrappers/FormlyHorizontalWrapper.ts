@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
 import { Subscription } from 'rxjs';
 import { DataSharedService } from '../services/data-shared.service';
@@ -34,7 +34,6 @@ import { DataSharedService } from '../services/data-shared.service';
     <p class="m-0 p-0">{{to['additionalProperties']?.error }}</p>
   </div>
   <div *ngIf="showError" class="{{labelColumn}}"></div>
-  <!-- {{showError | json}} -->
   <div *ngIf="hasError" class="text-red-500 text-sm block {{fieldColumn}}">
     <span>{{to['additionalProperties']?.requiredMessage}}</span>
     <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
@@ -50,7 +49,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   rtl: any;
   requestSubscription: Subscription;
   hasError: boolean = false;
-  constructor(public dataSharedService: DataSharedService) {
+  constructor(public dataSharedService: DataSharedService , private cd: ChangeDetectorRef) {
     super();
   }
 
@@ -58,8 +57,10 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     this.requestSubscription = this.dataSharedService.formlyShowError.subscribe({
       next: (res: any) => {
         debugger
-        if (res)
-            this.hasError = res;
+        if (res) {
+          this.hasError = JSON.parse(JSON.stringify(res));
+          this.cd.detectChanges();
+        }
       },
       error: (err: any) => {
         console.error(err);
