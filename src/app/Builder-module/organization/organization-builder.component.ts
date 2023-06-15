@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.builder';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -40,7 +41,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Name',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
@@ -49,7 +50,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Address',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -69,7 +70,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Email',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -89,7 +90,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Contact',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -109,7 +110,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Website',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -129,7 +130,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Year Founded',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -149,7 +150,7 @@ export class organizationBuilderComponent implements OnInit {
     },
     {
       name: 'Mission statement',
-      visible:false,
+      visible: false,
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
@@ -180,7 +181,8 @@ export class organizationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(public builderService: BuilderService, private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -265,8 +267,8 @@ export class organizationBuilderComponent implements OnInit {
     // }
     else {
       const addOrUpdateCompany$ = this.isSubmit
-        ? this.builderService.addOrganization(this.form.value)
-        : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('organization', this.form.value)
+        : this.applicationService.updateNestCommonAPI('organization', this.model.id, this.form.value);
 
       addOrUpdateCompany$.subscribe((res) => {
         this.organizationBuilder();
@@ -346,7 +348,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   callChild(organization: any) {
-    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
+    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
     organization['children'] = departmentData;
   }
 
