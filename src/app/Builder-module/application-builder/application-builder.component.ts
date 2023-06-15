@@ -5,6 +5,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -14,6 +15,8 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./application-builder.component.scss']
 })
 export class ApplicationBuilderComponent implements OnInit {
+  organizations: any[] = [];
+  departmentId: string;
   companyBuilder: any;
   departmentData: any = [];
   isSubmit: boolean = true;
@@ -97,7 +100,9 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
+  constructor(public builderService: BuilderService,
+    private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'application_Type' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
@@ -130,7 +135,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
   getDepartment() {
     this.loading = true
-    this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
       next: (res) => {
         this.listOfDisplayData = res.map(obj => {
           obj.expand = false;
@@ -292,16 +297,16 @@ export class ApplicationBuilderComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-
   getOrganizationData() {
-    this.builderService.jsonCompanyBuilder().subscribe((res => {
+    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
       this.companyBuilder = res.map(item => ({
         label: item.name,
-        value: item.name
+        value: item._id
       }));
       this.loadDepartmentFields();
     }));
   }
+
   onSubmit() {
     debugger
     if (!this.myForm.valid) {
@@ -320,11 +325,17 @@ export class ApplicationBuilderComponent implements OnInit {
     else {
       const key = this.applicationSubmit ? 'applicationId' : 'departmentId';
       this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
+      if (!this.applicationSubmit) {
+        const data = this.companyBuilder.find((x: any) => x.value == this.myForm.value.organizationId);
+        this.myForm.value.organizationName = data.label;
+      } else {
+        this.myForm.value.departmentId = this.departmentId;
+      }
       const action$ = !this.applicationSubmit ? (this.isSubmit
-        ? this.builderService.addApplicationBuilder(this.myForm.value)
-        : this.builderService.updateApplicationBuilder(this.model.id, this.myForm.value)) : this.isSubmit
-        ? this.builderService.addModule(this.myForm.value)
-        : this.builderService.updateModule(this.model.id, this.myForm.value);
+        ? this.applicationService.addNestCommonAPI('department', this.myForm.value)
+        : this.applicationService.updateNestCommonAPI('department', this.model._id, this.myForm.value)) : this.isSubmit
+        ? this.applicationService.addNestCommonAPI('application', this.myForm.value)
+        : this.applicationService.updateNestCommonAPI('application', this.model.id, this.myForm.value);
       action$.subscribe((res) => {
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
@@ -401,11 +412,12 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   callChild(department: any) {
     debugger
+    this.departmentId = department._id;
     const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
     department['children'] = moduleData;
   }
   getApplication() {
-    this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('application').subscribe({
       next: (res) => {
         this.listOfChildrenData = res;
         this.loading = false;
@@ -459,7 +471,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'organizationName',
+            key: 'organizationId',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
