@@ -8,16 +8,13 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'st-company-builder',
-  templateUrl: './company-builder.component.html',
-  styleUrls: ['./company-builder.component.scss']
+  selector: 'st-organization-builder',
+  templateUrl: './organization-builder.component.html',
+  styleUrls: ['./organization-builder.component.scss']
 })
-export class CompanyBuilderComponent implements OnInit {
-  applicationName: any;
-  copmanyData: any = [];
-  schema: any;
+export class organizationBuilderComponent implements OnInit {
+  organizationData: any = [];
   isSubmit: boolean = true;
-  // form: FormGroup;
   breadCrumbItems!: Array<{}>;
   isVisible: boolean = false;
   listOfData: any = [];
@@ -33,7 +30,7 @@ export class CompanyBuilderComponent implements OnInit {
   requestSubscription: Subscription;
   fields: any = [];
   searchArray: any = [];
-  applicationSubmit: boolean = false;
+  departmentSubmit: boolean = false;
   listOfColumns: any = [
     {
       name: '',
@@ -190,11 +187,11 @@ export class CompanyBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.jsonCompanyBuilder();
-    this.fieldsLoad();
+    this.organizationBuilder();
+    this.LoadOrganizationFields();
     this.loadSearchArray();
   }
-  jsonCompanyBuilder() {
+  organizationBuilder() {
     this.loading = true
     this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.listOfDisplayData = res.map(obj => {
@@ -202,9 +199,9 @@ export class CompanyBuilderComponent implements OnInit {
         return obj;
       });
       this.listOfData = res;
-      this.copmanyData = res;
+      this.organizationData = res;
       this.loading = false;
-      this.jsonApplicationBuilder();
+      this.getDepartment();
       const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
       nonEmptySearchArray.forEach((element: any) => {
         this.search(element.searchValue, element);
@@ -214,13 +211,13 @@ export class CompanyBuilderComponent implements OnInit {
 
 
   openModal(type: any) {
-
-    if (type == 'application') {
-      this.loadApplicationFields();
-      this.applicationSubmit = true;
+    debugger
+    if (type == 'department') {
+      this.loadDepartmentFields();
+      this.departmentSubmit = true;
     } else {
-      this.fieldsLoad();
-      this.applicationSubmit = false;
+      this.LoadOrganizationFields();
+      this.departmentSubmit = false;
     }
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -239,15 +236,14 @@ export class CompanyBuilderComponent implements OnInit {
   }
 
   submit() {
-
-    if (!this.applicationSubmit) {
-      this.companySubmit();
+    if (!this.departmentSubmit) {
+      this.organizationSubmit();
     } else {
-      this.ApplicationSubmit();
+      this.departmentSave();
     }
   }
 
-  companySubmit() {
+  organizationSubmit() {
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -273,7 +269,7 @@ export class CompanyBuilderComponent implements OnInit {
         : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
 
       addOrUpdateCompany$.subscribe((res) => {
-        this.jsonCompanyBuilder();
+        this.organizationBuilder();
         this.isSubmit = true;
         this.handleCancel();
         this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
@@ -281,7 +277,8 @@ export class CompanyBuilderComponent implements OnInit {
     }
   }
 
-  ApplicationSubmit() {
+  departmentSave() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -296,8 +293,8 @@ export class CompanyBuilderComponent implements OnInit {
         ? this.builderService.addApplicationBuilder(this.form.value)
         : this.builderService.updateApplicationBuilder(this.model.id, this.form.value);
       action$.subscribe((res) => {
-        this.jsonCompanyBuilder();
-        this.jsonApplicationBuilder();
+        this.organizationBuilder();
+        this.getDepartment();
         this.isSubmit = true;
         this.handleCancel();
         this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
@@ -310,10 +307,10 @@ export class CompanyBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.builderService.deleteApplicationBuilder(id) : this.builderService.deleteCompanyBuilder(id);
+    const api$ = type == 'department' ? this.builderService.deleteApplicationBuilder(id) : this.builderService.deleteCompanyBuilder(id);
     api$.subscribe((res => {
-      this.jsonCompanyBuilder();
-      this.jsonApplicationBuilder();
+      this.organizationBuilder();
+      this.getDepartment();
       this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
     }));
   }
@@ -348,29 +345,19 @@ export class CompanyBuilderComponent implements OnInit {
     }
   }
 
-  downloadJson() {
-    let obj = Object.assign({}, this.copmanyData);
-    const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'file.';
-    document.body.appendChild(a);
-    a.click();
-  }
-
   callChild(organization: any) {
-    const applicationData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
-    organization['children'] = applicationData;
+    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name)  || (item.organizationName == organization.name));
+    organization['children'] = departmentData;
   }
 
-  jsonApplicationBuilder() {
+  getDepartment() {
     this.builderService.jsonApplicationBuilder().subscribe((res => {
       this.listOfChildrenData = res;
       this.loading = false;
     }));
   }
 
-  loadApplicationFields() {
+  loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
       value: item.name
@@ -411,72 +398,9 @@ export class CompanyBuilderComponent implements OnInit {
           }
         ]
       },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'application_Type',
-      //       type: 'select',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Department Type',
-      //         additionalProperties: {
-      //           allowClear: true,
-      //           serveSearch: true,
-      //           showArrow: true,
-      //           showSearch: true,
-      //         },
-      //         options: [
-      //           { label: "Website", value: 'website' },
-      //           { label: "Mobile", value: 'mobile' },
-      //           { label: "Backend Application", value: 'backend_application' },
-      //         ]
-      //       }
-      //     }
-      //   ]
-      // },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'layout',
-      //       type: 'select',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Layout',
-      //         additionalProperties: {
-      //           allowClear: true,
-      //           serveSearch: true,
-      //           showArrow: true,
-      //           showSearch: true,
-      //         },
-      //         options: [
-      //           { label: "Layout1", value: 'layout1' },
-      //           { label: "Layout2", value: 'layout2' },
-      //           { label: "Layout3", value: 'layout3' },
-      //         ]
-      //       }
-      //     }
-      //   ]
-      // },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'domain',
-      //       type: 'input',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         label: 'Domain Name',
-      //         placeholder: 'Domain Name...',
-      //         required: true,
-      //       }
-      //     },
-      //   ],
-      // }
     ];
   }
-  fieldsLoad() {
+  LoadOrganizationFields() {
     this.fields = [
       {
         fieldGroup: [
