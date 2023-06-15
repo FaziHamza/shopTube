@@ -252,24 +252,24 @@ export class CompanyBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
-    let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
-    let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
-    if (findName) {
-      this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
-      return;
-    }
-    if (findEmail) {
-      this.toastr.warning('Email already exists in the database.', { nzDuration: 2000 });
-      return;
-    }
-    if (findContact) {
-      this.toastr.warning('Contact already exists in the database.', { nzDuration: 2000 });
-      return;
-    }
+    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
+    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
+    // if (findName) {
+    //   this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
+    //   return;
+    // }
+    // if (findEmail) {
+    //   this.toastr.warning('Email already exists in the database.', { nzDuration: 2000 });
+    //   return;
+    // }
+    // if (findContact) {
+    //   this.toastr.warning('Contact already exists in the database.', { nzDuration: 2000 });
+    //   return;
+    // }
     else {
       const addOrUpdateCompany$ = this.isSubmit
-        ? this.builderService.addCompanyBuilder(this.form.value)
+        ? this.builderService.addOrganization(this.form.value)
         : this.builderService.updateCompanyBuilder(this.model.id, this.form.value);
 
       addOrUpdateCompany$.subscribe((res) => {

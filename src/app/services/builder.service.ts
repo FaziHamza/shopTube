@@ -305,6 +305,11 @@ export class BuilderService {
       this.baseUrl + "companyJson", modal
     );
   }
+  addOrganization(modal: any): Observable<any[]> {
+    return this.http.post<any[]>(
+      this.nestUrl + "organization", modal
+    );
+  }
   checkCompanyName(company: any): Observable<any> {
     return this.http.get<any>(this.baseUrl + "companyJson").pipe(
       map((companies: any[]) => {
