@@ -16,7 +16,6 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class ApplicationBuilderComponent implements OnInit {
   organizations: any[] = [];
-  departmentId: string;
   companyBuilder: any;
   departmentData: any = [];
   isSubmit: boolean = true;
@@ -329,13 +328,14 @@ export class ApplicationBuilderComponent implements OnInit {
         const data = this.companyBuilder.find((x: any) => x.value == this.myForm.value.organizationId);
         this.myForm.value.organizationName = data.label;
       } else {
-        this.myForm.value.departmentId = this.departmentId;
+        const departmentData = this.listOfData.find((x: any) => x._id == this.myForm.value.departmentId)
+        this.myForm.value.departmentName = departmentData.name;
       }
       const action$ = !this.applicationSubmit ? (this.isSubmit
         ? this.applicationService.addNestCommonAPI('department', this.myForm.value)
         : this.applicationService.updateNestCommonAPI('department', this.model._id, this.myForm.value)) : this.isSubmit
         ? this.applicationService.addNestCommonAPI('application', this.myForm.value)
-        : this.applicationService.updateNestCommonAPI('application', this.model.id, this.myForm.value);
+        : this.applicationService.updateNestCommonAPI('application', this.model._id, this.myForm.value);
       action$.subscribe((res) => {
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
@@ -368,7 +368,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
 
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.builderService.deletejsonModule(id) : this.builderService.deleteApplicationBuilder(id);
+    const api$ = type == 'application' ? this.applicationService.deleteNestCommonAPI('application', id) : this.applicationService.deleteNestCommonAPI('department', id);
     api$.subscribe((res => {
       this.getDepartment();
       this.getApplication();
@@ -412,7 +412,6 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   callChild(department: any) {
     debugger
-    this.departmentId = department._id;
     const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
     department['children'] = moduleData;
   }
@@ -495,7 +494,7 @@ export class ApplicationBuilderComponent implements OnInit {
   loadApplicationFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
-      value: item.name
+      value: item._id
     }));
     this.fields = [
       {
@@ -516,7 +515,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'departmentName',
+            key: 'departmentId',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
