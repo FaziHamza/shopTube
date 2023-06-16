@@ -115,10 +115,8 @@ export class AppSideMenuComponent implements OnInit {
       this.notify.emit(data);
       this.menuChildArrayTwoColumn = [];
       if (data.link && !checkTabsAndDropdown) {
-        if (!window.location.href.includes('/menu-builder')) {
-          let routerLink = data.link;
-          this.router.navigate([routerLink]);
-        }
+        let routerLink = data.link;
+        this.router.navigate([routerLink]);
       }
       else if (data.children.length > 0) {
         data.children.forEach((i: any) => {

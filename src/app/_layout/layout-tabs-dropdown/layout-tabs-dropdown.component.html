@@ -8,7 +8,7 @@
                 <ng-container *ngIf="child1.children.length">
                     <li nz-submenu (click)="screenLoad(child1.link)">
                         {{child1.title}}
-                        <span nz-icon nzType="down" nzTheme="outline"></span>
+                        <!-- <span nz-icon nzType="down" nzTheme="outline"></span> -->
                         <ul *ngFor="let child2 of child1.children">
                             <li nz-menu-item (click)="screenLoad(child2.link)">{{child2.title}}</li>
                         </ul>
@@ -16,7 +16,7 @@
                 </ng-container>
                 <li nz-menu-item *ngIf="child1.children.length == 0" (click)="screenLoad(child1.link)">
                     {{child1.title}}
-                    <span nz-icon nzType="down" nzTheme="outline"></span>
+                    <!-- <span nz-icon nzType="down" nzTheme="outline"></span> -->
                 </li>
             </ul>
         </ng-container>

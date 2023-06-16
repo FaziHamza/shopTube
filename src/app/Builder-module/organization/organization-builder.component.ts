@@ -269,11 +269,11 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
-      const addOrUpdateCompany$ = this.isSubmit
+      const addOrUpdateOrganization$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('organization', this.form.value)
         : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
-      addOrUpdateCompany$.subscribe((res) => {
+        addOrUpdateOrganization$.subscribe((res) => {
         this.organizationBuilder();
         this.isSubmit = true;
         this.resetForm();
