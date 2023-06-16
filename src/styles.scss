@@ -1945,6 +1945,7 @@ object {
     }
   }
 }
+
 // .ant-select-selector {
 //   height: 31px;
 //   overflow-y: scroll;
@@ -1952,4 +1953,28 @@ object {
 .isActive {
   background-color: #bae7ff;
   border-radius: 2px;
+}
+
+.compact-sidebar {
+  ul li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60px !important;
+    align-items: center;
+    padding-right: 25px !important;
+
+    .menu-item-icon,
+    .sidenav-title {
+      height: 25px !important;
+      line-height: 25px !important;
+      margin-left: 0px !important;
+    }
+  }
+
+  .menu-title {
+   background: #f5f5f5;
+    line-height: 5px !important;
+    height: 40px !important;
+  }
 }
