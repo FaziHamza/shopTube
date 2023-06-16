@@ -87,7 +87,7 @@
                             nz-icon nzType="delete" nzTheme="outline"
                             nzTooltipTitle="Delete" nz-tooltip nz-popconfirm
                             nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data.id , 'department')"></span>
+                            (nzOnConfirm)="deleteRow(data._id , 'department')"></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
@@ -139,7 +139,7 @@
                                         nzTooltipTitle="Delete" nz-tooltip
                                         nz-popconfirm
                                         nzPopconfirmTitle="Sure to delete?"
-                                        (nzOnConfirm)="deleteRow(data.id , 'application')"></span>
+                                        (nzOnConfirm)="deleteRow(data._id , 'application')"></span>
                                 </td>
                             </tr>
                         </tbody>
