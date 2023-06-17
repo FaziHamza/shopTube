@@ -98,28 +98,11 @@ export class ScreenBuilderComponent implements OnInit {
 
       if (field.key === 'departmentId' && event) {
         debugger
-        this.applicationService.getNestCommonAPIByCustomQuery('application/department/',event).subscribe((res) => {
-          const moduleListOptions = res.map((item: any) => ({
-            label: item.name,
-            value: item._id
-          }));
-
-          // Find the index of the "Select Module" field in the 'this.fields' array
-          const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-            const field = fieldGroup.fieldGroup[0];
-            return field.key === 'applicationId';
-          });
-
-          if (moduleFieldIndex !== -1) {
-            // Update the options of the "Select Module" field
-            this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
-          }
-        });
+        this.getApplicationOptionList(event);
       }
 
     });
   }
-
   ngOnInit(): void {
     // this.form = new FormGroup({
     //   name: new FormControl('', Validators.required),
@@ -213,22 +196,48 @@ export class ScreenBuilderComponent implements OnInit {
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('screen-builder', this.form.value)
         : this.applicationService.updateNestCommonAPI('screen-builder', this.model._id, this.form.value);
-      checkScreenAndProceed.subscribe(() => {
-        this.isVisible = false;
-        this.jsonScreenModuleList();
-        const message = this.isSubmit ? 'Save' : 'Update';
-        this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
-        if (!this.isSubmit) {
-          this.isSubmit = true;
-        }
-        this.handleCancel();
+      checkScreenAndProceed.subscribe({
+        next: (objTRes) => {
+          this.isVisible = false;
+          this.jsonScreenModuleList();
+          const message = this.isSubmit ? 'Save' : 'Update';
+          this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
+          if (!this.isSubmit) {
+            this.isSubmit = true;
+          }
+          this.handleCancel();
+        },
+        error: (err) => {
+          this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
+        },
       });
     }
   }
 
+  getApplicationOptionList(id: string) {
+    this.applicationService.getNestCommonAPIByCustomQuery('application/department/', id).subscribe((res) => {
+      const moduleListOptions = res.map((item: any) => ({
+        label: item.name,
+        value: item._id
+      }));
+
+      // Find the index of the "Select Module" field in the 'this.fields' array
+      const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+        const field = fieldGroup.fieldGroup[0];
+        return field.key === 'applicationId';
+      });
+
+      if (moduleFieldIndex !== -1) {
+        // Update the options of the "Select Module" field
+        this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+      }
+    });
+  }
 
   editItem(item: any) {
+    debugger
     this.model = JSON.parse(JSON.stringify(item));
+    this.getApplicationOptionList(this.model.departmentId)
     this.isSubmit = false;
   }
   deleteRow(id: any): void {

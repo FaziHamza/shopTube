@@ -10,6 +10,7 @@ import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Guid } from '../models/guid';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from '../services/application.service';
 
 @Component({
   selector: 'st-menu-builder',
@@ -29,13 +30,13 @@ export class MenuBuilderComponent implements OnInit {
   IsConfigurationVisible: boolean = true;
   IsShowConfig: boolean = false;
   applications: any;
-  applicatioName: any;
-  applicationId: any = 0;
+  applicationName: any;
+  applicationId: string = '';
   screenIdList: any = [];
   dataMenuArrayLength: any = [];
   buttonLinkArray: any = [];
   filterMenuData: any = [];
-  applicationBuilder: any[] = [];
+  departments: any[] = [];
   expandedKeys: any;
   isVisible: string;
   tabsChild: TreeNode;
@@ -55,6 +56,7 @@ export class MenuBuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
+    private applicationService: ApplicationService,
     public builderService: BuilderService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
@@ -161,7 +163,7 @@ export class MenuBuilderComponent implements OnInit {
       showMenu: true,
     }
     // this.jsonModuleSetting();
-    this.loadApplications();
+    this.getDepartments();
 
   }
   LayerShow() {
@@ -179,22 +181,17 @@ export class MenuBuilderComponent implements OnInit {
     this.IsShowConfig = true;
     this.applySize();
   }
-  jsonModuleSetting() {
-    this.builderService.jsonModuleSetting().subscribe((res => {
-      this.applications = res;
-      this.clickBack();
-    }));
-  }
-  getMenus(data: any) {
-    this.builderService.getJsonModules(data).subscribe((res => {
 
+  getMenus(id: string) {
+    debugger
+    this.applicationService.getNestCommonAPIByCustomQuery('menu/application/', id).subscribe((res => {
       if (res.length > 0) {
-        let getApplication = this.applications.find((a: any) => a.name == data);
+        let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-        this.applicationId = res[0].id
-        this.nodes = res[0].menuData;
+        this.applicationId = res[0]._id
+        this.nodes = JSON.parse(res[0].menuData);
         if (res[0].selectedTheme) {
-          this.selectedTheme = res[0].selectedTheme;
+          this.selectedTheme = JSON.parse(res[0].selectedTheme);
           this.selectedTheme.allMenuItems = this.nodes;
         }
         else {
@@ -229,7 +226,7 @@ export class MenuBuilderComponent implements OnInit {
       }
       else {
         this.clearChildNode();
-        this.applicationId = 0;
+        this.applicationId = '';
         this.clickBack();
       }
       // this.prepareDragDrop(this.nodes);
@@ -643,72 +640,95 @@ export class MenuBuilderComponent implements OnInit {
   saveLoader: any = false;
 
   saveJsonMenu() {
-
     this.saveLoader = true;
-
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
+    // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "applicatioName": this.applicatioName,
-      "menuData": currentData,
-      "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
-      "selectedTheme": temporaryData
+      "name": this.applicationName,
+      "applicationId": this.applicationName,
+      "menuData": JSON.stringify(currentData),
+      // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
+      "selectedTheme": JSON.stringify(temporaryData)
     };
-    data.selectedTheme.allMenuItems = [];
+    // data.selectedTheme.allMenuItems = [];
+    if (this.applicationId == '') {
+      this.requestSubscription = this.applicationService.addNestCommonAPI('menu', data).subscribe({
+        next: (objMenu) => {
+          this.saveLoader = false;
+          this.toastr.success('Menu Save successfully', { nzDuration: 3000 })
+        },
+        error: (err) => {
+          this.saveLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
 
-    this.requestSubscription = this.builderService.getJsonModules(this.applicatioName).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.applicationId = res[0].id
-          this.requestSubscription = this.builderService.jsonDeleteModule(this.applicationId).subscribe({
-            next: (res) => {
+        }
+      });
+    } else {
+      this.requestSubscription = this.applicationService.updateNestCommonAPI('menu', this.applicationId, data).subscribe({
+        next: (objMenu) => {
+          this.saveLoader = false;
+          this.toastr.success('Menu Update successfully', { nzDuration: 3000 });
+        },
+        error: (err) => {
+          this.saveLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
+    }
 
-              this.requestSubscription = this.builderService.jsonSaveModule(data).subscribe({
-                next: (res) => {
-                  this.saveLoader = false;
-                  alert("Data Save");
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                  this.saveLoader = false;
-                }
-              }
-              )
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              this.saveLoader = false;
-            }
-          })
-        }
-        else {
-          this.builderService.jsonSaveModule(data).subscribe((res => {
-            this.saveLoader = false;
-            alert("Data Save");
-          }))
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        this.saveLoader = false;
-      }
-    })
+    // this.requestSubscription = this.builderService.getJsonModules(this.applicationName).subscribe({
+    //   next: (res) => {
+    //     if (res.length > 0) {
+    //       this.applicationId = res[0].id
+    //       this.requestSubscription = this.builderService.jsonDeleteModule(this.applicationId).subscribe({
+    //         next: (res) => {
+
+    //           this.requestSubscription = this.builderService.jsonSaveModule(data).subscribe({
+    //             next: (res) => {
+    //               this.saveLoader = false;
+    //               alert("Data Save");
+    //             },
+    //             error: (err) => {
+    //               console.error(err); // Log the error to the console
+    //               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    //               this.saveLoader = false;
+    //             }
+    //           }
+    //           )
+    //         },
+    //         error: (err) => {
+    //           console.error(err); // Log the error to the console
+    //           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    //           this.saveLoader = false;
+    //         }
+    //       })
+    //     }
+    //     else {
+    //       this.builderService.jsonSaveModule(data).subscribe((res => {
+    //         this.saveLoader = false;
+    //         alert("Data Save");
+    //       }))
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err); // Log the error to the console
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    //     this.saveLoader = false;
+    //   }
+    // })
   }
 
   downloadAllJson() {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
+    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "applicatioName": this.applicatioName,
+      "applicatioId": this.applicationName,
       "menuData": currentData,
-      "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
+      // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": temporaryData
     };
     const blob = new Blob([JSON.stringify(this.selectedTheme)], { type: 'application/json' });
@@ -720,14 +740,14 @@ export class MenuBuilderComponent implements OnInit {
     // var resData: any = [];
     // this.screenIdList = [];
     // this.buttonLinkArray = [];
-    // const mainApplicationId = this.menuModule.filter((a: any) => a.name == this.applicatioName)
+    // const mainApplicationId = this.menuModule.filter((a: any) => a.name == this.applicationName)
     // let arr: any = [];
     // arr["jsonModule"] = [];
     // arr.jsonModule.push(mainApplicationId[0]);
     // var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // var data =
     // {
-    //   "applicatioName": this.applicatioName,
+    //   "applicatioName": this.applicationName,
     //   "menuData": currentData,
     //   "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].mainApplicationId : "",
     // };
@@ -997,6 +1017,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     });
   }
+  
   notifyEmit(event: actionTypeFeild): void {
     this.selectedNode.id = event.form.id;
     this.selectedNode.key = event.form.key;
@@ -1067,9 +1088,11 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
     this.closeConfigurationList();
   }
+
   showSuccess() {
     this.toastr.success('Information update successfully!', { nzDuration: 3000 });
   }
+
   addDynamic(nodes: any, subType: any, mainType: any,) {
 
     if (this.selectedNode.children) {
@@ -1103,6 +1126,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     }
   }
+
   adddynamicPages(abc: any) {
     if (this.selectedNode.children) {
       let pageLength = this.selectedNode.children.length;
@@ -1131,6 +1155,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     }
   }
+
   applySize() {
     this.sizes = [25, 75, 0]
     if (!this.IslayerVisible && this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
@@ -1149,8 +1174,8 @@ export class MenuBuilderComponent implements OnInit {
       this.sizes = [1, 99, 0]
     }
   }
-  loadTabsAndDropdownFromMenuChild(data: any, arrayEmpty: boolean) {
 
+  loadTabsAndDropdownFromMenuChild(data: any, arrayEmpty: boolean) {
     if (arrayEmpty) {
       this.arrayEmpty();
     }
@@ -1169,12 +1194,13 @@ export class MenuBuilderComponent implements OnInit {
       }
     }
   }
+
   arrayEmpty() {
     this.dropdownButtonArray = [];
     this.tabsArray = [];
   }
-  changeLayout(layoutType: any) {
 
+  changeLayout(layoutType: any) {
     if (layoutType.includes('backGroundColor')) {
       this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
     } else if (layoutType.includes('textColor')) {
@@ -1305,8 +1331,8 @@ export class MenuBuilderComponent implements OnInit {
     }
     this.makeMenuData();
   }
-  makeMenuData() {
 
+  makeMenuData() {
     let arrayList = [];
     arrayList = this.nodes;
     this.selectedTheme.allMenuItems = [];
@@ -1338,9 +1364,9 @@ export class MenuBuilderComponent implements OnInit {
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
     const formFieldData = new formFeildData();
-    const commonIconFields : any = formFieldData.commonIconFields[0].fieldGroup;
+    const commonIconFields: any = formFieldData.commonIconFields[0].fieldGroup;
     if (commonIconFields.length > 0) {
-      commonIconFields.forEach((element : any) => {
+      commonIconFields.forEach((element: any) => {
         const excludedKeys = ['badgeType', 'badgeCount', 'dot_ribbon_color', 'iconSize', 'iconColor', 'hoverIconColor'];
         if (element.key !== 'icon' || allowIcon) {
           if (!excludedKeys.includes(element.key)) {
@@ -1350,32 +1376,31 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
-  
 
-  getApplication(name: any) {
 
-    if (name) {
-      let getApplication = this.applicationBuilder.find(a => a.name == name);
-      if (getApplication) {
-        // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-        this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
-          next: (res) => {
-            this.applications = res;
-            this.clickBack();
-          },
-          error: (err) => {
-            console.error(err); // Log the error to the console
-            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          }
-        });
-      }
+  getApplication(id: any) {
+    if (id) {
+      // let getApplication = this.departments.find(a => a.name == id);
+      // if (getApplication) {
+      // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+      this.requestSubscription = this.applicationService.getNestCommonAPIByCustomQuery('application/department/', id).subscribe({
+        next: (res) => {
+          this.applications = res;
+          this.clickBack();
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
     }
+    // }
   }
 
-  loadApplications() {
-    this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
+  getDepartments() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
       next: (res) => {
-        this.applicationBuilder = res;
+        this.departments = res;
       },
       error: (err) => {
         console.error(err); // Log the error to the console

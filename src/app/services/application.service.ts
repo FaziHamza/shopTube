@@ -17,9 +17,9 @@ export class ApplicationService {
             this.nestUrl + api
         );
     }
-    getNestCommonAPIById(api: string): Observable<any[]> {
+    getNestCommonAPIById(api: string, id:string): Observable<any[]> {
         return this.http.get<any[]>(
-            this.nestUrl + api
+            `${this.nestUrl}${api}/${id}`
         );
     }
     getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {

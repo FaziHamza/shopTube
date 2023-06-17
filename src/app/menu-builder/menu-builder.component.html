@@ -7,9 +7,9 @@
       <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear
         [(ngModel)]="selectDepartment"
         (ngModelChange)="getApplication($event)">
-        <nz-option [nzValue]="item.name" placeholder="Select Page"
+        <nz-option [nzValue]="item._id" placeholder="Select Page"
           [nzLabel]="item.name"
-          *ngFor="let item of applicationBuilder"></nz-option>
+          *ngFor="let item of departments"></nz-option>
       </nz-select>
     </div>
   </div>
@@ -34,10 +34,10 @@
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         </div>
         <div class=" ml-2 jsonsearchTab">
-          <nz-select nzShowSearch nzAllowClear [(ngModel)]="applicatioName"
+          <nz-select nzShowSearch nzAllowClear [(ngModel)]="applicationName"
             nzPlaceHolder="Select Application..."
             (ngModelChange)="getMenus($event)">
-            <nz-option [nzValue]="item.name" [nzLabel]="item.name"
+            <nz-option [nzValue]="item._id" [nzLabel]="item.name"
               *ngFor="let item of applications"></nz-option>
           </nz-select>
         </div>
