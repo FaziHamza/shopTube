@@ -34,7 +34,7 @@
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         </div>
         <div class=" ml-2 jsonsearchTab">
-          <nz-select nzShowSearch nzAllowClear [(ngModel)]="applicatioName"
+          <nz-select nzShowSearch nzAllowClear [(ngModel)]="applicationName"
             nzPlaceHolder="Select Application..."
             (ngModelChange)="getMenus($event)">
             <nz-option [nzValue]="item.name" [nzLabel]="item.name"

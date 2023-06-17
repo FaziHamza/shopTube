@@ -29,7 +29,7 @@ export class MenuBuilderComponent implements OnInit {
   IsConfigurationVisible: boolean = true;
   IsShowConfig: boolean = false;
   applications: any;
-  applicatioName: any;
+  applicationName: any;
   applicationId: any = 0;
   screenIdList: any = [];
   dataMenuArrayLength: any = [];
@@ -647,18 +647,18 @@ export class MenuBuilderComponent implements OnInit {
     this.saveLoader = true;
 
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
+    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "applicatioName": this.applicatioName,
+      "applicationName": this.applicationName,
       "menuData": currentData,
       "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": temporaryData
     };
     data.selectedTheme.allMenuItems = [];
 
-    this.requestSubscription = this.builderService.getJsonModules(this.applicatioName).subscribe({
+    this.requestSubscription = this.builderService.getJsonModules(this.applicationName).subscribe({
       next: (res) => {
         if (res.length > 0) {
           this.applicationId = res[0].id
@@ -702,11 +702,11 @@ export class MenuBuilderComponent implements OnInit {
 
   downloadAllJson() {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
+    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "applicatioName": this.applicatioName,
+      "applicationName": this.applicationName,
       "menuData": currentData,
       "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": temporaryData
@@ -720,14 +720,14 @@ export class MenuBuilderComponent implements OnInit {
     // var resData: any = [];
     // this.screenIdList = [];
     // this.buttonLinkArray = [];
-    // const mainApplicationId = this.menuModule.filter((a: any) => a.name == this.applicatioName)
+    // const mainApplicationId = this.menuModule.filter((a: any) => a.name == this.applicationName)
     // let arr: any = [];
     // arr["jsonModule"] = [];
     // arr.jsonModule.push(mainApplicationId[0]);
     // var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // var data =
     // {
-    //   "applicatioName": this.applicatioName,
+    //   "applicationName": this.applicationName,
     //   "menuData": currentData,
     //   "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].mainApplicationId : "",
     // };
@@ -908,11 +908,11 @@ export class MenuBuilderComponent implements OnInit {
         // makeData.jsonBuilderSetting[0].forEach((element: any) => {
         //   var data =
         //   {
-        //     "applicatioName": element.applicatioName,
+        //     "applicationName": element.applicationName,
         //     "menuData": element.menuData,
         //     "applicationId": element.moduleId,
         //   };
-        //   this.builderService.jsonBuilderSettingV1(element.applicatioName).subscribe(((res: any) => {
+        //   this.builderService.jsonBuilderSettingV1(element.applicationName).subscribe(((res: any) => {
         //     if (res.length > 0) {
         //       var a = 1;
         //       res.forEach((element1: any) => {
@@ -934,7 +934,7 @@ export class MenuBuilderComponent implements OnInit {
         //       }));
         //     }
         //   }))
-        //   // this.builderService.jsonDeleteBuilderBySreenName(element.applicatioName).subscribe((res => {
+        //   // this.builderService.jsonDeleteBuilderBySreenName(element.applicationName).subscribe((res => {
         //   //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
         //   //     console.log("save");
         //   //   }));
