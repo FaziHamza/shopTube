@@ -2145,33 +2145,50 @@ object {
 .ant-menu-submenu {
   padding: 0px 16px;
 }
+
 .small-sidebar {
-  .nav-item, .ant-menu-submenu {
+
+  .nav-item,
+  .ant-menu-submenu {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .menu-title {
     display: none !important;
   }
+
   .nav-item {
     width: 100% !important;
   }
 }
+
 .small-sidebar-hover {
   .ant-menu-inline-collapsed {
-    .nav-item, .ant-menu-submenu {
+
+    .nav-item,
+    .ant-menu-submenu {
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
   }
-  
+
   .menu-title {
     display: none !important;
   }
+
   .nav-item {
     width: 100% !important;
+  }
+}
+
+.ant-menu-submenu {
+  .menu-item-icon {
+    i {
+      color: #7c7f90 !important;
+    }
   }
 }
