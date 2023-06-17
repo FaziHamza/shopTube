@@ -57,9 +57,9 @@ export class EmployeeService {
   //     this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
   //   );
   // }
-  getJsonModules(applicationName: any): Observable<MenuItem[]> {
+  getJsonModules(moduleName: any): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(
-      this.baseUrl + "jsonModuleSetting?applicationName=" + applicationName
+      this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
     );
   }
   register(user: any) {
