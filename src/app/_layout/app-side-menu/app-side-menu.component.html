@@ -1,5 +1,5 @@
 <div (mouseenter)="setHovered(false,$event)" (mouseleave)="setHovered(true,$event)"
-  [ngClass]="selectedTheme.layout === 'twoColumn' ? 'flex ' : ''">
+  [ngClass]="selectedTheme.layout === 'twoColumn' ? 'flex ' : 'compact-sidebar'">
   <div [ngClass]="{'flex flex-wrap': selectedTheme.menuMode === 'horizontal'}">
     <div style="width:100%;background-size: cover; background-repeat: no-repeat; height: 100%; ">
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>

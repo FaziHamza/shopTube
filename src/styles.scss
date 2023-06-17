@@ -1964,13 +1964,18 @@ object {
     justify-content: center;
     height: 60px !important;
     align-items: center;
-    padding-right: 25px !important;
 
     .menu-item-icon,
     .sidenav-title {
       height: 25px !important;
       line-height: 25px !important;
       margin-left: 0px !important;
+    }
+    .ant-menu-submenu-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 60px !important;
     }
   }
 
@@ -2003,12 +2008,15 @@ object {
   .ng-star-inserted {
     width: 100%;
   }
+
   .ant-menu.ant-menu-inline-collapsed {
     overflow-y: scroll;
   }
+
   .menu-title {
     display: none;
   }
+
   .ant-menu-item,
   .ant-menu-submenu {
     padding: 0px 10px !important;
@@ -2018,6 +2026,9 @@ object {
     }
   }
 }
-.horizontal-sidebar {
-  width: 100%;
+
+.horizontal-topbar {
+  ul li {
+    padding: 0px 16px !important;
+  }
 }
