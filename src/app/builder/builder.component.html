@@ -1,18 +1,24 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="flex">
-    <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName"
-        (ngModelChange)="getDataFromApi(selectApplicationName)">
-        <nz-option [nzValue]="item.name" placeholder="Select Application"
-          [nzLabel]="item.name"
-          *ngFor="let item of applicationBuilder"></nz-option>
-      </nz-select>
+    <div class="w-1/12 mt-1 ml-1">
+      <label class="pr-2 pt-2">Departments</label>
     </div>
     <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectModuleName">
-        <nz-option [nzValue]="item.name" placeholder="Select Module"
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectDepartmentName"
+        (ngModelChange)="getApplications(selectDepartmentName)" placeholder="Select Departments">
+        <nz-option [nzValue]="item.name" 
           [nzLabel]="item.name"
-          *ngFor="let item of moduleList"></nz-option>
+          *ngFor="let item of departmentData"></nz-option>
+      </nz-select>
+    </div>
+       <div class="w-1/12 mt-1 ml-1">
+      <label class="pr-2 pt-2">Applications</label>
+    </div>
+    <div class="w-1/6">
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName" placeholder="Select Applications">
+        <nz-option [nzValue]="item.name" 
+          [nzLabel]="item.name"
+          *ngFor="let item of applicationData"></nz-option>
       </nz-select>
     </div>
     <!-- <div class="w-1/4 text-right">
@@ -81,10 +87,10 @@
       <div class="w-3/5">
         <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear
           [(ngModel)]="screenName"
-          (ngModelChange)="getFormLayers($event)">
-          <nz-option [nzValue]="item.name" placeholder="Select Page"
+          (ngModelChange)="getFormLayers($event)" placeholder="Select Screen">
+          <nz-option [nzValue]="item.name" 
             [nzLabel]="item.name"
-            *ngFor="let item of screenModule"></nz-option>
+            *ngFor="let item of screens"></nz-option>
         </nz-select>
       </div>
       <div class="w-1/5 jsonEdiotTab ml-1">
@@ -243,7 +249,7 @@
                           <st-uirule [selectedNode]="selectedNode"
                             *ngIf="selectedNode && nodes.length  > 0"
                             [screenName]="screenName"
-                            [screenModule]="screenModule" [nodes]="nodes"
+                            [screens]="screens" [nodes]="nodes"
                             (ruleNotify)="getUIRuleData($event)"></st-uirule>
                           <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
                         </nz-tab>
@@ -261,7 +267,7 @@
                           <st-business-rule [selectedNode]="selectedNode"
                             *ngIf="selectedNode"
                             [screenName]="screenName"
-                            [screenModule]="screenModule" [nodes]="nodes"
+                            [screens]="screens" [nodes]="nodes"
                             (businessRuleNotify)="getBusinessRule()"
                             [formlyModel]="this.formlyModel"></st-business-rule>
                         </nz-tab>
@@ -269,14 +275,14 @@
                           <st-action-rule [selectedNode]="selectedNode"
                             *ngIf="selectedNode" [screenName]="screenName"
                             [formlyModel]="this.formlyModel" [nodes]="nodes"
-                            [screenModule]="screenModule"></st-action-rule>
+                            [screens]="screens"></st-action-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Grid Rules">
                           <st-business-rule-grid
                             *ngIf="selectedNode && nodes.length  > 0"
                             [selectedNode]="selectedNode"
                             [screenName]="screenName"
-                            [screenModule]="screenModule"
+                            [screens]="screens"
                             [nodes]="nodes"></st-business-rule-grid>
                         </nz-tab>
                       </nz-tabset>

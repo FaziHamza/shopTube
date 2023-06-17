@@ -10,7 +10,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 })
 export class UIRuleComponent implements OnInit {
   @Output() ruleNotify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() screenModule: any;
+  @Input() screens: any;
   @Input() screenName: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
@@ -308,17 +308,17 @@ export class UIRuleComponent implements OnInit {
   }
   updateRule() {
 
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
       "moduleName": this.screenName,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
       "uiData": this.uiRuleForm.value.uiRules,
     }
     if (jsonUIResult != null) {
-      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+      const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
         this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
 
@@ -354,7 +354,7 @@ export class UIRuleComponent implements OnInit {
 
     //UIRule Form Declare
     this.uiRuleFormInitilize();
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.ifMenuName = [];
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {

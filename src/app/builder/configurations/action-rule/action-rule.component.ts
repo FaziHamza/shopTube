@@ -32,7 +32,7 @@ export class ActionRuleComponent implements OnInit {
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
-  @Input() screenModule: any;
+  @Input() screens: any;
   @Input() screenName: any;
   @Input() selectedNode: any;
   @Input() formlyModel: any;
@@ -260,7 +260,7 @@ export class ActionRuleComponent implements OnInit {
 
   SaveAction() {
     debugger
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const observables = this.actionForm.value.Actions.map((element: any) => {
       let data: any = {
         "moduleName": this.screenName,
@@ -303,7 +303,7 @@ export class ActionRuleComponent implements OnInit {
         this.toastr.error("Actions not saved", { nzDuration: 3000 });
       }
     });
-    // const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     // this.actionForm.value.Actions.forEach((element: any) => {
     //   let data: any = {
     //     "moduleName": this.screenName,
@@ -358,7 +358,7 @@ export class ActionRuleComponent implements OnInit {
     //   "actionLink": this.actionForm.value.actionLink
     // }
     // if (jsonQuryResult != null) {
-    //   const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    //   const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     //   if (mainModuleId[0].screenId != null) {
     //     this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
     //       next: (getRes) => {
@@ -409,12 +409,12 @@ export class ActionRuleComponent implements OnInit {
   }
   getActionData() {
     debugger
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    if (mainModuleId[0].screenId != null) {
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    if (selectedScreen[0].screenId != null) {
       this.requestSubscription = this.employeeService.getSQLDatabaseTable('knex-crud/SQLQueries').subscribe({
         next: (res) => {
           if (res.length > 0) {
-            const getRes = res.filter((x: any) => x.moduleId == mainModuleId[0].screenId)
+            const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].screenId)
             if (getRes.length > 0) {
               this.screenActions = getRes;
               this.actionForm = this.formBuilder.group({

@@ -12,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class BusinessRuleComponent implements OnInit {
   @Output() businessRuleNotify: EventEmitter<any> = new EventEmitter<any>();
-  @Input() screenModule: any;
+  @Input() screens: any;
   @Input() screenName: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
@@ -39,7 +39,7 @@ export class BusinessRuleComponent implements OnInit {
     this.buisnessRuleIfList = [];
     this.UIRule = false;
     this.dynmaicRule = true;
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.buisnessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([])
     });
@@ -200,7 +200,7 @@ export class BusinessRuleComponent implements OnInit {
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
     });
 
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const jsonRuleValidation = {
       "moduleName": this.screenName,
       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
@@ -208,9 +208,9 @@ export class BusinessRuleComponent implements OnInit {
       "buisnessRule": this.bussinessRuleObj
     }
     if (jsonRuleValidation != null) {
-      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+      const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+        this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
           next: (getRes) => {
             if (getRes.length == 0) {
               this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({

@@ -30,7 +30,8 @@
     </nz-header>
 
     <div [ngClass]='selectedTheme.horizontalRow' class="main-layout" [dir]="this.selectedTheme.layout">
-      <div class="" [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
+      <div class=" side-menu" [ngClass]="selectedTheme.menuMode == 'vertical' ? '' :''"
+      [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
         <st-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
       <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'" class="w-1/12 ">

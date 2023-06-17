@@ -74,25 +74,47 @@ export class MenuComponent implements OnInit {
       this.screenSetting = res;
     }));
   }
-  UpdateMenuLink(moduleName: any) {
+  UpdateMenuLink(data: any) {
+    debugger
+    if (data.applicationName) {
+      this.selectedApp = data.name;
+      this.employeeService.getJsonModules(data.name).subscribe((res => {
+        if (res.length > 0) {
+          let obj = {
+            emitData: res[0],
+            screenType: ''
+          };
+          this.notify.emit(obj);
+        }
+        else {
+          this.notification.create(
+            'error',
+            'Error',
+            'No menu against this module'
+          );
+        }
+      }));
+    } 
+    // else if (data.moduleName) {
+    //   this.selectedApp = data.name;
+    //   this.employeeService.getJsonModules(data.name).subscribe((res => {
+    //     if (res.length > 0) {
+    //       let obj = {
+    //         emitData: res[0],
+    //         screenType: ''
+    //       };
+    //       this.notify.emit(obj);
+    //     }
+    //     else {
+    //       this.notification.create(
+    //         'error',
+    //         'Error',
+    //         'No menu against this module'
+    //       );
+    //     }
+    //   }));
+    // }
 
-    this.selectedApp = moduleName;
-    this.employeeService.getJsonModules(moduleName).subscribe((res => {
-      if (res.length > 0) {
-        let obj = {
-          emitData: res[0],
-          screenType: ''
-        };
-        this.notify.emit(obj);
-      }
-      else {
-        this.notification.create(
-          'error',
-          'Error',
-          'No menu against this module'
-        );
-      }
-    }));
   }
   collapse(screenType: any) {
     this.isCollapsed = !this.isCollapsed;

@@ -35,9 +35,9 @@ export class BuilderComponent implements OnInit {
   makeOptions = () => new JsonEditorOptions();
   addControl = false;
   size: NzButtonSize = 'large';
-  applicationBuilder: any = [];
-  moduleList: any = [];
-  selectApplicationName: any;
+  departmentData: any = [];
+  applicationData: any = [];
+  selectDepartmentName: any;
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
   sizes = [20, 80, 0];
@@ -45,7 +45,7 @@ export class BuilderComponent implements OnInit {
   IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];
-  screenModule: any;
+  screens: any;
   screenName: any;
   screenId: any = 0;
   moduleId: any;
@@ -68,7 +68,7 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
-  selectModuleName: any = '';
+  selectApplicationName: any = '';
   saveLoader: any = false;
   htmlBlockimagePreview: any = '';
   webBlock: boolean = false;
@@ -133,7 +133,7 @@ export class BuilderComponent implements OnInit {
   jsonModuleSetting() {
     this.requestSubscription = this.builderService.jsonScreenModuleList().subscribe({
       next: (res) => {
-        this.screenModule = res;
+        this.screens = res;
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -146,7 +146,7 @@ export class BuilderComponent implements OnInit {
   loadApplications() {
     this.requestSubscription = this.builderService.jsonApplicationBuilder().subscribe({
       next: (res) => {
-        this.applicationBuilder = res;
+        this.departmentData = res;
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -154,11 +154,11 @@ export class BuilderComponent implements OnInit {
       }
     });
   };
-  getDataFromApi(name: any) {
-    this.selectModuleName = "";
+  getApplications(name: any) {
+    this.selectApplicationName = "";
     this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
       next: (res) => {
-        this.moduleList = res;
+        this.applicationData = res;
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -246,21 +246,21 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
       }
-      const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+      const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
       var newData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       let data: any =
       {
         "moduleName": this.screenName,
         "menuData": newData,
-        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+        "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
       };
-      // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectModuleName) {
-      //   data['module'] = this.selectModuleName;
+      // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectApplicationName) {
+      //   data['module'] = this.selectApplicationName;
       //   this.dataSharedService.headerData = [];
       //   this.dataSharedService.footerData = [];
       //   this.dataSharedService.checkModule = '';
       // }
-      this.screenId = mainModuleId[0].screenId;
+      this.screenId = selectedScreen[0].screenId;
       // if (this.screenId > 0) {
 
       this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
@@ -322,11 +322,11 @@ export class BuilderComponent implements OnInit {
           this.screenName = data;
           this.previousScreenName = data;
           this.isSavedDb = false;
-          const newScreenName = this.screenModule.filter((a: any) => a.name == this.screenName);
-          if (newScreenName[0].name.includes('_header') && this.selectModuleName) {
-            let applicationType = this.moduleList.filter((item: any) => item.name == this.selectModuleName);
+          const newScreenName = this.screens
+          if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
             if (applicationType[0].application_Type == "website") {
-              this.requestSubscription = this.builderService.getJsonModules(this.selectModuleName).subscribe({
+              this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
                 next: (result) => {
                   if (result.length > 0) {
                     this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
@@ -465,12 +465,12 @@ export class BuilderComponent implements OnInit {
     //     }
     //   }) || '{}');
 
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     var data =
     {
       "moduleName": this.screenName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
     };
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -750,9 +750,9 @@ export class BuilderComponent implements OnInit {
     this.formlyModel = Object.assign({}, this.formlyModel)
   }
   getBusinessRule() {
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
-    if (mainModuleId.length > 0) {
-      this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    if (selectedScreen.length > 0) {
+      this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
             this.businessRuleData = [];
@@ -1600,7 +1600,7 @@ export class BuilderComponent implements OnInit {
     // this.clickButton(node?.title);
     this.clickButton(node?.type);
     this.dataSharedService.nodes = this.nodes;
-    this.dataSharedService.screenModule = this.screenModule;
+    this.dataSharedService.screenModule = this.screens;
     this.dataSharedService.selectedNode = this.selectedNode;
     this.dataSharedService.screenName = this.screenName;
 
@@ -2408,22 +2408,22 @@ export class BuilderComponent implements OnInit {
   clickBack() {
     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
   }
-  EnumView() {
-    this.requestSubscription = this.builderService.multiAPIData().subscribe({
-      next: (res) => {
-        const node = this.selectedNode ?? {};
-        const formly = node.formly ?? [];
-        const fieldGroup = formly?.[0]?.fieldGroup ?? [];
-        const props = fieldGroup[0]?.props ?? {};
-        props.options = res ?? undefined;
-        this.updateNodes();
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
+  // EnumView() {
+  //   this.requestSubscription = this.builderService.multiAPIData().subscribe({
+  //     next: (res) => {
+  //       const node = this.selectedNode ?? {};
+  //       const formly = node.formly ?? [];
+  //       const fieldGroup = formly?.[0]?.fieldGroup ?? [];
+  //       const props = fieldGroup[0]?.props ?? {};
+  //       props.options = res ?? undefined;
+  //       this.updateNodes();
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //     }
+  //   });
+  // }
   notifyEmit(event: actionTypeFeild): void {
     debugger
     let needToUpdate = true;
@@ -2780,10 +2780,10 @@ export class BuilderComponent implements OnInit {
         break;
       case "inputValidationRule":
         if (this.selectedNode) {
-          const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName)
+          const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "moduleName": this.screenName,
-            "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+            "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
             "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
@@ -2796,8 +2796,8 @@ export class BuilderComponent implements OnInit {
             "emailTypeAllow": event.form.emailTypeAllow,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          if (mainModuleId.length > 0) {
-            this.builderService.jsonGetValidationRule(mainModuleId[0].screenId, this.selectedNode.id).subscribe((getRes => {
+          if (selectedScreen.length > 0) {
+            this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
               getRes;
               if (getRes.length > 0) {
                 this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
@@ -3562,28 +3562,28 @@ export class BuilderComponent implements OnInit {
       });
   }
 
-  assigOptionsData(selectNode: any, tableDta: any, api: any) {
+  // assigOptionsData(selectNode: any, tableDta: any, api: any) {
 
-    if (tableDta) {
-      selectNode = tableDta;
-      return selectNode;
-    }
-    if (api) {
-      this.requestSubscription = this.builderService.genericApis(api).subscribe({
-        next: (res) => {
-          if (res) {
-            selectNode = res;
-            this.updateNodes();
-            return selectNode;
-          }
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      })
-    }
-  }
+  //   if (tableDta) {
+  //     selectNode = tableDta;
+  //     return selectNode;
+  //   }
+  //   if (api) {
+  //     this.requestSubscription = this.builderService.genericApis(api).subscribe({
+  //       next: (res) => {
+  //         if (res) {
+  //           selectNode = res;
+  //           this.updateNodes();
+  //           return selectNode;
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error(err); // Log the error to the console
+  //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //       }
+  //     })
+  //   }
+  // }
 
   jsonUpload(event: any) {
     let contents: any;

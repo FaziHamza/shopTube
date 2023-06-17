@@ -52,9 +52,14 @@ export class EmployeeService {
       this.baseUrl + "menus?roleId=" + roleId
     );
   }
-  getJsonModules(moduleName: any): Observable<MenuItem[]> {
+  // getJsonModules(moduleName: any): Observable<MenuItem[]> {
+  //   return this.http.get<MenuItem[]>(
+  //     this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
+  //   );
+  // }
+  getJsonModules(applicationName: any): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(
-      this.baseUrl + "jsonModuleSetting?moduleName=" + moduleName
+      this.baseUrl + "jsonModuleSetting?applicationName=" + applicationName
     );
   }
   register(user: any) {
