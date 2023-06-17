@@ -14,7 +14,7 @@ export class BusinessRuleGridComponent implements OnInit {
   ngOnDestroy(){
     this.requestSubscription.unsubscribe();
   }
-  @Input() screenModule: any = [];
+  @Input() screens: any = [];
   @Input() screenName: any;
   @Input() GridType: any;
   @Input() selectedNode: any;
@@ -509,9 +509,9 @@ export class BusinessRuleGridComponent implements OnInit {
       { name: "<", key: "<" },
       { name: "Not Null", key: "NotNull" },
     ]
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
-    if (mainModuleId.length > 0) {
-      this.requestSubscription = this.builderService.jsonGridBusinessRuleGet(mainModuleId[0].screenId).subscribe({
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
+    if (selectedScreen.length > 0) {
+      this.requestSubscription = this.builderService.jsonGridBusinessRuleGet(selectedScreen[0].screenId).subscribe({
         next: (getRes) => {
           let type = this.GridType ? this.GridType : 'Body';
           let gridData = getRes.filter(a => a.gridType == type);
@@ -659,17 +659,17 @@ export class BusinessRuleGridComponent implements OnInit {
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
     });
 
-    const mainModuleId = this.screenModule.filter((a: any) => a.name == this.screenName);
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
     const jsonRuleValidation = {
       "moduleName": this.screenName,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
       "buisnessRulleData": this.buisnessForm.value.buisnessRule,
       "buisnessRule": this.GridBusinessRuleData,
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
     if (jsonRuleValidation != null) {
-      if (mainModuleId[0].screenId != null) {
+      if (selectedScreen[0].screenId != null) {
         this.requestSubscription = this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe({
           next: (getRes) => {
             if (getRes.length == 0) {

@@ -1,13 +1,13 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="flex pt-1 ">
-    <div class="w-1/12">
+    <div class="w-1/12 mt-1">
       <label class="pl-2">Department</label>
     </div>
     <div class="ml-2 w-1/5">
       <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear
         [(ngModel)]="selectDepartment"
-        (ngModelChange)="getApplication($event)">
-        <nz-option [nzValue]="item.name" placeholder="Select Page"
+        (ngModelChange)="getApplication($event)" placeholder="Select Department">
+        <nz-option [nzValue]="item.name" 
           [nzLabel]="item.name"
           *ngFor="let item of applicationBuilder"></nz-option>
       </nz-select>
