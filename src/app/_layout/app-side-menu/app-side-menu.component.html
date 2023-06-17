@@ -2,7 +2,7 @@
   (mouseleave)="setHovered(true,$event)"
   [ngClass]="selectedTheme.layout === 'twoColumn' ? 'flex flex-wrap' : ''">
   <div [ngClass]="selectedTheme.layoutPosition == 'fixed' ? 'scroll' : ''">
-    <div
+    <div class=""
       [ngClass]="{'flex flex-wrap': selectedTheme.menuMode === 'horizontal'}"
       style="background-size: cover; background-repeat: no-repeat; height: 100%; ">
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
@@ -22,13 +22,14 @@
           <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
             <ng-container *ngFor="let item of selectedTheme.allMenuItems">
               <li
+                [style.background]="selectedTheme.backGroundColor"
                 [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                 class="menu-title"
                 *ngIf="item.isTitle && shouldExecute(item);"><span
                   class="menu-item-icon">
                   <st-icon *ngIf="item.icon"
                     [type]="item.iconType == 'outline'" [icon]="item.icon"
-                    [size]="item.iconSize || 15"
+                    [size]="selectedTheme['iconSize'] || 15"
                     [color]="item.iconColor || ''"></st-icon>
                 </span><span *ngIf="!this.selectedTheme.isCollapsed"
                   [style.color]="selectedTheme['textColor']">{{item.title |
@@ -48,9 +49,9 @@
                         *ngIf="item.icon"
                         [type]="item.iconType || 'outline'"
                         [icon]="item.icon"
-                        [size]="item.iconSize || 15"
-                        [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
-                        ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                        [size]="selectedTheme['iconSize'] || 15"
+                        [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                     </span>
                     <span class="sidenav-title"
                       [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -74,9 +75,9 @@
                               *ngIf="sub.icon"
                               [type]="sub.iconType || 'outline'"
                               [icon]="sub.icon"
-                              [size]="sub.iconSize || 15"
-                              [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] :
-                              ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                              [size]="selectedTheme['iconSize'] || 15"
+                              [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
                             [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -94,9 +95,9 @@
                                 *ngIf="sub.icon"
                                 [type]="sub.iconType || 'outline'"
                                 [icon]="sub.icon"
-                                [size]="sub.iconSize || 15"
-                                [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] :
-                                ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                                [size]="selectedTheme['iconSize'] || 15"
+                                [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                             </span>
                             <span class="sidenav-title"
                               [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -117,9 +118,9 @@
                                   *ngIf="subSub.icon"
                                   [type]="subSub.iconType || 'outline'"
                                   [icon]="subSub.icon"
-                                  [size]="subSub.iconSize || 15"
-                                  [color]="(hoverActiveShow === subSub.id) ? selectedTheme['hoverTextColor'] :
-                                  ((isActiveShow === subSub.id) ? (selectedTheme['activeTextColor'] || subSub['iconColor']) : subSub['iconColor'])"></st-icon>
+                                  [size]="selectedTheme['iconSize'] || 15"
+                                  [color]="(hoverActiveShow === subSub.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === subSub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                               </span>
                               <span class="sidenav-title"
                                 [style.color]="(hoverActiveShow === subSub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subSub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -151,13 +152,16 @@
                       *ngIf="item.icon"
                       [type]="item.iconType || 'outline'"
                       [icon]="item.icon"
-                      [size]="item.iconSize || 15"
-                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
-                      ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                      [size]="selectedTheme['iconSize'] || 15"
+                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
-                    [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
-                    item.title | translate}}</span>
+                    [class]="!selectedTheme?.font"
+                    [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
+                    {{ item.title | translate }}
+                  </span>
+
                 </li>
               </ng-template>
             </ng-container>
@@ -210,9 +214,9 @@
                       *ngIf="item.icon"
                       [type]="item.iconType || 'outline'"
                       [icon]="item.icon"
-                      [size]="item.iconSize || 15"
-                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
-                      ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                      [size]="selectedTheme['iconSize'] || 15"
+                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
                     [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -248,9 +252,9 @@
                               *ngIf="item.icon"
                               [type]="item.iconType || 'outline'"
                               [icon]="item.icon"
-                              [size]="item.iconSize || 15"
-                              [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
-                              ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                              [size]="selectedTheme['iconSize'] || 15"
+                              [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
                             [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -279,9 +283,9 @@
                                       *ngIf="subChild.icon"
                                       [type]="subChild.iconType || 'outline'"
                                       [icon]="subChild.icon"
-                                      [size]="subChild.iconSize || 15"
-                                      [color]="(hoverActiveShow === subChild.id) ? selectedTheme['hoverTextColor'] :
-                                      ((isActiveShow === subChild.id) ? (selectedTheme['activeTextColor'] || subChild['iconColor']) : subChild['iconColor'])"></st-icon>
+                                      [size]="selectedTheme['iconSize'] || 15"
+                                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                   </span>
                                   <span class="sidenav-title"
                                     [style.color]="(hoverActiveShow === subChild.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subChild.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -294,9 +298,9 @@
                                     *ngIf="sub.icon"
                                     [type]="sub.iconType || 'outline'"
                                     [icon]="sub.icon"
-                                    [size]="sub.iconSize || 15"
-                                    [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] :
-                                    ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                                    [size]="selectedTheme['iconSize'] || 15"
+                                    [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                 </span>
                                 <span class="sidenav-title"
                                   [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -319,9 +323,9 @@
                             *ngIf="item.icon"
                             [type]="item.iconType || 'outline'"
                             [icon]="item.icon"
-                            [size]="item.iconSize || 15"
-                            [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
-                            ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"></st-icon>
+                            [size]="selectedTheme['iconSize'] || 15"
+                            [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                         </span>
                         <span class="sidenav-title"
                           [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
@@ -383,9 +387,9 @@
                           *ngIf="sub.icon"
                           [type]="sub.iconType || 'outline'"
                           [icon]="sub.icon"
-                          [size]="sub.iconSize || 15"
-                          [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] :
-                          ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || sub['iconColor']) : sub['iconColor'])"></st-icon>
+                          [size]="selectedTheme['iconSize'] || 15"
+                          [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                       </span>
                       <span class="sidenav-title"
                         [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{

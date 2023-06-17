@@ -32,7 +32,6 @@ export class organizationBuilderComponent implements OnInit {
   fields: any = [];
   searchArray: any = [];
   departmentSubmit: boolean = false;
-  organizationId: string;
   listOfColumns: any = [
     {
       name: '',
@@ -269,11 +268,11 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
-      const addOrUpdateCompany$ = this.isSubmit
+      const addOrUpdateOrganization$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('organization', this.form.value)
         : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
-      addOrUpdateCompany$.subscribe((res) => {
+        addOrUpdateOrganization$.subscribe((res) => {
         this.organizationBuilder();
         this.isSubmit = true;
         this.resetForm();
@@ -295,7 +294,8 @@ export class organizationBuilderComponent implements OnInit {
       this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
-      this.form.value.organizationId = this.organizationId;
+      const objOrganization = this.listOfData.find((x: any) => x._id == this.form.value.organizationId)
+      this.form.value.organizationName = objOrganization.name;
       const action$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('department', this.form.value)
         : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
@@ -362,7 +362,6 @@ export class organizationBuilderComponent implements OnInit {
   }
   callChild(organization: any) {
     const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
-    this.organizationId = organization._id;
     organization['children'] = departmentData;
   }
 
@@ -376,7 +375,7 @@ export class organizationBuilderComponent implements OnInit {
   loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
-      value: item.name
+      value: item._id
     }));
     this.fields = [
       {
@@ -397,7 +396,7 @@ export class organizationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'organizationName',
+            key: 'organizationId',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',

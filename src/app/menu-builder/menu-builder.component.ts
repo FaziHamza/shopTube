@@ -28,9 +28,9 @@ export class MenuBuilderComponent implements OnInit {
   nodes: any = [];
   IsConfigurationVisible: boolean = true;
   IsShowConfig: boolean = false;
-  menuModule: any;
-  moduleName: any;
-  moduleId: any = 0;
+  applications: any;
+  applicatioName: any;
+  applicationId: any = 0;
   screenIdList: any = [];
   dataMenuArrayLength: any = [];
   buttonLinkArray: any = [];
@@ -48,7 +48,7 @@ export class MenuBuilderComponent implements OnInit {
   tabsArray: any = [];
   dropdownButtonArray: any = [];
   selectedTheme: any;
-  selectApplicationName: any = '';
+  selectDepartment: any = '';
   selectApplicationType: any = '';
   requestSubscription: Subscription;
 
@@ -118,7 +118,7 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
-
+    debugger
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
@@ -181,17 +181,17 @@ export class MenuBuilderComponent implements OnInit {
   }
   jsonModuleSetting() {
     this.builderService.jsonModuleSetting().subscribe((res => {
-      this.menuModule = res;
+      this.applications = res;
       this.clickBack();
     }));
   }
-  getFormLayers(data: any) {
+  getMenus(data: any) {
     this.builderService.getJsonModules(data).subscribe((res => {
-      
+
       if (res.length > 0) {
-        let getModule = this.menuModule.find((a: any) => a.name == data);
-        this.selectApplicationType = getModule['application_Type'] ? getModule['application_Type'] : '';
-        this.moduleId = res[0].id
+        let getApplication = this.applications.find((a: any) => a.name == data);
+        this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+        this.applicationId = res[0].id
         this.nodes = res[0].menuData;
         if (res[0].selectedTheme) {
           this.selectedTheme = res[0].selectedTheme;
@@ -229,7 +229,7 @@ export class MenuBuilderComponent implements OnInit {
       }
       else {
         this.clearChildNode();
-        this.moduleId = 0;
+        this.applicationId = 0;
         this.clickBack();
       }
       // this.prepareDragDrop(this.nodes);
@@ -647,22 +647,22 @@ export class MenuBuilderComponent implements OnInit {
     this.saveLoader = true;
 
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
+    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "moduleName": this.moduleName,
+      "applicatioName": this.applicatioName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].id : "",
+      "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": temporaryData
     };
     data.selectedTheme.allMenuItems = [];
 
-    this.requestSubscription = this.builderService.getJsonModules(this.moduleName).subscribe({
+    this.requestSubscription = this.builderService.getJsonModules(this.applicatioName).subscribe({
       next: (res) => {
         if (res.length > 0) {
-          this.moduleId = res[0].id
-          this.requestSubscription = this.builderService.jsonDeleteModule(this.moduleId).subscribe({
+          this.applicationId = res[0].id
+          this.requestSubscription = this.builderService.jsonDeleteModule(this.applicationId).subscribe({
             next: (res) => {
 
               this.requestSubscription = this.builderService.jsonSaveModule(data).subscribe({
@@ -702,13 +702,13 @@ export class MenuBuilderComponent implements OnInit {
 
   downloadAllJson() {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName);
+    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicatioName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     var data =
     {
-      "moduleName": this.moduleName,
+      "applicatioName": this.applicatioName,
       "menuData": currentData,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].id : "",
+      "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": temporaryData
     };
     const blob = new Blob([JSON.stringify(this.selectedTheme)], { type: 'application/json' });
@@ -720,16 +720,16 @@ export class MenuBuilderComponent implements OnInit {
     // var resData: any = [];
     // this.screenIdList = [];
     // this.buttonLinkArray = [];
-    // const mainModuleId = this.menuModule.filter((a: any) => a.name == this.moduleName)
+    // const mainApplicationId = this.menuModule.filter((a: any) => a.name == this.applicatioName)
     // let arr: any = [];
     // arr["jsonModule"] = [];
-    // arr.jsonModule.push(mainModuleId[0]);
+    // arr.jsonModule.push(mainApplicationId[0]);
     // var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // var data =
     // {
-    //   "moduleName": this.moduleName,
+    //   "applicatioName": this.applicatioName,
     //   "menuData": currentData,
-    //   "moduleId": mainModuleId.length > 0 ? mainModuleId[0].moduleId : "",
+    //   "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].mainApplicationId : "",
     // };
     // arr["jsonModuleSetting"] = [];
     // arr["jsonBuilderSetting"] = [];
@@ -899,20 +899,20 @@ export class MenuBuilderComponent implements OnInit {
         let contents = reader.result as string;
         var makeData = JSON.parse(contents);
         this.selectedTheme = makeData;
-         this.nodes = makeData.allMenuItems;
-         this.makeMenuData();
-        // let getModule = this.menuModule.find((a: any) => a.name == data);
-        // this.selectApplicationType = getModule['application_Type'] ? getModule['application_Type'] : '';
-        // this.moduleId = makeData[0].id
+        this.nodes = makeData.allMenuItems;
+        this.makeMenuData();
+        // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
+        // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
+        // this.applicationId = makeData[0].id
         // this.nodes = makeData.menuData;
         // makeData.jsonBuilderSetting[0].forEach((element: any) => {
         //   var data =
         //   {
-        //     "moduleName": element.moduleName,
+        //     "applicatioName": element.applicatioName,
         //     "menuData": element.menuData,
-        //     "moduleId": element.moduleId,
+        //     "applicationId": element.moduleId,
         //   };
-        //   this.builderService.jsonBuilderSettingV1(element.moduleName).subscribe(((res: any) => {
+        //   this.builderService.jsonBuilderSettingV1(element.applicatioName).subscribe(((res: any) => {
         //     if (res.length > 0) {
         //       var a = 1;
         //       res.forEach((element1: any) => {
@@ -934,7 +934,7 @@ export class MenuBuilderComponent implements OnInit {
         //       }));
         //     }
         //   }))
-        //   // this.builderService.jsonDeleteBuilderBySreenName(element.moduleName).subscribe((res => {
+        //   // this.builderService.jsonDeleteBuilderBySreenName(element.applicatioName).subscribe((res => {
         //   //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
         //   //     console.log("save");
         //   //   }));
@@ -951,8 +951,8 @@ export class MenuBuilderComponent implements OnInit {
         //   }))
         // }
       };
-      if(event.target.files){
-         reader.readAsText(event.target.files[0]);
+      if (event.target.files) {
+        reader.readAsText(event.target.files[0]);
       }
     }
   }
@@ -1174,12 +1174,12 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
   changeLayout(layoutType: any) {
-    
+
     if (layoutType.includes('backGroundColor')) {
       this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
     } else if (layoutType.includes('textColor')) {
       this.selectedTheme['textColor'] = layoutType.split('_')[0];
-    } 
+    }
     else if (layoutType.includes('font')) {
       this.selectedTheme['font'] = layoutType.split('_')[0];
     }
@@ -1191,6 +1191,18 @@ export class MenuBuilderComponent implements OnInit {
     }
     else if (layoutType.includes('hoverTextColor')) {
       this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('iconColor')) {
+      this.selectedTheme['iconColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('hoverIconColor')) {
+      this.selectedTheme['hoverIconColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('activeIconColor')) {
+      this.selectedTheme['activeIconColor'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('iconSize')) {
+      this.selectedTheme['iconSize'] = layoutType.split('_')[0];
     }
     else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
       this.selectedTheme['design'] = layoutType;
@@ -1325,27 +1337,30 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
-    let _formFieldData = new formFeildData();
-    if (_formFieldData.commonIconFields[0].fieldGroup) {
-      _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
-          if (element.key != 'icon' || allowIcon) {
-            configurationFields[0].fieldGroup.unshift(element)
+    const formFieldData = new formFeildData();
+    const commonIconFields : any = formFieldData.commonIconFields[0].fieldGroup;
+    if (commonIconFields.length > 0) {
+      commonIconFields.forEach((element : any) => {
+        const excludedKeys = ['badgeType', 'badgeCount', 'dot_ribbon_color', 'iconSize', 'iconColor', 'hoverIconColor'];
+        if (element.key !== 'icon' || allowIcon) {
+          if (!excludedKeys.includes(element.key)) {
+            configurationFields[0].fieldGroup.unshift(element);
           }
         }
       });
     }
   }
+  
 
-  getModule(name: any) {
-    
+  getApplication(name: any) {
+
     if (name) {
       let getApplication = this.applicationBuilder.find(a => a.name == name);
       if (getApplication) {
         // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         this.requestSubscription = this.builderService.getjsonModuleModuleListByapplicationName(name).subscribe({
           next: (res) => {
-            this.menuModule = res;
+            this.applications = res;
             this.clickBack();
           },
           error: (err) => {
