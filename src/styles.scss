@@ -1674,6 +1674,8 @@ a.fc-event:hover {
   }
 }
 
+
+
 .ant-menu {
   transition: none !important;
 }
@@ -1973,8 +1975,49 @@ object {
   }
 
   .menu-title {
-   background: #f5f5f5;
+    background: #f5f5f5;
     line-height: 5px !important;
     height: 40px !important;
   }
+}
+
+.rtlMenu {
+  .menu-item-icon {
+    margin-left: 6px;
+  }
+
+  .ant-menu-submenu-title {
+    padding-right: 10px !important;
+  }
+
+  li {
+    padding-right: 10px !important;
+  }
+}
+
+.ant-menu-submenu-title {
+  padding: 0px !important;
+}
+
+.tow-colmn-sidebar {
+  .ng-star-inserted {
+    width: 100%;
+  }
+  .ant-menu.ant-menu-inline-collapsed {
+    overflow-y: scroll;
+  }
+  .menu-title {
+    display: none;
+  }
+  .ant-menu-item,
+  .ant-menu-submenu {
+    padding: 0px 10px !important;
+
+    .ant-menu-submenu-title {
+      padding: 0px !important;
+    }
+  }
+}
+.horizontal-sidebar {
+  width: 100%;
 }
