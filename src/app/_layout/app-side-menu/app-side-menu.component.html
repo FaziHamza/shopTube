@@ -1,13 +1,13 @@
 <div (mouseenter)="setHovered(false,$event)"
   (mouseleave)="setHovered(true,$event)"
   [ngClass]="{
-    'flex tow-colmn-sidebar': selectedTheme.layout === 'twoColumn',
-    'rtlMenu': selectedTheme.layout === 'rtl',
-    'compact-sidebar': selectedTheme.layout === 'compact',
-    'compact-sidebar-right': selectedTheme.layout === 'compact_right',
-    'compact-sidebar-left': selectedTheme.layout === 'compact_left',
-    'horizontal-sidebar': selectedTheme.layout === 'horizontal',
-    'vertical-sidebar': selectedTheme.layout === 'vertical'
+    'flex tow-colmn-sidebar': (selectedTheme.layout === 'twoColumn' && selectedTheme.sideBarSize != 'compact' && selectedTheme.sideBarSize != 'compact_right' && selectedTheme.sideBarSize != 'compact_left'),
+    'rtlMenu': (selectedTheme.layout === 'rtl' && selectedTheme.sideBarSize != 'compact' && selectedTheme.sideBarSize != 'compact_right' && selectedTheme.sideBarSize != 'compact_left'),
+    'compact-sidebar': selectedTheme.sideBarSize === 'compact',
+    'compact-sidebar-right': selectedTheme.sideBarSize === 'compact_right',
+    'compact-sidebar-left': selectedTheme.sideBarSize === 'compact_left',
+    'horizontal-sidebar': (selectedTheme.layout === 'horizontal' && selectedTheme.sideBarSize != 'compact' && selectedTheme.sideBarSize != 'compact_right' && selectedTheme.sideBarSize != 'compact_left'),
+    'vertical-sidebar': (selectedTheme.layout === 'vertical' && selectedTheme.sideBarSize != 'compact' && selectedTheme.sideBarSize != 'compact_right' && selectedTheme.sideBarSize != 'compact_left')
   }">
   <div [ngClass]="{'flex flex-wrap': selectedTheme.menuMode === 'horizontal'}">
     <div
@@ -25,7 +25,7 @@
               *ngIf="selectedTheme.menuMode == 'inline' && selectedTheme.sideBarSize == 'smallHoverView'"
               nz-checkbox [(ngModel)]="selectedTheme.checked"></label>
           </ng-container>
-          <ng-container *ngIf="selectedTheme.sideBarSize != 'compact'">
+          <ng-container >
             <ng-container *ngFor="let item of selectedTheme.allMenuItems">
               <li [style.background]="selectedTheme.backGroundColor"
                 [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
@@ -152,58 +152,6 @@
                     {{ item.title | translate }}
                   </span>
 
-                </li>
-              </ng-template>
-            </ng-container>
-          </ng-container>
-          <ng-container
-            *ngIf="selectedTheme.sideBarSize === 'compact' && selectedTheme.layout === 'vertical'">
-            <ng-container *ngFor="let item of selectedTheme.allMenuItems">
-              <ng-container
-                *ngIf="item.isTitle && shouldExecute(item); else subMenu">
-                <span nz-icon [nzType]="item.icon"></span>
-              </ng-container>
-              <ng-template #subMenu>
-                <ng-container
-                  *ngIf="item.children.length > 0 && shouldExecute(item.children[0]); else menu">
-                  <div class="box block"
-                    [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }">
-                    <span nz-icon nzType="appstore" nzTheme="outline"></span>
-                    <ul>
-                      <ng-container *ngFor="let sub of item.children">
-                        <li nz-submenu [nzTitle]="sub.title"
-                          *ngIf="shouldExecute(sub)">
-                          <ul *ngFor="let subChild of sub.children">
-                            <li
-                              [ngStyle]="{ 'background': isActiveShow == subChild.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-                              nz-menu-item *ngIf="shouldExecute(subChild)">
-                              {{ subChild.title | translate }}</li>
-                          </ul>
-                        </li>
-                      </ng-container>
-                    </ul>
-                  </div>
-                </ng-container>
-              </ng-template>
-              <ng-template #menu>
-                <li class="box block" [ngStyle]="{
-                      'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
-                    }" (mouseenter)="hoverActiveShow = item.id"
-                  (mouseleave)="hoverActiveShow = null" class="nav-item"
-                  *ngIf="shouldExecute(item) && !item.isTitle" nz-menu-item
-                  nz-tooltip nzTooltipPlacement="right"
-                  [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
-                  (click)="loadTabsAndButtons($event, item)">
-                  <span class="menu-item-icon">
-                    <st-icon *ngIf="item.icon"
-                      [type]="item.iconType || 'outline'" [icon]="item.icon"
-                      [size]="selectedTheme['iconSize'] || 15"
-                      [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
-                        ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
-                  </span>
-                  <span class="sidenav-title"
-                    [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
-                    item.title | translate}}</span>
                 </li>
               </ng-template>
             </ng-container>

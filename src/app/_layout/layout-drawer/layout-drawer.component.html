@@ -7,7 +7,7 @@
     [nzClosable]="false"
     [nzVisible]="visible"
     nzPlacement="right"
-    nzTitle="Basic Drawer"
+    nzTitle="Layout Theme"
     (nzOnClose)="close()"
     [nzWidth]="'50%'"
     [nzExtra]="extra">
@@ -194,14 +194,14 @@
                 </div>
                 <div class="w-1/4 px-2">
                     <img
-                        [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'"
+                        [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'"
                         src="assets/images/layout/horizental.png"
                         (click)="changeLayout('compact_right')">
                     <p class="mt-2 font-bold">Compact Right</p>
                 </div>
                 <div class="w-1/4 px-2">
                     <img
-                        [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'"
+                        [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'"
                         src="assets/images/layout/horizental.png"
                         (click)="changeLayout('compact_left')">
                     <p class="mt-2 font-bold">Compact Left</p>
