@@ -184,7 +184,7 @@ export class MenuBuilderComponent implements OnInit {
 
   getMenus(id: string) {
     debugger
-    this.applicationService.getNestCommonAPIByCustomQuery('menu/application/', id).subscribe((res => {
+    this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
       if (res.length > 0) {
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1383,7 +1383,7 @@ export class MenuBuilderComponent implements OnInit {
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-      this.requestSubscription = this.applicationService.getNestCommonAPIByCustomQuery('application/department/', id).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
         next: (res) => {
           this.applications = res;
           this.clickBack();

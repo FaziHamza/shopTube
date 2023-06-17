@@ -4,6 +4,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataSharedService } from '../services/data-shared.service';
 import { StorageService } from '../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ApplicationService } from '../services/application.service';
 
 @Component({
   selector: 'st-menu',
@@ -13,8 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class MenuComponent implements OnInit {
   selectedLanguageObj: any | undefined;
   @Output() notify: EventEmitter<any> = new EventEmitter();
-  applicationBuilder: any;
-  screenSetting: any;
+  departments: any;
+  applications: any;
   selectedApp: string = '';
   isCollapsed: boolean = false;
   isVisible: boolean = false;
@@ -41,6 +42,7 @@ export class MenuComponent implements OnInit {
     }
   ];
   constructor(private employeeService: EmployeeService, private notification: NzNotificationService,
+    private applicationService: ApplicationService,
     public dataSharedService: DataSharedService, private storageService: StorageService, private translate: TranslateService) {
     const currentLanguageString = this.storageService.getString("currentLanguage");
     let currentLanguage: any;
@@ -67,21 +69,29 @@ export class MenuComponent implements OnInit {
     }
   }
   getApllicationAndModule() {
-    this.employeeService.jsonApplicationBuilder().subscribe((res => {
-      this.applicationBuilder = res;
+    this.applicationService.getNestCommonAPI('department').subscribe((res => {
+      this.departments = res;
     }));
-    this.employeeService.jsonModuleModuleList().subscribe((res => {
-      this.screenSetting = res;
+    this.applicationService.getNestCommonAPI('application').subscribe((res => {
+      this.applications = res;
     }));
   }
   UpdateMenuLink(data: any) {
-    debugger
-    if (data.applicationName) {
-      this.selectedApp = data.name;
-      this.employeeService.getJsonModules(data.name).subscribe((res => {
+    // if (data.applicationName) {
+    this.selectedApp = data.name;
+    this.applicationService.getNestCommonAPIById('menu/application', data._id).subscribe({
+      next: (res) => {
         if (res.length > 0) {
+          const resData = {
+            _id: res[0]._id,
+            name: res[0].name,
+            applicationId: res[0].id,
+            menuData: JSON.parse(res[0].menuData),
+            selectedTheme: JSON.parse(res[0].selectedTheme),
+
+          }
           let obj = {
-            emitData: res[0],
+            emitData: resData,
             screenType: ''
           };
           this.notify.emit(obj);
@@ -93,8 +103,28 @@ export class MenuComponent implements OnInit {
             'No menu against this module'
           );
         }
-      }));
-    } 
+      },
+      error: (err) => {
+
+      }
+    });
+    // this.employeeService.getJsonModules(data.name).subscribe((res => {
+    //   if (res.length > 0) {
+    //     let obj = {
+    //       emitData: res[0],
+    //       screenType: ''
+    //     };
+    //     this.notify.emit(obj);
+    //   }
+    //   else {
+    //     this.notification.create(
+    //       'error',
+    //       'Error',
+    //       'No menu against this module'
+    //     );
+    //   }
+    // }));
+    // }
     // else if (data.moduleName) {
     //   this.selectedApp = data.name;
     //   this.employeeService.getJsonModules(data.name).subscribe((res => {

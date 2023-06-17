@@ -215,7 +215,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getApplicationOptionList(id: string) {
-    this.applicationService.getNestCommonAPIByCustomQuery('application/department/', id).subscribe((res) => {
+    this.applicationService.getNestCommonAPIById('application/department', id).subscribe((res) => {
       const moduleListOptions = res.map((item: any) => ({
         label: item.name,
         value: item._id

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 
 @Component({
@@ -11,13 +13,14 @@ import { BuilderService } from 'src/app/services/builder.service';
 export class UIRuleComponent implements OnInit {
   @Output() ruleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
-  @Input() screenName: any;
+  @Input() screenId: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
   @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
-  constructor(private formBuilder: FormBuilder, private builderService: BuilderService) {
+  constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
+    private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
   }
 
@@ -306,46 +309,58 @@ export class UIRuleComponent implements OnInit {
       changeData: [''],
     });
   }
-  updateRule() {
-
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+  saveUIRule() {
+    const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
-      "moduleName": this.screenName,
-      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
-      "uiData": this.uiRuleForm.value.uiRules,
+      "screenName": selectedScreen.name,
+      "screenId": this.screenId,
+      "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
     }
     if (jsonUIResult != null) {
-      const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-      if (mainModuleId[0].screenId != null) {
-        this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes => {
+      this.applicationService.addNestCommonAPI('ui-rule', jsonUIResult).subscribe({
+        next: (res) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.ruleNotify.emit(true);
+          this.screenData = [];
+          this.screenData = jsonUIResult;
+          this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+        },
+        error: (err) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
 
-          if (getRes.length > 0) {
-            this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
-              this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
-                alert("Data Save");
-                this.ruleNotify.emit(true);
-                this.screenData = [];
-                this.screenData = jsonUIResult;
-                // this.makeFaker();
-                this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-              }));
-            }));
-          }
-          else {
-            this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
-              alert("Data Save");
-              this.ruleNotify.emit(true);
-              this.screenData = [];
-              this.screenData = jsonUIResult;
-              // this.makeFaker();
-              this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-            }));
-          }
-        }));
-      }
+      // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenId)
+      // if (mainModuleId[0].screenId != null) {
+      //   this.builderService.jsonUIRuleGetData(this.screenId).subscribe((getRes => {
+
+      //     if (getRes.length > 0) {
+      //       this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
+      //         this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
+      //           alert("Data Save");
+      //           this.ruleNotify.emit(true);
+      //           this.screenData = [];
+      //           this.screenData = jsonUIResult;
+      //           // this.makeFaker();
+      //           this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+      //         }));
+      //       }));
+      //     }
+      //     else {
+      //       this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
+      //         alert("Data Save");
+      //         this.ruleNotify.emit(true);
+      //         this.screenData = [];
+      //         this.screenData = jsonUIResult;
+      //         // this.makeFaker();
+      //         this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+      //       }));
+      //     }
+      //   }));
+      // }
     }
     // this.cd.detectChanges();
     // this.clickBack();
@@ -354,7 +369,7 @@ export class UIRuleComponent implements OnInit {
 
     //UIRule Form Declare
     this.uiRuleFormInitilize();
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenId)
     this.ifMenuName = [];
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
@@ -369,7 +384,7 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
 
-    this.builderService.jsonUIRuleGetData(this.screenName).subscribe((getRes: Array<any>) => {
+    this.builderService.jsonUIRuleGetData(this.screenId).subscribe((getRes: Array<any>) => {
       if (getRes[0]) {
         this.uiRuleForm = this.formBuilder.group({
 
@@ -447,13 +462,13 @@ export class UIRuleComponent implements OnInit {
     if (data?.key === key) {
       return data;
     }
-    if(data.children)
-    for (let child of data.children) {
-      let result: any = this.findElementNode(child, key);
-      if (result !== null) {
-        return result;
+    if (data.children)
+      for (let child of data.children) {
+        let result: any = this.findElementNode(child, key);
+        if (result !== null) {
+          return result;
+        }
       }
-    }
     return null;
     // if(selectedNode && selectedNode.length)
     // if (selectedNode[0].key == key) {
