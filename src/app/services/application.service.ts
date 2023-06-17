@@ -22,11 +22,11 @@ export class ApplicationService {
             `${this.nestUrl}${api}/${id}`
         );
     }
-    getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {
-        return this.http.get<any[]>(
-            this.nestUrl + api + customQuery
-        );
-    }
+    // getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {
+    //     return this.http.get<any[]>(
+    //         this.nestUrl + api + customQuery
+    //     );
+    // }
     addNestCommonAPI(api: string, modal: any): Observable<any[]> {
         return this.http.post<any[]>(
             this.nestUrl + api, modal

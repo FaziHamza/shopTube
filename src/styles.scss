@@ -1632,9 +1632,14 @@ a.fc-event:hover {
   color: white !important;
 }
 
-.main-layout {
+.main-layout .content-body {
   min-height: calc(100vh - 105px);
   margin-bottom: 120px;
+}
+
+.side-menu {
+  max-height: calc(100vh - 105px);
+  overflow-y: scroll;
 }
 
 .menu-builder-card {
@@ -1673,6 +1678,8 @@ a.fc-event:hover {
     height: 100vh;
   }
 }
+
+
 
 .ant-menu {
   transition: none !important;
@@ -1899,7 +1906,7 @@ object {
     font-weight: 400;
     -webkit-transition: all .4s;
     transition: all .4s;
-    margin: 0 10px;
+    // margin: 0 10px;
     border-radius: 3px;
     font-size: 15px;
     font-family: Roboto, sans-serif;
@@ -1956,13 +1963,20 @@ object {
 }
 
 .compact-sidebar {
+  .menu-title {
+    .menu-item-icon {
+      display: none !important;
+    }
+  }
+
   ul li {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 60px !important;
+    min-height: 60px !important;
     align-items: center;
-    padding-right: 25px !important;
+
+
 
     .menu-item-icon,
     .sidenav-title {
@@ -1970,11 +1984,211 @@ object {
       line-height: 25px !important;
       margin-left: 0px !important;
     }
+
+    .ant-menu-submenu-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ant-menu-item {
+      padding-left: 16px !important;
+    }
   }
 
   .menu-title {
-   background: #f5f5f5;
+    background: #f5f5f5;
     line-height: 5px !important;
     height: 40px !important;
+  }
+}
+
+.compact-sidebar-left {
+  .menu-title {
+    .menu-item-icon {
+      display: none !important;
+    }
+  }
+
+  ul li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60px !important;
+    align-items: flex-start !important;
+
+    .menu-item-icon,
+    .sidenav-title {
+      height: 25px !important;
+      line-height: 25px !important;
+      margin-left: 0px !important;
+    }
+
+    .ant-menu-submenu-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start !important;
+    }
+
+    .ant-menu-item {
+      padding-left: 16px !important;
+    }
+  }
+
+  .menu-title {
+    background: #f5f5f5;
+    line-height: 5px !important;
+    height: 40px !important;
+  }
+}
+
+.compact-sidebar-right {
+  .menu-title {
+    .menu-item-icon {
+      display: none !important;
+    }
+  }
+
+  .ant-menu-submenu {
+    .ant-menu-submenu-arrow {
+      left: 16px !important;
+      right: auto !important;
+    }
+  }
+
+  ul li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60px !important;
+    align-items: flex-end !important;
+
+    .menu-item-icon,
+    .sidenav-title {
+      height: 25px !important;
+      line-height: 25px !important;
+      margin-left: 0px !important;
+    }
+
+    .ant-menu-submenu-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end !important;
+    }
+
+    .ant-menu-item {
+      padding-left: 16px !important;
+    }
+  }
+
+  .menu-title {
+    background: #f5f5f5;
+    line-height: 5px !important;
+    height: 40px !important;
+  }
+}
+
+.rtlMenu {
+  .menu-item-icon {
+    margin-left: 6px;
+  }
+
+  .ant-menu-submenu-arrow {
+    right: auto !important;
+    left: 16px !important;
+  }
+
+  // .ant-menu-submenu-title {
+  //   padding-right: 10px !important;
+  // }
+
+  li {
+    padding-right: 10px !important;
+  }
+}
+
+.ant-menu-submenu-title {
+  padding: 0px !important;
+}
+
+.tow-colmn-sidebar {
+  .ng-star-inserted {
+    width: 100%;
+  }
+
+  .ant-menu.ant-menu-inline-collapsed {
+    overflow-y: scroll;
+  }
+
+  .menu-title {
+    display: none;
+  }
+
+  .ant-menu-item,
+  .ant-menu-submenu {
+    padding: 0px 16px !important;
+
+    .ant-menu-submenu-title {
+      padding: 0px !important;
+    }
+  }
+}
+
+.horizontal-topbar {
+  ul li {
+    padding: 0px 16px !important;
+  }
+}
+
+.ant-menu-submenu {
+  padding: 0px 16px;
+}
+
+.small-sidebar {
+
+  .nav-item,
+  .ant-menu-submenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-title {
+    display: none !important;
+  }
+
+  .nav-item {
+    width: 100% !important;
+  }
+}
+
+.small-sidebar-hover {
+  .ant-menu-inline-collapsed {
+
+    .nav-item,
+    .ant-menu-submenu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+  }
+
+  .menu-title {
+    display: none !important;
+  }
+
+  .nav-item {
+    width: 100% !important;
+  }
+}
+
+.ant-menu-submenu {
+  .menu-item-icon {
+    i {
+      color: #7c7f90 !important;
+    }
   }
 }

@@ -184,7 +184,7 @@ export class MenuBuilderComponent implements OnInit {
 
   getMenus(id: string) {
     debugger
-    this.applicationService.getNestCommonAPIByCustomQuery('menu/application/', id).subscribe((res => {
+    this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
       if (res.length > 0) {
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1293,13 +1293,13 @@ export class MenuBuilderComponent implements OnInit {
         this.selectedTheme.checked = false;
       }
     }
-    else if (layoutType == 'default' || layoutType == 'compact') {
+    else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
       this.selectedTheme.isCollapsed = false;
     }
     // This conditions is used to assign value to object
     if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.layout = layoutType;
-      if (this.selectedTheme.sideBarSize == 'compact') {
+      if (this.selectedTheme.sideBarSize == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
         if (layoutType == 'horizental' || layoutType == 'twoColumn')
           this.selectedTheme.sideBarSize = '';
       }
@@ -1317,7 +1317,7 @@ export class MenuBuilderComponent implements OnInit {
     else if (layoutType == 'light' || layoutType == 'dark') {
       this.selectedTheme.sieBarColor = layoutType;
     }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact') {
+    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
       this.selectedTheme.sideBarSize = layoutType;
     }
     else if (layoutType == 'fixed' || layoutType == 'scrollable') {
@@ -1383,7 +1383,7 @@ export class MenuBuilderComponent implements OnInit {
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-      this.requestSubscription = this.applicationService.getNestCommonAPIByCustomQuery('application/department/', id).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
         next: (res) => {
           this.applications = res;
           this.clickBack();
