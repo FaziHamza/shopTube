@@ -1632,9 +1632,14 @@ a.fc-event:hover {
   color: white !important;
 }
 
-.main-layout {
+.main-layout .content-body {
   min-height: calc(100vh - 105px);
   margin-bottom: 120px;
+}
+
+.side-menu {
+  max-height: calc(100vh - 105px);
+  overflow-y: scroll;
 }
 
 .menu-builder-card {
@@ -1901,7 +1906,7 @@ object {
     font-weight: 400;
     -webkit-transition: all .4s;
     transition: all .4s;
-    margin: 0 10px;
+    // margin: 0 10px;
     border-radius: 3px;
     font-size: 15px;
     font-family: Roboto, sans-serif;
@@ -1963,6 +1968,7 @@ object {
       display: none !important;
     }
   }
+
   ul li {
     display: flex;
     flex-direction: column;
@@ -1970,7 +1976,7 @@ object {
     min-height: 60px !important;
     align-items: center;
 
-    
+
 
     .menu-item-icon,
     .sidenav-title {
@@ -2003,12 +2009,14 @@ object {
       display: none !important;
     }
   }
+
   ul li {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 60px !important;
     align-items: flex-start !important;
+
     .menu-item-icon,
     .sidenav-title {
       height: 25px !important;
@@ -2041,18 +2049,21 @@ object {
       display: none !important;
     }
   }
+
   .ant-menu-submenu {
     .ant-menu-submenu-arrow {
       left: 16px !important;
       right: auto !important;
     }
   }
+
   ul li {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 60px !important;
     align-items: flex-end !important;
+
     .menu-item-icon,
     .sidenav-title {
       height: 25px !important;
@@ -2084,9 +2095,14 @@ object {
     margin-left: 6px;
   }
 
-  .ant-menu-submenu-title {
-    padding-right: 10px !important;
+  .ant-menu-submenu-arrow {
+    right: auto !important;
+    left: 16px !important;
   }
+
+  // .ant-menu-submenu-title {
+  //   padding-right: 10px !important;
+  // }
 
   li {
     padding-right: 10px !important;
@@ -2112,7 +2128,7 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu {
-    padding: 0px 10px !important;
+    padding: 0px 16px !important;
 
     .ant-menu-submenu-title {
       padding: 0px !important;

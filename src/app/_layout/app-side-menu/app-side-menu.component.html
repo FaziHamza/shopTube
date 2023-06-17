@@ -6,7 +6,7 @@
     'compact-sidebar': selectedTheme.layout === 'compact',
     'compact-sidebar-right': selectedTheme.layout === 'compact_right',
     'compact-sidebar-left': selectedTheme.layout === 'compact_left',
-    'horizontal-sidebar': selectedTheme.layout === 'horizontal',
+    'horizontal-sidebar': selectedTheme.menuMode === 'horizontal',
     'vertical-sidebar': selectedTheme.layout === 'vertical'
   }">
   <div [ngClass]="{'flex flex-wrap': selectedTheme.menuMode === 'horizontal'}">
