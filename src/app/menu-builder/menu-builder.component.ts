@@ -1293,13 +1293,13 @@ export class MenuBuilderComponent implements OnInit {
         this.selectedTheme.checked = false;
       }
     }
-    else if (layoutType == 'default' || layoutType == 'compact') {
+    else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
       this.selectedTheme.isCollapsed = false;
     }
     // This conditions is used to assign value to object
     if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.layout = layoutType;
-      if (this.selectedTheme.sideBarSize == 'compact') {
+      if (this.selectedTheme.sideBarSize == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
         if (layoutType == 'horizental' || layoutType == 'twoColumn')
           this.selectedTheme.sideBarSize = '';
       }
@@ -1317,7 +1317,7 @@ export class MenuBuilderComponent implements OnInit {
     else if (layoutType == 'light' || layoutType == 'dark') {
       this.selectedTheme.sieBarColor = layoutType;
     }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact') {
+    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
       this.selectedTheme.sideBarSize = layoutType;
     }
     else if (layoutType == 'fixed' || layoutType == 'scrollable') {
