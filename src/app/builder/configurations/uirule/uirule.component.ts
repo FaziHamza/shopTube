@@ -14,6 +14,7 @@ export class UIRuleComponent implements OnInit {
   @Output() ruleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
   @Input() screenId: string;
+  @Input() screenName: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
   public editorOptions: JsonEditorOptions;
@@ -315,14 +316,14 @@ export class UIRuleComponent implements OnInit {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
-      "screenName": selectedScreen.name,
+      "screenName": this.screenName,
       "screenId": this.screenId,
       "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
     }
     if (jsonUIResult != null) {
       this.applicationService.addNestCommonAPI('ui-rule', jsonUIResult).subscribe({
         next: (res) => {
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.toastr.success("Ui rule save successfully", { nzDuration: 3000 }); // Show an error message to the user
           this.ruleNotify.emit(true);
           this.screenData = [];
           this.screenData = jsonUIResult;
@@ -366,10 +367,9 @@ export class UIRuleComponent implements OnInit {
     // this.clickBack();
   }
   uiRule() {
-
+debugger
     //UIRule Form Declare
     this.uiRuleFormInitilize();
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenId)
     this.ifMenuName = [];
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
@@ -384,13 +384,12 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
 
-    this.builderService.jsonUIRuleGetData(this.screenId).subscribe((getRes: Array<any>) => {
+    this.applicationService.getNestCommonAPIById('ui-rule/screen', this.screenId).subscribe((getRes: Array<any>) => {
       if (getRes[0]) {
+        const objUiData = JSON.parse(getRes[0].uiData);
         this.uiRuleForm = this.formBuilder.group({
-
           uiRules: this.formBuilder.array(
-
-            getRes[0].uiData.map((getUIRes: any, uiIndex: number) =>
+            objUiData.map((getUIRes: any, uiIndex: number) =>
               this.formBuilder.group({
                 ifMenuName: [getUIRes.ifMenuName],
                 condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
@@ -528,5 +527,16 @@ export class UIRuleComponent implements OnInit {
     //   }
 
     // }
+  }
+
+  deleteUiRule() {
+    this.applicationService.deleteNestCommonAPI('ui-rule', this.screenId).subscribe({
+      next: (re) => {
+        this.toastr.success("Ui rule delete successfully", { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
   }
 }

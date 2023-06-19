@@ -116,11 +116,9 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                  <json-editor formControlName="inputJsonData"
-                                    id="inputJsonDataa{{uiIndex}}" [options]="editorOptions"
-                                    style="max-height: 150px !important;"
-                                    [options]="makeOptions()"
-                                    (jsonChange)="saveJsonStringify(uiIndex,index)">
+                                  <json-editor formControlName="inputJsonData" id="inputJsonDataa{{uiIndex}}"
+                                    [options]="editorOptions" style="max-height: 150px !important;"
+                                    [options]="makeOptions()" (jsonChange)="saveJsonStringify(uiIndex,index)">
                                   </json-editor>
                                 </div>
                               </div>
@@ -151,6 +149,8 @@
         <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="saveUIRule()">
           <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
           Save </button>
+        <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteUiRule()">
+          <span nz-icon nzType="delete" nzTheme="outline"></span>Delete</button>
       </div>
     </form>
   </div>

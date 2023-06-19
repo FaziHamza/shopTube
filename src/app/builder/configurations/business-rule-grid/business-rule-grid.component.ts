@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-business-rule-grid',
@@ -11,11 +12,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./business-rule-grid.component.scss']
 })
 export class BusinessRuleGridComponent implements OnInit {
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
   @Input() screens: any = [];
   @Input() screenName: any;
+  @Input() screenId: any;
   @Input() GridType: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
@@ -23,6 +25,7 @@ export class BusinessRuleGridComponent implements OnInit {
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
     private builderService: BuilderService,
+    private applicationService: ApplicationService,
     public cd: ChangeDetectorRef,
     private modalService: NzModalService, private toastr: NzMessageService) { }
   isModalVisible = false;
@@ -511,15 +514,16 @@ export class BusinessRuleGridComponent implements OnInit {
     ]
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.builderService.jsonGridBusinessRuleGet(selectedScreen[0].screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('grid-business-rule/screen', this.screenId).subscribe({
         next: (getRes) => {
           let type = this.GridType ? this.GridType : 'Body';
           let gridData = getRes.filter(a => a.gridType == type);
           if (gridData.length > 0) {
             for (let k = 0; k < gridData.length; k++) {
               if (gridData[k].gridKey == this.selectedNode.key) {
+                const objRuleData = JSON.parse(gridData[k].buisnessRuleData);
                 this.buisnessForm = this.formBuilder.group({
-                  buisnessRule: this.formBuilder.array(gridData[k].buisnessRulleData.map((getBuisnessRuleRes: any) =>
+                  buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
                     this.formBuilder.group({
                       ifCondition: [getBuisnessRuleRes.ifCondition],
                       oprator: [getBuisnessRuleRes.oprator],
@@ -661,62 +665,70 @@ export class BusinessRuleGridComponent implements OnInit {
 
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
     const jsonRuleValidation = {
-      "moduleName": this.screenName,
-      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
-      "buisnessRulleData": this.buisnessForm.value.buisnessRule,
-      "buisnessRule": this.GridBusinessRuleData,
+      "screenName": this.screenName,
+      "screenId": this.screenId,
+      "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
+      "buisnessRule": JSON.stringify(this.GridBusinessRuleData),
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
     if (jsonRuleValidation != null) {
       if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe({
-          next: (getRes) => {
-            if (getRes.length == 0) {
-              this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe({
-                next: (saveRes) => {
-                  alert("Data Save");
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              });
-            }
-            else {
-              let type = this.GridType ? this.GridType : 'Body';
-              let gridFilter = getRes.filter(a => a.gridType == type);
-              if (gridFilter.length > 0) {
-                this.requestSubscription = this.builderService.jsonGridBusinessRuleRemove(gridFilter[0].id).subscribe({
-                  next: (delRes) => {
-                    this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe({
-                      next: (saveRes) => {
-                        alert("Data Save");
-                      },
-                      error: (err) => {
-                        console.error(err);
-                        this.toastr.error("An error occurred", { nzDuration: 3000 });
-                      }
-                    });
-                  },
-                  error: (err) => {
-                    console.error(err);
-                    this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  }
-                });
-              } else {
-                this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe((saveRes => {
-                  alert("Data Save");
-                }));
-              }
-
-            }
+        this.requestSubscription = this.applicationService.addNestCommonAPI('grid-business-rule', jsonRuleValidation).subscribe({
+          next: (res) => {
+            this.toastr.success("Grid rule save sucessfully", { nzDuration: 3000 });
           },
           error: (err) => {
-            console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
+        // this.requestSubscription = this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe({
+        //   next: (getRes) => {
+        //     if (getRes.length == 0) {
+        //       this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe({
+        //         next: (saveRes) => {
+        //           alert("Data Save");
+        //         },
+        //         error: (err) => {
+        //           console.error(err);
+        //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //         }
+        //       });
+        //     }
+        //     else {
+        //       let type = this.GridType ? this.GridType : 'Body';
+        //       let gridFilter = getRes.filter(a => a.gridType == type);
+        //       if (gridFilter.length > 0) {
+        //         this.requestSubscription = this.builderService.jsonGridBusinessRuleRemove(gridFilter[0].id).subscribe({
+        //           next: (delRes) => {
+        //             this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe({
+        //               next: (saveRes) => {
+        //                 alert("Data Save");
+        //               },
+        //               error: (err) => {
+        //                 console.error(err);
+        //                 this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //               }
+        //             });
+        //           },
+        //           error: (err) => {
+        //             console.error(err);
+        //             this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //           }
+        //         });
+        //       } else {
+        //         this.requestSubscription = this.builderService.jsonGridBusinessRuleSave(jsonRuleValidation).subscribe((saveRes => {
+        //           alert("Data Save");
+        //         }));
+        //       }
+
+        //     }
+        //   },
+        //   error: (err) => {
+        //     console.error(err);
+        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //   }
+        // });
       }
     }
     // const fishRhyme = ruleFactory(this.GridBusinessRuleData);
@@ -777,5 +789,15 @@ export class BusinessRuleGridComponent implements OnInit {
       this.buisnessRule().at(index).patchValue({
         isGetValue: true
       });
+  }
+  deleteBuisnessRule() {
+    this.applicationService.deleteNestCommonAPI('grid-business-rule', this.screenId).subscribe({
+      next: (res) => {
+        this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 }

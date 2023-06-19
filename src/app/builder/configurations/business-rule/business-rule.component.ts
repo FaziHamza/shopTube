@@ -4,6 +4,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-business-rule',
@@ -14,15 +15,17 @@ export class BusinessRuleComponent implements OnInit {
   @Output() businessRuleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
   @Input() screenName: any;
+  @Input() screenId: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
   @Input() formlyModel: any;
-  constructor(private formBuilder: FormBuilder, private builderService: BuilderService, private toastr: NzMessageService) { }
+  constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService,
+    private builderService: BuilderService, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
     this.dynamicBuisnessRule();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
   buisnessRuleData: any = [];
@@ -61,11 +64,12 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.requestSubscription = this.builderService.jsonBisnessRuleGet(mainModuleId[0].screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen', this.screenId).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
+            const objRuleData = JSON.parse(getRes[0].buisnessRuleData);
             this.buisnessForm = this.formBuilder.group({
-              buisnessRule: this.formBuilder.array(getRes[0].buisnessRulleData.map((getBuisnessRuleRes: any) =>
+              buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
                 this.formBuilder.group({
                   ifCondition: [getBuisnessRuleRes.ifCondition],
                   oprator: [getBuisnessRuleRes.oprator],
@@ -177,6 +181,7 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
+    debugger
 
     this.bussinessRuleObj = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
@@ -202,54 +207,61 @@ export class BusinessRuleComponent implements OnInit {
 
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const jsonRuleValidation = {
-      "moduleName": this.screenName,
-      "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-      "buisnessRulleData": this.buisnessForm.value.buisnessRule,
-      "buisnessRule": this.bussinessRuleObj
+      "screenName": this.screenName,
+      "screenId": this.screenId,
+      "buisnessRule": JSON.stringify(this.bussinessRuleObj),
+      "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
     }
     if (jsonRuleValidation != null) {
-      const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
       if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
-          next: (getRes) => {
-            if (getRes.length == 0) {
-              this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
-                next: (saveRes) => {
-                  this.businessRuleNotify.emit();
-                  alert("Data Save");
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              });
-            }
-            else {
-              this.requestSubscription = this.builderService.jsonBisnessRuleRemove(getRes[0].id).subscribe({
-                next: (delRes) => {
-                  this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
-                    next: (saveRes) => {
-                      this.businessRuleNotify.emit();
-                      alert("Data Saved");
-                    },
-                    error: (err) => {
-                      console.error(err);
-                      this.toastr.error("An error occurred", { nzDuration: 3000 });
-                    }
-                  });
-                },
-                error: (err) => {
-                  console.error(err);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                }
-              });
-            }
+        this.requestSubscription = this.applicationService.addNestCommonAPI('buisness-rule', jsonRuleValidation).subscribe({
+          next: (res) => {
+            this.toastr.success("Buisness rule save successfully", { nzDuration: 3000 });
           },
           error: (err) => {
-            console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
+        // this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
+        //   next: (getRes) => {
+        //     if (getRes.length == 0) {
+        //       this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
+        //         next: (saveRes) => {
+        //           this.businessRuleNotify.emit();
+        //           alert("Data Save");
+        //         },
+        //         error: (err) => {
+        //           console.error(err);
+        //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //         }
+        //       });
+        //     }
+        //     else {
+        //       this.requestSubscription = this.builderService.jsonBisnessRuleRemove(getRes[0].id).subscribe({
+        //         next: (delRes) => {
+        //           this.requestSubscription = this.builderService.jsonBisnessRuleSave(jsonRuleValidation).subscribe({
+        //             next: (saveRes) => {
+        //               this.businessRuleNotify.emit();
+        //               alert("Data Saved");
+        //             },
+        //             error: (err) => {
+        //               console.error(err);
+        //               this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //             }
+        //           });
+        //         },
+        //         error: (err) => {
+        //           console.error(err);
+        //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //         }
+        //       });
+        //     }
+        //   },
+        //   error: (err) => {
+        //     console.error(err);
+        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //   }
+        // });
       }
     }
     const fishRhyme = ruleFactory(this.bussinessRuleObj);
@@ -263,5 +275,16 @@ export class BusinessRuleComponent implements OnInit {
   }
   applyCondition(value: any) {
     return /^[0-9]+$/.test(value) ? '' : '"'
+  }
+
+  deleteBuisnessRule() {
+    this.applicationService.deleteNestCommonAPI('buisness-rule', this.screenId).subscribe({
+      next: (res) => {
+        this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 }

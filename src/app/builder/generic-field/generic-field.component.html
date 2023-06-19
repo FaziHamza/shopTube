@@ -34,5 +34,6 @@
     [tableData]='itemData.mappingNode.tableBody' [data]="itemData.mappingNode"></dynamic-table>
   <br>
   <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
+  <button class="mx-2" nz-button nzType="primary" nzDanger (click)="onDelete(this.itemData)">Delete</button>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
 </form>
