@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -43,6 +44,7 @@ export class DynamicTableComponent implements OnInit {
   ];
   editingEntry: any = null;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
+    private applicationService: ApplicationService,
     private employeeService: EmployeeService, private toastr: NzMessageService,private cdr: ChangeDetectorRef) {
     // this.getHeader();
   }
@@ -117,14 +119,15 @@ export class DynamicTableComponent implements OnInit {
       this.loadTableData();
     }
     if (this.screenId)
-      this.builderService.jsonGridBusinessRuleGet(this.screenId).subscribe((getRes => {
+      this.applicationService.getNestCommonAPIById('grid-business-rule',this.screenId).subscribe((getRes => {
         if (getRes.length > 0) {
           // this.dataModel['input34d5985f']='1313'
           let gridFilter = getRes.filter(a => a.gridType == 'Body');
           for (let m = 0; m < gridFilter.length; m++) {
             if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
-              for (let index = 0; index < gridFilter[m].buisnessRulleData.length; index++) {
-                const elementv1 = gridFilter[m].buisnessRulleData[index];
+              const objRuleData = JSON.parse(gridFilter[m].buisnessRulleData);
+              for (let index = 0; index < objRuleData.length; index++) {
+                const elementv1 = objRuleData[index];
                 let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
                 if (checkType.length == 0) {
                   console.log("No obj Found!")

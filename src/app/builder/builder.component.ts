@@ -49,7 +49,7 @@ export class BuilderComponent implements OnInit {
   screens: any;
   screenName: any;
   screenId: any = 0;
-  moduleId: any;
+  // moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
   validationFieldData: GenaricFeild;
@@ -125,8 +125,7 @@ export class BuilderComponent implements OnInit {
       this.getScreenData(this.dataSharedService.screenName);
     }
     this.htmlTabsData = htmlTabsData;
-    this.makeDatainTemplateTab('template', 'buildertemplates');
-    this.makeDatainTemplateTab('website-block', 'websiteBlockTemplate');
+    this.makeDatainTemplateTab();
     let filterdButtons = this.htmlTabsData[0].children.filter((item: any) => item.id == 'website-block')
     this.websiteBlockTypeArray = filterdButtons[0].children;
     this.makeFormlyTypeOptions(htmlTabsData[0]);
@@ -196,7 +195,6 @@ export class BuilderComponent implements OnInit {
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
   async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
-    debugger
     if (content === 'delete') {
       const nodes = await this.dataService.deleteDb(this.screenName);
       alert('this Screen Delete db successfully!')
@@ -226,7 +224,6 @@ export class BuilderComponent implements OnInit {
 
   oldIndex: number;
   decryptData(data: any) {
-    debugger
     let decryptData = this._encryptionService.decryptData(data?.data)
     this.nodes = this.jsonParseWithObject(decryptData);
   }
@@ -418,7 +415,7 @@ export class BuilderComponent implements OnInit {
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [{
-        id: this.moduleId + '_' + 'page_' + Guid.newGuid(),
+        id: this.screenId + '_' + 'page_' + Guid.newGuid(),
         key: 'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
@@ -483,7 +480,7 @@ export class BuilderComponent implements OnInit {
     {
       "moduleName": this.screenName,
       "menuData": currentData,
-      "moduleId": selectedScreen.length > 0 ? selectedScreen[0].screenId : "",
+      "screenId": this.screenId
     };
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -578,7 +575,7 @@ export class BuilderComponent implements OnInit {
       return modelFaker;
     }
   }
-  uiRuleGetData(moduleId: any) {
+  uiRuleGetData(screenId: any) {
     this.makeFaker();
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
     // this.getUIRuleData();
@@ -622,7 +619,6 @@ export class BuilderComponent implements OnInit {
     // this.cdr.detach();
   }
   getJoiValidation(screenId: any) {
-    debugger
     this.applicationService.getNestCommonAPIById('validation-rule/screen', screenId).subscribe((getRes => {
       this.joiValidationData = getRes;
     }))
@@ -631,7 +627,15 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', this.screenId).subscribe({
       next: (getRes) => {
         if (getRes.length > 0) {
-          this.screenData = getRes[0];
+          const jsonUIResult = {
+            // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+            "key": this.selectedNode.key,
+            "title": this.selectedNode.title,
+            "screenName": this.screenName,
+            "screenId": this.screenId,
+            "uiData": JSON.parse(getRes[0].uiData),
+          }
+          this.screenData = jsonUIResult;
         } else {
         }
       },
@@ -643,6 +647,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   getUIRule(model: any, currentValue: any) {
+  debugger
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -865,7 +870,6 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
-    debugger
     let obj = {
       type: data?.parameter,
       title: value,
@@ -908,7 +912,7 @@ export class BuilderComponent implements OnInit {
     let newNode: any = {};
     if (data?.parameter == 'input') {
       newNode = {
-        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -923,7 +927,7 @@ export class BuilderComponent implements OnInit {
     else {
       newNode = {
         key: res?.key ? res.key : obj.key,
-        id: this.moduleId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -940,7 +944,7 @@ export class BuilderComponent implements OnInit {
     }
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList'
-      newNode.id = this.moduleId + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
+      newNode.id = this.screenId + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
     };
     switch (value) {
       case "page":
@@ -971,28 +975,28 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.getFooterControl() };
         break;
       case "header_1":
-        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.screenId) };
         break;
       case "header_2":
-        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.screenId) };
         break;
       case "header_3":
-        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.screenId) };
         break;
       case "header_4":
-        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.screenId) };
         break;
       case "header_5":
-        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.screenId) };
         break;
       case "header_6":
-        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.screenId) };
         break;
       case "header_7":
-        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.screenId) };
         break;
       case "pricing":
-        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.moduleId) };
+        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.screenId) };
         break;
       case "buttonGroup":
         newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
@@ -1423,7 +1427,6 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   makeFormlyOptions(option: any, type: any) {
-    debugger
     if (option) {
       let data = []
       if (type == 'checkbox') {
@@ -1639,7 +1642,6 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
-    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -1647,9 +1649,9 @@ export class BuilderComponent implements OnInit {
       formData: _formFieldData.inputValidationRuleFields,
     });
     if (this.joiValidationData.length > 0) {
-      let getJoiRule = this.joiValidationData.filter(a => a.id == this.selectedNode.id);
-      if (getJoiRule.length)
-        this.validationFieldData.modelData = getJoiRule[0];
+      let getJoiRule = this.joiValidationData.find(a => a.key == this.selectedNode.key);
+      if (getJoiRule)
+        this.validationFieldData.modelData = getJoiRule;
     }
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
@@ -2304,7 +2306,7 @@ export class BuilderComponent implements OnInit {
     if (node.id) {
       let changeId = node.id.split('_')
       if (changeId.length == 2) {
-        node.id = this.moduleId + '_' + changeId[0] + '_' + Guid.newGuid();
+        node.id = this.screenId + '_' + changeId[0] + '_' + Guid.newGuid();
       } else {
         node.id = changeId[0] + '_' + changeId[1] + '_' + Guid.newGuid();
       }
@@ -2438,7 +2440,6 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
-    debugger
     let needToUpdate = true;
     switch (event.type) {
       case "body":
@@ -2556,7 +2557,6 @@ export class BuilderComponent implements OnInit {
       case "treeSelect":
       case "tree": case "treeView": case "cascader":
         if (event.tableDta) {
-          debugger
           this.selectedNode.nodes = event.tableDta;
         }
         if (event.form.api) {
@@ -2684,7 +2684,7 @@ export class BuilderComponent implements OnInit {
                 props['type'] = event.form.formlyTypes.fieldType;
                 props['options'] = this.makeFormlyOptions(event.form.formlyTypes?.options, event.form.formlyTypes.type);
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
-                // this.selectedNode['id'] = this.moduleId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
+                // this.selectedNode['id'] = this.screenId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
             }
             if (Array.isArray(event.form.className)) {
@@ -2792,7 +2792,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "inputValidationRule":
-        debugger
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
@@ -3631,7 +3630,7 @@ export class BuilderComponent implements OnInit {
             "menuData": currentData,
             "moduleId": makeData.moduleId,
           };
-          this.moduleId = makeData.moduleId;
+          this.screenId = makeData.moduleId;
           this.nodes = makeData.menuData;
           // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
           //   if (res.length > 0) {
@@ -3772,7 +3771,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   saveInDB() {
-    debugger
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -3890,16 +3888,18 @@ export class BuilderComponent implements OnInit {
     else if (this.modalType === 'saveAsTemplate') {
       try {
         if ((this.saveAsTemplate && this.templateName) || (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave)) {
+
           if (this.saveAsTemplate && this.templateName) {
-            const obj = {
+            const objTemplate = {
               parameter: 'htmlBlock',
               icon: 'uil uil-paragraph',
               label: this.templateName,
-              template: this.nodes[0].children[1].children
+              templateType: 'builderBlock',
+              template: JSON.stringify(this.nodes[0].children[1].children)
             };
-            this.requestSubscription = this.builderService.genericApisPost('buildertemplates', obj).subscribe({
+            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
               next: (res) => {
-                this.makeDatainTemplateTab('template', 'buildertemplates');
+                this.makeDatainTemplateTab();
                 this.saveLoader = true;
               },
               error: (err) => {
@@ -3909,16 +3909,17 @@ export class BuilderComponent implements OnInit {
             });
           }
           if (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave) {
-            const obj = {
+            const objTemplate = {
               parameter: this.websiteBlockName,
               icon: 'uil uil-paragraph',
               label: this.websiteBlockName,
               type: this.webisteBlockType,
-              template: this.nodes[0].children[1].children
+              templateType: 'websiteBlock',
+              template: JSON.stringify(this.nodes[0].children[1].children)
             };
-            this.requestSubscription = this.builderService.genericApisPost('websiteBlockTemplate', obj).subscribe({
+            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
               next: (res) => {
-                this.makeDatainTemplateTab('website-block', 'websiteBlockTemplate');
+                this.makeDatainTemplateTab();
                 this.saveLoader = true;
 
               },
@@ -3929,7 +3930,7 @@ export class BuilderComponent implements OnInit {
             });
           }
           setTimeout(() => {
-            this.saveJson();
+            // this.saveJson();
             this.showModal = false;
           }, 1000);
         }
@@ -4234,7 +4235,6 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-    debugger
     if (checkType == 'website-block') {
       data.template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
@@ -4250,19 +4250,16 @@ export class BuilderComponent implements OnInit {
     this.toastr.success('Control Added', { nzDuration: 3000 });
   }
 
-  makeDatainTemplateTab(id?: any, dbTable?: any) {
-    this.requestSubscription = this.builderService.genericApis(dbTable).subscribe({
+  makeDatainTemplateTab() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
       next: (res) => {
-        if (id == 'website-block') {
-          this.dbWebsiteBlockArray = res;
-        }
-        else {
-          this.htmlTabsData[0].children.forEach((item: any) => {
-            if (item?.id == 'template') {
-              item.children[0].children = res;
-            }
-          })
-        }
+        this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');
+
+        this.htmlTabsData[0].children.forEach((item: any) => {
+          if (item?.id == 'template') {
+            item.children[0].children = res.filter(x => x.templateType == 'builderBlock');
+          }
+        })
       },
       error: (err) => {
         console.error(err);
@@ -4289,7 +4286,6 @@ export class BuilderComponent implements OnInit {
   }
 
   makeFormlyTypeOptions(node: any) {
-    debugger
     if (node) {
       if (node?.parameter == 'input') {
         let obj = {
@@ -4306,5 +4302,15 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
+  }
+  deleteValidationRule(data: any) {
+    this.applicationService.deleteNestCommonAPI('validation-rule', data.modelData._id).subscribe({
+      next: (res) => {
+        this.toastr.success('Delete data successfully', { nzDuration: 3000 });
+      },
+      error: () => {
+        this.toastr.error('Delete data unhandler', { nzDuration: 3000 });
+      }
+    })
   }
 }

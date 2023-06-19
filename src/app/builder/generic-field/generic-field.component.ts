@@ -18,8 +18,11 @@ export class GenericFieldComponent implements OnInit {
   @Input() itemData: any;
   @Input() type: string;
   @Input() modal: string;
+  @Input() screenId: any;
+  @Input() screenName: any;
   @Output() valueChange = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
+  @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
   resData: any;
   publicList: object[] = [
@@ -31,7 +34,7 @@ export class GenericFieldComponent implements OnInit {
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService) { }
   ngOnInit(): void {
-    
+
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.mappingNode) {
@@ -43,9 +46,9 @@ export class GenericFieldComponent implements OnInit {
         });
       }
       this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
-        { name: 'fileHeader', },{ name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+        { name: 'fileHeader', }, { name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
       this.tableId = this.itemData.mappingNode.key + Guid.newGuid();
-      this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader'] 
+      this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader']
       if (this.itemData?.mappingNode?.dbData) {
         this.resData = this.itemData.mappingNode.dbData;
       }
@@ -56,7 +59,6 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -81,6 +83,10 @@ export class GenericFieldComponent implements OnInit {
     }
   }
 
+  onDelete(data: any) {
+    this.deleteValidation.emit(data)
+  }
+
   dynamicSectionOption() {
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
@@ -92,12 +98,12 @@ export class GenericFieldComponent implements OnInit {
           let firstObjectKeys = Object.keys(res[0]);
           let key = firstObjectKeys.map(key => ({ key: key, value: key }));
           this.optionsArray = [];
-          if(this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents'){
-            this.itemData.mappingNode.children.forEach((element : any) => {
-            this.createOptionsArray(element);
+          if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents') {
+            this.itemData.mappingNode.children.forEach((element: any) => {
+              this.createOptionsArray(element);
             });
           }
-           else {
+          else {
             this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
           }
           this.optionsArray.forEach((item: any, index: number) => {
@@ -115,7 +121,7 @@ export class GenericFieldComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       })
-    }else{
+    } else {
       this.itemData.mappingNode.tableBody = [];
     }
   }
