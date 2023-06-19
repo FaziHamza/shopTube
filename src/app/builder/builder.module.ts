@@ -26,6 +26,7 @@ import {  MonacoEditorModule } from "ngx-monaco-editor";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
     MenuBuilderComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
-    LanguageComponent
+    LanguageComponent,
+    BulkUpdateComponent
   ],
   imports: [
     CommonModule,

@@ -24,6 +24,8 @@ import { AddControlCommonPropertiesComponent } from './add-control-common-proper
 import { ThirdPartyDraggable } from '@fullcalendar/interaction';
 import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
+import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'st-builder',
@@ -87,6 +89,7 @@ export class BuilderComponent implements OnInit {
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     private applicationService: ApplicationService,
+    private drawerService: NzDrawerService,
     // private formBuilder: FormBuilder,
     private _encryptionService: EncryptionService,
     private toastr: NzMessageService,
@@ -642,6 +645,29 @@ export class BuilderComponent implements OnInit {
 
     });
   }
+  bulkUpdate() {
+    const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
+      nzTitle: 'Bulk Update',
+      nzWidth: 1000,
+      nzContent: BulkUpdateComponent,
+      nzContentParams: {
+        nodes: this.nodes
+      }
+    });
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Component) open');
+    });
+
+    drawerRef.afterClose.subscribe(data => {
+      console.log(data);
+      if(data){
+        this.nodes =data;
+        this.updateNodes();
+      }
+    });
+  }
+
   getUIRule(model: any, currentValue: any) {
     try {
       if (this.screenData != undefined) {
