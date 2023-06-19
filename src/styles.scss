@@ -2175,7 +2175,35 @@ object {
     }
 
   }
+  // .ant-menu-item{
+  //   padding :0px !important
+  // }
+  .menu-title {
+    display: none !important;
+  }
 
+  .nav-item {
+    width: 100% !important;
+  }
+}
+
+.vertical-box-sidebar {
+  .ant-menu-inline-collapsed {
+
+    .nav-item,
+    .ant-menu-submenu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 18px;
+    }
+    .ant-menu-submenu-title {
+      .menu-item-icon {
+        margin-right: 40px;
+      }
+    }
+
+  }
   .menu-title {
     display: none !important;
   }

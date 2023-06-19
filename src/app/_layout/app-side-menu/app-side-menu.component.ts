@@ -38,16 +38,15 @@ export class AppSideMenuComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
 
-  setHovered(value: any, event : any) {
+  setHovered(value: any, event: any) {
     event.stopPropagation();
-    if (this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
+    if ((this.selectedTheme.layout != 'horizental' && (this.selectedTheme.sideBarSize != 'default' && this.selectedTheme.sideBarSize != 'compact' && this.selectedTheme.sideBarSize != 'compact_right' && this.selectedTheme.sideBarSize != 'compact_left' && this.selectedTheme.sideBarSize != 'smallIconView') && this.selectedTheme.layoutWidth == 'boxed') && this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
       this.selectedTheme.isCollapsed = value;
     }
     if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
       if (!this.selectedTheme.checked)
         this.selectedTheme.isCollapsed = value;
     }
-
   }
 
   getMenu() {
