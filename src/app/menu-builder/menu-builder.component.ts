@@ -11,6 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Guid } from '../models/guid';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from '../services/application.service';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
 
 @Component({
   selector: 'st-menu-builder',
@@ -57,6 +59,7 @@ export class MenuBuilderComponent implements OnInit {
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
+    private drawerService: NzDrawerService,
     public builderService: BuilderService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
@@ -1414,8 +1417,31 @@ export class MenuBuilderComponent implements OnInit {
       }
     });
   };
-
-
+  bulkUpdate() {
+    if(this.nodes.length > 0){
+      const drawerRef = this.drawerService.create<MenuBulkUpdateComponent, { value: string }, string>({
+        nzTitle: 'Bulk Update',
+        nzWidth: 1000,
+        nzContent: MenuBulkUpdateComponent,
+        nzContentParams: {
+          nodes: this.nodes
+        }
+      });
+      drawerRef.afterOpen.subscribe(() => {
+        // console.log('Drawer(Component) open');
+      });
+      drawerRef.afterClose.subscribe(data => {
+        console.log(data);
+        if(data){
+          this.nodes =data;
+          this.clickBack();
+        }
+      });
+    }else{
+      this.toastr.error("Please select application first",{nzDuration: 3000});
+    }
+    
+  }
 }
 
 

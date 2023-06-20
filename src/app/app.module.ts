@@ -31,6 +31,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MapComponent } from './components/map/map.component';
 import { GoogleMapsService } from './services/google-maps.service';
+import { MenuBulkUpdateComponent } from './menu-builder/menu-bulk-update/menu-bulk-update.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -47,6 +48,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     RegisterComponent,
     CreateDatabaseComponent,
     MapComponent,
+    MenuBulkUpdateComponent,
   ],
   imports: [
     FormsModule,
