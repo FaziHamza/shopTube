@@ -667,7 +667,6 @@ export class BuilderComponent implements OnInit {
       });
       drawerRef.afterClose.subscribe((data:any) => {
         console.log(data);
-        debugger
         if(data){
           if(data.nodes)
             this.nodes =data.nodes;

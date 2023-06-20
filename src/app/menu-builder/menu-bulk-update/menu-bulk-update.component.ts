@@ -22,6 +22,7 @@ export class MenuBulkUpdateComponent implements OnInit {
         link: element.link,
         title: element.title,
         isTitle: element.isTitle,
+        icon: element.icon,
         children: [],
         expand: false,
       }
@@ -31,6 +32,7 @@ export class MenuBulkUpdateComponent implements OnInit {
           id: forms.id,
           link: forms.link,
           title: forms.title,
+          icon: forms.icon,
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -46,6 +48,7 @@ export class MenuBulkUpdateComponent implements OnInit {
       this.nodes[index].title = element.title;
       this.nodes[index].link = element.link;
       this.nodes[index].isTitle = element.isTitle;
+      this.nodes[index].icon = element.icon;
       if (!element.link.includes("pages") && element.link != '')
         this.nodes[index].link = "/pages/" + element.link;
       else
@@ -53,6 +56,7 @@ export class MenuBulkUpdateComponent implements OnInit {
 
       element.children.forEach((body: any, innerIndex: any) => {
         this.nodes[index].children[innerIndex].title = body.title;
+        this.nodes[index].children[innerIndex].icon = body.icon;
         this.nodes[index].children[innerIndex].key = body.key;
         if (!element.link.includes("pages") && element.link != '')
           this.nodes[index].children[innerIndex].link = "/pages/" + element.link;
