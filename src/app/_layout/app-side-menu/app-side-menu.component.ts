@@ -164,7 +164,7 @@ export class AppSideMenuComponent implements OnInit {
     return true;
   }
   loadModules(): void {
-    this.requestSubscription = this.builderService.jsonModuleSetting().subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('application').subscribe({
       next: (res) => {
         this.moduleData = res;
       },

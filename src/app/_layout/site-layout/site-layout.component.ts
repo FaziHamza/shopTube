@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, filter, forkJoin } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -54,7 +55,7 @@ export class SiteLayoutComponent implements OnInit {
   }
   // selectedTheme: any;
 
-  constructor(private employeeService: EmployeeService, public dataSharedService: DataSharedService, public builderService: BuilderService,
+  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnDestroy() {
@@ -316,7 +317,7 @@ export class SiteLayoutComponent implements OnInit {
     // this.currentUrl = window.location.host;
     // let url = window.location.href.split('.com');
     // this.currentWebsiteUrl = url[0] + ".com";
-    this.requestSubscription = this.builderService.genericApis('jsonApplication').subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
       next: (res) => {
         if (res.length > 0) {
           let menus: any = [];

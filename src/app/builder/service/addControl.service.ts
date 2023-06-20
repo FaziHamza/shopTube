@@ -8,6 +8,7 @@ export class AddControlService {
 
   getPageControl() {
     return {
+      tooltipIcon:'question-circle',
       footer: false, header: false,
       options: [
         {
@@ -59,6 +60,7 @@ export class AddControlService {
       formatAlignment: '',
       borderRadius: '0px 0px 0px 0px',
       mapApi: '',
+      tooltipIcon:'question-circle',
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },

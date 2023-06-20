@@ -51,6 +51,7 @@ export class BuilderComponent implements OnInit {
   screens: any;
   screenName: any;
   screenId: any = 0;
+  _id: any = "";
   // moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
@@ -254,7 +255,8 @@ export class BuilderComponent implements OnInit {
       {
         "screenData": JSON.stringify(screenData),
         "screenName": this.screenName,
-        "screenId": this.screenId
+        "screenId": this.screenId,
+        "screen_Id": this._id,
       };
       // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectApplicationName) {
       //   data['module'] = this.selectApplicationName;
@@ -331,10 +333,10 @@ export class BuilderComponent implements OnInit {
         new Promise((resolve, reject) => {
           debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          const name = this.screens.find((x: any) => x.name == data);
-          this.screenId = name._id;
-          // this.screenName = name.name;
-          this.previousScreenId = data;
+          const objScreen = this.screens.find((x: any) => x._id == data);
+          this.screenId = objScreen.screenId;
+          this.screenName = objScreen.name;
+          this.previousScreenId = objScreen.screenId;
           this.isSavedDb = false;
           // const newScreenName = this.screens
           // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
@@ -354,7 +356,7 @@ export class BuilderComponent implements OnInit {
           //     })
           //   }
           // }
-          this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this.screenId).subscribe({
+          this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
             next: (res) => {
               if (res.length > 0) {
                 const objScreenData = JSON.parse(res[0].screenData);
@@ -364,7 +366,7 @@ export class BuilderComponent implements OnInit {
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
                 this.updateNodes();
                 this.applyDefaultValue();
-                this.getJoiValidation(this.screenId);
+                this.getJoiValidation(this._id);
                 // if (res[0].menuData[0].children[1]) {
 
                 //   // this.uiRuleGetData(res[0].moduleId);
@@ -419,7 +421,7 @@ export class BuilderComponent implements OnInit {
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [{
-        id: this.screenId + '_' + 'page_' + Guid.newGuid(),
+        id: this.screenName + '_' + 'page_' + Guid.newGuid(),
         key: 'page_' + Guid.newGuid(),
         title: 'page',
         type: "page",
@@ -482,8 +484,8 @@ export class BuilderComponent implements OnInit {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     var data =
     {
-      "moduleName": this.screenName,
-      "menuData": currentData,
+      "screenName": this.screenName,
+      "screenData": currentData,
       "screenId": this.screenId
     };
 
@@ -622,13 +624,13 @@ export class BuilderComponent implements OnInit {
     this.cdr.detectChanges();
     // this.cdr.detach();
   }
-  getJoiValidation(screenId: any) {
-    this.applicationService.getNestCommonAPIById('validation-rule/screen', screenId).subscribe((getRes => {
+  getJoiValidation(_id: any) {
+    this.applicationService.getNestCommonAPIById('validation-rule/screen', _id).subscribe((getRes => {
       this.joiValidationData = getRes;
     }))
   }
   getUIRuleData(data: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', this.screenId).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', this._id).subscribe({
       next: (getRes) => {
         if (getRes.length > 0) {
           const jsonUIResult = {
@@ -636,7 +638,7 @@ export class BuilderComponent implements OnInit {
             "key": this.selectedNode.key,
             "title": this.selectedNode.title,
             "screenName": this.screenName,
-            "screenId": this.screenId,
+            "screenId": this._id,
             "uiData": JSON.parse(getRes[0].uiData),
           }
           this.screenData = jsonUIResult;
@@ -683,7 +685,7 @@ export class BuilderComponent implements OnInit {
   }
 
   getUIRule(model: any, currentValue: any) {
-  debugger
+    debugger
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -806,11 +808,11 @@ export class BuilderComponent implements OnInit {
   getBusinessRule() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen', this._id).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
             this.businessRuleData = [];
-            this.businessRuleData = getRes[0].buisnessRule
+            this.businessRuleData = JSON.parse(getRes[0].buisnessRule)
           } else {
             this.businessRuleData = [];
           }
@@ -949,7 +951,7 @@ export class BuilderComponent implements OnInit {
     let newNode: any = {};
     if (data?.parameter == 'input') {
       newNode = {
-        id: this.screenId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenName + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -964,13 +966,14 @@ export class BuilderComponent implements OnInit {
     else {
       newNode = {
         key: res?.key ? res.key : obj.key,
-        id: this.screenId + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenName + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
         title: res?.title ? res.title : obj.title,
         children: [],
         tooltip: '',
+        tooltipIcon: 'question-circle',
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
@@ -981,7 +984,7 @@ export class BuilderComponent implements OnInit {
     }
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList'
-      newNode.id = this.screenId + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
+      newNode.id = this.screenName + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
     };
     switch (value) {
       case "page":
@@ -1012,28 +1015,28 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.getFooterControl() };
         break;
       case "header_1":
-        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.screenName) };
         break;
       case "header_2":
-        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.screenName) };
         break;
       case "header_3":
-        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.screenName) };
         break;
       case "header_4":
-        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.screenName) };
         break;
       case "header_5":
-        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.screenName) };
         break;
       case "header_6":
-        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.screenName) };
         break;
       case "header_7":
-        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.screenName) };
         break;
       case "pricing":
-        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.screenId) };
+        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.screenName) };
         break;
       case "buttonGroup":
         newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
@@ -2501,6 +2504,11 @@ export class BuilderComponent implements OnInit {
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
             });
+            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
+              if (!element.formly) {
+                element['tooltipIcon'] = event.form.tooltipIcon;
+              }
+            });
             this.selectedNode.title = event.form.title;
             this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
@@ -2518,6 +2526,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.formatAlignment = event.form.formatAlignment;
             this.selectedNode.isBordered = event.form.isBordered;
             this.selectedNode['borderRadius'] = event.form.borderRadius;
+            this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
               this.clickBack();
@@ -2722,7 +2731,7 @@ export class BuilderComponent implements OnInit {
                 props['type'] = event.form.formlyTypes.fieldType;
                 props['options'] = this.makeFormlyOptions(event.form.formlyTypes?.options, event.form.formlyTypes.type);
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
-                // this.selectedNode['id'] = this.screenId + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
+                // this.selectedNode['id'] = this.screenName + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               };
             }
             if (Array.isArray(event.form.className)) {
@@ -3047,6 +3056,23 @@ export class BuilderComponent implements OnInit {
       //   break;
       case "page":
         this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
+        if (
+          this.selectedNode &&
+          this.selectedNode.children &&
+          this.selectedNode.children[1] &&
+          this.selectedNode.children[1].children
+        ) {
+          this.selectedNode.children[1].children.forEach((element: any) => {
+            element.children[1].children.forEach((element1: any) => {
+              if (!element1.formly) {
+                element1['tooltipIcon'] = event.form.tooltipIcon;
+              }else if(element1.formly){
+                element1.formly[0].fieldGroup[0].props['additionalProperties']['tooltipIcon'] = JSON.parse(JSON.stringify(event.form.tooltipIcon));
+              }
+            });
+          });
+        }
+        this.cdr.detectChanges();
         break;
 
 
@@ -3572,23 +3598,24 @@ export class BuilderComponent implements OnInit {
 
         fieldGroup[0].props['additionalProperties']['formatAlignment'] = formValues.formatAlignment;
         fieldGroup[0].props['additionalProperties']['borderRadius'] = formValues.borderRadius;
+        fieldGroup[0].props['additionalProperties']['tooltipIcon'] = formValues.tooltipIcon;
       }
     }
     return fieldGroup;
   }
   functionName: any;
-  mainTemplate() {
-    this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
-      next: (res) => {
-        if (this.selectedNode.children)
-          this.selectedNode.children.push(res)
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
+  // mainTemplate() {
+  //   this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
+  //     next: (res) => {
+  //       if (this.selectedNode.children)
+  //         this.selectedNode.children.push(res)
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //     }
+  //   });
+  // }
 
   jsonStringify(data: any) {
     return JSON.stringify(data)
@@ -3662,12 +3689,12 @@ export class BuilderComponent implements OnInit {
 
           var data =
           {
-            "moduleName": makeData.moduleName,
-            "menuData": currentData,
-            "moduleId": makeData.moduleId,
+            "screenName": makeData.screenName,
+            "screenData": currentData,
+            "screenId": makeData.screenId,
           };
-          this.screenId = makeData.moduleId;
-          this.nodes = makeData.menuData;
+          this.screenId = makeData.screenId;
+          this.nodes = makeData.screenData;
           // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
           //   if (res.length > 0) {
           //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
