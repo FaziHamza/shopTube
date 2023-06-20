@@ -15,6 +15,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CommentModalComponent } from '../components';
 import { EmployeeService } from '../services/employee.service';
+import { ApplicationService } from '../services/application.service';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class MainComponent implements OnInit {
   isShowContextMenu = false;
 
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
-    private builderService: BuilderService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
+    private builderService: BuilderService, private applicationServices: ApplicationService,
+    private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
     private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit(): void {
@@ -106,7 +108,7 @@ export class MainComponent implements OnInit {
   }
   getJoiValidation() {
     debugger
-    this.builderService.jsonGetScreenValidationRule(this.screenId).subscribe((getRes => {
+    this.applicationServices.getNestCommonAPIById('validation-rule/screen', this.screenId).subscribe((getRes => {
       this.joiValidationData = getRes;
     }))
   }

@@ -89,9 +89,9 @@ export class PagesComponent implements OnInit {
           next: (res: any) => {
             debugger
             if (res.length > 0) {
-              this.screenId = res[0].screenId;
-              this.getUIRuleData(res[0].screenId);
-              this.getBusinessRule(res[0].screenId);
+              this.screenId = res[0].screen_Id;
+              this.getUIRuleData(res[0].screen_Id);
+              this.getBusinessRule(res[0].screen_Id);
               const data = JSON.parse(res[0].screenData);
               this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
               this.checkDynamicSection();
