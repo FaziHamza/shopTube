@@ -11,6 +11,7 @@ import { BarChartComponent, DemoLayotPageComponent, FileManagerComponent, google
 import { DemoComponent } from './builder/demo/demo.component';
 import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 import { Layout1Component } from './admin/layout1/layout1.component';
+import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 
 const routes: Routes = [
   { path: '', component: SiteLayoutComponent ,
@@ -83,6 +84,10 @@ const routes: Routes = [
   {
     path: 'map',
     component: googleMapComponent
+  },
+  {
+    path: 'screenv1',
+    component: Screenv1Component
   },
   {
     path: 'layout1',
