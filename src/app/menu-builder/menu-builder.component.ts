@@ -640,6 +640,7 @@ export class MenuBuilderComponent implements OnInit {
   saveLoader: any = false;
 
   saveJsonMenu() {
+    debugger
     this.saveLoader = true;
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
@@ -1201,6 +1202,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   changeLayout(layoutType: any) {
+    debugger
     if (layoutType.includes('backGroundColor')) {
       this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
     } else if (layoutType.includes('textColor')) {
@@ -1263,6 +1265,9 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.menuColumn = 'w-2/12';
         }
       }
+      if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+        this.selectedTheme.isCollapsed = true;
+      }
     }
     else if (layoutType == 'horizental') {
       this.selectedTheme.layout = layoutType;
@@ -1286,7 +1291,8 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.menuMode = "horizontal",
           this.selectedTheme.menuColumn = 'w-full',
           this.selectedTheme.isCollapsed = false;
-      } else {
+      } 
+      else {
         this.selectedTheme.isCollapsed = true;
         this.selectedTheme.horizontalRow = 'flex flex-wrap';
         this.selectedTheme.rowClass = 'w-10/12';

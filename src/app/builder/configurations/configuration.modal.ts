@@ -12276,12 +12276,7 @@ export class formFeildData {
         {
           key: 'options',
           type: 'repeatSection',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            style: "margin-top: 6%;",
-            canAdd: true,
-            canRemove: true
-          },
+          className: "w-full",
           fieldArray: {
             fieldGroup: [
               {

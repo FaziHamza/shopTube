@@ -1,13 +1,13 @@
-  <!-- INCOLAPSSABLE CASE -->
-  <div class="{{sections.isBordered?'border': ''}}" *ngIf="!sections.children[0]?.expanded"
+<!-- INCOLAPSSABLE CASE -->
+<div class="{{sections.isBordered?'border': ''}}" *ngIf="!sections.children[0]?.expanded"
   [style]="{'border-color': sections.borderColor + '!important'}">
   <div class="site-page-header-ghost-wrapper {{sections.isBordered?'border-b': ''}}" *ngIf="sections.children[0].header"
     [style]="{'border-color': sections.borderColor + '!important'}">
     <nz-page-header [style]="{'background-color': sections.children[0].backGroundColor}"
       class="pl-6 pt-1 pb-1 font-semibold text-lg {{sections.children[0].highLight ? 'highLight' : ''}}"
       [nzGhost]="false">
-      <nz-page-header-title [style]="{'color': sections.children[0].textColor}" [class]="sections.children[0].headingSize"
-        class="ng-subheading">{{sections.children[0].title}}
+      <nz-page-header-title [style]="{'color': sections.children[0].textColor}"
+        [class]="sections.children[0].headingSize" class="ng-subheading">{{sections.children[0].title}}
       </nz-page-header-title>
       <nz-page-header-extra>
         <nz-space>
@@ -27,7 +27,7 @@
   </div>
   <div class="{{sections.children[1].className}} {{sections.children[1].highLight ? 'highLight' : ''}} "
     [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
-    <st-main [mainData]="sections.children[1].children" [screenId]="screenId" [dataModel]="formlyModel"
+    <st-main [mainData]="sections.children[1].children" [dataModel]="formlyModel" [screenId]="screenId"
       [screenName]="screenName"></st-main>
   </div>
   <div

@@ -56,7 +56,6 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   ngOnInit(): void {
     this.requestSubscription = this.dataSharedService.formlyShowError.subscribe({
       next: (res: any) => {
-        debugger
         if (res) {
           this.hasError = JSON.parse(JSON.stringify(res));
           this.cd.detectChanges();
@@ -68,7 +67,6 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     });
     if (this.field.formControl) {
       this.field.formControl.statusChanges.subscribe(() => {
-        debugger
         if (this.field.formControl) {
           this.hasError = this.field.formControl.invalid;
         }

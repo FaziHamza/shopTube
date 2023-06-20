@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { ApplicationService } from 'src/app/services/application.service';
+
 
 @Component({
   selector: 'st-app-builder-side-menu',
@@ -11,7 +13,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 
 export class AppBuilderSideMenuComponent implements OnInit {
   selectedTheme: any;
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
   tabs: any = [];
@@ -43,7 +45,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     showMenu: true,
   }
 
-  constructor(private toastr: NzMessageService, private employeeService: EmployeeService) { }
+  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {
@@ -167,12 +169,11 @@ export class AppBuilderSideMenuComponent implements OnInit {
     }
   }
   getMenu() {
-
-    this.requestSubscription = this.employeeService.getJsonModules('MainMenuList').subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "64904a898a251ec02d145c55").subscribe({
       next: (res) => {
         if (res.length > 0) {
-          this.selectedTheme = res[0].selectedTheme;
-          this.selectedTheme.allMenuItems = res[0].menuData;
+          this.selectedTheme = JSON.parse(res[0].selectedTheme) ;
+          this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
           if (!res[0].selectedTheme.showMenu) {
             this.selectedTheme['showMenu'] = true;
           }

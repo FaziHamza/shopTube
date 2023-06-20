@@ -156,7 +156,12 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" (click)="openModal('department')"><span
+    <button nz-button nzType="primary"
+        (click)="openModal('application')"><span nz-icon
+            nzType="plus"
+            nzTheme="outline"></span>Add
+        Application</button>
+    <button nz-button nzType="primary" class="ml-2" (click)="openModal('department')"><span
             nz-icon nzType="plus"
             nzTheme="outline"></span>Add
         Department</button>

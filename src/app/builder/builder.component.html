@@ -39,7 +39,7 @@
             <span nz-icon nzType="delete"></span>
           </button>
         </nz-button-group>
-        <button class="ml-2" nz-button nzType="primary" routerLink="/pages/{{moduleId}}">
+        <button class="ml-2" nz-button nzType="primary" routerLink="/pages/{{screenId}}">
           Go To Page
           <span nz-icon nzType="file-done"></span>
         </button>
@@ -77,7 +77,7 @@
       <div class="w-3/5">
         <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear [(ngModel)]="screenName"
           (ngModelChange)="getScreenData($event)" placeholder="Select Screen">
-          <nz-option [nzValue]="item._id" [nzLabel]="item.name" *ngFor="let item of screens"></nz-option>
+          <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of screens"></nz-option>
         </nz-select>
       </div>
       <div class="w-1/6 jsonEdiotTab ml-1">
@@ -224,27 +224,30 @@
                           <div class=" general_faq mt-3">
                             <div style="position:relative ;">
                               <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)"
-                                [itemData]="fieldData" [type]="fieldData.type" *ngIf="fieldData">
+                                [itemData]="fieldData" [type]="fieldData.type" [screenId]="screenId"
+                                [screenName]="screenName" *ngIf="fieldData">
                               </st-generic-field>
                             </div>
                           </div>
                         </nz-tab>
                         <nz-tab nzTitle="UI Rule">
                           <st-uirule [selectedNode]="selectedNode" *ngIf="selectedNode && nodes.length  > 0"
-                            [screenId]="screenId" [screens]="screens" [nodes]="nodes"
+                            [screenId]="screenId" [screenName]="screenName" [screens]="screens" [nodes]="nodes"
                             (ruleNotify)="getUIRuleData($event)"></st-uirule>
                           <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Validation Rule">
                           <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
-                            [itemData]="validationFieldData" [type]="validationFieldData.type"
+                            [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="screenId"
+                            [screenName]="screenName" (deleteValidation)="deleteValidationRule($event)"
                             *ngIf="validationFieldData">
                           </st-generic-field>
                           <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
                         </nz-tab>
                         <nz-tab nzTitle="Buisness Rule">
                           <st-business-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
-                            [screens]="screens" [nodes]="nodes" (businessRuleNotify)="getBusinessRule()"
+                            [screenId]="screenId" [screens]="screens" [nodes]="nodes"
+                            (businessRuleNotify)="getBusinessRule()"
                             [formlyModel]="this.formlyModel"></st-business-rule>
                         </nz-tab>
                         <nz-tab nzTitle="Actions">
@@ -253,7 +256,8 @@
                         </nz-tab>
                         <nz-tab nzTitle="Grid Rules">
                           <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0" [selectedNode]="selectedNode"
-                            [screenName]="screenName" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
+                            [screenName]="screenName" [screenId]="screenId" [screens]="screens"
+                            [nodes]="nodes"></st-business-rule-grid>
                         </nz-tab>
                       </nz-tabset>
                     </div>
@@ -262,8 +266,8 @@
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
-                (click)="closeConfigurationList()"></span>
+              <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
+                (click)="closeConfigurationList()"></span> -->
               <button nz-button nzType="primary" (click)="backNode()">Back</button>
               <button nz-button nzType="primary" (click)="nextNode()">Next</button>
               <!-- <button nz-button nzType="default"
@@ -379,7 +383,7 @@
                 <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
               </ng-template>
             </ng-template>
-            <st-pages [resData]="nodes" [screenId]="moduleId" [screenName]="screenName" [formlyModel]="formlyModel"
+            <st-pages [resData]="nodes" [screenName]="screenName" [screenId]="screenId" [formlyModel]="formlyModel"
               *ngIf="nodes.length  > 0"></st-pages>
           </div>
         </as-split-area>
