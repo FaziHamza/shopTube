@@ -651,26 +651,35 @@ export class BuilderComponent implements OnInit {
     });
   }
   bulkUpdate() {
-    const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
-      nzTitle: 'Bulk Update',
-      nzWidth: 1000,
-      nzContent: BulkUpdateComponent,
-      nzContentParams: {
-        nodes: this.nodes
-      }
-    });
-
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Component) open');
-    });
-
-    drawerRef.afterClose.subscribe(data => {
-      console.log(data);
-      if (data) {
-        this.nodes = data;
+    if(this.nodes.length > 0){
+      const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
+        nzTitle: 'Bulk Update',
+        nzWidth: 1000,
+        nzContent: BulkUpdateComponent,
+        nzContentParams: {
+          nodes: this.nodes,
+          types:this.formlyTypes,
+          // formlyModel: this.formlyModel,
+        }
+      });
+      drawerRef.afterOpen.subscribe(() => {
+        console.log('Drawer(Component) open');
+      });
+      drawerRef.afterClose.subscribe((data:any) => {
+        console.log(data);
+        if(data){
+          if(data.nodes)
+            this.nodes =data.nodes;
+          // if(data.formlyModel)
+          //   this.formlyModel = data.formlyModel;
+        }
         this.updateNodes();
-      }
-    });
+        this.cdr.detectChanges();
+      });
+    }
+    else{
+      this.toastr.error("Please select Screen first",{nzDuration: 3000});
+    }
   }
 
   getUIRule(model: any, currentValue: any) {
@@ -2742,8 +2751,6 @@ export class BuilderComponent implements OnInit {
               props['className'] = event.form.className;
               this.selectedNode['className'] = event.form.className;
             }
-
-
             props.label = event.form.title;
             // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];

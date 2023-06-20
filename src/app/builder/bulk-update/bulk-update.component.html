@@ -6,33 +6,45 @@
     </button>
   </div>
 </div>
-<nz-table #expandTable [nzData]="tabelNodes" nzTableLayout="fixed">
+<nz-table #nestedTable [nzData]="tabelNodes" [nzPageSize]="10">
   <thead>
     <tr>
       <th nzWidth="10%"></th>
       <th>Id</th>
       <th>Key</th>
       <th>Title</th>
-      <!-- <th>Placeholder</th> -->
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let data of expandTable.data">
-      <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
-        <!-- {{item | json}} -->
-        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td
-            [nzIndentSize]="item.level! * 20"
-            [nzShowExpand]="!!item.children"
-            [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)" >
-          </td>
-          <td > <input type="text" class="form-control" [(ngModel)]="item.id" [disabled]="true"> </td>
-          <td><input type="text" class="form-control" [(ngModel)]="item.key"></td>
-          <td><input type="text" class="form-control" [(ngModel)]="item.title"></td>
-          <!-- <td>{{ item.placeholder }}</td> -->
-        </tr>
-      </ng-container>
-    </ng-container>
+    <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+      <tr>
+        <td [(nzExpand)]="data.expand"></td>
+        <td> <input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+        <td><input type="text" class="form-control" [(ngModel)]="data.key"></td>
+        <td><input type="text" class="form-control" [(ngModel)]="data.title"></td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="false">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Key</th>
+              <th>Title</th>
+              <!-- <th>Default Value</th> -->
+              <th>Placeholder</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of innerTable.data">
+              <td> <input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+              <td><input type="text" class="form-control" [(ngModel)]="data.key"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="data.title"></td>
+              <!-- <td><input type="text" class="form-control" [(ngModel)]="data.defaultValue"></td> -->
+              <td><input type="text" class="form-control" [(ngModel)]="data.placeholder"></td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </tr>
+    </ng-template>
   </tbody>
 </nz-table>
