@@ -77,10 +77,10 @@
       <div class="w-3/5">
         <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear [(ngModel)]="screenName"
           (ngModelChange)="getScreenData($event)" placeholder="Select Screen">
-          <nz-option [nzValue]="item._id" [nzLabel]="item.name" *ngFor="let item of screens"></nz-option>
+          <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of screens"></nz-option>
         </nz-select>
       </div>
-      <div class="w-1/5 jsonEdiotTab ml-1">
+      <div class="w-1/6 jsonEdiotTab ml-1">
         <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="menu" nzType="primary">
           Json Actions
           <span nz-icon style="padding-left: 10px;
@@ -104,6 +104,26 @@
             <li nz-menu-item>
               <a onclick="document.getElementById('selectedFileInput').click()">Selected
                 Json Upload</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+        <input type="file" class="form-control" id="fileInput" style="display:none" (change)="jsonUpload($event)">
+        <input type="file" class="form-control" id="selectedFileInput" style="display:none"
+          (change)="selectedJsonUpload($event)">
+      </div>
+      <div class="w-1/6 jsonEdiotTab ml-1">
+        <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="bulkmenu" nzType="primary">
+          Bulk
+          <span nz-icon style="padding-left: 10px;
+          padding-top: 5px;" nzType="down"></span>
+        </button>
+        <nz-dropdown-menu #bulkmenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a (click)="bulkUpdate()">Bulk Update</a>
+            </li>
+            <li nz-menu-item>
+              <a>Bulk Import</a>
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -246,8 +266,8 @@
               </ng-container>
             </nz-drawer>
             <ng-template #config>
-              <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
-                (click)="closeConfigurationList()"></span>
+              <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
+                (click)="closeConfigurationList()"></span> -->
               <button nz-button nzType="primary" (click)="backNode()">Back</button>
               <button nz-button nzType="primary" (click)="nextNode()">Next</button>
               <!-- <button nz-button nzType="default"

@@ -24,6 +24,8 @@ import { AddControlCommonPropertiesComponent } from './add-control-common-proper
 import { ThirdPartyDraggable } from '@fullcalendar/interaction';
 import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
+import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'st-builder',
@@ -87,6 +89,7 @@ export class BuilderComponent implements OnInit {
   constructor(public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     private applicationService: ApplicationService,
+    private drawerService: NzDrawerService,
     // private formBuilder: FormBuilder,
     private _encryptionService: EncryptionService,
     private toastr: NzMessageService,
@@ -326,10 +329,11 @@ export class BuilderComponent implements OnInit {
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
+          debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          this.screenId = data;
-          const name = this.screens.find((x: any) => x._id == this.screenId);
-          this.screenName = name.name;
+          const name = this.screens.find((x: any) => x.name == data);
+          this.screenId = name._id;
+          // this.screenName = name.name;
           this.previousScreenId = data;
           this.isSavedDb = false;
           // const newScreenName = this.screens
@@ -646,6 +650,29 @@ export class BuilderComponent implements OnInit {
 
     });
   }
+  bulkUpdate() {
+    const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
+      nzTitle: 'Bulk Update',
+      nzWidth: 1000,
+      nzContent: BulkUpdateComponent,
+      nzContentParams: {
+        nodes: this.nodes
+      }
+    });
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Component) open');
+    });
+
+    drawerRef.afterClose.subscribe(data => {
+      console.log(data);
+      if(data){
+        this.nodes =data;
+        this.updateNodes();
+      }
+    });
+  }
+
   getUIRule(model: any, currentValue: any) {
   debugger
     try {
@@ -870,6 +897,7 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
+    debugger
     let obj = {
       type: data?.parameter,
       title: value,
@@ -1642,6 +1670,7 @@ export class BuilderComponent implements OnInit {
   }
 
   clickButton(type: any) {
+    debugger
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
@@ -4251,6 +4280,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
+    debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
       next: (res) => {
         this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');

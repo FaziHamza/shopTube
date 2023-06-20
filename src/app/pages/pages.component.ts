@@ -10,6 +10,7 @@ import { Guid } from '../models/guid';
 import { DataSharedService } from '../services/data-shared.service';
 import { DividerComponent } from '../components';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ApplicationService } from '../services/application.service';
 
 @Component({
   selector: 'st-pages',
@@ -18,7 +19,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class PagesComponent implements OnInit {
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
-    private clipboard: Clipboard,
+    private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService, private router: Router) {
@@ -80,27 +81,29 @@ export class PagesComponent implements OnInit {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
         this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
-          let commentList = res.filter((item: any) =>  item.screenId == this.screenName)
+          let commentList = res.filter((item: any) => item.screenId == this.screenName)
           this.dataSharedService.screenCommentList = commentList;
         })
 
-        this.requestSubscription = this.employeeService.jsonBuilderSetting(params["schema"]).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', params["schema"]).subscribe({
           next: (res: any) => {
+            debugger
             if (res.length > 0) {
-              this.screenId = res[0].moduleId;
-              this.getUIRuleData(res[0].moduleName);
-              this.getBusinessRule(this.screenName);
-              this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+              this.screenId = res[0].screenId;
+              this.getUIRuleData(res[0].screenId);
+              this.getBusinessRule(res[0].screenId);
+              const data = JSON.parse(res[0].screenData);
+              this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
               this.checkDynamicSection();
               this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
               if (params["commentId"] != "all") {
                 this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-                  if(res.length > 0 ){
+                  if (res.length > 0) {
                     let findObj = this.findObjectById(this.resData[0], res[0].commentId);
                     findObj.highLight = true;
                   }
                 })
-              }else{
+              } else {
                 this.dataSharedService.screenCommentList.forEach(element => {
                   let findObj = this.findObjectById(this.resData[0], element.commentId);
                   findObj.highLight = true;
@@ -135,12 +138,19 @@ export class PagesComponent implements OnInit {
       }
     }) || '{}'
   }
-  getUIRuleData(data: any) {
-    this.requestSubscription = this.builderService.jsonUIRuleGetData(data).subscribe({
+  getUIRuleData(screenId: string) {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', screenId).subscribe({
       next: (getRes) => {
         if (getRes.length > 0) {
           this.screenData = [];
-          this.screenData = getRes[0];
+          const jsonUIResult = {
+            "key": getRes[0].key,
+            "title": getRes[0].title,
+            "screenName": getRes[0].screenName,
+            "screenId": getRes[0].screenId,
+            "uiData": JSON.parse(getRes[0].uiData)
+          }
+          this.screenData = jsonUIResult;
         } else { }
       },
       error: (err) => {
@@ -275,13 +285,13 @@ export class PagesComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-  getBusinessRule(screenName: string) {
-    if (screenName) {
-      this.requestSubscription = this.builderService.jsonBisnessRuleGet(screenName).subscribe({
+  getBusinessRule(screenId: string) {
+    if (screenId) {
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen',screenId).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
             this.businessRuleData = [];
-            this.businessRuleData = getRes[0].buisnessRule
+            this.businessRuleData = JSON.parse(getRes[0].buisnessRule)
           }
         },
         error: (err) => {

@@ -14,6 +14,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class ScreenBuilderComponent implements OnInit {
   departmenData: any;
+  organizationData: any;
   ApplicationData: any;
   model: any;
   jsonScreenModule: any = [];
@@ -100,6 +101,10 @@ export class ScreenBuilderComponent implements OnInit {
         debugger
         this.getApplicationOptionList(event);
       }
+      if (field.key === 'organizationId' && event) {
+        debugger
+        this.getDepartmentOptionList(event);
+      }
 
     });
   }
@@ -121,12 +126,12 @@ export class ScreenBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
-    this.getDepartment();
+    this.getOrganization();
+    // this.getDepartment();
     this.jsonScreenModuleList();
   }
   jsonScreenModuleList() {
     this.loading = true
-    debugger
     this.applicationService.getNestCommonAPI('screen-builder').subscribe((res => {
       this.listOfDisplayData = res;
       this.listOfData = res;
@@ -156,7 +161,8 @@ export class ScreenBuilderComponent implements OnInit {
     }
     if (!this.isSubmit) {
       this.isSubmit = true;
-      this.getDepartment();
+      // this.getDepartment();
+      this.getOrganization();
     }
   }
   handleCancel(): void {
@@ -166,6 +172,12 @@ export class ScreenBuilderComponent implements OnInit {
   getDepartment() {
     this.applicationService.getNestCommonAPI('department').subscribe((res => {
       this.departmenData = res;
+      // this.loadScreenListFields();
+    }));
+  }
+  getOrganization() {
+    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
+      this.organizationData = res;
       this.loadScreenListFields();
     }));
   }
@@ -214,6 +226,25 @@ export class ScreenBuilderComponent implements OnInit {
     }
   }
 
+  getDepartmentOptionList(id: string) {
+    this.applicationService.getNestCommonAPIById('department/organization', id).subscribe((res) => {
+      const moduleListOptions = res.map((item: any) => ({
+        label: item.name,
+        value: item._id
+      }));
+
+      // Find the index of the "Select Module" field in the 'this.fields' array
+      const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+        const field = fieldGroup.fieldGroup[0];
+        return field.key === 'departmentId';
+      });
+
+      if (moduleFieldIndex !== -1) {
+        // Update the options of the "Select Module" field
+        this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+      }
+    });
+  }
   getApplicationOptionList(id: string) {
     this.applicationService.getNestCommonAPIById('application/department', id).subscribe((res) => {
       const moduleListOptions = res.map((item: any) => ({
@@ -306,11 +337,25 @@ export class ScreenBuilderComponent implements OnInit {
   //   }
   // }
   loadScreenListFields() {
-    const options = this.departmenData.map((item: any) => ({
+    const options = this.organizationData.map((item: any) => ({
       label: item.name,
       value: item._id
     }));
     this.fields = [
+      {
+        fieldGroup: [
+          {
+            key: 'organizationId',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Select Organization',
+              options: options,
+            }
+          }
+        ]
+      },
       {
         fieldGroup: [
           {
@@ -320,7 +365,7 @@ export class ScreenBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Select Department',
-              options: options,
+              options: [],
             }
           }
         ]

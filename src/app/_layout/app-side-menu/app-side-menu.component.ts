@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'src/app/models/menu';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -26,7 +27,8 @@ export class AppSideMenuComponent implements OnInit {
   isActiveShow: any;
   hoverActiveShow: any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2) { }
+    public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
+    private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
     this.loadModules();
@@ -50,10 +52,11 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-    this.requestSubscription = this.employeeService.getJsonModules('Home Page').subscribe({
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "649053c6ad28a951f554e688").subscribe({
       next: (res) => {
         if (res.length > 0) {
-          this.selectedTheme.allMenuItems = res[0].menuData;
+          this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
           this.makeMenuData();
           this.selectedTheme.allMenuItems.forEach((e: any) => {
             e["menuIcon"] = "up"
