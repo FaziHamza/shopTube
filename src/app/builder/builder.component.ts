@@ -334,7 +334,7 @@ export class BuilderComponent implements OnInit {
           const name = this.screens.find((x: any) => x.name == data);
           this.screenId = name._id;
           // this.screenName = name.name;
-          this.previousScreenId = data;
+          this.previousScreenId = name._id;
           this.isSavedDb = false;
           // const newScreenName = this.screens
           // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
@@ -482,8 +482,8 @@ export class BuilderComponent implements OnInit {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     var data =
     {
-      "moduleName": this.screenName,
-      "menuData": currentData,
+      "screenName": this.screenName,
+      "screenData": currentData,
       "screenId": this.screenId
     };
 
@@ -3655,12 +3655,12 @@ export class BuilderComponent implements OnInit {
 
           var data =
           {
-            "moduleName": makeData.moduleName,
-            "menuData": currentData,
-            "moduleId": makeData.moduleId,
+            "screenName": makeData.screenName,
+            "screenData": currentData,
+            "screenId": makeData.screenId,
           };
-          this.screenId = makeData.moduleId;
-          this.nodes = makeData.menuData;
+          this.screenId = makeData.screenId;
+          this.nodes = makeData.screenData;
           // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
           //   if (res.length > 0) {
           //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
