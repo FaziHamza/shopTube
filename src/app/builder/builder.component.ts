@@ -659,7 +659,7 @@ export class BuilderComponent implements OnInit {
         nzContentParams: {
           nodes: this.nodes,
           types:this.formlyTypes,
-          // formlyModel: this.formlyModel,
+          formlyModel: this.formlyModel,
         }
       });
       drawerRef.afterOpen.subscribe(() => {
@@ -670,8 +670,8 @@ export class BuilderComponent implements OnInit {
         if(data){
           if(data.nodes)
             this.nodes =data.nodes;
-          // if(data.formlyModel)
-          //   this.formlyModel = data.formlyModel;
+          if(data.formlyModel)
+            this.formlyModel = data.formlyModel;
         }
         this.updateNodes();
         this.cdr.detectChanges();
