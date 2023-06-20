@@ -212,7 +212,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
 
-  openModal(type: any) {
+  openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
     debugger
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -224,6 +224,15 @@ export class organizationBuilderComponent implements OnInit {
     }
     if (type == 'department') {
       this.loadDepartmentFields();
+      if (selectedAllow) {
+        this.fields.forEach((element: any) => {
+          if (element.fieldGroup[0].key === 'organizationId') {
+            this.model.organizationId = organizationName;
+            // element.fieldGroup[0].props.['disabled'] = true;
+          }
+        });
+      }
+      
       this.departmentSubmit = true;
     } else {
       this.LoadOrganizationFields();
@@ -272,7 +281,7 @@ export class organizationBuilderComponent implements OnInit {
         ? this.applicationService.addNestCommonAPI('organization', this.form.value)
         : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
-        addOrUpdateOrganization$.subscribe((res) => {
+      addOrUpdateOrganization$.subscribe((res) => {
         this.organizationBuilder();
         this.isSubmit = true;
         this.resetForm();

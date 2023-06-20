@@ -271,14 +271,7 @@ export class ApplicationBuilderComponent implements OnInit {
       })
     }, 500)
   }
-  openModal(type: any) {
-    if (type == 'application') {
-      this.loadApplicationFields();
-      this.applicationSubmit = true;
-    } else {
-      this.loadDepartmentFields();
-      this.applicationSubmit = false;
-    }
+  openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
@@ -286,7 +279,21 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       }
     }
-
+    if (type == 'application') {
+      this.loadApplicationFields();
+      if (selectedAllow) {
+        this.fields.forEach((element: any) => {
+          if (element.fieldGroup[0].key === 'departmentId') {
+            this.model.departmentId = departmentId;
+            // element.fieldGroup[0].props.disabled = true;
+          }
+        });
+      }
+      this.applicationSubmit = true;
+    } else {
+      this.loadDepartmentFields();
+      this.applicationSubmit = false;
+    }
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;

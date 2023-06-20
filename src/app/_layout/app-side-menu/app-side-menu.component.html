@@ -25,13 +25,14 @@
           [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
           <ng-container class="flex flex-nowrap">
             <label
-              *ngIf="selectedTheme.menuMode == 'inline' && selectedTheme.sideBarSize == 'smallHoverView'"
+              *ngIf="selectedTheme.layout == 'vertical' && selectedTheme.sideBarSize == 'smallHoverView'"
               nz-checkbox [(ngModel)]="selectedTheme.checked"></label>
           </ng-container>
           <ng-container>
             <ng-container *ngFor="let item of selectedTheme.allMenuItems">
               <li nz-tooltip nzTooltipPlacement="right"
-              [nzTooltipTitle]="item.title" [style.background]="selectedTheme.backGroundColor"
+                [nzTooltipTitle]="item.title"
+                [style.background]="selectedTheme.backGroundColor"
                 [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
                 class="menu-title" *ngIf="item.isTitle && shouldExecute(item);"><span
                   class="menu-item-icon">
@@ -78,7 +79,7 @@
                           (mouseenter)="hoverActiveShow = sub.id"
                           (mouseleave)="hoverActiveShow = null"
                           nz-tooltip nzTooltipPlacement="right"
-                  [nzTooltipTitle]="sub.title">
+                          [nzTooltipTitle]="sub.title">
                           <span class="menu-item-icon">
                             <st-icon *ngIf="sub.icon"
                               [type]="sub.iconType || 'outline'"
@@ -98,7 +99,7 @@
                           (mouseenter)="hoverActiveShow = sub.id"
                           (mouseleave)="hoverActiveShow = null"
                           nz-tooltip nzTooltipPlacement="right"
-                  [nzTooltipTitle]="sub.title">
+                          [nzTooltipTitle]="sub.title">
                           <ng-template #subTemplate>
                             <span class="menu-item-icon">
                               <st-icon *ngIf="sub.icon"
@@ -171,10 +172,15 @@
           <!-- THIS BUTTON IS USED IN HORIZENTAL WHNEN LENGTH OF MENU IS GREATER THAN 7 -->
           <ng-container
             *ngIf="selectedTheme.menuMode == 'horizontal' && selectedTheme.allMenuItems.length >= 7 ">
-            <ng-container *ngFor="let mainMenu of selectedTheme.newMenuArray"
-              (click)="changeIcon()">
-              <li nz-submenu [nzTitle]="mainMenu.label | translate"
-                nzIcon="appstore">
+            <ng-container *ngFor="let mainMenu of selectedTheme.newMenuArray">
+              <li nz-submenu [nzTitle]="moreTemplate">
+                <ng-template #moreTemplate>
+                  <span class="menu-item-icon"><span nz-icon nzType="appstore"
+                      nzTheme="outline"></span></span>
+                  <span class="sidenav-title">More</span>
+                  <span class="menu-item-icon"><span nz-icon nzType="down"
+                      nzTheme="outline"></span></span>
+                </ng-template>
                 <ul [class]="selectedTheme?.font"
                   [style.background]="selectedTheme.backGroundColor"
                   *ngFor="let item of mainMenu.subMenu">
@@ -190,7 +196,7 @@
                         (mouseenter)="hoverActiveShow = item.id"
                         (mouseleave)="hoverActiveShow = null"
                         nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="item.title">
+                        [nzTooltipTitle]="item.title">
                         <ng-template #itemTemplate>
                           <span class="menu-item-icon">
                             <st-icon *ngIf="item.icon"
@@ -214,7 +220,7 @@
                             (mouseenter)="hoverActiveShow = sub.id"
                             (mouseleave)="hoverActiveShow = null"
                             nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="sub.title">
+                            [nzTooltipTitle]="sub.title">
                             <ul *ngFor="let subChild of sub.children">
                               <li
                                 [ngStyle]="{ 'background': isActiveShow == subChild.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
@@ -264,7 +270,7 @@
                         (mouseenter)="hoverActiveShow = item.id"
                         (mouseleave)="hoverActiveShow = null"
                         nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="item.title">
+                        [nzTooltipTitle]="item.title">
                         <span class="menu-item-icon">
                           <st-icon *ngIf="item.icon"
                             [type]="item.iconType || 'outline'"
@@ -280,10 +286,6 @@
                     </ng-template>
                   </ul>
                 </li>
-                <span class="new-menu-icon" nz-icon
-                  style="flex-grow: 1 ; text-align: left"
-                  [nzType]="mainMenu.icon"
-                  class="!-ml-4" *ngIf="selectedTheme.menuMode === 'horizontal'"></span>
               </ng-container>
             </ng-container>
             <!--------------------------------------->
@@ -312,7 +314,7 @@
               (mouseenter)="hoverActiveShow = item.id"
               (mouseleave)="hoverActiveShow = null"
               nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="item.title">
+              [nzTooltipTitle]="item.title">
               <ng-template #itemTemplate>
                 <span style="font-size: 5px;"
                   [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
@@ -332,7 +334,7 @@
                       (mouseenter)="hoverActiveShow = sub.id"
                       (mouseleave)="hoverActiveShow = null"
                       nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="sub.title">
+                      [nzTooltipTitle]="sub.title">
                       <span class="menu-item-icon">
                         <st-icon *ngIf="sub.icon"
                           [type]="sub.iconType || 'outline'" [icon]="sub.icon"
@@ -353,7 +355,8 @@
             <li [ngStyle]="{
             'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
           }" (mouseenter)="hoverActiveShow = item.id"
-              (mouseleave)="hoverActiveShow = null" nz-menu-item  nz-tooltip nzTooltipPlacement="right"
+              (mouseleave)="hoverActiveShow = null" nz-menu-item nz-tooltip
+              nzTooltipPlacement="right"
               [nzTooltipTitle]="item.title" *ngIf="shouldExecute(item) "
               (click)="loadTabsAndButtons($event,item)">
               <span style="font-size: 5px;"

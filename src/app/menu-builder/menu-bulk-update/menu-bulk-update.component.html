@@ -1,0 +1,52 @@
+<div class="flex">
+    <div class="text-right">
+      <button nz-button nzType="primary" (click)="save()">
+        <span nz-icon nzType="save"></span>
+        Save
+      </button>
+    </div>
+  </div>
+  <nz-table #nestedTable [nzData]="tabelNodes" [nzPageSize]="10">
+    <thead>
+      <tr>
+        <th nzWidth="10%"></th>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Link</th>
+        <th>IsTitle</th>
+        <th>Icon</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+        <tr>
+          <td [(nzExpand)]="data.expand"></td>
+          <td> <input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+          <td><input type="text" class="form-control" [(ngModel)]="data.title"></td>
+          <td><input type="text" class="form-control" [(ngModel)]="data.link"></td>
+          <td><input type="checkbox" class="form-control" [(ngModel)]="data.isTitle"></td>
+          <td><input type="text" class="form-control" [(ngModel)]="data.icon"></td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+          <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Link</th>
+                <th>Icon</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of innerTable.data">
+                <td> <input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+                <td><input type="text" class="form-control" [(ngModel)]="data.title"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="data.link"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="data.icon"></td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>

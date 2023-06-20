@@ -5087,8 +5087,18 @@ export class formFeildData {
             label: 'label'
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipIcon',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Icon',
+          }
+        },
       ]
     },
+ 
     {
       template: '<div class="bold-label mt-3">Variables</div>',
     },
@@ -5519,6 +5529,15 @@ export class formFeildData {
             additionalProperties: {
               tooltip: "Top-left corner Top-right corner Bottom-right corner Bottom-left corner",
             }
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipIcon',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Icon',
           }
         },
         // {
@@ -11150,7 +11169,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Tooltip With Icon',
+            label: 'Tooltip Text',
           }
         },
         {
@@ -11159,7 +11178,7 @@ export class formFeildData {
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Tooltip Without Icon',
+            label: 'Tooltip Icon',
           }
         },
         // {
@@ -11614,7 +11633,7 @@ export class formFeildData {
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Tooltip With Icon',
+            label: 'Tooltip Text',
           }
         },
         {
@@ -11623,7 +11642,7 @@ export class formFeildData {
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Tooltip Without Icon',
+            label: 'Tooltip Icon',
           }
         },
         // {
