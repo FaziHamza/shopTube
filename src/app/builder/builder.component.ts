@@ -666,15 +666,15 @@ export class BuilderComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(data => {
       console.log(data);
-      if(data){
-        this.nodes =data;
+      if (data) {
+        this.nodes = data;
         this.updateNodes();
       }
     });
   }
 
   getUIRule(model: any, currentValue: any) {
-  debugger
+    debugger
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -962,6 +962,7 @@ export class BuilderComponent implements OnInit {
         title: res?.title ? res.title : obj.title,
         children: [],
         tooltip: '',
+        tooltipIcon: 'question-circle',
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
@@ -2492,6 +2493,11 @@ export class BuilderComponent implements OnInit {
             filteredNodes.forEach(node => {
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
             });
+            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
+              if (!element.formly) {
+                element['tooltipIcon'] = event.form.tooltipIcon;
+              }
+            });
             this.selectedNode.title = event.form.title;
             this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
@@ -2509,6 +2515,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.formatAlignment = event.form.formatAlignment;
             this.selectedNode.isBordered = event.form.isBordered;
             this.selectedNode['borderRadius'] = event.form.borderRadius;
+            this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
               this.clickBack();
@@ -3040,6 +3047,23 @@ export class BuilderComponent implements OnInit {
       //   break;
       case "page":
         this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
+        if (
+          this.selectedNode &&
+          this.selectedNode.children &&
+          this.selectedNode.children[1] &&
+          this.selectedNode.children[1].children
+        ) {
+          this.selectedNode.children[1].children.forEach((element: any) => {
+            element.children[1].children.forEach((element1: any) => {
+              if (!element1.formly) {
+                element1['tooltipIcon'] = event.form.tooltipIcon;
+              }else if(element1.formly){
+                element1.formly[0].fieldGroup[0].props['additionalProperties']['tooltipIcon'] = JSON.parse(JSON.stringify(event.form.tooltipIcon));
+              }
+            });
+          });
+        }
+        this.cdr.detectChanges();
         break;
 
 
@@ -3565,6 +3589,7 @@ export class BuilderComponent implements OnInit {
 
         fieldGroup[0].props['additionalProperties']['formatAlignment'] = formValues.formatAlignment;
         fieldGroup[0].props['additionalProperties']['borderRadius'] = formValues.borderRadius;
+        fieldGroup[0].props['additionalProperties']['tooltipIcon'] = formValues.tooltipIcon;
       }
     }
     return fieldGroup;

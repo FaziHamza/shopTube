@@ -8,14 +8,14 @@ import { DataSharedService } from '../services/data-shared.service';
   template: `
   <span *ngIf="to['additionalProperties']['tooltipPosition'] == 'top' && to['additionalProperties']?.tooltip">
   <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-  <span nz-icon nzType="question-circle" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span></span>
+  <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span></span>
   </span>
 
   <div class="pr-1" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
     <div [class]='to["additionalProperties"]?.labelPosition'>
       <span *ngIf="to['additionalProperties']?.tooltipPosition == 'left'">
       <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-        <span nz-icon nzType="question-circle" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
+        <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
       </span>
       </span>
       <label class="label-style" [attr.for]="id" class="col-form-label {{to['additionalProperties']?.labelPosition}} pl-1" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
@@ -27,7 +27,7 @@ import { DataSharedService } from '../services/data-shared.service';
         </span>
         <span *ngIf="to['additionalProperties']?.tooltipPosition == 'right' || to['additionalProperties']?.tooltipPosition == undefined">
         <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
-          <span nz-icon nzType="question-circle" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
+          <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
         </span>
         </span>
       </label>

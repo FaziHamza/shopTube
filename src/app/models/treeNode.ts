@@ -130,6 +130,7 @@ export interface TreeNode {
   weekends?: any;
   details?: any;
   editableTooltip?: any;
+  tooltipIcon?: any;
   copyable?: any;
   copyTooltips?: any;
   ellipsis?: any;

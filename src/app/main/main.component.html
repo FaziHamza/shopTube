@@ -19,7 +19,7 @@
                     <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
                         && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
                         && !item?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="item.tooltip">
-                        <span nz-icon nzType="question-circle" [style.color]="item['toolTipColor']"
+                        <span nz-icon [nzType]="item.tooltipIcon ?  item.tooltipIcon : 'question-circle'" [style.color]="item['toolTipColor']"
                             nzTheme="outline"></span>
                     </span>
                 </span>
