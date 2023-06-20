@@ -52,6 +52,7 @@ export class MenuBuilderComponent implements OnInit {
   dropdownButtonArray: any = [];
   selectedTheme: any;
   selectDepartment: any = '';
+  iconType: any = '';
   selectApplicationType: any = '';
   requestSubscription: Subscription;
 
@@ -1021,7 +1022,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     });
   }
-  
+
   notifyEmit(event: actionTypeFeild): void {
     this.selectedNode.id = event.form.id;
     this.selectedNode.key = event.form.key;
@@ -1294,7 +1295,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.menuMode = "horizontal",
           this.selectedTheme.menuColumn = 'w-full',
           this.selectedTheme.isCollapsed = false;
-      } 
+      }
       else {
         this.selectedTheme.isCollapsed = true;
         this.selectedTheme.horizontalRow = 'flex flex-wrap';
@@ -1389,6 +1390,7 @@ export class MenuBuilderComponent implements OnInit {
 
   getApplication(id: any) {
     if (id) {
+      this.iconType = '';
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1418,7 +1420,7 @@ export class MenuBuilderComponent implements OnInit {
     });
   };
   bulkUpdate() {
-    if(this.nodes.length > 0){
+    if (this.nodes.length > 0) {
       const drawerRef = this.drawerService.create<MenuBulkUpdateComponent, { value: string }, string>({
         nzTitle: 'Bulk Update',
         nzWidth: 1000,
@@ -1432,15 +1434,26 @@ export class MenuBuilderComponent implements OnInit {
       });
       drawerRef.afterClose.subscribe(data => {
         console.log(data);
-        if(data){
-          this.nodes =data;
+        if (data) {
+          this.nodes = data;
           this.clickBack();
         }
       });
-    }else{
-      this.toastr.error("Please select application first",{nzDuration: 3000});
+    } else {
+      this.toastr.error("Please select application first", { nzDuration: 3000 });
     }
-    
+
+  }
+  changeIconType(data: any, nodeData: any) {
+    debugger
+    if (nodeData.length > 0) {
+      nodeData.forEach((node: any) => {
+        node['iconType'] = data;
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
+      });
+    }
   }
 }
 
