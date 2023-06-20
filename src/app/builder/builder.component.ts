@@ -3604,18 +3604,18 @@ export class BuilderComponent implements OnInit {
     return fieldGroup;
   }
   functionName: any;
-  mainTemplate() {
-    this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
-      next: (res) => {
-        if (this.selectedNode.children)
-          this.selectedNode.children.push(res)
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
+  // mainTemplate() {
+  //   this.requestSubscription = this.builderService.genericApis(this.functionName).subscribe({
+  //     next: (res) => {
+  //       if (this.selectedNode.children)
+  //         this.selectedNode.children.push(res)
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //     }
+  //   });
+  // }
 
   jsonStringify(data: any) {
     return JSON.stringify(data)

@@ -47,6 +47,26 @@ export class ScreenBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
+      name: 'Organization',
+      visible: false,
+      searchValue: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => {
+        const organizationNameA = a.orgnaizationName ? a.orgnaizationName : a.departmentName;
+        const organizationNameB = b.orgnaizationName ? b.orgnaizationName : b.departmentName;
+        if (organizationNameA === undefined && organizationNameB === undefined) {
+          return 0;
+        } else if (organizationNameA === undefined) {
+          return 1;
+        } else if (organizationNameB === undefined) {
+          return -1;
+        } else {
+          return organizationNameA.localeCompare(organizationNameB);
+        }
+      },
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
       name: 'Department',
       visible: false,
       searchValue: '',

@@ -85,7 +85,7 @@ export class PagesComponent implements OnInit {
           this.dataSharedService.screenCommentList = commentList;
         })
 
-        this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', params["schema"]).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screenId', params["schema"]).subscribe({
           next: (res: any) => {
             debugger
             if (res.length > 0) {
