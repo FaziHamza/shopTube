@@ -1,0 +1,33 @@
+<nz-table #nestedTable [nzData]="data" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <th nzWidth="10%"></th>
+        <th>ID</th>
+        <th>Icon</th>
+        <th>Title</th>
+        <th>Link</th>
+        <th>IsTitle</th>
+      </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let row of data">
+            <tr>
+              <td [(nzExpand)]="row.expand"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="row.id" [disabled]="true"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="row.icon"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="row.title"></td>
+              <td><input type="text" class="form-control" [(ngModel)]="row.link"></td>
+              <td><input type="checkbox" class="form-control" [(ngModel)]="row.isTitle"></td>
+            </tr>
+            <tr [nzExpand]="row.expand">
+              <ng-container *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
+            </tr>
+          </ng-container>
+    </tbody>
+  </nz-table>
+
+  
+  <ng-template #recursiveTemplate let-data>
+    <st-table-row [data]="data"></st-table-row>
+  </ng-template>
+  
