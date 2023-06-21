@@ -400,21 +400,21 @@ export class SiteLayoutComponent implements OnInit {
 
     });
   }
-  controlMenu() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 789) {
-      // this.selectedTheme.isCollapsed = true;
-      this.selectedTheme.showMenu = false;
-      this.selectedTheme.rowClass = 'w-full';
-      // this.selectedTheme.isCollapsed = true;
-    } else {
-      // this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.rowClass = 'w-10/12';
-      this.selectedTheme.showMenu = true;
-      // this.selectedTheme.topHeaderMenu = 'w-1/6';
-      // this.selectedTheme.topHeader = 'w-10/12';
-    }
-  }
+  // controlMenu() {
+  //   const screenWidth = window.innerWidth;
+  //   if (screenWidth <= 789) {
+  //     // this.selectedTheme.isCollapsed = true;
+  //     this.selectedTheme.showMenu = false;
+  //     this.selectedTheme.rowClass = 'w-full';
+  //     // this.selectedTheme.isCollapsed = true;
+  //   } else {
+  //     // this.selectedTheme.isCollapsed = false;
+  //     this.selectedTheme.rowClass = 'w-10/12';
+  //     this.selectedTheme.showMenu = true;
+  //     // this.selectedTheme.topHeaderMenu = 'w-1/6';
+  //     // this.selectedTheme.topHeader = 'w-10/12';
+  //   }
+  // }
 
   getAllMenu() {
     this.requestSubscription = this.builderService.genericApis('jsonModuleSetting').subscribe({
