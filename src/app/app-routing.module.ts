@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PagesComponent } from './pages/pages.component';
-import { LoginComponent } from './user/login/login.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { BarChartComponent, DemoLayotPageComponent, FileManagerComponent, googleMapComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
@@ -14,49 +13,47 @@ import { Layout1Component } from './admin/layout1/layout1.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 
 const routes: Routes = [
-  { path: '', component: SiteLayoutComponent ,
-  children:[
-    {
-      path: 'home',
-      component: DemoLayotPageComponent
-    },
-    {
-      path: 'pages/:schema',
-      component: PagesComponent
-    },
-    {
-      path: 'pages/:schema/:commentId',
-      component: PagesComponent
-    },
-    {
-      path: 'pages',
-      component: PagesComponent
-    },
-    {
-      path: 'pages/:application/:module',
-      component: PagesComponent
-    },
-    {
-      path: 'home/pages/:schema',
-      component: PagesComponent
-    },
-    {
-      path: 'layout/:application/:module',
-      component: DemoLayotPageComponent
-    },
-    {
-      path: 'database',
-      component: CreateDatabaseComponent
-    },
-    {
-      path: '',
-      redirectTo: 'home', pathMatch: 'full'
-    },
-
-  ]},
   {
-    path: 'login',
-    component: LoginComponent
+    path: '', component: SiteLayoutComponent,
+    children: [
+      {
+        path: 'home',
+        component: DemoLayotPageComponent
+      },
+      {
+        path: 'pages/:schema',
+        component: PagesComponent
+      },
+      {
+        path: 'pages/:schema/:commentId',
+        component: PagesComponent
+      },
+      {
+        path: 'pages',
+        component: PagesComponent
+      },
+      {
+        path: 'pages/:application/:module',
+        component: PagesComponent
+      },
+      {
+        path: 'home/pages/:schema',
+        component: PagesComponent
+      },
+      {
+        path: 'layout/:application/:module',
+        component: DemoLayotPageComponent
+      },
+      {
+        path: 'database',
+        component: CreateDatabaseComponent
+      },
+      {
+        path: '',
+        redirectTo: 'home', pathMatch: 'full'
+      },
+
+    ]
   },
   {
     path: 'register',
@@ -65,9 +62,16 @@ const routes: Routes = [
   {
     path: 'builder',
     loadChildren: () =>
-        import(
-            "src/app/builder/builder.module"
-        ).then((m) => m.BuilderModule),
+      import(
+        "src/app/builder/builder.module"
+      ).then((m) => m.BuilderModule),
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import(
+        "src/app/auth/auth.module"
+      ).then((m) => m.AuthModule),
   },
   {
     path: 'bar-chart',
@@ -92,7 +96,7 @@ const routes: Routes = [
   {
     path: 'layout1',
     component: Layout1Component,
-    children:[
+    children: [
       {
         path: 'pages/:schema',
         component: PagesComponent

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'st-login',
@@ -9,19 +10,37 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  constructor(private fb: UntypedFormBuilder , public authService:AuthService  , private route: ActivatedRoute,
+    private router: Router) { }
+
   validateForm!: UntypedFormGroup;
 
   submitForm(): void {
 
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
-      this.employeeService.login(this.validateForm.value.email
-        , this.validateForm.value.password
-        ).subscribe((res=>{
-        if(res.length>0){
+      this.validateForm.value["username"] = this.validateForm.value.email;
+      this.authService.loginUser(this.validateForm.value).subscribe(
+        (response: any) => {
+          if (response?.access_token) {
+            // this.commonService.stopLoader();
+            localStorage.setItem('userDetail', JSON.stringify(response.data));
+          // this.commonService.showSuccess("Login Successfully!", "Success");
+          this.authService.setAuth(response);
+          // this.router.navigate(['/home/allorder']);
           this.router.navigate(['/']);
+          } else {
+            // this.commonService.stopLoader();
+          // this.commonService.showError(response.Errors[0].ErrorMessageEn, "error");
         }
-      }))
+
+        },
+        (error) => {
+          // this.commonService.stopLoader();
+          // this.commonService.showError(error.message, "error");
+        }
+      );
     }
     else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -33,8 +52,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  constructor(private fb: UntypedFormBuilder , public employeeService: EmployeeService , private route: ActivatedRoute,
-    private router: Router) { }
+
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

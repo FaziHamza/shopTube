@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { EnvService } from '../shared/envoirment.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class ApplicationService {
     protected baseUrl = environment.serverApiUrl;
     protected nestUrl = environment.nestBaseUrl;
     protected finalUrl = "";
-    constructor(public http: HttpClient) { }
+    constructor(public http: HttpClient , public envService :EnvService) { }
 
     getNestCommonAPI(api: string): Observable<any[]> {
         return this.http.get<any[]>(
@@ -19,7 +20,7 @@ export class ApplicationService {
     }
     getNestCommonAPIById(api: string, id:string): Observable<any[]> {
         return this.http.get<any[]>(
-            `${this.nestUrl}${api}/${id}`
+            `${this.envService.nestBaseUrl}${api}/${id}`
         );
     }
     // getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {
