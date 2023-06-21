@@ -11190,141 +11190,7 @@ export class formFeildData {
         //     label: 'CSS ClassName',
         //   }
         // },
-        {
-          key: 'className',
-          type: 'multiselect',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            multiple: true,
-            label: 'CSS ClassName',
-            options: [
-              {
-                label: 'w-1/2',
-                value: 'w-1/2'
-              },
-              {
-                label: 'w-1/3',
-                value: 'w-1/3'
-              },
-              {
-                label: 'w-2/3',
-                value: 'w-2/3'
-              },
-              {
-                label: 'w-1/4',
-                value: 'w-1/4'
-              },
-              {
-                label: 'w-3/4',
-                value: 'w-3/4'
-              },
-              {
-                label: 'w-full',
-                value: 'w-full'
-              },
-              {
-                label: 'w-auto',
-                value: 'w-auto'
-              },
-              {
-                label: 'w-screen',
-                value: 'w-screen'
-              },
-              {
-                label: 'sm:w-1/2',
-                value: 'sm:w-1/2'
-              },
-              {
-                label: 'md:w-1/3',
-                value: 'md:w-1/3'
-              },
-              {
-                label: 'lg:w-2/3',
-                value: 'lg:w-2/3'
-              },
-              {
-                label: 'xl:w-1/4',
-                value: 'xl:w-1/4'
-              },
-              {
-                label: 'text-gray-500',
-                value: 'text-gray-500'
-              },
-              {
-                label: 'text-red-600',
-                value: 'text-red-600'
-              },
-              {
-                label: 'text-blue-400',
-                value: 'text-blue-400'
-              },
-              {
-                label: 'text-green-500',
-                value: 'text-green-500'
-              },
-              {
-                label: 'text-yellow-300',
-                value: 'text-yellow-300'
-              },
-              {
-                label: 'bg-gray-200',
-                value: 'bg-gray-200'
-              },
-              {
-                label: 'bg-blue-500',
-                value: 'bg-blue-500'
-              },
-              {
-                label: 'bg-green-300',
-                value: 'bg-green-300'
-              },
-              {
-                label: 'bg-yellow-200',
-                value: 'bg-yellow-200'
-              },
-              {
-                label: 'p-4',
-                value: 'p-4'
-              },
-              {
-                label: 'pt-6',
-                value: 'pt-6'
-              },
-              {
-                label: 'ml-2',
-                value: 'ml-2'
-              },
-              {
-                label: 'mr-8',
-                value: 'mr-8'
-              },
-              {
-                label: 'my-3',
-                value: 'my-3'
-              },
-              {
-                label: 'flex',
-                value: 'flex'
-              },
-              {
-                label: 'justify-center',
-                value: 'justify-center'
-              },
-              {
-                label: 'items-center',
-                value: 'items-center'
-              }
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-              selectType:'tags'
-            },
-          },
-        },
+        
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'titleIcon',
@@ -11518,7 +11384,6 @@ export class formFeildData {
             },
           }
         },
-        
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'focus',
@@ -11589,7 +11454,7 @@ export class formFeildData {
             label: 'Allow Copy Json',
           },
           defaultValue: false
-        },
+        }
       ]
     },
   ]
@@ -11655,10 +11520,89 @@ export class formFeildData {
         //   },
         //   defaultValue: 'w-1/2  px-1'
         // },
+        
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'toolTipClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'ToolTip Class',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'tooltipPosition',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Tooltip Position',
+            options: [
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'getVariable',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'getVariable',
+        //     options:[]
+        //   }
+        // },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'setVariable',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'setVariable',
+        //     options:[]
+        //   }
+        // },
+        {
+          className: "w-1/2 w-1/2",
+          key: 'hideExpression',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Hide',
+          },
+          defaultValue: false
+        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'copyJsonIcon',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Allow Copy Json',
+        //   },
+        //   defaultValue: false
+        // },
         {
           key: 'className',
           type: 'multiselect',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          className: "w-full",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             multiple: true,
@@ -11786,222 +11730,11 @@ export class formFeildData {
               serveSearch: true,
               showArrow: true,
               showSearch: true,
-              selectType:'tags'
+              selectType:'tags',
+              maxCount:6,
             },
           },
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'toolTipClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'ToolTip Class',
-          },
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'tooltipPosition',
-          type: 'select',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Tooltip Position',
-            options: [
-              {
-                label: 'Top',
-                value: 'top'
-              },
-              {
-                label: 'Left',
-                value: 'left'
-              },
-              {
-                label: 'Right',
-                value: 'right'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          }
-        },
-        {
-          key: 'classesArray',
-          type: 'multiselect',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            multiple: true,
-            label: 'classes Array',
-            options: [
-              {
-                label: 'w-1/2',
-                value: 'w-1/2'
-              },
-              {
-                label: 'w-1/3',
-                value: 'w-1/3'
-              },
-              {
-                label: 'w-2/3',
-                value: 'w-2/3'
-              },
-              {
-                label: 'w-1/4',
-                value: 'w-1/4'
-              },
-              {
-                label: 'w-3/4',
-                value: 'w-3/4'
-              },
-              {
-                label: 'w-full',
-                value: 'w-full'
-              },
-              {
-                label: 'w-auto',
-                value: 'w-auto'
-              },
-              {
-                label: 'w-screen',
-                value: 'w-screen'
-              },
-              {
-                label: 'sm:w-1/2',
-                value: 'sm:w-1/2'
-              },
-              {
-                label: 'md:w-1/3',
-                value: 'md:w-1/3'
-              },
-              {
-                label: 'lg:w-2/3',
-                value: 'lg:w-2/3'
-              },
-              {
-                label: 'xl:w-1/4',
-                value: 'xl:w-1/4'
-              },
-              {
-                label: 'text-gray-500',
-                value: 'text-gray-500'
-              },
-              {
-                label: 'text-red-600',
-                value: 'text-red-600'
-              },
-              {
-                label: 'text-blue-400',
-                value: 'text-blue-400'
-              },
-              {
-                label: 'text-green-500',
-                value: 'text-green-500'
-              },
-              {
-                label: 'text-yellow-300',
-                value: 'text-yellow-300'
-              },
-              {
-                label: 'bg-gray-200',
-                value: 'bg-gray-200'
-              },
-              {
-                label: 'bg-blue-500',
-                value: 'bg-blue-500'
-              },
-              {
-                label: 'bg-green-300',
-                value: 'bg-green-300'
-              },
-              {
-                label: 'bg-yellow-200',
-                value: 'bg-yellow-200'
-              },
-              {
-                label: 'p-4',
-                value: 'p-4'
-              },
-              {
-                label: 'pt-6',
-                value: 'pt-6'
-              },
-              {
-                label: 'ml-2',
-                value: 'ml-2'
-              },
-              {
-                label: 'mr-8',
-                value: 'mr-8'
-              },
-              {
-                label: 'my-3',
-                value: 'my-3'
-              },
-              {
-                label: 'flex',
-                value: 'flex'
-              },
-              {
-                label: 'justify-center',
-                value: 'justify-center'
-              },
-              {
-                label: 'items-center',
-                value: 'items-center'
-              }
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'getVariable',
-        //   type: 'select',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'getVariable',
-        //     options:[]
-        //   }
-        // },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'setVariable',
-        //   type: 'select',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'setVariable',
-        //     options:[]
-        //   }
-        // },
-        {
-          className: "w-1/2 w-1/2",
-          key: 'hideExpression',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Hide',
-          },
-          defaultValue: false
-        },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'copyJsonIcon',
-        //   type: 'checkbox',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Allow Copy Json',
-        //   },
-        //   defaultValue: false
-        // },
       ]
     },
   ]

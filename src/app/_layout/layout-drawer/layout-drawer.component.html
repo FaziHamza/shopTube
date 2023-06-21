@@ -93,6 +93,19 @@
                     [(ngModel)]="selectedTheme['iconSize']"
                     (input)="changeLayout(selectedTheme['iconSize']+'_'+'iconSize')" />
             </div>
+            <div class="w-1/3 p-1">
+                <label>Icon Type</label>
+                <nz-select nzShowSearch nzAllowClear
+                    [(ngModel)]="selectedTheme['iconType']"
+                    (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType')"
+                    placeholder="Icon Type">
+                    <nz-option nzLabel="Icon outlined" nzValue="outline"></nz-option>
+                    <nz-option nzLabel="Icon filled" nzValue="fill"></nz-option>
+                    <nz-option nzLabel="Icon twotone" nzValue="twotone"></nz-option>
+                    <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
+                    <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                </nz-select>
+            </div>
         </div>
         <div
             *ngIf="applicationType == 'backend_application' || !applicationType">

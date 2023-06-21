@@ -1,26 +1,70 @@
-<!-- [dir]="'rtl'" -->
-<ul nz-menu nzMode="horizontal" class="menu">
-    <li class="menu" nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" routerLinkActive="active"
-        [routerLink]="'/pages/'+child.link" nzOpenSubMenuIcon="down" nzCloseSubMenuIcon="right"
-        *ngFor="let child of layoutTabsDropdownData.children">
-        <ng-container *ngIf="child.children.length">
-            <ul *ngFor="let child1 of child.children">
-                <ng-container *ngIf="child1.children.length">
-                    <li nz-submenu (click)="screenLoad(child1.link)">
-                        {{child1.title}}
-                        <!-- <span nz-icon nzType="down" nzTheme="outline"></span> -->
-                        <ul *ngFor="let child2 of child1.children">
-                            <li nz-menu-item (click)="screenLoad(child2.link)">{{child2.title}}</li>
-                        </ul>
-                    </li>
-                </ng-container>
-                <li nz-menu-item *ngIf="child1.children.length == 0" (click)="screenLoad(child1.link)">
-                    {{child1.title}}
-                    <!-- <span nz-icon nzType="down" nzTheme="outline"></span> -->
-                </li>
-            </ul>
+<ul nz-menu nzMode="horizontal">
+    <ng-container *ngFor="let child of layoutTabsDropdownData.children">
+        <ng-container *ngIf="child.children.length === 0; else subMenu">
+            <li nz-menu-item routerLinkActive="active"
+                [routerLink]="'/pages/'+child.link"
+                nzOpenSubMenuIcon="down" nzCloseSubMenuIcon="right">
+                <span class="menu-item-icon">
+                    <st-icon *ngIf="child.icon"
+                        [type]="child.iconType || 'outline'"
+                        [icon]="child.icon"
+                        [size]="''"></st-icon>
+                </span>
+                <span class="sidenav-title">{{child.title}}</span>
+            </li>
         </ng-container>
-    </li>
+        <ng-template #subMenu>
+            <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon"
+                routerLinkActive="active" [routerLink]="'/pages/'+child.link"
+                nzOpenSubMenuIcon="down" nzCloseSubMenuIcon="right">
+                <ul>
+                    <ng-container *ngFor="let child1 of child.children">
+                        <ng-container
+                            *ngIf="child1.children.length > 0; else subSubMenu">
+                            <li nz-submenu [nzTitle]="iconAndTitleTemplate">
+                                <ul>
+                                    <li nz-menu-item
+                                        *ngFor="let child2 of child1.children"
+                                        (click)="screenLoad(child2.link)">
+                                        <span class="menu-item-icon">
+                                            <st-icon *ngIf="child2.icon"
+                                                [type]="child2.iconType || 'outline'"
+                                                [icon]="child2.icon"
+                                                [size]="''"></st-icon>
+                                        </span>
+                                        <span class="sidenav-title">{{child2.title}}</span>
+                                    </li>
+                                </ul>
+                                <ng-template #iconAndTitleTemplate>
+                                    <span class="menu-item-icon">
+                                        <st-icon *ngIf="child1.icon"
+                                            [type]="child1.iconType || 'outline'"
+                                            [icon]="child1.icon"
+                                            [size]="child1['iconSize'] || 15"
+                                            [color]="''"></st-icon>
+                                    </span>
+                                    <span class="sidenav-title">{{child1.title |
+                                        translate}}</span>
+                                </ng-template>
+                            </li>
+                        </ng-container>
+                        <ng-template #subSubMenu>
+                            <li nz-menu-item (click)="screenLoad(child1.link)">
+                                <span class="menu-item-icon">
+                                    <st-icon *ngIf="child1.icon"
+                                        [type]="child1.iconType || 'outline'"
+                                        [icon]="child1.icon"
+                                        [size]="''"></st-icon>
+                                </span>
+                                <span class="sidenav-title">{{child1.title}}</span>
+                            </li>
+                        </ng-template>
+                    </ng-container>
+                </ul>
+            </li>
+        </ng-template>
+    </ng-container>
+
     <!-- <div *ngIf="moreMenu.length" style="flex-grow: 1">
         <button nz-button nz-dropdown [nzDropdownMenu]="menu">More</button>
         <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -38,20 +82,23 @@
             </ul>
         </nz-dropdown-menu>
     </div> -->
-    <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab">
+    <!-- <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab">
         <ng-container *ngIf="layoutTabsDropdownData.aboveSevenTab.length">
-            <li class="menu" nz-submenu [nzTitle]="'More'" nzIcon="appstore" routerLinkActive="active">
+            <li class="menu" nz-submenu [nzTitle]="'More'" nzIcon="appstore"
+                routerLinkActive="active">
                 <ul *ngFor="let item of layoutTabsDropdownData.aboveSevenTab">
-                    <li *ngIf="item.children.length > 0" nz-submenu [nzTitle]="item.title" (click)="screenLoad(item .link)">
+                    <li *ngIf="item.children.length > 0" nz-submenu
+                        [nzTitle]="item.title" (click)="screenLoad(item .link)">
                         <ul *ngFor="let child of item.children">
                             <li nz-menu-item (click)="screenLoad(child.link)">{{child.title}}</li>
                         </ul>
                     </li>
-                    <li nz-menu-item *ngIf="item.children.length == 0" (click)="screenLoad(item.link)">
+                    <li nz-menu-item *ngIf="item.children.length == 0"
+                        (click)="screenLoad(item.link)">
                         {{item.title}}
                     </li>
                 </ul>
             </li>
         </ng-container>
-    </ng-container>
+    </ng-container> -->
 </ul>
