@@ -6,7 +6,7 @@ import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page.component';
 import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
@@ -15,7 +15,6 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { AngularSplitModule } from 'angular-split';
@@ -33,6 +32,11 @@ import { MapComponent } from './components/map/map.component';
 import { GoogleMapsService } from './services/google-maps.service';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { MenuBulkUpdateComponent } from './menu-builder/menu-bulk-update/menu-bulk-update.component';
+import { AuthModule } from './auth/auth.module';
+import { ApiService } from './shared/api.service';
+import { EnvService } from './shared/envoirment.service';
+import { Router } from '@angular/router';
+import { AuthInterceptor } from './shared/interceptor';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -45,7 +49,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     fieldComponents,
     SideMenuBuildComponent,
     FormlyFieldStepper,
-    LoginComponent,
     RegisterComponent,
     CreateDatabaseComponent,
     MapComponent,
@@ -55,6 +58,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   imports: [
     FormsModule,
     CommonModule,
+    AuthModule,
     AngularSplitModule,
     NgJsonEditorModule,
     BrowserModule,
@@ -84,7 +88,17 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
-    GoogleMapsService
+    GoogleMapsService,
+    ApiService,
+    EnvService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useFactory: function (router: Router, env:EnvService) {
+        return new AuthInterceptor(router, env);
+      },
+      multi: true,
+      deps: [Router,EnvService],
+    }
   ],
   bootstrap: [AppComponent],
 })
