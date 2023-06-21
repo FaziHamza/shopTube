@@ -52,9 +52,9 @@ export class AppBuilderSideMenuComponent implements OnInit {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
     }
-    window.onresize = () => {
-      this.controlMenu();
-    };
+    // window.onresize = () => {
+    //   this.controlMenu();
+    // };
     this.controlMenu();
   }
   toggleCollapsed(): void {

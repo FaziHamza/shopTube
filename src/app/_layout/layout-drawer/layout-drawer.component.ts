@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-layout-drawer',
@@ -13,10 +14,10 @@ export class LayoutDrawerComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter();
   visible = false;
 
-  constructor() { }
+  constructor(public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    
+
 
   }
   open(): void {
@@ -27,6 +28,11 @@ export class LayoutDrawerComponent implements OnInit {
     this.visible = false;
   }
   changeLayout(layoutType: any) {
+    // if (layoutType == 'horizental') {
+    //   this.dataSharedService.menuSelectedThemeLayout.next(false);
+    // } else {
+    //   this.dataSharedService.menuSelectedThemeLayout.next(true);
+    // }
     this.notify.emit(layoutType);
   }
 

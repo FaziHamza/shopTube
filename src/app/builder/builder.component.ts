@@ -661,7 +661,7 @@ export class BuilderComponent implements OnInit {
         nzContentParams: {
           nodes: this.nodes,
           types:this.formlyTypes,
-          formlyModel: this.formlyModel,
+          // formlyModel: this.formlyModel,
         }
       });
       drawerRef.afterOpen.subscribe(() => {
@@ -2841,7 +2841,7 @@ export class BuilderComponent implements OnInit {
           const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "screenName": this.screenName,
-            "screenId": this.screenId,
+            "screenId": this._id,
             "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
@@ -3457,7 +3457,7 @@ export class BuilderComponent implements OnInit {
       this.selectedNode = { ...this.selectedNode, ...event.form };
       this.updateNodes();
     }
-    this.showSuccess();
+    // this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
   }
