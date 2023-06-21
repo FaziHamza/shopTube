@@ -52,6 +52,7 @@ export class MenuBuilderComponent implements OnInit {
   dropdownButtonArray: any = [];
   selectedTheme: any;
   selectDepartment: any = '';
+  iconType: any = '';
   selectApplicationType: any = '';
   requestSubscription: Subscription;
 
@@ -308,11 +309,39 @@ export class MenuBuilderComponent implements OnInit {
     this.isVisible = data.origin.id;
   }
   openField(event: any) {
+    debugger
     this.arrayEmpty();
     let id = event.origin.id;
     let node = event.origin;
     this.isActiveShow = id;
-    this.controlListvisible = true;
+    if (event.origin.type != 'mainTab') {
+      const data = this.getMenuParents(event.origin, this.nodes);
+      const parents = data.slice().reverse();
+      const tab = parents.filter((p: any) => p.type === 'tabs');
+      if (event.origin.type !== 'tabs' && tab.length === 0) {
+        if (parents.length < 3) {
+          this.controlListvisible = true;
+        } else {
+          alert("Cannot add control at this level");
+        }
+      } else if (event.origin.type == 'tabs') {
+        this.controlListvisible = true;
+      } else if (tab.length > 0) {
+        const keyIndex = parents.findIndex((item: any) => item.key === tab[0].key);
+        if (keyIndex !== -1) {
+          const dataAfterKey = parents.slice(keyIndex + 1);
+          if (dataAfterKey.length <= 1) {
+            this.controlListvisible = true;
+          } else {
+            alert("Cannot add control at this level");
+          }
+        }
+      }
+    }
+    else {
+      alert("Add sub tab through configuration of main tab");
+    }
+    // const treeView = this.generateTreeView(this.nodes, event.origin, event?.parentNode?.origin);
     // this.IsShowConfig = true;
     this.specificControllShow(node.type, node);
     this.selectedNode = node;
@@ -1021,7 +1050,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     });
   }
-  
+
   notifyEmit(event: actionTypeFeild): void {
     this.selectedNode.id = event.form.id;
     this.selectedNode.key = event.form.key;
@@ -1235,6 +1264,10 @@ export class MenuBuilderComponent implements OnInit {
     else if (layoutType.includes('iconSize')) {
       this.selectedTheme['iconSize'] = layoutType.split('_')[0];
     }
+    else if (layoutType.includes('iconType')) {
+      this.selectedTheme['iconType'] = layoutType.split('_')[0];
+      this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+    }
     else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
       this.selectedTheme['design'] = layoutType;
     }
@@ -1273,6 +1306,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     }
     else if (layoutType == 'horizental') {
+      this.selectedTheme.isCollapsed = false;
       this.selectedTheme.layout = layoutType;
       this.horizentalLayout();
       if (this.selectedTheme.layoutWidth == 'boxed')
@@ -1294,7 +1328,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.menuMode = "horizontal",
           this.selectedTheme.menuColumn = 'w-full',
           this.selectedTheme.isCollapsed = false;
-      } 
+      }
       else {
         this.selectedTheme.isCollapsed = true;
         this.selectedTheme.horizontalRow = 'flex flex-wrap';
@@ -1308,10 +1342,8 @@ export class MenuBuilderComponent implements OnInit {
     // This conditions is used to assign value to object
     if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.layout = layoutType;
-      if (this.selectedTheme.sideBarSize == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-        if (layoutType == 'horizental' || layoutType == 'twoColumn')
-          this.selectedTheme.sideBarSize = '';
-      }
+      if (layoutType == 'horizental' || layoutType == 'twoColumn')
+        this.selectedTheme.sideBarSize = '';
     }
     else if (layoutType == 'fluid' || layoutType == 'boxed') {
       this.selectedTheme.layoutWidth = layoutType;
@@ -1389,6 +1421,7 @@ export class MenuBuilderComponent implements OnInit {
 
   getApplication(id: any) {
     if (id) {
+      this.iconType = '';
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1418,7 +1451,7 @@ export class MenuBuilderComponent implements OnInit {
     });
   };
   bulkUpdate() {
-    if(this.nodes.length > 0){
+    if (this.nodes.length > 0) {
       const drawerRef = this.drawerService.create<MenuBulkUpdateComponent, { value: string }, string>({
         nzTitle: 'Bulk Update',
         nzWidth: 1000,
@@ -1432,16 +1465,85 @@ export class MenuBuilderComponent implements OnInit {
       });
       drawerRef.afterClose.subscribe(data => {
         console.log(data);
-        if(data){
-          this.nodes =data;
+        if (data) {
+          this.nodes = data;
           this.clickBack();
         }
       });
-    }else{
-      this.toastr.error("Please select application first",{nzDuration: 3000});
+    } else {
+      this.toastr.error("Please select application first", { nzDuration: 3000 });
     }
-    
+
   }
+  changeIconType(data: any, nodeData: any) {
+    debugger
+    if (nodeData.length > 0) {
+      nodeData.forEach((node: any) => {
+        if (node['icon']) {
+          if (node['icon'].includes('fa-') && data == 'font_awsome') {
+            node['iconType'] = data;
+          }
+          else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+            node['iconType'] = data;
+          }
+        } else {
+          node['iconType'] = data;
+        }
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
+      });
+    }
+  }
+  getMenuParents(selectedItem: any, menuItems: any[]): any {
+    const parents: any[] = [];
+    const parentIds: string[] = [];
+    const findSelectedItem = (item: any, menu: any[]) => {
+      if (menu.includes(item)) {
+        parents.push(item);
+        parentIds.push(item.id);
+        return true;
+      }
+      for (const menuItem of menu) {
+        if (menuItem.children && menuItem.children.length > 0) {
+          if (findSelectedItem(item, menuItem.children)) {
+            parents.push(menuItem);
+            parentIds.push(menuItem.id);
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    findSelectedItem(selectedItem, menuItems);
+    const filteredParents = parents.filter((item, index) => index <= 2);
+    return filteredParents;
+  }
+  // generateTreeView(menuItems: any, newNode: any, parentId: any): any {
+  //   const result: any[] = [];
+  
+  //   function traverseNodes(items: any, parentIndex: any) {
+  //     for (let i = 0; i < items.length; i++) {
+  //       const item = items[i];
+  //       const currentIndex = parentIndex ? `${parentIndex}.${i + 1}` : `${i + 1}`;
+  //       const label = `${currentIndex} ${item.title}`;
+  //       item.title = label;
+  //       // result.push(label);
+  
+  //       if (item.id === parentId && item.children) {
+  //         // item.children.push(newNode);
+  //         traverseNodes(item.children, currentIndex);
+  //       } else if (item.children) {
+  //         traverseNodes(item.children, currentIndex);
+  //       }
+  //     }
+  //   }
+  
+  //   traverseNodes(menuItems, '');
+  
+  //   return result;
+  // }
+
 }
 
 

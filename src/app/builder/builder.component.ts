@@ -653,34 +653,34 @@ export class BuilderComponent implements OnInit {
     });
   }
   bulkUpdate() {
-    if(this.nodes.length > 0){
+    if (this.nodes.length > 0) {
       const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
         nzTitle: 'Bulk Update',
         nzWidth: 1000,
         nzContent: BulkUpdateComponent,
         nzContentParams: {
           nodes: this.nodes,
-          types:this.formlyTypes,
-          formlyModel: this.formlyModel,
+          types: this.formlyTypes,
+          // formlyModel: this.formlyModel,
         }
       });
       drawerRef.afterOpen.subscribe(() => {
         console.log('Drawer(Component) open');
       });
-      drawerRef.afterClose.subscribe((data:any) => {
+      drawerRef.afterClose.subscribe((data: any) => {
         console.log(data);
-        if(data){
-          if(data.nodes)
-            this.nodes =data.nodes;
-          if(data.formlyModel)
+        if (data) {
+          if (data.nodes)
+            this.nodes = data.nodes;
+          if (data.formlyModel)
             this.formlyModel = data.formlyModel;
         }
         this.updateNodes();
         this.cdr.detectChanges();
       });
     }
-    else{
-      this.toastr.error("Please select Screen first",{nzDuration: 3000});
+    else {
+      this.toastr.error("Please select Screen first", { nzDuration: 3000 });
     }
   }
 
@@ -1705,12 +1705,157 @@ export class BuilderComponent implements OnInit {
       }
     }
     if (_formFieldData.commonIconFields[0].fieldGroup) {
+      const fieldGroup = _formFieldData.commonFormlyConfigurationFields[0].fieldGroup || [];
       _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup && element.key != 'icon' && element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
-          _formFieldData.commonFormlyConfigurationFields[0].fieldGroup.push(element)
+        if (
+          _formFieldData.commonFormlyConfigurationFields[0].fieldGroup &&
+          element.key != 'icon' &&
+          element.key != 'badgeType' &&
+          element.key != 'badgeCount' &&
+          element.key != 'dot_ribbon_color'
+        ) {
+          fieldGroup.push(element);
         }
       });
+      fieldGroup.push({
+        key: 'className',
+        type: 'multiselect',
+        className: "w-full",
+        wrappers: ["formly-vertical-theme-wrapper"],
+        props: {
+          multiple: true,
+          label: 'CSS ClassName',
+          options: [
+            {
+              label: 'w-1/2',
+              value: 'w-1/2'
+            },
+            {
+              label: 'w-1/3',
+              value: 'w-1/3'
+            },
+            {
+              label: 'w-2/3',
+              value: 'w-2/3'
+            },
+            {
+              label: 'w-1/4',
+              value: 'w-1/4'
+            },
+            {
+              label: 'w-3/4',
+              value: 'w-3/4'
+            },
+            {
+              label: 'w-full',
+              value: 'w-full'
+            },
+            {
+              label: 'w-auto',
+              value: 'w-auto'
+            },
+            {
+              label: 'w-screen',
+              value: 'w-screen'
+            },
+            {
+              label: 'sm:w-1/2',
+              value: 'sm:w-1/2'
+            },
+            {
+              label: 'md:w-1/3',
+              value: 'md:w-1/3'
+            },
+            {
+              label: 'lg:w-2/3',
+              value: 'lg:w-2/3'
+            },
+            {
+              label: 'xl:w-1/4',
+              value: 'xl:w-1/4'
+            },
+            {
+              label: 'text-gray-500',
+              value: 'text-gray-500'
+            },
+            {
+              label: 'text-red-600',
+              value: 'text-red-600'
+            },
+            {
+              label: 'text-blue-400',
+              value: 'text-blue-400'
+            },
+            {
+              label: 'text-green-500',
+              value: 'text-green-500'
+            },
+            {
+              label: 'text-yellow-300',
+              value: 'text-yellow-300'
+            },
+            {
+              label: 'bg-gray-200',
+              value: 'bg-gray-200'
+            },
+            {
+              label: 'bg-blue-500',
+              value: 'bg-blue-500'
+            },
+            {
+              label: 'bg-green-300',
+              value: 'bg-green-300'
+            },
+            {
+              label: 'bg-yellow-200',
+              value: 'bg-yellow-200'
+            },
+            {
+              label: 'p-4',
+              value: 'p-4'
+            },
+            {
+              label: 'pt-6',
+              value: 'pt-6'
+            },
+            {
+              label: 'ml-2',
+              value: 'ml-2'
+            },
+            {
+              label: 'mr-8',
+              value: 'mr-8'
+            },
+            {
+              label: 'my-3',
+              value: 'my-3'
+            },
+            {
+              label: 'flex',
+              value: 'flex'
+            },
+            {
+              label: 'justify-center',
+              value: 'justify-center'
+            },
+            {
+              label: 'items-center',
+              value: 'items-center'
+            }
+          ],
+          additionalProperties: {
+            allowClear: true,
+            serveSearch: true,
+            showArrow: true,
+            showSearch: true,
+            selectType: 'tags',
+            maxCount:6,
+          },
+        },
+      });
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup = fieldGroup;
     }
+
     const filteredFields: any = _formFieldData.commonFormlyConfigurationFields[0].fieldGroup;
     const getVar = filteredFields.filter((x: any) => x.key == "getVariable");
     const index = filteredFields.indexOf(getVar[0]);
@@ -2841,7 +2986,7 @@ export class BuilderComponent implements OnInit {
           const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "screenName": this.screenName,
-            "screenId": this.screenId,
+            "screenId": this._id,
             "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
@@ -3066,7 +3211,7 @@ export class BuilderComponent implements OnInit {
             element.children[1].children.forEach((element1: any) => {
               if (!element1.formly) {
                 element1['tooltipIcon'] = event.form.tooltipIcon;
-              }else if(element1.formly){
+              } else if (element1.formly) {
                 element1.formly[0].fieldGroup[0].props['additionalProperties']['tooltipIcon'] = JSON.parse(JSON.stringify(event.form.tooltipIcon));
               }
             });
@@ -3457,7 +3602,7 @@ export class BuilderComponent implements OnInit {
       this.selectedNode = { ...this.selectedNode, ...event.form };
       this.updateNodes();
     }
-    this.showSuccess();
+    // this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
   }
@@ -3944,14 +4089,13 @@ export class BuilderComponent implements OnInit {
   handleOk(): void {
     if (this.isTableSave)
       this.saveInDB();
-
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
     }
     else if (this.modalType === 'saveAsTemplate') {
       try {
+        this.saveLoader = true;
         if ((this.saveAsTemplate && this.templateName) || (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave)) {
-
           if (this.saveAsTemplate && this.templateName) {
             const objTemplate = {
               parameter: 'htmlBlock',
@@ -3963,10 +4107,11 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
               next: (res) => {
                 this.makeDatainTemplateTab();
-                this.saveLoader = true;
+                this.saveLoader = false;
               },
               error: (err) => {
                 console.error(err);
+                this.saveLoader = false;
                 this.toastr.error('An error occurred', { nzDuration: 3000 });
               }
             });
@@ -3983,19 +4128,20 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
               next: (res) => {
                 this.makeDatainTemplateTab();
-                this.saveLoader = true;
-
+                this.saveLoader = false;
               },
               error: (err) => {
                 console.error(err);
+                this.saveLoader = false;
                 this.toastr.error('An error occurred', { nzDuration: 3000 });
               }
             });
           }
           setTimeout(() => {
-            // this.saveJson();
+            this.saveJson();
+            this.saveLoader = false;
             this.showModal = false;
-          }, 1000);
+          }, 500);
         }
         else {
           if (!this.saveAsTemplate && this.templateName) {
@@ -4017,13 +4163,14 @@ export class BuilderComponent implements OnInit {
 
         if (isTemplateNameValid && isWebsiteBlockValid) {
           this.saveJson();
+          this.saveLoader = false;
           this.showModal = false;
         }
-
       }
       catch (error) {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.saveLoader = false;
       }
     }
 

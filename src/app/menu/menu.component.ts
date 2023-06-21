@@ -5,6 +5,7 @@ import { DataSharedService } from '../services/data-shared.service';
 import { StorageService } from '../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationService } from '../services/application.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-menu',
@@ -19,6 +20,8 @@ export class MenuComponent implements OnInit {
   selectedApp: string = '';
   isCollapsed: boolean = false;
   isVisible: boolean = false;
+  showCollapseButton: boolean = true;
+  requestSubscription: Subscription;
   languages = [
     {
       id: 'english',
@@ -67,6 +70,17 @@ export class MenuComponent implements OnInit {
       currentLanguage = JSON.parse(currentLanguageString);
       this.selectedLanguageObj = this.languages.find(language => language.id == currentLanguage);
     }
+    this.requestSubscription = this.dataSharedService.menuSelectedThemeLayout.subscribe({
+      next: (res) => {
+        if (res)
+          debugger
+        this.showCollapseButton = res;
+      },
+      error: (err) => {
+        console.error(err);
+        // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
   }
   getApllicationAndModule() {
     this.applicationService.getNestCommonAPI('department').subscribe((res => {

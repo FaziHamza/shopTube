@@ -15,6 +15,7 @@ export class DataSharedService {
   public currentMenu: Subject<any> = new Subject();
   public screenId: Subject<any> = new Subject();
   public invoiceSum: Subject<any> = new Subject();
+  public menuSelectedThemeLayout: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
