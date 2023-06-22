@@ -41,7 +41,8 @@
                   [size]="selectedTheme['iconSize'] || 15"
                   [color]="item.iconColor || ''"></st-icon>
               </span><span *ngIf="!this.selectedTheme.isCollapsed"
-                [style.color]="selectedTheme['textColor']">{{item.title |
+                [style.color]="selectedTheme['textColor']"
+                [style.font-size.px]="selectedTheme['titleSize']">{{item.title |
                 translate}}</span>
             </li>
             <ng-container
@@ -63,6 +64,7 @@
                         ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
+                    [style.font-size.px]="selectedTheme['titleSize']"
                     [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                     item.title | translate}}</span>
                 </ng-template>
@@ -91,6 +93,7 @@
                             ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
+                          [style.font-size.px]="selectedTheme['titleSize']"
                             [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                             sub.title | translate}}</span>
                         </ng-template>
@@ -106,7 +109,8 @@
                               (mouseenter)="hoverActiveShow = subSub.id"
                               (mouseleave)="hoverActiveShow = null"
                               nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="subSub.title ? selectedTheme.isCollapsed : ''">
+                              [nzTooltipTitle]="subSub.title ? selectedTheme.isCollapsed : ''"
+                              (click)="loadTabsAndButtons($event, subSub)">
                               <span class="menu-item-icon">
                                 <st-icon *ngIf="subSub.icon"
                                   [type]="subSub.iconType || 'outline'"
@@ -116,6 +120,7 @@
                                 ((isActiveShow === subSub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                               </span>
                               <span class="sidenav-title"
+                              [style.font-size.px]="selectedTheme['titleSize']"
                                 [style.color]="(hoverActiveShow === subSub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subSub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                 subSub.title | translate}}</span>
                             </li>
@@ -141,6 +146,7 @@
                           ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
+                          [style.font-size.px]="selectedTheme['titleSize']"
                             [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                             sub.title | translate}}</span>
                         </li>
@@ -167,6 +173,7 @@
                         ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                 </span>
                 <span class="sidenav-title" [class]="!selectedTheme?.font"
+                [style.font-size.px]="selectedTheme['titleSize']"
                   [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
                   {{ item.title | translate }}
                 </span>
@@ -193,6 +200,7 @@
                     ((isActiveShow === mainMenu.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
+                  [style.font-size.px]="selectedTheme['titleSize']"
                     [style.color]="(hoverActiveShow === mainMenu.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === mainMenu.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">More</span>
                   <span class="menu-item-icon"><span nz-icon nzType="down"
                       nzTheme="outline"></span></span>
@@ -221,6 +229,7 @@
                       ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                       </span>
                       <span class="sidenav-title"
+                      [style.font-size.px]="selectedTheme['titleSize']"
                         [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                         item.title | translate}}</span>
                     </li>
@@ -244,6 +253,7 @@
                               [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
                               ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                             <span class="sidenav-title"
+                            [style.font-size.px]="selectedTheme['titleSize']"
                               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                               item.title | translate}}</span>
                           </ng-template>
@@ -280,6 +290,7 @@
                                         ((isActiveShow === subChild.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                       </span>
                                       <span class="sidenav-title"
+                                      [style.font-size.px]="selectedTheme['titleSize']"
                                         [style.color]="(hoverActiveShow === subChild.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subChild.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                         subChild.title | translate}}</span>
                                     </li>
@@ -295,6 +306,7 @@
                                     ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                   </span>
                                   <span class="sidenav-title"
+                                  [style.font-size.px]="selectedTheme['titleSize']"
                                     [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                     sub.title | translate}}</span>
                                 </ng-template>
@@ -316,6 +328,7 @@
                                     ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                   </span>
                                   <span class="sidenav-title"
+                                  [style.font-size.px]="selectedTheme['titleSize']"
                                     [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                     sub.title | translate}}</span>
                                 </li>

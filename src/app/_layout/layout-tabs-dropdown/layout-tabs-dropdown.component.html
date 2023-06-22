@@ -14,9 +14,20 @@
             </li>
         </ng-container>
         <ng-template #subMenu>
-            <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon"
+            <li nz-submenu [nzTitle]="mainIconAndTitleTemplate" 
                 routerLinkActive="active" [routerLink]="'/pages/'+child.link"
                 nzOpenSubMenuIcon="down" nzCloseSubMenuIcon="right">
+                <ng-template #mainIconAndTitleTemplate>
+                    <span class="menu-item-icon">
+                        <st-icon *ngIf="child.icon"
+                            [type]="child.iconType || 'outline'"
+                            [icon]="child.icon"
+                            [size]="child['iconSize'] || 15"
+                            [color]="''"></st-icon>
+                    </span>
+                    <span class="sidenav-title">{{child.title |
+                        translate}}</span>
+                </ng-template>
                 <ul>
                     <ng-container *ngFor="let child1 of child.children">
                         <ng-container
