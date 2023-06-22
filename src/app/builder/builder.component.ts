@@ -142,7 +142,7 @@ export class BuilderComponent implements OnInit {
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.toastr.error("An error occurred", { nzDuration: 3000  }); // Show an error message to the user
       }
     });
 
@@ -2428,6 +2428,8 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
+      }else{
+        this.toastr.warning("Not allowed to add control in this")
       }
       if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;

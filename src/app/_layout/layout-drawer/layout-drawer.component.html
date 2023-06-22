@@ -64,6 +64,12 @@
                     [(ngModel)]="selectedTheme['hoverTextColor']"
                     (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')" />
             </div>
+            <div class="w-1/3 p-1">
+                <label>Text Size</label>
+                <input nz-input type="number"
+                    [(ngModel)]="selectedTheme['titleSize']"
+                    (input)="changeLayout(selectedTheme['titleSize']+'_'+'titleSize')" />
+            </div>
         </div>
         <h6 class="mb-0 font-bold uppercase pt-2">Icon Theme</h6>
         <p class="text-gray-500 text-xs">Choose Icon Theme
