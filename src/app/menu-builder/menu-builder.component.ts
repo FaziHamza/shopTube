@@ -30,6 +30,7 @@ export class MenuBuilderComponent implements OnInit {
   controlListvisible: boolean = false;
   nodes: any = [];
   IsConfigurationVisible: boolean = true;
+  showNotification: boolean = true;
   IsShowConfig: boolean = false;
   applications: any;
   applicationName: any;
@@ -124,7 +125,6 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
-    debugger
     this.arrayEmpty();
     const newNode = [{
       id: 'menu_' + Guid.newGuid(),
@@ -187,7 +187,6 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
-    debugger
     this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
       if (res.length > 0) {
         let getApplication = this.applications.find((a: any) => a._id == id);
@@ -240,7 +239,6 @@ export class MenuBuilderComponent implements OnInit {
     this.nodes = [...this.nodes];
   }
   downloadJson() {
-    debugger
     const blob = new Blob([JSON.stringify(this.nodes)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -255,12 +253,14 @@ export class MenuBuilderComponent implements OnInit {
     this.controlListvisible = false;
   }
   dashonictabsAddNew() {
+    this.showNotification = false;
     this.addControlToJson('mainTab');
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
     this.selectedNode = this.tabsAdd;
     this.addControlToJson('tabs');
     this.selectedNode = this.tabsAdd;
+    this.showNotification = true;
     this.addControlToJson('tabs');
     this.selectedNode = this.selectForDropdown;
     this.clickBack();
@@ -276,9 +276,15 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addFunctionsInHtml(type: any) {
-
-    if (type == "Tabs") {
-      this.dashonictabsAddNew();
+    debugger
+    if (type == "Tabs" && this.selectedNode.children) {
+      const maintabCount = this.selectedNode.children.filter((child: any) => child.type === 'mainTab').length;
+      if (maintabCount === 0) {
+        this.dashonictabsAddNew();
+      }
+      else {
+        alert('Only one MainTab is allowed in parent-child');
+      }
     }
     else if (type == "In Page Dropdown") {
       this.dropdownAddNew();
@@ -309,7 +315,6 @@ export class MenuBuilderComponent implements OnInit {
     this.isVisible = data.origin.id;
   }
   openField(event: any) {
-    debugger
     this.arrayEmpty();
     let id = event.origin.id;
     let node = event.origin;
@@ -542,20 +547,16 @@ export class MenuBuilderComponent implements OnInit {
       } as any;
       this.addNode(node, newNode);
     }
-    this.clickBack();
+    // this.clickBack();
   }
   addNode(node: any, newNode: any) {
-
     if (node) {
-      let checkNode = node.children;
-      if (checkNode) {
-        node.children.push(newNode);
-      } else {
-        node.children.push(newNode);
+      node.children.push(newNode);
+      if (this.showNotification) {
+        this.clickBack();
+        this.makeMenuData();
+        this.toastr.success('Control Added', { nzDuration: 3000 });
       }
-      this.clickBack();
-      this.makeMenuData();
-      this.toastr.success('Control Added', { nzDuration: 3000 });
     }
   }
   ParentNode(newNode: any) {
@@ -672,7 +673,6 @@ export class MenuBuilderComponent implements OnInit {
   saveLoader: any = false;
 
   saveJsonMenu() {
-    debugger
     this.saveLoader = true;
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
@@ -1234,7 +1234,6 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   changeLayout(layoutType: any) {
-    debugger
     if (layoutType.includes('backGroundColor')) {
       this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
     } else if (layoutType.includes('textColor')) {
@@ -1382,11 +1381,12 @@ export class MenuBuilderComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        subMenu: []
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
+        children: []
       }]
-
       const withOutTitle = this.nodes.filter((a: any) => a.isTitle != true);
-      this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
+      this.selectedTheme.newMenuArray[0].children = withOutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {
@@ -1476,7 +1476,6 @@ export class MenuBuilderComponent implements OnInit {
 
   }
   changeIconType(data: any, nodeData: any) {
-    debugger
     if (nodeData.length > 0) {
       nodeData.forEach((node: any) => {
         if (node['icon']) {
@@ -1521,7 +1520,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   // generateTreeView(menuItems: any, newNode: any, parentId: any): any {
   //   const result: any[] = [];
-  
+
   //   function traverseNodes(items: any, parentIndex: any) {
   //     for (let i = 0; i < items.length; i++) {
   //       const item = items[i];
@@ -1529,7 +1528,7 @@ export class MenuBuilderComponent implements OnInit {
   //       const label = `${currentIndex} ${item.title}`;
   //       item.title = label;
   //       // result.push(label);
-  
+
   //       if (item.id === parentId && item.children) {
   //         // item.children.push(newNode);
   //         traverseNodes(item.children, currentIndex);
@@ -1538,9 +1537,9 @@ export class MenuBuilderComponent implements OnInit {
   //       }
   //     }
   //   }
-  
+
   //   traverseNodes(menuItems, '');
-  
+
   //   return result;
   // }
 

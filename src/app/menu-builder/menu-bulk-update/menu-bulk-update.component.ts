@@ -70,31 +70,12 @@ export class MenuBulkUpdateComponent implements OnInit {
       element['expand'] = false;
   
       if (element.children && element.children.length > 0) {
-        element.children = this.generateTableNodes(element.children);
+        element.children = this.generateTableNodesExpand(element.children);
       }
       return element;
     });
   }
-  generateTableNodes(data: any[]): any[] {
-    return data.map((element: any) => {
-      let sectionObj :any = {
-        id: element.id,
-        link: element.link,
-        title: element.title,
-        isTitle: element.isTitle,
-        icon: element.icon,
-        children: [],
-        expand: false,
-      };
-  
-      if (element.children && element.children.length > 0) {
-        sectionObj.children = this.generateTableNodes(element.children);
-      }
-  
-      return sectionObj;
-    });
-  }
-  
+ 
   
   close() {
     this.drawerRef.close(this.nodes);
