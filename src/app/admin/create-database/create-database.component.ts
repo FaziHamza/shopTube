@@ -89,11 +89,16 @@ export class CreateDatabaseComponent implements OnInit {
       fieldGroup: [
         {
           key: 'isActive',
-          type: 'checkbox',
+          type: 'select',
           wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: true,
           props: {
-            label: 'Is Active'
+            label: 'Select Status',
+            options: [
+              {label: "Approved", value: "Approved"},
+              {label: "Pending", value: "Pending"},
+              {label: "Reject", value: "Reject"}
+            ]
           }
         }
       ]
@@ -235,6 +240,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
+    debugger
     const isExistingDataValid = this.listOfData.every(item => {
       // Check if any field in the existing rows is empty or null
       return (
@@ -261,7 +267,8 @@ export class CreateDatabaseComponent implements OnInit {
         "schema": fields
       };
       console.log(data);
-      if (this.myForm.value.isActive)
+      if (this.myForm.value.isActive === "Approved")
+      // saving table if status is approved.
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
             debugger;
@@ -347,7 +354,7 @@ export class CreateDatabaseComponent implements OnInit {
         "tableName": this.myForm.value.tableName,
         "schema": fields
       };
-      if (this.myForm.value.isActive)
+      if (this.myForm.value.isActive === "Approved") {
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
             debugger;
@@ -358,6 +365,9 @@ export class CreateDatabaseComponent implements OnInit {
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
+      } else if(this.myForm.value.isActive === "Pending" || this.myForm.value.isActive === "Reject"){
+        this.toastr.warning("Setting is done.", { nzDuration: 3000 });
+      }
 
       const objTableNames = {
         "tableName": this.myForm.value.tableName,
