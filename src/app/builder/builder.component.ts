@@ -4447,12 +4447,13 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
+   let template = this.jsonParseWithObject(data.template);
     if (checkType == 'website-block') {
-      data.template.forEach((item: any) => {
+      template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
       })
     } else {
-      data.template.forEach((item: any) => {
+      template.forEach((item: any) => {
         let data = JSON.parse(JSON.stringify(item));
         this.traverseAndChange(data);
         this.nodes[0].children[1].children.push(data);
