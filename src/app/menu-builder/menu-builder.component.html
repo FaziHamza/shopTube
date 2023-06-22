@@ -79,7 +79,8 @@
 
         </div>
         <div class="w-1/6 jsonEdiotTab ml-1">
-          <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="bulkmenu" nzType="primary">
+          <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="bulkmenu"
+            nzType="primary">
             Bulk
             <span nz-icon style="padding-left: 10px;
             padding-top: 5px;" nzType="down"></span>
@@ -148,7 +149,8 @@
                   nzDraggable nzBlockNode
                   (nzOnDrop)="nzEvent($event)">
                   <ng-template #nzTreeTemplate let-node>
-                    <div class="flex card-lable-row"  [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
+                    <div class="flex card-lable-row"
+                      [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
                       <div (mouseover)="hoverIn(node)"
                         (mouseleave)="hoverOut(node)" (click)="openField(node)">
                         {{node.title}}
@@ -242,16 +244,13 @@
                                   (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
                                     class={{item3.icon}}></i>{{item3.title}}
                                 </button>
-                                <ng-container
-                                  *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'">
-                                  <button nz-button nzType="default" nzBlock
-                                    class="rounded"
-                                    *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'"
-                                    (click)="addFunctionsInHtml(item3.parameter)">
-                                    <i class={{item3.icon}}></i>
-                                    {{item3.title}}
-                                  </button>
-                                </ng-container>
+                                <button nz-button nzType="default" nzBlock
+                                  class="rounded"
+                                  *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'"
+                                  (click)="addFunctionsInHtml(item3.parameter)">
+                                  <i class={{item3.icon}}></i>
+                                  {{item3.title}}
+                                </button>
                               </div>
                             </ng-container>
                           </div>
