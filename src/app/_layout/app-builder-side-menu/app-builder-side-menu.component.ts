@@ -158,10 +158,12 @@ export class AppBuilderSideMenuComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        subMenu: []
+        id:'menu_428605c1',
+        key:'menu_0f7d1e4e',
+        children: []
       }]
       const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);
-      this.selectedTheme.newMenuArray[0].subMenu = withOutTitle.slice(7);
+      this.selectedTheme.newMenuArray[0].children = withOutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {
