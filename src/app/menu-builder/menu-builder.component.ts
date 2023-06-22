@@ -283,7 +283,7 @@ export class MenuBuilderComponent implements OnInit {
         this.dashonictabsAddNew();
       }
       else {
-        alert('Only one MainTab is allowed in parent-child');
+        this.toastr.warning("Only one MainTab is allowed in parent-child")
       }
     }
     else if (type == "In Page Dropdown") {
@@ -327,7 +327,7 @@ export class MenuBuilderComponent implements OnInit {
         if (parents.length < 3) {
           this.controlListvisible = true;
         } else {
-          alert("Cannot add control at this level");
+          this.toastr.warning("Cannot add control at this level")
         }
       } else if (event.origin.type == 'tabs') {
         this.controlListvisible = true;
@@ -338,13 +338,13 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-            alert("Cannot add control at this level");
+          this.toastr.warning("Cannot add control at this level")
           }
         }
       }
     }
     else {
-      alert("Add sub tab through configuration of main tab");
+      this.toastr.warning("Add sub tab through configuration of main tab")
     }
     // const treeView = this.generateTreeView(this.nodes, event.origin, event?.parentNode?.origin);
     // this.IsShowConfig = true;
@@ -1262,6 +1262,9 @@ export class MenuBuilderComponent implements OnInit {
     }
     else if (layoutType.includes('iconSize')) {
       this.selectedTheme['iconSize'] = layoutType.split('_')[0];
+    }
+    else if (layoutType.includes('titleSize')) {
+      this.selectedTheme['titleSize'] = layoutType.split('_')[0];
     }
     else if (layoutType.includes('iconType')) {
       this.selectedTheme['iconType'] = layoutType.split('_')[0];
