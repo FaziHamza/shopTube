@@ -1,64 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from '../services/auth.service';
+import { CommonService } from 'src/common/common-services/common.service';
 
 @Component({
   selector: 'st-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private fb: UntypedFormBuilder , public authService:AuthService  , private route: ActivatedRoute,
-    private router: Router) { }
-
-  validateForm!: UntypedFormGroup;
-
-  submitForm(): void {
-
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-      this.validateForm.value["username"] = this.validateForm.value.email;
-      this.authService.loginUser(this.validateForm.value).subscribe(
-        (response: any) => {
-          if (response?.access_token) {
-            // this.commonService.stopLoader();
-            localStorage.setItem('userDetail', JSON.stringify(response.data));
-          // this.commonService.showSuccess("Login Successfully!", "Success");
-          this.authService.setAuth(response);
-          // this.router.navigate(['/home/allorder']);
-          this.router.navigate(['/']);
-          } else {
-            // this.commonService.stopLoader();
-          // this.commonService.showError(response.Errors[0].ErrorMessageEn, "error");
-        }
-
-        },
-        (error) => {
-          // this.commonService.stopLoader();
-          // this.commonService.showError(error.message, "error");
-        }
-      );
-    }
-    else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
+  ngOnInit(): void {
+    // init Form
+    this.create();
   }
 
+  showLoader: boolean = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private commonService: CommonService
+  ) {}
 
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: ['admin@co.co', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
-      remember: [true]
+  isFormSubmit: boolean = false;
+  form: FormGroup;
+  // form
+  create() {
+    this.form = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
+      remember: [true],
     });
+  }
+
+  get f() {
+    return this.form.controls;
+  }
+
+  submitForm(): void {
+    debugger;
+    this.isFormSubmit = true;
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.isFormSubmit = false;
+
+    // console.log('submit', this.form.value);
+    this.form.value['username'] = this.form.value.email;
+
+    // Show Loader
+    this.showLoader = true;
+    this.authService.loginUser(this.form.value).subscribe(
+      (response: any) => {
+        if (response?.access_token) {
+          this.commonService.showSuccess('Login Successfully!', {
+            nzDuration: 2000,
+          });
+          this.showLoader = false;
+          this.authService.setAuth(response);
+          this.router.navigate(['/home/allorder']);
+          this.router.navigate(['/']);
+        } else {
+          this.commonService.showError('Something went wrong!');
+        }
+      },
+      (error) => {
+        this.commonService.showError('Login Failed: Something went wrong.', {
+          nzPauseOnHover: true,
+        });
+        this.showLoader = false;
+      }
+    );
   }
 }

@@ -38,6 +38,8 @@ import { AuthInterceptor } from './shared/interceptor';
 import { ApiService } from './shared/api.service';
 import { AuthModule } from './auth/auth.module';
 import { TableRowComponent } from './menu-builder/table-row/table-row.component';
+import { AuthGuard } from './auth/auth.Guard';
+import { CommonService } from '../common/common-services/common.service';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -88,11 +90,13 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [
+    CommonService,
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
     GoogleMapsService,
     ApiService,
     EnvService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useFactory: function (router: Router, env:EnvService) {
@@ -100,7 +104,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
       },
       multi: true,
       deps: [Router,EnvService],
-    }
+    },
+
   ],
   bootstrap: [AppComponent],
 })
