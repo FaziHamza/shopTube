@@ -7,7 +7,7 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { BuilderService } from '../services/builder.service';
 import { TreeNode } from '../models/treeNode';
 import { ElementData } from '../models/element';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, throwError } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
@@ -366,22 +366,24 @@ export class MainComponent implements OnInit {
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
-      this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
-        next: (res) => {
-          if (res[0]?.error)
-            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-          else {
-            this.toastr.success("Save Successfully", { nzDuration: 3000 });
-            this.setInternalValuesEmpty(this.form.value)
-            // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-            this.getFromQuery();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      this.employeeService.saveSQLDatabaseTable('knex-query', empData)
+        .pipe(
+          catchError((error) => {
+            console.error(error);
+            if (error.status === 400 && error.error && error.error.message) {
+              this.toastr.error(error.error.message, { nzDuration: 3000 });
+            } else {
+              this.toastr.error('An error occurred', { nzDuration: 3000 });
+            }
+            return throwError(error); // Rethrow the error
+          })
+        )
+        .subscribe((res) => {
+          // Handle success response or further logic
+          this.toastr.success('Save Successfully', { nzDuration: 3000 });
+          this.setInternalValuesEmpty(this.form.value);
+          this.getFromQuery();
+        });
     } else {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {

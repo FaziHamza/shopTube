@@ -21,8 +21,7 @@
       </div>
       <div>
         <nz-select class="form-select" formControlName="elementName" aria-label="Default Select Example">
-          <nz-option [nzLabel]="item.title" [nzValue]="item.key"
-              *ngFor="let item of nodeList"></nz-option>
+          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
         </nz-select>
       </div>
       <div>
@@ -30,7 +29,7 @@
           <nz-option nzValue="-1" nzLabel="Select" selected></nz-option>
           <nz-option nzValue="email" nzLabel="Email"></nz-option>
           <nz-option nzValue="query" nzLabel="Query"></nz-option>
-          <nz-option nzValue="confirmEmail" nzLabel="Http"></nz-option>
+          <nz-option nzValue="api" nzLabel="Http"></nz-option>
           <nz-option nzValue="confirmEmail" nzLabel="Confirm Email"></nz-option>
         </nz-select>
       </div>
@@ -59,7 +58,8 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email" (init)="editorInit($event)"></ngx-monaco-editor>
+              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
+                (init)="editorInit($event)"></ngx-monaco-editor>
               <!-- <textarea nz-input type="text" rows="3" class="form-control" formControlName="email"></textarea> -->
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'query'">
@@ -73,10 +73,22 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
-               formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor>
+                formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor>
 
               <!-- <textarea nz-input type="text" rows="3" class="form-control" [id]="'query' + i"
                 formControlName="query"></textarea> -->
+            </div>
+            <div *ngIf="ActionsForms.value[i].type == 'api'">
+              <div class="w-full pl-2">
+                <form [formGroup]="httpForm">
+                  <div class="flex flex-wrap">
+                    <div class="w-1/2 theme-body" *ngFor="let item of httpFields">
+                      <formly-form [model]="httpModel" [fields]="item.fieldGroup" [options]="options"
+                        [form]="httpForm"></formly-form>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
@@ -88,7 +100,7 @@
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
               <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
-              formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor>
+                formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor>
               <!-- <textarea nz-input type="text" rows="3" class="form-control" [id]="'confirmEmail' + i"
                 formControlName="confirmEmail"></textarea> -->
             </div>

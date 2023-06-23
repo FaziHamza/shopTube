@@ -9,6 +9,7 @@ import {
 
 } from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { FormlyFormOptions } from '@ngx-formly/core';
 
 
 @Component({
@@ -276,7 +277,9 @@ export class ActionRuleComponent implements OnInit {
         "sqlType": element.sqlType,
         "email": element.email,
         "confirmEmail": element.confirmEmail,
-        "referenceId": element.referenceId
+        "referenceId": element.referenceId,
+        "httpAddress": this.httpModel.httpAddress ? this.httpModel.httpAddress : "",
+        "contentType": this.httpModel.contentType ? this.httpModel.contentType : ""
       }
       if (element.id == 0) {
         return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
@@ -436,6 +439,8 @@ export class ActionRuleComponent implements OnInit {
                     confirmEmail: [getQueryActionRes.confirmEmail],
                     referenceId: [getQueryActionRes.referenceId],
                     query: [getQueryActionRes.quries]
+                    // httpAddress: [getQueryActionRes.httpAddress],
+                    // contentType: [getQueryActionRes.contentType]
                   })
                 )),
               })
@@ -492,5 +497,51 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
-
+  httpModel: any = {};
+  httpForm: any = new FormGroup({});
+  options: FormlyFormOptions = {};
+  httpFields = [
+    {
+      fieldGroup: [
+        {
+          key: 'httpAddress',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          defaultValue: '',
+          props: {
+            label: 'Http Address',
+            placeholder: 'Http Address',
+            required: true,
+          }
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'contentType',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          defaultValue: '',
+          props: {
+            label: 'Content Type',
+            options:[
+              {
+              label: 'Json',
+              value: 'application/json'
+            },
+            {
+              label: 'Text',
+              value: 'application/text'
+            },
+            {
+              label: 'Raw',
+              value: 'application/raw'
+            }
+          ]
+          }
+        }
+      ]
+    }
+  ];
 }
