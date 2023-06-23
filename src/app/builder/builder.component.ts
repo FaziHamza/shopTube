@@ -142,7 +142,7 @@ export class BuilderComponent implements OnInit {
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000  }); // Show an error message to the user
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
       }
     });
 
@@ -1849,7 +1849,7 @@ export class BuilderComponent implements OnInit {
             showArrow: true,
             showSearch: true,
             selectType: 'tags',
-            maxCount:6,
+            maxCount: 6,
           },
         },
       });
@@ -1875,17 +1875,16 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
+    configObj = JSON.parse(JSON.stringify(selectedNode));
     selectedNode.id = selectedNode.id?.toLowerCase();
     if (typeof selectedNode.className === "string") {
       let classes: any = selectedNode.className;
       if (classes) {
         let classList = classes.split(" ");
-        selectedNode.className = [...classList];
+        let newClass: any = [...classList];
+        configObj['className'] = newClass;
       }
     }
-
-
-    configObj = selectedNode;
     switch (type) {
       case "drawer":
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
@@ -2428,7 +2427,7 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
-      }else{
+      } else {
         this.toastr.warning("Not allowed to add control in this")
       }
       if (this.selectedNode.type == 'pageBody') {
@@ -4447,7 +4446,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-   let template = this.jsonParseWithObject(data.template);
+    let template = this.jsonParseWithObject(data.template);
     if (checkType == 'website-block') {
       template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
