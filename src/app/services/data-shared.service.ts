@@ -18,6 +18,7 @@ export class DataSharedService {
   public menuSelectedThemeLayout: Subject<any> = new Subject();
   public sectionSubmit: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
+  public collapseMenu = new BehaviorSubject<boolean>(false);
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

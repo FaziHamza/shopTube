@@ -339,6 +339,7 @@ export class MenuBuilderComponent implements OnInit {
             this.controlListvisible = true;
           } else {
             this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
           }
         }
       }
@@ -1405,12 +1406,14 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
+    this.selectedTheme.isCollapsed = false;
+    this.selectedTheme.topHeaderMenu = 'w-1/6';
+    this.selectedTheme.topHeader = 'w-10/12';
+    this.selectedTheme.horizontalRow = '';
+    this.selectedTheme.rowClass = 'w-full';
+    this.selectedTheme.menuMode = "horizontal";
+    this.selectedTheme.menuColumn = 'w-full';
     this.makeMenuData();
-    this.selectedTheme.horizontalRow = 'flex flex-wrap';
-    this.selectedTheme.rowClass = 'w-10/12',
-      this.selectedTheme.menuMode = "horizontal",
-      this.selectedTheme.menuColumn = 'w-full',
-      this.selectedTheme.isCollapsed = false;
   }
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
