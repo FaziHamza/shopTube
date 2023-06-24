@@ -338,7 +338,7 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-          this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
           }
         }
       }
@@ -1233,146 +1233,153 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
 
-  changeLayout(layoutType: any) {
-    if (layoutType.includes('backGroundColor')) {
-      this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
-    } else if (layoutType.includes('textColor')) {
-      this.selectedTheme['textColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('font')) {
-      this.selectedTheme['font'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeBackgroundColor')) {
-      this.selectedTheme['activeBackgroundColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeTextColor')) {
-      this.selectedTheme['activeTextColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('hoverTextColor')) {
-      this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconColor')) {
-      this.selectedTheme['iconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('hoverIconColor')) {
-      this.selectedTheme['hoverIconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeIconColor')) {
-      this.selectedTheme['activeIconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconSize')) {
-      this.selectedTheme['iconSize'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('titleSize')) {
-      this.selectedTheme['titleSize'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconType')) {
-      this.selectedTheme['iconType'] = layoutType.split('_')[0];
-      this.changeIconType(this.selectedTheme['iconType'], this.nodes);
-    }
-    else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
-      this.selectedTheme['design'] = layoutType;
-    }
-    else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-      this.selectedTheme.menuMode = "inline",
-        this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.topHeaderMenu = 'w-1/6'
-      this.selectedTheme.topHeader = 'w-10/12';
-      // this.selectedTheme.menuColumn = 'w-1/6';
-      // this.selectedTheme.rowClass = 'w-10/12';
-      if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.menuColumn = 'w-1/6';
-        this.selectedTheme.rowClass = 'w-10/12';
-        if (layoutType == 'vertical' || layoutType == 'rtl')
-          this.selectedTheme.layout = layoutType;
+  changeLayout(data: any) {
+    if (!data.reset) {
+      let layoutType = data.layoutType;
+      if (layoutType.includes('backGroundColor')) {
+        this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
+      } else if (layoutType.includes('textColor')) {
+        this.selectedTheme['textColor'] = layoutType.split('_')[0];
       }
-      if (layoutType == 'twoColumn') {
-        this.selectedTheme.layoutPosition = '';
-        this.selectedTheme.layout = layoutType;
-        this.selectedTheme.horizontalRow = 'flex flex-wrap'
-        this.selectedTheme.rowClass = 'w-11/12';
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.isTwoColumnCollapsed = false;
-        this.selectedTheme.menuColumn = 'w-1/12';
+      else if (layoutType.includes('font')) {
+        this.selectedTheme['font'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('activeBackgroundColor')) {
+        this.selectedTheme['activeBackgroundColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('activeTextColor')) {
+        this.selectedTheme['activeTextColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('hoverTextColor')) {
+        this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('iconColor')) {
+        this.selectedTheme['iconColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('hoverIconColor')) {
+        this.selectedTheme['hoverIconColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('activeIconColor')) {
+        this.selectedTheme['activeIconColor'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('iconSize')) {
+        this.selectedTheme['iconSize'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('titleSize')) {
+        this.selectedTheme['titleSize'] = layoutType.split('_')[0];
+      }
+      else if (layoutType.includes('iconType')) {
+        this.selectedTheme['iconType'] = layoutType.split('_')[0];
+        this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+      }
+      else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
+        this.selectedTheme['design'] = layoutType;
+      }
+      else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
+        this.selectedTheme.menuMode = "inline",
+          this.selectedTheme.isCollapsed = false;
         this.selectedTheme.topHeaderMenu = 'w-1/6'
         this.selectedTheme.topHeader = 'w-10/12';
-        this.selectedTheme.layoutWidth = '';
-        if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
+        // this.selectedTheme.menuColumn = 'w-1/6';
+        // this.selectedTheme.rowClass = 'w-10/12';
+        if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
+          this.selectedTheme.horizontalRow = 'flex flex-wrap';
+          this.selectedTheme.menuColumn = 'w-1/6';
           this.selectedTheme.rowClass = 'w-10/12';
-          this.selectedTheme.menuColumn = 'w-2/12';
+          if (layoutType == 'vertical' || layoutType == 'rtl')
+            this.selectedTheme.layout = layoutType;
+        }
+        if (layoutType == 'twoColumn') {
+          this.selectedTheme.layoutPosition = '';
+          this.selectedTheme.layout = layoutType;
+          this.selectedTheme.horizontalRow = 'flex flex-wrap'
+          this.selectedTheme.rowClass = 'w-11/12';
+          this.selectedTheme.isCollapsed = true;
+          this.selectedTheme.isTwoColumnCollapsed = false;
+          this.selectedTheme.menuColumn = 'w-1/12';
+          this.selectedTheme.topHeaderMenu = 'w-1/6'
+          this.selectedTheme.topHeader = 'w-10/12';
+          this.selectedTheme.layoutWidth = '';
+          if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
+            this.selectedTheme.rowClass = 'w-10/12';
+            this.selectedTheme.menuColumn = 'w-2/12';
+          }
+        }
+        if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+          this.selectedTheme.isCollapsed = true;
         }
       }
-      if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
-        this.selectedTheme.isCollapsed = true;
-      }
-    }
-    else if (layoutType == 'horizental') {
-      this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.layout = layoutType;
-      this.horizentalLayout();
-      if (this.selectedTheme.layoutWidth == 'boxed')
-        this.selectedTheme.rowClass = 'w-full'
-    }
-    else if (layoutType == 'dark') {
-      this.selectedTheme.theme = true;
-    }
-    else if (layoutType == 'light') {
-      this.selectedTheme.theme = false;
-    }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
-      this.selectedTheme.isCollapsed = true;
-    }
-    else if (layoutType == 'boxed') {
-      if (this.selectedTheme.layout == 'horizental') {
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.rowClass = 'w-full',
-          this.selectedTheme.menuMode = "horizontal",
-          this.selectedTheme.menuColumn = 'w-full',
-          this.selectedTheme.isCollapsed = false;
-      }
-      else {
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.rowClass = 'w-10/12';
-        this.selectedTheme.checked = false;
-      }
-    }
-    else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-      this.selectedTheme.isCollapsed = false;
-    }
-    // This conditions is used to assign value to object
-    if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-      this.selectedTheme.layout = layoutType;
-      if (layoutType == 'horizental' || layoutType == 'twoColumn')
-        this.selectedTheme.sideBarSize = '';
-    }
-    else if (layoutType == 'fluid' || layoutType == 'boxed') {
-      this.selectedTheme.layoutWidth = layoutType;
-      if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
+      else if (layoutType == 'horizental') {
+        this.selectedTheme.isCollapsed = false;
+        this.selectedTheme.layout = layoutType;
         this.horizentalLayout();
-        // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        // this.selectedTheme.rowClass = 'h-5/6';
-        // this.selectedTheme.menuColumn = 'w-full',
-        // this.menuMode = "horizontal";
+        if (this.selectedTheme.layoutWidth == 'boxed')
+          this.selectedTheme.rowClass = 'w-full'
       }
+      else if (layoutType == 'dark') {
+        this.selectedTheme.theme = true;
+      }
+      else if (layoutType == 'light') {
+        this.selectedTheme.theme = false;
+      }
+      else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
+        this.selectedTheme.isCollapsed = true;
+      }
+      else if (layoutType == 'boxed') {
+        if (this.selectedTheme.layout == 'horizental') {
+          this.selectedTheme.horizontalRow = 'flex flex-wrap';
+          this.selectedTheme.rowClass = 'w-full',
+            this.selectedTheme.menuMode = "horizontal",
+            this.selectedTheme.menuColumn = 'w-full',
+            this.selectedTheme.isCollapsed = false;
+        }
+        else {
+          this.selectedTheme.isCollapsed = true;
+          this.selectedTheme.horizontalRow = 'flex flex-wrap';
+          this.selectedTheme.rowClass = 'w-10/12';
+          this.selectedTheme.checked = false;
+        }
+      }
+      else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
+        this.selectedTheme.isCollapsed = false;
+      }
+      // This conditions is used to assign value to object
+      if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
+        this.selectedTheme.layout = layoutType;
+        if (layoutType == 'horizental' || layoutType == 'twoColumn')
+          this.selectedTheme.sideBarSize = '';
+      }
+      else if (layoutType == 'fluid' || layoutType == 'boxed') {
+        this.selectedTheme.layoutWidth = layoutType;
+        if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
+          this.horizentalLayout();
+          // this.selectedTheme.horizontalRow = 'flex flex-wrap';
+          // this.selectedTheme.rowClass = 'h-5/6';
+          // this.selectedTheme.menuColumn = 'w-full',
+          // this.menuMode = "horizontal";
+        }
+      }
+      else if (layoutType == 'light' || layoutType == 'dark') {
+        this.selectedTheme.sieBarColor = layoutType;
+      }
+      else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
+        this.selectedTheme.sideBarSize = layoutType;
+      }
+      else if (layoutType == 'fixed' || layoutType == 'scrollable') {
+        this.selectedTheme.layoutPosition = layoutType;
+      }
+      else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
+        this.selectedTheme.siderBarView = layoutType;
+      }
+      else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
+        this.selectedTheme.siderBarImages = layoutType;
+      }
+      this.makeMenuData();
+    } else if (data.reset) {
+      this.selectedTheme = data.resetTheme;
+      this.makeMenuData();
     }
-    else if (layoutType == 'light' || layoutType == 'dark') {
-      this.selectedTheme.sieBarColor = layoutType;
-    }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-      this.selectedTheme.sideBarSize = layoutType;
-    }
-    else if (layoutType == 'fixed' || layoutType == 'scrollable') {
-      this.selectedTheme.layoutPosition = layoutType;
-    }
-    else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
-      this.selectedTheme.siderBarView = layoutType;
-    }
-    else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
-      this.selectedTheme.siderBarImages = layoutType;
-    }
-    this.makeMenuData();
+
   }
 
   makeMenuData() {
