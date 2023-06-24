@@ -22,8 +22,8 @@ export class AppSideMenuComponent implements OnInit {
   menuChildArrayTwoColumn: any = [];
   moduleData: any = [];
   selectApplicationModuleData: any = [];
-  isTwoColumnCollapsed = false;
   requestSubscription: Subscription;
+  checked:false
   isActiveShow: any;
   hoverActiveShow: any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
@@ -42,35 +42,45 @@ export class AppSideMenuComponent implements OnInit {
 
   setHovered(value: any, event: any) {
     event.stopPropagation();
-    if ((this.selectedTheme.layout != 'horizental' && (this.selectedTheme.sideBarSize != 'default' && this.selectedTheme.sideBarSize != 'compact' && this.selectedTheme.sideBarSize != 'compact_right' && this.selectedTheme.sideBarSize != 'compact_left' && this.selectedTheme.sideBarSize != 'smallIconView') && this.selectedTheme.layoutWidth == 'boxed') && this.selectedTheme.layoutWidth == 'boxed' && this.selectedTheme.layout != 'horizental' && this.selectedTheme.sideBarSize != 'smallHoverView') {
-      this.selectedTheme.isCollapsed = value;
-    }
-    if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout != 'horizental') {
-      if (!this.selectedTheme.checked)
+    if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout == 'vertical') {
+      if (!this.selectedTheme.checked) {
         this.selectedTheme.isCollapsed = value;
+      }
+      if (this.selectedTheme.isCollapsed) {
+        this.selectedTheme.topHeaderMenu = 'w-1/12';
+        this.selectedTheme.topHeader = 'w-full';
+        this.selectedTheme.menuColumn = '';
+        this.selectedTheme.rowClass = 'w-full';
+      }
+      else {
+        this.selectedTheme.menuColumn = 'w-1/6';
+        this.selectedTheme.rowClass = 'w-10/12';
+        this.selectedTheme.topHeaderMenu = 'w-1/6';
+        this.selectedTheme.topHeader = 'w-10/12';
+      }
     }
   }
 
-  getMenu() {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "649053c6ad28a951f554e688").subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
-          this.makeMenuData();
-          this.selectedTheme.allMenuItems.forEach((e: any) => {
-            e["menuIcon"] = "up"
-          });
-        }
-        else
-          this.menuItems = [];
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-  }
+  // getMenu() {
+  //   debugger
+  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "649053c6ad28a951f554e688").subscribe({
+  //     next: (res) => {
+  //       if (res.length > 0) {
+  //         this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
+  //         this.makeMenuData();
+  //         this.selectedTheme.allMenuItems.forEach((e: any) => {
+  //           e["menuIcon"] = "up"
+  //         });
+  //       }
+  //       else
+  //         this.menuItems = [];
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //     }
+  //   })
+  // }
   makeMenuData() {
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;
@@ -81,8 +91,8 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        id:'menu_428605c1',
-        key:'menu_0f7d1e4e',
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
         children: []
       }]
       const withOutTitle = this.menuItems.filter((a: any) => a.isTitle != true);
@@ -95,9 +105,9 @@ export class AppSideMenuComponent implements OnInit {
   }
 
 
-  changeIcon() {
-    this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
-  }
+  // changeIcon() {
+  //   this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
+  // }
 
   loadTabsAndButtons(event: MouseEvent, data: any) {
     this.isActiveShow = data.id;
@@ -122,11 +132,15 @@ export class AppSideMenuComponent implements OnInit {
         let routerLink = data.link;
         this.router.navigate([routerLink]);
       }
-      else if (data.children.length > 0) {
+      else if (data.children.length > 0 && this.selectedTheme.layout == 'twoColumn') {
+        this.selectedTheme['isCollapsed'] = false;
+        this.dataSharedService.collapseMenu.next(false)
+        this.selectedTheme.menuColumn = 'w-1/6';
+        this.selectedTheme.rowClass = 'w-10/12';
+        this.selectedTheme.topHeaderMenu = 'w-1/6';
+        this.selectedTheme.topHeader = 'w-10/12';
         data.children.forEach((i: any) => {
-          if (this.selectedTheme.layout == 'twoColumn') {
-            this.menuChildArrayTwoColumn.push(i);
-          }
+          this.menuChildArrayTwoColumn.push(i);
         });
       }
       else {
@@ -135,18 +149,18 @@ export class AppSideMenuComponent implements OnInit {
     }
   }
 
-  newMenuArrayFunc() {
-    this.newMenuArray = [];
-    if (this.menuItems.length > 7) {
-      this.newMenuArray = [{
-        label: "More",
-        icon: "down",
-        subMenu: []
-      }]
-      this.newMenuArray[0].subMenu = this.menuItems.slice(7);
-      this.menuItems.splice(7);
-    }
-  }
+  // newMenuArrayFunc() {
+  //   this.newMenuArray = [];
+  //   if (this.menuItems.length > 7) {
+  //     this.newMenuArray = [{
+  //       label: "More",
+  //       icon: "down",
+  //       subMenu: []
+  //     }]
+  //     this.newMenuArray[0].subMenu = this.menuItems.slice(7);
+  //     this.menuItems.splice(7);
+  //   }
+  // }
 
   makeMenuItemsArray() {
     if (this.newMenuArray.length > 0) {
@@ -176,22 +190,6 @@ export class AppSideMenuComponent implements OnInit {
       }
     });
   }
-
-  // getMenuItemColor(item: any, type: any): string {
-  //   if (this.hoverActiveShow === item.id) {
-  //     return this.selectedTheme['hoverTextColor'];
-  //   } else if (this.isActiveShow === item.id) {
-  //     return this.selectedTheme['activeTextColor'] || item['iconColor'];
-  //   } else if (type == 'text') {
-  //     return this.selectedTheme['textColor'];
-  //   }
-  //   else if(type == 'color') {
-  //     return item['iconColor'];
-  //   }else{
-  //     return ''
-  //   }
-  // }
-
 }
 
 

@@ -1943,20 +1943,20 @@ object {
   }
 
   .nav-item.ant-menu-item-selected {
-    background-color: #f2f3fe !important;
+    background-color: #f2f3fe ;
 
     i,
     span {
-      color: #038edc !important;
+      color: #038edc ;
     }
   }
 
   .nav-item.ant-menu-item-selected:hover {
-    background-color: #f2f3fe !important;
+    background-color: #f2f3fe ;
 
     i,
     span {
-      color: #038edc !important;
+      color: #038edc ;
     }
   }
 }
@@ -2335,9 +2335,11 @@ object {
     left: 0px;
     top: 62px;
   }
-.header-inner {
-  padding: 0px 15px;
-}
+
+  .header-inner {
+    padding: 0px 15px;
+  }
+
   .layout-topbar-menu {
     .p-4 {
       padding: 15px !important;
@@ -2411,15 +2413,13 @@ object {
   height: calc(100vh - 60px);
 }
 
-.scroll,
-.vertical-sidebar {
-  height: calc(100vh - 60px) !important;
-
-  .ant-menu {
-    
-    // height: calc(100vh - 60px) !important;
-  }
-}
+// .scroll,
+// .vertical-sidebar {
+//   // height: calc(100vh - 60px) !important;
+//   // .ant-menu {
+//   //   height: calc(100vh - 60px) !important;
+//   // }
+// }
 
 .side-menu {
   min-width: 60px;
@@ -2448,6 +2448,11 @@ object {
 .ant-btn>span+.anticon {
   margin: 0px 6px !important;
 }
+
 .content-body.w-full {
-  width: calc(100% - 60px );
+  width: calc(100% - 60px);
+}
+
+.fixed-menu {
+  height: 100%;
 }

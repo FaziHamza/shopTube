@@ -338,7 +338,7 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-          this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
           }
         }
       }
@@ -1288,12 +1288,12 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.layout = layoutType;
       }
       if (layoutType == 'twoColumn') {
+        this.selectedTheme.isCollapsed = false;
         this.selectedTheme.layoutPosition = '';
         this.selectedTheme.layout = layoutType;
         this.selectedTheme.horizontalRow = 'flex flex-wrap'
         this.selectedTheme.rowClass = 'w-11/12';
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.isTwoColumnCollapsed = false;
+        // this.selectedTheme.isTwoColumnCollapsed = false;
         this.selectedTheme.menuColumn = 'w-1/12';
         this.selectedTheme.topHeaderMenu = 'w-1/6'
         this.selectedTheme.topHeader = 'w-10/12';
@@ -1305,6 +1305,10 @@ export class MenuBuilderComponent implements OnInit {
       }
       if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
         this.selectedTheme.isCollapsed = true;
+        this.selectedTheme.topHeaderMenu = 'w-1/12';
+        this.selectedTheme.topHeader = 'w-full';
+        this.selectedTheme.menuColumn = '';
+        this.selectedTheme.rowClass = 'w-full';
       }
     }
     else if (layoutType == 'horizental') {
@@ -1322,6 +1326,10 @@ export class MenuBuilderComponent implements OnInit {
     }
     else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
       this.selectedTheme.isCollapsed = true;
+      this.selectedTheme.topHeaderMenu = 'w-1/12';
+      this.selectedTheme.topHeader = 'w-full';
+      this.selectedTheme.menuColumn = '';
+      this.selectedTheme.rowClass = 'w-full';
     }
     else if (layoutType == 'boxed') {
       if (this.selectedTheme.layout == 'horizental') {
@@ -1340,8 +1348,11 @@ export class MenuBuilderComponent implements OnInit {
     }
     else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
       this.selectedTheme.isCollapsed = false;
+      this.selectedTheme.menuColumn = 'w-1/6';
+      this.selectedTheme.rowClass = 'w-10/12';
+      this.selectedTheme.topHeaderMenu = 'w-1/6';
+      this.selectedTheme.topHeader = 'w-10/12';
     }
-    // This conditions is used to assign value to object
     if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
       this.selectedTheme.layout = layoutType;
       if (layoutType == 'horizental' || layoutType == 'twoColumn')
@@ -1351,10 +1362,6 @@ export class MenuBuilderComponent implements OnInit {
       this.selectedTheme.layoutWidth = layoutType;
       if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
         this.horizentalLayout();
-        // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        // this.selectedTheme.rowClass = 'h-5/6';
-        // this.selectedTheme.menuColumn = 'w-full',
-        // this.menuMode = "horizontal";
       }
     }
     else if (layoutType == 'light' || layoutType == 'dark') {
@@ -1398,12 +1405,14 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
+    this.selectedTheme.isCollapsed = false;
+    this.selectedTheme.topHeaderMenu = 'w-1/6';
+    this.selectedTheme.topHeader = 'w-10/12';
+    this.selectedTheme.horizontalRow = '';
+    this.selectedTheme.rowClass = 'w-full';
+    this.selectedTheme.menuMode = "horizontal";
+    this.selectedTheme.menuColumn = 'w-full';
     this.makeMenuData();
-    this.selectedTheme.horizontalRow = 'flex flex-wrap';
-    this.selectedTheme.rowClass = 'w-10/12',
-      this.selectedTheme.menuMode = "horizontal",
-      this.selectedTheme.menuColumn = 'w-full',
-      this.selectedTheme.isCollapsed = false;
   }
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {

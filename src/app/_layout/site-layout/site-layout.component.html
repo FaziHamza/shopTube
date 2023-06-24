@@ -1,5 +1,10 @@
-<div [ngClass]="selectedTheme.layoutWidth == 'boxed' ?'mx-16' : '' "
-  *ngIf="currentWebsiteLayout == 'backend_application'">  
+<div
+  [ngClass]="{
+    'mx-16': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout != 'horizental',
+    'horizental-boxed': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout == 'horizental',
+    'horizental-fluid': selectedTheme.layoutWidth == 'fluid' &&  selectedTheme.layout == 'horizental'
+  }"
+  *ngIf="currentWebsiteLayout == 'backend_application'">
   <nz-layout>
     <nz-header [dir]="selectedTheme?.layout" nz-menu
       [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
@@ -19,7 +24,8 @@
         </button> -->
           <st-menu
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
-            (notify)="notifyEmit($event)"></st-menu>
+            (notify)="notifyEmit($event)"
+            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
             <st-pages [resData]="currentHeader"
               *ngIf="currentHeader.length  > 0"></st-pages>
@@ -29,7 +35,8 @@
           *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
           <st-menu
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
-            (notify)="notifyEmit($event)"></st-menu>
+            (notify)="notifyEmit($event)"
+            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
             <st-pages [resData]="currentHeader"
               *ngIf="currentHeader.length  > 0"></st-pages>
@@ -38,23 +45,18 @@
       </div>
     </nz-header>
 
-    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
+    <div [ngClass]='selectedTheme.horizontalRow'
       [dir]="this.selectedTheme.layout">
       <div class=" side-menu"
-        [ngClass]="selectedTheme.menuMode == 'vertical' ? '' :''"
         [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
         <st-app-side-menu [selectedTheme]="selectedTheme"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
       <div
-        *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'"
-        class="w-1/12 ">
-      </div>
-      <div [ngClass]='selectedTheme.rowClass'
+        [style]="selectedTheme.layout == 'horizental' ? 'width:100% !important' : ''"
+        [ngClass]="selectedTheme.layout == 'horizental' ? 'mx-16' : ''"
+        [ngClass]='selectedTheme.rowClass'
         class="content-body block p-6 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
-        <!-- <ng-container *ngIf="dropdown.length" class="">
-        <st-layout-button  (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
-      </ng-container> -->
         <ng-container *ngIf="tabs.length">
           <ng-container *ngFor="let item of tabs">
             <!-- <st-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></st-layout-tabs> -->
@@ -63,7 +65,8 @@
           </ng-container>
         </ng-container>
         <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
-          <div (click)="callMenus(modChild)" class="w-1/6 p-4 my-2 text-center"
+          <div (click)="callMenus(modChild)"
+            class="w-1/6 p-4 my-2 text-center"
             (mouseover)="modChild.select =  true"
             (mouseout)="modChild.select = false"
             [ngClass]="{'select': modChild.select == true}"
@@ -85,16 +88,15 @@
           <router-outlet></router-outlet>
         </div>
       </div>
-      <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
     </div>
-    <div *ngIf="currentUrl.includes('localhost')">
-      <!-- <nz-footer class="bg-white-500 text-black-500"
-        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer> -->
+    <!-- <div *ngIf="currentUrl.includes('localhost')">
+      <nz-footer class="bg-white-500 text-black-500"
+        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer>
       <nz-footer class="bg-white-500 text-black-500"
         *ngIf="dataSharedService.footerData.length">
         <st-main [mainData]="dataSharedService.footerData"></st-main>
       </nz-footer>
-    </div>
+    </div> -->
     <nz-footer *ngIf="currentFooter && !currentUrl.includes('localhost')">
       <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
     </nz-footer>

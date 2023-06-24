@@ -105,9 +105,9 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
-    if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
+    if (this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')) {
       this.currentWebsiteLayout = "backend_application";
-    }else{
+    } else {
       this.currentWebsiteLayout = "";
     }
     this.fullCurrentUrl = window.location.href;
@@ -174,7 +174,6 @@ export class SiteLayoutComponent implements OnInit {
 
 
   notifyEmit(data: any) {
-
     if (data.screenType) {
       if (data.screenType == 'desktop') {
         this.selectedTheme.showMenu = true;
@@ -182,8 +181,8 @@ export class SiteLayoutComponent implements OnInit {
         if (this.selectedTheme.isCollapsed) {
           this.selectedTheme.topHeaderMenu = 'w-1/12';
           this.selectedTheme.topHeader = 'w-full';
-          this.selectedTheme.menuColumn = 'w-1/12';
-          this.selectedTheme.rowClass = 'w-11/12';
+          this.selectedTheme.menuColumn = '';
+          this.selectedTheme.rowClass = 'w-full';
         }
         else {
           this.selectedTheme.menuColumn = 'w-1/6';
@@ -191,8 +190,8 @@ export class SiteLayoutComponent implements OnInit {
           this.selectedTheme.topHeaderMenu = 'w-1/6';
           this.selectedTheme.topHeader = 'w-10/12';
         }
-
-      } else if (data.screenType == 'mobile') {
+      } 
+      else if (data.screenType == 'mobile') {
         this.selectedTheme.showMenu = data.emitData;
       }
       // let newData = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -233,7 +232,7 @@ export class SiteLayoutComponent implements OnInit {
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
           const observables = [
-           
+
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
@@ -241,7 +240,7 @@ export class SiteLayoutComponent implements OnInit {
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-                // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+              // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
               // this.dataSharedService.defaultPageNodes = results[2]? results[2].length > 0? results[2][0].menuData : "" : '';
               this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
               this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
@@ -303,8 +302,8 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        id:'menu_428605c1',
-        key:'menu_0f7d1e4e',
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
         children: []
       }]
       const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);

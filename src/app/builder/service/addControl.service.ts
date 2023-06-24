@@ -241,6 +241,7 @@ export class AddControlService {
       borderColor: '',
       iconPlacement: 'left',
       hoverIconColor: '',
+      captureData:'sectionLevel',
     }
   }
   getDropdownButtonControl() {

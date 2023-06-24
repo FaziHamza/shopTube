@@ -28,11 +28,6 @@ export class LayoutDrawerComponent implements OnInit {
     this.visible = false;
   }
   changeLayout(layoutType: any) {
-    // if (layoutType == 'horizental') {
-    //   this.dataSharedService.menuSelectedThemeLayout.next(false);
-    // } else {
-    //   this.dataSharedService.menuSelectedThemeLayout.next(true);
-    // }
     this.notify.emit(layoutType);
   }
 
