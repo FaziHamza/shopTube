@@ -17,6 +17,7 @@ export class DataSharedService {
   public invoiceSum: Subject<any> = new Subject();
   public menuSelectedThemeLayout: Subject<any> = new Subject();
   public sectionSubmit: Subject<any> = new Subject();
+  public pageSubmit: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
   public collapseMenu = new BehaviorSubject<boolean>(false);
   // public menus: Subject<any> = new Subject();
