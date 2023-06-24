@@ -60,15 +60,15 @@ export class BulkUpdateComponent implements OnInit {
           for (let j = 0; j < element.children.length; j++) {
             const check = element.children[j];
             if(check.id == input.id) {
-              if(input.formly[0].fieldGroup[0].key != check.key){
-                delete this.formlyModel[input.formly[0].fieldGroup[0].key];
-              }
+              // if(input.formly[0].fieldGroup[0].key != check.key){
+              //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
+              // }
               input.title = check.title;
               input.formly[0].fieldGroup[0].key = check.key
               input.formly[0].fieldGroup[0].props.label = check.title;
               input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
               input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
-              this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
+              // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
               break;
             }
           }
@@ -77,7 +77,7 @@ export class BulkUpdateComponent implements OnInit {
     });
     let obj = {
       nodes:this.nodes,
-      formlyModel :this.formlyModel
+      // formlyModel :this.formlyModel
     }
     this.drawerRef.close(obj);
   }
