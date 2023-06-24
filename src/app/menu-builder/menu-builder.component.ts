@@ -1291,12 +1291,12 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedTheme.layout = layoutType;
         }
         if (layoutType == 'twoColumn') {
+          this.selectedTheme.isCollapsed = false;
           this.selectedTheme.layoutPosition = '';
           this.selectedTheme.layout = layoutType;
           this.selectedTheme.horizontalRow = 'flex flex-wrap'
           this.selectedTheme.rowClass = 'w-11/12';
-          this.selectedTheme.isCollapsed = true;
-          this.selectedTheme.isTwoColumnCollapsed = false;
+          // this.selectedTheme.isTwoColumnCollapsed = false;
           this.selectedTheme.menuColumn = 'w-1/12';
           this.selectedTheme.topHeaderMenu = 'w-1/6'
           this.selectedTheme.topHeader = 'w-10/12';
@@ -1308,6 +1308,10 @@ export class MenuBuilderComponent implements OnInit {
         }
         if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
           this.selectedTheme.isCollapsed = true;
+          this.selectedTheme.topHeaderMenu = 'w-1/12';
+          this.selectedTheme.topHeader = 'w-full';
+          this.selectedTheme.menuColumn = '';
+          this.selectedTheme.rowClass = 'w-full';
         }
       }
       else if (layoutType == 'horizental') {
@@ -1325,6 +1329,10 @@ export class MenuBuilderComponent implements OnInit {
       }
       else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
         this.selectedTheme.isCollapsed = true;
+        this.selectedTheme.topHeaderMenu = 'w-1/12';
+        this.selectedTheme.topHeader = 'w-full';
+        this.selectedTheme.menuColumn = '';
+        this.selectedTheme.rowClass = 'w-full';
       }
       else if (layoutType == 'boxed') {
         if (this.selectedTheme.layout == 'horizental') {
@@ -1343,6 +1351,10 @@ export class MenuBuilderComponent implements OnInit {
       }
       else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
         this.selectedTheme.isCollapsed = false;
+        this.selectedTheme.menuColumn = 'w-1/6';
+        this.selectedTheme.rowClass = 'w-10/12';
+        this.selectedTheme.topHeaderMenu = 'w-1/6';
+        this.selectedTheme.topHeader = 'w-10/12';
       }
       // This conditions is used to assign value to object
       if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
@@ -1376,11 +1388,12 @@ export class MenuBuilderComponent implements OnInit {
         this.selectedTheme.siderBarImages = layoutType;
       }
       this.makeMenuData();
-    } else if (data.reset) {
+    } 
+    else if (data.reset) {
       this.selectedTheme = data.resetTheme;
       this.makeMenuData();
     }
-
+  
   }
 
   makeMenuData() {
