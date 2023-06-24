@@ -85,10 +85,15 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData : any): void {
+    debugger
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
-    this.notify.emit(buttonData);
-    // this.dataSharedService.sectionSubmit.next(buttonData);
+    // this.notify.emit(buttonData);
+    if((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit){
+      this.dataSharedService.sectionSubmit.next(buttonData);
+    }else if(buttonData.captureData == 'pageLevel' && buttonData.isSubmit){
+      this.dataSharedService.pageSubmit.next(buttonData);
+    }
   }
 
   handleButtonMouseOver(buttonData : any): void {

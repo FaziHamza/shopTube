@@ -596,7 +596,6 @@ export class DynamicTableComponent implements OnInit {
   // Method to save the updated value of an entry
 
   controlMenu() {
-    debugger
    
     const screenWidth = window.innerWidth;
     if (screenWidth <= 756) {

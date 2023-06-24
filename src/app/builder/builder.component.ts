@@ -2809,6 +2809,7 @@ export class BuilderComponent implements OnInit {
       case "button":
       case "linkbutton":
         this.selectedNode.btnIcon = event.form?.icon;
+        this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
       case "accordionButton":
