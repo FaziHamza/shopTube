@@ -122,7 +122,7 @@ export class MainComponent implements OnInit {
     });
   }
   saveData(data : any){
-    debugger
+   
     this.notifySection.emit(data);
   }
 

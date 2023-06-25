@@ -50,7 +50,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+   
     // if (this.tableData.length > 0) {
     //   this.storeRows = JSON.parse(JSON.stringify(this.tableData));
     // }

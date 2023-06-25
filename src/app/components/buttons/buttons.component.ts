@@ -85,7 +85,7 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData : any): void {
-    debugger
+   
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     // this.notify.emit(buttonData);

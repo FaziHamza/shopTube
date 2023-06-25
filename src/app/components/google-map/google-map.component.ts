@@ -53,13 +53,13 @@ export class googleMapComponent {
   //   });
   // }
   // initAutocomplete(maps: Maps) {
-  //   debugger
+  //  
   //   let autocomplete = new maps.places.Autocomplete(
   //     this.searchElementRef.nativeElement
   //   );
   //   autocomplete.addListener('place_changed', () => {
   //     this.ngZone.run(() => {
-  //       debugger
+  //      
   //       let lat = autocomplete.getPlace()?.geometry?.location?.lat();
   //       let lng = autocomplete.getPlace()?.geometry?.location?.lng();
 
@@ -71,7 +71,7 @@ export class googleMapComponent {
   //   });
   // }
   // onPlaceChange(place: google.maps.places.PlaceResult) {
-  //   debugger;
+  //  ;
 
   //   if (place.address_components) {
   //     const streetNumber = place.address_components.find(component => {

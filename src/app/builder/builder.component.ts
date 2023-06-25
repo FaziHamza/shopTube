@@ -331,7 +331,7 @@ export class BuilderComponent implements OnInit {
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          debugger
+          
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.screenId = objScreen.screenId;
@@ -685,7 +685,7 @@ export class BuilderComponent implements OnInit {
   }
 
   getUIRule(model: any, currentValue: any) {
-    debugger
+    
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -908,7 +908,7 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
-    debugger
+    
     let obj = {
       type: data?.parameter,
       title: value,
@@ -4464,7 +4464,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
-    debugger
+    
     this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
       next: (res) => {
         this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');

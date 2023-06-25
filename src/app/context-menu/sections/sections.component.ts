@@ -39,7 +39,7 @@ export class SectionsComponent implements OnInit {
     this.getFromQuery();
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        debugger
+       
         const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         if (checkButtonExist) {
           let makeModel: any = {};
@@ -106,7 +106,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    debugger
+   
     // this.notifySection.emit(data);
     if (data.isSubmit) {
       let oneModelData = this.convertModel(this.dataModel);
@@ -310,7 +310,7 @@ export class SectionsComponent implements OnInit {
     }
   };
   submit() {
-    debugger
+   
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     // this.joiService.dataModel = this.dataModel;
@@ -459,7 +459,7 @@ export class SectionsComponent implements OnInit {
     }))
   }
   abc123(data: any){
-    debugger
+   
     this.form.value;
   }
 }

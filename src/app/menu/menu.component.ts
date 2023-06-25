@@ -74,7 +74,7 @@ export class MenuComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res)
-          debugger
+         
         this.isCollapsed = res;
       },
       error: (err) => {

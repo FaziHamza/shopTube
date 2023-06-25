@@ -55,7 +55,7 @@ export class ActionRuleComponent implements OnInit {
     this.extractNodes(this.nodes, this.nodeList);
   }
   // getNodeList() {
-  //   debugger
+  //  
   //   for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
   //     if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
   //       this.nodeList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
@@ -104,7 +104,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    debugger
+   
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -240,7 +240,7 @@ export class ActionRuleComponent implements OnInit {
 
   // Remove FormGroup
   removeActionFormGroup(index: number, data: any) {
-    debugger
+   
     if (data.id == 0) {
       this.ActionsForms.removeAt(index);
     } else {
@@ -259,7 +259,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   SaveAction() {
-    debugger
+   
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const observables = this.actionForm.value.Actions.map((element: any) => {
       let data: any = {
@@ -408,7 +408,7 @@ export class ActionRuleComponent implements OnInit {
 
   }
   getActionData() {
-    debugger
+   
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].screenId != null) {
       this.requestSubscription = this.employeeService.getSQLDatabaseTable('knex-crud/SQLQueries').subscribe({

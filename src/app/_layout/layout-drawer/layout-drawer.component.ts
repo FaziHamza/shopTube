@@ -28,20 +28,19 @@ export class LayoutDrawerComponent implements OnInit {
     this.visible = false;
   }
   changeLayout(layoutType: any) {
+    debugger
+    if (layoutType == 'null_titleSize' || layoutType == 'null_iconSize') {
+      layoutType = layoutType.replace('null', '');
+    }
     let obj = {
       layoutType: layoutType,
       reset: false
     }
-    // if (layoutType == 'horizental') {
-    //   this.dataSharedService.menuSelectedThemeLayout.next(false);
-    // } else {
-    //   this.dataSharedService.menuSelectedThemeLayout.next(true);
-    // }
     this.notify.emit(obj);
   }
   reset() {
     let obj = {
-      font: '',
+      font: 'font-roboto',
       backGroundColor: '',
       textColor: '',
       activeBackgroundColor: '',

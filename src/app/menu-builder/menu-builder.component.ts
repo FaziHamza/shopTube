@@ -198,36 +198,15 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.allMenuItems = this.nodes;
         }
         else {
-          this.selectedTheme = {
-            topHeaderMenu: 'w-1/6',
-            topHeader: 'w-10/12',
-            menuMode: 'inline',
-            menuColumn: 'w-2/12',
-            rowClass: 'w-10/12',
-            horizontalRow: 'flex flex-wrap',
-            layout: 'vertical',
-            colorScheme: 'light',
-            layoutWidth: 'fluid',
-            layoutPosition: 'fixed',
-            topBarColor: 'light',
-            sideBarSize: 'default',
-            siderBarView: 'sidebarViewDefault',
-            sieBarColor: 'light',
-            siderBarImages: '',
-            checked: false,
-            theme: false,
-            isCollapsed: false,
-            newMenuArray: [],
-            menuChildArrayTwoColumn: [],
-            isTwoColumnCollapsed: false,
-            allMenuItems: [],
-            showMenu: true,
-          }
           this.selectedTheme.allMenuItems = this.nodes;
+        }
+        if(!this.selectedTheme['font']){
+          this.selectedTheme['font'] = 'font-roboto'
         }
         this.makeMenuData();
       }
       else {
+        this.selectedTheme['font'] = 'font-roboto'
         this.clearChildNode();
         this.applicationId = '';
         this.clickBack();
@@ -678,7 +657,8 @@ export class MenuBuilderComponent implements OnInit {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
-    var data =
+    temporaryData.allMenuItems = []
+    var data : any =
     {
       "name": this.applicationName,
       "applicationId": this.applicationName,
@@ -686,7 +666,6 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
-    // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
       this.requestSubscription = this.applicationService.addNestCommonAPI('menu', data).subscribe({
         next: (objMenu) => {
@@ -699,7 +678,8 @@ export class MenuBuilderComponent implements OnInit {
 
         }
       });
-    } else {
+    } 
+    else {
       this.requestSubscription = this.applicationService.updateNestCommonAPI('menu', this.applicationId, data).subscribe({
         next: (objMenu) => {
           this.saveLoader = false;

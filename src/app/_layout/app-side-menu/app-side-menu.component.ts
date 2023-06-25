@@ -32,7 +32,7 @@ export class AppSideMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadModules();
-    this.makeMenuData();
+    // this.makeMenuData();
   }
 
 

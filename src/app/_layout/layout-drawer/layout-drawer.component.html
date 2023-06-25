@@ -7,13 +7,16 @@
     [nzClosable]="false"
     [nzVisible]="visible"
     nzPlacement="right"
-    nzTitle="Layout Theme"
+    nzTitle="Menu Design"
     (nzOnClose)="close()"
     [nzWidth]="'50%'"
     [nzExtra]="extra">
     <ng-container *nzDrawerContent>
+        <h6 class="mb-0 font-bold uppercase">Font Design</h6>
+        <p class="text-gray-500 text-xs">Choose Font Design
+        </p>
         <div class="flex flex-wrap">
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Font Family</label>
                 <nz-select style="width:100%" nzShowSearch nzAllowClear
                     nzPlaceHolder="Select Font"
@@ -28,86 +31,86 @@
                     <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
                     <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
                     <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
-                    <nz-option nzLabel="font-montserrat"
+                    <!-- <nz-option nzLabel="font-montserrat"
                         nzValue="font-montserrat"></nz-option>
-                    <nz-option nzLabel="font-open-sans" nzValue="font-open-sans"></nz-option>
+                    <nz-option nzLabel="font-open-sans" nzValue="font-open-sans"></nz-option> -->
                     <nz-option nzLabel="line-through" nzValue="line-through"></nz-option>
                 </nz-select>
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>BackGround color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['backGroundColor']"
                     (input)="changeLayout(selectedTheme['backGroundColor']+'_'+'backGroundColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Text color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['textColor']"
                     (input)="changeLayout(selectedTheme['textColor']+'_'+'textColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Active BG color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['activeBackgroundColor']"
                     (input)="changeLayout(selectedTheme['activeBackgroundColor']+'_'+'activeBackgroundColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Active Text color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['activeTextColor']"
                     (input)="changeLayout(selectedTheme['activeTextColor']+'_'+'activeTextColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Hover Text color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['hoverTextColor']"
                     (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Text Size</label>
                 <input nz-input type="number"
                     [(ngModel)]="selectedTheme['titleSize']"
                     (input)="changeLayout(selectedTheme['titleSize']+'_'+'titleSize')" />
             </div>
         </div>
-        <h6 class="mb-0 font-bold uppercase pt-2">Icon Theme</h6>
-        <p class="text-gray-500 text-xs">Choose Icon Theme
+        <h6 class="mb-0 font-bold uppercase pt-2">Icon Design</h6>
+        <p class="text-gray-500 text-xs">Choose icon Design
         </p>
         <div class="flex flex-wrap">
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Icon color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['iconColor']"
                     (input)="changeLayout(selectedTheme['iconColor']+'_'+'iconColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Hover Icon color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['hoverIconColor']"
                     (input)="changeLayout(selectedTheme['hoverIconColor']+'_'+'hoverIconColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Active Icon color</label>
                 <input nz-input type="color"
                     [(ngModel)]="selectedTheme['activeIconColor']"
                     (input)="changeLayout(selectedTheme['activeIconColor']+'_'+'activeIconColor')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Icon Size</label>
                 <input nz-input type="number"
                     [(ngModel)]="selectedTheme['iconSize']"
                     (input)="changeLayout(selectedTheme['iconSize']+'_'+'iconSize')" />
             </div>
-            <div class="w-1/3 p-1">
+            <div class="w-1/5 p-1">
                 <label>Icon Type</label>
                 <nz-select nzShowSearch nzAllowClear
                     [(ngModel)]="selectedTheme['iconType']"
                     (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType')"
-                    placeholder="Icon Type">
-                    <nz-option nzLabel="ng-zorro Icon outlined" nzValue="outline"></nz-option>
-                    <nz-option nzLabel="ng-zorro Icon filled" nzValue="fill"></nz-option>
-                    <nz-option nzLabel="ng-zorro Icon twotone" nzValue="twotone"></nz-option>
+                    nzPlaceHolder="Icon Type">
+                    <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
+                    <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                    <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
                     <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
                     <nz-option nzLabel="Material" nzValue="material"></nz-option>
                 </nz-select>
@@ -115,8 +118,8 @@
         </div>
         <div
             *ngIf="applicationType == 'backend_application' || !applicationType">
-            <h6 class="mb-0 font-bold uppercase">Layout</h6>
-            <p class="text-gray-500 text-xs">Choose your layout</p>
+            <h6 class="mb-0 font-bold uppercase">Layout Design</h6>
+            <p class="text-gray-500 text-xs">Choose Layout Design</p>
             <div class="flex flex-wrap pt-2">
                 <div class="w-1/4 px-2">
                     <img
@@ -190,10 +193,10 @@
             </div> -->
             <h6
                 *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
-                class="mb-0 font-bold uppercase pt-2">SIDEBAR SIZE</h6>
+                class="mb-0 font-bold uppercase pt-2">Side Bar Style</h6>
             <p
                 *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
-                class="text-gray-500 text-xs">Choose a size of Sidebar</p>
+                class="text-gray-500 text-xs">Choose Side Bar Style</p>
             <div
                 *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
                 class="flex flex-wrap pt-2">
@@ -348,7 +351,9 @@
         </div>
     </ng-container>
     <ng-template #extra>
-        <button nz-button nzType="primary" (click)="reset()">Reset Theme</button>
+        <button nzDanger class="mr-2" nz-popconfirm
+            nzPopconfirmTitle="Are you sure to reset menu design" nz-button
+            nzType="primary" (nzOnConfirm)="reset()">Reset Theme</button>
         <span nz-icon nzType="close" nzTheme="outline" (click)="close()"
             class="text-gray-500 hover:text-red-500 cursor-pointer"></span>
     </ng-template>

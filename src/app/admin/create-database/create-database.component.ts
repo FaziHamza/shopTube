@@ -123,7 +123,7 @@ export class CreateDatabaseComponent implements OnInit {
     };
   }
   saveEdit(id: number): void {
-    debugger
+   
     const index = this.listOfData.findIndex(item => item.id === id);
     Object.assign(this.listOfData[index], this.editCache[id].data);
     this.editCache[id].edit = false;
@@ -240,7 +240,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
-    debugger
+   
     const isExistingDataValid = this.listOfData.every(item => {
       // Check if any field in the existing rows is empty or null
       return (
@@ -271,7 +271,7 @@ export class CreateDatabaseComponent implements OnInit {
       // saving table if status is approved.
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
-            debugger;
+           ;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
@@ -327,7 +327,7 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
   updateFormv1() {
-    debugger
+   
     const isExistingDataValid = this.listOfData.every(item => {
       // Check if any field in the existing rows is empty or null
       return (
@@ -357,7 +357,6 @@ export class CreateDatabaseComponent implements OnInit {
       if (this.myForm.value.isActive === "Approved") {
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
-            debugger;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
@@ -491,7 +490,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   editTableData(item: any) {
-    debugger
+   
     this.tableId = item.id
     this.model = item;
     this.listOfData = item.schema;

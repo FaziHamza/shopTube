@@ -42,7 +42,7 @@ export class PagesComponent implements OnInit {
   ngOnInit(): void {
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-        debugger
+       
        console.log(res);
       },
       error: (err) => {
@@ -96,7 +96,7 @@ export class PagesComponent implements OnInit {
 
         this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screenId', params["schema"]).subscribe({
           next: (res: any) => {
-            debugger
+           
             if (res.length > 0) {
               this.screenId = res[0].screen_Id;
               this.getUIRuleData(res[0].screen_Id);

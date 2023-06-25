@@ -41,7 +41,7 @@
                       ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
               </span>
               <span class="sidenav-title" [class]="!selectedTheme?.font"
-                [style.font-size.px]="selectedTheme['titleSize']"
+                [style.font-size.px]="selectedTheme['titleSize'] || 10"
                 [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
                 {{ item.title | translate }}
               </span>
@@ -65,7 +65,7 @@
                         ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
-                    [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                    [style.font-size.px]="selectedTheme['titleSize'] || 15"
                     [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                     item.title | translate}}</span>
                 </ng-template>
@@ -94,7 +94,7 @@
                             ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
-                          [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                            [style.font-size.px]="selectedTheme['titleSize'] || 15"
                             [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                             sub.title | translate}}</span>
                         </ng-template>
@@ -121,7 +121,7 @@
                                 ((isActiveShow === subSub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                               </span>
                               <span class="sidenav-title"
-                              [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                                [style.font-size.px]="selectedTheme['titleSize'] || 15"
                                 [style.color]="(hoverActiveShow === subSub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subSub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                 subSub.title | translate}}</span>
                             </li>
@@ -147,7 +147,7 @@
                           ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                           </span>
                           <span class="sidenav-title"
-                          [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                            [style.font-size.px]="selectedTheme['titleSize'] || 15"
                             [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                             sub.title | translate}}</span>
                         </li>
@@ -173,8 +173,8 @@
                     [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
                         ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                 </span>
-                <span class="sidenav-title" [class]="!selectedTheme?.font"
-                [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                <span class="sidenav-title" [class]="selectedTheme?.font"
+                  [style.font-size.px]="selectedTheme['titleSize'] || 15"
                   [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
                   {{ item.title | translate }}
                 </span>
@@ -200,10 +200,12 @@
                     ((isActiveShow === mainMenu.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                   </span>
                   <span class="sidenav-title"
-                  [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                    [style.font-size.px]="selectedTheme['titleSize'] || 15"
                     [style.color]="(hoverActiveShow === mainMenu.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === mainMenu.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">More</span>
                   <span class="menu-item-icon"><span nz-icon nzType="down"
-                      nzTheme="outline"></span></span>
+                      nzTheme="outline"
+                      [style.color]="(hoverActiveShow === mainMenu.id) ? selectedTheme['hoverIconColor'] :
+                      ((isActiveShow === mainMenu.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></span></span>
                 </ng-template>
                 <ul [class]="selectedTheme?.font"
                   [style.background]="selectedTheme.backGroundColor">
@@ -229,7 +231,7 @@
                       ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                       </span>
                       <span class="sidenav-title"
-                      [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                        [style.font-size.px]="selectedTheme['titleSize'] || 15"
                         [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                         item.title | translate}}</span>
                     </li>
@@ -253,7 +255,7 @@
                               [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
                               ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                             <span class="sidenav-title"
-                            [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                              [style.font-size.px]="selectedTheme['titleSize'] || 15"
                               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                               item.title | translate}}</span>
                           </ng-template>
@@ -290,7 +292,7 @@
                                         ((isActiveShow === subChild.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                       </span>
                                       <span class="sidenav-title"
-                                      [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                                        [style.font-size.px]="selectedTheme['titleSize'] || 15"
                                         [style.color]="(hoverActiveShow === subChild.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === subChild.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                         subChild.title | translate}}</span>
                                     </li>
@@ -328,7 +330,7 @@
                                     ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                                   </span>
                                   <span class="sidenav-title"
-                                  [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                                    [style.font-size.px]="selectedTheme['titleSize'] || 15"
                                     [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                                     sub.title | translate}}</span>
                                 </li>
@@ -375,7 +377,7 @@
             ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"
                 nz-icon nzType="line"></span>
               <span
-              [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                [style.font-size.px]="selectedTheme['titleSize'] || 15"
                 [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
             </ng-template>
             <ul [class]="selectedTheme?.font"
@@ -398,7 +400,7 @@
                       ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                     </span>
                     <span class="sidenav-title"
-                    [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+                      [style.font-size.px]="selectedTheme['titleSize'] || 15"
                       [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
                       sub.title | translate}}</span>
                   </li>
@@ -421,7 +423,7 @@
                 ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"
               nz-icon nzType="line"></span>
             <span
-            [style.font-size.px]="selectedTheme['titleSize'] || '0.925rem'"
+              [style.font-size.px]="selectedTheme['titleSize'] || 15"
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
           </li>
         </ng-template>
