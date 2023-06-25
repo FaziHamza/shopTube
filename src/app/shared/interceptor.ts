@@ -37,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         //         headers: req.headers.set('generaltoken', this.envService.GeneralToken).set('secret', 'Bearer ' + JSON.parse(localStorage.getItem('token')!))
         //     })
         // }
-        debugger
+        //debugger
         let token =JSON.parse(localStorage.getItem('authToken')!);
 
         this.authReq = req.clone({

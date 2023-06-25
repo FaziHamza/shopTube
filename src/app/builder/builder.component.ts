@@ -4040,7 +4040,7 @@ export class BuilderComponent implements OnInit {
                       "tableName": element.name,
                       "comment": "",
                       "totalFields": "",
-                      "isActive": false
+                      "isActive": "Pending"
                     };
                     this.builderService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
                       next: (res) => {
