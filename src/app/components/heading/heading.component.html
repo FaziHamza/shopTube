@@ -14,27 +14,27 @@
                 <div
                     *ngIf="headingData.heading >= 1 && headingData.heading <= 5; else paragraph">
                     <h1 nz-typography *ngIf="headingData.heading === 1"
-                        [ngStyle]="{'color': headingData.color}"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
                         {{ headingData.text | translate }}
                     </h1>
                     <h2 nz-typography *ngIf="headingData.heading === 2"
-                        [ngStyle]="{'color': headingData.color}"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
                         {{ headingData.text | translate }}
                     </h2>
                     <h3 nz-typography *ngIf="headingData.heading === 3"
-                        [ngStyle]="{'color': headingData.color}"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
                         {{ headingData.text | translate }}
                     </h3>
                     <h4 nz-typography *ngIf="headingData.heading === 4"
-                        [ngStyle]="{'color': headingData.color}"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
                         {{ headingData.text | translate }}
                     </h4>
                     <h5 nz-typography *ngIf="headingData.heading === 5"
-                        [ngStyle]="{'color': headingData.color}"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
                         {{ headingData.text | translate }}
                     </h5>
@@ -42,7 +42,7 @@
                 <ng-template #paragraph>
                     <p nz-typography (click)="pageRoute(headingData.link)"
                         [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
-                        [style.color]="headingData.color || ''">
+                        [style.color]="headingData.color || undefined">
                         {{ headingData.text | translate }}
                     </p>
                 </ng-template>

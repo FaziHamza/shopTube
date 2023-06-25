@@ -34,7 +34,17 @@ export class LayoutDrawerComponent implements OnInit {
     }
     let obj = {
       layoutType: layoutType,
-      reset: false
+      reset: false,
+      inPageMenu: false,
+    }
+    this.notify.emit(obj);
+  }
+  changeInPageLayout(data: any) {
+    debugger
+    let obj = {
+      layoutType: data,
+      reset: false,
+      inPageMenu: true,
     }
     this.notify.emit(obj);
   }
@@ -83,4 +93,6 @@ export class LayoutDrawerComponent implements OnInit {
     this.notify.emit(resetObj);
     this.toastr.success('Reset Successfully!', { nzDuration: 3000 });
   }
+
+
 }

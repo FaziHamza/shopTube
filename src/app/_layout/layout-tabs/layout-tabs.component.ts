@@ -9,6 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LayoutTabsComponent implements OnInit {
   @Input() tabsData: any;
+  @Input() theme: any;
   constructor(private router: Router , private toastr: NzMessageService) { }
 
   ngOnInit(): void {

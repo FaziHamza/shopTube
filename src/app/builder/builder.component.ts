@@ -1885,6 +1885,9 @@ export class BuilderComponent implements OnInit {
         configObj['className'] = newClass;
       }
     }
+
+
+    configObj = selectedNode;
     switch (type) {
       case "drawer":
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
@@ -2809,7 +2812,7 @@ export class BuilderComponent implements OnInit {
       case "button":
       case "linkbutton":
         this.selectedNode.btnIcon = event.form?.icon;
-        this.selectedNode['captureData'] = event.form?.captureData;
+        // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
       case "accordionButton":
@@ -3584,6 +3587,7 @@ export class BuilderComponent implements OnInit {
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
           let classArray: any;
@@ -3601,8 +3605,7 @@ export class BuilderComponent implements OnInit {
       else {
         this.selectedNode['className'] = event.form.className;
       }
-      this.selectedNode = { ...this.selectedNode, ...event.form };
-      this.updateNodes();
+      // this.updateNodes();
     }
     // this.showSuccess();
     this.updateNodes();

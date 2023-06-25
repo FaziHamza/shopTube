@@ -716,7 +716,7 @@ export class AddControlService {
       style: "font-weight:bold;",
       fontweight: "font-bold",
       textAlign: "text-left",
-      color: '#000000',
+      color: '',
       headingApi: "",
       text: "Editor.js",
       heading: 'text-base',

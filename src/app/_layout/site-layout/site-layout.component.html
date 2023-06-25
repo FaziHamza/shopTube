@@ -61,7 +61,7 @@
           <ng-container *ngFor="let item of tabs">
             <!-- <st-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></st-layout-tabs> -->
             <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"
-              [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
+              [layoutTabsDropdownData]="item" [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
           </ng-container>
         </ng-container>
         <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
