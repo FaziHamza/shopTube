@@ -1104,6 +1104,7 @@ a.fc-event:hover {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding-left: 10px;
   align-items: center;
 
   // padding: 16px;
@@ -1211,7 +1212,7 @@ a.fc-event:hover {
       width: 32px;
       border-radius: 100px;
       overflow: hidden;
-      margin-right: 15px;
+      margin: 0px 15px;
 
       img {
         height: 32px;
@@ -1343,7 +1344,7 @@ a.fc-event:hover {
     width: 32px;
     border-radius: 100px;
     overflow: hidden;
-    margin-right: 15px;
+    margin: 0px 8px;
 
     img {
       height: 32px;
@@ -1355,7 +1356,7 @@ a.fc-event:hover {
   }
 
   .user-name {
-    width: calc(100% - 40px);
+    width: calc(100% - 46px);
 
     h6 {
       color: white;
@@ -1646,7 +1647,8 @@ a.fc-event:hover {
 }
 
 .content-body {
-  padding: 20px;
+  height: calc(100vh - 60px);
+  padding: 10px 10px;
 }
 
 // .side-menu {
@@ -1943,20 +1945,20 @@ object {
   }
 
   .nav-item.ant-menu-item-selected {
-    background-color: #f2f3fe ;
+    background-color: #f2f3fe;
 
     i,
     span {
-      color: #038edc ;
+      color: #038edc;
     }
   }
 
   .nav-item.ant-menu-item-selected:hover {
-    background-color: #f2f3fe ;
+    background-color: #f2f3fe;
 
     i,
     span {
-      color: #038edc ;
+      color: #038edc;
     }
   }
 }
@@ -2203,8 +2205,8 @@ object {
   }
 }
 
-.ant-menu-submenu {
-  padding: 0px 16px;
+.ant-menu-submenu .ant-menu-submenu-title {
+  padding: 0px 16px !important;
 }
 
 .small-sidebar {
@@ -2329,11 +2331,22 @@ object {
 
 @media only screen and (max-width: 768px) {
   .main-layout .side-menu {
-    position: absolute;
-    width: 200px;
-    z-index: 9999;
-    left: 0px;
-    top: 62px;
+    position: absolute !important;
+    width: 200px !important;
+    z-index: 999 !important;
+    left: 0px !important;
+    top: 62px !important;
+  }
+
+  .main-layout .side-menu.side-menu-rtl {
+    position: absolute !important;
+    width: 200px !important;
+    z-index: 999 !important;
+    right: 0px !important;
+    left: auto !important;
+    border-left: 1px solid #e5e7eb !important;
+    border-right: none !important;
+    top: 62px !important;
   }
 
   .header-inner {
@@ -2352,15 +2365,11 @@ object {
       padding: 2px 5px !important;
       height: 30px;
       width: 30px;
-      margin-right: 8px !important;
       font-size: 16px !important;
       border: none !important;
     }
 
-    .header-inner div:first-child {
-      display: flex;
-      align-items: center;
-    }
+
   }
 
   .header-actions {
@@ -2396,8 +2405,20 @@ object {
 
 .ant-menu-submenu {
   .ant-menu-item {
-    padding-left: 10px !important;
+    padding-left: 28px !important;
   }
+}
+
+.compact-sidebar ul li .ant-menu-submenu-title {
+  height: 60px !important;
+}
+
+.compact-sidebar-right ul li .ant-menu-submenu-title {
+  height: 60px !important;
+}
+
+.compact-sidebar-left ul li .ant-menu-submenu-title {
+  height: 60px !important;
 }
 
 .ant-layout-header {
@@ -2423,11 +2444,24 @@ object {
 
 .side-menu {
   min-width: 60px;
+  // .vertical-sidebar {
+  //   height: calc(100vh - 60px);
+  //   overflow-y: scroll;
+  //   overflow-x: hidden;
 
-  .ant-menu.ant-menu-inline-collapsed {
+  // }
+
+  .ant-menu {
     width: 100% !important;
     height: calc(100vh - 60px);
-
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .ant-menu.ant-menu-horizontal {
+    width: 100% !important;
+    height: auto !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
@@ -2455,4 +2489,65 @@ object {
 
 .fixed-menu {
   height: 100%;
+}
+
+.ant-menu-inline-collapsed {
+  .small-hover-menu-check {
+    display: none;
+  }
+}
+
+.ant-menu {
+  position: relative;
+
+  .small-hover-menu-check {
+    position: absolute;
+    right: 6px;
+    top: 5px;
+
+    .ant-checkbox-inner {
+      border-radius: 100px;
+    }
+  }
+}
+
+.ant-layout-header .ant-menu {
+  margin-bottom: 0px !important;
+}
+
+.menu-bg-image {
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+
+  ul {
+    background-color: #ffffffe0 !important;
+
+    ul {
+      background: transparent !important;
+    }
+  }
+}
+
+.layout-topbar-menu .header-inner div:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.layout-topbar-menu {
+  .header-inner {
+    padding: 0px 10px;
+  }
+
+  .ant-btn {
+    margin: 0px 5px !important;
+  }
+
+  .header-bread {
+    margin: 0px 10px !important;
+  }
+}
+.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
+  top: 0px !important;
 }
