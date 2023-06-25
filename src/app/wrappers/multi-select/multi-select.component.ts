@@ -14,7 +14,6 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
     super();
   }
   ngOnInit(): void {
-    debugger
     if (typeof this.formControl.value === 'string') {
       if (this.formControl.value === '' || this.formControl.value === undefined) {
         this.formControl.patchValue([]);

@@ -505,6 +505,31 @@ export class formFeildData {
           }
         },
         {
+          key: 'captureData',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Capture data',
+            options: [
+              {
+                label: 'Page Level',
+                value: 'pageLevel'
+              },
+              {
+                label: 'Section Level',
+                value: 'sectionLevel'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',

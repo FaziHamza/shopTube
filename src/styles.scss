@@ -69,9 +69,9 @@ nz-time-picker {
   width: 100%;
 }
 
-.ant-layout {
-  border-left: 2px solid #f5f5f5;
-}
+// .ant-layout {
+//   // border-left: 2px solid #f5f5f5;
+// }
 
 .ant-layout-sider-children {
   height: 100%;
@@ -1100,9 +1100,11 @@ a.fc-event:hover {
 }
 
 .header-inner {
+  height: 60px;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding-left: 10px;
   align-items: center;
 
   // padding: 16px;
@@ -1210,7 +1212,7 @@ a.fc-event:hover {
       width: 32px;
       border-radius: 100px;
       overflow: hidden;
-      margin-right: 15px;
+      margin: 0px 15px;
 
       img {
         height: 32px;
@@ -1342,7 +1344,7 @@ a.fc-event:hover {
     width: 32px;
     border-radius: 100px;
     overflow: hidden;
-    margin-right: 15px;
+    margin: 0px 8px;
 
     img {
       height: 32px;
@@ -1354,7 +1356,7 @@ a.fc-event:hover {
   }
 
   .user-name {
-    width: calc(100% - 40px);
+    width: calc(100% - 46px);
 
     h6 {
       color: white;
@@ -1636,15 +1638,7 @@ a.fc-event:hover {
   color: white !important;
 }
 
-.main-layout .content-body {
-  min-height: calc(100vh - 60px);
-  // margin-bottom: 60px;
-}
 
-.side-menu {
-  min-height: calc(100vh - 60px);
-  // margin-bottom: 60px;
-}
 
 .menu-builder-card {
   .main-layout {
@@ -1653,7 +1647,8 @@ a.fc-event:hover {
 }
 
 .content-body {
-  padding: 20px;
+  height: calc(100vh - 60px);
+  padding: 10px 10px;
 }
 
 // .side-menu {
@@ -1673,15 +1668,7 @@ a.fc-event:hover {
   background: white;
 }
 
-.side-menu {
-  background: white;
-  margin-top: 2px !important;
 
-  .ant-menu.ant-menu-inline-collapsed {
-    width: 100% !important;
-    height: 100vh;
-  }
-}
 
 
 
@@ -1690,8 +1677,8 @@ a.fc-event:hover {
 }
 
 .logo {
-  height: 32px;
-  margin: 16px;
+  height: 30px;
+  margin: 15px;
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -1866,7 +1853,7 @@ object {
 }
 
 .scroll {
-  height: 100vh !important;
+  // height: 100vh !important;
   // width: 34.5vh;
   // height: calc(100vh - 0px);
   /* 50px is the height of the header or any other element that takes up space above the menu */
@@ -1932,7 +1919,7 @@ object {
     // margin: 0 10px;
     border-radius: 3px;
     font-size: 15px;
-    font-family: Roboto, sans-serif;
+    // font-family: Roboto, sans-serif;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -1952,26 +1939,26 @@ object {
     }
   }
 
-  .menu-item {
-    font-family: Roboto, sans-serif;
+  // .menu-item {
+  //   font-family: Roboto, sans-serif;
 
-  }
+  // }
 
   .nav-item.ant-menu-item-selected {
-    background-color: #f2f3fe !important;
+    background-color: #f2f3fe;
 
     i,
     span {
-      color: #038edc !important;
+      color: #038edc;
     }
   }
 
   .nav-item.ant-menu-item-selected:hover {
-    background-color: #f2f3fe !important;
+    background-color: #f2f3fe;
 
     i,
     span {
-      color: #038edc !important;
+      color: #038edc;
     }
   }
 }
@@ -2218,8 +2205,8 @@ object {
   }
 }
 
-.ant-menu-submenu {
-  padding: 0px 16px;
+.ant-menu-submenu .ant-menu-submenu-title {
+  padding: 0px 16px !important;
 }
 
 .small-sidebar {
@@ -2302,7 +2289,7 @@ object {
 .ant-menu-submenu {
   .menu-item-icon {
     i {
-      color: #7c7f90 ;
+      color: #7c7f90;
     }
   }
 }
@@ -2336,7 +2323,7 @@ object {
   .ant-menu-item,
   .ant-menu-submenu {
     span {
-      color: #7c7f90 ;
+      color: #7c7f90;
       font-weight: 500 !important;
     }
   }
@@ -2344,13 +2331,223 @@ object {
 
 @media only screen and (max-width: 768px) {
   .main-layout .side-menu {
-    position: absolute;
-    width: 200px;
-    z-index: 9999;
-    left: 0px;
-    top: 60px;
+    position: absolute !important;
+    width: 200px !important;
+    z-index: 999 !important;
+    left: 0px !important;
+    top: 62px !important;
   }
+
+  .main-layout .side-menu.side-menu-rtl {
+    position: absolute !important;
+    width: 200px !important;
+    z-index: 999 !important;
+    right: 0px !important;
+    left: auto !important;
+    border-left: 1px solid #e5e7eb !important;
+    border-right: none !important;
+    top: 62px !important;
+  }
+
+  .header-inner {
+    padding: 0px 15px;
+  }
+
+  .layout-topbar-menu {
+    .p-4 {
+      padding: 15px !important;
+    }
+
+    .ant-btn {
+      margin: 0px !important;
+      // background: transparent !important;
+      color: white !important;
+      padding: 2px 5px !important;
+      height: 30px;
+      width: 30px;
+      font-size: 16px !important;
+      border: none !important;
+    }
+
+
+  }
+
+  .header-actions {
+    .user-dropdown-btn .user-name {
+      display: none;
+    }
+  }
+
+  .user-dropdown-btn .user-img {
+    margin-right: 0px !important;
+  }
+
+  .header-inner .header-actions a {
+    padding: 0px 6px !important;
+
+    i {
+      font-size: 16px;
+    }
+  }
+
+  .layout-topbar-menu {
+    width: 100% !important;
+  }
+
+  .main-layout .content-body {
+    width: 100% !important;
+  }
+
   .layout-topbar-icon {
     display: none !important;
   }
+}
+
+.ant-menu-submenu {
+  .ant-menu-item {
+    padding-left: 28px !important;
+  }
+}
+
+.compact-sidebar ul li .ant-menu-submenu-title {
+  height: 60px !important;
+}
+
+.compact-sidebar-right ul li .ant-menu-submenu-title {
+  height: 60px !important;
+}
+
+.compact-sidebar-left ul li .ant-menu-submenu-title {
+  height: 60px !important;
+}
+
+.ant-layout-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px !important;
+  z-index: 99;
+}
+
+.main-layout {
+  height: calc(100vh - 60px);
+}
+
+// .scroll,
+// .vertical-sidebar {
+//   // height: calc(100vh - 60px) !important;
+//   // .ant-menu {
+//   //   height: calc(100vh - 60px) !important;
+//   // }
+// }
+
+.side-menu {
+  min-width: 60px;
+  // .vertical-sidebar {
+  //   height: calc(100vh - 60px);
+  //   overflow-y: scroll;
+  //   overflow-x: hidden;
+
+  // }
+
+  .ant-menu {
+    width: 100% !important;
+    height: calc(100vh - 60px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .ant-menu.ant-menu-horizontal {
+    width: 100% !important;
+    height: auto !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+
+.ant-card-body {
+  padding: 20px;
+}
+
+.builder-body-layout {
+  height: calc(100vh - 220px) !important;
+}
+
+.sub-header {
+  margin-bottom: 15px;
+
+}
+
+.ant-btn>.anticon+span,
+.ant-btn>span+.anticon {
+  margin: 0px 6px !important;
+}
+
+.content-body.w-full {
+  width: calc(100% - 60px);
+}
+
+.fixed-menu {
+  height: 100%;
+}
+
+.ant-menu-inline-collapsed {
+  .small-hover-menu-check {
+    display: none;
+  }
+}
+
+.ant-menu {
+  position: relative;
+
+  .small-hover-menu-check {
+    position: absolute;
+    right: 6px;
+    top: 5px;
+
+    .ant-checkbox-inner {
+      border-radius: 100px;
+    }
+  }
+}
+
+.ant-layout-header .ant-menu {
+  margin-bottom: 0px !important;
+}
+
+.menu-bg-image {
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+
+  ul {
+    background-color: #ffffffe0 !important;
+
+    ul {
+      background: transparent !important;
+    }
+  }
+}
+
+.layout-topbar-menu .header-inner div:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.layout-topbar-menu {
+  .header-inner {
+    padding: 0px 10px;
+  }
+
+  .ant-btn {
+    margin: 0px 5px !important;
+  }
+
+  .header-bread {
+    margin: 0px 10px !important;
+  }
+}
+.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
+  top: 0px !important;
 }

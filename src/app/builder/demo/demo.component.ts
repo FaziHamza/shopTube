@@ -223,7 +223,6 @@ export class DemoComponent implements OnInit {
   }
   // @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
   controlMenu() {
-    debugger
     const screenWidth = window.innerWidth;
     if (screenWidth <= 789) {
       this.data = this.storeRows;

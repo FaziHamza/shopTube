@@ -86,8 +86,8 @@ export class AppBuilderSideMenuComponent implements OnInit {
         if (this.selectedTheme.isCollapsed) {
           this.selectedTheme.topHeaderMenu = 'w-1/12';
           this.selectedTheme.topHeader = 'w-full';
-          this.selectedTheme.menuColumn = 'w-1/12';
-          this.selectedTheme.rowClass = 'w-11/12';
+          this.selectedTheme.menuColumn = '';
+          this.selectedTheme.rowClass = 'w-full';
         }
         else {
           this.selectedTheme.menuColumn = 'w-1/6';

@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-buttons',
@@ -24,7 +25,8 @@ export class ButtonsComponent implements OnInit {
   saveHoverIconColor : any;
   hoverOpacity = '';
   nodes: TreeNode[];
-  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
+    public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
     
@@ -83,10 +85,15 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData : any): void {
-
+   
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
-    this.notify.emit(buttonData);
+    // this.notify.emit(buttonData);
+    if((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit){
+      this.dataSharedService.sectionSubmit.next(buttonData);
+    }else if(buttonData.captureData == 'pageLevel' && buttonData.isSubmit){
+      this.dataSharedService.pageSubmit.next(buttonData);
+    }
   }
 
   handleButtonMouseOver(buttonData : any): void {

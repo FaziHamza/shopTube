@@ -314,7 +314,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+   
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -418,7 +418,7 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(department: any) {
-    debugger
+   
     const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
     department['children'] = moduleData;
   }

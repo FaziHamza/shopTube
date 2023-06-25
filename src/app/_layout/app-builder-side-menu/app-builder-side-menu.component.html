@@ -2,31 +2,42 @@
     <nz-header [dir]="selectedTheme?.layout" nz-menu
         [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
         <div class="flex flex-wrap">
-            <div class="layout-topbar-icon" [ngClass]='selectedTheme.topHeaderMenu'>
-                <img *ngIf="!selectedTheme.isCollapsed" class="logo" src="assets/images/logo-dark.png">
+            <div class="layout-topbar-icon"
+                [ngClass]='selectedTheme.topHeaderMenu'>
+                <img *ngIf="!selectedTheme.isCollapsed" class="logo"
+                    src="assets/images/logo-dark.png">
             </div>
-            <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader' [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
+            <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
+                [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
          || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
-                *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'" nz-menu
+                *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'"
+                nz-menu
                 [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
-                <st-menu (notify)="notifyEmit($event)"></st-menu>
+                <st-menu (notify)="notifyEmit($event)"
+                    [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
             </div>
             <div [ngClass]='selectedTheme.topHeader'
                 *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
-                <st-menu (notify)="notifyEmit($event)"></st-menu>
+                <st-menu (notify)="notifyEmit($event)"
+                    [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
             </div>
         </div>
     </nz-header>
 
-    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout" [dir]="this.selectedTheme.layout">
-        <div class="side-menu" [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
-            <st-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
+        [dir]="this.selectedTheme.layout">
+        <div class="side-menu" [ngClass]='selectedTheme.menuColumn'
+            *ngIf="selectedTheme.showMenu">
+            <st-app-side-menu [selectedTheme]="selectedTheme"
+                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
         </div>
-        <div *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'"
+        <div
+            *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'"
             class="w-1/12 "></div>
-        <div [ngClass]='selectedTheme.rowClass'  class="content-body">
+        <div [ngClass]='selectedTheme.rowClass' class="content-body">
             <ng-container *ngIf="dropdown.length">
-                <st-layout-button (notify)="notifyEmitForDropdown($event)" [dropdownData]="dropdown"></st-layout-button>
+                <st-layout-button (notify)="notifyEmitForDropdown($event)"
+                    [dropdownData]="dropdown"></st-layout-button>
             </ng-container>
             <ng-container *ngIf="tabs.length">
                 <ng-container *ngFor="let item of tabs">
@@ -40,5 +51,5 @@
         </div>
         <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
     </div>
-    <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer>
+    <!-- <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer> -->
 </nz-layout>

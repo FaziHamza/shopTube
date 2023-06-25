@@ -362,6 +362,7 @@ export interface TreeNode {
   orientation?: any,
   plain?: any,
   btnIcon?: any,
+  captureData?: any,
   href?: any,
   btnType?: any,
   btnLabelPaddingClass?: any,
