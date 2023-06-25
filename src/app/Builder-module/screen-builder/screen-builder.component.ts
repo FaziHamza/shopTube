@@ -225,19 +225,28 @@ export class ScreenBuilderComponent implements OnInit {
       return;
     }
     else {
+      const modelData = {
+        "ScreenBuilder": this.form.value
+      }
+
       const checkScreenAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('screen-builder', this.form.value)
+        ? this.applicationService.addNestCommonAPI('cp', modelData)
         : this.applicationService.updateNestCommonAPI('screen-builder', this.model._id, this.form.value);
       checkScreenAndProceed.subscribe({
-        next: (objTRes) => {
-          this.isVisible = false;
-          this.jsonScreenModuleList();
-          const message = this.isSubmit ? 'Save' : 'Update';
-          this.toastr.success(`${message} Successfully!`, { nzDuration: 3000 });
-          if (!this.isSubmit) {
-            this.isSubmit = true;
+        next: (objTRes: any) => {
+          if (objTRes.isSuccess) {
+
+            this.isVisible = false;
+            this.jsonScreenModuleList();
+            const message = this.isSubmit ? 'Save' : 'Update';
+            this.toastr.success(objTRes.message, { nzDuration: 3000 });
+            if (!this.isSubmit) {
+              this.isSubmit = true;
+            }
+            this.handleCancel();
+          } else {
+            this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
-          this.handleCancel();
         },
         error: (err) => {
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });

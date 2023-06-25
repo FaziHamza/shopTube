@@ -195,19 +195,24 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true
-    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
-      this.listOfDisplayData = res.map(obj => {
-        obj.expand = false;
-        return obj;
-      });
-      this.listOfData = res;
-      this.organizationData = res;
-      this.loading = false;
-      this.getDepartment();
-      const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-      nonEmptySearchArray.forEach((element: any) => {
-        this.search(element.searchValue, element);
-      });
+    this.applicationService.getNestCommonAPI('organization').subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.listOfDisplayData = res.data.map((obj: any) => {
+          obj.expand = false;
+          return obj;
+        });
+        this.listOfData = res;
+        this.organizationData = res;
+        this.loading = false;
+        this.getDepartment();
+        const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
+        nonEmptySearchArray.forEach((element: any) => {
+          this.search(element.searchValue, element);
+        });
+      } else {
+        this.loading = false;
+        this.toastr.error(res.message, { nzDuration: 2000 });
+      }
     }));
   }
 
@@ -232,7 +237,7 @@ export class organizationBuilderComponent implements OnInit {
           }
         });
       }
-      
+
       this.departmentSubmit = true;
     } else {
       this.LoadOrganizationFields();
@@ -257,6 +262,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   organizationSubmit() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -277,16 +283,23 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
+      const modelData = {
+        "Organization": this.form.value
+      }
       const addOrUpdateOrganization$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('organization', this.form.value)
+        ? this.applicationService.addNestCommonAPI('cp', modelData)
         : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
-      addOrUpdateOrganization$.subscribe((res) => {
-        this.organizationBuilder();
-        this.isSubmit = true;
-        this.resetForm();
-        this.handleCancel();
-        this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
+      addOrUpdateOrganization$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.organizationBuilder();
+          this.isSubmit = true;
+          this.resetForm();
+          this.handleCancel();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+        } else {
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
       });
     }
   }
@@ -303,18 +316,25 @@ export class organizationBuilderComponent implements OnInit {
       this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
       return;
     } else {
+      const modelData = {
+        "Department": this.form.value
+      }
       const objOrganization = this.listOfData.find((x: any) => x._id == this.form.value.organizationId)
       this.form.value.organizationName = objOrganization.name;
       const action$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('department', this.form.value)
+        ? this.applicationService.addNestCommonAPI('cp', modelData)
         : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
-      action$.subscribe((res) => {
-        this.organizationBuilder();
-        // this.getDepartment();
-        this.resetForm();
-        this.isSubmit = true;
-        this.handleCancel();
-        this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
+      action$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.organizationBuilder();
+          // this.getDepartment();
+          this.resetForm();
+          this.isSubmit = true;
+          this.handleCancel();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+        } else {
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
       });
     }
   }

@@ -58,8 +58,5 @@ export class ModuleListComponent implements OnInit {
       return item;
     });
   }
-  
-
-
 }
 

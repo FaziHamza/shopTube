@@ -142,7 +142,7 @@ export class BuilderComponent implements OnInit {
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000  }); // Show an error message to the user
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
       }
     });
 
@@ -251,13 +251,15 @@ export class BuilderComponent implements OnInit {
       }
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
-      const data: any =
-      {
+      const data: any = {
         "screenData": JSON.stringify(screenData),
         "screenName": this.screenName,
         "screenId": this.screenId,
         "screen_Id": this._id,
       };
+      const builderModel = {
+        "Builder": data
+      }
       // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectApplicationName) {
       //   data['module'] = this.selectApplicationName;
       //   this.dataSharedService.headerData = [];
@@ -266,7 +268,7 @@ export class BuilderComponent implements OnInit {
       // }
       // this.screenId = selectedScreen[0].screenId;
       // if (this.screenId > 0) {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('builder', data).subscribe({
+      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', builderModel).subscribe({
         next: (res) => {
           this.saveLoader = false;
           this.toastr.success("Screen save suceessfully", { nzDuration: 3000 });
@@ -1849,7 +1851,7 @@ export class BuilderComponent implements OnInit {
             showArrow: true,
             showSearch: true,
             selectType: 'tags',
-            maxCount:6,
+            maxCount: 6,
           },
         },
       });
@@ -2428,7 +2430,7 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
-      }else{
+      } else {
         this.toastr.warning("Not allowed to add control in this")
       }
       if (this.selectedNode.type == 'pageBody') {
@@ -4447,7 +4449,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
-   let template = this.jsonParseWithObject(data.template);
+    let template = this.jsonParseWithObject(data.template);
     if (checkType == 'website-block') {
       template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);

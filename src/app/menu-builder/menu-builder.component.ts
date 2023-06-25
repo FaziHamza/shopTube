@@ -338,7 +338,7 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-          this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
           }
         }
       }
@@ -677,17 +677,19 @@ export class MenuBuilderComponent implements OnInit {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
-    var data =
-    {
+    var data = {
       "name": this.applicationName,
       "applicationId": this.applicationName,
       "menuData": JSON.stringify(currentData),
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
+    const menuModel = {
+      "Menu": data
+    }
     // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('menu', data).subscribe({
+      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', menuModel).subscribe({
         next: (objMenu) => {
           this.saveLoader = false;
           this.toastr.success('Menu Save successfully', { nzDuration: 3000 })

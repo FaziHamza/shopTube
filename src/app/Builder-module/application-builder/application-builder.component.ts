@@ -338,12 +338,37 @@ export class ApplicationBuilderComponent implements OnInit {
         const departmentData = this.listOfData.find((x: any) => x._id == this.myForm.value.departmentId)
         this.myForm.value.departmentName = departmentData.name;
       }
+      
+      const departmentModelData = {
+        "Department": this.myForm.value
+      }
+      
+      const applicationModelData = {
+        "Application": this.myForm.value
+      }
+
       const action$ = !this.applicationSubmit ? (this.isSubmit
-        ? this.applicationService.addNestCommonAPI('department', this.myForm.value)
+        ? this.applicationService.addNestCommonAPI('cp', departmentModelData)
         : this.applicationService.updateNestCommonAPI('department', this.model._id, this.myForm.value)) : this.isSubmit
-        ? this.applicationService.addNestCommonAPI('application', this.myForm.value)
+        ? this.applicationService.addNestCommonAPI('cp', applicationModelData)
         : this.applicationService.updateNestCommonAPI('application', this.model._id, this.myForm.value);
-      action$.subscribe((res) => {
+      action$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          if (this.applicationSubmit && key == "applicationId") {
+            setTimeout(() => {
+              this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
+            }, 1000);
+          }
+          // else
+          this.getDepartment();
+          this.getApplication();
+          this.handleCancel();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+          this.isSubmit = true;
+        } else {
+          this.toastr.success(res.message, { nzDuration: 2000 });
+
+        }
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();
@@ -354,17 +379,7 @@ export class ApplicationBuilderComponent implements OnInit {
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.applicationSubmit && key == "applicationId") {
-          setTimeout(() => {
-            this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
-          }, 1000);
-        }
-        // else
-        this.getDepartment();
-        this.getApplication();
-        this.handleCancel();
-        this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
-        this.isSubmit = true;
+
       });
     }
   }
