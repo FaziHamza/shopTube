@@ -2451,12 +2451,13 @@ object {
 
   // }
 
-  .ant-menu {
+  .ant-menu.ant-menu-root {
     width: 100% !important;
     height: calc(100vh - 60px);
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
   .ant-menu.ant-menu-horizontal {
     width: 100% !important;
     height: auto !important;
@@ -2548,6 +2549,21 @@ object {
     margin: 0px 10px !important;
   }
 }
-.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
+
+.ant-menu-horizontal>.ant-menu-item,
+.ant-menu-horizontal>.ant-menu-submenu {
   top: 0px !important;
+}
+
+.ant-btn-circle.ant-btn-lg {
+  right: 0px;
+  border-radius: 100px 0px 0px 100px;
+  bottom: 80px;
+  height: 40px !important;
+  min-width: 45px !important;
+
+  span {
+    margin-top: 2px;
+    margin-right: 8px !important;
+  }
 }
