@@ -206,15 +206,18 @@ export class BusinessRuleComponent implements OnInit {
     });
 
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    const jsonRuleValidation = {
+    const businessRuleValid = {
       "screenName": this.screenName,
       "screenId": this.screenId,
-      "buisnessRule": JSON.stringify(this.bussinessRuleObj),
-      "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
+      "businessRule": JSON.stringify(this.bussinessRuleObj),
+      "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
     }
-    if (jsonRuleValidation != null) {
+    const businessRuleValidModel = {
+      "BusinessRule" : businessRuleValid
+    }
+    if (businessRuleValidModel.BusinessRule != null) {
       if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('buisness-rule', jsonRuleValidation).subscribe({
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', businessRuleValidModel).subscribe({
           next: (res) => {
             this.toastr.success("Buisness rule save successfully", { nzDuration: 3000 });
           },

@@ -664,22 +664,28 @@ export class BusinessRuleGridComponent implements OnInit {
     });
 
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
-    const jsonRuleValidation = {
+    const gridRuleValid = {
       "screenName": this.screenName,
       "screenId": this.screenId,
-      "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
-      "buisnessRule": JSON.stringify(this.GridBusinessRuleData),
+      "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
+      "businessRule": JSON.stringify(this.GridBusinessRuleData),
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
-    if (jsonRuleValidation != null) {
+
+    const gridRuleValidModel = {
+      "GridBusinessRule" :gridRuleValid
+    }
+    if (gridRuleValid != null) {
       if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('grid-business-rule', jsonRuleValidation).subscribe({
-          next: (res) => {
-            this.toastr.success("Grid rule save sucessfully", { nzDuration: 3000 });
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridRuleValidModel).subscribe({
+          next: (res:any) => {
+            if (res.isSuccess) {
+              this.toastr.success(`Grid Business Rule: ${res.message}`, { nzDuration: 3000 });
+            } else { this.toastr.error(`Grid Business Rule: ${res.message}`, { nzDuration: 3000 });}
           },
           error: (err) => {
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.toastr.error("Grid Business Rule: An error occurred", { nzDuration: 3000 });
           }
         });
         // this.requestSubscription = this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe({

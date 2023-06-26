@@ -2630,6 +2630,7 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
+    // debugger
     let needToUpdate = true;
     switch (event.type) {
       case "body":
@@ -3003,9 +3004,15 @@ export class BuilderComponent implements OnInit {
             "emailTypeAllow": event.form.emailTypeAllow,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          this.applicationService.addNestCommonAPI('validation-rule', JOIData).subscribe({
-            next: (res) => {
-              this.toastr.success('Validation Rule Save Successfully', { nzDuration: 3000 })
+          const validationRuleModel = {
+            "ValidationRule": JOIData
+          }
+          this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
+            next: (res:any) => {
+              debugger
+              if (res.isSuccess) {
+                this.toastr.success(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+              } else { this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })}
             },
             error: (err) => {
               this.toastr.error('validation rule not save, some exception unhandle', { nzDuration: 3000 })
