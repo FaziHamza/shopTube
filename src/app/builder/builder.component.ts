@@ -331,7 +331,7 @@ export class BuilderComponent implements OnInit {
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          debugger
+          
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.screenId = objScreen.screenId;
@@ -685,7 +685,7 @@ export class BuilderComponent implements OnInit {
   }
 
   getUIRule(model: any, currentValue: any) {
-    debugger
+    
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -908,7 +908,7 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
-    debugger
+    
     let obj = {
       type: data?.parameter,
       title: value,
@@ -1849,7 +1849,7 @@ export class BuilderComponent implements OnInit {
             showArrow: true,
             showSearch: true,
             selectType: 'tags',
-            maxCount:6,
+            maxCount: 6,
           },
         },
       });
@@ -1875,12 +1875,14 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
+    configObj = JSON.parse(JSON.stringify(selectedNode));
     selectedNode.id = selectedNode.id?.toLowerCase();
     if (typeof selectedNode.className === "string") {
       let classes: any = selectedNode.className;
       if (classes) {
         let classList = classes.split(" ");
-        selectedNode.className = [...classList];
+        let newClass: any = [...classList];
+        configObj['className'] = newClass;
       }
     }
 
@@ -2428,6 +2430,8 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
+      } else {
+        this.toastr.warning("Not allowed to add control in this")
       }
       if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;
@@ -2808,6 +2812,7 @@ export class BuilderComponent implements OnInit {
       case "button":
       case "linkbutton":
         this.selectedNode.btnIcon = event.form?.icon;
+        // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
       case "accordionButton":
@@ -3587,6 +3592,7 @@ export class BuilderComponent implements OnInit {
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
           let classArray: any;
@@ -3604,8 +3610,7 @@ export class BuilderComponent implements OnInit {
       else {
         this.selectedNode['className'] = event.form.className;
       }
-      this.selectedNode = { ...this.selectedNode, ...event.form };
-      this.updateNodes();
+      // this.updateNodes();
     }
     // this.showSuccess();
     this.updateNodes();
@@ -4043,7 +4048,7 @@ export class BuilderComponent implements OnInit {
                       "tableName": element.name,
                       "comment": "",
                       "totalFields": "",
-                      "isActive": false
+                      "isActive": "Pending"
                     };
                     this.builderService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
                       next: (res) => {
@@ -4450,12 +4455,13 @@ export class BuilderComponent implements OnInit {
   }
 
   addTemplate(data: any, checkType?: any) {
+    let template = this.jsonParseWithObject(data.template);
     if (checkType == 'website-block') {
-      data.template.forEach((item: any) => {
+      template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
       })
     } else {
-      data.template.forEach((item: any) => {
+      template.forEach((item: any) => {
         let data = JSON.parse(JSON.stringify(item));
         this.traverseAndChange(data);
         this.nodes[0].children[1].children.push(data);
@@ -4466,7 +4472,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
-    debugger
+    
     this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
       next: (res) => {
         this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');

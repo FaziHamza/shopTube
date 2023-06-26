@@ -213,7 +213,7 @@ export class organizationBuilderComponent implements OnInit {
 
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
-    debugger
+   
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
@@ -244,7 +244,7 @@ export class organizationBuilderComponent implements OnInit {
     }
   }
   handleCancel(): void {
-    debugger
+   
     this.isVisible = false;
   }
 
@@ -292,7 +292,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   departmentSave() {
-    debugger
+   
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -319,7 +319,7 @@ export class organizationBuilderComponent implements OnInit {
     }
   }
   resetForm() {
-    debugger
+   
     for (let prop in this.model) {
       if (this.model.hasOwnProperty(prop)) {
         this.model[prop] = null;

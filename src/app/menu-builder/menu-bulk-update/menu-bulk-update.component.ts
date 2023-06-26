@@ -15,8 +15,8 @@ export class MenuBulkUpdateComponent implements OnInit {
     this.makeGridData()
   }
   makeGridData() {
-  this.tabelNodes = this.generateTableNodesExpand(this.nodes);
-  // this.tabelNodes = this.generateTableNodes(this.nodes);
+    this.tabelNodes = this.generateTableNodesExpand(this.nodes);
+    // this.tabelNodes = this.generateTableNodes(this.nodes);
     // let tableData = this.nodes;
     // tableData.forEach((element: any, index: any) => {
     //   let sectionObj = {
@@ -68,40 +68,22 @@ export class MenuBulkUpdateComponent implements OnInit {
   generateTableNodesExpand(data: any[]): any[] {
     return data.map((element: any) => {
       element['expand'] = false;
-  
+
       if (element.children && element.children.length > 0) {
-        element.children = this.generateTableNodes(element.children);
+        element.children = this.generateTableNodesExpand(element.children);
       }
       return element;
     });
   }
-  generateTableNodes(data: any[]): any[] {
-    return data.map((element: any) => {
-      let sectionObj :any = {
-        id: element.id,
-        link: element.link,
-        title: element.title,
-        isTitle: element.isTitle,
-        icon: element.icon,
-        children: [],
-        expand: false,
-      };
-  
-      if (element.children && element.children.length > 0) {
-        sectionObj.children = this.generateTableNodes(element.children);
-      }
-  
-      return sectionObj;
-    });
-  }
-  
-  
+
+
   close() {
     this.drawerRef.close(this.nodes);
   }
 
 
   save() {
+    this.concatePages(this.tabelNodes);
     this.nodes = this.tabelNodes;
     // this.tabelNodes.forEach((element, index) => {
     //   this.nodes[index].title = element.title;
@@ -125,5 +107,29 @@ export class MenuBulkUpdateComponent implements OnInit {
     // });
     this.drawerRef.close(this.nodes);
   }
+  // concatePages(data: any[]): any[] {
+  //   return data.map((element: any) => {
+  //     element['expand'] = false;
+
+  //     if (element.children && element.children.length > 0) {
+  //       element.children = this.generateTableNodesExpand(element.children);
+  //     }
+  //     return element;
+  //   });
+  // }
+
+  concatePages(data: any) {
+    data.forEach((element: any) => {
+      if (element.link) {
+        if (!element.link.includes("/pages/") && element.link !== '') {
+          element.link = "/pages/" + element.link;
+        }
+      }
+      if (element.children && element.children.length > 0) {
+        this.concatePages(element.children);
+      }
+    });
+  }
+  
 
 }

@@ -26,8 +26,8 @@
 
 </div>
 <div *ngIf="softIconList.type == 'buttonGroup' && softIconList.children.length">
-  <div class={{softIconList.btngroupformat}}>
-
+  <div
+    [class]="softIconList.buttonGroupClass + ' ' +  softIconList.btngroupformat">
     <span>
       <span *ngIf="softIconList?.tooltipPosition == 'left'">
         <span class="pt-2 pr-1" nz-tooltip

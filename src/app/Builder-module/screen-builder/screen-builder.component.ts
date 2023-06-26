@@ -118,11 +118,11 @@ export class ScreenBuilderComponent implements OnInit {
     this.dataSharedService.change.subscribe(({ event, field }) => {
 
       if (field.key === 'departmentId' && event) {
-        debugger
+       
         this.getApplicationOptionList(event);
       }
       if (field.key === 'organizationId' && event) {
-        debugger
+       
         this.getDepartmentOptionList(event);
       }
 
@@ -286,7 +286,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-    debugger
+   
     this.model = JSON.parse(JSON.stringify(item));
     this.getApplicationOptionList(this.model.departmentId)
     this.isSubmit = false;
@@ -312,7 +312,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(event?: any, data?: any): void {
-    debugger
+   
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) => {

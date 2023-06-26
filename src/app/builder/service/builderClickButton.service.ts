@@ -364,7 +364,7 @@ export class BuilderClickButtonService {
       title: node.title,
       disabled: node.sectionDisabled,
       borderColor: node.borderColor,
-      className: node.className,
+      // className: node.className,
       labelPosition: node.labelPosition,
       repeatable: node.repeatable,
       size: node.size,

@@ -46,6 +46,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ErrorComponent } from 'src/common/error/error.component';
+import { CommonService } from '../../common/common-services/common.service';
+// import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
 @NgModule({
@@ -107,7 +110,10 @@ import { GoogleMapsModule } from '@angular/google-maps';
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
     MenuControllComponent,
-    PrintInvoiceComponent,FileManagerComponent,googleMapComponent
+    PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
+
+    //
+    ErrorComponent
   ],
   exports: [
     FormsModule,
@@ -160,9 +166,12 @@ import { GoogleMapsModule } from '@angular/google-maps';
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
     MenuControllComponent,
-    PrintInvoiceComponent,FileManagerComponent,googleMapComponent
+    PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
+    //
+    ErrorComponent
   ],
   providers: [
+
   ],
 })
 

@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthRoutingModule } from './routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
+import { ShareModule } from '../shared/share.module';
+import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,7 +21,9 @@ const routes: Routes = [
     AuthRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    ShareModule,
+    NgZorroAntdModule
   ],
   exports: [RouterModule]
 

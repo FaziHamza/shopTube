@@ -7,7 +7,7 @@ import * as CryptoJS from 'crypto-js';
 export class EncryptionService {
 
   constructor() { }
-  encryptSecretKey = "mySecretKeyHere"; //adding secret key
+  encryptSecretKey = "@123"; //adding secret key
 
   //Data Encryption Function
   encryptData(msg:any) {

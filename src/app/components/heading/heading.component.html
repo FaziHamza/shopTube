@@ -8,45 +8,45 @@
             nzTheme="outline"></span>
     </span> -->
     <span>
-        <div [class]="headingData.link ? ' cursor-pointer' : ''">
-            <div [class]="headingData.textAlign "
+        <div [class]="headingData.link ? 'cursor-pointer' : ''">
+            <div [class]="headingData.textAlign"
                 (click)="pageRoute(headingData.link)">
                 <div
-                    *ngIf="headingData.heading == 1 ||headingData.heading == 2 ||headingData.heading == 3 ||headingData.heading == 4 || 
-                headingData.heading == 5 ; else paragraph">
+                    *ngIf="headingData.heading >= 1 && headingData.heading <= 5; else paragraph">
                     <h1 nz-typography *ngIf="headingData.heading === 1"
-                        [class]="headingData.fontstyle"
-                        [style.color]="headingData.color"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text | translate}}</h1>
+                        {{ headingData.text | translate }}
+                    </h1>
                     <h2 nz-typography *ngIf="headingData.heading === 2"
-                        [class]="headingData.fontstyle + ' ' + headingData.fontweight"
-                        [style.color]="headingData.color"
-                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">{{headingData.text
-                        | translate}}</h2>
+                        [style.color]="headingData.color || undefined"
+                        [class]="headingData.fontstyle + ' ' + headingData.fontweight">
+                        {{ headingData.text | translate }}
+                    </h2>
                     <h3 nz-typography *ngIf="headingData.heading === 3"
-                        [class]="headingData.fontstyle"
-                        [style.color]="headingData.color"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text | translate}}</h3>
+                        {{ headingData.text | translate }}
+                    </h3>
                     <h4 nz-typography *ngIf="headingData.heading === 4"
-                        [class]="headingData.fontstyle"
-                        [style.color]="headingData.color"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text | translate}}</h4>
+                        {{ headingData.text | translate }}
+                    </h4>
                     <h5 nz-typography *ngIf="headingData.heading === 5"
-                        [class]="headingData.fontstyle"
-                        [style.color]="headingData.color"
+                        [style.color]="headingData.color || undefined"
                         [class]="headingData.fontstyle + ' ' + headingData.fontweight">
-                        {{headingData.text | translate}}</h5>
+                        {{ headingData.text | translate }}
+                    </h5>
                 </div>
+                <ng-template #paragraph>
+                    <p nz-typography (click)="pageRoute(headingData.link)"
+                        [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
+                        [style.color]="headingData.color || undefined">
+                        {{ headingData.text | translate }}
+                    </p>
+                </ng-template>
             </div>
-            <ng-template #paragraph>
-                <p nz-typography (click)="pageRoute(headingData.link)"
-                    [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
-                    [style.color]="headingData.color">{{headingData.text |
-                    translate}}</p>
-            </ng-template>
         </div>
     </span>
     <!-- <span

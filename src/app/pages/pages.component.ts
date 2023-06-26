@@ -40,6 +40,15 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   ngOnInit(): void {
+    this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
+      next: (res) => {
+       
+       console.log(res);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
     // if (this.router.url.includes('/pages'))
     //   this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
@@ -87,7 +96,7 @@ export class PagesComponent implements OnInit {
 
         this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screenId', params["schema"]).subscribe({
           next: (res: any) => {
-            debugger
+           
             if (res.length > 0) {
               this.screenId = res[0].screen_Id;
               this.getUIRuleData(res[0].screen_Id);

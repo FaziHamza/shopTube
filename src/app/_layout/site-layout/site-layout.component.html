@@ -6,6 +6,7 @@
       <div class="flex flex-wrap">
         <div class="layout-topbar-icon" [ngClass]='selectedTheme.topHeaderMenu'>
           <img *ngIf="!selectedTheme.isCollapsed" class="logo" [src]="logo">
+          <img *ngIf="!selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png">
           <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
         </div>
         <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
@@ -40,7 +41,7 @@
 
     <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
       [dir]="this.selectedTheme.layout">
-      <div class=" side-menu"
+      <div class=" side-menu side-menu-rtl"
         [ngClass]="selectedTheme.menuMode == 'vertical' ? '' :''"
         [ngClass]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
         <st-app-side-menu [selectedTheme]="selectedTheme"
@@ -59,7 +60,7 @@
           <ng-container *ngFor="let item of tabs">
             <!-- <st-layout-tabs *ngIf="item.type == 'mainTab'" [tabsData]="item"></st-layout-tabs> -->
             <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"
-              [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
+              [layoutTabsDropdownData]="item" [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
           </ng-container>
         </ng-container>
         <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
@@ -88,8 +89,8 @@
       <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
     </div>
     <div *ngIf="currentUrl.includes('localhost')">
-      <nz-footer class="bg-white-500 text-black-500"
-        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer>
+      <!-- <nz-footer class="bg-white-500 text-black-500"
+        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer> -->
       <nz-footer class="bg-white-500 text-black-500"
         *ngIf="dataSharedService.footerData.length">
         <st-main [mainData]="dataSharedService.footerData"></st-main>

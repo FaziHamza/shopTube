@@ -1,21 +1,59 @@
+<!-- <pre>{{data|json}}</pre> -->
+<!-- <pre>{{filteredApproved|json}}</pre> -->
+
+<!-- ---------------  -->
+<!-- Encryption Work  -->
+<!-- ---------------  -->
+
+<!-- <input type="text" (change)="sendEncryptData()" [(ngModel)]="inputFiled" placeholder="send encrypt data.">
+{{ encryptData }} -->
+
+
 <div class="flex flex-wrap">
   <div class="w-1/4">
+    <nz-tabset>
+    <!--isActive [Approved] -->
+    <nz-tab nzTitle="Approved">
     <ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
       <nz-list-header>
-        <h3><b>Tables</b></h3>
-        <hr />
+        <!-- <h3><b style="background-color: #6BC146;color:white; padding:3px 5px; border-radius:10px">Approved</b></h3> -->
+        <!-- <hr /> -->
         <input type="text" nz-input placeholder="Search Schema" class="my-2" />
       </nz-list-header>
-      <li nz-list-item *ngFor="let item of data" nzNoFlex>
+      <li nz-list-item *ngFor="let item of filteredApproved;" nzNoFlex>
+
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <a (click)="editTableData(item)">edit</a>
+            </nz-list-item-action>
+          </ul>
+          {{ item.tableName }}
+      </li>
+    </ul>
+  </nz-tab>
+   <!--isActive [Pending] -->
+   <nz-tab nzTitle="Pending">
+      <ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
+      <nz-list-header>
+        <!-- <h3><b style="background-color: #FFCC00; padding:3px 5px; border-radius:10px">Pending</b></h3> -->
+        <!-- <hr /> -->
+        <input type="text" nz-input placeholder="Search Schema" class="my-2" />
+      </nz-list-header>
+      <li nz-list-item *ngFor="let itemPending of filteredPending" nzNoFlex>
         <ul nz-list-item-actions>
           <nz-list-item-action>
-            <a (click)="editTableData(item)">edit</a>
+            <a (click)="editTableData(itemPending)">edit</a>
           </nz-list-item-action>
         </ul>
-        {{ item.tableName }}
+        {{ itemPending.tableName }}
+
       </li>
       <!-- <nz-list-footer>Footer</nz-list-footer> -->
     </ul>
+    </nz-tab>
+  </nz-tabset>
+  <!-- End of nz-tabset -->
+
   </div>
   <div class="w-3/4 pl-2">
     <form [formGroup]="myForm">
@@ -25,7 +63,7 @@
         </div>
       </div>
 
-      <button nz-button nzType="primary" class="my-2 " title="Json save" (click)="addRow()" ngbTooltip="Save screen"><i
+      <button nz-button nzType="primary" class="my-2 " title="Add row" (click)="addRow()" ngbTooltip="Add row"><i
           class="fa fa-plus"></i> </button>
       <div class="flex flex-wrap">
         <div class="w-3/6">
@@ -46,6 +84,7 @@
     <nz-table #editRowTable nzBordered [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="10">
       <thead>
         <tr>
+          <th>#</th>
           <th>Field Name</th>
           <th>Type</th>
           <th>Description</th>
@@ -55,21 +94,38 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of editRowTable.data">
-          <ng-container *ngIf="!editCache[data.id].edit; else editTemplate">
-            <td>{{ data.fieldName }}</td>
-            <td>{{ data.type }}</td>
-            <td>{{ data.description }}</td>
-            <td>{{ data.status }}</td>
+        <tr *ngFor="let data of editRowTable.data; index as i">
+          <ng-container > <!--*ngIf="!editCache[data.id]?.edit; else editTemplate"-->
+            <td>{{ i+1 }}</td>
+            <td><input type="text" nz-input [(ngModel)]="data.fieldName"
+              [ngModelOptions]="{ standalone: true }" /></td> <!--editCache[data.id].data.fieldName-->
             <td>
-              <a (click)="startEdit(data.id)" class="pen-icon">
+              <nz-select nzShowSearch nzAllowClear [(ngModel)]="data.type">
+              <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
+                *ngFor="let item of fieldType"></nz-option>
+            </nz-select>
+            </td>
+            <td>
+              <input type="text" nz-input [(ngModel)]="data.description"
+              [ngModelOptions]="{ standalone: true }" />
+            </td>
+            <td>
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select status"
+              [(ngModel)]="data.status">
+              <nz-option nzLabel="Approved" nzValue="Approved"></nz-option>
+              <nz-option nzLabel="Pending" nzValue="Pending"></nz-option>
+              <nz-option nzLabel="Reject" nzValue="Reject"></nz-option>
+            </nz-select>
+          </td>
+          <td>
+              <!-- <a (click)="startEdit(data.id)" class="pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
                     d="M4 22h4m12 0h-8m1.888-18.337l.742-.742a3.146 3.146 0 1 1 4.449 4.45l-.742.74m-4.449-4.448s.093 1.576 1.483 2.966c1.39 1.39 2.966 1.483 2.966 1.483m-4.449-4.45L7.071 10.48c-.462.462-.693.692-.891.947a5.24 5.24 0 0 0-.599.969c-.139.291-.242.601-.449 1.22l-.875 2.626m14.08-8.13L14.93 11.52m-3.41 3.41c-.462.462-.692.692-.947.891c-.3.234-.625.435-.969.599c-.291.139-.601.242-1.22.448l-2.626.876m0 0l-.641.213a.848.848 0 0 1-1.073-1.073l.213-.641m1.501 1.5l-1.5-1.5" />
                 </svg>
-              </a>
-            </td>
-            <td>
+              </a> -->
+          </td>
+          <td>
               <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data)" class="delete-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
@@ -82,37 +138,28 @@
               </a>
             </td>
           </ng-container>
-          <ng-template #editTemplate>
+
+        <!--   <ng-template #editTemplate>
             <td>
-              <input type="text" nz-input [(ngModel)]="editCache[data.id].data.fieldName"
-                [ngModelOptions]="{ standalone: true }" />
+
             </td>
             <td>
-              <nz-select nzShowSearch nzAllowClear [(ngModel)]="editCache[data.id].data.type">
-                <nz-option [nzValue]="item.name" placeholder="Select Page" [nzLabel]="item.name"
-                  *ngFor="let item of fieldType"></nz-option>
-              </nz-select>
+
             </td>
             <td>
-              <input type="text" nz-input [(ngModel)]="editCache[data.id].data.description"
-                [ngModelOptions]="{ standalone: true }" />
+
             </td>
             <td>
-              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
-                [(ngModel)]="editCache[data.id].data.status">
-                <nz-option nzLabel="Approved" nzValue="Approved"></nz-option>
-                <nz-option nzLabel="Pending" nzValue="Pending"></nz-option>
-                <nz-option nzLabel="Reject" nzValue="Reject"></nz-option>
-              </nz-select>
+
             </td>
             <td>
-              <a (click)="saveEdit(data.id)" class="save pen-icon">
+              <!- <a (click)="saveEdit(data.id)" class="save pen-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="color:#49a1bb"
                   viewBox="0 0 24 24">
                   <path fill="currentColor"
                     d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3zM6 6h9v4H6z" />
                 </svg>
-              </a>
+              </a> ->
             </td>
             <td>
               <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.id)"
@@ -127,7 +174,7 @@
                 </svg>
               </a>
             </td>
-          </ng-template>
+          </ng-template> -->
         </tr>
       </tbody>
     </nz-table>

@@ -247,6 +247,10 @@ export class formFeildData {
                 label: 'Text Center',
                 value: 'text-center'
               },
+              {
+                label: 'None',
+                value: ''
+              },
             ],
             additionalProperties: {
               allowClear: true,
@@ -490,6 +494,40 @@ export class formFeildData {
             type: 'number',
             label: 'Radius',
           }
+        },
+        {
+          key: 'buttonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Class'
+          }
+        },
+        {
+          key: 'captureData',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Capture data',
+            options: [
+              {
+                label: 'Page Level',
+                value: 'pageLevel'
+              },
+              {
+                label: 'Section Level',
+                value: 'sectionLevel'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -828,6 +866,10 @@ export class formFeildData {
                 label: 'Center',
                 value: 'text-center'
               },
+              {
+                label: 'None',
+                value: ''
+              },
             ],
             additionalProperties: {
               allowClear: true,
@@ -836,9 +878,16 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'Vertical'
         },
-
+        {
+          key: 'buttonGroupClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Group Class'
+          }
+        },
       ]
     },
   ]
@@ -934,6 +983,10 @@ export class formFeildData {
               {
                 label: 'Text Center',
                 value: 'text-center'
+              },
+              {
+                label: 'None',
+                value: ''
               },
             ],
             additionalProperties: {
@@ -1229,6 +1282,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'buttonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Class'
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'optionBorder',
           type: 'checkbox',
@@ -1453,8 +1515,12 @@ export class formFeildData {
                 value: 'text-left'
               },
               {
-                label: 'Middle',
+                label: 'Center',
                 value: 'text-center'
+              },
+              {
+                label: 'None',
+                value: ''
               },
             ],
             additionalProperties: {
@@ -1631,6 +1697,15 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Radius',
+          }
+        },
+        {
+          key: 'buttonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Class'
           }
         },
         {
@@ -10132,15 +10207,15 @@ export class formFeildData {
         //     label: 'Imag Hieght',
         //   }
         // },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'imageClass',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Image class',
-        //   }
-        // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'imageClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Image class',
+          }
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'imageWidth',
