@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // debugger;
     if (err.status === 401 || err.status === 403) { // || err.status === 0
       this.clearStorage();
-      this.envService.showWarning();
+      // this.envService.showWarning();
       this.router.navigateByUrl('/auth/login');
       return of(err.message);
     }

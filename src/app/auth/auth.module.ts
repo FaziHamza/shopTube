@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ShareModule } from '../shared/share.module';
 import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
+import { ErrorComponent } from 'src/common/error/error.component';
+import { EnvService } from '../shared/envoirment.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,7 +17,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent, 
+    ErrorComponent
   ],
   imports: [
     AuthRoutingModule,
@@ -25,7 +28,8 @@ const routes: Routes = [
     ShareModule,
     NgZorroAntdModule
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[EnvService]
 
 })
 export class AuthModule { }
