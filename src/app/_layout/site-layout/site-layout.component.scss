@@ -6,7 +6,7 @@
 
 .logo-sm {
   height: 32px;
-  margin: 16px;
+  // margin: 16px;
   background: rgba(255, 255, 255, 0.3);
 
 }
@@ -134,7 +134,16 @@ nz-footer {
 
 .menu-collapse {
   height: 32px;
-  margin-top: 16px;
+  // margin-top: 16px;
   margin-left: 4px;
   margin-right: 4px;
+}
+
+.layout-topbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 15px;
+  border-bottom: 2px solid #f5f5f5;
+
 }

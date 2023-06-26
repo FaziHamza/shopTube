@@ -1678,7 +1678,6 @@ a.fc-event:hover {
 
 .logo {
   height: 30px;
-  margin: 15px;
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -2286,9 +2285,12 @@ object {
 //     }
 //   }
 // }
-.ant-menu-submenu {
+.ant-menu {
   .menu-item-icon {
-    i {
+    .material-icons {
+      padding-top: 14px;
+      margin-right: 0px;
+      width: 20px !important;
       color: #7c7f90;
     }
   }
@@ -2338,7 +2340,7 @@ object {
     top: 62px !important;
   }
 
-  .main-layout .side-menu.side-menu-rtl {
+  .main-layout .side-menu-rtl {
     position: absolute !important;
     width: 200px !important;
     z-index: 999 !important;
@@ -2431,6 +2433,7 @@ object {
 }
 
 .main-layout {
+  border-left: 1px solid lightgray;
   height: calc(100vh - 60px);
 }
 
@@ -2500,11 +2503,13 @@ object {
 
 .ant-menu {
   position: relative;
-
   .small-hover-menu-check {
     position: absolute;
     right: 6px;
     top: 5px;
+    .ant-checkbox-checked::after {
+      border-radius: 100px;
+    }
 
     .ant-checkbox-inner {
       border-radius: 100px;
@@ -2565,5 +2570,50 @@ object {
   span {
     margin-top: 2px;
     margin-right: 8px !important;
+  }
+}
+
+.layout-topbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 15px;
+  border-bottom: 2px solid #f5f5f5;
+
+}
+
+.resert-bg-img {
+  height: 88px;
+  width: 100%;
+  background: #ff4d5015;
+  border: 1px solid #ff4d5015;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  i {
+    font-size: 26px;
+    color: #ff4d4f;
+  }
+}
+
+.ant-menu-submenu-popup {
+  .ant-menu-item {
+    padding: 0px 15px !important;
+    width: 100%;
+  }
+
+  .ant-menu-submenu {
+    width: 100%;
+
+    .ant-menu-submenu-title {
+      padding: 0px !important;
+    }
+
+    .ant-menu-submenu-arrow,
+    .ant-menu-submenu-expand-icon {
+      right: 0px !important;
+    }
   }
 }
