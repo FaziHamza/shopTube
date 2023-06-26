@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     debugger;
-    if (err.status === 401 || err.status === 403 || err.status === 0) {
+    if (err.status === 401 || err.status === 403) { // || err.status === 0
       this.clearStorage();
       this.envService.showWarning();
       this.router.navigateByUrl('/auth/login');
