@@ -1,6 +1,6 @@
 <button nz-button nzType="primary" [nzSize]="size" nzShape="circle"
     (click)="open()" class="fixed bottom-4 right-4"
-    style="display: flex; justify-content: center; align-items: center; margin-bottom: 60px;">
+    style="display: flex; justify-content: center; align-items: center">
     <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
 </button>
 <nz-drawer
@@ -129,31 +129,35 @@
                     <p class="text-gray-500 text-xs">Choose Layout Design</p>
                     <div class="flex flex-wrap pt-2">
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/vertical.png"
-                                (click)="changeLayout('vertical')">
+                            <div
+                                [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/vertical.png"
+                                    (click)="changeLayout('vertical')">
+                            </div>
                             <p class="mt-2 font-bold">Vertical</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('horizental')">
+                            <div
+                                [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('horizental')">
+                            </div>
                             <p class="mt-2 font-bold">Horizental</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('twoColumn')">
+                            <div
+                                [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('twoColumn')">
+                            </div>
                             <p class="mt-2 font-bold">Two Column</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('rtl')">
+                            <div
+                                [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('rtl')">
+                            </div>
                             <p class="mt-2 font-bold">RTL</p>
                         </div>
                     </div>
@@ -167,20 +171,23 @@
                     <div class="flex flex-wrap pt-2"
                         *ngIf="selectedTheme.layout != 'twoColumn'">
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('fluid')">
+                            <div
+                                [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('fluid')">
+                            </div>
                             <p class="mt-2 font-bold">Fluid</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('boxed')">
+                            <div
+                                [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('boxed')">
+                            </div>
                             <p class="mt-2 font-bold">Boxed</p>
                         </div>
                     </div>
+
                     <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR COLOR</h6>
             <p class="text-gray-500 text-xs">Choose Light or Dark Topbar Color.</p>
             <div class="flex flex-wrap pt-2">
@@ -208,46 +215,59 @@
                     <div
                         *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
                         class="flex flex-wrap pt-2">
+
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('default')">
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('default')">
+                            </div>
                             <p class="mt-2 font-bold">Default</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('compact')">
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('compact')">
+                            </div>
                             <p class="mt-2 font-bold">Compact</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('compact_right')">
-                            <p class="mt-2 font-bold">Compact Right</p>
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('compact_right')">
+                            </div>
+                            <p class="mt-2 font-bold"
+                                *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                Right</p>
+                            <p class="mt-2 font-bold"
+                                *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                Left</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('compact_left')">
-                            <p class="mt-2 font-bold">Compact Left</p>
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('compact_left')">
+                            </div>
+                            <p class="mt-2 font-bold" *ngIf="selectedTheme.layout != 'rtl'">Compact Left</p>
+                            <p class="mt-2 font-bold" *ngIf="selectedTheme.layout == 'rtl'">Compact Right</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('smallIconView')">
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('smallIconView')">
+                            </div>
                             <p class="mt-2 font-bold">Small (Icon View)</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('smallHoverView')">
+                            <div
+                                [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('smallHoverView')">
+                            </div>
                             <p class="mt-2 font-bold">Small Hover View</p>
                         </div>
                     </div>
@@ -273,33 +293,40 @@
                     <p class="text-gray-500 text-xs">Choose a image of Sidebar</p>
                     <div class="flex flex-wrap pt-2">
                         <div class="w-1/5 px-2">
-                            <img
-                                [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
-                                src (click)="changeLayout('')">
+                            <div>
+                                <img
+                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
+                                    src
+                                    (click)="changeLayout('')">
+                            </div>
                         </div>
                         <div class="w-1/5 px-2">
-                            <img
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'"
-                                src="assets/images/menu/image-1.avif"
-                                (click)="changeLayout('assets/images/menu/image-1.avif')">
+                            <div
+                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
+                                <img src="assets/images/menu/image-1.avif"
+                                    (click)="changeLayout('assets/images/menu/image-1.avif')">
+                            </div>
                         </div>
                         <div class="w-1/5 px-2">
-                            <img
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'"
-                                src="assets/images/menu/image_2.avif"
-                                (click)="changeLayout('assets/images/menu/image_2.avif')">
+                            <div
+                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
+                                <img src="assets/images/menu/image_2.avif"
+                                    (click)="changeLayout('assets/images/menu/image_2.avif')">
+                            </div>
                         </div>
                         <div class="w-1/5 px-2">
-                            <img
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'"
-                                src="assets/images/menu/image_3.avif"
-                                (click)="changeLayout('assets/images/menu/image_3.avif')">
+                            <div
+                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
+                                <img src="assets/images/menu/image_3.avif"
+                                    (click)="changeLayout('assets/images/menu/image_3.avif')">
+                            </div>
                         </div>
                         <div class="w-1/5 px-2">
-                            <img
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'"
-                                src="assets/images/menu/image-4.avif"
-                                (click)="changeLayout('assets/images/menu/image-4.avif')">
+                            <div
+                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
+                                <img src="assets/images/menu/image-4.avif"
+                                    (click)="changeLayout('assets/images/menu/image-4.avif')">
+                            </div>
                         </div>
                     </div>
                     <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
@@ -323,36 +350,39 @@
             </div> -->
                 </div>
                 <div *ngIf="applicationType == 'website'">
-
                     <h6 class="mb-0 font-bold uppercase">Layout</h6>
                     <p class="text-gray-500 text-xs">Choose your layout</p>
                     <div class="flex flex-wrap pt-2">
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme['design'] == 'design1' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/vertical.png"
-                                (click)="changeLayout('design1')">
+                            <div
+                                [ngClass]="selectedTheme['design'] == 'design1' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/vertical.png"
+                                    (click)="changeLayout('design1')">
+                            </div>
                             <p class="mt-2 font-bold">Design 1</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme['design'] == 'design2' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('design2')">
+                            <div
+                                [ngClass]="selectedTheme['design'] == 'design2' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('design2')">
+                            </div>
                             <p class="mt-2 font-bold">Design 2</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme['design'] == 'design3' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('design3')">
+                            <div
+                                [ngClass]="selectedTheme['design'] == 'design3' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('design3')">
+                            </div>
                             <p class="mt-2 font-bold">Design 3</p>
                         </div>
                         <div class="w-1/4 px-2">
-                            <img
-                                [ngClass]="selectedTheme['design'] == 'design4' ? 'selected' : 'unselected'"
-                                src="assets/images/layout/horizental.png"
-                                (click)="changeLayout('design4')">
+                            <div
+                                [ngClass]="selectedTheme['design'] == 'design4' ? 'selected' : 'unselected'">
+                                <img src="assets/images/layout/horizental.png"
+                                    (click)="changeLayout('design4')">
+                            </div>
                             <p class="mt-2 font-bold">Design 4</p>
                         </div>
                     </div>
@@ -475,7 +505,11 @@
     <ng-template #extra>
         <button nzDanger class="mr-2" nz-popconfirm
             nzPopconfirmTitle="Are you sure to reset menu design" nz-button
-            nzType="primary" (nzOnConfirm)="reset()">Reset Theme</button>
+            nzType="primary" (nzOnConfirm)="reset('mainMenu')">Reset Main Theme</button>
+        <button nzDanger class="mr-2" nz-popconfirm
+            nzPopconfirmTitle="Are you sure to reset menu design" nz-button
+            nzType="primary" (nzOnConfirm)="reset('inPageMenu')">Reset In Page
+            Menu Theme</button>
         <span nz-icon nzType="close" nzTheme="outline" (click)="close()"
             class="text-gray-500 hover:text-red-500 cursor-pointer"></span>
     </ng-template>

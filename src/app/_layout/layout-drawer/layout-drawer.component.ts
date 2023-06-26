@@ -48,7 +48,7 @@ export class LayoutDrawerComponent implements OnInit {
     }
     this.notify.emit(obj);
   }
-  reset() {
+  reset(type : any) {
     let obj = {
       font: 'font-roboto',
       backGroundColor: '',
@@ -86,9 +86,24 @@ export class LayoutDrawerComponent implements OnInit {
       allMenuItems: [],
       showMenu: true,
     }
+    let inPageObj = {
+      font: 'font-roboto',
+      backGroundColor: '',
+      textColor: '',
+      activeBackgroundColor: '',
+      activeTextColor: '',
+      hoverTextColor: '',
+      titleSize: '',
+      iconColor: '',
+      hoverIconColor: '',
+      activeIconColor: '',
+      iconSize: '',
+      iconType: '',
+    }
     let resetObj = {
-      resetTheme: obj,
-      reset: true
+      resetTheme: type == 'mainMenu' ? obj : inPageObj,
+      reset: true,
+      inPageMenu: type == 'mainMenu' ? false : true,
     }
     this.notify.emit(resetObj);
     this.toastr.success('Reset Successfully!', { nzDuration: 3000 });

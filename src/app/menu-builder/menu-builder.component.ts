@@ -165,7 +165,7 @@ export class MenuBuilderComponent implements OnInit {
       isTwoColumnCollapsed: false,
       allMenuItems: [],
       showMenu: true,
-      inPageMenu:{},
+      inPageMenu: {},
     }
     // this.jsonModuleSetting();
     this.getDepartments();
@@ -204,8 +204,11 @@ export class MenuBuilderComponent implements OnInit {
         if (!this.selectedTheme['font']) {
           this.selectedTheme['font'] = 'font-roboto'
         }
-        if(!this.selectedTheme['inPageMenu']){
+        if (!this.selectedTheme['inPageMenu']) {
           this.selectedTheme['inPageMenu'] = {};
+        }
+        if (!this.selectedTheme['inPageMenu']['font']) {
+          this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
         }
         this.makeMenuData();
       }
@@ -1223,41 +1226,19 @@ export class MenuBuilderComponent implements OnInit {
     if (!data.inPageMenu) {
       if (!data.reset) {
         let layoutType = data.layoutType;
-        if (layoutType.includes('backGroundColor')) {
-          this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
-        } else if (layoutType.includes('textColor')) {
-          this.selectedTheme['textColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('font')) {
-          this.selectedTheme['font'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('activeBackgroundColor')) {
-          this.selectedTheme['activeBackgroundColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('activeTextColor')) {
-          this.selectedTheme['activeTextColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('hoverTextColor')) {
-          this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('iconColor')) {
-          this.selectedTheme['iconColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('hoverIconColor')) {
-          this.selectedTheme['hoverIconColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('activeIconColor')) {
-          this.selectedTheme['activeIconColor'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('iconSize')) {
-          this.selectedTheme['iconSize'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('titleSize')) {
-          this.selectedTheme['titleSize'] = layoutType.split('_')[0];
-        }
-        else if (layoutType.includes('iconType')) {
-          this.selectedTheme['iconType'] = layoutType.split('_')[0];
-          this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+        if (layoutType.includes('backGroundColor') ||
+          layoutType.includes('font') ||
+          layoutType.includes('textColor') ||
+          layoutType.includes('activeBackgroundColor') ||
+          layoutType.includes('activeTextColor') ||
+          layoutType.includes('hoverTextColor') ||
+          layoutType.includes('titleSize') ||
+          layoutType.includes('iconColor') ||
+          layoutType.includes('hoverIconColor') ||
+          layoutType.includes('activeIconColor') ||
+          layoutType.includes('iconSize') ||
+          layoutType.includes('iconType')) {
+          this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
           this.selectedTheme['design'] = layoutType;
@@ -1376,30 +1357,33 @@ export class MenuBuilderComponent implements OnInit {
         this.makeMenuData();
       }
       else if (data.reset) {
-        this.selectedTheme = data.resetTheme;
-        this.makeMenuData();
+        if (!data.inPageMenu) {
+          let inPageMenu = this.selectedTheme['inPageMenu'];
+          this.selectedTheme = data.resetTheme;
+          this.selectedTheme['inPageMenu'] = inPageMenu;
+          this.makeMenuData();
+        }
       }
     }
     else if (data.inPageMenu) {
-      let layoutType = data.layoutType;
-      if (layoutType.includes('backGroundColor') ||
-        layoutType.includes('font') ||
-        layoutType.includes('textColor') ||
-        layoutType.includes('activeBackgroundColor') ||
-        layoutType.includes('activeTextColor') ||
-        layoutType.includes('hoverTextColor') ||
-        layoutType.includes('titleSize') ||
-        layoutType.includes('iconColor') ||
-        layoutType.includes('hoverIconColor') ||
-        layoutType.includes('activeIconColor') ||
-        layoutType.includes('iconSize') ||
-        layoutType.includes('iconType')) {
-          let key = layoutType.split('_')[1];
-          let value = layoutType.split('_')[0];
-
-        // this.selectedTheme['inPageMenu'];
-        this.selectedTheme['inPageMenu'][key] = value;
-        this.selectedTheme;
+      if (!data.reset) {
+        let layoutType = data.layoutType;
+        if (layoutType.includes('backGroundColor') ||
+          layoutType.includes('font') ||
+          layoutType.includes('textColor') ||
+          layoutType.includes('activeBackgroundColor') ||
+          layoutType.includes('activeTextColor') ||
+          layoutType.includes('hoverTextColor') ||
+          layoutType.includes('titleSize') ||
+          layoutType.includes('iconColor') ||
+          layoutType.includes('hoverIconColor') ||
+          layoutType.includes('activeIconColor') ||
+          layoutType.includes('iconSize') ||
+          layoutType.includes('iconType')) {
+          this.selectedTheme['inPageMenu'][layoutType.split('_')[1]] = layoutType.split('_')[0];
+        }
+      } else if (data.reset) {
+        this.selectedTheme['inPageMenu'] = data.resetTheme;
       }
     }
   }
