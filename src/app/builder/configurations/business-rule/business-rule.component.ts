@@ -212,11 +212,18 @@ export class BusinessRuleComponent implements OnInit {
       "buisnessRule": JSON.stringify(this.bussinessRuleObj),
       "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
     }
+    // new Work
+    const ruleModel = {
+      "BusinessRule": jsonRuleValidation
+    }
     if (jsonRuleValidation != null) {
       if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('buisness-rule', jsonRuleValidation).subscribe({
-          next: (res) => {
-            this.toastr.success("Buisness rule save successfully", { nzDuration: 3000 });
+        debugger
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', ruleModel).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess)
+              this.toastr.success(`Rules: ${res.message}`, { nzDuration: 3000 });
+            else { this.toastr.error(`Rules: ${res.message}`, { nzDuration: 3000 });}
           },
           error: (err) => {
             this.toastr.error("An error occurred", { nzDuration: 3000 });

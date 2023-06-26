@@ -672,11 +672,19 @@ export class BusinessRuleGridComponent implements OnInit {
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
-    if (jsonRuleValidation != null) {
+ // api response work
+    const gridBusinessRuleModel = {
+      "GridBusinessRule" : jsonRuleValidation
+    }
+
+    if (gridBusinessRuleModel.GridBusinessRule != null) {
+      debugger
       if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('grid-business-rule', jsonRuleValidation).subscribe({
-          next: (res) => {
-            this.toastr.success("Grid rule save sucessfully", { nzDuration: 3000 });
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel).subscribe({
+          next: (res:any) => {
+            if (res.isSuccess) {
+              this.toastr.success( `Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+            } else this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
             this.toastr.error("An error occurred", { nzDuration: 3000 });

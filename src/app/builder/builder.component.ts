@@ -4091,6 +4091,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   handleOk(): void {
+    debugger
     if (this.isTableSave)
       this.saveInDB();
     if (this.modalType === 'webCode') {
@@ -4108,10 +4109,17 @@ export class BuilderComponent implements OnInit {
               templateType: 'builderBlock',
               template: JSON.stringify(this.nodes[0].children[1].children)
             };
-            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
-              next: (res) => {
-                this.makeDatainTemplateTab();
-                this.saveLoader = false;
+
+            const templateModel = {
+              "Template": objTemplate
+            }
+            this.requestSubscription = this.applicationService.addNestCommonAPI('cp', templateModel).subscribe({
+              next: (res:any) => {
+                if (res.isSuccess) {
+                  this.toastr.success(`Template: ${res.message}` , { nzDuration: 3000 });
+                  this.makeDatainTemplateTab();
+                  this.saveLoader = false;
+                } else   this.toastr.error(`Template: ${res.message}` , { nzDuration: 3000 });
               },
               error: (err) => {
                 console.error(err);
@@ -4129,10 +4137,17 @@ export class BuilderComponent implements OnInit {
               templateType: 'websiteBlock',
               template: JSON.stringify(this.nodes[0].children[1].children)
             };
-            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
-              next: (res) => {
+
+            const templateModel = {
+              "Template": objTemplate
+            }
+            this.requestSubscription = this.applicationService.addNestCommonAPI('cp', templateModel).subscribe({
+              next: (res:any) => {
+              if (res.isSucces) {
+                this.toastr.success(`Template: ${res.message}`, { nzDuration: 3000 });
                 this.makeDatainTemplateTab();
                 this.saveLoader = false;
+              } else this.toastr.error(`Template: ${res.message}`, { nzDuration: 3000 });
               },
               error: (err) => {
                 console.error(err);
