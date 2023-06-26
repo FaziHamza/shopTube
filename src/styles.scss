@@ -336,6 +336,12 @@ object {
   .col-sm-9 {
     padding: 0px !important;
   }
+  .ant-input-number-input-wrap {
+    .ant-input-number-input {
+      padding: 15px 12px !important;
+      height: auto;
+    }
+  }
 }
 
 .highLight {
@@ -2302,12 +2308,12 @@ object {
   }
 }
 
-.ant-input-number-input-wrap {
-  .ant-input-number-input {
-    padding: 16px 12px !important;
-    height: auto;
-  }
-}
+// .ant-input-number-input-wrap {
+//   .ant-input-number-input {
+//     padding: 16px 12px !important;
+//     height: auto;
+//   }
+// }
 
 .as-horizontal {
   .ant-menu-submenu {
