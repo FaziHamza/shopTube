@@ -24,7 +24,7 @@
         <td><input type="text" class="form-control" [(ngModel)]="data.title"></td>
       </tr>
       <tr [nzExpand]="data.expand">
-        <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="false">
+        <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="true">
           <thead>
             <tr>
               <th>Id</th>
