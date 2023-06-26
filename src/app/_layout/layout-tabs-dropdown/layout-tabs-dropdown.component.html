@@ -7,7 +7,7 @@
                 (mouseenter)="hoverActiveShow = child.id"
                 (mouseleave)="hoverActiveShow = null"
                 nz-menu-item
-                (click)="screenLoad(child)">
+                (click)="screenLoad(child,true)">
                 <span class="menu-item-icon">
                     <st-icon *ngIf="child.icon"
                         [type]="child.iconType || 'outline'"
@@ -29,7 +29,7 @@
                 (mouseenter)="hoverActiveShow = child.id"
                 (mouseleave)="hoverActiveShow = null"
                 nz-submenu [nzTitle]="mainIconAndTitleTemplate"
-                (click)="screenLoad(child)">
+                (click)="screenLoad(child,true)">
                 <ng-template #mainIconAndTitleTemplate>
                     <span class="menu-item-icon">
                         <st-icon *ngIf="child.icon"
@@ -52,8 +52,7 @@
                         <ng-container
                             *ngIf="child1.children.length > 0; else subSubMenu">
                             <li
-                                (click)="screenLoad(child1)"
-                                [ngStyle]="{ 'background': isActiveShow == child1.id ? (theme['activeBackgroundColor'] ? theme['activeBackgroundColor'] + ' !important': '' ) : '' }"
+                                (click)="screenLoad(child1,false)"
                                 (mouseenter)="hoverActiveShow = child1.id"
                                 (mouseleave)="hoverActiveShow = null"
                                 nz-submenu [nzTitle]="iconAndTitleTemplate">
@@ -66,7 +65,7 @@
                                         (mouseleave)="hoverActiveShow = null"
                                         nz-menu-item
                                         *ngFor="let child2 of child1.children"
-                                        (click)="screenLoad(child2)">
+                                        (click)="screenLoad(child2,true)">
                                         <span class="menu-item-icon">
                                             <st-icon *ngIf="child2.icon"
                                                 [type]="child2.iconType || 'outline'"
@@ -106,7 +105,7 @@
                                 [ngStyle]="{ 'background': isActiveShow == child1.id ? (theme['activeBackgroundColor'] ? theme['activeBackgroundColor'] : '' ) : '' }"
                                 (mouseenter)="hoverActiveShow = child1.id"
                                 (mouseleave)="hoverActiveShow = null"
-                                nz-menu-item (click)="screenLoad(child1)">
+                                nz-menu-item (click)="screenLoad(child1,true)">
                                 <span class="menu-item-icon">
                                     <st-icon *ngIf="child1.icon"
                                         [type]="child1.iconType || 'outline'"
