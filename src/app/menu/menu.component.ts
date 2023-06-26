@@ -162,9 +162,9 @@ export class MenuComponent implements OnInit {
 
   }
   collapse(screenType: any) {
-    this.isCollapsed = !this.isCollapsed;
+    this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
     let obj = {
-      emitData: this.isCollapsed,
+      emitData: this.selectedTheme.isCollapsed,
       screenType: screenType
     };
     this.notify.emit(obj);

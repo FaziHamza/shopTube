@@ -1,5 +1,5 @@
-<div (mouseenter)="setHovered(false,$event)"
-  (mouseleave)="setHovered(true,$event)"
+<div  (mouseenter)="setHovered(false,$event)"
+(mouseleave)="setHovered(true,$event)"
   [ngClass]="{
     'tow-colmn-sidebar': selectedTheme.layout == 'twoColumn',
     'flex':selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed,
@@ -17,14 +17,14 @@
         'menu-bg-image':selectedTheme.siderBarImages
     }"
       [style.background-image]="selectedTheme.layout != 'twoColumn' ? 'url(' + selectedTheme.siderBarImages + ')' : ''">
-      <ul [class]="selectedTheme?.font"
+      <ul  [class]="selectedTheme?.font"
         [style.background]="selectedTheme.backGroundColor" nz-menu
         [ngClass]="this.selectedTheme.layout == 'rtl' ? 'rtlMenu' : ''"
         [nzMode]='selectedTheme.menuMode'
         [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
         <div class="small-hover-menu-check">
           <label
-            *ngIf="selectedTheme.layout == 'vertical' && selectedTheme.sideBarSize == 'smallHoverView'"
+            *ngIf="(selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') && selectedTheme.sideBarSize == 'smallHoverView'"
             nz-checkbox
             [(ngModel)]="selectedTheme.checked"></label>
         </div>

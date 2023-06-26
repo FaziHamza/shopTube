@@ -190,7 +190,7 @@ export class SiteLayoutComponent implements OnInit {
           this.selectedTheme.topHeaderMenu = 'w-1/6';
           this.selectedTheme.topHeader = 'w-10/12';
         }
-      } 
+      }
       else if (data.screenType == 'mobile') {
         this.selectedTheme.showMenu = data.emitData;
       }
@@ -207,6 +207,21 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.allMenuItems = data.emitData.menuData;
       // this.newMenuArrayFunc();
       this.makeMenuData();
+    }
+  }
+  collapsed() {
+    this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
+    if (this.selectedTheme.isCollapsed) {
+      this.selectedTheme.topHeaderMenu = 'w-1/12';
+      this.selectedTheme.topHeader = 'w-full';
+      this.selectedTheme.menuColumn = '';
+      this.selectedTheme.rowClass = 'w-full';
+    }
+    else {
+      this.selectedTheme.menuColumn = 'w-1/6';
+      this.selectedTheme.rowClass = 'w-10/12';
+      this.selectedTheme.topHeaderMenu = 'w-1/6';
+      this.selectedTheme.topHeader = 'w-10/12';
     }
   }
   // notifyEmitForDropdown(data: any) {

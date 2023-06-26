@@ -26,6 +26,7 @@ import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'st-builder',
@@ -327,84 +328,96 @@ export class BuilderComponent implements OnInit {
   expandedKeys: any;
   previousScreenId: string = '';
   getScreenData(data: any) {
-    this.modalService.confirm({
-      nzTitle: 'Are you sure you want to switch your screen?',
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          const objScreen = this.screens.find((x: any) => x._id == data);
-          this.screenId = objScreen.screenId;
-          this.screenName = objScreen.name;
-          this.previousScreenId = objScreen.screenId;
-          this.isSavedDb = false;
-          // const newScreenName = this.screens
-          // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
-          //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
-          //   if (applicationType[0].application_Type == "website") {
-          //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
-          //       next: (result) => {
-          //         if (result.length > 0) {
-          //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
-          //           this.dataSharedService.menus.allMenuItems = result[0].menuData
-          //         }
-          //       },
-          //       error: (err) => {
-          //         console.error(err); // Log the error to the console
-          //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          //       }
-          //     })
-          //   }
-          // }
-          this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
-            next: (res) => {
-              if (res.length > 0) {
-                const objScreenData = JSON.parse(res[0].screenData);
+    if (data) {
+      this.modalService.confirm({
+        nzTitle: 'Are you sure you want to switch your screen?',
+        nzOnOk: () => {
+          new Promise((resolve, reject) => {
+
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+            const objScreen = this.screens.find((x: any) => x._id == data);
+            this.screenId = objScreen.screenId;
+            this.screenName = objScreen.name;
+            this.previousScreenId = objScreen.screenId;
+            this.isSavedDb = false;
+            // const newScreenName = this.screens
+            // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
+            //   if (applicationType[0].application_Type == "website") {
+            //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
+            //       next: (result) => {
+            //         if (result.length > 0) {
+            //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
+            //           this.dataSharedService.menus.allMenuItems = result[0].menuData
+            //         }
+            //       },
+            //       error: (err) => {
+            //         console.error(err); // Log the error to the console
+            //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            //       }
+            //     })
+            //   }
+            // }
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
+              next: (res) => {
+                if (res.length > 0) {
+                  const objScreenData = JSON.parse(res[0].screenData);
+                  this.isSavedDb = true;
+                  // this.moduleId = res[0].moduleId;
+                  this.formlyModel = [];
+                  this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+                  this.updateNodes();
+                  this.applyDefaultValue();
+                  this.getJoiValidation(this._id);
+                  // if (res[0].menuData[0].children[1]) {
+
+                  //   // this.uiRuleGetData(res[0].moduleId);
+                  //   // this.uiGridRuleGetData(res[0].moduleId);
+                  // }
+                  // else {
+                  //   this.screenId = res[0].id;
+                  //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+                  //   // this.uiRuleGetData(res[0].moduleId);
+                  //   // this.uiGridRuleGetData(res[0].moduleId);
+                  // }
+
+                }
+                else {
+                  // this.screenId = 0;
+                  this.clearChildNode();
+                }
                 this.isSavedDb = true;
-                // this.moduleId = res[0].moduleId;
-                this.formlyModel = [];
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-                this.updateNodes();
-                this.applyDefaultValue();
-                this.getJoiValidation(this._id);
-                // if (res[0].menuData[0].children[1]) {
-
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
-                // else {
-                //   this.screenId = res[0].id;
-                //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
-
+                this.formModalData = {};
+                this.getUIRuleData(true);
+                this.getBusinessRule();
+                this.expandedKeys = this.nodes.map((node: any) => node.key);
+                this.uiRuleGetData(this.screenName);
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
               }
-              else {
-                // this.screenId = 0;
-                this.clearChildNode();
-              }
-              this.isSavedDb = true;
-              this.formModalData = {};
-              this.getUIRuleData(true);
-              this.getBusinessRule();
-              this.expandedKeys = this.nodes.map((node: any) => node.key);
-              this.uiRuleGetData(this.screenName);
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
             }
-          }
-          );
-          this.screenPage = true;
-        }).catch(() => this.screenId = this.previousScreenId)
-      },
-      nzOnCancel: () => {
-        this.screenId = this.previousScreenId;
-        console.log('User clicked Cancel');
-      }
-    });
+            );
+            this.screenPage = true;
+          }).catch(() => this.screenId = this.previousScreenId)
+        },
+        nzOnCancel: () => {
+          this.screenId = this.previousScreenId;
+          console.log('User clicked Cancel');
+        }
+      });
+    } else {
+
+    }
+
+  }
+  checkPage() {
+    if (!this.screenPage) {
+      alert("Please Select Screen")
+    } else {
+      this.router.navigate(['/pages/', this.screenId]);
+    }
   }
   applyDefaultValue() {
     const filteredNodes = this.filterInputElements(this.nodes);
@@ -685,7 +698,7 @@ export class BuilderComponent implements OnInit {
   }
 
   getUIRule(model: any, currentValue: any) {
-    
+
     try {
       if (this.screenData != undefined) {
         var inputType = this.nodes[0].children[1].children[0].children[1].children;
@@ -908,7 +921,7 @@ export class BuilderComponent implements OnInit {
       return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
   }
   addControlToJson(value: string, data?: any) {
-    
+
     let obj = {
       type: data?.parameter,
       title: value,
@@ -4467,7 +4480,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
-    
+
     this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
       next: (res) => {
         this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');
@@ -4530,4 +4543,33 @@ export class BuilderComponent implements OnInit {
       }
     })
   }
+
+  handleBeforeDrop(event: any) {
+    debugger
+    const dropNode = event.node; 
+    const dragNode: any = event.dragNode; 
+    const previousDragNode: any = this.findDraggedItem(this.nodes[0].children[1].children, dragNode.key);
+    if (previousDragNode) {
+      const index = previousDragNode.parentNode.children.findIndex((node: any) => node.key === previousDragNode.key);
+      if (index !== -1) {
+        previousDragNode.parentNode.children.splice(index, 1);
+      }
+    }
+  }
+
+  findDraggedItem(node: any, key: any): any {
+    for (const element of node) {
+      if (element.key === key) {
+        return element;
+      }
+      if (element.children.length > 0) {
+        const found = this.findDraggedItem(element.children, key);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
+  }
+
 }

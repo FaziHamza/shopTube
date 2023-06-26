@@ -42,7 +42,7 @@ export class AppSideMenuComponent implements OnInit {
 
   setHovered(value: any, event: any) {
     event.stopPropagation();
-    if (this.selectedTheme.sideBarSize == 'smallHoverView' && this.selectedTheme.layout == 'vertical') {
+    if (this.selectedTheme.sideBarSize == 'smallHoverView' && (this.selectedTheme.layout == 'vertical' || this.selectedTheme.layout == 'rtl')) {
       if (!this.selectedTheme.checked) {
         this.selectedTheme.isCollapsed = value;
       }

@@ -1239,6 +1239,9 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('iconSize') ||
           layoutType.includes('iconType')) {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+          }
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
           this.selectedTheme['design'] = layoutType;
@@ -1275,6 +1278,7 @@ export class MenuBuilderComponent implements OnInit {
           }
           if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
             this.selectedTheme.isCollapsed = true;
+            this.selectedTheme.checked = false;
             this.selectedTheme.topHeaderMenu = 'w-1/12';
             this.selectedTheme.topHeader = 'w-full';
             this.selectedTheme.menuColumn = '';
@@ -1300,6 +1304,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.topHeader = 'w-full';
           this.selectedTheme.menuColumn = '';
           this.selectedTheme.rowClass = 'w-full';
+          this.selectedTheme.checked = false;
         }
         else if (layoutType == 'boxed') {
           if (this.selectedTheme.layout == 'horizental') {
@@ -1381,6 +1386,9 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('iconSize') ||
           layoutType.includes('iconType')) {
           this.selectedTheme['inPageMenu'][layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeTabIconType(this.selectedTheme['inPageMenu']['iconType'], this.nodes);
+          }
         }
       } else if (data.reset) {
         this.selectedTheme['inPageMenu'] = data.resetTheme;
@@ -1512,6 +1520,29 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
+  changeTabIconType(data: any, nodeData: any) {
+    if (nodeData.length > 0) {
+      nodeData.forEach((node: any) => {
+        if (node.type == 'tab') {
+          if (node['icon']) {
+            if (node['icon'].includes('fa-') && data == 'font_awsome') {
+              node['iconType'] = data;
+            }
+            else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+              node['iconType'] = data;
+            }
+          } else {
+            node['iconType'] = data;
+          }
+          this.changeIconType(data,node);
+        }
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
+      });
+    }
+  }
+
   getMenuParents(selectedItem: any, menuItems: any[]): any {
     const parents: any[] = [];
     const parentIds: string[] = [];

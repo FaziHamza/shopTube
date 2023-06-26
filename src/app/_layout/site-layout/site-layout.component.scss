@@ -6,7 +6,7 @@
 
 .logo-sm {
   height: 32px;
-  margin: 24px;
+  margin: 16px;
   background: rgba(255, 255, 255, 0.3);
 
 }
@@ -48,6 +48,7 @@ nz-footer {
 .menuColumn {
   overflow-y: auto;
 }
+
 // .headerFixed{
 //   // position: fixed;
 //   // width: 100vh;
@@ -124,9 +125,16 @@ nz-footer {
 }
 
 
-.select{
+.select {
   background: #1890ff;
-  color:white;
+  color: white;
   cursor: pointer;
   border-radius: 4%;
+}
+
+.menu-collapse {
+  height: 32px;
+  margin-top: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
