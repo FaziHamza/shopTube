@@ -64,7 +64,7 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen', this.screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('business-rule/screen', this.screenId).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
             const objRuleData = JSON.parse(getRes[0].buisnessRuleData);
@@ -92,7 +92,8 @@ export class BusinessRuleComponent implements OnInit {
                       thenResultValue: getthenCodRes.thenResultValue
                     })
                   ))
-                })))
+                })
+              ))
             });
           }
 

@@ -810,7 +810,7 @@ export class BuilderComponent implements OnInit {
   getBusinessRule() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen', this._id).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('business-rule/screen', this._id).subscribe({
         next: (getRes) => {
           if (getRes.length > 0) {
             this.businessRuleData = [];

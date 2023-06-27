@@ -45,7 +45,7 @@ export class DynamicTableComponent implements OnInit {
   editingEntry: any = null;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
-    private employeeService: EmployeeService, private toastr: NzMessageService,private cdr: ChangeDetectorRef) {
+    private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
     // this.getHeader();
   }
 
@@ -119,7 +119,7 @@ export class DynamicTableComponent implements OnInit {
       this.loadTableData();
     }
     if (this.screenId)
-      this.applicationService.getNestCommonAPIById('grid-business-rule',this.screenId).subscribe((getRes => {
+      this.applicationService.getNestCommonAPIById('grid-business-rule', this.screenId).subscribe((getRes => {
         if (getRes.length > 0) {
           // this.dataModel['input34d5985f']='1313'
           let gridFilter = getRes.filter(a => a.gridType == 'Body');
@@ -398,16 +398,22 @@ export class DynamicTableComponent implements OnInit {
       postType: 'delete',
       modalData: data
     };
-    this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
-      next: (res) => {
-        this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-        this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    if (this.screenName != undefined) {
+      this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
+        next: (res) => {
+          this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+          this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    } else{
+      this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+      this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
+    }
+
   };
 
   startEdit(id: string): void {
@@ -596,8 +602,6 @@ export class DynamicTableComponent implements OnInit {
   // Method to save the updated value of an entry
 
   controlMenu() {
-    debugger
-   
     const screenWidth = window.innerWidth;
     if (screenWidth <= 756) {
       // this.tableData = this.storeRows;
@@ -651,7 +655,7 @@ export class DynamicTableComponent implements OnInit {
       this.responsiveTable = true;
       // console.log(screenWidth);
       // console.log(this.responsiveTable);
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     }
     else {
       // this.tableHeaders = this.storeColums;
