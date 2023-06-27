@@ -63,9 +63,9 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
-
         this.currentHeader = res;
       },
       error: (err) => {
@@ -75,7 +75,6 @@ export class SiteLayoutComponent implements OnInit {
     })
     this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
       next: (res) => {
-
         this.currentFooter = res;
       },
       error: (err) => {
@@ -116,11 +115,28 @@ export class SiteLayoutComponent implements OnInit {
       this.getMenuByDomainName();
     }
     else if (!window.location.href.includes('/menu-builder')) {
-      if (!this.selectedTheme) {
-        this.selectedTheme = this.newSelectedTheme;
+      if (!this.dataSharedService.goToMenu) {
+        if (!this.selectedTheme) {
+          this.selectedTheme = this.newSelectedTheme;
+        }
+        this.getApplications();
+        this.getAllMenu();
+      } else {
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', this.dataSharedService.goToMenu).subscribe({
+          next: (res) => {
+            if (res.length > 0) {
+              if (res[0].selectedTheme) {
+                this.selectedTheme = JSON.parse(res[0].selectedTheme);
+                this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
+              }
+              this.makeMenuData();
+            }
+          },
+          error: (err) => {
+            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          }
+        });
       }
-      this.getApplications();
-      this.getAllMenu();
     }
 
     this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {

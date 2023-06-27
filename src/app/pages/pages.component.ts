@@ -40,6 +40,7 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   ngOnInit(): void {
+    debugger
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
        

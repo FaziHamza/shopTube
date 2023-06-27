@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { ApplicationService } from '../services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
+import { Router } from '@angular/router';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'st-menu-builder',
@@ -62,7 +64,9 @@ export class MenuBuilderComponent implements OnInit {
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
-    public builderService: BuilderService, private toastr: NzMessageService,) {
+    public builderService: BuilderService, private toastr: NzMessageService,
+    private router: Router,
+    public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
     this.htmlTabsData = [
@@ -141,6 +145,7 @@ export class MenuBuilderComponent implements OnInit {
     this.makeMenuData();
   }
   ngOnInit(): void {
+    this.dataSharedService.goToMenu = '';
     this.selectedTheme = {
       topHeaderMenu: 'w-1/6',
       topHeader: 'w-10/12',
@@ -188,8 +193,10 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
+    debugger
     this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
       if (res.length > 0) {
+        this.dataSharedService.goToMenu = id;
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         this.applicationId = res[0]._id
@@ -1534,7 +1541,7 @@ export class MenuBuilderComponent implements OnInit {
           } else {
             node['iconType'] = data;
           }
-          this.changeIconType(data,node);
+          this.changeIconType(data, node);
         }
         if (node.children.length > 0) {
           this.changeIconType(data, node.children)
@@ -1592,6 +1599,13 @@ export class MenuBuilderComponent implements OnInit {
   //   return result;
   // }
 
+  checkPage() {
+    if(this.dataSharedService.goToMenu){
+      this.router.navigate(['/']);
+    }else{
+      this.toastr.warning('Please select Application', { nzDuration: 3000 });
+    }
+  }
 }
 
 

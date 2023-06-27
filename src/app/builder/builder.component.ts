@@ -1892,8 +1892,8 @@ export class BuilderComponent implements OnInit {
     let newClass = selectedNode.className;
     selectedNode.id = selectedNode.id?.toLowerCase();
     if (typeof selectedNode.className === "string") {
-      const classObj  = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
-       configObj.className = classObj
+      const classObj = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
+      configObj.className = classObj
     }
     // this.selectedNode.className = newClass;
     // selectedNode.className = newClass;
@@ -2668,6 +2668,23 @@ export class BuilderComponent implements OnInit {
                 element['tooltipIcon'] = event.form.tooltipIcon;
               }
             });
+            if (Array.isArray(event.form.className)) {
+              if (event.form.className.length > 0) {
+                let classArray: any;
+                for (let i = 0; i < event.form.className.length; i++) {
+                  if (i == 0) {
+                    classArray = event.form.className[i];
+                  }
+                  else {
+                    classArray = classArray + ' ' + event.form.className[i];
+                  }
+                };
+                this.selectedNode['className'] = classArray;
+              }
+            }
+            else {
+              this.selectedNode['className'] = event.form.className;
+            }
             this.selectedNode.title = event.form.title;
             // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
@@ -3602,14 +3619,20 @@ export class BuilderComponent implements OnInit {
         if (event.form.className.length > 0) {
           let classArray: any;
           for (let i = 0; i < event.form.className.length; i++) {
-            if (i == 0) {
-              classArray = event.form.className[i];
-            }
-            else {
-              classArray = classArray + ' ' + event.form.className[i];
+            const classObj: any = JSON.parse(JSON.stringify(event.form.className[i].split(" ")));
+            if (classObj.length > 0) {
+              for (let j = 0; j < classObj.length; j++) {
+                if (j == 0 && i == 0) {
+                  classArray = classObj[j];
+                } else {
+                  classArray = classArray + ' ' + classObj[j];
+                }
+              }
             }
           };
           this.selectedNode['className'] = classArray;
+          this.selectedNode['className'] = JSON.parse(JSON.stringify(this.selectedNode['className']));
+          this.selectedNode = JSON.parse(JSON.stringify(this.selectedNode));
         }
       }
       else {
