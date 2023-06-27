@@ -1888,16 +1888,16 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
-    let selectedNodeClassName = this.selectedNode.className;
-    selectedNode.id = selectedNode.id?.toLowerCase();
-    let newClass: any = '';
-    if (typeof selectedNode.className === "string") {
-      newClass = selectedNode.className.split(" ");
-    }
     configObj = selectedNode;
-    configObj['className'] = JSON.parse(JSON.stringify(newClass));
-    this.selectedNode['className'] = selectedNodeClassName;
-    selectedNode['className'] = selectedNodeClassName;
+    let newClass = selectedNode.className;
+    selectedNode.id = selectedNode.id?.toLowerCase();
+    if (typeof selectedNode.className === "string") {
+      const classObj  = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
+       configObj.className = classObj
+    }
+    // this.selectedNode.className = newClass;
+    // selectedNode.className = newClass;
+    // configObj = JSON.parse(JSON.stringify(selectedNode));
     switch (type) {
       case "drawer":
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
