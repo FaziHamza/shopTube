@@ -30,6 +30,7 @@ export class ActionRuleComponent implements OnInit {
     this.editor = editor
   }
   ngOnDestroy() {
+    if(this.requestSubscription)
     this.requestSubscription.unsubscribe();
   }
   @Input() screens: any;

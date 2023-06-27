@@ -12,10 +12,16 @@
           *ngFor="let item of departments"></nz-option>
       </nz-select>
     </div>
-    <button class="ml-2" nz-button nzType="primary" (click)="checkPage()">
-      Go To Menu
-      <span nz-icon nzType="file-done"></span>
-    </button>
+    <div class="w-2/3">
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="ml-2"
+          nz-button nzType="primary" (click)="checkPage()">
+          Go To Menu
+          <span nz-icon nzType="file-done"></span>
+        </button>
+      </div>
+    </div>
+
     <!-- <div class="w-1/12 mt-1">
       <label class="pl-2">Icon Type</label>
     </div>
@@ -134,25 +140,25 @@
                           {{node.title}}
                         </div>
                         <span class=" mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="insertAt(node)">
-                        <span class="fa hover:shadow-lg text-blue-500" nz-icon
-                          nzType="copy"
-                          nzTooltipTitle="Duplicate" nzTheme="outline"
-                          nz-tooltip></span>
-                      </span>
-                      <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="openConfig(node,node)">
-                        <span class="fa hover:shadow-lg text-gray-500" nz-icon
-                          nzType="setting"
-                          nzTooltipTitle="Configuration" nzTheme="outline"
-                          nz-tooltip></span>
-                      </label>
-                      <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="remove(node)">
-                        <span class="fa hover:shadow-lg text-red-500" nz-icon
-                          nzType="delete" nzTooltipTitle="Delete"
-                          nzTheme="outline" nz-tooltip></span>
-                      </label>
+                          (click)="insertAt(node)">
+                          <span class="fa hover:shadow-lg text-blue-500" nz-icon
+                            nzType="copy"
+                            nzTooltipTitle="Duplicate" nzTheme="outline"
+                            nz-tooltip></span>
+                        </span>
+                        <label class="mx-1" *ngIf="isVisible === node.origin.id"
+                          (click)="openConfig(node,node)">
+                          <span class="fa hover:shadow-lg text-gray-500" nz-icon
+                            nzType="setting"
+                            nzTooltipTitle="Configuration" nzTheme="outline"
+                            nz-tooltip></span>
+                        </label>
+                        <label class="mx-1" *ngIf="isVisible === node.origin.id"
+                          (click)="remove(node)">
+                          <span class="fa hover:shadow-lg text-red-500" nz-icon
+                            nzType="delete" nzTooltipTitle="Delete"
+                            nzTheme="outline" nz-tooltip></span>
+                        </label>
                       </div>
                     </ng-template>
                   </nz-tree>

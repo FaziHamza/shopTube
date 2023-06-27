@@ -195,8 +195,8 @@ export class MenuBuilderComponent implements OnInit {
   getMenus(id: string) {
     debugger
     this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
+      this.dataSharedService.goToMenu = id;
       if (res.length > 0) {
-        this.dataSharedService.goToMenu = id;
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         this.applicationId = res[0]._id

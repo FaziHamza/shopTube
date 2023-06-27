@@ -2309,6 +2309,7 @@ export class BuilderComponent implements OnInit {
         break;
     }
     this.formModalData = configObj;
+   
   }
   menuSearch() {
     this.filterMenuData = [];
@@ -3614,30 +3615,30 @@ export class BuilderComponent implements OnInit {
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
-      this.selectedNode = { ...this.selectedNode, ...event.form };
+      debugger
+      // this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
-          let classArray: any;
+          let classArray: string = '';
           for (let i = 0; i < event.form.className.length; i++) {
-            const classObj: any = JSON.parse(JSON.stringify(event.form.className[i].split(" ")));
+            const classObj: string[] = event.form.className[i].split(" ");
             if (classObj.length > 0) {
               for (let j = 0; j < classObj.length; j++) {
-                if (j == 0 && i == 0) {
+                if (j === 0 && i === 0) {
                   classArray = classObj[j];
                 } else {
-                  classArray = classArray + ' ' + classObj[j];
+                  classArray += ' ' + classObj[j];
                 }
               }
             }
-          };
-          this.selectedNode['className'] = classArray;
-          this.selectedNode['className'] = JSON.parse(JSON.stringify(this.selectedNode['className']));
-          this.selectedNode = JSON.parse(JSON.stringify(this.selectedNode));
+          }
+          this.selectedNode.className = classArray;
+          this.selectedNode = { ...this.selectedNode, ...event.form };
         }
+      } else {
+        this.selectedNode.className = event.form.className;
       }
-      else {
-        this.selectedNode['className'] = event.form.className;
-      }
+      
       // this.updateNodes();
     }
     // this.showSuccess();
