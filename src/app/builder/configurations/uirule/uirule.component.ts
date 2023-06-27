@@ -319,7 +319,7 @@ export class UIRuleComponent implements OnInit {
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
       "screenName": this.screenName,
-      "screenId": this.screenId,
+      "screenBuilderId": this.screenId,
       "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
     }
     const uiModel = {
@@ -392,9 +392,9 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
 
-    this.applicationService.getNestCommonAPIById('ui-rule/screen', this.screenId).subscribe((getRes: Array<any>) => {
-      if (getRes[0]) {
-        const objUiData = JSON.parse(getRes[0].uiData);
+    this.applicationService.getNestCommonAPIById('cp/UiRule', this.screenId).subscribe((getRes: any) => {
+      if (getRes.isSuccess) {
+        const objUiData = JSON.parse(getRes.data[0].uiData);
         this.uiRuleForm = this.formBuilder.group({
           uiRules: this.formBuilder.array(
             objUiData.map((getUIRes: any, uiIndex: number) =>
@@ -426,8 +426,8 @@ export class UIRuleComponent implements OnInit {
             )
           )
         });
-      }
-
+      } else
+        this.toastr.error(getRes.message, { nzDuration: 3000 });
     });
   }
   getConditionListOnLoad(menuName: string) {

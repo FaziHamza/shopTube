@@ -52,9 +52,16 @@ export class ScreenBuilderComponent implements OnInit {
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const organizationNameA = a.orgnaizationName ? a.orgnaizationName : a.departmentName;
-        const organizationNameB = b.orgnaizationName ? b.orgnaizationName : b.departmentName;
-        if (organizationNameA === undefined && organizationNameB === undefined) {
+        const organizationNameA = a.orgnaizationName
+          ? a.orgnaizationName
+          : a.departmentName;
+        const organizationNameB = b.orgnaizationName
+          ? b.orgnaizationName
+          : b.departmentName;
+        if (
+          organizationNameA === undefined &&
+          organizationNameB === undefined
+        ) {
           return 0;
         } else if (organizationNameA === undefined) {
           return 1;
@@ -72,8 +79,12 @@ export class ScreenBuilderComponent implements OnInit {
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const applicationNameA = a.departmentName ? a.departmentName : a.applicationName;
-        const applicationNameB = b.departmentName ? b.departmentName : b.applicationName;
+        const applicationNameA = a.departmentName
+          ? a.departmentName
+          : a.applicationName;
+        const applicationNameB = b.departmentName
+          ? b.departmentName
+          : b.applicationName;
         if (applicationNameA === undefined && applicationNameB === undefined) {
           return 0;
         } else if (applicationNameA === undefined) {
@@ -113,19 +124,21 @@ export class ScreenBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, private applicationService: ApplicationService,
-    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private fb: FormBuilder) {
+  constructor(
+    public builderService: BuilderService,
+    private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService,
+    private toastr: NzMessageService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-
       if (field.key === 'departmentId' && event) {
-        debugger
         this.getApplicationOptionList(event);
       }
       if (field.key === 'organizationId' && event) {
-        debugger
         this.getDepartmentOptionList(event);
       }
-
     });
   }
   ngOnInit(): void {
@@ -151,25 +164,39 @@ export class ScreenBuilderComponent implements OnInit {
     this.jsonScreenModuleList();
   }
   jsonScreenModuleList() {
-    this.loading = true
-    this.applicationService.getNestCommonAPI('screen-builder').subscribe((res => {
-      this.listOfDisplayData = res;
-      this.listOfData = res;
-      this.loading = false;
-      this.jsonScreenModule = res;
-      const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-      nonEmptySearchArray.forEach((element: any) => {
-        this.search(element.searchValue, element);
-      });
-    }));
+    this.loading = true;
+    this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
+          this.listOfDisplayData = res.data;
+          this.listOfData = res.data;
+          this.loading = false;
+          this.jsonScreenModule = res.data;
+          const nonEmptySearchArray = this.listOfColumns.filter(
+            (element: any) => element.searchValue
+          );
+          nonEmptySearchArray.forEach((element: any) => {
+            this.search(element.searchValue, element);
+          });
+        } else {
+          this.toastr.error(`Screen : ${res.message}`, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+      },
+    });
   }
   getApplicationList() {
-    this.builderService.jsonModuleModuleList().subscribe((res => {
-      this.ApplicationData = res;
+    this.applicationService.getNestCommonAPI('cp/Application').subscribe(((res: any) => {
+      if (res.isSuccess)
+        this.ApplicationData = res.data;
+      else
+        this.toastr.success(res.message, { nzDuration: 3000 });
     }))
   }
   openModal() {
-
     this.form.reset();
     this.isVisible = true;
     if (this.isSubmit) {
@@ -190,16 +217,25 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    this.applicationService.getNestCommonAPI('department').subscribe((res => {
-      this.departmenData = res;
+    this.applicationService.getNestCommonAPI('cp/Department').subscribe((res: any) => {
+      if (res.isSuccess) {
+        console.log('getDepartment-Info');
+        this.departmenData = res.data;
+      } else console.error(res.message, { nzDuration: 3000 });
       // this.loadScreenListFields();
-    }));
+    });
   }
   getOrganization() {
-    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
-      this.organizationData = res;
-      this.loadScreenListFields();
-    }));
+    this.applicationService
+      .getNestCommonAPI('cp/Organization')
+      .subscribe((res: any) => {
+        if (res.isSuccess) {
+          console.log('getOrganization-Info');
+          this.organizationData = res;
+          this.loadScreenListFields();
+        }
+        else console.error(res.message, { nzDuration: 3000 });
+      });
   }
   // getModulelist(applicationName: any) {
   //   this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
@@ -211,27 +247,40 @@ export class ScreenBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    let findData = this.listOfDisplayData.find(a => a.screenId.toLowerCase() == this.form.value.screenId && a.id != this.model?.id);
-    let findDataScreen = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    let findData = this.listOfDisplayData.find(
+      (a) =>
+        a.screenId.toLowerCase() == this.form.value.screenId &&
+        a.id != this.model?.id
+    );
+    let findDataScreen = this.listOfDisplayData.find(
+      (a) =>
+        a.name.toLowerCase() == this.form.value.name.toLowerCase() &&
+        a.id != this.model?.id
+    );
 
     if (findData || findDataScreen) {
       if (findData) {
-        this.toastr.warning('Screen ID already exists in the database. Please choose a different ID.', { nzDuration: 2000 });
+        this.toastr.warning(
+          'Screen ID already exists in the database. Please choose a different ID.',
+          { nzDuration: 2000 }
+        );
       }
       if (findDataScreen) {
-        this.toastr.warning('Screen name already exists in the database. Please choose a different name.', { nzDuration: 2000 });
+        this.toastr.warning(
+          'Screen name already exists in the database. Please choose a different name.',
+          { nzDuration: 2000 }
+        );
       }
       this.loading = false;
       return;
-    }
-    else {
+    } else {
       const screenModel = {
-        "Screen": this.form.value
-      }
+        Screen: this.form.value,
+      };
 
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestCommonAPI('screen-builder', this.model._id, this.form.value);
+        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, this.form.value);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -256,59 +305,68 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartmentOptionList(id: string) {
-    this.applicationService.getNestCommonAPIById('department/organization', id).subscribe((res) => {
-      const moduleListOptions = res.map((item: any) => ({
-        label: item.name,
-        value: item._id
-      }));
+    this.applicationService.getNestCommonAPIById('cp/Department', id).subscribe((res: any) => {
+      if (res.isSuccess) {
+        const moduleListOptions = res.data.map((item: any) => ({
+          label: item.name,
+          value: item._id
+        }));
+        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+          const field = fieldGroup.fieldGroup[0];
+          return field.key === 'departmentId';
+        });
 
+        if (moduleFieldIndex !== -1) {
+          // Update the options of the "Select Module" field
+          this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+        }
+      } else
+        this.toastr.error(res.message, { nzDuration: 3000 });
       // Find the index of the "Select Module" field in the 'this.fields' array
-      const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-        const field = fieldGroup.fieldGroup[0];
-        return field.key === 'departmentId';
       });
-
-      if (moduleFieldIndex !== -1) {
-        // Update the options of the "Select Module" field
-        this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
-      }
-    });
   }
   getApplicationOptionList(id: string) {
-    this.applicationService.getNestCommonAPIById('application/department', id).subscribe((res) => {
-      const moduleListOptions = res.map((item: any) => ({
-        label: item.name,
-        value: item._id
-      }));
+    this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe((res: any) => {
+      if (res.isSuccess) {
+        const moduleListOptions = res.data.map((item: any) => ({
+          label: item.name,
+          value: item._id
+        }));
 
-      // Find the index of the "Select Module" field in the 'this.fields' array
-      const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-        const field = fieldGroup.fieldGroup[0];
-        return field.key === 'applicationId';
+        // Find the index of the "Select Module" field in the 'this.fields' array
+        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+          const field = fieldGroup.fieldGroup[0];
+          return field.key === 'applicationId';
+        });
+
+        if (moduleFieldIndex !== -1) {
+          // Update the options of the "Select Module" field
+          this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+        }
+      } else
+        this.toastr.error(res.message, { nzDuration: 3000 });
       });
-
-      if (moduleFieldIndex !== -1) {
-        // Update the options of the "Select Module" field
-        this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
-      }
-    });
   }
 
   editItem(item: any) {
     debugger
     this.model = JSON.parse(JSON.stringify(item));
-    this.getApplicationOptionList(this.model.departmentId)
+    this.getApplicationOptionList(this.model.departmentId);
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.applicationService.deleteNestCommonAPI('screen-builder', id).subscribe((res => {
-      this.jsonScreenModuleList();
-      this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
-    }))
-  };
+    this.applicationService
+      .deleteNestCommonAPI('cp/ScreenBuilder', id)
+      .subscribe((res: any) => {
+        if (res.isSucces) {
+          this.jsonScreenModuleList();
+          this.toastr.success(`Screen: ${res.message}`, { nzDuration: 2000, });
+        } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
+      });
+  }
   goToBuildPage(screenName: any) {
-    this.router.navigate(["/builder"]);
-    this.dataSharedService.screenName = screenName
+    this.router.navigate(['/builder']);
+    this.dataSharedService.screenName = screenName;
   }
   downloadJson() {
     let obj = Object.assign({}, this.jsonScreenModule);
@@ -321,12 +379,20 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(event?: any, data?: any): void {
-    debugger
-    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    debugger;
+    const inputValue = event?.target
+      ? event.target.value?.toLowerCase()
+      : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) => {
         const { name } = data;
-        const { screenId, applicationName, departmentName, moduleName, name: itemName } = item;
+        const {
+          screenId,
+          applicationName,
+          departmentName,
+          moduleName,
+          name: itemName,
+        } = item;
 
         if (name === 'Screen Id') {
           return screenId.toLowerCase().indexOf(inputValue) !== -1;
@@ -334,7 +400,9 @@ export class ScreenBuilderComponent implements OnInit {
 
         if (name === 'Department') {
           const department = applicationName || departmentName;
-          return department && department.toLowerCase().indexOf(inputValue) !== -1;
+          return (
+            department && department.toLowerCase().indexOf(inputValue) !== -1
+          );
         }
 
         if (name === 'Screen Name') {
@@ -343,18 +411,18 @@ export class ScreenBuilderComponent implements OnInit {
 
         if (name === 'Application') {
           const application = moduleName || applicationName;
-          return application && application.toLowerCase().indexOf(inputValue) !== -1;
+          return (
+            application && application.toLowerCase().indexOf(inputValue) !== -1
+          );
         }
 
         return false;
       });
 
-      data.searchIcon = "close";
-    }
-
-    else {
+      data.searchIcon = 'close';
+    } else {
       this.listOfDisplayData = this.listOfData;
-      data.searchIcon = "search";
+      data.searchIcon = 'search';
     }
   }
 
@@ -368,7 +436,7 @@ export class ScreenBuilderComponent implements OnInit {
   loadScreenListFields() {
     const options = this.organizationData.map((item: any) => ({
       label: item.name,
-      value: item._id
+      value: item._id,
     }));
     this.fields = [
       {
@@ -376,70 +444,70 @@ export class ScreenBuilderComponent implements OnInit {
           {
             key: 'organizationId',
             type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Select Organization',
               options: options,
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'departmentId',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Select Department',
-              options: [],
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'applicationId',
-            type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Select Application',
-              options: [],
-            }
-          }
-        ]
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'name',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Screen Name',
-              placeholder: 'Screen Name...',
-              required: true,
-            }
+            },
           },
         ],
       },
       {
         fieldGroup: [
           {
-            key: 'screenId',
+            key: 'departmentId',
+            type: 'select',
+            wrappers: ['formly-vertical-theme-wrapper'],
+            defaultValue: '',
+            props: {
+              label: 'Select Department',
+              options: [],
+            },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'applicationId',
+            type: 'select',
+            wrappers: ['formly-vertical-theme-wrapper'],
+            defaultValue: '',
+            props: {
+              label: 'Select Application',
+              options: [],
+            },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'name',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
+            defaultValue: '',
+            props: {
+              label: 'Screen Name',
+              placeholder: 'Screen Name...',
+              required: true,
+            },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'navigation',
+            type: 'input',
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Screen Id',
               placeholder: 'Screen Id...',
               required: true,
-            }
+            },
           },
         ],
       },

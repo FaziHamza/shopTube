@@ -64,39 +64,41 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('business-rule/screen', this.screenId).subscribe({
-        next: (getRes) => {
-          if (getRes.length > 0) {
-            const objRuleData = JSON.parse(getRes[0].buisnessRuleData);
-            this.buisnessForm = this.formBuilder.group({
-              buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
-                this.formBuilder.group({
-                  ifCondition: [getBuisnessRuleRes.ifCondition],
-                  oprator: [getBuisnessRuleRes.oprator],
-                  getValue: [getBuisnessRuleRes.getValue],
-                  target: [getBuisnessRuleRes.target],
-                  opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                  resultValue: [getBuisnessRuleRes.resultValue],
-                  conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
-                    this.formBuilder.group({
-                      condifCodition: getConditionalRes.condifCodition,
-                      condOperator: getConditionalRes.condOperator,
-                      condValue: getConditionalRes.condValue,
-                      condType: getConditionalRes.condType
-                    })
-                  )),
-                  thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                    this.formBuilder.group({
-                      thenTarget: getthenCodRes.thenTarget,
-                      thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
-                      thenResultValue: getthenCodRes.thenResultValue
-                    })
-                  ))
-                })
-              ))
-            });
-          }
-
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', this.screenId).subscribe({
+        next: (getRes: any) => {
+          if (getRes.isSuccess) {
+            if (getRes.data.length > 0) {
+              const objRuleData = JSON.parse(getRes.data[0].buisnessRuleData);
+              this.buisnessForm = this.formBuilder.group({
+                buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
+                  this.formBuilder.group({
+                    ifCondition: [getBuisnessRuleRes.ifCondition],
+                    oprator: [getBuisnessRuleRes.oprator],
+                    getValue: [getBuisnessRuleRes.getValue],
+                    target: [getBuisnessRuleRes.target],
+                    opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
+                    resultValue: [getBuisnessRuleRes.resultValue],
+                    conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                      this.formBuilder.group({
+                        condifCodition: getConditionalRes.condifCodition,
+                        condOperator: getConditionalRes.condOperator,
+                        condValue: getConditionalRes.condValue,
+                        condType: getConditionalRes.condType
+                      })
+                    )),
+                    thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                      this.formBuilder.group({
+                        thenTarget: getthenCodRes.thenTarget,
+                        thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                        thenResultValue: getthenCodRes.thenResultValue
+                      })
+                    ))
+                  })
+                ))
+              });
+            }
+          } else
+            this.toastr.error(getRes.data, { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err);
@@ -209,7 +211,7 @@ export class BusinessRuleComponent implements OnInit {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const businessRuleValid = {
       "screenName": this.screenName,
-      "screenId": this.screenId,
+      "screenBuilderId": this.screenId,
       "businessRule": JSON.stringify(this.bussinessRuleObj),
       "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
     }

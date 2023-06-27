@@ -167,7 +167,7 @@ export class ApplicationBuilderComponent implements OnInit {
       const obj = {
         "ScreenBuilder": {
           name: value.name + "_default",
-          screenId: value.name + "_default",
+          navigation: value.name + "_default",
           departmentId: value._id,
           applicationId: value.departmentId
         }
@@ -180,7 +180,7 @@ export class ApplicationBuilderComponent implements OnInit {
               const screen = {
                 "ScreenBuilder": {
                   name: value.name + "_header",
-                  screenId: value.name + "_header",
+                  navigation: value.name + "_header",
                   departmentId: value._id,
                   applicationId: value.departmentId
                 }
@@ -190,7 +190,7 @@ export class ApplicationBuilderComponent implements OnInit {
                   let screen = {
                     "ScreenBuilder": {
                       name: value.name + "_footer",
-                      screenId: value.name + "_footer",
+                      navigation: value.name + "_footer",
                       departmentId: value._id,
                       applicationId: value.departmentId
                     }

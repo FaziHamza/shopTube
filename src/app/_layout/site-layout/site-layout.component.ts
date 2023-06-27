@@ -127,7 +127,7 @@ export class SiteLayoutComponent implements OnInit {
 
       if (module) {
         setTimeout(() => {
-          const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
+          const filteredMenu = this.menuList.filter((item: any) => item.applicationId == module);
           if (filteredMenu.length > 0) {
             this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
             this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
@@ -372,7 +372,7 @@ export class SiteLayoutComponent implements OnInit {
             // }
             this.currentWebsiteLayout = "backend_application";
 
-            res.forEach((element: any) => {
+            res.data.forEach((element: any) => {
               let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
               const newNode = {
                 id: newID,
@@ -422,11 +422,23 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   getAllMenu() {
-    this.requestSubscription = this.builderService.genericApis('jsonModuleSetting').subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.menuList = res;
-        }
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const objMenu =
+            {
+              "_id": res.data._id,
+              "name": res.data.name,
+              "selectedTheme": JSON.parse(res.data.selectedTheme),
+              "menuData": JSON.parse(res.data.menuData),
+              "__v": 0,
+              "applicationId": "648b4d73dc2ca800d3684f7b"
+            }
+            this.menuList = objMenu;
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

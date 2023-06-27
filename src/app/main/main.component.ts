@@ -108,8 +108,11 @@ export class MainComponent implements OnInit {
   }
   getJoiValidation() {
     debugger
-    this.applicationServices.getNestCommonAPIById('validation-rule/screen', this.screenId).subscribe((getRes => {
-      this.joiValidationData = getRes;
+    this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe(((getRes: any) => {
+      if (getRes.isSuccess)
+        this.joiValidationData = getRes.data;
+      else
+        this.toastr.error(getRes.message, { nzDuration: 3000 });
     }))
   }
   joiValidation() {

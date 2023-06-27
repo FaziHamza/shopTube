@@ -187,52 +187,55 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
-    this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
-      if (res.length > 0) {
-        let getApplication = this.applications.find((a: any) => a._id == id);
-        this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-        this.applicationId = res[0]._id
-        this.nodes = JSON.parse(res[0].menuData);
-        if (res[0].selectedTheme) {
-          this.selectedTheme = JSON.parse(res[0].selectedTheme);
-          this.selectedTheme.allMenuItems = this.nodes;
+    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+      if (res.isSuccess) {
+        if (res.data.length > 0) {
+          let getApplication = this.applications.find((a: any) => a._id == id);
+          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          this.applicationId = res.data[0]._id
+          this.nodes = JSON.parse(res.data[0].menuData);
+          if (res.data[0].selectedTheme) {
+            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          else {
+            this.selectedTheme = {
+              topHeaderMenu: 'w-1/6',
+              topHeader: 'w-10/12',
+              menuMode: 'inline',
+              menuColumn: 'w-2/12',
+              rowClass: 'w-10/12',
+              horizontalRow: 'flex flex-wrap',
+              layout: 'vertical',
+              colorScheme: 'light',
+              layoutWidth: 'fluid',
+              layoutPosition: 'fixed',
+              topBarColor: 'light',
+              sideBarSize: 'default',
+              siderBarView: 'sidebarViewDefault',
+              sieBarColor: 'light',
+              siderBarImages: '',
+              checked: false,
+              theme: false,
+              isCollapsed: false,
+              newMenuArray: [],
+              menuChildArrayTwoColumn: [],
+              isTwoColumnCollapsed: false,
+              allMenuItems: [],
+              showMenu: true,
+            }
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          this.makeMenuData();
         }
         else {
-          this.selectedTheme = {
-            topHeaderMenu: 'w-1/6',
-            topHeader: 'w-10/12',
-            menuMode: 'inline',
-            menuColumn: 'w-2/12',
-            rowClass: 'w-10/12',
-            horizontalRow: 'flex flex-wrap',
-            layout: 'vertical',
-            colorScheme: 'light',
-            layoutWidth: 'fluid',
-            layoutPosition: 'fixed',
-            topBarColor: 'light',
-            sideBarSize: 'default',
-            siderBarView: 'sidebarViewDefault',
-            sieBarColor: 'light',
-            siderBarImages: '',
-            checked: false,
-            theme: false,
-            isCollapsed: false,
-            newMenuArray: [],
-            menuChildArrayTwoColumn: [],
-            isTwoColumnCollapsed: false,
-            allMenuItems: [],
-            showMenu: true,
-          }
-          this.selectedTheme.allMenuItems = this.nodes;
+          this.clearChildNode();
+          this.applicationId = '';
+          this.clickBack();
         }
-        this.makeMenuData();
-      }
-      else {
-        this.clearChildNode();
-        this.applicationId = '';
-        this.clickBack();
-      }
-      // this.prepareDragDrop(this.nodes);
+        // this.prepareDragDrop(this.nodes);
+      } else
+        this.toastr.error(res.message, { nzDuration: 3000 });
     }));
   }
   clickBack() {
@@ -1438,10 +1441,13 @@ export class MenuBuilderComponent implements OnInit {
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
-        next: (res) => {
-          this.applications = res;
-          this.clickBack();
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.applications = res.data;
+            this.clickBack();
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err); // Log the error to the console

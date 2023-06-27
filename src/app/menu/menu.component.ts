@@ -100,33 +100,36 @@ export class MenuComponent implements OnInit {
   UpdateMenuLink(data: any) {
     // if (data.applicationName) {
     this.selectedApp = data.name;
-    this.applicationService.getNestCommonAPIById('menu/application', data._id).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          const resData = {
-            _id: res[0]._id,
-            name: res[0].name,
-            applicationId: res[0].id,
-            menuData: JSON.parse(res[0].menuData),
-            selectedTheme: JSON.parse(res[0].selectedTheme),
+    this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const resData = {
+              _id: res[0]._id,
+              name: res[0].name,
+              applicationId: res[0].id,
+              menuData: JSON.parse(res[0].menuData),
+              selectedTheme: JSON.parse(res[0].selectedTheme),
 
+            }
+            let obj = {
+              emitData: resData,
+              screenType: ''
+            };
+            this.notify.emit(obj);
           }
-          let obj = {
-            emitData: resData,
-            screenType: ''
-          };
-          this.notify.emit(obj);
-        }
-        else {
-          this.notification.create(
-            'error',
-            'Error',
-            'No menu against this module'
-          );
-        }
+          else {
+            this.notification.create(
+              'error',
+              'Error',
+              'No menu against this module'
+            );
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
-
+        this.toastr.error("Error Unhandler", { nzDuration: 3000 });
       }
     });
     // this.employeeService.getJsonModules(data.name).subscribe((res => {

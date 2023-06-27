@@ -50,7 +50,7 @@ export class BuilderComponent implements OnInit {
   nodes: any = [];
   screens: any;
   screenName: any;
-  screenId: any = 0;
+  navigation: any = '';
   _id: any = "";
   // moduleId: any;
   screenPage: boolean = false;
@@ -136,9 +136,12 @@ export class BuilderComponent implements OnInit {
 
   }
   getScreenBuilder(applicationId: string) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('screen-builder/application', applicationId).subscribe({
-      next: (res) => {
-        this.screens = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.screens = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -154,18 +157,21 @@ export class BuilderComponent implements OnInit {
         if (res.isSuccess)
           this.departmentData = res.data;
         else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
+        this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
+    },
       error: (err) => {
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.toastr.error(`Department : An error occured`, { nzDuration: 3000 });
       }
     });
   };
   getApplications(id: any) {
     this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
-      next: (res) => {
-        this.applicationData = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.applicationData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -251,13 +257,13 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
       }
-      // const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
+      // const selectedScreen = this.screens.filter((a: any) => a._id == this.navigation)
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
         "screenName": this.screenName,
-        "screenId": this.screenId,
-        "screen_Id": this._id,
+        "navigation": this.navigation,
+        "screenBuilderId": this._id,
       };
       const builderModel = {
         "Builder": data
@@ -268,12 +274,18 @@ export class BuilderComponent implements OnInit {
       //   this.dataSharedService.footerData = [];
       //   this.dataSharedService.checkModule = '';
       // }
-      // this.screenId = selectedScreen[0].screenId;
-      // if (this.screenId > 0) {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', builderModel).subscribe({
+      // this.navigation = selectedScreen[0].navigation;
+      // if (this.navigation > 0) {
+      const checkBuilderAndProcess = this.builderScreenData.length > 0
+        ? this.applicationService.updateNestCommonAPI('cp/Builder', this.builderScreenData[0]._id, builderModel)
+        : this.applicationService.addNestCommonAPI('cp', builderModel);
+
+      this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
-          if (res.isSuccess)
+          if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
+            this.getBuilderScreen();
+          }
           else
             this.toastr.error(res.message, { nzDuration: 3000 });
 
@@ -334,6 +346,7 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   previousScreenId: string = '';
+  builderScreenData: any;
   getScreenData(data: any) {
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
@@ -342,10 +355,11 @@ export class BuilderComponent implements OnInit {
           debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
-          this.screenId = objScreen.screenId;
+          this.navigation = objScreen.navigation;
           this.screenName = objScreen.name;
-          this.previousScreenId = objScreen.screenId;
+          this.previousScreenId = objScreen.navigation;
           this.isSavedDb = false;
+          this.getBuilderScreen();
           // const newScreenName = this.screens
           // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
           //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
@@ -364,10 +378,23 @@ export class BuilderComponent implements OnInit {
           //     })
           //   }
           // }
-          this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
-            next: (res) => {
-              if (res.length > 0) {
-                const objScreenData = JSON.parse(res[0].screenData);
+
+          this.screenPage = true;
+        }).catch(() => this.navigation = this.previousScreenId)
+      },
+      nzOnCancel: () => {
+        this.navigation = this.previousScreenId;
+        console.log('User clicked Cancel');
+      }
+    });
+  }
+  getBuilderScreen() {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.builderScreenData = res.data;
+          if (res.data.length > 0) {
+            const objScreenData = JSON.parse(res.data[0].screenData);
                 this.isSavedDb = true;
                 // this.moduleId = res[0].moduleId;
                 this.formlyModel = [];
@@ -381,7 +408,7 @@ export class BuilderComponent implements OnInit {
                 //   // this.uiGridRuleGetData(res[0].moduleId);
                 // }
                 // else {
-                //   this.screenId = res[0].id;
+            //   this.navigation = res[0].id;
                 //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
                 //   // this.uiRuleGetData(res[0].moduleId);
                 //   // this.uiGridRuleGetData(res[0].moduleId);
@@ -389,7 +416,7 @@ export class BuilderComponent implements OnInit {
 
               }
               else {
-                // this.screenId = 0;
+            // this.navigation = 0;
                 this.clearChildNode();
               }
               this.isSavedDb = true;
@@ -398,20 +425,13 @@ export class BuilderComponent implements OnInit {
               this.getBusinessRule();
               this.expandedKeys = this.nodes.map((node: any) => node.key);
               this.uiRuleGetData(this.screenName);
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
             },
             error: (err) => {
               console.error(err); // Log the error to the console
               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
             }
-          }
-          );
-          this.screenPage = true;
-        }).catch(() => this.screenId = this.previousScreenId)
-      },
-      nzOnCancel: () => {
-        this.screenId = this.previousScreenId;
-        console.log('User clicked Cancel');
-      }
     });
   }
   applyDefaultValue() {
@@ -494,7 +514,7 @@ export class BuilderComponent implements OnInit {
     {
       "screenName": this.screenName,
       "screenData": currentData,
-      "screenId": this.screenId
+      "navigation": this.navigation
     };
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -633,25 +653,31 @@ export class BuilderComponent implements OnInit {
     // this.cdr.detach();
   }
   getJoiValidation(_id: any) {
-    this.applicationService.getNestCommonAPIById('validation-rule/screen', _id).subscribe((getRes => {
-      this.joiValidationData = getRes;
-    }))
+    this.applicationService.getNestCommonAPIById('cp/ValidationRule', _id).subscribe(((getRes: any) => {
+      if (getRes.isSuccess)
+        this.joiValidationData = getRes.data;
+      else
+        this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
+    }));
   }
   getUIRuleData(data: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', this._id).subscribe({
-      next: (getRes) => {
-        if (getRes.length > 0) {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UiRule', this._id).subscribe({
+      next: (getRes: any) => {
+        if (getRes.isSuccess) {
+          if (getRes.data.length > 0) {
           const jsonUIResult = {
             // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
             "key": this.selectedNode.key,
             "title": this.selectedNode.title,
             "screenName": this.screenName,
-            "screenId": this._id,
-            "uiData": JSON.parse(getRes[0].uiData),
+              "screenBuilderId": this._id,
+              "uiData": JSON.parse(getRes.data[0].uiData),
           }
           this.screenData = jsonUIResult;
         } else {
         }
+        } else
+          this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -816,14 +842,17 @@ export class BuilderComponent implements OnInit {
   getBusinessRule() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('business-rule/screen', this._id).subscribe({
-        next: (getRes) => {
-          if (getRes.length > 0) {
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', this._id).subscribe({
+        next: (getRes: any) => {
+          if (getRes.isSuccess)
+            if (getRes.data.length > 0) {
             this.businessRuleData = [];
-            this.businessRuleData = JSON.parse(getRes[0].buisnessRule)
+              this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
           } else {
             this.businessRuleData = [];
           }
+          else
+            this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
         },
         error: (err) => {
           console.error(err); // Log the error to the console
@@ -2502,7 +2531,7 @@ export class BuilderComponent implements OnInit {
     if (node.id) {
       let changeId = node.id.split('_')
       if (changeId.length == 2) {
-        node.id = this.screenId + '_' + changeId[0] + '_' + Guid.newGuid();
+        node.id = this.navigation + '_' + changeId[0] + '_' + Guid.newGuid();
       } else {
         node.id = changeId[0] + '_' + changeId[1] + '_' + Guid.newGuid();
       }
@@ -3016,12 +3045,12 @@ export class BuilderComponent implements OnInit {
           this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
             next: (res: any) => {
               if (res.isSuccess)
-                this.toastr.success(res.message, { nzDuration: 3000 });
-              else
-                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 });
+                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+              else {this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })}
             },
             error: (err) => {
-              this.toastr.error('validation rule not save, some exception unhandle', { nzDuration: 3000 });
+              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
             }
           });
           // if (selectedScreen.length > 0) {
@@ -3853,9 +3882,9 @@ export class BuilderComponent implements OnInit {
           {
             "screenName": makeData.screenName,
             "screenData": currentData,
-            "screenId": makeData.screenId,
+            "navigation": makeData.navigation,
           };
-          this.screenId = makeData.screenId;
+          this.navigation = makeData.navigation;
           this.nodes = makeData.screenData;
           // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
           //   if (res.length > 0) {
@@ -4499,21 +4528,20 @@ export class BuilderComponent implements OnInit {
     debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Template').subscribe({
       next: (res: any) => {
-        if (res.isSucces) {
-          this.dbWebsiteBlockArray = res.filter((x: any) => x.templateType == 'websiteBlock');
+        if (res.isSuccess) {
+          this.dbWebsiteBlockArray = res.data.filter((x: any) => x.templateType == 'websiteBlock');
           this.htmlTabsData[0].children.forEach((item: any) => {
             if (item?.id == 'template') {
-              item.children[0].children = res.filter((x: any) => x.templateType == 'builderBlock');
+              item.children[0].children = res.data.filter((x: any) => x.templateType == 'builderBlock');
             }
           })
         } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+         {this.toastr.error(`Template : ${res.message}`, { nzDuration: 3000 }); }
       },
       error: (err) => {
         console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        {this.toastr.error(`Template : An error occurred`, { nzDuration: 3000 }); }
       }
-
     });
   }
 
@@ -4555,9 +4583,8 @@ export class BuilderComponent implements OnInit {
     this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
-          this.toastr.success(res.message, { nzDuration: 3000 });
-        else
-          this.toastr.success(res.message, { nzDuration: 3000 });
+        this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+        else this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
       },
       error: () => {
         this.toastr.error('Delete data unhandler', { nzDuration: 3000 });

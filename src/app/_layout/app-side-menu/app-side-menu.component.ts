@@ -52,18 +52,20 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   getMenu() {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "649053c6ad28a951f554e688").subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
-          this.makeMenuData();
-          this.selectedTheme.allMenuItems.forEach((e: any) => {
-            e["menuIcon"] = "up"
-          });
-        }
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          if (res.data.length > 0) {
+            this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+            this.makeMenuData();
+            this.selectedTheme.allMenuItems.forEach((e: any) => {
+              e["menuIcon"] = "up"
+            });
+          }
+          else
+            this.menuItems = [];
         else
-          this.menuItems = [];
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

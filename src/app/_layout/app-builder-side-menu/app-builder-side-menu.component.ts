@@ -158,8 +158,8 @@ export class AppBuilderSideMenuComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        id:'menu_428605c1',
-        key:'menu_0f7d1e4e',
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
         children: []
       }]
       const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);
@@ -171,19 +171,22 @@ export class AppBuilderSideMenuComponent implements OnInit {
     }
   }
   getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "64904a898a251ec02d145c55").subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.selectedTheme = JSON.parse(res[0].selectedTheme) ;
-          this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
-          if (!res[0].selectedTheme.showMenu) {
-            this.selectedTheme['showMenu'] = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64904a898a251ec02d145c55").subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          if (res.data.length > 0) {
+            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+            this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+            if (!res[0].selectedTheme.showMenu) {
+              this.selectedTheme['showMenu'] = true;
+            }
+            this.makeMenuData();
+            this.notifyEmit({ emitData: true, screenType: "desktop" })
           }
-          this.makeMenuData();
-          this.notifyEmit({ emitData: true, screenType: "desktop" })
-        }
+          else
+            this.newSelectedTheme.allMenuItems = [];
         else
-          this.newSelectedTheme.allMenuItems = [];
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);
