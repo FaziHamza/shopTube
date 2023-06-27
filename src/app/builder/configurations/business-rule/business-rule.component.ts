@@ -218,11 +218,13 @@ export class BusinessRuleComponent implements OnInit {
     if (businessRuleValidModel.BusinessRule != null) {
       if (mainModuleId[0].screenId != null) {
         this.requestSubscription = this.applicationService.addNestCommonAPI('cp', businessRuleValidModel).subscribe({
-          next: (res) => {
-            this.toastr.success("Buisness rule save successfully", { nzDuration: 3000 });
+          next: (res:any) => {
+           if (res.isSuccess) {
+            this.toastr.success(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
+           } else this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.toastr.error(`Buisness rule: An error occured`, { nzDuration: 3000 });
           }
         });
         // this.requestSubscription = this.builderService.jsonBisnessRuleGet(selectedScreen[0].screenId).subscribe({
