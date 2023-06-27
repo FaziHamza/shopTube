@@ -440,7 +440,7 @@ export class BusinessRuleGridComponent implements OnInit {
       .at(conditionIndex)
       .get('multiConditionList') as FormArray;
   }
-  addBuisnessRule() {
+  addGridBuisnessRule() {
 
     this.buisnessRule().push(this.newBuisnessRule());
   }
@@ -636,7 +636,7 @@ export class BusinessRuleGridComponent implements OnInit {
     let conValue = this.buisnessRuleSkills(empIndex)?.at(skillIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
     this.buisnessRuleSkills(empIndex).at(skillIndex).get("condType")?.setValue(conValue);
   }
-  saveBussinessRule() {
+  saveGridBusinessRule() {
 
     let condThen: any = [];
     this.GridBusinessRuleData = [];
@@ -672,17 +672,19 @@ export class BusinessRuleGridComponent implements OnInit {
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
-
-    const gridRuleValidModel = {
-      "GridBusinessRule" :gridRuleValid
+ // api response work
+    const gridBusinessRuleModel = {
+      "GridBusinessRule" : gridRuleValid
     }
-    if (gridRuleValid != null) {
+
+    if (gridBusinessRuleModel.GridBusinessRule != null) {
+      debugger
       if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridRuleValidModel).subscribe({
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel).subscribe({
           next: (res:any) => {
             if (res.isSuccess) {
-              this.toastr.success(`Grid Business Rule: ${res.message}`, { nzDuration: 3000 });
-            } else { this.toastr.error(`Grid Business Rule: ${res.message}`, { nzDuration: 3000 });}
+              this.toastr.success( `Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+            } else this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
             this.toastr.error("Grid Business Rule: An error occurred", { nzDuration: 3000 });
@@ -796,7 +798,7 @@ export class BusinessRuleGridComponent implements OnInit {
         isGetValue: true
       });
   }
-  deleteBuisnessRule() {
+  deleteGridBuisnessRule() {
     this.applicationService.deleteNestCommonAPI('grid-business-rule', this.screenId).subscribe({
       next: (res) => {
         this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });

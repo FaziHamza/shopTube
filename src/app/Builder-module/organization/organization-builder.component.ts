@@ -195,9 +195,9 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true
-    this.applicationService.getNestCommonAPI('organization').subscribe(((res: any) => {
-      if (res.isSuccess) {
-        this.listOfDisplayData = res.data.map((obj: any) => {
+    this.applicationService.getNestCommonAPI('organization').subscribe(({
+      next: (res: any) => {
+        this.listOfDisplayData = res.map((obj: any) => {
           obj.expand = false;
           return obj;
         });
@@ -209,9 +209,10 @@ export class organizationBuilderComponent implements OnInit {
         nonEmptySearchArray.forEach((element: any) => {
           this.search(element.searchValue, element);
         });
-      } else {
+      },
+      error:(err)=>{
         this.loading = false;
-        this.toastr.error(res.message, { nzDuration: 2000 });
+        this.toastr.error("some error exception", { nzDuration: 2000 });
       }
     }));
   }
@@ -283,11 +284,11 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
-      const modelData = {
+      const organizationModel = {
         "Organization": this.form.value
       }
       const addOrUpdateOrganization$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', modelData)
+        ? this.applicationService.addNestCommonAPI('cp', organizationModel)
         : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
 
       addOrUpdateOrganization$.subscribe((res: any) => {
@@ -296,9 +297,9 @@ export class organizationBuilderComponent implements OnInit {
           this.isSubmit = true;
           this.resetForm();
           this.handleCancel();
-          this.toastr.success(res.message, { nzDuration: 2000 });
+          this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
         } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
+          this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
         }
       });
     }

@@ -322,14 +322,22 @@ export class UIRuleComponent implements OnInit {
       "screenId": this.screenId,
       "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
     }
+    const uiModel = {
+      "UiRule": jsonUIResult
+    }
     if (jsonUIResult != null) {
-      this.applicationService.addNestCommonAPI('ui-rule', jsonUIResult).subscribe({
-        next: (res) => {
-          this.toastr.success("Ui rule save successfully", { nzDuration: 3000 }); // Show an error message to the user
-          this.ruleNotify.emit(true);
-          this.screenData = [];
-          this.screenData = jsonUIResult;
-          this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+      this.applicationService.addNestCommonAPI('cp', uiModel).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+
+            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+            this.ruleNotify.emit(true);
+            this.screenData = [];
+            this.screenData = jsonUIResult;
+            this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          }
         },
         error: (err) => {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
