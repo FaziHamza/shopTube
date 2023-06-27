@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
   departments: any;
   applications: any;
   selectedApp: string = '';
-  isCollapsed: boolean = false;
+  isCollapsed: boolean = true;
   isVisible: boolean = false;
   showCollapseButton: boolean = true;
   requestSubscription: Subscription;
@@ -74,8 +74,8 @@ export class MenuComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res)
-         
-        this.isCollapsed = res;
+
+          this.isCollapsed = res;
       },
       error: (err) => {
         console.error(err);
@@ -162,9 +162,14 @@ export class MenuComponent implements OnInit {
 
   }
   collapse(screenType: any) {
-    this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    debugger
+    if (screenType == 'desktop') {
+      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    } else {
+      this.isCollapsed = !this.isCollapsed;
+    }
     let obj = {
-      emitData: this.selectedTheme.isCollapsed,
+      emitData: screenType == 'desktop' ? this.selectedTheme.isCollapsed : this.isCollapsed,
       screenType: screenType
     };
     this.notify.emit(obj);
@@ -187,7 +192,7 @@ export class MenuComponent implements OnInit {
     );
     this.translate.use(lang);
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
 }

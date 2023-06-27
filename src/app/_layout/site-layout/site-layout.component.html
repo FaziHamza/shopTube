@@ -12,7 +12,7 @@
           <img *ngIf="!selectedTheme.isCollapsed" class="logo-sm" src="assets/images/Daco_4764006.png">
           <button
             *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
-            nz-button class="menu-collapse" (click)="collapsed()" nzType="primary">
+            nz-button class="desktop-toggle" (click)="collapsed()" nzType="primary">
             <span nz-icon [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
           </button>
 

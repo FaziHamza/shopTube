@@ -1888,19 +1888,16 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
-    configObj = JSON.parse(JSON.stringify(selectedNode));
+    let selectedNodeClassName = this.selectedNode.className;
     selectedNode.id = selectedNode.id?.toLowerCase();
+    let newClass: any = '';
     if (typeof selectedNode.className === "string") {
-      let classes: any = selectedNode.className;
-      if (classes) {
-        let classList = classes.split(" ");
-        let newClass: any = [...classList];
-        configObj['className'] = newClass;
-      }
+      newClass = selectedNode.className.split(" ");
     }
-
-
     configObj = selectedNode;
+    configObj['className'] = JSON.parse(JSON.stringify(newClass));
+    this.selectedNode['className'] = selectedNodeClassName;
+    selectedNode['className'] = selectedNodeClassName;
     switch (type) {
       case "drawer":
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
@@ -2672,7 +2669,7 @@ export class BuilderComponent implements OnInit {
               }
             });
             this.selectedNode.title = event.form.title;
-            this.selectedNode.className = event.form.className;
+            // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
             this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
             this.selectedNode.hideExpression = event.form.hideExpression;
@@ -4546,8 +4543,8 @@ export class BuilderComponent implements OnInit {
 
   handleBeforeDrop(event: any) {
     debugger
-    const dropNode = event.node; 
-    const dragNode: any = event.dragNode; 
+    const dropNode = event.node;
+    const dragNode: any = event.dragNode;
     const previousDragNode: any = this.findDraggedItem(this.nodes[0].children[1].children, dragNode.key);
     if (previousDragNode) {
       const index = previousDragNode.parentNode.children.findIndex((node: any) => node.key === previousDragNode.key);

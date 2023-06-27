@@ -202,6 +202,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
     }
   }
   collapsed() {
+    this.selectedTheme.showMenu = true;
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
       this.selectedTheme.topHeaderMenu = 'w-1/12';

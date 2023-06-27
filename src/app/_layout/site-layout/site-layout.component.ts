@@ -174,6 +174,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   notifyEmit(data: any) {
+    debugger
     if (data.screenType) {
       if (data.screenType == 'desktop') {
         this.selectedTheme.showMenu = true;
@@ -192,6 +193,7 @@ export class SiteLayoutComponent implements OnInit {
         }
       }
       else if (data.screenType == 'mobile') {
+        // this.selectedTheme.isCollapsed = false;
         this.selectedTheme.showMenu = data.emitData;
       }
       // let newData = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -210,6 +212,8 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   collapsed() {
+    debugger
+    this.selectedTheme.showMenu = true;
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
       this.selectedTheme.topHeaderMenu = 'w-1/12';
