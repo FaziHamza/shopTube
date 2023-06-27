@@ -163,57 +163,68 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
-
     if (isSubmit && key == "applicationId") {
-      let obj = {
-        name: value.name + "_default",
-        screenId: value.name + "_default",
-        departmentId: value._id,
-        applicationId: value.departmentId,
+      const obj = {
+        "ScreenBuilder": {
+          name: value.name + "_default",
+          screenId: value.name + "_default",
+          departmentId: value._id,
+          applicationId: value.departmentId
+        }
       }
       this.loading = true;
-      this.applicationService.addNestCommonAPI("cp/ScreenBuilder", obj).subscribe((res: any) => {
-        if (res.isSuccess) {
-          setTimeout(() => {
-            let screen = {
-              name: value.name + "_header",
-              screenId: value.name + "_header",
-              departmentId: value._id,
-              applicationId: value.departmentId,
-            }
-            this.applicationService.addNestCommonAPI("cp/ScreenBuilder", screen).subscribe((getRes: any) => {
-              if (getRes.isSuccess) {
-                let screen = {
-                  name: value.name + "_footer",
-                  screenId: value.name + "_footer",
+      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            setTimeout(() => {
+              const screen = {
+                "ScreenBuilder": {
+                  name: value.name + "_header",
+                  screenId: value.name + "_header",
                   departmentId: value._id,
-                  applicationId: value.departmentId,
+                  applicationId: value.departmentId
                 }
-                this.applicationService.addNestCommonAPI("cp/ScreenBuilder", screen).subscribe((res3: any) => {
-                  if (res3.isSuccess) {
-                    this.loading = false;
-                    // this.jsonApplicationBuilder();
-                    this.toastr.success("Default things Added", { nzDuration: 2000 });
-                    // setTimeout(() => {
-                    //   this.jsonApplicationBuilder();
-                    // }, 2000)
-                  } else {
-                    this.loading = false;
-                    this.toastr.error(res.message, { nzDuration: 2000 });
-                  }
-                })
-              } else {
-                this.loading = false;
-                this.toastr.error(res.message, { nzDuration: 2000 });
-
               }
-            })
-          }, 1000);
-        } else {
+              this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
+                if (getRes.isSuccess) {
+                  let screen = {
+                    "ScreenBuilder": {
+                      name: value.name + "_footer",
+                      screenId: value.name + "_footer",
+                      departmentId: value._id,
+                      applicationId: value.departmentId
+                    }
+                  }
+                  this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
+                    if (res3.isSuccess) {
+                      this.loading = false;
+                      // this.jsonApplicationBuilder();
+                      this.toastr.success("Default things Added", { nzDuration: 2000 });
+                      // setTimeout(() => {
+                      //   this.jsonApplicationBuilder();
+                      // }, 2000)
+                    } else {
+                      this.loading = false;
+                      this.toastr.error(res.message, { nzDuration: 2000 });
+                    }
+                  })
+                } else {
+                  this.loading = false;
+                  this.toastr.error(res.message, { nzDuration: 2000 });
+                }
+              })
+            }, 1000);
+          } else {
+            this.loading = false;
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+        },
+        error: (err) => {
           this.loading = false;
-          this.toastr.error(res.message, { nzDuration: 2000 });
+          this.toastr.error("Some exception are unhandler", { nzDuration: 2000 });
         }
       })
+
     }
   }
 
@@ -394,10 +405,8 @@ export class ApplicationBuilderComponent implements OnInit {
           this.handleCancel();
           this.toastr.success(res.message, { nzDuration: 2000 });
           this.isSubmit = true;
-        } else {
-          this.toastr.success(res.message, { nzDuration: 2000 });
-
-        }
+        } else 
+          this.toastr.error(res.message, { nzDuration: 2000 });
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();

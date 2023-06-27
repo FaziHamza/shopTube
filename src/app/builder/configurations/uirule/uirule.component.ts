@@ -329,15 +329,13 @@ export class UIRuleComponent implements OnInit {
       this.applicationService.addNestCommonAPI('cp', uiModel).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
-
             this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
             this.ruleNotify.emit(true);
             this.screenData = [];
             this.screenData = jsonUIResult;
             this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-          } else {
+          } else
             this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-          }
         },
         error: (err) => {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
@@ -377,7 +375,7 @@ export class UIRuleComponent implements OnInit {
     // this.clickBack();
   }
   uiRule() {
-// debugger
+    // debugger
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     this.ifMenuName = [];
@@ -540,9 +538,12 @@ export class UIRuleComponent implements OnInit {
   }
 
   deleteUiRule() {
-    this.applicationService.deleteNestCommonAPI('ui-rule', this.screenId).subscribe({
-      next: (re) => {
-        this.toastr.success("Ui rule delete successfully", { nzDuration: 3000 }); // Show an error message to the user
+    this.applicationService.deleteNestCommonAPI('cp/UiRule', this.screenId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+        else
+          this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user

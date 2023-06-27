@@ -187,7 +187,7 @@ export class organizationBuilderComponent implements OnInit {
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -301,10 +301,10 @@ export class organizationBuilderComponent implements OnInit {
       const addOrUpdateOrganization$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', organizationModel)
         : this.applicationService.updateNestCommonAPI(
-            'cp/Organization',
-            this.model._id,
-            organizationModel
-          );
+          'cp/Organization',
+          this.model._id,
+          organizationModel
+        );
 
       addOrUpdateOrganization$.subscribe((res: any) => {
         if (res.isSuccess) {
@@ -348,10 +348,10 @@ export class organizationBuilderComponent implements OnInit {
       const action$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', modelData)
         : this.applicationService.updateNestCommonAPI(
-            'cp/Department',
-            this.model._id,
-            modelData
-          );
+          'cp/Department',
+          this.model._id,
+          modelData
+        );
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
           this.organizationBuilder();
@@ -384,13 +384,13 @@ export class organizationBuilderComponent implements OnInit {
       type == 'department'
         ? this.applicationService.deleteNestCommonAPI('cp/Department', id)
         : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
-    api$.subscribe((res:any) => {
+    api$.subscribe((res: any) => {
       if (res.isSuccess) {
         this.organizationBuilder();
         this.getDepartment();
         this.toastr.success(res.message, { nzDuration: 2000 });
-      } else 
-      this.toastr.error(res.message, { nzDuration: 2000 });
+      } else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     });
   }
 
@@ -403,37 +403,37 @@ export class organizationBuilderComponent implements OnInit {
         data.name == 'Name'
           ? item.name.toLowerCase().indexOf(inputValue) !== -1
           : false ||
-            (data.name == 'Address'
-              ? item?.address
-                ? item.address.toLowerCase().indexOf(inputValue) !== -1
-                : false
-              : false) ||
-            (data.name == 'Email'
-              ? item?.email
-                ? item.email.toLowerCase().indexOf(inputValue) !== -1
-                : false
-              : false) ||
-            (data.name == 'Contact'
-              ? item?.contact
-                ? item.contact.toLowerCase().indexOf(inputValue) !== -1
-                : false
-              : false) ||
-            (data.name == 'Website'
-              ? item?.website
-                ? item.website.toLowerCase().indexOf(inputValue) !== -1
-                : false
-              : false) ||
-            (data.name == 'Year Founded'
-              ? item?.year_founded
-                ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1
-                : false
-              : false) ||
-            (data.name == 'Mission statement'
-              ? item?.mission_statement
-                ? item.mission_statement.toLowerCase().indexOf(inputValue) !==
-                  -1
-                : false
-              : false)
+          (data.name == 'Address'
+            ? item?.address
+              ? item.address.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Email'
+            ? item?.email
+              ? item.email.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Contact'
+            ? item?.contact
+              ? item.contact.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Website'
+            ? item?.website
+              ? item.website.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Year Founded'
+            ? item?.year_founded
+              ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Mission statement'
+            ? item?.mission_statement
+              ? item.mission_statement.toLowerCase().indexOf(inputValue) !==
+              -1
+              : false
+            : false)
       );
       data.searchIcon = 'close';
     } else {
@@ -463,10 +463,11 @@ export class organizationBuilderComponent implements OnInit {
     this.applicationService
       .getNestCommonAPI('cp/Department')
       .subscribe((res: any) => {
-        if (res.isSuccess) this.listOfChildrenData = res.data;
-        else {
+        if (res.isSuccess)
+          this.listOfChildrenData = res.data;
+        else
           this.toastr.error(res.message, { nzDuration: 2000 });
-        }
+
         this.loading = false;
       });
   }

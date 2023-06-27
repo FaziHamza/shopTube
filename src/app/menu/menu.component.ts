@@ -6,6 +6,7 @@ import { StorageService } from '../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationService } from '../services/application.service';
 import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-menu',
@@ -44,7 +45,7 @@ export class MenuComponent implements OnInit {
       flag: 'chinese.png'
     }
   ];
-  constructor(private employeeService: EmployeeService, private notification: NzNotificationService,
+  constructor(private toastr: NzMessageService, private notification: NzNotificationService,
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService, private storageService: StorageService, private translate: TranslateService) {
     const currentLanguageString = this.storageService.getString("currentLanguage");
@@ -83,11 +84,17 @@ export class MenuComponent implements OnInit {
     })
   }
   getApllicationAndModule() {
-    this.applicationService.getNestCommonAPI('department').subscribe((res => {
-      this.departments = res;
+    this.applicationService.getNestCommonAPI('cp/Department').subscribe(((res: any) => {
+      if (res.isSuccess)
+        this.departments = res.data;
+      else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     }));
-    this.applicationService.getNestCommonAPI('application').subscribe((res => {
-      this.applications = res;
+    this.applicationService.getNestCommonAPI('cp/Application').subscribe(((res: any) => {
+      if (res.isSuccess)
+        this.applications = res.data;
+      else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     }));
   }
   UpdateMenuLink(data: any) {

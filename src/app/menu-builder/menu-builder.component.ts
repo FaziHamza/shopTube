@@ -690,9 +690,13 @@ export class MenuBuilderComponent implements OnInit {
     // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', menuModel).subscribe({
-        next: (objMenu) => {
+        next: (objMenu: any) => {
+          if (objMenu.isSuccess)
+            this.toastr.success(objMenu.message, { nzDuration: 3000 });
+          else
+            this.toastr.error(objMenu.message, { nzDuration: 3000 });
+
           this.saveLoader = false;
-          this.toastr.success('Menu Save successfully', { nzDuration: 3000 })
         },
         error: (err) => {
           this.saveLoader = false;
@@ -701,10 +705,14 @@ export class MenuBuilderComponent implements OnInit {
         }
       });
     } else {
-      this.requestSubscription = this.applicationService.updateNestCommonAPI('menu', this.applicationId, data).subscribe({
-        next: (objMenu) => {
+      this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/Menu', this.applicationId, menuModel).subscribe({
+        next: (objMenu: any) => {
+          if (objMenu.isSuccess)
+            this.toastr.success(objMenu.message, { nzDuration: 3000 });
+          else
+            this.toastr.error(objMenu.message, { nzDuration: 3000 });
+
           this.saveLoader = false;
-          this.toastr.success('Menu Update successfully', { nzDuration: 3000 });
         },
         error: (err) => {
           this.saveLoader = false;
@@ -1445,9 +1453,12 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        this.departments = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.departments = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console

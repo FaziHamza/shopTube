@@ -105,9 +105,9 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
-    if(this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')){
+    if (this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')) {
       this.currentWebsiteLayout = "backend_application";
-    }else{
+    } else {
       this.currentWebsiteLayout = "";
     }
     this.fullCurrentUrl = window.location.href;
@@ -233,7 +233,7 @@ export class SiteLayoutComponent implements OnInit {
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
           const observables = [
-           
+
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
             this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
@@ -241,7 +241,7 @@ export class SiteLayoutComponent implements OnInit {
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-                // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
+              // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
               // this.dataSharedService.defaultPageNodes = results[2]? results[2].length > 0? results[2][0].menuData : "" : '';
               this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
               this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
@@ -303,8 +303,8 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        id:'menu_428605c1',
-        key:'menu_0f7d1e4e',
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
         children: []
       }]
       const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);
@@ -319,81 +319,84 @@ export class SiteLayoutComponent implements OnInit {
     // this.currentUrl = window.location.host;
     // let url = window.location.href.split('.com');
     // this.currentWebsiteUrl = url[0] + ".com";
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          let menus: any = [];
-          // let checkHttp = this.currentWebsiteUrl.includes('http');
-          // if (!checkHttp)
-          //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
-          // if (this.dataSharedService.currentUrl != this.currentUrl) {
-          //   this.dataSharedService.currentUrl = this.currentUrl;
-          //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
-          //   if (!checkLayout) {
-          //     let splitHttp = this.currentWebsiteUrl.split("//");
-          //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
-          //   }
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            let menus: any = [];
+            // let checkHttp = this.currentWebsiteUrl.includes('http');
+            // if (!checkHttp)
+            //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
+            // if (this.dataSharedService.currentUrl != this.currentUrl) {
+            //   this.dataSharedService.currentUrl = this.currentUrl;
+            //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
+            //   if (!checkLayout) {
+            //     let splitHttp = this.currentWebsiteUrl.split("//");
+            //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
+            //   }
 
-          //   this.currentWebsiteLayout = checkLayout?.layout;
-          //   let checkLayoutType = this.currentUrl.includes("pages");
-          //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
-          //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
-          //       this.dataSharedService.currentApplicationList.next(res);
-          //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
-          //       if (getDefaultModule) {
-          //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
-          //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
-          //           if (filterDefaultScreen.length > 0) {
-          //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
-          //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
-          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //               else
-          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //             })
-          //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
-          //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
-          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //               else
-          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //             })
-          //           }
-          //         })
-          //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
-          //           this.dataSharedService.currentMenu.next(res);
-          //         })
-          //       }
-          //     })
-          //     // this.dataSharedService.currentModule.next(checkLayout.name);
-          //   }
-          //   else {
-          //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
-          //   }
-          // }
-          this.currentWebsiteLayout = "backend_application";
+            //   this.currentWebsiteLayout = checkLayout?.layout;
+            //   let checkLayoutType = this.currentUrl.includes("pages");
+            //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
+            //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
+            //       this.dataSharedService.currentApplicationList.next(res);
+            //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
+            //       if (getDefaultModule) {
+            //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
+            //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
+            //           if (filterDefaultScreen.length > 0) {
+            //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
+            //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
+            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //               else
+            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //             })
+            //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
+            //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
+            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //               else
+            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //             })
+            //           }
+            //         })
+            //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
+            //           this.dataSharedService.currentMenu.next(res);
+            //         })
+            //       }
+            //     })
+            //     // this.dataSharedService.currentModule.next(checkLayout.name);
+            //   }
+            //   else {
+            //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
+            //   }
+            // }
+            this.currentWebsiteLayout = "backend_application";
 
-          res.forEach((element: any) => {
-            let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
-            const newNode = {
-              id: newID,
-              key: newID,
-              title: element.name,
-              link: '',
-              icon: "appstore",
-              type: "input",
-              isTitle: false,
-              expanded: true,
-              color: "",
-              application: true,
-              children: [
-              ],
+            res.forEach((element: any) => {
+              let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
+              const newNode = {
+                id: newID,
+                key: newID,
+                title: element.name,
+                link: '',
+                icon: "appstore",
+                type: "input",
+                isTitle: false,
+                expanded: true,
+                color: "",
+                application: true,
+                children: [
+                ],
+              }
+              menus.push(newNode);
+            });
+            this.selectedTheme.allMenuItems = menus;
+            if (!res[0]?.selectedTheme?.showMenu) {
+              this.selectedTheme['showMenu'] = true;
             }
-            menus.push(newNode);
-          });
-          this.selectedTheme.allMenuItems = menus;
-          if (!res[0]?.selectedTheme?.showMenu) {
-            this.selectedTheme['showMenu'] = true;
           }
-        }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

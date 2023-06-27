@@ -214,15 +214,16 @@ export class BusinessRuleComponent implements OnInit {
       "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
     }
     const businessRuleValidModel = {
-      "BusinessRule" : businessRuleValid
+      "BusinessRule": businessRuleValid
     }
     if (businessRuleValidModel.BusinessRule != null) {
       if (mainModuleId[0].screenId != null) {
         this.requestSubscription = this.applicationService.addNestCommonAPI('cp', businessRuleValidModel).subscribe({
-          next: (res:any) => {
-           if (res.isSuccess) {
-            this.toastr.success(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
-           } else this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
+          next: (res: any) => {
+            if (res.isSuccess)
+              this.toastr.success(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
+            else
+              this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
             this.toastr.error(`Buisness rule: An error occured`, { nzDuration: 3000 });
@@ -284,9 +285,12 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   deleteBuisnessRule() {
-    this.applicationService.deleteNestCommonAPI('buisness-rule', this.screenId).subscribe({
-      next: (res) => {
-        this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });
+    this.applicationService.deleteNestCommonAPI('cp/BusinessRule', this.screenId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.toastr.success(res.message, { nzDuration: 3000 });
+        else
+          this.toastr.success(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         this.toastr.error("An error occurred", { nzDuration: 3000 });

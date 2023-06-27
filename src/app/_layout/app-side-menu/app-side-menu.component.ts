@@ -81,8 +81,8 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
-        id:'menu_428605c1',
-        key:'menu_0f7d1e4e',
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
         children: []
       }]
       const withOutTitle = this.menuItems.filter((a: any) => a.isTitle != true);
@@ -166,9 +166,12 @@ export class AppSideMenuComponent implements OnInit {
     return true;
   }
   loadModules(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('application').subscribe({
-      next: (res) => {
-        this.moduleData = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.moduleData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

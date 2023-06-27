@@ -672,19 +672,20 @@ export class BusinessRuleGridComponent implements OnInit {
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
- // api response work
+    // api response work
     const gridBusinessRuleModel = {
-      "GridBusinessRule" : gridRuleValid
+      "GridBusinessRule": gridRuleValid
     }
 
     if (gridBusinessRuleModel.GridBusinessRule != null) {
       debugger
       if (selectedScreen[0].screenId != null) {
         this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel).subscribe({
-          next: (res:any) => {
-            if (res.isSuccess) {
-              this.toastr.success( `Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
-            } else this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+          next: (res: any) => {
+            if (res.isSuccess)
+              this.toastr.success(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+            else
+              this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
             this.toastr.error("Grid Business Rule: An error occurred", { nzDuration: 3000 });
@@ -799,9 +800,12 @@ export class BusinessRuleGridComponent implements OnInit {
       });
   }
   deleteGridBuisnessRule() {
-    this.applicationService.deleteNestCommonAPI('grid-business-rule', this.screenId).subscribe({
-      next: (res) => {
-        this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });
+    this.applicationService.deleteNestCommonAPI('cp/GridBusinessRule', this.screenId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.toastr.success(res.message, { nzDuration: 3000 });
+        else
+          this.toastr.success(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         this.toastr.error("An error occurred", { nzDuration: 3000 });

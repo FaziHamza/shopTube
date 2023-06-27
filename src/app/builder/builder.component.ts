@@ -149,12 +149,14 @@ export class BuilderComponent implements OnInit {
 
   }
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        this.departmentData = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.departmentData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
-        console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
       }
     });
@@ -269,9 +271,13 @@ export class BuilderComponent implements OnInit {
       // this.screenId = selectedScreen[0].screenId;
       // if (this.screenId > 0) {
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', builderModel).subscribe({
-        next: (res) => {
+        next: (res: any) => {
+          if (res.isSuccess)
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+
           this.saveLoader = false;
-          this.toastr.success("Screen save suceessfully", { nzDuration: 3000 });
         },
         error: (err) => {
           this.saveLoader = false;
@@ -3008,14 +3014,14 @@ export class BuilderComponent implements OnInit {
             "ValidationRule": JOIData
           }
           this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
-            next: (res:any) => {
-              debugger
-              if (res.isSuccess) {
-                this.toastr.success(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-              } else { this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })}
+            next: (res: any) => {
+              if (res.isSuccess)
+                this.toastr.success(res.message, { nzDuration: 3000 });
+              else
+                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 });
             },
             error: (err) => {
-              this.toastr.error('validation rule not save, some exception unhandle', { nzDuration: 3000 })
+              this.toastr.error('validation rule not save, some exception unhandle', { nzDuration: 3000 });
             }
           });
           // if (selectedScreen.length > 0) {
@@ -4121,12 +4127,13 @@ export class BuilderComponent implements OnInit {
               "Template": objTemplate
             }
             this.requestSubscription = this.applicationService.addNestCommonAPI('cp', templateModel).subscribe({
-              next: (res:any) => {
+              next: (res: any) => {
                 if (res.isSuccess) {
-                  this.toastr.success(`Template: ${res.message}` , { nzDuration: 3000 });
+                  this.toastr.success(`Template: ${res.message}`, { nzDuration: 3000 });
                   this.makeDatainTemplateTab();
                   this.saveLoader = false;
-                } else   this.toastr.error(`Template: ${res.message}` , { nzDuration: 3000 });
+                } else
+                  this.toastr.error(`Template: ${res.message}`, { nzDuration: 3000 });
               },
               error: (err) => {
                 console.error(err);
@@ -4149,12 +4156,13 @@ export class BuilderComponent implements OnInit {
               "Template": objTemplate
             }
             this.requestSubscription = this.applicationService.addNestCommonAPI('cp', templateModel).subscribe({
-              next: (res:any) => {
-              if (res.isSucces) {
-                this.toastr.success(`Template: ${res.message}`, { nzDuration: 3000 });
-                this.makeDatainTemplateTab();
-                this.saveLoader = false;
-              } else this.toastr.error(`Template: ${res.message}`, { nzDuration: 3000 });
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  this.toastr.success(`Template: ${res.message}`, { nzDuration: 3000 });
+                  this.makeDatainTemplateTab();
+                  this.saveLoader = false;
+                } else
+                  this.toastr.error(`Template: ${res.message}`, { nzDuration: 3000 });
               },
               error: (err) => {
                 console.error(err);
@@ -4489,15 +4497,17 @@ export class BuilderComponent implements OnInit {
 
   makeDatainTemplateTab() {
     debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
-      next: (res) => {
-        this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');
-
-        this.htmlTabsData[0].children.forEach((item: any) => {
-          if (item?.id == 'template') {
-            item.children[0].children = res.filter(x => x.templateType == 'builderBlock');
-          }
-        })
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Template').subscribe({
+      next: (res: any) => {
+        if (res.isSucces) {
+          this.dbWebsiteBlockArray = res.filter((x: any) => x.templateType == 'websiteBlock');
+          this.htmlTabsData[0].children.forEach((item: any) => {
+            if (item?.id == 'template') {
+              item.children[0].children = res.filter((x: any) => x.templateType == 'builderBlock');
+            }
+          })
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);
@@ -4542,9 +4552,12 @@ export class BuilderComponent implements OnInit {
     }
   }
   deleteValidationRule(data: any) {
-    this.applicationService.deleteNestCommonAPI('validation-rule', data.modelData._id).subscribe({
-      next: (res) => {
-        this.toastr.success('Delete data successfully', { nzDuration: 3000 });
+    this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData._id).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.toastr.success(res.message, { nzDuration: 3000 });
+        else
+          this.toastr.success(res.message, { nzDuration: 3000 });
       },
       error: () => {
         this.toastr.error('Delete data unhandler', { nzDuration: 3000 });
