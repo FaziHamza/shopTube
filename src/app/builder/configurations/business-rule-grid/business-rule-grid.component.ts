@@ -31,6 +31,7 @@ export class BusinessRuleGridComponent implements OnInit {
   isModalVisible = false;
   isReadOnly: boolean = true;
   requestSubscription: Subscription;
+  gridRuleId: string = '';
 
   ngOnInit(): void {
 
@@ -440,7 +441,7 @@ export class BusinessRuleGridComponent implements OnInit {
       .at(conditionIndex)
       .get('multiConditionList') as FormArray;
   }
-  addBuisnessRule() {
+  addGridBuisnessRule() {
 
     this.buisnessRule().push(this.newBuisnessRule());
   }
@@ -485,12 +486,10 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
-    this.dynmaicRule = true;
-    this.buisnessForm = this.formBuilder.group({
+    this.dynmaicRule = true; this.buisnessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([])
     });
 
@@ -514,81 +513,83 @@ export class BusinessRuleGridComponent implements OnInit {
     ]
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('grid-business-rule/screen', this.screenId).subscribe({
-        next: (getRes) => {
-          let type = this.GridType ? this.GridType : 'Body';
-          let gridData = getRes.filter(a => a.gridType == type);
-          if (gridData.length > 0) {
-            for (let k = 0; k < gridData.length; k++) {
-              if (gridData[k].gridKey == this.selectedNode.key) {
-                const objRuleData = JSON.parse(gridData[k].buisnessRuleData);
-                this.buisnessForm = this.formBuilder.group({
-                  buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
-                    this.formBuilder.group({
-                      ifCondition: [getBuisnessRuleRes.ifCondition],
-                      oprator: [getBuisnessRuleRes.oprator],
-                      isGetValue: [getBuisnessRuleRes.oprator == "NotNull" ? false : true],
-                      getValue: [getBuisnessRuleRes.getValue],
-                      target: [getBuisnessRuleRes.target],
-                      opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                      resultValue: [getBuisnessRuleRes.resultValue],
-                      conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
-                        this.formBuilder.group({
-                          condifCodition: getConditionalRes.condifCodition,
-                          condOperator: getConditionalRes.condOperator,
-                          condValue: getConditionalRes.condValue,
-                          condType: getConditionalRes.condType
-                        }))),
-                      thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                        this.formBuilder.group({
-                          thenTarget: getthenCodRes.thenTarget,
-                          thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
-                          thenResultValue: getthenCodRes.thenResultValue,
-                          getRuleCondition: this.formBuilder.array(getthenCodRes.getRuleCondition.map((objGetRuleCondition: any) =>
-                            this.formBuilder.group({
-                              ifCondition: objGetRuleCondition.ifCondition,
-                              oprator: objGetRuleCondition.oprator,
-                              target: objGetRuleCondition.target,
-                              referenceId: objGetRuleCondition.referenceId,
-                              referenceOperator: objGetRuleCondition.referenceOperator,
-                              referenceColor: objGetRuleCondition.referenceColor,
-                              condition: objGetRuleCondition.condition,
-                              multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
-                                this.formBuilder.group({
-                                  oprator: objGetMultiConditionList.oprator,
-                                  target: objGetMultiConditionList.target,
-                                  condType: objGetMultiConditionList.condType
-                                })
-                              ))
-                            })
-                          ))
-                        }))),
-                      getRuleCondition: this.formBuilder.array(getBuisnessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
-                        this.formBuilder.group({
-                          ifCondition: objGetRuleCondition.ifCondition,
-                          oprator: objGetRuleCondition.oprator,
-                          target: objGetRuleCondition.target,
-                          referenceId: objGetRuleCondition.referenceId,
-                          referenceOperator: objGetRuleCondition.referenceOperator,
-                          referenceColor: objGetRuleCondition.referenceColor,
-                          condition: objGetRuleCondition.condition,
-                          multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
-                            this.formBuilder.group({
-                              oprator: objGetMultiConditionList.oprator,
-                              target: objGetMultiConditionList.target,
-                              condType: objGetMultiConditionList.condType
-                            })
-                          ))
-                        })
-                      ))
-                    })
-                  ))
-                });
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe({
+        next: (getRes: any) => {
+          if (getRes.isSuccess) {
+            let type = this.GridType ? this.GridType : 'Body';
+            let gridData = getRes.data.filter((a: any) => a.gridType == type);
+            if (gridData.length > 0) {
+              for (let k = 0; k < gridData.length; k++) {
+                if (gridData[k].gridKey == this.selectedNode.key) {
+                  this.gridRuleId = gridData[k]._id;
+                  const objRuleData = JSON.parse(gridData[k].businessRuleData);
+                  this.buisnessForm = this.formBuilder.group({
+                    buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
+                      this.formBuilder.group({
+                        ifCondition: [getBusinessRuleRes.ifCondition],
+                        oprator: [getBusinessRuleRes.oprator],
+                        isGetValue: [getBusinessRuleRes.oprator == "NotNull" ? false : true],
+                        getValue: [getBusinessRuleRes.getValue],
+                        target: [getBusinessRuleRes.target],
+                        opratorForTraget: [getBusinessRuleRes.opratorForTraget],
+                        resultValue: [getBusinessRuleRes.resultValue],
+                        conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
+                          this.formBuilder.group({
+                            condifCodition: getConditionalRes.condifCodition,
+                            condOperator: getConditionalRes.condOperator,
+                            condValue: getConditionalRes.condValue,
+                            condType: getConditionalRes.condType
+                          }))),
+                        thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                          this.formBuilder.group({
+                            thenTarget: getthenCodRes.thenTarget,
+                            thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                            thenResultValue: getthenCodRes.thenResultValue,
+                            getRuleCondition: this.formBuilder.array(getthenCodRes.getRuleCondition.map((objGetRuleCondition: any) =>
+                              this.formBuilder.group({
+                                ifCondition: objGetRuleCondition.ifCondition,
+                                oprator: objGetRuleCondition.oprator,
+                                target: objGetRuleCondition.target,
+                                referenceId: objGetRuleCondition.referenceId,
+                                referenceOperator: objGetRuleCondition.referenceOperator,
+                                referenceColor: objGetRuleCondition.referenceColor,
+                                condition: objGetRuleCondition.condition,
+                                multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
+                                  this.formBuilder.group({
+                                    oprator: objGetMultiConditionList.oprator,
+                                    target: objGetMultiConditionList.target,
+                                    condType: objGetMultiConditionList.condType
+                                  })
+                                ))
+                              })
+                            ))
+                          }))),
+                        getRuleCondition: this.formBuilder.array(getBusinessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
+                          this.formBuilder.group({
+                            ifCondition: objGetRuleCondition.ifCondition,
+                            oprator: objGetRuleCondition.oprator,
+                            target: objGetRuleCondition.target,
+                            referenceId: objGetRuleCondition.referenceId,
+                            referenceOperator: objGetRuleCondition.referenceOperator,
+                            referenceColor: objGetRuleCondition.referenceColor,
+                            condition: objGetRuleCondition.condition,
+                            multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
+                              this.formBuilder.group({
+                                oprator: objGetMultiConditionList.oprator,
+                                target: objGetMultiConditionList.target,
+                                condType: objGetMultiConditionList.condType
+                              })
+                            ))
+                          })
+                        ))
+                      })
+                    ))
+                  });
+                }
               }
-
             }
-
-          }
+          } else
+            this.toastr.error(getRes.message, { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err);
@@ -636,8 +637,7 @@ export class BusinessRuleGridComponent implements OnInit {
     let conValue = this.buisnessRuleSkills(empIndex)?.at(skillIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
     this.buisnessRuleSkills(empIndex).at(skillIndex).get("condType")?.setValue(conValue);
   }
-  saveBussinessRule() {
-
+  saveGridBusinessRule() {
     let condThen: any = [];
     this.GridBusinessRuleData = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
@@ -664,22 +664,35 @@ export class BusinessRuleGridComponent implements OnInit {
     });
 
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
-    const jsonRuleValidation = {
+    const gridRuleValid = {
       "screenName": this.screenName,
-      "screenId": this.screenId,
-      "buisnessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
-      "buisnessRule": JSON.stringify(this.GridBusinessRuleData),
+      "screenBuilderId": this.screenId,
+      "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
+      "businessRule": JSON.stringify(this.GridBusinessRuleData),
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body'
     }
-    if (jsonRuleValidation != null) {
-      if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('grid-business-rule', jsonRuleValidation).subscribe({
-          next: (res) => {
-            this.toastr.success("Grid rule save sucessfully", { nzDuration: 3000 });
+    // api response work
+    const gridBusinessRuleModel = {
+      "GridBusinessRule": gridRuleValid
+    }
+
+    if (gridBusinessRuleModel.GridBusinessRule != null) {
+      if (selectedScreen[0].navigation != null) {
+        const checkAndProcess = this.gridRuleId == ''
+          ? this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel)
+          : this.applicationService.updateNestCommonAPI('cp/GridBusinessRule', this.gridRuleId, gridBusinessRuleModel);
+        this.requestSubscription = checkAndProcess.subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              this.dynamicBuisnessRule();
+              this.toastr.success(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+            }
+            else
+              this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
           },
           error: (err) => {
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.toastr.error("Grid Business Rule: An error occurred", { nzDuration: 3000 });
           }
         });
         // this.requestSubscription = this.builderService.jsonGridBusinessRuleGridKey(this.selectedNode.key).subscribe({
@@ -790,14 +803,28 @@ export class BusinessRuleGridComponent implements OnInit {
         isGetValue: true
       });
   }
-  deleteBuisnessRule() {
-    this.applicationService.deleteNestCommonAPI('grid-business-rule', this.screenId).subscribe({
-      next: (res) => {
-        this.toastr.success("Buisness rule delete successfully", { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+  deleteGridBuisnessRule() {
+    if (this.gridRuleId != '')
+      this.applicationService.deleteNestCommonAPI('cp/GridBusinessRule', this.gridRuleId).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.buisnessForm = this.formBuilder.group({
+              buisnessRule: this.formBuilder.array([])
+            });
+            this.dynamicBuisnessRule();
+            this.gridRuleId = '';
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          }
+          else
+            this.toastr.success(res.message, { nzDuration: 3000 });
+        },
+        error: (err) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    else
+      this.buisnessForm = this.formBuilder.group({
+        buisnessRule: this.formBuilder.array([])
+      });
   }
 }

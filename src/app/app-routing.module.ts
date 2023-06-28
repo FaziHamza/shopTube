@@ -16,7 +16,7 @@ import { AuthGuard } from './auth/auth.Guard';
 const routes: Routes = [
   {
     path: '', component: SiteLayoutComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -68,13 +68,13 @@ const routes: Routes = [
         "src/app/builder/builder.module"
       ).then((m) => m.BuilderModule),
   },
-  {
-    path: 'auth',
-    loadChildren: () =>
-      import(
-        "src/app/auth/auth.module"
-      ).then((m) => m.AuthModule),
-  },
+  // {
+  //   path: 'auth',
+  //   loadChildren: () =>
+  //     import(
+  //       "src/app/auth/auth.module"
+  //     ).then((m) => m.AuthModule),
+  // },
   {
     path: 'bar-chart',
     component: BarChartComponent

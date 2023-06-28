@@ -74,6 +74,7 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
+
   actionFormLoad() {
     this.actionForm = this.formBuilder.group({
       actionType: [''],
@@ -98,9 +99,12 @@ export class ActionRuleComponent implements OnInit {
         submissionType: [check[0].submissionType],
         confirmEmail: [check[0].confirmEmail],
         referenceId: [check[0].referenceId],
+        httpAddress: [check[0].httpAddress],
+        contentType: [check[0].contentType],
         query: [check[0].query]
       }));
   }
+
   get ActionsForms() {
     return this.actionForm.get('Actions') as FormArray;
   }
@@ -120,8 +124,8 @@ export class ActionRuleComponent implements OnInit {
         check.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`)
       }
     }
-    let dataForQuery = "";
 
+    let dataForQuery = "";
     let joinTables: any[] = [];
     let joinFields: any[] = [];
     for (let i = 0; i < mainArray.length; i++) {
@@ -150,6 +154,7 @@ export class ActionRuleComponent implements OnInit {
           }
         }
       }
+
       // if (this.actionForm.value.actionLink == 'select') {
       //   dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
       // } else 
@@ -193,9 +198,8 @@ export class ActionRuleComponent implements OnInit {
         // let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `${element.name.toLocaleLowerCase()}.id` + " = " + `$${element.name.toLocaleLowerCase()}.id; `;
         dataForQuery += deleteQuery;
       }
-
-
     }
+
     this.ActionsForms.push(
       this.formBuilder.group({
         id: 0,
@@ -209,10 +213,13 @@ export class ActionRuleComponent implements OnInit {
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
         referenceId: [''],
+        httpAddress: [''],
+        contentType: [''],
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
     );
   }
+
   reorderQueries(queryString: any) {
     let queries = queryString.split(';').map((query: any, index: any) => ({
       id: index + 1,
@@ -257,7 +264,6 @@ export class ActionRuleComponent implements OnInit {
         }
       });
     }
-
   }
 
   SaveAction() {
@@ -279,8 +285,8 @@ export class ActionRuleComponent implements OnInit {
         "email": element.email,
         "confirmEmail": element.confirmEmail,
         "referenceId": element.referenceId,
-        "httpAddress": this.httpModel.httpAddress ? this.httpModel.httpAddress : "",
-        "contentType": this.httpModel.contentType ? this.httpModel.contentType : ""
+        "httpAddress": element.httpAddress ? element.httpAddress : "",
+        "contentType": element.contentType ? element.contentType : ""
       }
       if (element.id == 0) {
         return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
@@ -307,110 +313,12 @@ export class ActionRuleComponent implements OnInit {
         this.toastr.error("Actions not saved", { nzDuration: 3000 });
       }
     });
-    // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    // this.actionForm.value.Actions.forEach((element: any) => {
-    //   let data: any = {
-    //     "moduleName": this.screenName,
-    //     "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-    //     "btnActionType": element.submissionType ? element.submissionType : "",
-    //     "elementName": element.elementName,
-    //     "actionType": element.actionType,
-    //     "actionLink": element.actionLink,
-    //     "quryType": element.referenceId,
-    //     "quries": element.query,
-    //     "submit": element.submit,
-    //     "type": element.type,
-    //     "sqlType": element.sqlType,
-    //     "email": element.email,
-    //     "confirmEmail": element.confirmEmail,
-    //     "referenceId": element.referenceId
-    //   }
-    //   if (mainModuleId[0].screenId != null) {
-    //     if (element.id == 0) {
-    //       this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).subscribe({
-    //         next: (res) => {
-    //           this.toastr.success("Save Successfully", { nzDuration: 3000 });
-    //         },
-    //         error: (err) => {
-    //           console.error(err);
-    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //         }
-    //       });
-    //     } else {
-    //       this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).subscribe({
-    //         next: (res) => {
-    //           this.toastr.success("Save Successfully", { nzDuration: 3000 });
-    //         },
-    //         error: (err) => {
-    //           console.error(err);
-    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
-
-    // const jsonQuryResult = {
-    //   "key": this.selectedNode?.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-    //   "title": this.selectedNode.title,
-    //   "type": this.selectedNode.type,
-    //   "btnActionType": this.selectedNode.actionType,
-    //   "moduleName": this.screenName,
-    //   "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-    //   "queryData": this.actionForm.value.Actions,
-    //   "actionType": this.actionForm.value.submissionType,
-    //   "actionLink": this.actionForm.value.actionLink
-    // }
-    // if (jsonQuryResult != null) {
-    //   const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    //   if (mainModuleId[0].screenId != null) {
-    //     this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
-    //       next: (getRes) => {
-    //         if (getRes.length == 0) {
-    //           this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
-    //             next: (saveRes) => {
-    //               alert("Data Save");
-    //             },
-    //             error: (err) => {
-    //               console.error(err);
-    //               this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //             }
-    //           });
-    //         }
-    //         else {
-    //           this.requestSubscription = this.builderService.jsonActionRuleRemove(getRes[0].id).subscribe({
-    //             next: (delRes) => {
-
-    //               this.requestSubscription = this.builderService.jsonActionRuleDataSave(jsonQuryResult).subscribe({
-    //                 next: (saveRes) => {
-    //                   alert("Data Save");
-    //                 },
-    //                 error: (err) => {
-    //                   console.error(err);
-    //                   this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //                 }
-    //               });
-
-
-    //             },
-    //             error: (err) => {
-    //               console.error(err);
-    //               this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //             }
-    //           });
-    //         }
-    //       },
-    //       error: (err) => {
-    //         console.error(err);
-    //         this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //       }
-    //     });
-    //   }
-    // }
   }
+
   updateActionData() {
 
   }
+  
   getActionData() {
    
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
@@ -439,9 +347,9 @@ export class ActionRuleComponent implements OnInit {
                     email: [getQueryActionRes.email],
                     confirmEmail: [getQueryActionRes.confirmEmail],
                     referenceId: [getQueryActionRes.referenceId],
-                    query: [getQueryActionRes.quries]
-                    // httpAddress: [getQueryActionRes.httpAddress],
-                    // contentType: [getQueryActionRes.contentType]
+                    query: [getQueryActionRes.quries],
+                    httpAddress: [getQueryActionRes.httpAddress],
+                    contentType: [getQueryActionRes.contentType]
                   })
                 )),
               })
@@ -454,34 +362,6 @@ export class ActionRuleComponent implements OnInit {
         }
       })
     }
-    // this.requestSubscription = this.builderService.jsonActionRuleDataGet(mainModuleId[0].screenId).subscribe({
-    //   next: (getRes) => {
-    //     if (getRes.length > 0)
-    //       this.actionForm = this.formBuilder.group({
-    //         actionType: [getRes[0]?.queryData[0]?.type],
-    //         actionLink: [getRes[0].actionLink],
-    //         submissionType: [getRes[0].actionType],
-    //         Actions: this.formBuilder.array(getRes[0].queryData.map((getQueryActionRes: any) =>
-    //           this.formBuilder.group({
-    //             submit: [getQueryActionRes.submit],
-    //             type: [getQueryActionRes.type],
-    //             sqlType: [getQueryActionRes.sqlType],
-    //             actionType: [getQueryActionRes.actionType],
-    //             actionLink: [getQueryActionRes.actionLink],
-    //             submissionType: [getQueryActionRes.submissionType],
-    //             email: [getQueryActionRes.email],
-    //             confirmEmail: [getQueryActionRes.confirmEmail],
-    //             referenceId: [getQueryActionRes.referenceId],
-    //             query: [getQueryActionRes.query]
-    //           })
-    //         )),
-    //       })
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //   }
-    // });
   }
 
   changePostgress(queryType: string, index: number) {
@@ -498,51 +378,4 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
-  httpModel: any = {};
-  httpForm: any = new FormGroup({});
-  options: FormlyFormOptions = {};
-  httpFields = [
-    {
-      fieldGroup: [
-        {
-          key: 'httpAddress',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Http Address',
-            placeholder: 'Http Address',
-            required: true,
-          }
-        },
-      ],
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'contentType',
-          type: 'select',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Content Type',
-            options:[
-              {
-              label: 'Json',
-              value: 'application/json'
-            },
-            {
-              label: 'Text',
-              value: 'application/text'
-            },
-            {
-              label: 'Raw',
-              value: 'application/raw'
-            }
-          ]
-          }
-        }
-      ]
-    }
-  ];
 }

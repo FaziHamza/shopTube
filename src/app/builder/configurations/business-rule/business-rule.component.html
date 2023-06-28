@@ -1,6 +1,6 @@
 <div class=" general_faq mt-3">
   <div *ngIf="dynmaicRule  && UIRule == false" style="position:relative ;">
-    <form [formGroup]="buisnessForm">
+    <form [formGroup]="businessForm">
       <div formArrayName="buisnessRule">
         <div *ngFor="let employee of buisnessRule().controls; let i=index">
           <div class="row" [formGroupName]="i"
@@ -12,7 +12,7 @@
                 <nz-select nzShowSearch nzAllowClear formControlName="ifCondition"
                   (change)="changeDynamicBuisnessRuleIf()">
                   <nz-option [nzLabel]="ct.props.label" [nzValue]="ct.key"
-                    *ngFor="let ct of buisnessRuleData"></nz-option>
+                    *ngFor="let ct of businessRuleData"></nz-option>
                 </nz-select>
               </div>
               <div class="w-1/6 ml-1">
@@ -30,7 +30,7 @@
               <div class="w-1/6">
                 <nz-select nzShowSearch nzAllowClear formControlName="target">
                   <nz-option [nzLabel]="ct.props.label" [nzValue]="ct.key"
-                    *ngFor="let ct of buisnessRuleTargetList"></nz-option>
+                    *ngFor="let ct of businessRuleTargetList"></nz-option>
                 </nz-select>
               </div>
               <div class="w-1/6 ml-1">
@@ -66,7 +66,7 @@
                         <div class="w-1/4">
                           <nz-select nzShowSearch nzAllowClear formControlName="condifCodition">
                             <nz-option [nzLabel]="ct.props.label" [nzValue]="ct.key"
-                              *ngFor="let ct of buisnessRuleData"></nz-option>
+                              *ngFor="let ct of businessRuleData"></nz-option>
                           </nz-select>
                           <!-- <div class="w-1/4">
                             <input nz-input type="text" placeholder="Enter condType" id="condType{{i}},{{skillIndex}}"
@@ -109,7 +109,7 @@
                           <div class="w-1/4 ml-2">
                             <nz-select nzShowSearch nzAllowClear formControlName="thenTarget">
                               <nz-option [nzLabel]="ct.props.label" [nzValue]="ct.key"
-                                *ngFor="let ct of buisnessRuleTargetList"></nz-option>
+                                *ngFor="let ct of businessRuleTargetList"></nz-option>
                             </nz-select>
                           </div>
                           <div class="w-1/4 ml-1">

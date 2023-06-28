@@ -11,6 +11,7 @@ import { DataSharedService } from '../services/data-shared.service';
 import { DividerComponent } from '../components';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ApplicationService } from '../services/application.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-pages',
@@ -22,6 +23,7 @@ export class PagesComponent implements OnInit {
     private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
+    private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
 
@@ -95,31 +97,33 @@ export class PagesComponent implements OnInit {
           this.dataSharedService.screenCommentList = commentList;
         })
 
-        this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screenId', params["schema"]).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
           next: (res: any) => {
-           
-            if (res.length > 0) {
-              this.screenId = res[0].screen_Id;
-              this.getUIRuleData(res[0].screen_Id);
-              this.getBusinessRule(res[0].screen_Id);
-              const data = JSON.parse(res[0].screenData);
-              this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-              this.checkDynamicSection();
-              this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
-              if (params["commentId"] != "all") {
-                this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-                  if (res.length > 0) {
-                    let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+            if (res.isSuccess) {
+              if (res.data.length > 0) {
+                this.screenId = res.data[0].screenBuilderId;
+                this.getUIRuleData(res.data[0].screenBuilderId);
+                this.getBusinessRule(res.data[0].screenBuilderId);
+                const data = JSON.parse(res.data[0].screenData);
+                this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+                this.checkDynamicSection();
+                this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
+                if (params["commentId"] != "all") {
+                  this.builderService.getCommentById(params["commentId"]).subscribe(res => {
+                    if (res.length > 0) {
+                      let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+                      findObj.highLight = true;
+                    }
+                  })
+                } else {
+                  this.dataSharedService.screenCommentList.forEach(element => {
+                    let findObj = this.findObjectById(this.resData[0], element.commentId);
                     findObj.highLight = true;
-                  }
-                })
-              } else {
-                this.dataSharedService.screenCommentList.forEach(element => {
-                  let findObj = this.findObjectById(this.resData[0], element.commentId);
-                  findObj.highLight = true;
-                });
+                  });
+                }
               }
-            }
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
           },
           error: (err) => {
             console.error(err); // Log the error to the console
@@ -149,19 +153,22 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
   getUIRuleData(screenId: string) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', screenId).subscribe({
-      next: (getRes) => {
-        if (getRes.length > 0) {
-          this.screenData = [];
-          const jsonUIResult = {
-            "key": getRes[0].key,
-            "title": getRes[0].title,
-            "screenName": getRes[0].screenName,
-            "screenId": getRes[0].screenId,
-            "uiData": JSON.parse(getRes[0].uiData)
-          }
-          this.screenData = jsonUIResult;
-        } else { }
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UiRule', screenId).subscribe({
+      next: (getRes: any) => {
+        if (getRes.isSuccess) {
+          if (getRes.data.length > 0) {
+            this.screenData = [];
+            const jsonUIResult = {
+              "key": getRes.data[0].key,
+              "title": getRes.data[0].title,
+              "screenName": getRes.data[0].screenName,
+              "screenId": getRes.data[0].screenId,
+              "uiData": JSON.parse(getRes.data[0].uiData)
+            }
+            this.screenData = jsonUIResult;
+          } else { }
+        } else
+          this.toastr.error(getRes.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -297,12 +304,15 @@ export class PagesComponent implements OnInit {
   }
   getBusinessRule(screenId: string) {
     if (screenId) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen',screenId).subscribe({
-        next: (getRes) => {
-          if (getRes.length > 0) {
-            this.businessRuleData = [];
-            this.businessRuleData = JSON.parse(getRes[0].buisnessRule)
-          }
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', screenId).subscribe({
+        next: (getRes: any) => {
+          if (getRes.isSuccess) {
+            if (getRes.data.length > 0) {
+              this.businessRuleData = [];
+              this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
+            }
+          } else
+            this.toastr.error(getRes.message, { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err); // Log the error to the console

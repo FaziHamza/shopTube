@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { error } from '@ant-design/icons-angular';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
@@ -11,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 @Component({
   selector: 'st-organization-builder',
   templateUrl: './organization-builder.component.html',
-  styleUrls: ['./organization-builder.component.scss']
+  styleUrls: ['./organization-builder.component.scss'],
 })
 export class organizationBuilderComponent implements OnInit {
   organizationData: any = [];
@@ -23,7 +24,7 @@ export class organizationBuilderComponent implements OnInit {
   listOfChildrenData: any[] = [];
   loading = false;
   pageSize = 10;
-  searchIcon = "search";
+  searchIcon = 'search';
   searchValue = '';
   form: any = new FormGroup({});
   options: FormlyFormOptions = {};
@@ -46,7 +47,6 @@ export class organizationBuilderComponent implements OnInit {
       sortOrder: null,
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
-
     },
     {
       name: 'Address',
@@ -181,36 +181,53 @@ export class organizationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService, private applicationService: ApplicationService,
-    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) { }
+  constructor(
+    public builderService: BuilderService,
+    private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService,
+    private toastr: NzMessageService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Formly' },
-      { label: 'Pages', active: true }
+      { label: 'Pages', active: true },
     ];
     this.organizationBuilder();
     this.LoadOrganizationFields();
     this.loadSearchArray();
   }
   organizationBuilder() {
-    this.loading = true
-    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
-      this.listOfDisplayData = res.map(obj => {
-        obj.expand = false;
-        return obj;
-      });
-      this.listOfData = res;
-      this.organizationData = res;
-      this.loading = false;
-      this.getDepartment();
-      const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-      nonEmptySearchArray.forEach((element: any) => {
-        this.search(element.searchValue, element);
-      });
-    }));
+    this.loading = true;
+    this.applicationService.getNestCommonAPI('cp/Organization').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.listOfDisplayData = res.data.map((obj: any) => {
+            obj.expand = false;
+            return obj;
+          });
+          this.listOfData = res.data;
+          this.organizationData = res.data;
+          this.loading = false;
+          this.getDepartment();
+          const nonEmptySearchArray = this.listOfColumns.filter(
+            (element: any) => element.searchValue
+          );
+          nonEmptySearchArray.forEach((element: any) => {
+            this.search(element.searchValue, element);
+          });
+        } else {
+          this.loading = false;
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
   }
-
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
    
@@ -232,7 +249,7 @@ export class organizationBuilderComponent implements OnInit {
           }
         });
       }
-      
+
       this.departmentSubmit = true;
     } else {
       this.LoadOrganizationFields();
@@ -257,6 +274,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   organizationSubmit() {
+    debugger;
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -277,16 +295,27 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
+      const organizationModel = {
+        Organization: this.form.value,
+      };
       const addOrUpdateOrganization$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('organization', this.form.value)
-        : this.applicationService.updateNestCommonAPI('organization', this.model._id, this.form.value);
+        ? this.applicationService.addNestCommonAPI('cp', organizationModel)
+        : this.applicationService.updateNestCommonAPI(
+          'cp/Organization',
+          this.model._id,
+          organizationModel
+        );
 
-      addOrUpdateOrganization$.subscribe((res) => {
-        this.organizationBuilder();
-        this.isSubmit = true;
-        this.resetForm();
-        this.handleCancel();
-        this.toastr.success('Your data has been saved.', { nzDuration: 2000 });
+      addOrUpdateOrganization$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.organizationBuilder();
+          this.isSubmit = true;
+          this.resetForm();
+          this.handleCancel();
+          this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
+        } else {
+          this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+        }
       });
     }
   }
@@ -298,23 +327,42 @@ export class organizationBuilderComponent implements OnInit {
       return;
     }
 
-    let findData = this.listOfChildrenData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
+    let findData = this.listOfChildrenData.find(
+      (a) =>
+        a.name.toLowerCase() == this.form.value.name.toLowerCase() &&
+        a._id != this.model?._id
+    );
     if (findData) {
-      this.toastr.warning('Department name already exists in the database.', { nzDuration: 2000 });
+      this.toastr.warning('Department name already exists in the database.', {
+        nzDuration: 2000,
+      });
       return;
     } else {
-      const objOrganization = this.listOfData.find((x: any) => x._id == this.form.value.organizationId)
+      const modelData = {
+        Department: this.form.value,
+      };
+      const objOrganization = this.listOfData.find(
+        (x: any) => x._id == this.form.value.organizationId
+      );
       this.form.value.organizationName = objOrganization.name;
       const action$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('department', this.form.value)
-        : this.applicationService.updateNestCommonAPI('department', this.model._id, this.form.value);
-      action$.subscribe((res) => {
-        this.organizationBuilder();
-        // this.getDepartment();
-        this.resetForm();
-        this.isSubmit = true;
-        this.handleCancel();
-        this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
+        ? this.applicationService.addNestCommonAPI('cp', modelData)
+        : this.applicationService.updateNestCommonAPI(
+          'cp/Department',
+          this.model._id,
+          modelData
+        );
+      action$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.organizationBuilder();
+          // this.getDepartment();
+          this.resetForm();
+          this.isSubmit = true;
+          this.handleCancel();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+        } else {
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
       });
     }
   }
@@ -332,59 +380,102 @@ export class organizationBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'department' ? this.applicationService.deleteNestCommonAPI('department', id) : this.applicationService.deleteNestCommonAPI('organization', id);
-    api$.subscribe((res => {
-      this.organizationBuilder();
-      this.getDepartment();
-      this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
-    }));
+    const api$ =
+      type == 'department'
+        ? this.applicationService.deleteNestCommonAPI('cp/Department', id)
+        : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
+    api$.subscribe((res: any) => {
+      if (res.isSuccess) {
+        this.organizationBuilder();
+        this.getDepartment();
+        this.toastr.success(res.message, { nzDuration: 2000 });
+      } else
+        this.toastr.error(res.message, { nzDuration: 2000 });
+    });
   }
 
   search(event?: any, data?: any): void {
-    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    const inputValue = event?.target
+      ? event.target.value?.toLowerCase()
+      : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
-      (
-        data.name == 'Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'Address' ? (item?.address ? item.address.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Email' ? (item?.email ? item.email.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Contact' ? (item?.contact ? item.contact.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Website' ? (item?.website ? item.website.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Year Founded' ? (item?.year_founded ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Mission statement' ? (item?.mission_statement ? item.mission_statement.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+        data.name == 'Name'
+          ? item.name.toLowerCase().indexOf(inputValue) !== -1
+          : false ||
+          (data.name == 'Address'
+            ? item?.address
+              ? item.address.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Email'
+            ? item?.email
+              ? item.email.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Contact'
+            ? item?.contact
+              ? item.contact.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Website'
+            ? item?.website
+              ? item.website.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Year Founded'
+            ? item?.year_founded
+              ? item.year_founded.toLowerCase().indexOf(inputValue) !== -1
+              : false
+            : false) ||
+          (data.name == 'Mission statement'
+            ? item?.mission_statement
+              ? item.mission_statement.toLowerCase().indexOf(inputValue) !==
+              -1
+              : false
+            : false)
       );
-      data.searchIcon = "close";
-    }
-    else {
+      data.searchIcon = 'close';
+    } else {
       this.listOfDisplayData = this.listOfData;
-      data.searchIcon = "search";
+      data.searchIcon = 'search';
     }
   }
 
-
   clearModel(data?: any, searchValue?: any) {
-    if (data.searchIcon == "close" && searchValue) {
+    if (data.searchIcon == 'close' && searchValue) {
       data.searchValue = '';
       this.listOfDisplayData = this.listOfData;
-      data.searchIcon = "search";
+      data.searchIcon = 'search';
     }
   }
   callChild(organization: any) {
-    const departmentData = this.listOfChildrenData.filter((item: any) => (item.companyName == organization.name) || (item.organizationName == organization.name));
+    const departmentData = this.listOfChildrenData.filter(
+      (item: any) =>
+        item.companyName == organization.name ||
+        item.organizationId == organization._id
+    );
     organization['children'] = departmentData;
   }
 
   getDepartment() {
-    this.applicationService.getNestCommonAPI('department').subscribe((res => {
-      this.listOfChildrenData = res;
-      this.loading = false;
-    }));
+    this.loading = true;
+    this.applicationService
+      .getNestCommonAPI('cp/Department')
+      .subscribe((res: any) => {
+        if (res.isSuccess)
+          this.listOfChildrenData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 2000 });
+
+        this.loading = false;
+      });
   }
 
   loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
-      value: item._id
+      value: item._id,
     }));
     this.fields = [
       {
@@ -392,13 +483,13 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'name',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Department Name',
               placeholder: 'Department Name...',
               required: true,
-            }
+            },
           },
         ],
       },
@@ -407,7 +498,7 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'organizationId',
             type: 'select',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Organization Name',
@@ -418,9 +509,9 @@ export class organizationBuilderComponent implements OnInit {
                 showSearch: true,
               },
               options: options,
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
     ];
   }
@@ -431,13 +522,13 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'name',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Name',
               placeholder: 'Name...',
               required: true,
-            }
+            },
           },
         ],
       },
@@ -446,13 +537,13 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'address',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Address',
               placeholder: 'Address...',
               required: true,
-            }
+            },
           },
         ],
       },
@@ -461,13 +552,13 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'email',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Email',
               placeholder: 'Email...',
               required: true,
-            }
+            },
           },
         ],
       },
@@ -476,13 +567,13 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'contact',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Contact',
               placeholder: 'Contact...',
               required: true,
-            }
+            },
           },
         ],
       },
@@ -491,12 +582,12 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'website',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Website',
               placeholder: 'Website...',
-            }
+            },
           },
         ],
       },
@@ -505,12 +596,12 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'year_founded',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Year Founded',
               placeholder: 'Year Founded...',
-            }
+            },
           },
         ],
       },
@@ -519,37 +610,47 @@ export class organizationBuilderComponent implements OnInit {
           {
             key: 'mission_statement',
             type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
+            wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
             props: {
               label: 'Statement',
               placeholder: 'Mission Statement...',
-            }
+            },
           },
-        ]
+        ],
       },
       {
         fieldGroup: [
           {
             key: 'image',
             type: 'input',
-            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-            wrappers: ["formly-vertical-theme-wrapper"],
+            className: 'w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2',
+            wrappers: ['formly-vertical-theme-wrapper'],
             props: {
               label: 'Image Upload',
-            }
+            },
           },
-        ]
-      }
+        ],
+      },
     ];
-  };
+  }
   loadSearchArray() {
-    const properties = ['expand', 'name', 'address', 'email', 'contact', 'website', 'year_founded', 'mission_statement', 'action'];
-    this.searchArray = properties.map(property => {
+    const properties = [
+      'expand',
+      'name',
+      'address',
+      'email',
+      'contact',
+      'website',
+      'year_founded',
+      'mission_statement',
+      'action',
+    ];
+    this.searchArray = properties.map((property) => {
       return {
         name: property,
-        searchIcon: "search",
-        searchValue: ''
+        searchIcon: 'search',
+        searchValue: '',
       };
     });
   }

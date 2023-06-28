@@ -6,6 +6,7 @@ import { StorageService } from '../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationService } from '../services/application.service';
 import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-menu',
@@ -45,7 +46,7 @@ export class MenuComponent implements OnInit {
       flag: 'chinese.png'
     }
   ];
-  constructor(private employeeService: EmployeeService, private notification: NzNotificationService,
+  constructor(private toastr: NzMessageService, private notification: NzNotificationService,
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService, private storageService: StorageService, private translate: TranslateService) {
     const currentLanguageString = this.storageService.getString("currentLanguage");
@@ -84,43 +85,52 @@ export class MenuComponent implements OnInit {
     })
   }
   getApllicationAndModule() {
-    this.applicationService.getNestCommonAPI('department').subscribe((res => {
-      this.departments = res;
+    this.applicationService.getNestCommonAPI('cp/Department').subscribe(((res: any) => {
+      if (res.isSuccess)
+        this.departments = res.data;
+      else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     }));
-    this.applicationService.getNestCommonAPI('application').subscribe((res => {
-      this.applications = res;
+    this.applicationService.getNestCommonAPI('cp/Application').subscribe(((res: any) => {
+      if (res.isSuccess)
+        this.applications = res.data;
+      else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     }));
   }
   UpdateMenuLink(data: any) {
     // if (data.applicationName) {
     this.selectedApp = data.name;
-    this.applicationService.getNestCommonAPIById('menu/application', data._id).subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          const resData = {
-            _id: res[0]._id,
-            name: res[0].name,
-            applicationId: res[0].id,
-            menuData: JSON.parse(res[0].menuData),
-            selectedTheme: JSON.parse(res[0].selectedTheme),
+    this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const resData = {
+              _id: res[0]._id,
+              name: res[0].name,
+              applicationId: res[0].id,
+              menuData: JSON.parse(res[0].menuData),
+              selectedTheme: JSON.parse(res[0].selectedTheme),
 
+            }
+            let obj = {
+              emitData: resData,
+              screenType: ''
+            };
+            this.notify.emit(obj);
           }
-          let obj = {
-            emitData: resData,
-            screenType: ''
-          };
-          this.notify.emit(obj);
-        }
-        else {
-          this.notification.create(
-            'error',
-            'Error',
-            'No menu against this module'
-          );
-        }
+          else {
+            this.notification.create(
+              'error',
+              'Error',
+              'No menu against this module'
+            );
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
-
+        this.toastr.error("Error Unhandler", { nzDuration: 3000 });
       }
     });
     // this.employeeService.getJsonModules(data.name).subscribe((res => {

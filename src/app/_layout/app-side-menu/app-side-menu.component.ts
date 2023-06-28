@@ -57,6 +57,28 @@ export class AppSideMenuComponent implements OnInit {
         this.selectedTheme.rowClass = 'w-10/12';
         this.selectedTheme.topHeaderMenu = 'w-1/6';
         this.selectedTheme.topHeader = 'w-10/12';
+    }
+  }
+
+  getMenu() {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          if (res.data.length > 0) {
+            this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+            this.makeMenuData();
+            this.selectedTheme.allMenuItems.forEach((e: any) => {
+              e["menuIcon"] = "up"
+            });
+          }
+          else
+            this.menuItems = [];
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     }
   }
@@ -182,9 +204,12 @@ export class AppSideMenuComponent implements OnInit {
     return true;
   }
   loadModules(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('application').subscribe({
-      next: (res) => {
-        this.moduleData = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.moduleData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

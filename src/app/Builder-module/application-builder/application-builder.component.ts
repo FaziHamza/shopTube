@@ -134,20 +134,25 @@ export class ApplicationBuilderComponent implements OnInit {
 
   getDepartment() {
     this.loading = true
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        this.listOfDisplayData = res.map(obj => {
-          obj.expand = false;
-          return obj;
-        });
-        this.listOfDisplayData = res;
-        this.listOfData = res;
-        this.departmentData = res;
-        this.getApplication();
-        const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-        nonEmptySearchArray.forEach((element: any) => {
-          this.search(element.searchValue, element);
-        });
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.listOfDisplayData = res.data.map((obj: any) => {
+            obj.expand = false;
+            return obj;
+          });
+          this.listOfDisplayData = res.data;
+          this.listOfData = res.data;
+          this.departmentData = res.data;
+          this.getApplication();
+          const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
+          nonEmptySearchArray.forEach((element: any) => {
+            this.search(element.searchValue, element);
+          });
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+
+        this.loading = false;
       },
       error: (err) => {
         console.error(err);
@@ -158,119 +163,146 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
-
     if (isSubmit && key == "applicationId") {
-      let obj = {
-        name: value.name + "_default",
-        screenId: value.name + "_default",
-        applicationName: value.name,
-        moduleName: value.name + "_default",
+      const obj = {
+        "ScreenBuilder": {
+          name: value.name + "_default",
+          navigation: value.name + "_default",
+          departmentId: value._id,
+          applicationId: value.departmentId
+        }
       }
-      this.builderService.addScreenModule(obj).subscribe(res => {
-        this.loading = true;
-        setTimeout(() => {
-          let screen = {
-            name: value.name + "_header",
-            screenId: value.name + "_header",
-            applicationName: value.name,
-            moduleName: value.name + "_header",
+      this.loading = true;
+      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            setTimeout(() => {
+              const screen = {
+                "ScreenBuilder": {
+                  name: value.name + "_header",
+                  navigation: value.name + "_header",
+                  departmentId: value._id,
+                  applicationId: value.departmentId
+                }
+              }
+              this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
+                if (getRes.isSuccess) {
+                  let screen = {
+                    "ScreenBuilder": {
+                      name: value.name + "_footer",
+                      navigation: value.name + "_footer",
+                      departmentId: value._id,
+                      applicationId: value.departmentId
+                    }
+                  }
+                  this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
+                    if (res3.isSuccess) {
+                      this.loading = false;
+                      // this.jsonApplicationBuilder();
+                      this.toastr.success("Default things Added", { nzDuration: 2000 });
+                      // setTimeout(() => {
+                      //   this.jsonApplicationBuilder();
+                      // }, 2000)
+                    } else {
+                      this.loading = false;
+                      this.toastr.error(res.message, { nzDuration: 2000 });
+                    }
+                  })
+                } else {
+                  this.loading = false;
+                  this.toastr.error(res.message, { nzDuration: 2000 });
+                }
+              })
+            }, 1000);
+          } else {
+            this.loading = false;
+            this.toastr.error(res.message, { nzDuration: 2000 });
           }
-          this.builderService.addScreenModule(screen).subscribe(() => {
-            let screen = {
-              name: value.name + "_footer",
-              screenId: value.name + "_footer",
-              applicationName: value.name,
-              moduleName: value.name + "_footer",
-            }
-            this.builderService.addScreenModule(screen).subscribe(() => {
-              this.loading = false;
-              // this.jsonApplicationBuilder();
-              this.toastr.success("Default things Added", { nzDuration: 2000 });
-              // setTimeout(() => {
-              //   this.jsonApplicationBuilder();
-              // }, 2000)
-            })
-          })
-        }, 1000);
+        },
+        error: (err) => {
+          this.loading = false;
+          this.toastr.error("Some exception are unhandler", { nzDuration: 2000 });
+        }
       })
+
     }
   }
 
-  defaultMenu() {
-    this.loading = true;
-    setTimeout(() => {
-      let menu = {
-        "applicationName": this.myForm.value.name,
-        "menuData": [
-          {
-            "id": "menu_" + Guid.newGuid(),
-            "key": "menu_" + Guid.newGuid(),
-            "title": "Menu",
-            "link": "",
-            "icon": "appstore",
-            "type": "input",
-            "isTitle": false,
-            "children": []
-          }
-        ],
-        "applicationId": this.myForm.value.name,
-        "selectedTheme": {
-          "topHeaderMenu": "w-1/6",
-          "topHeader": "w-10/12",
-          "menuMode": "inline",
-          "menuColumn": "w-2/12",
-          "rowClass": "w-10/12",
-          "horizontalRow": "flex flex-wrap",
-          "layout": "vertical",
-          "colorScheme": "light",
-          "layoutWidth": "fluid",
-          "layoutPosition": "fixed",
-          "topBarColor": "light",
-          "sideBarSize": "default",
-          "siderBarView": "sidebarViewDefault",
-          "sieBarColor": "light",
-          "siderBarImages": "",
-          "checked": false,
-          "theme": false,
-          "isCollapsed": false,
-          "newMenuArray": [],
-          "menuChildArrayTwoColumn": [],
-          "isTwoColumnCollapsed": false,
-          "allMenuItems": [],
-          "showMenu": true
-        },
-        "id": 59
-      }
-      this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
-        next: (res) => {
-          let screen = {
-            name: this.myForm.value.name,
-            screenId: this.myForm.value.name,
-            departmentName: '',
-            applicationName: this.myForm.value.name,
-          }
-          setTimeout(() => {
-            this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
-              next: (res) => {
-                this.loading = false;
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                this.loading = false;
-              }
-            })
-          }, 500)
+  // defaultMenu() {
+  //   this.loading = true;
+  //   setTimeout(() => {
+  //     let menu = {
+  //       "applicationName": this.myForm.value.name,
+  //       "menuData": [
+  //         {
+  //           "id": "menu_" + Guid.newGuid(),
+  //           "key": "menu_" + Guid.newGuid(),
+  //           "title": "Menu",
+  //           "link": "",
+  //           "icon": "appstore",
+  //           "type": "input",
+  //           "isTitle": false,
+  //           "children": []
+  //         }
+  //       ],
+  //       "applicationId": this.myForm.value.name,
+  //       "selectedTheme": {
+  //         "topHeaderMenu": "w-1/6",
+  //         "topHeader": "w-10/12",
+  //         "menuMode": "inline",
+  //         "menuColumn": "w-2/12",
+  //         "rowClass": "w-10/12",
+  //         "horizontalRow": "flex flex-wrap",
+  //         "layout": "vertical",
+  //         "colorScheme": "light",
+  //         "layoutWidth": "fluid",
+  //         "layoutPosition": "fixed",
+  //         "topBarColor": "light",
+  //         "sideBarSize": "default",
+  //         "siderBarView": "sidebarViewDefault",
+  //         "sieBarColor": "light",
+  //         "siderBarImages": "",
+  //         "checked": false,
+  //         "theme": false,
+  //         "isCollapsed": false,
+  //         "newMenuArray": [],
+  //         "menuChildArrayTwoColumn": [],
+  //         "isTwoColumnCollapsed": false,
+  //         "allMenuItems": [],
+  //         "showMenu": true
+  //       },
+  //       "id": 59
+  //     }
+  //     this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
+  //       next: (res) => {
+  //         // let screen = {
+  //         //   name: this.myForm.value.name,
+  //         //   screenId: this.myForm.value.name,
+  //         //   departmentName: '',
+  //         //   applicationName: this.myForm.value.name,
+  //         // }
+  //         // setTimeout(() => {
+  //         //   this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
+  //         //     next: (res) => {
+  //         //       this.loading = false;
+  //         //     },
+  //         //     error: (err) => {
+  //         //       console.error(err); // Log the error to the console
+  //         //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //         //       this.loading = false;
+  //         //     }
+  //         //   })
+  //         // }, 500)
 
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          this.loading = false;
-        }
-      })
-    }, 500)
-  }
+  //       },
+  //       error: (err) => {
+  //         console.error(err); // Log the error to the console
+  //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //         this.loading = false;
+  //       }
+  //     })
+  //   }, 500)
+  // }
   openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -279,6 +311,8 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       }
     }
+    this.model = {};
+    this.myForm = new FormGroup({});
     if (type == 'application') {
       this.loadApplicationFields();
       if (selectedAllow) {
@@ -304,12 +338,15 @@ export class ApplicationBuilderComponent implements OnInit {
     this.isVisible = false;
   }
   getOrganizationData() {
-    this.applicationService.getNestCommonAPI('organization').subscribe((res => {
-      this.companyBuilder = res.map(item => ({
-        label: item.name,
-        value: item._id
-      }));
-      this.loadDepartmentFields();
+    this.applicationService.getNestCommonAPI('cp/Organization').subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.companyBuilder = res.data.map((item: any) => ({
+          label: item.name,
+          value: item._id
+        }));
+        this.loadDepartmentFields();
+      } else
+        this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
   }
 
@@ -330,7 +367,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }
     else {
       const key = this.applicationSubmit ? 'applicationId' : 'departmentId';
-      this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
+      // this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
       if (!this.applicationSubmit) {
         const data = this.companyBuilder.find((x: any) => x.value == this.myForm.value.organizationId);
         this.myForm.value.organizationName = data.label;
@@ -338,12 +375,39 @@ export class ApplicationBuilderComponent implements OnInit {
         const departmentData = this.listOfData.find((x: any) => x._id == this.myForm.value.departmentId)
         this.myForm.value.departmentName = departmentData.name;
       }
+      let objDataModel: any;
+      if (this.applicationSubmit) {
+        const objDepartmentName = this.departmentData.find((x: any) => x._id == this.myForm.value.departmentId);
+        this.myForm.value.departmentName = objDepartmentName.name;
+        objDataModel = {
+          "Application": this.myForm.value
+        }
+      } else {
+        objDataModel = {
+          "Department": this.myForm.value
+        }
+      }
+
       const action$ = !this.applicationSubmit ? (this.isSubmit
-        ? this.applicationService.addNestCommonAPI('department', this.myForm.value)
-        : this.applicationService.updateNestCommonAPI('department', this.model._id, this.myForm.value)) : this.isSubmit
-        ? this.applicationService.addNestCommonAPI('application', this.myForm.value)
-        : this.applicationService.updateNestCommonAPI('application', this.model._id, this.myForm.value);
-      action$.subscribe((res) => {
+        ? this.applicationService.addNestCommonAPI('cp', objDataModel)
+        : this.applicationService.updateNestCommonAPI('cp/Department', this.model._id, objDataModel)) : this.isSubmit
+        ? this.applicationService.addNestCommonAPI('cp', objDataModel)
+        : this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel);
+      action$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          if (this.applicationSubmit && key == "applicationId") {
+            setTimeout(() => {
+              this.defaultApplicationBuilder(this.isSubmit, key, res.data);
+            }, 1000);
+          }
+          // else
+          this.getDepartment();
+          this.getApplication();
+          this.handleCancel();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+          this.isSubmit = true;
+        } else 
+          this.toastr.error(res.message, { nzDuration: 2000 });
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
         //   this.defaultMenu();
@@ -354,17 +418,7 @@ export class ApplicationBuilderComponent implements OnInit {
         //   }, 2000);
         //   this.footerSaved = false;
         // }
-        if (this.applicationSubmit && key == "applicationId") {
-          setTimeout(() => {
-            this.defaultApplicationBuilder(this.isSubmit, key, this.myForm.value);
-          }, 1000);
-        }
-        // else
-        this.getDepartment();
-        this.getApplication();
-        this.handleCancel();
-        this.toastr.success(this.isSubmit ? 'Your data has been saved.' : 'Data updated successfully!', { nzDuration: 2000 });
-        this.isSubmit = true;
+
       });
     }
   }
@@ -375,11 +429,14 @@ export class ApplicationBuilderComponent implements OnInit {
 
 
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.applicationService.deleteNestCommonAPI('application', id) : this.applicationService.deleteNestCommonAPI('department', id);
-    api$.subscribe((res => {
-      this.getDepartment();
-      this.getApplication();
-      this.toastr.success('Your data has been deleted.', { nzDuration: 2000 });
+    const api$ = type == 'application' ? this.applicationService.deleteNestCommonAPI('cp/Application', id) : this.applicationService.deleteNestCommonAPI('cp/Department', id);
+    api$.subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.getDepartment();
+        this.getApplication();
+        this.toastr.success(res.message, { nzDuration: 2000 });
+      } else
+        this.toastr.error(res.message, { nzDuration: 2000 });
     }))
   };
 
@@ -423,9 +480,12 @@ export class ApplicationBuilderComponent implements OnInit {
     department['children'] = moduleData;
   }
   getApplication() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('application').subscribe({
-      next: (res) => {
-        this.listOfChildrenData = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.listOfChildrenData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         this.loading = false;
       },
       error: (err) => {
@@ -437,25 +497,25 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
 
-  saveHeaderFooter(type: any) {
+  // saveHeaderFooter(type: any) {
 
-    if (this.isSubmit) {
-      let screen = {
-        name: this.myForm.value.name + '-' + type,
-        screenId: this.myForm.value.name + '-' + type,
-        applicationName: '',
-        moduleName: this.myForm.value.name,
-      }
-      this.builderService.addScreenModule(screen).subscribe(() => {
-        if (!this.footerSaved) { // Check if 'footer' hasn't been saved yet
-          this.footerSaved = true; // Set the flag to indicate 'footer' has been saved
-          setTimeout(() => {
-            this.saveHeaderFooter('footer');
-          }, 2000);
-        }
-      })
-    }
-  }
+  //   if (this.isSubmit) {
+  //     let screen = {
+  //       name: this.myForm.value.name + '-' + type,
+  //       screenId: this.myForm.value.name + '-' + type,
+  //       applicationName: '',
+  //       moduleName: this.myForm.value.name,
+  //     }
+  //     this.builderService.addScreenModule(screen).subscribe(() => {
+  //       if (!this.footerSaved) { // Check if 'footer' hasn't been saved yet
+  //         this.footerSaved = true; // Set the flag to indicate 'footer' has been saved
+  //         setTimeout(() => {
+  //           this.saveHeaderFooter('footer');
+  //         }, 2000);
+  //       }
+  //     })
+  //   }
+  // }
 
   loadDepartmentFields() {
     this.fields = [

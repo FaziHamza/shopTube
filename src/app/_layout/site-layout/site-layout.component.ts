@@ -143,7 +143,7 @@ export class SiteLayoutComponent implements OnInit {
 
       if (module) {
         setTimeout(() => {
-          const filteredMenu = this.menuList.filter((item: any) => item.moduleName == module);
+          const filteredMenu = this.menuList.filter((item: any) => item.applicationId == module);
           if (filteredMenu.length > 0) {
             this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
             this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
@@ -353,81 +353,84 @@ export class SiteLayoutComponent implements OnInit {
     // this.currentUrl = window.location.host;
     // let url = window.location.href.split('.com');
     // this.currentWebsiteUrl = url[0] + ".com";
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          let menus: any = [];
-          // let checkHttp = this.currentWebsiteUrl.includes('http');
-          // if (!checkHttp)
-          //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
-          // if (this.dataSharedService.currentUrl != this.currentUrl) {
-          //   this.dataSharedService.currentUrl = this.currentUrl;
-          //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
-          //   if (!checkLayout) {
-          //     let splitHttp = this.currentWebsiteUrl.split("//");
-          //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
-          //   }
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            let menus: any = [];
+            // let checkHttp = this.currentWebsiteUrl.includes('http');
+            // if (!checkHttp)
+            //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
+            // if (this.dataSharedService.currentUrl != this.currentUrl) {
+            //   this.dataSharedService.currentUrl = this.currentUrl;
+            //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
+            //   if (!checkLayout) {
+            //     let splitHttp = this.currentWebsiteUrl.split("//");
+            //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
+            //   }
 
-          //   this.currentWebsiteLayout = checkLayout?.layout;
-          //   let checkLayoutType = this.currentUrl.includes("pages");
-          //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
-          //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
-          //       this.dataSharedService.currentApplicationList.next(res);
-          //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
-          //       if (getDefaultModule) {
-          //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
-          //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
-          //           if (filterDefaultScreen.length > 0) {
-          //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
-          //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
-          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //               else
-          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //             })
-          //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
-          //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
-          //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //               else
-          //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-          //             })
-          //           }
-          //         })
-          //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
-          //           this.dataSharedService.currentMenu.next(res);
-          //         })
-          //       }
-          //     })
-          //     // this.dataSharedService.currentModule.next(checkLayout.name);
-          //   }
-          //   else {
-          //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
-          //   }
-          // }
-          this.currentWebsiteLayout = "backend_application";
+            //   this.currentWebsiteLayout = checkLayout?.layout;
+            //   let checkLayoutType = this.currentUrl.includes("pages");
+            //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
+            //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
+            //       this.dataSharedService.currentApplicationList.next(res);
+            //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
+            //       if (getDefaultModule) {
+            //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
+            //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
+            //           if (filterDefaultScreen.length > 0) {
+            //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
+            //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
+            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //               else
+            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //             })
+            //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
+            //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
+            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //               else
+            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
+            //             })
+            //           }
+            //         })
+            //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
+            //           this.dataSharedService.currentMenu.next(res);
+            //         })
+            //       }
+            //     })
+            //     // this.dataSharedService.currentModule.next(checkLayout.name);
+            //   }
+            //   else {
+            //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
+            //   }
+            // }
+            this.currentWebsiteLayout = "backend_application";
 
-          res.forEach((element: any) => {
-            let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
-            const newNode = {
-              id: newID,
-              key: newID,
-              title: element.name,
-              link: '',
-              icon: "appstore",
-              type: "input",
-              isTitle: false,
-              expanded: true,
-              color: "",
-              application: true,
-              children: [
-              ],
+            res.data.forEach((element: any) => {
+              let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
+              const newNode = {
+                id: newID,
+                key: newID,
+                title: element.name,
+                link: '',
+                icon: "appstore",
+                type: "input",
+                isTitle: false,
+                expanded: true,
+                color: "",
+                application: true,
+                children: [
+                ],
+              }
+              menus.push(newNode);
+            });
+            this.selectedTheme.allMenuItems = menus;
+            if (!res[0]?.selectedTheme?.showMenu) {
+              this.selectedTheme['showMenu'] = true;
             }
-            menus.push(newNode);
-          });
-          this.selectedTheme.allMenuItems = menus;
-          if (!res[0]?.selectedTheme?.showMenu) {
-            this.selectedTheme['showMenu'] = true;
           }
-        }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);
@@ -453,11 +456,23 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   getAllMenu() {
-    this.requestSubscription = this.builderService.genericApis('jsonModuleSetting').subscribe({
-      next: (res) => {
-        if (res.length > 0) {
-          this.menuList = res;
-        }
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const objMenu =
+            {
+              "_id": res.data._id,
+              "name": res.data.name,
+              "selectedTheme": JSON.parse(res.data.selectedTheme),
+              "menuData": JSON.parse(res.data.menuData),
+              "__v": 0,
+              "applicationId": "648b4d73dc2ca800d3684f7b"
+            }
+            this.menuList = objMenu;
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
       },
       error: (err) => {
         console.error(err);

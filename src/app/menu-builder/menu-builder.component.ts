@@ -193,39 +193,67 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
-    debugger
-    this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
-      this.dataSharedService.goToMenu = id;
-      if (res.length > 0) {
-        let getApplication = this.applications.find((a: any) => a._id == id);
-        this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-        this.applicationId = res[0]._id
-        this.nodes = JSON.parse(res[0].menuData);
-        if (res[0].selectedTheme) {
-          this.selectedTheme = JSON.parse(res[0].selectedTheme);
-          this.selectedTheme.allMenuItems = this.nodes;
+    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.dataSharedService.goToMenu = id;
+
+        if (res.data.length > 0) {
+          let getApplication = this.applications.find((a: any) => a._id == id);
+          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          this.applicationId = res.data[0]._id
+          this.nodes = JSON.parse(res.data[0].menuData);
+          if (res.data[0].selectedTheme) {
+            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          else {
+            this.selectedTheme = {
+              topHeaderMenu: 'w-1/6',
+              topHeader: 'w-10/12',
+              menuMode: 'inline',
+              menuColumn: 'w-2/12',
+              rowClass: 'w-10/12',
+              horizontalRow: 'flex flex-wrap',
+              layout: 'vertical',
+              colorScheme: 'light',
+              layoutWidth: 'fluid',
+              layoutPosition: 'fixed',
+              topBarColor: 'light',
+              sideBarSize: 'default',
+              siderBarView: 'sidebarViewDefault',
+              sieBarColor: 'light',
+              siderBarImages: '',
+              checked: false,
+              theme: false,
+              isCollapsed: false,
+              newMenuArray: [],
+              menuChildArrayTwoColumn: [],
+              isTwoColumnCollapsed: false,
+              allMenuItems: [],
+              showMenu: true,
+            }
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          if (!this.selectedTheme['font']) {
+            this.selectedTheme['font'] = 'font-roboto'
+          }
+          if (!this.selectedTheme['inPageMenu']) {
+            this.selectedTheme['inPageMenu'] = {};
+          }
+          if (!this.selectedTheme['inPageMenu']['font']) {
+            this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
+          }
+          this.makeMenuData();
         }
         else {
-          this.selectedTheme.allMenuItems = this.nodes;
-        }
-        if (!this.selectedTheme['font']) {
           this.selectedTheme['font'] = 'font-roboto'
+          this.clearChildNode();
+          this.applicationId = '';
+          this.clickBack();
         }
-        if (!this.selectedTheme['inPageMenu']) {
-          this.selectedTheme['inPageMenu'] = {};
-        }
-        if (!this.selectedTheme['inPageMenu']['font']) {
-          this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
-        }
-        this.makeMenuData();
-      }
-      else {
-        this.selectedTheme['font'] = 'font-roboto'
-        this.clearChildNode();
-        this.applicationId = '';
-        this.clickBack();
-      }
-      // this.prepareDragDrop(this.nodes);
+        // this.prepareDragDrop(this.nodes);
+      } else
+        this.toastr.error(res.message, { nzDuration: 3000 });
     }));
   }
   clickBack() {
@@ -331,7 +359,6 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-            this.toastr.warning("Cannot add control at this level")
             this.toastr.warning("Cannot add control at this level")
           }
         }
@@ -680,11 +707,19 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
+    const menuModel = {
+      "Menu": data
+    }
+    // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('menu', data).subscribe({
-        next: (objMenu) => {
+      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', menuModel).subscribe({
+        next: (objMenu: any) => {
+          if (objMenu.isSuccess)
+            this.toastr.success(objMenu.message, { nzDuration: 3000 });
+          else
+            this.toastr.error(objMenu.message, { nzDuration: 3000 });
+
           this.saveLoader = false;
-          this.toastr.success('Menu Save successfully', { nzDuration: 3000 })
         },
         error: (err) => {
           this.saveLoader = false;
@@ -692,12 +727,15 @@ export class MenuBuilderComponent implements OnInit {
 
         }
       });
-    }
-    else {
-      this.requestSubscription = this.applicationService.updateNestCommonAPI('menu', this.applicationId, data).subscribe({
-        next: (objMenu) => {
+    } else {
+      this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/Menu', this.applicationId, menuModel).subscribe({
+        next: (objMenu: any) => {
+          if (objMenu.isSuccess)
+            this.toastr.success(objMenu.message, { nzDuration: 3000 });
+          else
+            this.toastr.error(objMenu.message, { nzDuration: 3000 });
+
           this.saveLoader = false;
-          this.toastr.success('Menu Update successfully', { nzDuration: 3000 });
         },
         error: (err) => {
           this.saveLoader = false;
@@ -1459,10 +1497,13 @@ export class MenuBuilderComponent implements OnInit {
       // let getApplication = this.departments.find(a => a.name == id);
       // if (getApplication) {
       // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
-        next: (res) => {
-          this.applications = res;
-          this.clickBack();
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.applications = res.data;
+            this.clickBack();
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
         },
         error: (err) => {
           console.error(err); // Log the error to the console
@@ -1474,9 +1515,12 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        this.departments = res;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.departments = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console
