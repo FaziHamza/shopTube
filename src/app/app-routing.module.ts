@@ -16,7 +16,7 @@ import { AuthGuard } from './auth/auth.Guard';
 const routes: Routes = [
   {
     path: '', component: SiteLayoutComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
