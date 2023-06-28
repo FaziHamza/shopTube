@@ -23,7 +23,7 @@ export class DataService {
     // this.deleteDb(screenName);
   }
   async getNodes(screenName: any) {
-    debugger
+   
     let check = await this.db.myTable.where('screenName').equals(screenName).toArray();
     return check;
   }

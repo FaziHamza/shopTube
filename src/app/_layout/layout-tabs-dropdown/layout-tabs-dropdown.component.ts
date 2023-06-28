@@ -9,8 +9,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LayoutTabsDropdownComponent implements OnInit {
   @Input() layoutTabsDropdownData: any;
+  @Input() theme: any;
   tempData: any;
   moreMenu: any = [];
+  isActiveShow: any;
+  hoverActiveShow: any;
   constructor(private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
@@ -24,12 +27,15 @@ export class LayoutTabsDropdownComponent implements OnInit {
       this.layoutTabsDropdownData.children = this.layoutTabsDropdownData.children.slice(0, 6);
     }
   }
-  screenLoad(link: any) {
-    if (link) {
-      if (link.includes('/pages/')) {
-        this.router.navigate([link]);
+  screenLoad(data: any , allow : boolean) {
+    if(allow){
+      this.isActiveShow = data.id;
+    }
+    if (data.link) {
+      if (data.link.includes('/pages/')) {
+        this.router.navigate([data.link]);
       } else {
-        let routerLink = '/pages/' + link;
+        let routerLink = '/pages/' + data.link;
         this.router.navigate([routerLink]);
       }
 

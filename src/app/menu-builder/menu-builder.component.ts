@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { ApplicationService } from '../services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
+import { Router } from '@angular/router';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'st-menu-builder',
@@ -62,7 +64,9 @@ export class MenuBuilderComponent implements OnInit {
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
-    public builderService: BuilderService, private toastr: NzMessageService,) {
+    public builderService: BuilderService, private toastr: NzMessageService,
+    private router: Router,
+    public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
     this.htmlTabsData = [
@@ -141,6 +145,7 @@ export class MenuBuilderComponent implements OnInit {
     this.makeMenuData();
   }
   ngOnInit(): void {
+    this.dataSharedService.goToMenu = '';
     this.selectedTheme = {
       topHeaderMenu: 'w-1/6',
       topHeader: 'w-10/12',
@@ -165,6 +170,7 @@ export class MenuBuilderComponent implements OnInit {
       isTwoColumnCollapsed: false,
       allMenuItems: [],
       showMenu: true,
+      inPageMenu: {},
     }
     // this.jsonModuleSetting();
     this.getDepartments();
@@ -187,7 +193,9 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
+    debugger
     this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
+      this.dataSharedService.goToMenu = id;
       if (res.length > 0) {
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -198,36 +206,21 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.allMenuItems = this.nodes;
         }
         else {
-          this.selectedTheme = {
-            topHeaderMenu: 'w-1/6',
-            topHeader: 'w-10/12',
-            menuMode: 'inline',
-            menuColumn: 'w-2/12',
-            rowClass: 'w-10/12',
-            horizontalRow: 'flex flex-wrap',
-            layout: 'vertical',
-            colorScheme: 'light',
-            layoutWidth: 'fluid',
-            layoutPosition: 'fixed',
-            topBarColor: 'light',
-            sideBarSize: 'default',
-            siderBarView: 'sidebarViewDefault',
-            sieBarColor: 'light',
-            siderBarImages: '',
-            checked: false,
-            theme: false,
-            isCollapsed: false,
-            newMenuArray: [],
-            menuChildArrayTwoColumn: [],
-            isTwoColumnCollapsed: false,
-            allMenuItems: [],
-            showMenu: true,
-          }
           this.selectedTheme.allMenuItems = this.nodes;
+        }
+        if (!this.selectedTheme['font']) {
+          this.selectedTheme['font'] = 'font-roboto'
+        }
+        if (!this.selectedTheme['inPageMenu']) {
+          this.selectedTheme['inPageMenu'] = {};
+        }
+        if (!this.selectedTheme['inPageMenu']['font']) {
+          this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
         }
         this.makeMenuData();
       }
       else {
+        this.selectedTheme['font'] = 'font-roboto'
         this.clearChildNode();
         this.applicationId = '';
         this.clickBack();
@@ -338,7 +331,8 @@ export class MenuBuilderComponent implements OnInit {
           if (dataAfterKey.length <= 1) {
             this.controlListvisible = true;
           } else {
-          this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
+            this.toastr.warning("Cannot add control at this level")
           }
         }
       }
@@ -677,7 +671,8 @@ export class MenuBuilderComponent implements OnInit {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
-    var data =
+    temporaryData.allMenuItems = []
+    var data: any =
     {
       "name": this.applicationName,
       "applicationId": this.applicationName,
@@ -685,7 +680,6 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
-    // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
       this.requestSubscription = this.applicationService.addNestCommonAPI('menu', data).subscribe({
         next: (objMenu) => {
@@ -698,7 +692,8 @@ export class MenuBuilderComponent implements OnInit {
 
         }
       });
-    } else {
+    }
+    else {
       this.requestSubscription = this.applicationService.updateNestCommonAPI('menu', this.applicationId, data).subscribe({
         next: (objMenu) => {
           this.saveLoader = false;
@@ -1233,146 +1228,180 @@ export class MenuBuilderComponent implements OnInit {
     this.tabsArray = [];
   }
 
-  changeLayout(layoutType: any) {
-    if (layoutType.includes('backGroundColor')) {
-      this.selectedTheme['backGroundColor'] = layoutType.split('_')[0];
-    } else if (layoutType.includes('textColor')) {
-      this.selectedTheme['textColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('font')) {
-      this.selectedTheme['font'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeBackgroundColor')) {
-      this.selectedTheme['activeBackgroundColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeTextColor')) {
-      this.selectedTheme['activeTextColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('hoverTextColor')) {
-      this.selectedTheme['hoverTextColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconColor')) {
-      this.selectedTheme['iconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('hoverIconColor')) {
-      this.selectedTheme['hoverIconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('activeIconColor')) {
-      this.selectedTheme['activeIconColor'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconSize')) {
-      this.selectedTheme['iconSize'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('titleSize')) {
-      this.selectedTheme['titleSize'] = layoutType.split('_')[0];
-    }
-    else if (layoutType.includes('iconType')) {
-      this.selectedTheme['iconType'] = layoutType.split('_')[0];
-      this.changeIconType(this.selectedTheme['iconType'], this.nodes);
-    }
-    else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
-      this.selectedTheme['design'] = layoutType;
-    }
-    else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-      this.selectedTheme.menuMode = "inline",
-        this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.topHeaderMenu = 'w-1/6'
-      this.selectedTheme.topHeader = 'w-10/12';
-      // this.selectedTheme.menuColumn = 'w-1/6';
-      // this.selectedTheme.rowClass = 'w-10/12';
-      if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.menuColumn = 'w-1/6';
-        this.selectedTheme.rowClass = 'w-10/12';
-        if (layoutType == 'vertical' || layoutType == 'rtl')
+  changeLayout(data: any) {
+    debugger
+    if (!data.inPageMenu) {
+      if (!data.reset) {
+        let layoutType = data.layoutType;
+        if (layoutType.includes('backGroundColor') ||
+          layoutType.includes('font') ||
+          layoutType.includes('textColor') ||
+          layoutType.includes('activeBackgroundColor') ||
+          layoutType.includes('activeTextColor') ||
+          layoutType.includes('hoverTextColor') ||
+          layoutType.includes('titleSize') ||
+          layoutType.includes('iconColor') ||
+          layoutType.includes('hoverIconColor') ||
+          layoutType.includes('activeIconColor') ||
+          layoutType.includes('iconSize') ||
+          layoutType.includes('iconType')) {
+          this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+          }
+        }
+        else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
+          this.selectedTheme['design'] = layoutType;
+        }
+        else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
+          this.selectedTheme.menuMode = "inline",
+            this.selectedTheme.isCollapsed = false;
+          this.selectedTheme.topHeaderMenu = 'w-1/6'
+          this.selectedTheme.topHeader = 'w-10/12';
+          // this.selectedTheme.menuColumn = 'w-1/6';
+          // this.selectedTheme.rowClass = 'w-10/12';
+          if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
+            this.selectedTheme.horizontalRow = 'flex flex-wrap';
+            this.selectedTheme.menuColumn = 'w-1/6';
+            this.selectedTheme.rowClass = 'w-10/12';
+            if (layoutType == 'vertical' || layoutType == 'rtl')
+              this.selectedTheme.layout = layoutType;
+          }
+          if (layoutType == 'twoColumn') {
+            this.selectedTheme.isCollapsed = false;
+            this.selectedTheme.layoutPosition = '';
+            this.selectedTheme.layout = layoutType;
+            this.selectedTheme.horizontalRow = 'flex flex-wrap'
+            this.selectedTheme.rowClass = 'w-11/12';
+            // this.selectedTheme.isTwoColumnCollapsed = false;
+            this.selectedTheme.menuColumn = 'w-1/12';
+            this.selectedTheme.topHeaderMenu = 'w-1/6'
+            this.selectedTheme.topHeader = 'w-10/12';
+            this.selectedTheme.layoutWidth = '';
+            if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
+              this.selectedTheme.rowClass = 'w-10/12';
+              this.selectedTheme.menuColumn = 'w-2/12';
+            }
+          }
+          if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+            this.selectedTheme.isCollapsed = true;
+            this.selectedTheme.checked = false;
+            this.selectedTheme.topHeaderMenu = 'w-1/12';
+            this.selectedTheme.topHeader = 'w-full';
+            this.selectedTheme.menuColumn = '';
+            this.selectedTheme.rowClass = 'w-full';
+          }
+        }
+        else if (layoutType == 'horizental') {
+          this.selectedTheme.isCollapsed = false;
           this.selectedTheme.layout = layoutType;
-      }
-      if (layoutType == 'twoColumn') {
-        this.selectedTheme.layoutPosition = '';
-        this.selectedTheme.layout = layoutType;
-        this.selectedTheme.horizontalRow = 'flex flex-wrap'
-        this.selectedTheme.rowClass = 'w-11/12';
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.isTwoColumnCollapsed = false;
-        this.selectedTheme.menuColumn = 'w-1/12';
-        this.selectedTheme.topHeaderMenu = 'w-1/6'
-        this.selectedTheme.topHeader = 'w-10/12';
-        this.selectedTheme.layoutWidth = '';
-        if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
+          this.horizentalLayout();
+          if (this.selectedTheme.layoutWidth == 'boxed')
+            this.selectedTheme.rowClass = 'w-full'
+        }
+        else if (layoutType == 'dark') {
+          this.selectedTheme.theme = true;
+        }
+        else if (layoutType == 'light') {
+          this.selectedTheme.theme = false;
+        }
+        else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
+          this.selectedTheme.isCollapsed = true;
+          this.selectedTheme.topHeaderMenu = 'w-1/12';
+          this.selectedTheme.topHeader = 'w-full';
+          this.selectedTheme.menuColumn = '';
+          this.selectedTheme.rowClass = 'w-full';
+          this.selectedTheme.checked = false;
+        }
+        else if (layoutType == 'boxed') {
+          if (this.selectedTheme.layout == 'horizental') {
+            this.selectedTheme.horizontalRow = 'flex flex-wrap';
+            this.selectedTheme.rowClass = 'w-full',
+              this.selectedTheme.menuMode = "horizontal",
+              this.selectedTheme.menuColumn = 'w-full',
+              this.selectedTheme.isCollapsed = false;
+          }
+          else {
+            this.selectedTheme.isCollapsed = false;
+            this.selectedTheme.menuColumn = 'w-1/6';
+            this.selectedTheme.rowClass = 'w-10/12';
+            this.selectedTheme.topHeaderMenu = 'w-1/6';
+            this.selectedTheme.topHeader = 'w-10/12';
+          }
+        }
+        else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
+          this.selectedTheme.isCollapsed = false;
+          this.selectedTheme.menuColumn = 'w-1/6';
           this.selectedTheme.rowClass = 'w-10/12';
-          this.selectedTheme.menuColumn = 'w-2/12';
+          this.selectedTheme.topHeaderMenu = 'w-1/6';
+          this.selectedTheme.topHeader = 'w-10/12';
+        }
+        // This conditions is used to assign value to object
+        if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
+          this.selectedTheme.layout = layoutType;
+          if (layoutType == 'horizental' || layoutType == 'twoColumn')
+            this.selectedTheme.sideBarSize = '';
+        }
+        else if (layoutType == 'fluid' || layoutType == 'boxed') {
+          this.selectedTheme.layoutWidth = layoutType;
+          if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
+            this.horizentalLayout();
+            // this.selectedTheme.horizontalRow = 'flex flex-wrap';
+            // this.selectedTheme.rowClass = 'h-5/6';
+            // this.selectedTheme.menuColumn = 'w-full',
+            // this.menuMode = "horizontal";
+          }
+        }
+        else if (layoutType == 'light' || layoutType == 'dark') {
+          this.selectedTheme.sieBarColor = layoutType;
+        }
+        else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
+          this.selectedTheme.sideBarSize = layoutType;
+        }
+        else if (layoutType == 'fixed' || layoutType == 'scrollable') {
+          this.selectedTheme.layoutPosition = layoutType;
+        }
+        else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
+          this.selectedTheme.siderBarView = layoutType;
+        }
+        else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
+          this.selectedTheme.siderBarImages = layoutType;
+        }
+        this.makeMenuData();
+      }
+      else if (data.reset) {
+        if (!data.inPageMenu) {
+          let inPageMenu = this.selectedTheme['inPageMenu'];
+          this.selectedTheme = data.resetTheme;
+          this.selectedTheme['inPageMenu'] = inPageMenu;
+          this.makeMenuData();
         }
       }
-      if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
-        this.selectedTheme.isCollapsed = true;
+    }
+    else if (data.inPageMenu) {
+      if (!data.reset) {
+        let layoutType = data.layoutType;
+        if (layoutType.includes('backGroundColor') ||
+          layoutType.includes('font') ||
+          layoutType.includes('textColor') ||
+          layoutType.includes('activeBackgroundColor') ||
+          layoutType.includes('activeTextColor') ||
+          layoutType.includes('hoverTextColor') ||
+          layoutType.includes('titleSize') ||
+          layoutType.includes('iconColor') ||
+          layoutType.includes('hoverIconColor') ||
+          layoutType.includes('activeIconColor') ||
+          layoutType.includes('iconSize') ||
+          layoutType.includes('iconType')) {
+          this.selectedTheme['inPageMenu'][layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeTabIconType(this.selectedTheme['inPageMenu']['iconType'], this.nodes);
+          }
+        }
+      } else if (data.reset) {
+        this.selectedTheme['inPageMenu'] = data.resetTheme;
       }
     }
-    else if (layoutType == 'horizental') {
-      this.selectedTheme.isCollapsed = false;
-      this.selectedTheme.layout = layoutType;
-      this.horizentalLayout();
-      if (this.selectedTheme.layoutWidth == 'boxed')
-        this.selectedTheme.rowClass = 'w-full'
-    }
-    else if (layoutType == 'dark') {
-      this.selectedTheme.theme = true;
-    }
-    else if (layoutType == 'light') {
-      this.selectedTheme.theme = false;
-    }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
-      this.selectedTheme.isCollapsed = true;
-    }
-    else if (layoutType == 'boxed') {
-      if (this.selectedTheme.layout == 'horizental') {
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.rowClass = 'w-full',
-          this.selectedTheme.menuMode = "horizontal",
-          this.selectedTheme.menuColumn = 'w-full',
-          this.selectedTheme.isCollapsed = false;
-      }
-      else {
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        this.selectedTheme.rowClass = 'w-10/12';
-        this.selectedTheme.checked = false;
-      }
-    }
-    else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-      this.selectedTheme.isCollapsed = false;
-    }
-    // This conditions is used to assign value to object
-    if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-      this.selectedTheme.layout = layoutType;
-      if (layoutType == 'horizental' || layoutType == 'twoColumn')
-        this.selectedTheme.sideBarSize = '';
-    }
-    else if (layoutType == 'fluid' || layoutType == 'boxed') {
-      this.selectedTheme.layoutWidth = layoutType;
-      if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
-        this.horizentalLayout();
-        // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-        // this.selectedTheme.rowClass = 'h-5/6';
-        // this.selectedTheme.menuColumn = 'w-full',
-        // this.menuMode = "horizontal";
-      }
-    }
-    else if (layoutType == 'light' || layoutType == 'dark') {
-      this.selectedTheme.sieBarColor = layoutType;
-    }
-    else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-      this.selectedTheme.sideBarSize = layoutType;
-    }
-    else if (layoutType == 'fixed' || layoutType == 'scrollable') {
-      this.selectedTheme.layoutPosition = layoutType;
-    }
-    else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
-      this.selectedTheme.siderBarView = layoutType;
-    }
-    else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
-      this.selectedTheme.siderBarImages = layoutType;
-    }
-    this.makeMenuData();
   }
 
   makeMenuData() {
@@ -1398,12 +1427,14 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
+    this.selectedTheme.isCollapsed = false;
+    this.selectedTheme.topHeaderMenu = 'w-1/6';
+    this.selectedTheme.topHeader = 'w-10/12';
+    this.selectedTheme.horizontalRow = '';
+    this.selectedTheme.rowClass = 'w-full';
+    this.selectedTheme.menuMode = "horizontal";
+    this.selectedTheme.menuColumn = 'w-full';
     this.makeMenuData();
-    this.selectedTheme.horizontalRow = 'flex flex-wrap';
-    this.selectedTheme.rowClass = 'w-10/12',
-      this.selectedTheme.menuMode = "horizontal",
-      this.selectedTheme.menuColumn = 'w-full',
-      this.selectedTheme.isCollapsed = false;
   }
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
@@ -1497,6 +1528,29 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
+  changeTabIconType(data: any, nodeData: any) {
+    if (nodeData.length > 0) {
+      nodeData.forEach((node: any) => {
+        if (node.type == 'tab') {
+          if (node['icon']) {
+            if (node['icon'].includes('fa-') && data == 'font_awsome') {
+              node['iconType'] = data;
+            }
+            else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+              node['iconType'] = data;
+            }
+          } else {
+            node['iconType'] = data;
+          }
+          this.changeIconType(data, node);
+        }
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
+      });
+    }
+  }
+
   getMenuParents(selectedItem: any, menuItems: any[]): any {
     const parents: any[] = [];
     const parentIds: string[] = [];
@@ -1546,6 +1600,13 @@ export class MenuBuilderComponent implements OnInit {
   //   return result;
   // }
 
+  checkPage() {
+    if (this.dataSharedService.goToMenu) {
+      this.router.navigate(['/']);
+    } else {
+      this.toastr.warning('Please select Application', { nzDuration: 3000 });
+    }
+  }
 }
 
 

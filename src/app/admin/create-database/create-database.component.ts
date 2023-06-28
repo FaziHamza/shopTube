@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DebugEventListener, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
+// Encrypt
+import * as CryptoJS from 'crypto-js';
+import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
   selector: 'st-create-database',
@@ -18,6 +21,10 @@ export class CreateDatabaseComponent implements OnInit {
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
   data: any[] = [];
+  // Separation of pending and Approved.
+  filteredApproved: any[] = [];
+  filteredPending: any[] = [];
+
   tableId = 0;
   fieldType: any[] = [
     { "id": "INT", "name": "INT" },
@@ -89,17 +96,32 @@ export class CreateDatabaseComponent implements OnInit {
       fieldGroup: [
         {
           key: 'isActive',
-          type: 'checkbox',
+          type: 'select',
           wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: true,
           props: {
-            label: 'Is Active'
+            label: 'Select Status',
+            options: [
+              {label: "Approved", value: "Approved"},
+              {label: "Pending", value: "Pending"},
+              {label: "Reject", value: "Reject"}
+            ]
           }
         }
       ]
     },
   ];
-  constructor(private employeeService: EmployeeService, private toastr: NzMessageService,) { }
+  constructor(private employeeService: EmployeeService, private toastr: NzMessageService,
+    private encryptionService: EncryptionService) { }
+
+  //Encrypt work
+//   encryptData :any;
+//   inputFiled :any;
+//  sendEncryptData(){
+//   console.log(CryptoJS.AES.encrypt("78w82y", "myemail").toString()); //email
+//   this.encryptData = CryptoJS.AES.encrypt(this.inputFiled, "myemail").toString()
+//  }
+
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
@@ -108,6 +130,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.getDatabaseTablev1();
   }
   startEdit(id: number): void {
+    debugger
     this.editCache[id].edit = true;
   }
   cancelEdit(id: number): void {
@@ -118,7 +141,7 @@ export class CreateDatabaseComponent implements OnInit {
     };
   }
   saveEdit(id: number): void {
-    debugger
+   
     const index = this.listOfData.findIndex(item => item.id === id);
     Object.assign(this.listOfData[index], this.editCache[id].data);
     this.editCache[id].edit = false;
@@ -156,6 +179,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
   addRow(): void {
     const isExistingDataValid = this.listOfData.every(item => {
+      debugger
       // Check if any field in the existing rows is empty or null
       return (
         item.fieldName !== '' &&
@@ -208,14 +232,25 @@ export class CreateDatabaseComponent implements OnInit {
                 objTRes.forEach((element: any) => {
                   element['schema'] = [];
                   const objlistData = {
-                    "id": element.id,
-                    "tableName": element.tableName,
-                    "comment": element.comment,
-                    "totalFields": element.totalFields,
-                    "isActive": element.isActive,
-                    "schema": objFRes.filter((x: any) => x.table_id == element.id)
-                  }
+                    id: element.id,
+                    tableName: element.tableName,
+                    comment: element.comment,
+                    totalFields: element.totalFields,
+                    isActive: element.isActive,
+                    schema: objFRes.filter(
+                      (x: any) => x.table_id == element.id
+                    ),
+                  };
                   this.data.push(objlistData);
+                  this.filteredApproved = this.data.filter(
+                    (item) => item.isActive === 'Approved'
+                  );
+                  this.filteredPending = this.data.filter(
+                    (item) => item.isActive === 'Pending'
+                  );
+
+                  // console.warn("filteredPending:", this.filteredPending);
+                  // console.warn("filteredApproved:", this.filteredApproved);
                 });
 
               }
@@ -235,6 +270,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
+   
     const isExistingDataValid = this.listOfData.every(item => {
       // Check if any field in the existing rows is empty or null
       return (
@@ -261,10 +297,11 @@ export class CreateDatabaseComponent implements OnInit {
         "schema": fields
       };
       console.log(data);
-      if (this.myForm.value.isActive)
+      if (this.myForm.value.isActive === "Approved")
+      // saving table if status is approved.
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
-            debugger;
+           ;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
@@ -279,6 +316,7 @@ export class CreateDatabaseComponent implements OnInit {
         "totalFields": this.myForm.value.totalFields,
         "isActive": this.myForm.value.isActive
       };
+
       this.employeeService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
         next: (res) => {
           const observables = this.listOfData.map(element => {
@@ -320,8 +358,9 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
   updateFormv1() {
-    debugger
+   
     const isExistingDataValid = this.listOfData.every(item => {
+      debugger
       // Check if any field in the existing rows is empty or null
       return (
         item.fieldName !== '' &&
@@ -347,10 +386,9 @@ export class CreateDatabaseComponent implements OnInit {
         "tableName": this.myForm.value.tableName,
         "schema": fields
       };
-      if (this.myForm.value.isActive)
+      if (this.myForm.value.isActive === "Approved") {
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
-            debugger;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
@@ -358,6 +396,9 @@ export class CreateDatabaseComponent implements OnInit {
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
+      } else if(this.myForm.value.isActive === "Pending" || this.myForm.value.isActive === "Reject"){
+        this.toastr.warning("Setting is done.", { nzDuration: 3000 });
+      }
 
       const objTableNames = {
         "tableName": this.myForm.value.tableName,
@@ -365,9 +406,10 @@ export class CreateDatabaseComponent implements OnInit {
         "totalFields": this.myForm.value.totalFields,
         "isActive": this.myForm.value.isActive
       };
+
       this.employeeService.updateSQLDatabaseTable('knex-crud/tables/' + this.tableId, objTableNames).subscribe({
         next: (res) => {
-          this.toastr.success("update Table Name Successfully", { nzDuration: 3000 });
+          this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
           const observables = this.listOfData.map(element => {
             const objFields = {
               "table_id": element.update ? this.tableId : 0,
@@ -392,7 +434,7 @@ export class CreateDatabaseComponent implements OnInit {
             next: (results) => {
               if (results.every(result => !(result instanceof Error))) {
                 if (this.deletedIds.length == 0) {
-                  this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+                  // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
                   this.cancelEditTable();
                   this.getDatabaseTablev1();
                   this.deletedIds = [];
@@ -426,7 +468,8 @@ export class CreateDatabaseComponent implements OnInit {
       forkJoin(observables).subscribe({
         next: (results) => {
           if (results.every(result => !(result instanceof Error))) {
-            this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+            // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+            this.toastr.success("Table field deleted successfully ", { nzDuration: 3000 });
             this.cancelEditTable();
             this.getDatabaseTablev1();
             this.deletedIds = [];
@@ -481,7 +524,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   editTableData(item: any) {
-    debugger
+   
     this.tableId = item.id
     this.model = item;
     this.listOfData = item.schema;

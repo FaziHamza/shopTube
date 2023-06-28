@@ -13,7 +13,7 @@ export class PrintInvoiceComponent implements OnInit {
     this.printInvoiceData;
   }
   displayImage(event: any) {
-    debugger
+   
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.printInvoiceData.image = e.target.result;

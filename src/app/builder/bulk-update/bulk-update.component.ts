@@ -48,38 +48,65 @@ export class BulkUpdateComponent implements OnInit {
  
 
   save() {
-    this.tabelNodes.forEach((element, index) => {
-      this.nodes[0].children[1].children[index].key = element.key;
-      if(this.nodes[0].children[1].children[index].title != element.title){
-        this.nodes[0].children[1].children[index].title = element.title;
-        this.nodes[0].children[1].children[index].children[0].title = element.title;
-      }
-      this.nodes.forEach((body: any, innerIndex: any) => {
-        let findInputs = this.filterInputElements(body.children);
-        findInputs.forEach((input: any) => {
-          for (let j = 0; j < element.children.length; j++) {
-            const check = element.children[j];
-            if(check.id == input.id) {
-              if(input.formly[0].fieldGroup[0].key != check.key){
-                delete this.formlyModel[input.formly[0].fieldGroup[0].key];
+    let check = this.filterInputElementKey(this.tabelNodes);
+    if(check.length > 0){
+      alert("key cannot be empty")
+    }else{
+      this.tabelNodes.forEach((element, index) => {
+        this.nodes[0].children[1].children[index].key = element.key;
+        if(this.nodes[0].children[1].children[index].title != element.title){
+          this.nodes[0].children[1].children[index].title = element.title;
+          this.nodes[0].children[1].children[index].children[0].title = element.title;
+        }
+        this.nodes.forEach((body: any, innerIndex: any) => {
+          let findInputs = this.filterInputElements(body.children);
+          findInputs.forEach((input: any) => {
+            for (let j = 0; j < element.children.length; j++) {
+              const check = element.children[j];
+              if(check.id == input.id) {
+                // if(input.formly[0].fieldGroup[0].key != check.key){
+                //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
+                // }
+                input.title = check.title;
+                input.formly[0].fieldGroup[0].key = check.key
+                input.formly[0].fieldGroup[0].props.label = check.title;
+                input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
+                input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
+                // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
+                break;
               }
-              input.title = check.title;
-              input.formly[0].fieldGroup[0].key = check.key
-              input.formly[0].fieldGroup[0].props.label = check.title;
-              input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
-              input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
-              this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
-              break;
             }
-          }
-        })
+          })
+        });
       });
-    });
-    let obj = {
-      nodes:this.nodes,
-      formlyModel :this.formlyModel
+      let obj = {
+        nodes:this.nodes,
+        // formlyModel :this.formlyModel
+      }
+      this.drawerRef.close(obj);
     }
-    this.drawerRef.close(obj);
+
+  }
+  filterInputElementKey(data: any): any[] {
+    const inputElements: any[] = [];
+
+    function traverse(obj: any): void {
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input' && (obj.key === null || obj.key === undefined || obj.key == "")) {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
   }
 
   filterInputElements(data: any): any[] {

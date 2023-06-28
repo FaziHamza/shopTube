@@ -1,5 +1,5 @@
 import { EmployeeService } from './../services/employee.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataSharedService } from '../services/data-shared.service';
 import { StorageService } from '../services/storage.service';
@@ -13,12 +13,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  @Input() selectedTheme: any;
   selectedLanguageObj: any | undefined;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   departments: any;
   applications: any;
   selectedApp: string = '';
-  isCollapsed: boolean = false;
+  isCollapsed: boolean = true;
   isVisible: boolean = false;
   showCollapseButton: boolean = true;
   requestSubscription: Subscription;
@@ -70,11 +71,11 @@ export class MenuComponent implements OnInit {
       currentLanguage = JSON.parse(currentLanguageString);
       this.selectedLanguageObj = this.languages.find(language => language.id == currentLanguage);
     }
-    this.requestSubscription = this.dataSharedService.menuSelectedThemeLayout.subscribe({
+    this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res)
-          debugger
-        this.showCollapseButton = res;
+
+          this.isCollapsed = res;
       },
       error: (err) => {
         console.error(err);
@@ -161,9 +162,14 @@ export class MenuComponent implements OnInit {
 
   }
   collapse(screenType: any) {
-    this.isCollapsed = !this.isCollapsed;
+    debugger
+    if (screenType == 'desktop') {
+      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    } else {
+      this.isCollapsed = !this.isCollapsed;
+    }
     let obj = {
-      emitData: this.isCollapsed,
+      emitData: screenType == 'desktop' ? this.selectedTheme.isCollapsed : this.isCollapsed,
       screenType: screenType
     };
     this.notify.emit(obj);
@@ -185,5 +191,8 @@ export class MenuComponent implements OnInit {
       JSON.stringify(lang)
     );
     this.translate.use(lang);
+  }
+  ngOnDestroy() {
+    this.requestSubscription.unsubscribe();
   }
 }

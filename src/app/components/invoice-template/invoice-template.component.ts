@@ -25,7 +25,7 @@ export class InvoiceTemplateComponent implements OnInit {
   constructor(private formBuilder: FormBuilder , public dataSharedService: DataSharedService , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-    debugger
+   
     this.form = this.formBuilder.group({
       image: '',
       invoiceNumber: '',
@@ -46,7 +46,7 @@ export class InvoiceTemplateComponent implements OnInit {
 
     this.requestSubscription = this.dataSharedService.invoiceSum.subscribe({
       next: (res) => {
-        debugger
+       
         this.form.patchValue({
           tax: 0,
           amountPaid: 0,

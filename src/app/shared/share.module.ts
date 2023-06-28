@@ -113,7 +113,7 @@ import { CommonService } from '../../common/common-services/common.service';
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
 
     //
-    ErrorComponent
+    // ErrorComponent
   ],
   exports: [
     FormsModule,
@@ -168,7 +168,7 @@ import { CommonService } from '../../common/common-services/common.service';
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     //
-    ErrorComponent
+    // ErrorComponent
   ],
   providers: [
 

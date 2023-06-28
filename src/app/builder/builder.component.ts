@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -8,7 +13,10 @@ import { Guid } from '../models/guid';
 import { TreeNode } from '../models/treeNode';
 import { BuilderService } from '../services/builder.service';
 import { DataSharedService } from '../services/data-shared.service';
-import { actionTypeFeild, formFeildData } from './configurations/configuration.modal';
+import {
+  actionTypeFeild,
+  formFeildData,
+} from './configurations/configuration.modal';
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
@@ -26,11 +34,12 @@ import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
-  styleUrls: ['./builder.component.scss']
+  styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
@@ -51,7 +60,7 @@ export class BuilderComponent implements OnInit {
   screens: any;
   screenName: any;
   screenId: any = 0;
-  _id: any = "";
+  _id: any = '';
   // moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
@@ -87,7 +96,8 @@ export class BuilderComponent implements OnInit {
   dbWebsiteBlockArray: any = [];
   dbHtmlCodeBlockArray: any = [];
   formlyTypes: any = [];
-  constructor(public builderService: BuilderService,
+  constructor(
+    public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
@@ -98,9 +108,12 @@ export class BuilderComponent implements OnInit {
     private modalService: NzModalService,
     private cdr: ChangeDetectorRef,
     private addControlService: AddControlService,
-    private clickButtonService: BuilderClickButtonService, public dataSharedService: DataSharedService, private colorPickerService: ColorPickerService, private router: Router
+    private clickButtonService: BuilderClickButtonService,
+    public dataSharedService: DataSharedService,
+    private colorPickerService: ColorPickerService,
+    private router: Router
   ) {
-    this.editorOptions = new JsonEditorOptions()
+    this.editorOptions = new JsonEditorOptions();
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     // this.clearChildNode();
@@ -109,7 +122,6 @@ export class BuilderComponent implements OnInit {
     //   this.nodes = res[0].menuData;
     // }));
     this.dataSharedService.change.subscribe(({ event, field }) => {
-
       if (event && field && this.router.url == '/builder') {
         this.checkConditionUIRule(field, event);
       }
@@ -124,84 +136,88 @@ export class BuilderComponent implements OnInit {
   ngOnInit(): void {
     // this.getScreenBuilder();
     this.getDepartments();
-    document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
+    document
+      .getElementsByTagName('body')[0]
+      .setAttribute('data-sidebar-size', 'sm');
     if (this.dataSharedService.screenName) {
       this.getScreenData(this.dataSharedService.screenName);
     }
     this.htmlTabsData = htmlTabsData;
     this.makeDatainTemplateTab();
-    let filterdButtons = this.htmlTabsData[0].children.filter((item: any) => item.id == 'website-block')
+    let filterdButtons = this.htmlTabsData[0].children.filter(
+      (item: any) => item.id == 'website-block'
+    );
     this.websiteBlockTypeArray = filterdButtons[0].children;
     this.makeFormlyTypeOptions(htmlTabsData[0]);
-
   }
   getScreenBuilder(applicationId: string) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('screen-builder/application', applicationId).subscribe({
-      next: (res) => {
-        this.screens = res;
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000  }); // Show an error message to the user
-      }
-    });
-
-
+    this.requestSubscription = this.applicationService
+      .getNestCommonAPIById('screen-builder/application', applicationId)
+      .subscribe({
+        next: (res) => {
+          this.screens = res;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
   }
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('department').subscribe({
-      next: (res) => {
-        this.departmentData = res;
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  };
+    this.requestSubscription = this.applicationService
+      .getNestCommonAPI('department')
+      .subscribe({
+        next: (res) => {
+          this.departmentData = res;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
+  }
   getApplications(id: any) {
-    this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('application/department', id).subscribe({
-      next: (res) => {
-        this.applicationData = res;
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
+    this.selectApplicationName = '';
+    this.requestSubscription = this.applicationService
+      .getNestCommonAPIById('application/department', id)
+      .subscribe({
+        next: (res) => {
+          this.applicationData = res;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
   }
   LayerShow() {
-    if (this.IslayerVisible)
-      this.IslayerVisible = false;
-    else
-
-      this.IslayerVisible = true;
+    if (this.IslayerVisible) this.IslayerVisible = false;
+    else this.IslayerVisible = true;
     this.IsjsonEditorVisible = false;
     this.applySize();
-
   }
   updateNodes() {
     this.nodes = [...this.nodes];
-    if (this.isSavedDb)
-      this.saveOfflineDB();
+    if (this.isSavedDb) this.saveOfflineDB();
     // this.cdr.detectChanges();
   }
   saveOfflineDB() {
     let data = this.jsonStringifyWithObject(this.nodes);
-    let encryptData = this._encryptionService.encryptData(data)
+    let encryptData = this._encryptionService.encryptData(data);
     this.dataService.saveData(this.screenName, encryptData);
   }
   getOfflineDb() {
     let data = this.dataService.getNodes(this.screenName);
-    let decryptData = this._encryptionService.decryptData(data)
-    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(decryptData));
+    let decryptData = this._encryptionService.decryptData(data);
+    this.nodes = this.jsonParseWithObject(
+      this.jsonStringifyWithObject(decryptData)
+    );
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
   async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
     if (content === 'delete') {
       const nodes = await this.dataService.deleteDb(this.screenName);
-      alert('this Screen Delete db successfully!')
+      alert('this Screen Delete db successfully!');
       return;
     }
     const nodes = await this.dataService.getNodes(this.screenName);
@@ -216,7 +232,10 @@ export class BuilderComponent implements OnInit {
     const index = content === 'next' ? this.oldIndex + 1 : this.oldIndex - 1;
 
     if (index < 0 || index >= nodes.length) {
-      const message = content === 'next' ? 'Sorry there is no JSON Forward' : 'Sorry there is no JSON Backward';
+      const message =
+        content === 'next'
+          ? 'Sorry there is no JSON Forward'
+          : 'Sorry there is no JSON Backward';
       this.toastr.error(message);
       return;
     }
@@ -228,7 +247,7 @@ export class BuilderComponent implements OnInit {
 
   oldIndex: number;
   decryptData(data: any) {
-    let decryptData = this._encryptionService.decryptData(data?.data)
+    let decryptData = this._encryptionService.decryptData(data?.data);
     this.nodes = this.jsonParseWithObject(decryptData);
   }
 
@@ -236,27 +255,26 @@ export class BuilderComponent implements OnInit {
     let data = this.dataService.deleteDb(this.screenName);
   }
   JsonEditorShow() {
-
     this.IslayerVisible = false;
     this.IsjsonEditorVisible = true;
     this.IsShowConfig = true;
     this.applySize();
   }
   saveJson() {
-
     if (this.screenPage) {
       this.saveLoader = true;
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
       }
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
-      const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
-      const data: any =
-      {
-        "screenData": JSON.stringify(screenData),
-        "screenName": this.screenName,
-        "screenId": this.screenId,
-        "screen_Id": this._id,
+      const screenData = this.jsonParse(
+        this.jsonStringifyWithObject(this.nodes)
+      );
+      const data: any = {
+        screenData: JSON.stringify(screenData),
+        screenName: this.screenName,
+        screenId: this.screenId,
+        screen_Id: this._id,
       };
       // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectApplicationName) {
       //   data['module'] = this.selectApplicationName;
@@ -266,16 +284,20 @@ export class BuilderComponent implements OnInit {
       // }
       // this.screenId = selectedScreen[0].screenId;
       // if (this.screenId > 0) {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('builder', data).subscribe({
-        next: (res) => {
-          this.saveLoader = false;
-          this.toastr.success("Screen save suceessfully", { nzDuration: 3000 });
-        },
-        error: (err) => {
-          this.saveLoader = false;
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      this.requestSubscription = this.applicationService
+        .addNestCommonAPI('builder', data)
+        .subscribe({
+          next: (res) => {
+            this.saveLoader = false;
+            this.toastr.success('Screen save suceessfully', {
+              nzDuration: 3000,
+            });
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            this.toastr.error('An error occurred', { nzDuration: 3000 });
+          },
+        });
       // this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
       //   next: (res: any) => {
       //     if (res.length > 0) {
@@ -321,97 +343,96 @@ export class BuilderComponent implements OnInit {
       //   }
       // })
     } else {
-      alert("Please Select Screen");
+      alert('Please Select Screen');
     }
   }
   expandedKeys: any;
   previousScreenId: string = '';
   getScreenData(data: any) {
-    this.modalService.confirm({
-      nzTitle: 'Are you sure you want to switch your screen?',
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          debugger
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          const objScreen = this.screens.find((x: any) => x._id == data);
-          this.screenId = objScreen.screenId;
-          this.screenName = objScreen.name;
-          this.previousScreenId = objScreen.screenId;
-          this.isSavedDb = false;
-          // const newScreenName = this.screens
-          // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
-          //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
-          //   if (applicationType[0].application_Type == "website") {
-          //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
-          //       next: (result) => {
-          //         if (result.length > 0) {
-          //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
-          //           this.dataSharedService.menus.allMenuItems = result[0].menuData
-          //         }
-          //       },
-          //       error: (err) => {
-          //         console.error(err); // Log the error to the console
-          //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          //       }
-          //     })
-          //   }
-          // }
-          this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
-            next: (res) => {
-              if (res.length > 0) {
-                const objScreenData = JSON.parse(res[0].screenData);
+    if (data) {
+      this.modalService.confirm({
+        nzTitle: 'Are you sure you want to switch your screen?',
+        nzOnOk: () => {
+          new Promise((resolve, reject) => {
+
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+            const objScreen = this.screens.find((x: any) => x._id == data);
+            this.screenId = objScreen.screenId;
+            this.screenName = objScreen.name;
+            this.previousScreenId = objScreen.screenId;
+            this.isSavedDb = false;
+            // const newScreenName = this.screens
+            // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
+            //   if (applicationType[0].application_Type == "website") {
+            //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
+            //       next: (result) => {
+            //         if (result.length > 0) {
+            //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
+            //           this.dataSharedService.menus.allMenuItems = result[0].menuData
+            //         }
+            //       },
+            //       error: (err) => {
+            //         console.error(err); // Log the error to the console
+            //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            //       }
+            //     })
+            //   }
+            // }
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
+              next: (res) => {
+                if (res.length > 0) {
+                  const objScreenData = JSON.parse(res[0].screenData);
+                  this.isSavedDb = true;
+                  // this.moduleId = res[0].moduleId;
+                  this.formlyModel = [];
+                  this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+                  this.updateNodes();
+                  this.applyDefaultValue();
+                  this.getJoiValidation(this._id);
+                  // if (res[0].menuData[0].children[1]) {
+
+                  //   // this.uiRuleGetData(res[0].moduleId);
+                  //   // this.uiGridRuleGetData(res[0].moduleId);
+                  // }
+                  // else {
+                  //   this.screenId = res[0].id;
+                  //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+                  //   // this.uiRuleGetData(res[0].moduleId);
+                  //   // this.uiGridRuleGetData(res[0].moduleId);
+                  // }
+                } else {
+                  // this.screenId = 0;
+                  this.clearChildNode();
+                }
                 this.isSavedDb = true;
-                // this.moduleId = res[0].moduleId;
-                this.formlyModel = [];
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-                this.updateNodes();
-                this.applyDefaultValue();
-                this.getJoiValidation(this._id);
-                // if (res[0].menuData[0].children[1]) {
-
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
-                // else {
-                //   this.screenId = res[0].id;
-                //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
-
-              }
-              else {
-                // this.screenId = 0;
-                this.clearChildNode();
-              }
-              this.isSavedDb = true;
-              this.formModalData = {};
-              this.getUIRuleData(true);
-              this.getBusinessRule();
-              this.expandedKeys = this.nodes.map((node: any) => node.key);
-              this.uiRuleGetData(this.screenName);
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-          }
-          );
+                this.formModalData = {};
+                this.getUIRuleData(true);
+                this.getBusinessRule();
+                this.expandedKeys = this.nodes.map((node: any) => node.key);
+                this.uiRuleGetData(this.screenName);
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+              },
+            });
           this.screenPage = true;
-        }).catch(() => this.screenId = this.previousScreenId)
+        }).catch(() => (this.screenId = this.previousScreenId));
       },
       nzOnCancel: () => {
         this.screenId = this.previousScreenId;
         console.log('User clicked Cancel');
-      }
+      },
     });
   }
   applyDefaultValue() {
     const filteredNodes = this.filterInputElements(this.nodes);
-    filteredNodes.forEach(node => {
+    filteredNodes.forEach((node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
       if (formlyConfig)
-        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = formlyConfig;
+        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
+          formlyConfig;
     });
   }
   clearChildNode() {
@@ -420,23 +441,24 @@ export class BuilderComponent implements OnInit {
     this.showNotification = false;
     if (this.screenPage) {
       this.formlyModel = [];
-      const newNode = [{
-        id: this.screenName + '_' + 'page_' + Guid.newGuid(),
-        key: 'page_' + Guid.newGuid(),
-        title: 'page',
-        type: "page",
-        footer: false,
-        header: false,
-        options: [
-          {
-            VariableName: ''
-          }
-        ],
-        expanded: false,
-        isNextChild: true,
-        children: [
-        ],
-      } as TreeNode];
+      const newNode = [
+        {
+          id: this.screenName + '_' + 'page_' + Guid.newGuid(),
+          key: 'page_' + Guid.newGuid(),
+          title: 'page',
+          type: 'page',
+          footer: false,
+          header: false,
+          options: [
+            {
+              VariableName: '',
+            },
+          ],
+          expanded: false,
+          isNextChild: true,
+          children: [],
+        } as TreeNode,
+      ];
       this.nodes = newNode;
       this.selectedNode = newNode[0];
       this.addControlToJson('pageHeader', null);
@@ -458,19 +480,18 @@ export class BuilderComponent implements OnInit {
       this.showNotification = true;
       this.toastr.success('Control Added', { nzDuration: 3000 });
     } else {
-      alert("Please Select Screen")
+      alert('Please Select Screen');
     }
   }
   textJsonObj = {
-    parameter: "input",
-    icon: "uil uil-text",
-    label: "Input",
+    parameter: 'input',
+    icon: 'uil uil-text',
+    label: 'Input',
     type: 'input',
     fieldType: 'input',
     configType: 'input',
   };
   downloadJson() {
-
     var currentData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     // JSON.parse(
     //   JSON.stringify(this.nodes, function (key, value) {
@@ -481,12 +502,13 @@ export class BuilderComponent implements OnInit {
     //     }
     //   }) || '{}');
 
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
-    var data =
-    {
-      "screenName": this.screenName,
-      "screenData": currentData,
-      "screenId": this.screenId
+    const selectedScreen = this.screens.filter(
+      (a: any) => a.name == this.screenName
+    );
+    var data = {
+      screenName: this.screenName,
+      screenData: currentData,
+      screenId: this.screenId,
     };
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -512,8 +534,9 @@ export class BuilderComponent implements OnInit {
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
       const filteredNodes = this.filterInputElements(this.nodes);
-      filteredNodes.forEach(node => {
-        dataModelFaker[node.formly[0].fieldGroup[0].key] = this.makeFakerData(node);
+      filteredNodes.forEach((node) => {
+        dataModelFaker[node.formly[0].fieldGroup[0].key] =
+          this.makeFakerData(node);
       });
     }
     this.formlyModel = dataModelFaker;
@@ -524,57 +547,41 @@ export class BuilderComponent implements OnInit {
       if (V2.formly[0].fieldGroup[0].props.type) {
         if (V2.formly[0].fieldGroup[0].type == 'input') {
           // modelFaker = faker.name.firstName()
-        }
-        else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+        } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
           // modelFaker = faker.lorem.paragraph()
-        }
-        else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+        } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
           // modelFaker = faker.name.firstName()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
           // modelFaker = faker.name.firstName()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
           // modelFaker = faker.phone.number()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
           // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
           // modelFaker = faker.internet.email()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
           // modelFaker = faker.datatype.boolean()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
           // modelFaker = faker.datatype.boolean()
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
           // modelFaker = 1
           // modelFaker = faker.datatype.number(10)
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
           // modelFaker = 0.0
           // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
           // modelFaker = faker.date.month({ abbr: true, context: true })
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
           // modelFaker = faker.datatype.datetime(1893456000000)
-        }
-        else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
+        } else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
           // modelFaker = faker.color.colorByCSSColorSpace()
         }
-      }
-      else if (V2.formly[0].fieldGroup[0].type) {
+      } else if (V2.formly[0].fieldGroup[0].type) {
         if (V2.formly[0].fieldGroup[0].type == 'input') {
           // modelFaker = faker.name.firstName()
-        }
-        else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+        } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
           // modelFaker = faker.lorem.paragraph()
-        }
-        else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+        } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
           // modelFaker = faker.name.firstName()
         }
       }
@@ -583,37 +590,65 @@ export class BuilderComponent implements OnInit {
   }
   uiRuleGetData(screenId: any) {
     this.makeFaker();
-    this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+    this.checkConditionUIRule(
+      { key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' },
+      ''
+    );
     // this.getUIRuleData();
   }
   evalConditionRule(query: any, dataTargetIfValue: any) {
     dataTargetIfValue.forEach((e: any) => {
-      let type = e.conditonType == "AND" ? "&&" : "||";
-      type = query == '' ? "" : type;
-      let getModelValue = this.formlyModel[e.ifMenuName] == "" ? "''" : this.formlyModel[e.ifMenuName];
-      if (getModelValue == undefined)
-        getModelValue = "";
+      let type = e.conditonType == 'AND' ? '&&' : '||';
+      type = query == '' ? '' : type;
+      let getModelValue =
+        this.formlyModel[e.ifMenuName] == ''
+          ? "''"
+          : this.formlyModel[e.ifMenuName];
+      if (getModelValue == undefined) getModelValue = '';
 
       if (e.condationName == 'contains') {
-        if (this.formlyModel[e.ifMenuName] != undefined && this.formlyModel[e.ifMenuName].includes(e.targetValue))
-          query = query + " " + type + " " + '1 == 1';
-        else
-          query = query + " " + type + " " + '1 == 2';
+        if (
+          this.formlyModel[e.ifMenuName] != undefined &&
+          this.formlyModel[e.ifMenuName].includes(e.targetValue)
+        )
+          query = query + ' ' + type + ' ' + '1 == 1';
+        else query = query + ' ' + type + ' ' + '1 == 2';
       } else if (e.condationName == 'null') {
-        if (typeof (this.formlyModel[e.ifMenuName]) != "number") {
-          if (this.formlyModel[e.ifMenuName] == '' || this.formlyModel[e.ifMenuName] == null)
-            query = query + " " + type + " " + '1 == 1';
-          else
-            query = query + " " + type + " " + '1 == 2';
-        }
-        else
-          query = query + " " + type + " " + '1 == 2';
+        if (typeof this.formlyModel[e.ifMenuName] != 'number') {
+          if (
+            this.formlyModel[e.ifMenuName] == '' ||
+            this.formlyModel[e.ifMenuName] == null
+          )
+            query = query + ' ' + type + ' ' + '1 == 1';
+          else query = query + ' ' + type + ' ' + '1 == 2';
+        } else query = query + ' ' + type + ' ' + '1 == 2';
       } else {
-        if (e.ifMenuName.includes('number') || e.ifMenuName.includes('decimal')) {
-          query = query + " " + type + " " + Number(getModelValue) + " " + e.condationName + " " + e.targetValue;
-        }
-        else {
-          query = query + " " + type + " '" + getModelValue + "' " + e.condationName + " '" + e.targetValue + "'";
+        if (
+          e.ifMenuName.includes('number') ||
+          e.ifMenuName.includes('decimal')
+        ) {
+          query =
+            query +
+            ' ' +
+            type +
+            ' ' +
+            Number(getModelValue) +
+            ' ' +
+            e.condationName +
+            ' ' +
+            e.targetValue;
+        } else {
+          query =
+            query +
+            ' ' +
+            type +
+            " '" +
+            getModelValue +
+            "' " +
+            e.condationName +
+            " '" +
+            e.targetValue +
+            "'";
         }
       }
     });
@@ -625,36 +660,43 @@ export class BuilderComponent implements OnInit {
     // this.cdr.detach();
   }
   getJoiValidation(_id: any) {
-    this.applicationService.getNestCommonAPIById('validation-rule/screen', _id).subscribe((getRes => {
-      this.joiValidationData = getRes;
-    }))
+    this.applicationService
+      .getNestCommonAPIById('validation-rule/screen', _id)
+      .subscribe((getRes) => {
+        this.joiValidationData = getRes;
+      });
   }
   getUIRuleData(data: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('ui-rule/screen', this._id).subscribe({
-      next: (getRes) => {
-        if (getRes.length > 0) {
-          const jsonUIResult = {
-            // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-            "key": this.selectedNode.key,
-            "title": this.selectedNode.title,
-            "screenName": this.screenName,
-            "screenId": this._id,
-            "uiData": JSON.parse(getRes[0].uiData),
+    this.requestSubscription = this.applicationService
+      .getNestCommonAPIById('ui-rule/screen', this._id)
+      .subscribe({
+        next: (getRes) => {
+          if (getRes.length > 0) {
+            const jsonUIResult = {
+              // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+              key: this.selectedNode.key,
+              title: this.selectedNode.title,
+              screenName: this.screenName,
+              screenId: this._id,
+              uiData: JSON.parse(getRes[0].uiData),
+            };
+            this.screenData = jsonUIResult;
+          } else {
           }
-          this.screenData = jsonUIResult;
-        } else {
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-
-    });
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
   }
   bulkUpdate() {
     if (this.nodes.length > 0) {
-      const drawerRef = this.drawerService.create<BulkUpdateComponent, { value: string }, string>({
+      const drawerRef = this.drawerService.create<
+        BulkUpdateComponent,
+        { value: string },
+        string
+      >({
         nzTitle: 'Bulk Update',
         nzWidth: 1000,
         nzContent: BulkUpdateComponent,
@@ -662,7 +704,7 @@ export class BuilderComponent implements OnInit {
           nodes: this.nodes,
           types: this.formlyTypes,
           // formlyModel: this.formlyModel,
-        }
+        },
       });
       drawerRef.afterOpen.subscribe(() => {
         console.log('Drawer(Component) open');
@@ -670,75 +712,134 @@ export class BuilderComponent implements OnInit {
       drawerRef.afterClose.subscribe((data: any) => {
         console.log(data);
         if (data) {
-          if (data.nodes)
-            this.nodes = data.nodes;
-          if (data.formlyModel)
-            this.formlyModel = data.formlyModel;
+          if (data.nodes) this.nodes = data.nodes;
+          if (data.formlyModel) this.formlyModel = data.formlyModel;
         }
         this.updateNodes();
         this.cdr.detectChanges();
       });
-    }
-    else {
-      this.toastr.error("Please select Screen first", { nzDuration: 3000 });
+    } else {
+      this.toastr.error('Please select Screen first', { nzDuration: 3000 });
     }
   }
 
   getUIRule(model: any, currentValue: any) {
-    debugger
+
     try {
       if (this.screenData != undefined) {
-        var inputType = this.nodes[0].children[1].children[0].children[1].children;
+        var inputType =
+          this.nodes[0].children[1].children[0].children[1].children;
         for (let index = 0; index < this.screenData.uiData.length; index++) {
           if (model.key == this.screenData.uiData[index].ifMenuName) {
             let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            let getModelValue =
+              this.formlyModel[this.screenData.uiData[index].ifMenuName] == ''
+                ? false
+                : this.formlyModel[this.screenData.uiData[index].ifMenuName];
             if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+              if (
+                this.formlyModel[this.screenData.uiData[index].ifMenuName] !=
+                undefined &&
+                this.formlyModel[
+                  this.screenData.uiData[index].ifMenuName
+                ].includes(this.screenData.uiData[index].targetValue)
+              ) {
                 query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-              else {
+                query = this.evalConditionRule(
+                  query,
+                  this.screenData.uiData[index].targetIfValue
+                );
+              } else {
                 query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                query = this.evalConditionRule(
+                  query,
+                  this.screenData.uiData[index].targetIfValue
+                );
               }
             } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+              if (
+                typeof this.formlyModel[
+                this.screenData.uiData[index].ifMenuName
+                ] != 'number'
+              ) {
+                if (
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName] ==
+                  '' ||
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName] ==
+                  null
+                ) {
                   query = '1 == 1';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-                else {
+                  query = this.evalConditionRule(
+                    query,
+                    this.screenData.uiData[index].targetIfValue
+                  );
+                } else {
                   query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(
+                    query,
+                    this.screenData.uiData[index].targetIfValue
+                  );
                 }
               } else {
                 query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                query = this.evalConditionRule(
+                  query,
+                  this.screenData.uiData[index].targetIfValue
+                );
               }
-
             } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+              if (
+                this.screenData.uiData[index].ifMenuName.includes('number') ||
+                this.screenData.uiData[index].ifMenuName.includes('decimal')
+              ) {
+                query =
+                  Number(getModelValue) +
+                  ' ' +
+                  this.screenData.uiData[index].condationName +
+                  ' ' +
+                  this.screenData.uiData[index].targetValue;
 
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                query = this.evalConditionRule(
+                  query,
+                  this.screenData.uiData[index].targetIfValue
+                );
               } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+                query =
+                  "'" +
+                  getModelValue +
+                  "' " +
+                  this.screenData.uiData[index].condationName +
+                  " '" +
+                  this.screenData.uiData[index].targetValue +
+                  "'";
 
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                query = this.evalConditionRule(
+                  query,
+                  this.screenData.uiData[index].targetIfValue
+                );
               }
             }
             if (eval(query)) {
-              const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-              this.nodes[0].children[1].children[0].children[1].children = check;
+              const check = this.makeUIJSONForSave(
+                this.screenData,
+                index,
+                inputType,
+                true
+              );
+              this.nodes[0].children[1].children[0].children[1].children =
+                check;
               this.updateNodes();
               this.updateFormlyModel();
               // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
-            }
-            else {
-              const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-              this.nodes[0].children[1].children[0].children[1].children = check;
+            } else {
+              const check = this.makeUIJSONForSave(
+                this.screenData,
+                index,
+                inputType,
+                false
+              );
+              this.nodes[0].children[1].children[0].children[1].children =
+                check;
               this.updateNodes();
               this.updateFormlyModel();
               // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
@@ -752,7 +853,7 @@ export class BuilderComponent implements OnInit {
         // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       if (this.businessRuleData && this.businessRuleData.length > 0) {
         const fishRhyme = ruleFactory(this.businessRuleData);
@@ -760,7 +861,6 @@ export class BuilderComponent implements OnInit {
         this.updateNodes();
         this.updateFormlyModel();
         // this.cdr.detectChanges();
-
       }
       this.getSetVariableRule(model, currentValue);
     }
@@ -768,12 +868,16 @@ export class BuilderComponent implements OnInit {
   getSetVariableRule(model: any, value: any) {
     //for grid amount assign to other input field
     const filteredNodes = this.filterInputElements(this.nodes);
-    filteredNodes.forEach(node => {
-      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props['additionalProperties'];
+    filteredNodes.forEach((node) => {
+      const formlyConfig =
+        node.formly?.[0]?.fieldGroup?.[0]?.props['additionalProperties'];
       if (formlyConfig)
-        if (formlyConfig.setVariable != "" && formlyConfig.setVariable)
-          if (model?.props['additionalProperties']?.getVariable != "")
-            if (formlyConfig?.setVariable === model?.props['additionalProperties']?.getVariable) {
+        if (formlyConfig.setVariable != '' && formlyConfig.setVariable)
+          if (model?.props['additionalProperties']?.getVariable != '')
+            if (
+              formlyConfig?.setVariable ===
+              model?.props['additionalProperties']?.getVariable
+            ) {
               this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
             }
     });
@@ -803,155 +907,305 @@ export class BuilderComponent implements OnInit {
   }
 
   updateFormlyModel() {
-    this.formlyModel = Object.assign({}, this.formlyModel)
+    this.formlyModel = Object.assign({}, this.formlyModel);
   }
   getBusinessRule() {
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter(
+      (a: any) => a.name == this.screenName
+    );
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('buisness-rule/screen', this._id).subscribe({
-        next: (getRes) => {
-          if (getRes.length > 0) {
-            this.businessRuleData = [];
-            this.businessRuleData = JSON.parse(getRes[0].buisnessRule)
-          } else {
-            this.businessRuleData = [];
-          }
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      })
+      this.requestSubscription = this.applicationService
+        .getNestCommonAPIById('buisness-rule/screen', this._id)
+        .subscribe({
+          next: (getRes) => {
+            if (getRes.length > 0) {
+              this.businessRuleData = [];
+              this.businessRuleData = JSON.parse(getRes[0].buisnessRule);
+            } else {
+              this.businessRuleData = [];
+            }
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+            this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+          },
+        });
     }
   }
   lastFormlyModelValue: string;
-  makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
+  makeUIJSONForSave(
+    screenData: any,
+    index: number,
+    inputType: any,
+    currentValue: boolean
+  ) {
     for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
       for (let l = 0; l < inputType.length; l++) {
-        if (inputType[l].type == "button" || inputType[l].type == "linkbutton" || inputType[l].type == "dropdownButton") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue) {
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        } else if (inputType[l].type == "buttonGroup") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        }
-        else if (inputType[l].type == "input" || inputType[l].type == "inputGroup" || inputType[l].type == "number" || inputType[l].type == "checkbox" ||
-          inputType[l].type == "color" || inputType[l].type == "decimal" || inputType[l].type == "image" ||
-          inputType[l].type == "multiselect" || inputType[l].type == "radiobutton" || inputType[l].type == "search" ||
-          inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
-          inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
-          inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
-            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-            inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputJsonData.defaultValue;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
-            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            inputType[l].formly[0].fieldGroup[0].defaultValue = this.screenData.uiData[index].targetCondition[k].inputOldJsonData.defaultValue;
+        if (
+          inputType[l].type == 'button' ||
+          inputType[l].type == 'linkbutton' ||
+          inputType[l].type == 'dropdownButton'
+        ) {
+          if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            currentValue
+          ) {
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          } else if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            !currentValue
+          )
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == 'buttonGroup') {
+          if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            currentValue
+          )
+            inputType[l].children =
+              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            !currentValue
+          )
+            inputType[l].children =
+              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (
+          inputType[l].type == 'input' ||
+          inputType[l].type == 'inputGroup' ||
+          inputType[l].type == 'number' ||
+          inputType[l].type == 'checkbox' ||
+          inputType[l].type == 'color' ||
+          inputType[l].type == 'decimal' ||
+          inputType[l].type == 'image' ||
+          inputType[l].type == 'multiselect' ||
+          inputType[l].type == 'radiobutton' ||
+          inputType[l].type == 'search' ||
+          inputType[l].type == 'repeatSection' ||
+          inputType[l].type == 'tags' ||
+          inputType[l].type == 'telephone' ||
+          inputType[l].type == 'textarea' ||
+          inputType[l].type == 'date' ||
+          inputType[l].type == 'datetime' ||
+          inputType[l].type == 'month' ||
+          inputType[l].type == 'time' ||
+          inputType[l].type == 'week'
+        ) {
+          if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].formly[0].fieldGroup[0].key &&
+            currentValue
+          ) {
+            inputType[l].formly[0].fieldGroup[0] =
+              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            inputType[l].formly[0].fieldGroup[0].defaultValue =
+              this.screenData.uiData[index].targetCondition[
+                k
+              ].inputJsonData.defaultValue;
+          } else if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].formly[0].fieldGroup[0].key &&
+            !currentValue
+          ) {
+            inputType[l].formly[0].fieldGroup[0] =
+              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            inputType[l].formly[0].fieldGroup[0].defaultValue =
+              this.screenData.uiData[index].targetCondition[
+                k
+              ].inputOldJsonData.defaultValue;
           }
-        } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
-          inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
-          inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||
-          inputType[l].type == "treeSelect" || inputType[l].type == "switch" || inputType[l].type == "avatar" ||
-          inputType[l].type == "badge" || inputType[l].type == "treeView" || inputType[l].type == "carouselCrossfade" ||
-          inputType[l].type == "comment" || inputType[l].type == "description" || inputType[l].type == "statistic" ||
-          inputType[l].type == "empty" || inputType[l].type == "list" || inputType[l].type == "popConfirm" ||
-          inputType[l].type == "timeline" || inputType[l].type == "popOver" || inputType[l].type == "imageUpload" ||
-          inputType[l].type == "invoice" || inputType[l].type == "segmented" || inputType[l].type == "drawer" ||
-          inputType[l].type == "message" || inputType[l].type == "notification" || inputType[l].type == "modal" ||
-          inputType[l].type == "progressBar" || inputType[l].type == "result" || inputType[l].type == "skeleton" ||
-          inputType[l].type == "spin" || inputType[l].type == "accordionButton" || inputType[l].type == "audio" ||
-          inputType[l].type == "multiFileUpload" || inputType[l].type == "rate" || inputType[l].type == "toastr" ||
-          inputType[l].type == "video") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        } else if (inputType[l].type == "mainDashonicTabs") {
+        } else if (
+          inputType[l].type == 'alert' ||
+          inputType[l].type == 'header' ||
+          inputType[l].type == 'paragraph' ||
+          inputType[l].type == 'tag' ||
+          inputType[l].type == 'card' ||
+          inputType[l].type == 'simpleCardWithHeaderBodyFooter' ||
+          inputType[l].type == 'cascader' ||
+          inputType[l].type == 'mentions' ||
+          inputType[l].type == 'transfer' ||
+          inputType[l].type == 'treeSelect' ||
+          inputType[l].type == 'switch' ||
+          inputType[l].type == 'avatar' ||
+          inputType[l].type == 'badge' ||
+          inputType[l].type == 'treeView' ||
+          inputType[l].type == 'carouselCrossfade' ||
+          inputType[l].type == 'comment' ||
+          inputType[l].type == 'description' ||
+          inputType[l].type == 'statistic' ||
+          inputType[l].type == 'empty' ||
+          inputType[l].type == 'list' ||
+          inputType[l].type == 'popConfirm' ||
+          inputType[l].type == 'timeline' ||
+          inputType[l].type == 'popOver' ||
+          inputType[l].type == 'imageUpload' ||
+          inputType[l].type == 'invoice' ||
+          inputType[l].type == 'segmented' ||
+          inputType[l].type == 'drawer' ||
+          inputType[l].type == 'message' ||
+          inputType[l].type == 'notification' ||
+          inputType[l].type == 'modal' ||
+          inputType[l].type == 'progressBar' ||
+          inputType[l].type == 'result' ||
+          inputType[l].type == 'skeleton' ||
+          inputType[l].type == 'spin' ||
+          inputType[l].type == 'accordionButton' ||
+          inputType[l].type == 'audio' ||
+          inputType[l].type == 'multiFileUpload' ||
+          inputType[l].type == 'rate' ||
+          inputType[l].type == 'toastr' ||
+          inputType[l].type == 'video'
+        ) {
+          if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            currentValue
+          )
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            !currentValue
+          )
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (inputType[l].type == 'mainDashonicTabs') {
           for (let m = 0; m < inputType[l].children.length; m++) {
-            if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && currentValue)
-              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-            else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].key && !currentValue)
-              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            if (
+              this.screenData.uiData[index].targetCondition[k].targetName ==
+              inputType[l].children[m].key &&
+              currentValue
+            )
+              inputType[l].children[m] =
+                this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            else if (
+              this.screenData.uiData[index].targetCondition[k].targetName ==
+              inputType[l].children[m].key &&
+              !currentValue
+            )
+              inputType[l].children[m] =
+                this.screenData.uiData[index].targetCondition[
+                  k
+                ].inputOldJsonData;
           }
-        } else if (inputType[l].type == "stepperMain") {
+        } else if (inputType[l].type == 'stepperMain') {
           for (let m = 0; m < inputType[l].children.length; m++) {
-            if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && currentValue)
-              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-            else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
-              inputType[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            if (
+              this.screenData.uiData[index].targetCondition[k].targetName ==
+              inputType[l].children[m].formly[0].fieldGroup[0].key &&
+              currentValue
+            )
+              inputType[l].children[m] =
+                this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            else if (
+              this.screenData.uiData[index].targetCondition[k].targetName ==
+              inputType[l].children[m].formly[0].fieldGroup[0].key &&
+              !currentValue
+            )
+              inputType[l].children[m] =
+                this.screenData.uiData[index].targetCondition[
+                  k
+                ].inputOldJsonData;
           }
-        }
-        else if (inputType[l].type == "gridList" || inputType[l].type == "gridListEditDelete") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].key && !currentValue)
-            inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        } else if (
+          inputType[l].type == 'gridList' ||
+          inputType[l].type == 'gridListEditDelete'
+        ) {
+          if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            currentValue
+          )
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+          else if (
+            this.screenData.uiData[index].targetCondition[k].targetName ==
+            inputType[l].key &&
+            !currentValue
+          )
+            inputType[l] =
+              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
         }
       }
     }
     return inputType;
   }
   columnApply(value: any) {
-    if (value == 'sections' || value == 'calender' || value == 'mainStep' || value == 'mainTab' || value == 'kanban' || value == 'gridList' || value == 'accordionButton'
-      || value == 'header_1' || value == 'header_2' || value == 'header_3' || value == 'header_4' || value == 'header_5'
-      || value == 'header_6' || value == 'header_7')
-      return 'w-full'
-    else if (value == 'body')
-      return 'px-6 pt-6 pb-10';
-    else if (value == 'buttonGroup')
-      return 'w-11/12';
-    else
-      return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2'
+    if (
+      value == 'sections' ||
+      value == 'calender' ||
+      value == 'mainStep' ||
+      value == 'mainTab' ||
+      value == 'kanban' ||
+      value == 'gridList' ||
+      value == 'accordionButton' ||
+      value == 'header_1' ||
+      value == 'header_2' ||
+      value == 'header_3' ||
+      value == 'header_4' ||
+      value == 'header_5' ||
+      value == 'header_6' ||
+      value == 'header_7'
+    )
+      return 'w-full';
+    else if (value == 'body') return 'px-6 pt-6 pb-10';
+    else if (value == 'buttonGroup') return 'w-11/12';
+    else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
-    debugger
+
     let obj = {
       type: data?.parameter,
       title: value,
-      key: value.toLowerCase() + "_" + Guid.newGuid(),
-      isSubmit: false
-    }
+      key: value.toLowerCase() + '_' + Guid.newGuid(),
+      isSubmit: false,
+    };
     if (data?.parameter === 'input') {
       obj.title = data?.label;
-      obj.key = data?.configType.toLowerCase() + "_" + Guid.newGuid()
+      obj.key = data?.configType.toLowerCase() + '_' + Guid.newGuid();
     }
     if (this.addControl) {
       this.controls(value, data, obj);
-    }
-    else {
-      const modal = this.modalService.create<AddControlCommonPropertiesComponent>({
-        nzTitle: 'Change Control Value',
-        nzContent: AddControlCommonPropertiesComponent,
-        nzViewContainerRef: this.viewContainerRef,
-        nzComponentParams: {
-          model: obj
-        },
-        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
-        nzFooter: []
-      });
+    } else {
+      const modal =
+        this.modalService.create<AddControlCommonPropertiesComponent>({
+          nzTitle: 'Change Control Value',
+          nzContent: AddControlCommonPropertiesComponent,
+          nzViewContainerRef: this.viewContainerRef,
+          nzComponentParams: {
+            model: obj,
+          },
+          // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+          nzFooter: [],
+        });
       const instance = modal.getContentComponent();
-      modal.afterClose.subscribe(res => {
+      modal.afterClose.subscribe((res) => {
         if (res) {
           this.controls(value, data, obj, res);
         }
       });
     }
-
-
   }
   controls(value: any, data: any, obj?: any, res?: any) {
-    if (value == "stepperMain" || value == "tabsMain" || value == "mainDashonicTabs" || value == "kanban") {
+    if (
+      value == 'stepperMain' ||
+      value == 'tabsMain' ||
+      value == 'mainDashonicTabs' ||
+      value == 'kanban'
+    ) {
       this.selectForDropdown = this.selectedNode;
     }
     let node = this.selectedNode;
     let newNode: any = {};
     if (data?.parameter == 'input') {
       newNode = {
-        id: this.screenName + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenName + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -961,12 +1215,11 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
-      }
-    }
-    else {
+      };
+    } else {
       newNode = {
         key: res?.key ? res.key : obj.key,
-        id: this.screenName + "_" + value.toLowerCase() + "_" + Guid.newGuid(),
+        id: this.screenName + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -977,396 +1230,524 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
-      }
+      };
     }
-    if (value == 'insertButton' || value == 'updateButton' || value == 'deleteButton') {
+    if (
+      value == 'insertButton' ||
+      value == 'updateButton' ||
+      value == 'deleteButton'
+    ) {
       newNode.isSubmit = res.isSubmit;
     }
     if (value == 'invoiceGrid') {
-      newNode.type = 'gridList'
-      newNode.id = this.screenName + "_" + 'gridList'.toLowerCase() + "_" + Guid.newGuid();
-    };
+      newNode.type = 'gridList';
+      newNode.id =
+        this.screenName + '_' + 'gridList'.toLowerCase() + '_' + Guid.newGuid();
+    }
     switch (value) {
-      case "page":
+      case 'page':
         newNode = { ...newNode, ...this.addControlService.getPageControl() };
         break;
-      case "pageHeader":
-        newNode = { ...newNode, ...this.addControlService.getPageHeaderControl() };
+      case 'pageHeader':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getPageHeaderControl(),
+        };
         break;
-      case "pageBody":
-        newNode = { ...newNode, ...this.addControlService.getPageBodyControl() };
+      case 'pageBody':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getPageBodyControl(),
+        };
         this.sectionBageBody = newNode;
         break;
-      case "pageFooter":
-        newNode = { ...newNode, ...this.addControlService.getPageFooterControl() };
+      case 'pageFooter':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getPageFooterControl(),
+        };
         break;
-      case "sections":
+      case 'sections':
         newNode = { ...newNode, ...this.addControlService.getSectionControl() };
         this.sections = newNode;
         break;
-      case "header":
+      case 'header':
         newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
         break;
-      case "body":
+      case 'body':
         newNode = { ...newNode, ...this.addControlService.getBodyControl() };
         this.sectionAccorBody = newNode;
         break;
-      case "footer":
+      case 'footer':
         newNode = { ...newNode, ...this.addControlService.getFooterControl() };
         break;
-      case "header_1":
-        newNode = { ...newNode, ...this.addControlService.getHeader1(newNode, this.screenName) };
+      case 'header_1':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader1(newNode, this.screenName),
+        };
         break;
-      case "header_2":
-        newNode = { ...newNode, ...this.addControlService.getHeader_2(newNode, this.screenName) };
+      case 'header_2':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader_2(newNode, this.screenName),
+        };
         break;
-      case "header_3":
-        newNode = { ...newNode, ...this.addControlService.getHeade_3(newNode, this.screenName) };
+      case 'header_3':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeade_3(newNode, this.screenName),
+        };
         break;
-      case "header_4":
-        newNode = { ...newNode, ...this.addControlService.getHeader_4(newNode, this.screenName) };
+      case 'header_4':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader_4(newNode, this.screenName),
+        };
         break;
-      case "header_5":
-        newNode = { ...newNode, ...this.addControlService.getHeader_5(newNode, this.screenName) };
+      case 'header_5':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader_5(newNode, this.screenName),
+        };
         break;
-      case "header_6":
-        newNode = { ...newNode, ...this.addControlService.getHeader_6(newNode, this.screenName) };
+      case 'header_6':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader_6(newNode, this.screenName),
+        };
         break;
-      case "header_7":
-        newNode = { ...newNode, ...this.addControlService.getHeader_7(newNode, this.screenName) };
+      case 'header_7':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getHeader_7(newNode, this.screenName),
+        };
         break;
-      case "pricing":
-        newNode = { ...newNode, ...this.addControlService.getwebistepricing(newNode, this.screenName) };
+      case 'pricing':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getwebistepricing(newNode, this.screenName),
+        };
         break;
-      case "buttonGroup":
-        newNode = { ...newNode, ...this.addControlService.getButtonGroupControl() };
+      case 'buttonGroup':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getButtonGroupControl(),
+        };
         break;
-      case "insertButton":
-      case "updateButton":
-      case "deleteButton":
-        newNode = { ...newNode, ...this.addControlService.getInsertButtonControl() };
+      case 'insertButton':
+      case 'updateButton':
+      case 'deleteButton':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getInsertButtonControl(),
+        };
         break;
-      case "dropdownButton":
-        newNode = { ...newNode, ...this.addControlService.getDropdownButtonControl() };
+      case 'dropdownButton':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getDropdownButtonControl(),
+        };
         break;
-      case "menu":
+      case 'menu':
         newNode = { ...newNode, ...this.addControlService.getMenuControl() };
         break;
-      case "linkbutton":
-        newNode = { ...newNode, ...this.addControlService.getLinkbuttonControl() };
+      case 'linkbutton':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getLinkbuttonControl(),
+        };
         break;
-      case "cardWithComponents":
-        newNode = { ...newNode, ...this.addControlService.getCardWithComponentsControl() };
+      case 'cardWithComponents':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getCardWithComponentsControl(),
+        };
         break;
-      case "switch":
+      case 'switch':
         newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
         break;
-      case "imageUpload":
-        newNode = { ...newNode, ...this.addControlService.getImageUploadControl() };
+      case 'imageUpload':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getImageUploadControl(),
+        };
         break;
-      case "progressBar":
-        newNode = { ...newNode, ...this.addControlService.getProgressBarControl() };
+      case 'progressBar':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getProgressBarControl(),
+        };
         break;
-      case "video":
+      case 'video':
         newNode = { ...newNode, ...this.addControlService.getVideoControl() };
         break;
-      case "audio":
+      case 'audio':
         newNode = { ...newNode, ...this.addControlService.getAudioControl() };
         break;
-      case "carouselCrossfade":
-        newNode = { ...newNode, ...this.addControlService.getCarouselCrossfadeControl() };
+      case 'carouselCrossfade':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getCarouselCrossfadeControl(),
+        };
         break;
-      case "calender":
-        newNode = { ...newNode, ...this.addControlService.getCalenderControl() };
+      case 'calender':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getCalenderControl(),
+        };
         break;
-      case "sharedMessagesChart":
-        newNode = { ...newNode, ...this.addControlService.getSharedMessagesChartControl() };
+      case 'sharedMessagesChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getSharedMessagesChartControl(),
+        };
         break;
-      case "alert":
+      case 'alert':
         newNode = { ...newNode, ...this.addControlService.getAlertControl() };
         break;
-      case "simpleCardWithHeaderBodyFooter":
-        newNode = { ...newNode, ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl() };
+      case 'simpleCardWithHeaderBodyFooter':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl(),
+        };
         break;
-      case "tabs":
+      case 'tabs':
         newNode = { ...newNode, ...this.addControlService.getTabsControl() };
-        this.chilAdd = newNode
+        this.chilAdd = newNode;
         break;
-      case "mainTab":
+      case 'mainTab':
         newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
-        this.ParentAdd = newNode
+        this.ParentAdd = newNode;
         break;
-      case "mainStep":
-        newNode = { ...newNode, ...this.addControlService.getMainStepControl() };
-        this.ParentAdd = newNode
+      case 'mainStep':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getMainStepControl(),
+        };
+        this.ParentAdd = newNode;
         break;
-      case "listWithComponents":
-        newNode = { ...newNode, ...this.addControlService.getlistWithComponentsControl() };
-        this.ParentAdd = newNode
+      case 'listWithComponents':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getlistWithComponentsControl(),
+        };
+        this.ParentAdd = newNode;
         break;
-      case "listWithComponentsChild":
-        newNode = { ...newNode, ...this.addControlService.getlistWithComponentsChildControl() };
-        this.chilAdd = newNode
+      case 'listWithComponentsChild':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getlistWithComponentsChildControl(),
+        };
+        this.chilAdd = newNode;
         break;
-      case "step":
+      case 'step':
         newNode = { ...newNode, ...this.addControlService.getStepControl() };
-        this.chilAdd = newNode
+        this.chilAdd = newNode;
         break;
-      case "kanban":
+      case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
         break;
-      case "kanbanTask":
-        newNode = { ...newNode, ...this.addControlService.getKanbanTaskControl() };
+      case 'kanbanTask':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getKanbanTaskControl(),
+        };
         break;
-      case "simplecard":
+      case 'simplecard':
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
         break;
-      case "div":
+      case 'div':
         newNode = { ...newNode, ...this.addControlService.divControl() };
         break;
-      case "mainDiv":
+      case 'mainDiv':
         newNode = { ...newNode, ...this.addControlService.mainDivControl() };
         break;
-      case "heading":
+      case 'heading':
         newNode = { ...newNode, ...this.addControlService.headingControl() };
         break;
 
-      case "paragraph":
+      case 'paragraph':
         newNode = { ...newNode, ...this.addControlService.paragraphControl() };
         break;
 
-      case "htmlBlock":
+      case 'htmlBlock':
         newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
         break;
 
-      case "textEditor":
+      case 'textEditor':
         newNode = { ...newNode, ...this.addControlService.textEditorControl() };
         break;
 
-      case "editor_js":
+      case 'editor_js':
         newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
         break;
 
-      case "breakTag":
+      case 'breakTag':
         newNode = { ...newNode, ...this.addControlService.breakTagControl() };
         break;
 
-      case "multiFileUpload":
-        newNode = { ...newNode, ...this.addControlService.multiFileUploadControl() };
+      case 'multiFileUpload':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.multiFileUploadControl(),
+        };
         break;
 
-      case "gridList":
+      case 'gridList':
         newNode = { ...newNode, ...this.addControlService.gridListControl() };
         break;
-      case "invoiceGrid":
-        newNode = { ...newNode, ...this.addControlService.invoiceGridControl() };
+      case 'invoiceGrid':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.invoiceGridControl(),
+        };
         break;
 
-      case "column":
+      case 'column':
         newNode = { ...newNode, ...this.addControlService.columnControl() };
         break;
 
-      case "timeline":
+      case 'timeline':
         newNode = { ...newNode, ...this.addControlService.timelineControl() };
         this.ParentAdd = newNode;
         break;
 
-      case "fixedDiv":
+      case 'fixedDiv':
         newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
         this.chilAdd = newNode;
         break;
 
-      case "accordionButton":
-        newNode = { ...newNode, ...this.addControlService.accordionButtonControl() };
+      case 'accordionButton':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.accordionButtonControl(),
+        };
         break;
 
-      case "divider":
+      case 'divider':
         newNode = { ...newNode, ...this.addControlService.dividerControl() };
         break;
 
-      case "toastr":
+      case 'toastr':
         newNode = { ...newNode, ...this.addControlService.toastrControl() };
         break;
 
-      case "rate":
+      case 'rate':
         newNode = { ...newNode, ...this.addControlService.rateControl() };
         break;
 
-      case "rangeSlider":
-        newNode = { ...newNode, ...this.addControlService.rangeSliderControl() };
+      case 'rangeSlider':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.rangeSliderControl(),
+        };
         break;
 
-      case "invoice":
+      case 'invoice':
         newNode = { ...newNode, ...this.addControlService.invoiceControl() };
         break;
 
-      case "affix":
+      case 'affix':
         newNode = { ...newNode, ...this.addControlService.affixControl() };
         break;
 
-      case "statistic":
+      case 'statistic':
         newNode = { ...newNode, ...this.addControlService.statisticControl() };
         break;
 
-      case "backTop":
+      case 'backTop':
         newNode = { ...newNode, ...this.addControlService.backTopControl() };
         break;
 
-      case "anchor":
+      case 'anchor':
         newNode = { ...newNode, ...this.addControlService.anchorControl() };
         break;
 
-      case "modal":
+      case 'modal':
         newNode = { ...newNode, ...this.addControlService.modalControl() };
         break;
 
-      case "popConfirm":
+      case 'popConfirm':
         newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
         break;
 
-      case "avatar":
+      case 'avatar':
         newNode = { ...newNode, ...this.addControlService.avatarControl() };
         break;
 
-      case "badge":
+      case 'badge':
         newNode = { ...newNode, ...this.addControlService.badgeControl() };
         break;
 
-      case "comment":
+      case 'comment':
         newNode = { ...newNode, ...this.addControlService.commentControl() };
         break;
 
-      case "popOver":
+      case 'popOver':
         newNode = { ...newNode, ...this.addControlService.popOverControl() };
         break;
 
-      case "description":
-        newNode = { ...newNode, ...this.addControlService.descriptionControl() };
+      case 'description':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.descriptionControl(),
+        };
         break;
 
-      case "descriptionChild":
-        newNode = { ...newNode, ...this.addControlService.descriptionChildControl() };
+      case 'descriptionChild':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.descriptionChildControl(),
+        };
         break;
 
-      case "segmented":
+      case 'segmented':
         newNode = { ...newNode, ...this.addControlService.segmentedControl() };
         break;
 
-      case "result":
+      case 'result':
         newNode = { ...newNode, ...this.addControlService.resultControl() };
         break;
 
-      case "tag":
+      case 'tag':
         newNode = { ...newNode, ...this.addControlService.nzTagControl() };
         break;
 
-      case "treeSelect":
+      case 'treeSelect':
         newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
         break;
 
-      case "transfer":
+      case 'transfer':
         newNode = { ...newNode, ...this.addControlService.transferControl() };
         break;
 
-      case "spin":
+      case 'spin':
         newNode = { ...newNode, ...this.addControlService.spinControl() };
         break;
 
-      case "tree":
+      case 'tree':
         newNode = { ...newNode, ...this.addControlService.treeControl() };
         break;
 
-      case "cascader":
+      case 'cascader':
         newNode = { ...newNode, ...this.addControlService.cascaderControl() };
         break;
 
-      case "drawer":
+      case 'drawer':
         newNode = { ...newNode, ...this.addControlService.drawerControl() };
         break;
 
-      case "skeleton":
+      case 'skeleton':
         newNode = { ...newNode, ...this.addControlService.skeletonControl() };
         break;
 
-      case "empty":
+      case 'empty':
         newNode = { ...newNode, ...this.addControlService.emptyControl() };
         break;
 
-      case "list":
+      case 'list':
         newNode = { ...newNode, ...this.addControlService.listControl() };
         break;
 
-      case "treeView":
+      case 'treeView':
         newNode = { ...newNode, ...this.addControlService.treeViewControl() };
         break;
 
-      case "message":
+      case 'message':
         newNode = { ...newNode, ...this.addControlService.messageControl() };
         break;
 
-      case "mentions":
+      case 'mentions':
         newNode = { ...newNode, ...this.addControlService.mentionsControl() };
         break;
 
-      case "notification":
-        newNode = { ...newNode, ...this.addControlService.notificationControl() };
+      case 'notification':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.notificationControl(),
+        };
         break;
 
-      case "icon":
+      case 'icon':
         newNode = { ...newNode, ...this.addControlService.iconControl() };
         break;
-      case "barChart":
+      case 'barChart':
         newNode = { ...newNode, ...this.addControlService.barChartControl() };
         break;
-      case "pieChart":
+      case 'pieChart':
         newNode = { ...newNode, ...this.addControlService.pieChartControl() };
         break;
-      case "bubbleChart":
-        newNode = { ...newNode, ...this.addControlService.bubbleChartControl() };
+      case 'bubbleChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.bubbleChartControl(),
+        };
         break;
-      case "candlestickChart":
-        newNode = { ...newNode, ...this.addControlService.candlestickChartControl() };
+      case 'candlestickChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.candlestickChartControl(),
+        };
         break;
-      case "columnChart":
-        newNode = { ...newNode, ...this.addControlService.columnChartControl() };
+      case 'columnChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.columnChartControl(),
+        };
         break;
-      case "orgChart":
+      case 'orgChart':
         newNode = { ...newNode, ...this.addControlService.orgChartControl() };
         break;
-      case "ganttChart":
+      case 'ganttChart':
         newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
         break;
-      case "geoChart":
+      case 'geoChart':
         newNode = { ...newNode, ...this.addControlService.geoChartControl() };
         break;
-      case "histogramChart":
-        newNode = { ...newNode, ...this.addControlService.histogramChartControl() };
+      case 'histogramChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.histogramChartControl(),
+        };
         break;
-      case "treeMapChart":
-        newNode = { ...newNode, ...this.addControlService.treeMapChartControl() };
+      case 'treeMapChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.treeMapChartControl(),
+        };
         break;
-      case "tableChart":
+      case 'tableChart':
         newNode = { ...newNode, ...this.addControlService.tableChartControl() };
         break;
-      case "lineChart":
+      case 'lineChart':
         newNode = { ...newNode, ...this.addControlService.lineChartControl() };
         break;
-      case "sankeyChart":
-        newNode = { ...newNode, ...this.addControlService.sankeyChartControl() };
+      case 'sankeyChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.sankeyChartControl(),
+        };
         break;
-      case "scatterChart":
-        newNode = { ...newNode, ...this.addControlService.scatterChartControl() };
+      case 'scatterChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.scatterChartControl(),
+        };
         break;
-      case "areaChart":
+      case 'areaChart':
         newNode = { ...newNode, ...this.addControlService.areaChartControl() };
         break;
-      case "comboChart":
+      case 'comboChart':
         newNode = { ...newNode, ...this.addControlService.comboChartControl() };
         break;
-      case "steppedAreaChart":
-        newNode = { ...newNode, ...this.addControlService.steppedAreaChartControl() };
+      case 'steppedAreaChart':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.steppedAreaChartControl(),
+        };
         break;
-      case "map":
+      case 'map':
         newNode = { ...newNode, ...this.addControlService.mapControl() };
         break;
       default:
@@ -1382,9 +1763,9 @@ export class BuilderComponent implements OnInit {
                   {
                     key: res?.key ? res.key : obj.key,
                     type: data?.type,
-                    defaultValue: "",
+                    defaultValue: '',
                     focus: false,
-                    wrappers: this.getLastNodeWrapper("wrappers"),
+                    wrappers: this.getLastNodeWrapper('wrappers'),
                     props: {
                       multiple: true,
                       className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
@@ -1418,17 +1799,17 @@ export class BuilderComponent implements OnInit {
                         optionHoverSize: 10,
                         suffixicon: '',
                         prefixicon: '',
-                        wrapper: this.getLastNodeWrapper("configWrapper"),
+                        wrapper: this.getLastNodeWrapper('configWrapper'),
                         floatFieldClass: '',
                         floatLabelClass: '',
                         formatAlignment: 'ltr',
                         iconType: 'outline',
                         iconSize: 15,
                         iconColor: '',
-                        labelPosition: "text-left",
-                        titleIcon: "",
-                        tooltip: "",
-                        default: "",
+                        labelPosition: 'text-left',
+                        titleIcon: '',
+                        tooltip: '',
+                        default: '',
                         hoverIconColor: '',
                         requiredMessage: 'This field is required',
                         tooltipPosition: 'right',
@@ -1452,13 +1833,13 @@ export class BuilderComponent implements OnInit {
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         // this.checkConditionUIRule(model, currentVal);
-                      }
+                      },
                     },
                   },
-                ]
+                ],
               },
             ],
-          }
+          };
           newNode = { ...newNode, ...formlyObj };
         }
         break;
@@ -1468,33 +1849,32 @@ export class BuilderComponent implements OnInit {
   }
   makeFormlyOptions(option: any, type: any) {
     if (option) {
-      let data = []
+      let data = [];
       if (type == 'checkbox') {
         data = [
           {
-            label: "option1",
-            value: "1"
+            label: 'option1',
+            value: '1',
           },
-        ]
+        ];
       } else {
         data = [
           {
-            label: "option1",
-            value: "1"
+            label: 'option1',
+            value: '1',
           },
           {
-            label: "option2",
-            value: "2"
+            label: 'option2',
+            value: '2',
           },
           {
-            label: "option3",
-            value: "3"
-          }
+            label: 'option3',
+            value: '3',
+          },
         ];
       }
       return data;
-    } else
-      return [];
+    } else return [];
   }
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node.children) {
@@ -1506,15 +1886,22 @@ export class BuilderComponent implements OnInit {
     this.makeFaker();
   }
   gotoNextConfig() {
-
     let parent: any;
     let node: any;
     let nextNode: any;
-    if (JSON.stringify(this.selectdParentNode) == JSON.stringify(this.selectedNode)) {
+    if (
+      JSON.stringify(this.selectdParentNode) ==
+      JSON.stringify(this.selectedNode)
+    ) {
       parent = this.selectdParentNode;
-      nextNode = this.selectedNode.children ? this.selectedNode.children[0] : {};
-    }
-    else if (this.selectedNode && this.selectedNode.children && this.selectedNode.children.length > 0) {
+      nextNode = this.selectedNode.children
+        ? this.selectedNode.children[0]
+        : {};
+    } else if (
+      this.selectedNode &&
+      this.selectedNode.children &&
+      this.selectedNode.children.length > 0
+    ) {
       parent = this.selectedNode;
       nextNode = parent;
       this.selectdParentNode = parent;
@@ -1529,33 +1916,35 @@ export class BuilderComponent implements OnInit {
       }
     }
     if (!nextNode) {
-      this.toastr.error("Sorry there is no child");
+      this.toastr.error('Sorry there is no child');
       return;
     }
     this.openConfig(parent, nextNode);
   }
   gotoBackConfig() {
-
     let parent: any;
     let node: any;
     let nextNode: any;
     if (this.selectdParentNode.children) {
-      if (JSON.stringify(this.selectdParentNode.children[0]) == JSON.stringify(this.selectedNode)) {
+      if (
+        JSON.stringify(this.selectdParentNode.children[0]) ==
+        JSON.stringify(this.selectedNode)
+      ) {
         parent = this.selectdParentNode;
-        nextNode = this.selectdParentNode.children ? this.selectdParentNode.children[0] : {};
-      }
-      else {
+        nextNode = this.selectdParentNode.children
+          ? this.selectdParentNode.children[0]
+          : {};
+      } else {
         parent = this.selectdParentNode;
         node = this.selectedNode;
 
         if (parent && parent.children && parent.children.length > 0) {
           const idx = parent.children.indexOf(node);
           nextNode = parent.children[idx - 1];
-
         }
       }
       if (!nextNode) {
-        this.toastr.error("Sorry there is no child");
+        this.toastr.error('Sorry there is no child');
         return;
       }
       this.openConfig(parent, nextNode);
@@ -1565,15 +1954,19 @@ export class BuilderComponent implements OnInit {
     let parent = this.selectdParentNode;
     let nextNode: any;
     if (parent && parent.children) {
-      const currentIndex = parent.children.findIndex((node: any) => node.id === this.selectedNode.id);
+      const currentIndex = parent.children.findIndex(
+        (node: any) => node.id === this.selectedNode.id
+      );
       if (currentIndex !== -1 && currentIndex < parent.children.length - 1) {
         nextNode = parent.children[currentIndex + 1];
       } else {
         parent = this.selectedNode;
-        nextNode = this.selectedNode.children ? this.selectedNode.children[0] : {};
+        nextNode = this.selectedNode.children
+          ? this.selectedNode.children[0]
+          : {};
       }
       if (!nextNode) {
-        this.toastr.error("Sorry there is no child");
+        this.toastr.error('Sorry there is no child');
         return;
       }
       this.openConfig(parent, nextNode);
@@ -1584,7 +1977,9 @@ export class BuilderComponent implements OnInit {
     let parent = this.selectdParentNode;
     let nextNode: any;
     if (parent && parent.children) {
-      const currentIndex = parent.children.findIndex((node: any) => node.id === this.selectedNode.id);
+      const currentIndex = parent.children.findIndex(
+        (node: any) => node.id === this.selectedNode.id
+      );
       if (currentIndex !== -1 && currentIndex > 0) {
         nextNode = parent.children[currentIndex - 1];
       } else {
@@ -1595,7 +1990,7 @@ export class BuilderComponent implements OnInit {
         }
       }
       if (!nextNode) {
-        this.toastr.error("Sorry there is no child");
+        this.toastr.error('Sorry there is no child');
         return;
       }
       this.openConfig(parent, nextNode);
@@ -1617,22 +2012,24 @@ export class BuilderComponent implements OnInit {
 
   getLastNodeWrapper(dataType?: string) {
     let wrapperName: any = ['form-field-horizontal'];
-    let wrapper: any = 'form-field-horizontal'
+    let wrapper: any = 'form-field-horizontal';
     let disabledProperty: any;
     const filteredNodes = this.filterInputElements(this.selectedNode);
     for (let index = 0; index < filteredNodes.length; index++) {
-      wrapperName = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers;
-      wrapper = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.wrappers[0];
-      disabledProperty = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)?.props?.disabled;
+      wrapperName = filteredNodes[index].formly
+        ?.at(0)
+        ?.fieldGroup?.at(0)?.wrappers;
+      wrapper = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)
+        ?.wrappers[0];
+      disabledProperty = filteredNodes[index].formly?.at(0)?.fieldGroup?.at(0)
+        ?.props?.disabled;
       break;
     }
     if (dataType == 'wrappers') {
       return wrapperName;
-    }
-    else if (dataType == 'disabled') {
+    } else if (dataType == 'disabled') {
       return disabledProperty;
-    }
-    else if (dataType == 'configWrapper') {
+    } else if (dataType == 'configWrapper') {
       return wrapper;
     }
   }
@@ -1659,40 +2056,55 @@ export class BuilderComponent implements OnInit {
     this.dataSharedService.screenModule = this.screens;
     this.dataSharedService.selectedNode = this.selectedNode;
     this.dataSharedService.screenName = this.screenName;
-
   }
   applySize() {
-
-    this.sizes = [25, 75, 0]
-    if (!this.IslayerVisible && this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [1, 99, 0]
-    }
-    else if (!this.IslayerVisible && this.IsConfigurationVisible && this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (!this.IslayerVisible && !this.IsConfigurationVisible && this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (this.IslayerVisible && !this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (!this.IslayerVisible && !this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [1, 99, 0]
+    this.sizes = [25, 75, 0];
+    if (
+      !this.IslayerVisible &&
+      this.IsConfigurationVisible &&
+      !this.IsjsonEditorVisible
+    ) {
+      this.sizes = [1, 99, 0];
+    } else if (
+      !this.IslayerVisible &&
+      this.IsConfigurationVisible &&
+      this.IsjsonEditorVisible
+    ) {
+      this.sizes = [25, 75, 0];
+    } else if (
+      !this.IslayerVisible &&
+      !this.IsConfigurationVisible &&
+      this.IsjsonEditorVisible
+    ) {
+      this.sizes = [25, 75, 0];
+    } else if (
+      this.IslayerVisible &&
+      !this.IsConfigurationVisible &&
+      !this.IsjsonEditorVisible
+    ) {
+      this.sizes = [25, 75, 0];
+    } else if (
+      !this.IslayerVisible &&
+      !this.IsConfigurationVisible &&
+      !this.IsjsonEditorVisible
+    ) {
+      this.sizes = [1, 99, 0];
     }
   }
 
   clickButton(type: any) {
-    debugger
+    debugger;
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
-      title: "Change Attribute Values",
+      title: 'Change Attribute Values',
       formData: _formFieldData.inputValidationRuleFields,
     });
     if (this.joiValidationData.length > 0) {
-      let getJoiRule = this.joiValidationData.find(a => a.key == this.selectedNode.key);
-      if (getJoiRule)
-        this.validationFieldData.modelData = getJoiRule;
+      let getJoiRule = this.joiValidationData.find(
+        (a) => a.key == this.selectedNode.key
+      );
+      if (getJoiRule) this.validationFieldData.modelData = getJoiRule;
     }
     let veriableOptions: any[] = [];
     if (this.nodes[0].options) {
@@ -1701,12 +2113,13 @@ export class BuilderComponent implements OnInit {
         veriableOptions.push({
           label: element.VariableName,
           value: element.VariableName,
-        })
+        });
       }
     }
     if (_formFieldData.commonIconFields[0].fieldGroup) {
-      const fieldGroup = _formFieldData.commonFormlyConfigurationFields[0].fieldGroup || [];
-      _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
+      const fieldGroup =
+        _formFieldData.commonFormlyConfigurationFields[0].fieldGroup || [];
+      _formFieldData.commonIconFields[0].fieldGroup.forEach((element) => {
         if (
           _formFieldData.commonFormlyConfigurationFields[0].fieldGroup &&
           element.key != 'icon' &&
@@ -1720,128 +2133,128 @@ export class BuilderComponent implements OnInit {
       fieldGroup.push({
         key: 'className',
         type: 'multiselect',
-        className: "w-full",
-        wrappers: ["formly-vertical-theme-wrapper"],
+        className: 'w-full',
+        wrappers: ['formly-vertical-theme-wrapper'],
         props: {
           multiple: true,
           label: 'CSS ClassName',
           options: [
             {
               label: 'w-1/2',
-              value: 'w-1/2'
+              value: 'w-1/2',
             },
             {
               label: 'w-1/3',
-              value: 'w-1/3'
+              value: 'w-1/3',
             },
             {
               label: 'w-2/3',
-              value: 'w-2/3'
+              value: 'w-2/3',
             },
             {
               label: 'w-1/4',
-              value: 'w-1/4'
+              value: 'w-1/4',
             },
             {
               label: 'w-3/4',
-              value: 'w-3/4'
+              value: 'w-3/4',
             },
             {
               label: 'w-full',
-              value: 'w-full'
+              value: 'w-full',
             },
             {
               label: 'w-auto',
-              value: 'w-auto'
+              value: 'w-auto',
             },
             {
               label: 'w-screen',
-              value: 'w-screen'
+              value: 'w-screen',
             },
             {
               label: 'sm:w-1/2',
-              value: 'sm:w-1/2'
+              value: 'sm:w-1/2',
             },
             {
               label: 'md:w-1/3',
-              value: 'md:w-1/3'
+              value: 'md:w-1/3',
             },
             {
               label: 'lg:w-2/3',
-              value: 'lg:w-2/3'
+              value: 'lg:w-2/3',
             },
             {
               label: 'xl:w-1/4',
-              value: 'xl:w-1/4'
+              value: 'xl:w-1/4',
             },
             {
               label: 'text-gray-500',
-              value: 'text-gray-500'
+              value: 'text-gray-500',
             },
             {
               label: 'text-red-600',
-              value: 'text-red-600'
+              value: 'text-red-600',
             },
             {
               label: 'text-blue-400',
-              value: 'text-blue-400'
+              value: 'text-blue-400',
             },
             {
               label: 'text-green-500',
-              value: 'text-green-500'
+              value: 'text-green-500',
             },
             {
               label: 'text-yellow-300',
-              value: 'text-yellow-300'
+              value: 'text-yellow-300',
             },
             {
               label: 'bg-gray-200',
-              value: 'bg-gray-200'
+              value: 'bg-gray-200',
             },
             {
               label: 'bg-blue-500',
-              value: 'bg-blue-500'
+              value: 'bg-blue-500',
             },
             {
               label: 'bg-green-300',
-              value: 'bg-green-300'
+              value: 'bg-green-300',
             },
             {
               label: 'bg-yellow-200',
-              value: 'bg-yellow-200'
+              value: 'bg-yellow-200',
             },
             {
               label: 'p-4',
-              value: 'p-4'
+              value: 'p-4',
             },
             {
               label: 'pt-6',
-              value: 'pt-6'
+              value: 'pt-6',
             },
             {
               label: 'ml-2',
-              value: 'ml-2'
+              value: 'ml-2',
             },
             {
               label: 'mr-8',
-              value: 'mr-8'
+              value: 'mr-8',
             },
             {
               label: 'my-3',
-              value: 'my-3'
+              value: 'my-3',
             },
             {
               label: 'flex',
-              value: 'flex'
+              value: 'flex',
             },
             {
               label: 'justify-center',
-              value: 'justify-center'
+              value: 'justify-center',
             },
             {
               label: 'items-center',
-              value: 'items-center'
-            }
+              value: 'items-center',
+            },
           ],
           additionalProperties: {
             allowClear: true,
@@ -1849,458 +2262,540 @@ export class BuilderComponent implements OnInit {
             showArrow: true,
             showSearch: true,
             selectType: 'tags',
-            maxCount:6,
+            maxCount: 6,
           },
         },
       });
       _formFieldData.commonFormlyConfigurationFields[0].fieldGroup = fieldGroup;
     }
 
-    const filteredFields: any = _formFieldData.commonFormlyConfigurationFields[0].fieldGroup;
-    const getVar = filteredFields.filter((x: any) => x.key == "getVariable");
+    const filteredFields: any =
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup;
+    const getVar = filteredFields.filter((x: any) => x.key == 'getVariable');
     const index = filteredFields.indexOf(getVar[0]);
     // if (_formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
     //   _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
     //   _formFieldData.commonOtherConfigurationFields[0].fieldGroup[index + 1].props!.options;
     // }
     if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup) {
-      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[index].props!.options = veriableOptions;
-      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[index + 1].props!.options = veriableOptions;
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[
+        index
+      ].props!.options = veriableOptions;
+      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup[
+        index + 1
+      ].props!.options = veriableOptions;
     }
 
     this.fieldData = new GenaricFeild({
       type: type,
-      title: "Change Attribute Values",
+      title: 'Change Attribute Values',
       commonData: _formFieldData.commonOtherConfigurationFields,
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
+    configObj = selectedNode;
+    let newClass = selectedNode.className;
     selectedNode.id = selectedNode.id?.toLowerCase();
     if (typeof selectedNode.className === "string") {
-      let classes: any = selectedNode.className;
-      if (classes) {
-        let classList = classes.split(" ");
-        selectedNode.className = [...classList];
-      }
+      const classObj = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
+      configObj.className = classObj
     }
-
-
-    configObj = selectedNode;
+    // this.selectedNode.className = newClass;
+    // selectedNode.className = newClass;
+    // configObj = JSON.parse(JSON.stringify(selectedNode));
     switch (type) {
-      case "drawer":
+      case 'drawer':
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
-      case "cardWithComponents":
+      case 'cardWithComponents':
         this.fieldData.formData = _formFieldData.cardWithComponentsFields;
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         break;
-      case "icon":
+      case 'icon':
         this.fieldData.formData = _formFieldData.commonIconFields;
         break;
-      case "anchor":
+      case 'anchor':
         this.fieldData.formData = _formFieldData.anchorFields;
 
         break;
-      case "treeSelect":
+      case 'treeSelect':
         this.fieldData.formData = _formFieldData.treeSelectFields;
         break;
-      case "treeView":
+      case 'treeView':
         this.fieldData.formData = _formFieldData.treeviewFields;
         break;
-      case "cascader":
+      case 'cascader':
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.formData = _formFieldData.cascaderFields;
-        delete configObj.options
+        delete configObj.options;
         break;
-      case "tree":
+      case 'tree':
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);
         this.fieldData.formData = _formFieldData.treeFields;
         break;
-      case "htmlBlock":
+      case 'htmlBlock':
         this.fieldData.formData = _formFieldData.htmlBlockFields;
         break;
-      case "modal":
+      case 'modal':
         this.addIconCommonConfiguration(_formFieldData.modalFields, false);
         this.fieldData.formData = _formFieldData.modalFields;
         break;
-      case "transfer":
-        configObj = { ...configObj, ...this.clickButtonService.getTransferConfig(selectedNode) };
+      case 'transfer':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getTransferConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.transferFields;
         break;
-      case "gridList":
-        configObj = { ...configObj, ...this.clickButtonService.getGridConfig(selectedNode) };
+      case 'gridList':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getGridConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.gridFields;
         break;
-      case "comment":
+      case 'comment':
         this.fieldData.formData = _formFieldData.commentFields;
         break;
-      case "rate":
+      case 'rate':
         if (!configObj.options[0].label) {
-          configObj.options = configObj.options.map((option: any) => ({ label: option }));
+          configObj.options = configObj.options.map((option: any) => ({
+            label: option,
+          }));
         }
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
         this.fieldData.formData = _formFieldData.rateFields;
         break;
-      case "skeleton":
+      case 'skeleton':
         this.fieldData.formData = _formFieldData.skeletonFields;
         break;
-      case "badge":
+      case 'badge':
         this.addIconCommonConfiguration(_formFieldData.badgeFields, false);
         this.fieldData.formData = _formFieldData.badgeFields;
         break;
-      case "mentions":
+      case 'mentions':
         this.fieldData.formData = _formFieldData.mentionsFields;
         break;
-      case "empty":
+      case 'empty':
         this.fieldData.formData = _formFieldData.emptyFields;
         break;
-      case "segmented":
+      case 'segmented':
         this.fieldData.formData = _formFieldData.segmentedFields;
         break;
-      case "statistic":
-        configObj = { ...configObj, ...this.clickButtonService.getStatisticConfig(selectedNode) };
+      case 'statistic':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getStatisticConfig(selectedNode),
+        };
         this.addIconCommonConfiguration(_formFieldData.statisticFields, true);
         this.fieldData.formData = _formFieldData.statisticFields;
         break;
-      case "tag":
+      case 'tag':
         this.addIconCommonConfiguration(_formFieldData.nzTagFields, false);
         this.fieldData.formData = _formFieldData.nzTagFields;
         break;
-      case "message":
+      case 'message':
         this.fieldData.formData = _formFieldData.messageFields;
         break;
-      case "notification":
-        this.addIconCommonConfiguration(_formFieldData.notificationFields, true);
+      case 'notification':
+        this.addIconCommonConfiguration(
+          _formFieldData.notificationFields,
+          true
+        );
         this.fieldData.formData = _formFieldData.notificationFields;
         break;
-      case "list":
+      case 'list':
         this.fieldData.formData = _formFieldData.listFields;
         break;
-      case "description":
+      case 'description':
         this.fieldData.formData = _formFieldData.descriptionFields;
         break;
-      case "descriptionChild":
+      case 'descriptionChild':
         this.fieldData.formData = _formFieldData.descriptionChildFields;
         break;
-      case "affix":
+      case 'affix':
         this.fieldData.formData = _formFieldData.affixFields;
         break;
-      case "backTop":
+      case 'backTop':
         this.fieldData.formData = _formFieldData.backtopFields;
         break;
-      case "avatar":
+      case 'avatar':
         this.fieldData.formData = _formFieldData.avatarFields;
         break;
-      case "popOver":
+      case 'popOver':
         this.fieldData.formData = _formFieldData.popOverFields;
         break;
-      case "popConfirm":
+      case 'popConfirm':
         this.fieldData.formData = _formFieldData.popOverFields;
         break;
-      case "result":
+      case 'result':
         this.fieldData.formData = _formFieldData.resultFields;
         break;
-      case "spin":
+      case 'spin':
         this.fieldData.formData = _formFieldData.spinFields;
         break;
-      case "imageUpload":
+      case 'imageUpload':
         this.fieldData.formData = _formFieldData.imageUploadFeilds;
         break;
-      case "toastr":
+      case 'toastr':
         this.fieldData.formData = _formFieldData.toastrFeilds;
         break;
-      case "invoice":
+      case 'invoice':
         // configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
         this.fieldData.formData = _formFieldData.invoiceFeilds;
         break;
-      case "rangeSlider":
+      case 'rangeSlider':
         this.addIconCommonConfiguration(_formFieldData.rangeSliderFeilds, true);
         this.fieldData.formData = _formFieldData.rangeSliderFeilds;
         break;
-      case "inputGroupGrid":
+      case 'inputGroupGrid':
         this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
         break;
-      case "card":
+      case 'card':
         this.fieldData.formData = _formFieldData.cardFields;
         break;
-      case "calender":
+      case 'calender':
         this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
         break;
-      case "multiFileUpload":
+      case 'multiFileUpload':
         this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
         break;
-      case "switch":
+      case 'switch':
         this.fieldData.formData = _formFieldData.switchFeilds;
         break;
-      case "tabs":
+      case 'tabs':
         this.addIconCommonConfiguration(_formFieldData.tabsFields, true);
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
-      case "kanban":
+      case 'kanban':
         this.fieldData.formData = _formFieldData.kanbanFeilds;
         break;
-      case "kanbanTask":
+      case 'kanbanTask':
         this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
         break;
-      case "mainTab":
+      case 'mainTab':
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
-      case "progressBar":
+      case 'progressBar':
         this.fieldData.formData = _formFieldData.progressBarFields;
         break;
-      case "divider":
+      case 'divider':
         this.addIconCommonConfiguration(_formFieldData.dividerFeilds, true);
         this.fieldData.formData = _formFieldData.dividerFeilds;
         break;
-      case "video":
+      case 'video':
         this.fieldData.formData = _formFieldData.videosFeilds;
         break;
-      case "audio":
+      case 'audio':
         this.fieldData.formData = _formFieldData.audioFeilds;
         break;
-      case "carouselCrossfade":
+      case 'carouselCrossfade':
         this.fieldData.formData = _formFieldData.carouselCrossfadeFeilds;
         break;
-      case "alert":
+      case 'alert':
         this.addIconCommonConfiguration(_formFieldData.alertFeilds, true);
         this.fieldData.formData = _formFieldData.alertFeilds;
         break;
-      case "timeline":
+      case 'timeline':
         this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
         this.fieldData.formData = _formFieldData.timelineFeilds;
         break;
-      case "simpleCardWithHeaderBodyFooter":
-        this.fieldData.formData = _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
+      case 'simpleCardWithHeaderBodyFooter':
+        this.fieldData.formData =
+          _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
         break;
-      case "div":
+      case 'div':
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.divFields;
         break;
-      case "mainDiv":
+      case 'mainDiv':
         this.fieldData.formData = _formFieldData.mainDivFields;
         break;
-      case "heading":
+      case 'heading':
         this.fieldData.formData = _formFieldData.headingFields;
         break;
-      case "paragraph":
+      case 'paragraph':
         this.addIconCommonConfiguration(_formFieldData.paragraphFields, false);
         this.fieldData.formData = _formFieldData.paragraphFields;
         break;
-      case "tags":
-      case "repeatSection":
-      case "multiselect":
+      case 'tags':
+      case 'repeatSection':
+      case 'multiselect':
       // case "tag":
-      case "search":
-      case "radiobutton":
-      case "checkbox":
-      case "datetime":
-      case "time":
-      case "timepicker":
-      case "date":
-      case "month":
-      case "year":
-      case "decimal":
-      case "week":
-      case "color":
-      case "input":
-      case "inputGroup":
-      case "image":
-      case "textarea":
-      case "telephone":
-      case "autoComplete":
-      case "number":
-      case "url":
-      case "customMasking":
-        configObj = { ...configObj, ...this.clickButtonService.getFormlyConfig(selectedNode) };
-        _formFieldData?.commonFormlyConfigurationFields[0]?.fieldGroup?.forEach((configField: any) => {
-          if (configField.key == 'formlyTypes') {
-            configField.props.options = this.formlyTypes;
+      case 'search':
+      case 'radiobutton':
+      case 'checkbox':
+      case 'datetime':
+      case 'time':
+      case 'timepicker':
+      case 'date':
+      case 'month':
+      case 'year':
+      case 'decimal':
+      case 'week':
+      case 'color':
+      case 'input':
+      case 'inputGroup':
+      case 'image':
+      case 'textarea':
+      case 'telephone':
+      case 'autoComplete':
+      case 'number':
+      case 'url':
+      case 'customMasking':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getFormlyConfig(selectedNode),
+        };
+        _formFieldData?.commonFormlyConfigurationFields[0]?.fieldGroup?.forEach(
+          (configField: any) => {
+            if (configField.key == 'formlyTypes') {
+              configField.props.options = this.formlyTypes;
+            }
           }
-        });
-        this.fieldData.commonData = _formFieldData.commonFormlyConfigurationFields;
+        );
+        this.fieldData.commonData =
+          _formFieldData.commonFormlyConfigurationFields;
         switch (type) {
-          case "search":
+          case 'search':
             this.fieldData.formData = _formFieldData.selectFields;
             break;
-          case "radiobutton":
-          case "checkbox":
+          case 'radiobutton':
+          case 'checkbox':
             this.fieldData.formData = _formFieldData.radioFields;
             break;
-          case "color":
+          case 'color':
             this.fieldData.formData = _formFieldData.colorFields;
             break;
-          case "autoComplete":
+          case 'autoComplete':
             this.fieldData.formData = _formFieldData.autoCompleteFields;
             break;
-          case "date":
+          case 'date':
             this.fieldData.formData = _formFieldData.zorroDateFields;
             break;
-          case "number":
+          case 'number':
             this.fieldData.formData = _formFieldData.numberFields;
             break;
-          case "repeatSection":
-          case "multiselect":
+          case 'repeatSection':
+          case 'multiselect':
             this.fieldData.formData = _formFieldData.zorroSelectFields;
             break;
-          case "timepicker":
+          case 'timepicker':
             this.fieldData.formData = _formFieldData.zorroTimeFields;
             break;
-          case "customMasking":
+          case 'customMasking':
             this.fieldData.formData = _formFieldData.customMaskingFields;
             break;
         }
         break;
-      case "button":
+      case 'button':
         // configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
-        configObj.icon = selectedNode.btnIcon
+        configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
-      case "dropdownButton":
-        configObj.icon = selectedNode.btnIcon,
-          configObj.options = selectedNode.dropdownOptions,
+      case 'dropdownButton':
+        (configObj.icon = selectedNode.btnIcon),
+          (configObj.options = selectedNode.dropdownOptions),
           // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-          this.addIconCommonConfiguration(_formFieldData.dropdownButtonFields, true);
+          this.addIconCommonConfiguration(
+            _formFieldData.dropdownButtonFields,
+            true
+          );
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
-      case "accordionButton":
-        this.addIconCommonConfiguration(_formFieldData.accordionButtonFields, true);
+      case 'accordionButton':
+        this.addIconCommonConfiguration(
+          _formFieldData.accordionButtonFields,
+          true
+        );
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
-      case "linkbutton":
+      case 'linkbutton':
         // configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
-        configObj.icon = selectedNode.btnIcon,
-          this.addIconCommonConfiguration(_formFieldData.linkButtonFields, true);
+        (configObj.icon = selectedNode.btnIcon),
+          this.addIconCommonConfiguration(
+            _formFieldData.linkButtonFields,
+            true
+          );
         this.fieldData.formData = _formFieldData.linkButtonFields;
         break;
-      case "buttonGroup":
+      case 'buttonGroup':
         this.fieldData.formData = _formFieldData.buttonGroupFields;
         break;
-      case "page":
+      case 'page':
         this.fieldData.formData = _formFieldData.pageFields;
         break;
-      case "pageHeader":
+      case 'pageHeader':
         this.fieldData.formData = _formFieldData.pageHeaderFields;
         break;
-      case "pageBody":
+      case 'pageBody':
         break;
-      case "pageFooter":
+      case 'pageFooter':
         this.fieldData.formData = _formFieldData.pageFooterFields;
         break;
-      case "sections":
-        configObj = { ...configObj, ...this.clickButtonService.getSectionConfig(selectedNode) };
+      case 'sections':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getSectionConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.sectionsFields;
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         break;
-      case "header":
+      case 'header':
         this.fieldData.formData = _formFieldData.headerFields;
         break;
-      case "footer":
+      case 'footer':
         this.fieldData.formData = _formFieldData.footerFields;
         break;
-      case "body":
+      case 'body':
         this.fieldData.formData = _formFieldData.bodyFields;
         break;
-      case "step":
+      case 'step':
         this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.stepperFields;
         break;
-      case "mainStep":
+      case 'mainStep':
         this.fieldData.formData = _formFieldData.mainStepperFields;
 
         break;
-      case "listWithComponents":
+      case 'listWithComponents':
         this.fieldData.formData = _formFieldData.listWithComponentsFields;
         break;
-      case "listWithComponentsChild":
+      case 'listWithComponentsChild':
         // this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         break;
-      case "tabsMain":
-        configObj = { ...configObj, ...this.clickButtonService.getMainTabsConfig(selectedNode) };
+      case 'tabsMain':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getMainTabsConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.mainTabFields;
         break;
-      case "barChart":
-        configObj = { ...configObj, ...this.clickButtonService.getBarChartConfig(selectedNode) };
+      case 'barChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getBarChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.barChartFields;
         break;
-      case "pieChart":
-        configObj = { ...configObj, ...this.clickButtonService.getPieChartConfig(selectedNode) };
+      case 'pieChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getPieChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.pieChartFields;
         break;
-      case "bubbleChart":
-        configObj = { ...configObj, ...this.clickButtonService.getBubbleChartConfig(selectedNode) };
+      case 'bubbleChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getBubbleChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.bubbleChartFields;
         break;
-      case "candlestickChart":
+      case 'candlestickChart':
         this.fieldData.formData = _formFieldData.candlestickChartFields;
         break;
-      case "columnChart":
+      case 'columnChart':
         this.fieldData.formData = _formFieldData.columnChartFields;
         break;
-      case "ganttChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGanttChartConfig(selectedNode) };
+      case 'ganttChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getGanttChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.ganttChartFields;
         break;
-      case "geoChart":
-        configObj = { ...configObj, ...this.clickButtonService.getGeoChartConfig(selectedNode) };
+      case 'geoChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getGeoChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.geoChartFields;
         break;
-      case "histogramChart":
-        configObj = { ...configObj, ...this.clickButtonService.getHistogramChartConfig(selectedNode) };
+      case 'histogramChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getHistogramChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.histogramChartFields;
         break;
-      case "treeMapChart":
-        configObj = { ...configObj, ...this.clickButtonService.gettreeMapChartConfig(selectedNode) };
+      case 'treeMapChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.gettreeMapChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.treeMapChartFields;
         break;
-      case "tableChart":
+      case 'tableChart':
         this.fieldData.formData = _formFieldData.tableChartFields;
         break;
-      case "lineChart":
-        configObj = { ...configObj, ...this.clickButtonService.getLineChartConfig(selectedNode) };
+      case 'lineChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getLineChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.lineChartFields;
         break;
-      case "sankeyChart":
+      case 'sankeyChart':
         this.fieldData.formData = _formFieldData.sankeyChartFields;
         break;
-      case "scatterChart":
-        configObj = { ...configObj, ...this.clickButtonService.getScatterChartConfig(selectedNode) };
+      case 'scatterChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getScatterChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.scatterChartFields;
         break;
-      case "areaChart":
-        configObj = { ...configObj, ...this.clickButtonService.getAreaChartConfig(selectedNode) };
+      case 'areaChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getAreaChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.areaChartFields;
         break;
-      case "comboChart":
-        configObj = { ...configObj, ...this.clickButtonService.getComboChartConfig(selectedNode) };
+      case 'comboChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getComboChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.comboChartFields;
         break;
-      case "steppedAreaChart":
-        configObj = { ...configObj, ...this.clickButtonService.getSteppedAreaChartConfig(selectedNode) };
+      case 'steppedAreaChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getSteppedAreaChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.steppedAreaChartFields;
         break;
-      case "timelineChart":
-        configObj = { ...configObj, ...this.clickButtonService.getTimelineChartConfig(selectedNode) };
+      case 'timelineChart':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getTimelineChartConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.steppedAreaChartFields;
         break;
       default:
         break;
     }
     this.formModalData = configObj;
+   
   }
   menuSearch() {
     this.filterMenuData = [];
-    var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
+    var input = (
+      document.getElementById('mySearch') as HTMLInputElement
+    ).value.toUpperCase();
     if (input) {
       this.nodes.forEach((element: any) => {
         if (element.title.toUpperCase().includes(input)) {
@@ -2309,60 +2804,65 @@ export class BuilderComponent implements OnInit {
           element.children.forEach((element1: any) => {
             if (element1.title.toUpperCase().includes(input)) {
               this.filterMenuData.push(element1);
-            }
-            else if (element1.children.length > 0) {
+            } else if (element1.children.length > 0) {
               element1.children.forEach((element2: any) => {
                 if (element2.title.toUpperCase().includes(input)) {
                   this.filterMenuData.push(element2);
-                }
-                else if (element2.children.length > 0) {
+                } else if (element2.children.length > 0) {
                   element2.children.forEach((element3: any) => {
                     if (element3.title.toUpperCase().includes(input)) {
                       this.filterMenuData.push(element3);
-                    }
-                    else if (element3.children.length > 0) {
+                    } else if (element3.children.length > 0) {
                       element3.children.forEach((element4: any) => {
                         if (element4.title.toUpperCase().includes(input)) {
                           this.filterMenuData.push(element4);
-                        }
-                        else if (element4.children.length > 0) {
+                        } else if (element4.children.length > 0) {
                           element4.children.forEach((element5: any) => {
                             if (element5.title.toUpperCase().includes(input)) {
                               this.filterMenuData.push(element5);
-                            }
-                            else if (element5.children.length > 0) {
+                            } else if (element5.children.length > 0) {
                               element5.children.forEach((element6: any) => {
-                                if (element6.title.toUpperCase().includes(input)) {
+                                if (
+                                  element6.title.toUpperCase().includes(input)
+                                ) {
                                   this.filterMenuData.push(element6);
-                                }
-                                else if (element6.children.length > 0) {
+                                } else if (element6.children.length > 0) {
                                   element6.children.forEach((element7: any) => {
-                                    if (element7.title.toUpperCase().includes(input)) {
+                                    if (
+                                      element7.title
+                                        .toUpperCase()
+                                        .includes(input)
+                                    ) {
                                       this.filterMenuData.push(element7);
+                                    } else if (element7.children.length > 0) {
+                                      element7.children.forEach(
+                                        (element8: any) => {
+                                          if (
+                                            element8.title
+                                              .toUpperCase()
+                                              .includes(input)
+                                          ) {
+                                            this.filterMenuData.push(element8);
+                                          }
+                                        }
+                                      );
                                     }
-                                    else if (element7.children.length > 0) {
-                                      element7.children.forEach((element8: any) => {
-                                        if (element8.title.toUpperCase().includes(input)) {
-                                          this.filterMenuData.push(element8);
-                                        };
-                                      });
-                                    };
                                   });
-                                };
+                                }
                               });
-                            };
+                            }
                           });
-                        };
+                        }
                       });
-                    };
+                    }
                   });
-                };
+                }
               });
-            };
+            }
           });
-        };
+        }
       });
-    };
+    }
   }
   hoverIn(data: any) {
     this.isVisible = data.origin.id;
@@ -2371,12 +2871,10 @@ export class BuilderComponent implements OnInit {
     this.isVisible = data.origin.id;
   }
   applyOrRemoveHighlight(element: any, id: any, highlightOrNot: boolean) {
-    if (id == element.id)
-      element["highLight"] = true;
-    else
-      element["highLight"] = false;
+    if (id == element.id) element['highLight'] = true;
+    else element['highLight'] = false;
     if (!highlightOrNot) {
-      element["highLight"] = false;
+      element['highLight'] = false;
     }
   }
 
@@ -2409,7 +2907,7 @@ export class BuilderComponent implements OnInit {
   }
   addSection(section?: any) {
     this.sectionBageBody = this.nodes[0].children[1];
-    this.selectedNode = this.sectionBageBody,
+    (this.selectedNode = this.sectionBageBody),
       this.addControlToJson(section, null);
     this.selectedNode = this.sections;
     this.addControlToJson('header', null);
@@ -2428,8 +2926,8 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
-      }else{
-        this.toastr.warning("Not allowed to add control in this")
+      } else {
+        this.toastr.warning('Not allowed to add control in this');
       }
       if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;
@@ -2442,7 +2940,15 @@ export class BuilderComponent implements OnInit {
   insertAt(node: any) {
     let parent = node?.parentNode?.origin;
     node = node.origin;
-    if (node.type != 'page' && node.type != 'pageHeader' && node.type != 'pageBody' && node.type != 'pageFooter' && node.type != 'header' && node.type != 'body' && node.type != 'footer') {
+    if (
+      node.type != 'page' &&
+      node.type != 'pageHeader' &&
+      node.type != 'pageBody' &&
+      node.type != 'pageFooter' &&
+      node.type != 'header' &&
+      node.type != 'body' &&
+      node.type != 'footer'
+    ) {
       let newNode = JSON.parse(JSON.stringify(node));
       newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
@@ -2467,7 +2973,7 @@ export class BuilderComponent implements OnInit {
           });
         });
       });
-      parent.children.splice(idx as number + 1, 0, newNode);
+      parent.children.splice((idx as number) + 1, 0, newNode);
       if (parent) {
         if (parent.type == 'mainTab' || parent.type == 'dropdown') {
           parent.nodes = parent.children.length;
@@ -2477,10 +2983,8 @@ export class BuilderComponent implements OnInit {
     } else {
       this.toastr.error("Don't copy this !", { nzDuration: 3000 });
     }
-
   }
   traverseAndChange(node: any) {
-
     if (node) {
       node = this.changeIdAndkey(node);
       if (node.children) {
@@ -2492,7 +2996,7 @@ export class BuilderComponent implements OnInit {
   }
   changeIdAndkey(node: any) {
     if (node.id) {
-      let changeId = node.id.split('_')
+      let changeId = node.id.split('_');
       if (changeId.length == 2) {
         node.id = this.screenId + '_' + changeId[0] + '_' + Guid.newGuid();
       } else {
@@ -2503,10 +3007,10 @@ export class BuilderComponent implements OnInit {
       if (node.formly[0].key) {
         node.formly[0].key = node.formly[0].key + Guid.newGuid();
       } else if (node.formly[0].fieldGroup[0].key) {
-        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key + Guid.newGuid();
+        node.formly[0].fieldGroup[0].key =
+          node.formly[0].fieldGroup[0].key + Guid.newGuid();
       }
-    }
-    else if (node.key) {
+    } else if (node.key) {
       node.key = node.key + Guid.newGuid();
     }
     return node;
@@ -2515,17 +3019,25 @@ export class BuilderComponent implements OnInit {
   addFunctionsInHtml(type: any) {
     this.addControl = true;
     this.showNotification = false;
-    if (type == "dashonictabsAddNew")
+    if (type == 'dashonictabsAddNew')
       this.addChildControlsWithSubChild('mainTab', 'tabs');
-    else if (type == "stepperAddNew")
+    else if (type == 'stepperAddNew')
       this.addChildControlsWithSubChild('mainStep', 'step');
-    else if (type == "kanabnAddNew")
+    else if (type == 'kanabnAddNew')
       this.addChildControls('kanban', 'kanbanTask');
-    else if (type == "listWithComponents")
-      this.addChildControlsWithSubChild('listWithComponents', 'listWithComponentsChild');
-    else if (type == "address_form" || type == "employee_form" || type == "login_Form" || type == "signUp_Form")
+    else if (type == 'listWithComponents')
+      this.addChildControlsWithSubChild(
+        'listWithComponents',
+        'listWithComponentsChild'
+      );
+    else if (
+      type == 'address_form' ||
+      type == 'employee_form' ||
+      type == 'login_Form' ||
+      type == 'signUp_Form'
+    )
       this.formDataFromApi(type);
-    else if (type == "addSection") {
+    else if (type == 'addSection') {
       this.addSection('sections');
     }
     this.addControl = false;
@@ -2563,33 +3075,35 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   formDataFromApi(screenId: any) {
-    this.requestSubscription = this.builderService.genericApis(screenId).subscribe({
-      next: (res) => {
-        this.nodes[0].children[1].children.push(res[0])
-        this.updateNodes();
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-
-    });
+    this.requestSubscription = this.builderService
+      .genericApis(screenId)
+      .subscribe({
+        next: (res) => {
+          this.nodes[0].children[1].children.push(res[0]);
+          this.updateNodes();
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
   }
   dashonicTemplates(model: any) {
-    this.requestSubscription = this.builderService.dashonicTemplates(model).subscribe({
-      next: (res) => {
-        this.selectedNode?.children?.push(res);
-        this.updateNodes();
-        this.toastr.success('Controll Added', { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
+    this.requestSubscription = this.builderService
+      .dashonicTemplates(model)
+      .subscribe({
+        next: (res) => {
+          this.selectedNode?.children?.push(res);
+          this.updateNodes();
+          this.toastr.success('Controll Added', { nzDuration: 3000 });
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        },
+      });
   }
   remove(parent: any, node: any) {
-
     if (parent?.parentNode && node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
@@ -2605,11 +3119,12 @@ export class BuilderComponent implements OnInit {
     }
     this.updateNodes();
   }
-  nzEvent(event: NzFormatEmitEvent): void {
-  }
+  nzEvent(event: NzFormatEmitEvent): void { }
 
   clickBack() {
-    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
+    this.nodes = this.jsonParseWithObject(
+      this.jsonStringifyWithObject(this.nodes)
+    );
   }
   // EnumView() {
   //   this.requestSubscription = this.builderService.multiAPIData().subscribe({
@@ -2630,36 +3145,61 @@ export class BuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
     let needToUpdate = true;
     switch (event.type) {
-      case "body":
+      case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
-      case "sections":
-      case "tabs":
-      case "step":
-      case "div":
-      case "listWithComponentsChild":
-      case "cardWithComponents":
+      case 'sections':
+      case 'tabs':
+      case 'step':
+      case 'div':
+      case 'listWithComponentsChild':
+      case 'cardWithComponents':
         if (this.selectedNode.id) {
           if (event.type == 'div') {
-            this.selectedNode.imageSrc = event.form.imageSrc ? event.form.imageSrc : this.dataSharedService.imageUrl;
+            this.selectedNode.imageSrc = event.form.imageSrc
+              ? event.form.imageSrc
+              : this.dataSharedService.imageUrl;
             if (event.form.divRepeat > 0) {
-              this.addDynamic(event.form.nodes, 'step', 'mainStep')
+              this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
           }
           if (event.type == 'sections') {
-            const filteredNodes = this.filterInputElements(this.selectedNode?.children?.[1]?.children);
-            filteredNodes.forEach(node => {
-              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(event.form, node.formly[0].fieldGroup);
+            const filteredNodes = this.filterInputElements(
+              this.selectedNode?.children?.[1]?.children
+            );
+            filteredNodes.forEach((node) => {
+              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
+                event.form,
+                node.formly[0].fieldGroup
+              );
             });
             this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
               if (!element.formly) {
                 element['tooltipIcon'] = event.form.tooltipIcon;
               }
             });
+            if (Array.isArray(event.form.className)) {
+              if (event.form.className.length > 0) {
+                let classArray: any;
+                for (let i = 0; i < event.form.className.length; i++) {
+                  if (i == 0) {
+                    classArray = event.form.className[i];
+                  }
+                  else {
+                    classArray = classArray + ' ' + event.form.className[i];
+                  }
+                };
+                this.selectedNode['className'] = classArray;
+              }
+            }
+            else {
+              this.selectedNode['className'] = event.form.className;
+            }
             this.selectedNode.title = event.form.title;
-            this.selectedNode.className = event.form.className;
+            // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
-            this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+            this.selectedNode['tooltipWithoutIcon'] =
+              event.form.tooltipWithoutIcon;
             this.selectedNode.hideExpression = event.form.hideExpression;
             this.selectedNode['id'] = event.form?.id;
             this.selectedNode['key'] = event.form?.key;
@@ -2679,52 +3219,111 @@ export class BuilderComponent implements OnInit {
               this.clickBack();
             }
           }
-          this.selectedNode['checkData'] = this.selectedNode.checkData == undefined ? '' : this.selectedNode.checkData;
-          let check = this.arrayEqual(this.selectedNode.checkData, event.tableDta == undefined ? event.tableDta : this.selectedNode.tableBody);
+          this.selectedNode['checkData'] =
+            this.selectedNode.checkData == undefined
+              ? ''
+              : this.selectedNode.checkData;
+          let check = this.arrayEqual(
+            this.selectedNode.checkData,
+            event.tableDta == undefined
+              ? event.tableDta
+              : this.selectedNode.tableBody
+          );
           if (!check) {
             if (event.dbData) {
               for (let index = 0; index < event.dbData.length; index++) {
                 const item = event.dbData[index];
                 let newNode: any = {};
-                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
-                  newNode = JSON.parse(JSON.stringify(this.selectedNode?.children));
+                if (
+                  event.type == 'tabs' ||
+                  event.type == 'step' ||
+                  event.type == 'div' ||
+                  event.type == 'listWithComponentsChild' ||
+                  event.type == 'cardWithComponents'
+                ) {
+                  newNode = JSON.parse(
+                    JSON.stringify(this.selectedNode?.children)
+                  );
+                } else {
+                  newNode = JSON.parse(
+                    JSON.stringify(
+                      this.selectedNode?.children?.[1]?.children?.[0]
+                    )
+                  );
                 }
-                else {
-                  newNode = JSON.parse(JSON.stringify(this.selectedNode?.children?.[1]?.children?.[0]));
-                }
-                if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
+                if (
+                  event.type == 'tabs' ||
+                  event.type == 'step' ||
+                  event.type == 'div' ||
+                  event.type == 'listWithComponentsChild' ||
+                  event.type == 'cardWithComponents'
+                ) {
                   if (event.tableDta) {
                     event.tableDta.forEach((element: any) => {
                       if (newNode.length) {
                         newNode.forEach((j: any) => {
-                          const keyObj = this.findObjectByKey(j, element.fileHeader);
+                          const keyObj = this.findObjectByKey(
+                            j,
+                            element.fileHeader
+                          );
                           if (keyObj && element.defaultValue) {
-                            const updatedObj = this.dataReplace(keyObj, item, element);
-                            j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                            const updatedObj = this.dataReplace(
+                              keyObj,
+                              item,
+                              element
+                            );
+                            j = this.replaceObjectByKey(
+                              j,
+                              keyObj.key,
+                              updatedObj
+                            );
                           }
                         });
                       }
                     });
                   }
-                }
-                else if (event.type != 'tabs' && event.type != 'step' && event.type != 'div' && event.type != 'listWithComponentsChild' && event.type != 'cardWithComponents') {
+                } else if (
+                  event.type != 'tabs' &&
+                  event.type != 'step' &&
+                  event.type != 'div' &&
+                  event.type != 'listWithComponentsChild' &&
+                  event.type != 'cardWithComponents'
+                ) {
                   if (event.tableDta) {
                     event.tableDta.forEach((element: any) => {
-                      const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                      const keyObj = this.findObjectByKey(
+                        newNode,
+                        element.fileHeader
+                      );
                       if (keyObj && element.defaultValue) {
-                        const updatedObj = this.dataReplace(keyObj, item, element);
-                        newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                        const updatedObj = this.dataReplace(
+                          keyObj,
+                          item,
+                          element
+                        );
+                        newNode = this.replaceObjectByKey(
+                          newNode,
+                          keyObj.key,
+                          updatedObj
+                        );
                       }
                     });
                   }
                 }
                 const { selectedNode } = this;
                 if (selectedNode && selectedNode.children) {
-                  if (event.type == 'tabs' || event.type == 'step' || event.type == 'div' || event.type == 'listWithComponentsChild' || event.type == 'cardWithComponents') {
+                  if (
+                    event.type == 'tabs' ||
+                    event.type == 'step' ||
+                    event.type == 'div' ||
+                    event.type == 'listWithComponentsChild' ||
+                    event.type == 'cardWithComponents'
+                  ) {
                     selectedNode.children = newNode;
-                  }
-                  else if (selectedNode.children[1]) {
-                    selectedNode.children[1].children = newNode ? [newNode] : [];
+                  } else if (selectedNode.children[1]) {
+                    selectedNode.children[1].children = newNode
+                      ? [newNode]
+                      : [];
                   }
                   this.updateNodes();
                 }
@@ -2736,117 +3335,134 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.tableBody = event.tableDta;
             this.selectedNode.mapApi = event.form.mapApi;
             if (event.tableDta) {
-              this.selectedNode.checkData = JSON.parse(JSON.stringify(event.tableDta));
+              this.selectedNode.checkData = JSON.parse(
+                JSON.stringify(event.tableDta)
+              );
             }
-          }
-          else {
+          } else {
             alert('change Data if you want mapping');
           }
           this.updateNodes();
         }
         break;
 
-      case "anchor":
-      case "mentions":
-      case "treeSelect":
-      case "tree": case "treeView": case "cascader":
+      case 'anchor':
+      case 'mentions':
+      case 'treeSelect':
+      case 'tree':
+      case 'treeView':
+      case 'cascader':
         if (event.tableDta) {
           this.selectedNode.nodes = event.tableDta;
         }
         if (event.form.api) {
-          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-            next: (res) => {
-              switch (event.type) {
-                case "anchor":
-                case "mentions":
-                  this.selectedNode.options = res;
-                  break;
-                case "treeSelect":
-                case "tree": case "treeView": case "cascader":
-                  this.selectedNode.nodes = res;
-                  break;
-                case "transfer":
-                  this.selectedNode.list = res;
-                  break;
-                default:
-                  break;
-              }
-              this.updateNodes();
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-          })
+          this.requestSubscription = this.builderService
+            .genericApis(event.form.api)
+            .subscribe({
+              next: (res) => {
+                switch (event.type) {
+                  case 'anchor':
+                  case 'mentions':
+                    this.selectedNode.options = res;
+                    break;
+                  case 'treeSelect':
+                  case 'tree':
+                  case 'treeView':
+                  case 'cascader':
+                    this.selectedNode.nodes = res;
+                    break;
+                  case 'transfer':
+                    this.selectedNode.list = res;
+                    break;
+                  default:
+                    break;
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+              },
+            });
         }
         break;
-      case "mainTab":
+      case 'mainTab':
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
-      case "mainStep":
-        this.addDynamic(event.form.nodes, 'step', 'mainStep')
+      case 'mainStep':
+        this.addDynamic(event.form.nodes, 'step', 'mainStep');
         break;
-      case "listWithComponents":
-        this.addDynamic(event.form.nodes, 'listWithComponentsChild', 'listWithComponents');
+      case 'listWithComponents':
+        this.addDynamic(
+          event.form.nodes,
+          'listWithComponentsChild',
+          'listWithComponents'
+        );
         break;
-      case "mainDiv":
+      case 'mainDiv':
         this.addDynamic(event.form.divRepeat, 'div', 'mainDiv');
         break;
-      case "rate":
+      case 'rate':
         if (event.tableDta) {
-          this.selectedNode.options = event.tableDta.map((option: any) => option.label);
+          this.selectedNode.options = event.tableDta.map(
+            (option: any) => option.label
+          );
         } else {
-          this.selectedNode.options = this.selectedNode.options.map((option: any) => option.label);
+          this.selectedNode.options = this.selectedNode.options.map(
+            (option: any) => option.label
+          );
         }
         break;
 
-      case "statistic":
+      case 'statistic':
         if (event.tableDta) {
-          this.selectedNode.statisticArray = event.tableDta
+          this.selectedNode.statisticArray = event.tableDta;
         } else {
-          this.selectedNode.statisticArray = this.selectedNode.statisticArray
+          this.selectedNode.statisticArray = this.selectedNode.statisticArray;
         }
         break;
-      case "button":
-      case "linkbutton":
+      case 'button':
+      case 'linkbutton':
         this.selectedNode.btnIcon = event.form?.icon;
+        // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
-      case "accordionButton":
+      case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
         break;
-      case "segmented": case "tag":
+      case 'segmented':
+      case 'tag':
         if (event.tableDta) {
-          this.selectedNode.options = event.tableDta
+          this.selectedNode.options = event.tableDta;
         } else {
-          this.selectedNode.options = this.selectedNode.options
+          this.selectedNode.options = this.selectedNode.options;
         }
         break;
-      case "select":
-      case "repeatSection":
-      case "multiselect":
+      case 'select':
+      case 'repeatSection':
+      case 'multiselect':
       // case "tag":
-      case "search":
-      case "radiobutton":
-      case "checkbox":
-      case "decimal":
-      case "input":
-      case "inputGroup":
-      case "image":
-      case "telephone":
-      case "textarea":
-      case "time":
-      case "timepicker":
-      case "month":
-      case "year":
-      case "week":
-      case "datetime":
-      case "date":
-      case "color":
-      case "autoComplete":
-      case "number":
-      case "customMasking":
-      case "url":
+      case 'search':
+      case 'radiobutton':
+      case 'checkbox':
+      case 'decimal':
+      case 'input':
+      case 'inputGroup':
+      case 'image':
+      case 'telephone':
+      case 'textarea':
+      case 'time':
+      case 'timepicker':
+      case 'month':
+      case 'year':
+      case 'week':
+      case 'datetime':
+      case 'date':
+      case 'color':
+      case 'autoComplete':
+      case 'number':
+      case 'customMasking':
+      case 'url':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -2856,18 +3472,20 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['copyJsonIcon'] = event.form.copyJsonIcon;
           // this.selectedNode.className = event.form.className;
           this.selectedNode['tooltip'] = event.form.tooltip;
-          this.selectedNode['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
+          this.selectedNode['tooltipWithoutIcon'] =
+            event.form.tooltipWithoutIcon;
           this.selectedNode.hideExpression = event.form.hideExpression;
-          this.selectedNode.formly?.forEach(elementV1 => {
+          this.selectedNode.formly?.forEach((elementV1) => {
             // MapOperator(elementV1 = currentData);
             const formly = elementV1 ?? {};
             const fieldGroup = formly.fieldGroup ?? [];
             fieldGroup[0].defaultValue = event.form.defaultValue;
             if (fieldGroup[0]['key'] != event.form.key) {
               if (fieldGroup[0] && fieldGroup[0].key)
-                this.formlyModel[event.form.key] = this.formlyModel[fieldGroup[0]['key'] as string];
+                this.formlyModel[event.form.key] =
+                  this.formlyModel[fieldGroup[0]['key'] as string];
             }
-            fieldGroup[0]['key'] = event.form.key
+            fieldGroup[0]['key'] = event.form.key;
             // fieldGroup[0].hideExpression = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             if (event.form.formlyTypes) {
@@ -2876,10 +3494,13 @@ export class BuilderComponent implements OnInit {
                 this.selectedNode.formlyType = event.form.formlyTypes.parameter;
                 fieldGroup[0]['type'] = event.form.formlyTypes.type;
                 props['type'] = event.form.formlyTypes.fieldType;
-                props['options'] = this.makeFormlyOptions(event.form.formlyTypes?.options, event.form.formlyTypes.type);
+                props['options'] = this.makeFormlyOptions(
+                  event.form.formlyTypes?.options,
+                  event.form.formlyTypes.type
+                );
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
                 // this.selectedNode['id'] = this.screenName + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
-              };
+              }
             }
             if (Array.isArray(event.form.className)) {
               if (event.form.className.length > 0) {
@@ -2887,22 +3508,22 @@ export class BuilderComponent implements OnInit {
                 for (let i = 0; i < event.form.className.length; i++) {
                   if (i == 0) {
                     classArray = event.form.className[i];
-                  }
-                  else {
+                  } else {
                     classArray = classArray + ' ' + event.form.className[i];
                   }
-                };
+                }
                 this.selectedNode['className'] = classArray;
                 props['className'] = classArray;
               }
-            }
-            else {
+            } else {
               props['className'] = event.form.className;
               this.selectedNode['className'] = event.form.className;
             }
             props.label = event.form.title;
             // props['key'] = event.form.key
-            this.formlyModel[event.form.key] = event.form.defaultValue ? event.form.defaultValue : this.formlyModel[event.form.key];
+            this.formlyModel[event.form.key] = event.form.defaultValue
+              ? event.form.defaultValue
+              : this.formlyModel[event.form.key];
             this.updateFormlyModel();
             props['className'] = event.form.className;
             // props['hideExpression'] = event.form.hideExpression;
@@ -2926,38 +3547,54 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['prefixicon'] = event.form.prefixicon;
             props['additionalProperties']['suffixicon'] = event.form.suffixicon;
             props['additionalProperties']['border'] = event.form.border;
-            props['additionalProperties']['requiredMessage'] = event.form.requiredMessage;
-            props['additionalProperties']['optionWidth'] = event.form.optionWidth;
+            props['additionalProperties']['requiredMessage'] =
+              event.form.requiredMessage;
+            props['additionalProperties']['optionWidth'] =
+              event.form.optionWidth;
             props['additionalProperties']['step'] = event.form.step;
             props['additionalProperties']['format'] = event.form.format;
             props['additionalProperties']['allowClear'] = event.form.allowClear;
-            props['additionalProperties']['serveSearch'] = event.form.serveSearch;
+            props['additionalProperties']['serveSearch'] =
+              event.form.serveSearch;
             props['additionalProperties']['showArrow'] = event.form.showArrow;
             props['additionalProperties']['showSearch'] = event.form.showSearch;
             props['additionalProperties']['clearIcon'] = event.form.clearIcon;
             props['additionalProperties']['loading'] = event.form.loading;
-            props['additionalProperties']['optionHieght'] = event.form.optionHieght;
-            props['additionalProperties']['optionHoverSize'] = event.form.optionHoverSize;
-            props['additionalProperties']['optionDisabled'] = event.form.optionDisabled;
+            props['additionalProperties']['optionHieght'] =
+              event.form.optionHieght;
+            props['additionalProperties']['optionHoverSize'] =
+              event.form.optionHoverSize;
+            props['additionalProperties']['optionDisabled'] =
+              event.form.optionDisabled;
             props['additionalProperties']['optionHide'] = event.form.optionHide;
-            props['additionalProperties']['firstBtnText'] = event.form.firstBtnText;
-            props['additionalProperties']['secondBtnText'] = event.form.secondBtnText;
+            props['additionalProperties']['firstBtnText'] =
+              event.form.firstBtnText;
+            props['additionalProperties']['secondBtnText'] =
+              event.form.secondBtnText;
             props['additionalProperties']['minuteStep'] = event.form.minuteStep;
             props['additionalProperties']['secondStep'] = event.form.secondStep;
             props['additionalProperties']['hoursStep'] = event.form.hoursStep;
             props['additionalProperties']['use12Hours'] = event.form.use12Hours;
             props['additionalProperties']['icon'] = event.form.icon;
-            props['additionalProperties']['tooltipWithoutIcon'] = event.form.tooltipWithoutIcon;
-            props['additionalProperties']['setVariable'] = event.form?.setVariable;
-            props['additionalProperties']['getVariable'] = event.form?.getVariable;
+            props['additionalProperties']['tooltipWithoutIcon'] =
+              event.form.tooltipWithoutIcon;
+            props['additionalProperties']['setVariable'] =
+              event.form?.setVariable;
+            props['additionalProperties']['getVariable'] =
+              event.form?.getVariable;
             props['additionalProperties']['iconSize'] = event.form?.iconSize;
             props['additionalProperties']['iconType'] = event.form?.iconType;
             props['additionalProperties']['iconColor'] = event.form?.iconColor;
-            props['additionalProperties']['hoverIconColor'] = event.form?.hoverIconColor;
-            props['additionalProperties']['tooltipPosition'] = event.form?.tooltipPosition;
-            props['additionalProperties']['toolTipClass'] = event.form?.toolTipClass;
-            props['additionalProperties']['classesArray'] = event.form?.classesArray;
-            props['additionalProperties']['selectType'] = event.form?.selectType;
+            props['additionalProperties']['hoverIconColor'] =
+              event.form?.hoverIconColor;
+            props['additionalProperties']['tooltipPosition'] =
+              event.form?.tooltipPosition;
+            props['additionalProperties']['toolTipClass'] =
+              event.form?.toolTipClass;
+            props['additionalProperties']['classesArray'] =
+              event.form?.classesArray;
+            props['additionalProperties']['selectType'] =
+              event.form?.selectType;
             // props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
@@ -2969,46 +3606,66 @@ export class BuilderComponent implements OnInit {
             // } else {
             // }
             if (event.form.api) {
-              this.requestSubscription = this.builderService.jsonTagsDataGet(event.form.api).subscribe({
-                next: (res) => {
-                  props.options = res;
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-                }
-              })
+              this.requestSubscription = this.builderService
+                .jsonTagsDataGet(event.form.api)
+                .subscribe({
+                  next: (res) => {
+                    props.options = res;
+                  },
+                  error: (err) => {
+                    console.error(err); // Log the error to the console
+                    this.toastr.error('An error occurred', {
+                      nzDuration: 3000,
+                    }); // Show an error message to the user
+                  },
+                });
             }
           });
           this.updateNodes();
         }
         break;
-      case "inputValidationRule":
+      case 'inputValidationRule':
         if (this.selectedNode) {
-          const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+          const selectedScreen = this.screens.filter(
+            (a: any) => a.name == this.screenName
+          );
           const jsonRuleValidation = {
-            "screenName": this.screenName,
-            "screenId": this._id,
-            "id": this.selectedNode.id,
-            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-            "type": event.form.type,
-            "label": event.form.label,
-            "reference": event.form.reference,
-            "minlength": event.form.minlength,
-            "maxlength": event.form.maxlength,
-            "pattern": event.form.pattern,
-            "required": event.form.required,
-            "emailTypeAllow": event.form.emailTypeAllow,
-          }
+            screenName: this.screenName,
+            screenId: this._id,
+            id: this.selectedNode.id,
+            key: this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            type: event.form.type,
+            label: event.form.label,
+            reference: event.form.reference,
+            minlength: event.form.minlength,
+            maxlength: event.form.maxlength,
+            pattern: event.form.pattern,
+            required: event.form.required,
+            emailTypeAllow: event.form.emailTypeAllow,
+          };
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          this.applicationService.addNestCommonAPI('validation-rule', JOIData).subscribe({
-            next: (res) => {
-              this.toastr.success('Validation Rule Save Successfully', { nzDuration: 3000 })
-            },
-            error: (err) => {
-              this.toastr.error('validation rule not save, some exception unhandle', { nzDuration: 3000 })
-            }
-          });
+          const validationRuleModel = {
+            ValidationRule: JOIData,
+          };
+          this.applicationService
+            .addNestCommonAPI('cp', validationRuleModel)
+            .subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  this.toastr.success(`Validation Rule: ${res.message}`, {
+                    nzDuration: 3000,
+                  });
+                } else
+                  this.toastr.error(`Validation Rule: ${res.message}`, {
+                    nzDuration: 3000,
+                  });
+              },
+              error: (err: any) => {
+                this.toastr.error(`Validation Rules: ${err}`, {
+                  nzDuration: 3000,
+                });
+              },
+            });
           // if (selectedScreen.length > 0) {
           //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
           //     getRes;
@@ -3028,25 +3685,23 @@ export class BuilderComponent implements OnInit {
           // }
         }
         break;
-      case "avatar":
+      case 'avatar':
         if (event.form.src) {
           this.selectedNode.src = event.form.src;
-        }
-        else if (this.dataSharedService.imageUrl) {
+        } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.src = this.dataSharedService.imageUrl;
           this.dataSharedService.imageUrl = '';
         }
         break;
-      case "imageUpload":
+      case 'imageUpload':
         if (event.form.source) {
           this.dataSharedService.imageUrl = '';
           this.selectedNode.base64Image = '';
-        }
-        else if (this.dataSharedService.imageUrl) {
+        } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.base64Image = this.dataSharedService.imageUrl;
         }
         break;
-      case "calender":
+      case 'calender':
         if (this.selectedNode.id) {
           if (event.form.statusApi != undefined) {
             this.selectedNode.options = INITIAL_EVENTS;
@@ -3063,13 +3718,17 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      case "gridList":
+      case 'gridList':
         if (this.selectedNode.id) {
-          this.selectedNode.sortDirections = event.form.sortDirections ? JSON.parse(event.form.sortDirections) : event.form?.sortDirections;
+          this.selectedNode.sortDirections = event.form.sortDirections
+            ? JSON.parse(event.form.sortDirections)
+            : event.form?.sortDirections;
           this.selectedNode.className = event.form?.className;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.rowClickApi = event.form?.rowClickApi;
-          this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
+          this.selectedNode.tableHeaders = event.tableDta
+            ? event.tableDta
+            : event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
@@ -3090,62 +3749,70 @@ export class BuilderComponent implements OnInit {
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
-          this.selectedNode.columnData = this.updateTableData(event.tableDta ? event.tableDta : event.form.options, event.tableDta ? event.tableDta : event.form.options);
+          this.selectedNode.columnData = this.updateTableData(
+            event.tableDta ? event.tableDta : event.form.options,
+            event.tableDta ? event.tableDta : event.form.options
+          );
           if (event.form.api) {
-            this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-              next: (res) => {
-                this.selectedNode.tableData = res.tableData;
-                this.selectedNode.tableHeaders = res.tableHeaders;
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
+            this.requestSubscription = this.builderService
+              .genericApis(event.form.api)
+              .subscribe({
+                next: (res) => {
+                  this.selectedNode.tableData = res.tableData;
+                  this.selectedNode.tableHeaders = res.tableHeaders;
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+                },
+              });
           }
           if (this.selectedNode.noResult) {
             if (this.selectedNode.tableData.length > 0) {
-              this.selectedNode['tableNoResultArray'] = this.selectedNode.tableData;
+              this.selectedNode['tableNoResultArray'] =
+                this.selectedNode.tableData;
               this.selectedNode.tableData = [];
             }
-          }
-          else {
+          } else {
             if (this.selectedNode['tableNoResultArray'])
-              this.selectedNode.tableData = this.selectedNode['tableNoResultArray'];
+              this.selectedNode.tableData =
+                this.selectedNode['tableNoResultArray'];
           }
         }
         break;
 
-      case "dropdownButton":
+      case 'dropdownButton':
         this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
           this.selectedNode.dropdownOptions = event.tableDta;
         }
         break;
-      case "fixedDiv":
+      case 'fixedDiv':
         if (event.form.api) {
-          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-            next: (res) => {
-              if (Array.isArray(res)) {
-                res.forEach((item) => {
-                  this.selectedNode?.children?.push(item);
-                })
-              } else {
-                this.selectedNode?.children?.push(res);
-              }
-              this.updateNodes();
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-          })
+          this.requestSubscription = this.builderService
+            .genericApis(event.form.api)
+            .subscribe({
+              next: (res) => {
+                if (Array.isArray(res)) {
+                  res.forEach((item) => {
+                    this.selectedNode?.children?.push(item);
+                  });
+                } else {
+                  this.selectedNode?.children?.push(res);
+                }
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+              },
+            });
         }
         break;
-      case "chart":
+      case 'chart':
         if (this.selectedNode) {
           var seriesList = [];
-          var ans = Array.isArray(event.form.options[0].data)
+          var ans = Array.isArray(event.form.options[0].data);
           if (ans != true) {
             {
               var arrayData = event.form.options[0].data.split(',');
@@ -3155,34 +3822,43 @@ export class BuilderComponent implements OnInit {
             }
           } else {
             seriesList = event.form.options[0].data;
-          };
+          }
           this.selectedNode.section[0].filterData[0].heading = event.form.title;
-          this.selectedNode.section[0].filterData[0].subheading = event.form.sub_label;
+          this.selectedNode.section[0].filterData[0].subheading =
+            event.form.sub_label;
           // this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = event.form.options;
-          this.selectedNode.section[0].filterData[0].price = event.form.options[0].price;
-          this.selectedNode.section[0].filterData[0].refundsChart.colors = event.form.options[0].colors;
-          this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = seriesList;
+          this.selectedNode.section[0].filterData[0].price =
+            event.form.options[0].price;
+          this.selectedNode.section[0].filterData[0].refundsChart.colors =
+            event.form.options[0].colors;
+          this.selectedNode.section[0].filterData[0].refundsChart.series[0].data =
+            seriesList;
           this.selectedNode.link = event.form.link;
           if (event.form.link) {
-            this.requestSubscription = this.builderService.salesDataApi().subscribe({
-              next: (res) => {
-                if (this.selectedNode.section) {
-                  this.selectedNode.section[0].price = res[0]?.price;
-                  this.selectedNode.section[0].filterData[0].price = res[0]?.price;
-                  this.selectedNode.section[0].colors = res[0]?.colors;
-                  this.selectedNode.section[0].data = res[0]?.data;
-                  this.selectedNode.section[0].filtertype = res[0]?.filter;
-                  this.selectedNode.section[0].filterData[0].refundsChart.series[0].data = res[0]?.data;
-                  this.selectedNode.section[0].filterData[0].refundsChart.colors = res[0]?.colors;
-                }
-                this.updateNodes()
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            });
-            event.form.link = "";
+            this.requestSubscription = this.builderService
+              .salesDataApi()
+              .subscribe({
+                next: (res) => {
+                  if (this.selectedNode.section) {
+                    this.selectedNode.section[0].price = res[0]?.price;
+                    this.selectedNode.section[0].filterData[0].price =
+                      res[0]?.price;
+                    this.selectedNode.section[0].colors = res[0]?.colors;
+                    this.selectedNode.section[0].data = res[0]?.data;
+                    this.selectedNode.section[0].filtertype = res[0]?.filter;
+                    this.selectedNode.section[0].filterData[0].refundsChart.series[0].data =
+                      res[0]?.data;
+                    this.selectedNode.section[0].filterData[0].refundsChart.colors =
+                      res[0]?.colors;
+                  }
+                  this.updateNodes();
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+                },
+              });
+            event.form.link = '';
           }
         }
         break;
@@ -3201,8 +3877,10 @@ export class BuilderComponent implements OnInit {
       //     })
       //   }
       //   break;
-      case "page":
-        this.selectedNode.options = event.tableDta ? event.tableDta : event.form?.options;
+      case 'page':
+        this.selectedNode.options = event.tableDta
+          ? event.tableDta
+          : event.form?.options;
         if (
           this.selectedNode &&
           this.selectedNode.children &&
@@ -3214,7 +3892,9 @@ export class BuilderComponent implements OnInit {
               if (!element1.formly) {
                 element1['tooltipIcon'] = event.form.tooltipIcon;
               } else if (element1.formly) {
-                element1.formly[0].fieldGroup[0].props['additionalProperties']['tooltipIcon'] = JSON.parse(JSON.stringify(event.form.tooltipIcon));
+                element1.formly[0].fieldGroup[0].props['additionalProperties'][
+                  'tooltipIcon'
+                ] = JSON.parse(JSON.stringify(event.form.tooltipIcon));
               }
             });
           });
@@ -3222,93 +3902,107 @@ export class BuilderComponent implements OnInit {
         this.cdr.detectChanges();
         break;
 
-
-      case "kanbanTask":
+      case 'kanbanTask':
         if (this.selectedNode.id) {
           if (this.selectedNode.children) {
             for (let i = 0; i < this.selectedNode.children.length; i++) {
               this.selectedNode.children[i].id = event.form.options[i].id;
               this.selectedNode.children[i].title = event.form.options[i].title;
               this.selectedNode.children[i].date = event.form.options[i].date;
-              this.selectedNode.children[i].content = event.form.options[i].content;
-              this.selectedNode.children[i].users = JSON.parse(event.form.options[i].users);
-              this.selectedNode.children[i].status = event.form.options[i].status;
-              this.selectedNode.children[i].variant = event.form.options[i].variant;
+              this.selectedNode.children[i].content =
+                event.form.options[i].content;
+              this.selectedNode.children[i].users = JSON.parse(
+                event.form.options[i].users
+              );
+              this.selectedNode.children[i].status =
+                event.form.options[i].status;
+              this.selectedNode.children[i].variant =
+                event.form.options[i].variant;
             }
           }
 
           if (event.form.kanbanTaskApi != undefined) {
-            this.requestSubscription = this.builderService.genericApis(event.form.kanbanTaskApi).subscribe({
-              next: (res) => {
-                this.selectedNode = res;
-                for (let index = 0; index < res.length; index++) {
-                  this.selectedNode.id = res[index].id;
-                  this.selectedNode.title = res[index].title;
-                  this.selectedNode.date = res[index].date;
-                  this.selectedNode.users = res[index].users;
-                  this.selectedNode.status = res[index].status;
-                  this.selectedNode.variant = res[index].variant;
-                  this.selectedNode.content = res[index].content;
-                }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-              }
-            })
+            this.requestSubscription = this.builderService
+              .genericApis(event.form.kanbanTaskApi)
+              .subscribe({
+                next: (res) => {
+                  this.selectedNode = res;
+                  for (let index = 0; index < res.length; index++) {
+                    this.selectedNode.id = res[index].id;
+                    this.selectedNode.title = res[index].title;
+                    this.selectedNode.date = res[index].date;
+                    this.selectedNode.users = res[index].users;
+                    this.selectedNode.status = res[index].status;
+                    this.selectedNode.variant = res[index].variant;
+                    this.selectedNode.content = res[index].content;
+                  }
+                  this.updateNodes();
+                },
+                error: (err) => {
+                  console.error(err); // Log the error to the console
+                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+                },
+              });
           }
           this.updateNodes();
         }
         break;
-      case "carouselCrossfade":
-        event.tableDta != undefined ? this.selectedNode.carousalConfig = event.tableDta : this.selectedNode.carousalConfig = this.selectedNode.carousalConfig;
-        if (event.form.link != undefined || event.form.link != "") {
-          this.requestSubscription = this.builderService.genericApis(event.form.link).subscribe({
-            next: (res) => {
-              this.selectedNode.carousalConfig = res;
-              this.updateNodes();
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-
-          })
+      case 'carouselCrossfade':
+        event.tableDta != undefined
+          ? (this.selectedNode.carousalConfig = event.tableDta)
+          : (this.selectedNode.carousalConfig =
+            this.selectedNode.carousalConfig);
+        if (event.form.link != undefined || event.form.link != '') {
+          this.requestSubscription = this.builderService
+            .genericApis(event.form.link)
+            .subscribe({
+              next: (res) => {
+                this.selectedNode.carousalConfig = res;
+                this.updateNodes();
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+              },
+            });
         }
         break;
-      case "timeline":
+      case 'timeline':
         this.selectedNode['data'] = event.form.options;
         if (event.tableDta) {
           this.selectedNode.data = event.tableDta;
         }
         if (event.form.api) {
-          this.requestSubscription = this.builderService.genericApis(event.form.api).subscribe({
-            next: (res) => {
-              if (res) {
-                this.selectedNode.data = res;
-                this.updateNodes();
-              }
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
-          })
+          this.requestSubscription = this.builderService
+            .genericApis(event.form.api)
+            .subscribe({
+              next: (res) => {
+                if (res) {
+                  this.selectedNode.data = res;
+                  this.updateNodes();
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+              },
+            });
         }
         break;
-      case "simpleCardWithHeaderBodyFooter":
+      case 'simpleCardWithHeaderBodyFooter':
         if (event.form.imageSrc) {
           this.selectedNode.imageSrc = event.form.imageSrc;
-        }
-        else if (this.dataSharedService.imageUrl) {
+        } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
         }
         break;
-      case "barChart":
+      case 'barChart':
         if (this.selectedNode) {
           let data = event.form.columnNames;
-          data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
+          data.push(
+            { role: 'style', type: 'string' },
+            { role: 'annotation', type: 'string' }
+          );
           this.selectedNode.columnNames = data;
           this.selectedNode.options = {
             chart: {
@@ -3317,27 +4011,36 @@ export class BuilderComponent implements OnInit {
             },
             hAxis: {
               title: event.form.hAxisTitle,
-              minValue: 0
+              minValue: 0,
             },
             vAxis: {
-              title: event.form.vAxisTitle
+              title: event.form.vAxisTitle,
             },
             bar: { groupWidth: event.form.groupWidth },
             bars: event.form.barType,
             isStacked: event.form.isStacked,
-            colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
+            colors: Array.isArray(event.form.color)
+              ? event.form.color
+              : event.form.color?.split(','),
           };
 
           if (event.tableDta) {
             this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, data.value, data.value2]);
+            this.selectedNode.chartData = event.tableDta.map((data: any) => [
+              data.name,
+              data.value,
+              data.value2,
+            ]);
           }
         }
         break;
-      case "pieChart":
+      case 'pieChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.name,
+            Number(data.value),
+          ]);
         }
         this.selectedNode.options = {
           title: event.form.title,
@@ -3345,12 +4048,14 @@ export class BuilderComponent implements OnInit {
           pieHole: event.form.pieHole,
           pieStartAngle: event.form.pieStartAngle,
           sliceVisibilityThreshold: event.form.sliceVisibilityThreshold,
-        }
+        };
         break;
-      case "bubbleChart":
+      case 'bubbleChart':
         this.selectedNode.options.hAxis.fontSize = event.form.fontSize;
-        this.selectedNode.options.bubble.textStyle.fontSize = event.form.fontSize;
-        this.selectedNode.options.bubble.textStyle.fontName = event.form.fontName;
+        this.selectedNode.options.bubble.textStyle.fontSize =
+          event.form.fontSize;
+        this.selectedNode.options.bubble.textStyle.fontName =
+          event.form.fontName;
         this.selectedNode.options.bubble.textStyle.color = event.form.color;
         this.selectedNode.options.bubble.textStyle.bold = event.form.bold;
         this.selectedNode.options.bubble.textStyle.italic = event.form.italic;
@@ -3358,90 +4063,138 @@ export class BuilderComponent implements OnInit {
           title: event.form.title,
           hAxis: { title: event.form.hAxisTitle },
           vAxis: { title: event.form.vAxisTitle },
-          colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
+          colorAxis: {
+            colors: Array.isArray(event.form.colorAxis)
+              ? event.form.colorAxis
+              : event.form.colorAxis?.split(','),
+          },
           bubble: {
             textStyle: {
               fontSize: event.form.fontSize,
               fontName: event.form.fontName,
               color: event.form.color,
               bold: event.form.bold,
-              italic: event.form.italic
-            }
-          }
-
+              italic: event.form.italic,
+            },
+          },
         };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, Number(data.x), Number(data.y), Number(data.temprature)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.id,
+            Number(data.x),
+            Number(data.y),
+            Number(data.temprature),
+          ]);
         }
         break;
-      case "candlestickChart":
+      case 'candlestickChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.name, Number(data.value), Number(data.value1), Number(data.value2), Number(data.value3)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.name,
+            Number(data.value),
+            Number(data.value1),
+            Number(data.value2),
+            Number(data.value3),
+          ]);
         }
         break;
-      case "columnChart":
+      case 'columnChart':
         let data = event.form.columnNames;
-        data.push({ role: 'style', type: 'string' }, { role: 'annotation', type: 'string' });
+        data.push(
+          { role: 'style', type: 'string' },
+          { role: 'annotation', type: 'string' }
+        );
         this.selectedNode.columnNames = data;
         this.selectedNode.options = {
           title: event.form.title,
           bar: { groupWidth: event.form.groupWidth },
-          legend: { position: event.form.position, maxLines: event.form.maxLines },
+          legend: {
+            position: event.form.position,
+            maxLines: event.form.maxLines,
+          },
           hAxis: {
-            title: event.form?.hAxisTitle
+            title: event.form?.hAxisTitle,
           },
           vAxis: {
             title: event.form?.vAxisTitle,
           },
           isStacked: event.form.isStacked,
-          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(',')
-        }
+          colors: Array.isArray(event.form.color)
+            ? event.form.color
+            : event.form.color?.split(','),
+        };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode['chartData'] = event.tableDta.map((data: any) => [data.id, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6), data.style, data.annotation]);
+          this.selectedNode['chartData'] = event.tableDta.map((data: any) => [
+            data.id,
+            Number(data.col1),
+            Number(data.col2),
+            Number(data.col3),
+            Number(data.col4),
+            Number(data.col5),
+            Number(data.col6),
+            data.style,
+            data.annotation,
+          ]);
         }
         break;
-      case "ganttChart":
+      case 'ganttChart':
         this.selectedNode.options = {
-          criticalPathEnabled: event.form.isCriticalPath,//if true then criticalPathStyle apply
+          criticalPathEnabled: event.form.isCriticalPath, //if true then criticalPathStyle apply
           criticalPathStyle: {
             stroke: event.form.stroke,
-            strokeWidth: event.form.isCriticalPath
+            strokeWidth: event.form.isCriticalPath,
           },
           innerGridHorizLine: {
             stroke: event.form.isCriticalPath,
-            strokeWidth: event.form.strokeWidth
+            strokeWidth: event.form.strokeWidth,
           },
           arrow: {
             angle: event.form.angle,
             width: event.form.arrowWidth,
             color: event.form.color,
-            radius: event.form.radius
+            radius: event.form.radius,
           },
           innerGridTrack: { fill: event.form.innerGridTrack },
-          innerGridDarkTrack: { fill: event.form.innerGridDarkTrack }
-        }
+          innerGridDarkTrack: { fill: event.form.innerGridDarkTrack },
+        };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.taskID, data.taskName, data.resource, new Date(data.startDate), new Date(data.endDate), data.duration, data.percentComplete, data.dependencies]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.taskID,
+            data.taskName,
+            data.resource,
+            new Date(data.startDate),
+            new Date(data.endDate),
+            data.duration,
+            data.percentComplete,
+            data.dependencies,
+          ]);
         }
         break;
-      case "geoChart":
+      case 'geoChart':
         this.selectedNode.options = {
           region: event.form.region, // Africa
-          colorAxis: { colors: Array.isArray(event.form.colorAxis) ? event.form.colorAxis : event.form.colorAxis?.split(',') },
+          colorAxis: {
+            colors: Array.isArray(event.form.colorAxis)
+              ? event.form.colorAxis
+              : event.form.colorAxis?.split(','),
+          },
           backgroundColor: event.form.bgColor,
           datalessRegionColor: event.form.color,
           defaultColor: event.form.defaultColor,
         };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            data.value,
+          ]);
         }
         break;
-      case "treeMapChart":
+      case 'treeMapChart':
         this.selectedNode.options = {
           highlightOnMouseOver: event.form.highlightOnMouseOver,
           maxDepth: event.form.width,
@@ -3454,14 +4207,20 @@ export class BuilderComponent implements OnInit {
           maxColor: event.form.maxColor,
           headerHeight: event.form.headerHeight,
           showScale: event.form.showScale,
-          useWeightedAverageForAggregation: event.form.useWeightedAverageForAggregation
+          useWeightedAverageForAggregation:
+            event.form.useWeightedAverageForAggregation,
         };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value1, data.value2, data.value3]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.id,
+            data.value1,
+            data.value2,
+            data.value3,
+          ]);
         }
         break;
-      case "histogramChart":
+      case 'histogramChart':
         this.selectedNode.options.title = event.form.title;
         this.selectedNode.options.legend = event.form.legend;
         this.selectedNode.options.color = event.form.color;
@@ -3470,34 +4229,51 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.options.vAxis = event.form.vAxis;
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            data.value,
+          ]);
         }
         break;
-      case "tableChart":
+      case 'tableChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.col1, data.col2, data.col3, data.col4]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.col1,
+            data.col2,
+            data.col3,
+            data.col4,
+          ]);
         }
         break;
-      case "lineChart":
+      case 'lineChart':
         this.selectedNode.options = {
           chart: {
             title: event.form.title,
             subtitle: event.form.subtitle,
           },
-        }
+        };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [Number(data.id), Number(data.col1), Number(data.col2), Number(data.col3)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            Number(data.id),
+            Number(data.col1),
+            Number(data.col2),
+            Number(data.col3),
+          ]);
         }
         break;
-      case "sankeyChart":
+      case 'sankeyChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.link, data.value]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            data.link,
+            data.value,
+          ]);
         }
         break;
-      case "scatterChart":
+      case 'scatterChart':
         this.selectedNode.subtitle = event.form.subtitle;
         this.selectedNode.options = {
           width: 800,
@@ -3508,101 +4284,152 @@ export class BuilderComponent implements OnInit {
           },
           axes: {
             x: {
-              0: { side: 'top' }
-            }
-          }
-        }
+              0: { side: 'top' },
+            },
+          },
+        };
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.id, data.value]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.id,
+            data.value,
+          ]);
         }
         break;
-      case "areaChart":
+      case 'areaChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            Number(data.col1),
+            Number(data.col2),
+            Number(data.col3),
+            Number(data.col4),
+          ]);
         }
         this.selectedNode.options = {
           title: event.form.title,
           isStacked: event.form.isStacked,
-          legend: { position: event.form.position, maxLines: event.form.maxLines },
+          legend: {
+            position: event.form.position,
+            maxLines: event.form.maxLines,
+          },
           selectionMode: event.form.selectionMode,
           tooltip: { trigger: event.form.tooltip },
-          hAxis: { title: event.form.hAxis, titleTextStyle: { color: event.form.titleTextStyle } },
-          vAxis: { minValue: event.form.minValue }
-        }
+          hAxis: {
+            title: event.form.hAxis,
+            titleTextStyle: { color: event.form.titleTextStyle },
+          },
+          vAxis: { minValue: event.form.minValue },
+        };
         break;
-      case "comboChart":
+      case 'comboChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.col1), Number(data.col2), Number(data.col3), Number(data.col4), Number(data.col5), Number(data.col6)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            Number(data.col1),
+            Number(data.col2),
+            Number(data.col3),
+            Number(data.col4),
+            Number(data.col5),
+            Number(data.col6),
+          ]);
         }
         this.selectedNode.options = {
           title: event.form.title,
           seriesType: event.form.seriesType,
           hAxis: { title: event.form.hAxis },
-          vAxis: { title: event.form.vAxis }
-        }
+          vAxis: { title: event.form.vAxis },
+        };
         break;
-      case "steppedAreaChart":
+      case 'steppedAreaChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, Number(data.value1), Number(data.value2), Number(data.value3), Number(data.value4)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            Number(data.value1),
+            Number(data.value2),
+            Number(data.value3),
+            Number(data.value4),
+          ]);
         }
         this.selectedNode.options = {
           backgroundColor: event.form.bgColor,
           legend: { position: event.form.position },
           connectSteps: event.form.connectSteps,
-          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
+          colors: Array.isArray(event.form.color)
+            ? event.form.color
+            : event.form.color?.split(','),
           isStacked: event.form.isStacked,
           vAxis: {
             minValue: 0,
-            ticks: [0, .3, .6, .9, 1]
+            ticks: [0, 0.3, 0.6, 0.9, 1],
           },
           selectionMode: event.form.selectionMode,
-        }
+        };
         break;
-      case "timelineChart":
+      case 'timelineChart':
         if (event.tableDta) {
           this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [data.label, data.value, new Date(data.startDate), new Date(data.endDate)]);
+          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+            data.label,
+            data.value,
+            new Date(data.startDate),
+            new Date(data.endDate),
+          ]);
         }
         this.selectedNode.options = {
           timeline: {
             showRowLabels: event.form.showRowLabels,
             colorByRowLabel: event.form.colorByRowLabel,
             singleColor: event.form.singleColor,
-            rowLabelStyle: { fontName: event.form.rowLabelFontName, fontSize: event.form.rowLabelFontSize, color: event.form.rowLabelColor },
-            barLabelStyle: { fontName: event.form.barLabelFontName, fontSize: event.form.barLabelFontSize }
+            rowLabelStyle: {
+              fontName: event.form.rowLabelFontName,
+              fontSize: event.form.rowLabelFontSize,
+              color: event.form.rowLabelColor,
+            },
+            barLabelStyle: {
+              fontName: event.form.barLabelFontName,
+              fontSize: event.form.barLabelFontSize,
+            },
           },
           backgroundColor: event.form.bgColor,
           alternatingRowStyle: event.form.alternatingRowStyle,
-          colors: Array.isArray(event.form.color) ? event.form.color : event.form.color?.split(','),
-        }
+          colors: Array.isArray(event.form.color)
+            ? event.form.color
+            : event.form.color?.split(','),
+        };
         break;
       default:
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      debugger
+      // this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
-          let classArray: any;
+          let classArray: string = '';
           for (let i = 0; i < event.form.className.length; i++) {
-            if (i == 0) {
-              classArray = event.form.className[i];
+            const classObj: string[] = event.form.className[i].split(" ");
+            if (classObj.length > 0) {
+              for (let j = 0; j < classObj.length; j++) {
+                if (j === 0 && i === 0) {
+                  classArray = classObj[j];
+                } else {
+                  classArray += ' ' + classObj[j];
+                }
+              }
             }
-            else {
-              classArray = classArray + ' ' + event.form.className[i];
-            }
-          };
-          this.selectedNode['className'] = classArray;
+          }
+          this.selectedNode.className = classArray;
+          this.selectedNode = { ...this.selectedNode, ...event.form };
         }
+      } else {
+        this.selectedNode.className = event.form.className;
       }
-      else {
-        this.selectedNode['className'] = event.form.className;
-      }
-      this.selectedNode = { ...this.selectedNode, ...event.form };
-      this.updateNodes();
+      
+      // this.updateNodes();
     }
     // this.showSuccess();
     this.updateNodes();
@@ -3620,9 +4447,11 @@ export class BuilderComponent implements OnInit {
     return tableData;
   }
   showSuccess() {
-    this.toastr.success('Information update successfully!', { nzDuration: 3000 });
+    this.toastr.success('Information update successfully!', {
+      nzDuration: 3000,
+    });
   }
-  addDynamic(abc: any, subType: any, mainType: any,) {
+  addDynamic(abc: any, subType: any, mainType: any) {
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
@@ -3638,11 +4467,15 @@ export class BuilderComponent implements OnInit {
                   this.addControlToJson('text', this.textJsonObj);
                 }
                 this.selectedNode = this.ParentAdd;
-              }
-              else {
+              } else {
                 if (this.selectedNode?.children) {
-                  if (this.selectedNode && this.selectedNode?.children?.length > 0) {
-                    let updateObj = JSON.parse(JSON.stringify(this.selectedNode.children[0]));
+                  if (
+                    this.selectedNode &&
+                    this.selectedNode?.children?.length > 0
+                  ) {
+                    let updateObj = JSON.parse(
+                      JSON.stringify(this.selectedNode.children[0])
+                    );
                     let ChangeIdKey = this.updateIdsAndKeys(updateObj);
                     this.selectedNode.children?.push(ChangeIdKey);
                   }
@@ -3652,8 +4485,7 @@ export class BuilderComponent implements OnInit {
             }
             this.updateNodes();
           }
-        }
-        else {
+        } else {
           if (this.selectdParentNode.children) {
             let removeTabsLength = this.selectedNode.children.length;
             let checkParentLength = this.selectdParentNode.children.length;
@@ -3662,7 +4494,10 @@ export class BuilderComponent implements OnInit {
                 for (let j = 0; j < removeTabsLength; j++) {
                   if (this.selectdParentNode.children[i].type == mainType) {
                     if (abc < nodesLength) {
-                      this.remove(this.selectdParentNode.children[i], this.selectedNode.children[nodesLength - 1]);
+                      this.remove(
+                        this.selectdParentNode.children[i],
+                        this.selectedNode.children[nodesLength - 1]
+                      );
                       nodesLength = nodesLength - 1;
                     }
                   }
@@ -3675,17 +4510,20 @@ export class BuilderComponent implements OnInit {
         this.showNotification = true;
         this.toastr.success('Control Updated', { nzDuration: 3000 });
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
+      this.toastr.error('An error occurred', { nzDuration: 3000 });
     }
   }
   searchControll() {
     this.searchControllData = [];
-    var input = (document.getElementById("searchControll") as HTMLInputElement).value.toUpperCase();
-    if (input && input != " ") {
-      let filterData = this.htmlTabsData[0].children.filter((a: any) => a.id != "website-block");
+    var input = (
+      document.getElementById('searchControll') as HTMLInputElement
+    ).value.toUpperCase();
+    if (input && input != ' ') {
+      let filterData = this.htmlTabsData[0].children.filter(
+        (a: any) => a.id != 'website-block'
+      );
       filterData.forEach((a: any) => {
         if (a.children.length > 0) {
           a.children.forEach((b: any) => {
@@ -3693,7 +4531,7 @@ export class BuilderComponent implements OnInit {
               if (b.children.length > 0) {
                 b.children.forEach((c: any) => {
                   if (c.label.toUpperCase().includes(input)) {
-                    this.searchControllData.push(c)
+                    this.searchControllData.push(c);
                   }
                 });
               }
@@ -3705,13 +4543,16 @@ export class BuilderComponent implements OnInit {
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
     if (fieldGroup) {
       if (fieldGroup[0].props) {
-        if (formValues.disabled == "editable") {
+        if (formValues.disabled == 'editable') {
           fieldGroup[0].props.disabled = false;
-        }
-        else if (formValues.disabled == "disabled" || formValues.disabled == "disabled-But-ditable") {
+        } else if (
+          formValues.disabled == 'disabled' ||
+          formValues.disabled == 'disabled-But-ditable'
+        ) {
           fieldGroup[0].props.disabled = true;
         }
-        fieldGroup[0].props['additionalProperties']['status'] = formValues.status;
+        fieldGroup[0].props['additionalProperties']['status'] =
+          formValues.status;
         fieldGroup[0].props['additionalProperties']['size'] = formValues.size;
         if (formValues.sectionClassName) {
           fieldGroup[0].props.className = formValues.sectionClassName;
@@ -3719,7 +4560,9 @@ export class BuilderComponent implements OnInit {
         }
         if (formValues.wrappers) {
           fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
-          fieldGroup[0].props['additionalProperties']['wrapper'] = [formValues.wrappers][0];
+          fieldGroup[0].props['additionalProperties']['wrapper'] = [
+            formValues.wrappers,
+          ][0];
           // if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
           //   fieldGroup[0].props['additionalProperties']['size'] = 'default';
           //   fieldGroup[0].props['additionalProperties']['addonRight'] = '';
@@ -3729,23 +4572,31 @@ export class BuilderComponent implements OnInit {
           //   fieldGroup[0].props.placeholder = " ";
           // }
           if (formValues.wrappers == 'floating_filled') {
-            fieldGroup[0].props['additionalProperties']['floatFieldClass'] = 'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-            fieldGroup[0].props['additionalProperties']['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
-          }
-          else if (formValues.wrappers == 'floating_outlined') {
-            fieldGroup[0].props['additionalProperties']['floatFieldClass'] = 'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-            fieldGroup[0].props['additionalProperties']['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
-          }
-          else if (formValues.wrappers == 'floating_standard') {
-            fieldGroup[0].props['additionalProperties']['floatFieldClass'] = 'floting-standerd-input block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
-            fieldGroup[0].props['additionalProperties']['floatLabelClass'] = 'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
+            fieldGroup[0].props['additionalProperties']['floatFieldClass'] =
+              'block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props['additionalProperties']['floatLabelClass'] =
+              'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4';
+          } else if (formValues.wrappers == 'floating_outlined') {
+            fieldGroup[0].props['additionalProperties']['floatFieldClass'] =
+              'block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props['additionalProperties']['floatLabelClass'] =
+              'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1';
+          } else if (formValues.wrappers == 'floating_standard') {
+            fieldGroup[0].props['additionalProperties']['floatFieldClass'] =
+              'floting-standerd-input block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer';
+            fieldGroup[0].props['additionalProperties']['floatLabelClass'] =
+              'absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6';
           }
         }
-        fieldGroup[0].props['additionalProperties']['labelPosition'] = formValues.labelPosition;
+        fieldGroup[0].props['additionalProperties']['labelPosition'] =
+          formValues.labelPosition;
 
-        fieldGroup[0].props['additionalProperties']['formatAlignment'] = formValues.formatAlignment;
-        fieldGroup[0].props['additionalProperties']['borderRadius'] = formValues.borderRadius;
-        fieldGroup[0].props['additionalProperties']['tooltipIcon'] = formValues.tooltipIcon;
+        fieldGroup[0].props['additionalProperties']['formatAlignment'] =
+          formValues.formatAlignment;
+        fieldGroup[0].props['additionalProperties']['borderRadius'] =
+          formValues.borderRadius;
+        fieldGroup[0].props['additionalProperties']['tooltipIcon'] =
+          formValues.tooltipIcon;
       }
     }
     return fieldGroup;
@@ -3765,32 +4616,32 @@ export class BuilderComponent implements OnInit {
   // }
 
   jsonStringify(data: any) {
-    return JSON.stringify(data)
+    return JSON.stringify(data);
   }
   jsonStringifyWithObject(data: any) {
-    return JSON.stringify(data, function (key, value) {
-      if (typeof value == 'function') {
-        let check = value.toString();
-        if (check.includes('model =>'))
-          return check.replace('model =>', '(model) =>')
-        else
-          return check;
-      } else {
-        return value;
-      }
-    }) || '{}'
+    return (
+      JSON.stringify(data, function (key, value) {
+        if (typeof value == 'function') {
+          let check = value.toString();
+          if (check.includes('model =>'))
+            return check.replace('model =>', '(model) =>');
+          else return check;
+        } else {
+          return value;
+        }
+      }) || '{}'
+    );
   }
   jsonParse(data: any) {
-    return JSON.parse(data)
+    return JSON.parse(data);
   }
   jsonParseWithObject(data: any) {
-    return JSON.parse(
-      data, (key, value) => {
-        if (typeof value === 'string' && value.startsWith('(')) {
-          return eval(`(${value})`);
-        }
-        return value;
-      });
+    return JSON.parse(data, (key, value) => {
+      if (typeof value === 'string' && value.startsWith('(')) {
+        return eval(`(${value})`);
+      }
+      return value;
+    });
   }
 
   // assigOptionsData(selectNode: any, tableDta: any, api: any) {
@@ -3820,7 +4671,10 @@ export class BuilderComponent implements OnInit {
     let contents: any;
     event;
     if (this.screenName) {
-      if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+      if (
+        event.target instanceof HTMLInputElement &&
+        event.target.files.length > 0
+      ) {
         const reader = new FileReader();
         reader.onloadend = () => {
           contents = reader.result as string;
@@ -3832,13 +4686,13 @@ export class BuilderComponent implements OnInit {
               } else {
                 return value;
               }
-            }) || '{}');
+            }) || '{}'
+          );
 
-          var data =
-          {
-            "screenName": makeData.screenName,
-            "screenData": currentData,
-            "screenId": makeData.screenId,
+          var data = {
+            screenName: makeData.screenName,
+            screenData: currentData,
+            screenId: makeData.screenId,
           };
           this.screenId = makeData.screenId;
           this.nodes = makeData.screenData;
@@ -3860,7 +4714,7 @@ export class BuilderComponent implements OnInit {
         reader.readAsText(event.target.files[0]);
       }
     } else {
-      alert("Please Select Screen");
+      alert('Please Select Screen');
     }
   }
   ngOnDestroy() {
@@ -3869,25 +4723,32 @@ export class BuilderComponent implements OnInit {
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
     let _formFieldData = new formFeildData();
     if (_formFieldData.commonIconFields[0].fieldGroup) {
-      _formFieldData.commonIconFields[0].fieldGroup.forEach(element => {
-        if (element.key != 'badgeType' && element.key != 'badgeCount' && element.key != 'dot_ribbon_color') {
+      _formFieldData.commonIconFields[0].fieldGroup.forEach((element) => {
+        if (
+          element.key != 'badgeType' &&
+          element.key != 'badgeCount' &&
+          element.key != 'dot_ribbon_color'
+        ) {
           if (element.key != 'icon' || allowIcon) {
-            configurationFields[0].fieldGroup.unshift(element)
+            configurationFields[0].fieldGroup.unshift(element);
           }
         }
       });
     }
   }
   setCustomColor(data: any) {
-
     let color: string;
     color = data.target.value;
     this.colorPickerService.setCustomColor('custom-color', color);
   }
 
   selectedDownloadJson() {
-    var currentData = this.jsonParse(this.jsonStringifyWithObject(this.selectedNode));
-    const blob = new Blob([JSON.stringify(currentData)], { type: 'application/json' });
+    var currentData = this.jsonParse(
+      this.jsonStringifyWithObject(this.selectedNode)
+    );
+    const blob = new Blob([JSON.stringify(currentData)], {
+      type: 'application/json',
+    });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     if (this.selectedNode.title) {
@@ -3899,9 +4760,12 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    let contents
+    let contents;
     event;
-    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.files.length > 0
+    ) {
       const reader = new FileReader();
       reader.onloadend = () => {
         contents = reader.result as string;
@@ -3913,7 +4777,8 @@ export class BuilderComponent implements OnInit {
             } else {
               return value;
             }
-          }) || '{}');
+          }) || '{}'
+        );
         if (this.selectedNode.children) {
           this.selectedNode.children.push(makeData);
           this.updateNodes();
@@ -3930,53 +4795,61 @@ export class BuilderComponent implements OnInit {
   deleteCases: any[] = [];
   deleteDBFields() {
     if (this.deleteCases.length > 0) {
-      const deleteObservables = this.deleteCases.map(element => {
-        return this.builderService.deleteSQLDatabaseTable('knex-crud/table_schema/', element.id).pipe(
-          catchError(error => of(error)) // Handle error and continue the forkJoin
-        );
+      const deleteObservables = this.deleteCases.map((element) => {
+        return this.builderService
+          .deleteSQLDatabaseTable('knex-crud/table_schema/', element.id)
+          .pipe(
+            catchError((error) => of(error)) // Handle error and continue the forkJoin
+          );
       });
       forkJoin(deleteObservables).subscribe({
         next: (results) => {
-          if (results.every(result => !(result instanceof Error))) {
-            this.toastr.success("Delete Fields Successfully", { nzDuration: 3000 });
+          if (results.every((result) => !(result instanceof Error))) {
+            this.toastr.success('Delete Fields Successfully', {
+              nzDuration: 3000,
+            });
           } else {
-            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+            this.toastr.error('Fields not inserted', { nzDuration: 3000 });
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
-        }
+          this.toastr.error('Fields not inserted', { nzDuration: 3000 });
+        },
       });
     }
   }
   saveDBFields(table_id: any) {
     if (this.newCases.length > 0) {
-      const observables = this.newCases.map(element => {
+      const observables = this.newCases.map((element) => {
         const objFields = {
-          "table_id": table_id,
-          "fieldName": element,
-          "type": "VARCHAR",
-          "description": "",
-          "status": "Pending",
-          "isActive": true
-        }
-        return this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
-          catchError(error => of(error)) // Handle error and continue the forkJoin
-        );
+          table_id: table_id,
+          fieldName: element,
+          type: 'VARCHAR',
+          description: '',
+          status: 'Pending',
+          isActive: true,
+        };
+        return this.builderService
+          .saveSQLDatabaseTable('knex-crud/table_schema', objFields)
+          .pipe(
+            catchError((error) => of(error)) // Handle error and continue the forkJoin
+          );
       });
       forkJoin(observables).subscribe({
         next: (results) => {
-          if (results.every(result => !(result instanceof Error))) {
-            this.toastr.success("Save Fields Successfully", { nzDuration: 3000 });
+          if (results.every((result) => !(result instanceof Error))) {
+            this.toastr.success('Save Fields Successfully', {
+              nzDuration: 3000,
+            });
           } else {
-            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+            this.toastr.error('Fields not inserted', { nzDuration: 3000 });
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
-        }
+          this.toastr.error('Fields not inserted', { nzDuration: 3000 });
+        },
       });
     }
   }
@@ -3984,194 +4857,248 @@ export class BuilderComponent implements OnInit {
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
-      let keyPart = element.split('.')
-      let check = mainArray.find(a => a.name == keyPart[0])
+      let keyPart = element.split('.');
+      let check = mainArray.find((a) => a.name == keyPart[0]);
       if (!check) {
         let obj: any = { name: keyPart[0], children: [] };
         obj.children.push(keyPart[1]);
         mainArray.push(obj);
       } else {
-        check.children.push(keyPart[1])
+        check.children.push(keyPart[1]);
       }
     }
     this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
       next: (objTRes) => {
         if (objTRes) {
-          this.builderService.getSQLDatabaseTable('knex-crud/table_schema').subscribe({
-            next: (objFRes) => {
-              if (objFRes) {
-                for (let i = 0; i < mainArray.length; i++) {
-                  const element = mainArray[i];
-                  const tableElement = objTRes.filter((x: any) => x.tableName == element.name);
+          this.builderService
+            .getSQLDatabaseTable('knex-crud/table_schema')
+            .subscribe({
+              next: (objFRes) => {
+                if (objFRes) {
+                  for (let i = 0; i < mainArray.length; i++) {
+                    const element = mainArray[i];
+                    const tableElement = objTRes.filter(
+                      (x: any) => x.tableName == element.name
+                    );
 
-                  //For Delete Field Case
-                  if (tableElement.length > 0) {
-                    const tableFields = objFRes.filter((x: any) => x.table_id == tableElement[0]?.id);
-                    for (const item of tableFields) {
-                      const fieldName = item.fieldName;
-                      if (!mainArray[i].children.includes(fieldName)) {
-                        const deleteCase = {
-                          id: item.id,
-                          table_id: item.table_id,
-                          fieldName: fieldName,
-                          status: item.status
-                        };
-                        this.deleteCases.push(deleteCase);
-                      }
-                    }
-                    //For New Field Case
-                    for (const fieldName of mainArray[i].children) {
-                      let exists = false;
+                    //For Delete Field Case
+                    if (tableElement.length > 0) {
+                      const tableFields = objFRes.filter(
+                        (x: any) => x.table_id == tableElement[0]?.id
+                      );
                       for (const item of tableFields) {
-                        if (item.fieldName === fieldName) {
-                          exists = true;
-                          break;
+                        const fieldName = item.fieldName;
+                        if (!mainArray[i].children.includes(fieldName)) {
+                          const deleteCase = {
+                            id: item.id,
+                            table_id: item.table_id,
+                            fieldName: fieldName,
+                            status: item.status,
+                          };
+                          this.deleteCases.push(deleteCase);
                         }
                       }
-                      if (!exists) {
-                        if (fieldName != 'id')
-                          this.newCases.push(fieldName);
+                      //For New Field Case
+                      for (const fieldName of mainArray[i].children) {
+                        let exists = false;
+                        for (const item of tableFields) {
+                          if (item.fieldName === fieldName) {
+                            exists = true;
+                            break;
+                          }
+                        }
+                        if (!exists) {
+                          if (fieldName != 'id') this.newCases.push(fieldName);
+                        }
                       }
-                    }
-                    this.saveDBFields(tableElement[0]?.id);
-                    this.deleteDBFields();
-                  } else {
-                    const objTableNames = {
-                      "tableName": element.name,
-                      "comment": "",
-                      "totalFields": "",
-                      "isActive": false
-                    };
-                    this.builderService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
-                      next: (res) => {
-                        mainArray[i].children.map((objFieldName: any) => {
-                          if (objFieldName != 'id') {
-                            const objFields = {
-                              "table_id": res.id,
-                              "fieldName": objFieldName,
-                              "type": "VARCHAR",
-                              "description": "",
-                              "status": "Pending",
-                              "isActive": true
-                            };
-                            this.builderService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).subscribe({
-                              next: (res) => {
-                                this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                              },
-                              error: (err) => {
-                                console.error(err);
-                                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                      this.saveDBFields(tableElement[0]?.id);
+                      this.deleteDBFields();
+                    } else {
+                      const objTableNames = {
+                        tableName: element.name,
+                        comment: '',
+                        totalFields: '',
+                        isActive: 'Pending',
+                      };
+                      this.builderService
+                        .saveSQLDatabaseTable('knex-crud/tables', objTableNames)
+                        .subscribe({
+                          next: (res) => {
+                            mainArray[i].children.map((objFieldName: any) => {
+                              if (objFieldName != 'id') {
+                                const objFields = {
+                                  table_id: res.id,
+                                  fieldName: objFieldName,
+                                  type: 'VARCHAR',
+                                  description: '',
+                                  status: 'Pending',
+                                  isActive: true,
+                                };
+                                this.builderService
+                                  .saveSQLDatabaseTable(
+                                    'knex-crud/table_schema',
+                                    objFields
+                                  )
+                                  .subscribe({
+                                    next: (res) => {
+                                      this.toastr.success(
+                                        'Save Table Fields Successfully',
+                                        { nzDuration: 3000 }
+                                      );
+                                    },
+                                    error: (err) => {
+                                      console.error(err);
+                                      this.toastr.error('An error occurred', {
+                                        nzDuration: 3000,
+                                      });
+                                    },
+                                  });
                               }
                             });
-                          }
+                          },
+                          error: (err) => {
+                            console.error(err);
+                            this.toastr.error('An error occurred', {
+                              nzDuration: 3000,
+                            });
+                          },
                         });
-                      },
-                      error: (err) => {
-                        console.error(err);
-                        this.toastr.error("An error occurred", { nzDuration: 3000 });
-                      }
-                    });
+                    }
                   }
                 }
-              }
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error('An error occurred', { nzDuration: 3000 });
+              },
+            });
         }
       },
       error: (err) => {
         console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
+      },
     });
   }
   handleOk(): void {
-    if (this.isTableSave)
-      this.saveInDB();
+    if (this.isTableSave) this.saveInDB();
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
-    }
-    else if (this.modalType === 'saveAsTemplate') {
+    } else if (this.modalType === 'saveAsTemplate') {
       try {
         this.saveLoader = true;
-        if ((this.saveAsTemplate && this.templateName) || (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave)) {
+        if (
+          (this.saveAsTemplate && this.templateName) ||
+          (this.websiteBlockName &&
+            this.webisteBlockType &&
+            this.websiteBlockSave)
+        ) {
           if (this.saveAsTemplate && this.templateName) {
             const objTemplate = {
               parameter: 'htmlBlock',
               icon: 'uil uil-paragraph',
               label: this.templateName,
               templateType: 'builderBlock',
-              template: JSON.stringify(this.nodes[0].children[1].children)
+              template: JSON.stringify(this.nodes[0].children[1].children),
             };
-            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
-              next: (res) => {
-                this.makeDatainTemplateTab();
-                this.saveLoader = false;
-              },
-              error: (err) => {
-                console.error(err);
-                this.saveLoader = false;
-                this.toastr.error('An error occurred', { nzDuration: 3000 });
-              }
-            });
+
+            const templateModel = {
+              Template: objTemplate,
+            };
+            this.requestSubscription = this.applicationService
+              .addNestCommonAPI('cp', templateModel)
+              .subscribe({
+                next: (res: any) => {
+                  if (res.isSuccess) {
+                    this.toastr.success(`Template: ${res.message}`, {
+                      nzDuration: 3000,
+                    });
+                    this.makeDatainTemplateTab();
+                    this.saveLoader = false;
+                  } else
+                    this.toastr.error(`Template: ${res.message}`, {
+                      nzDuration: 3000,
+                    });
+                },
+                error: (err: any) => {
+                  console.error(err);
+                  this.saveLoader = false;
+                  this.toastr.error(`Template: ${err}`, {
+                    nzDuration: 3000,
+                  });
+                },
+              });
           }
-          if (this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave) {
+          if (
+            this.websiteBlockName &&
+            this.webisteBlockType &&
+            this.websiteBlockSave
+          ) {
             const objTemplate = {
               parameter: this.websiteBlockName,
               icon: 'uil uil-paragraph',
               label: this.websiteBlockName,
               type: this.webisteBlockType,
               templateType: 'websiteBlock',
-              template: JSON.stringify(this.nodes[0].children[1].children)
+              template: JSON.stringify(this.nodes[0].children[1].children),
             };
-            this.requestSubscription = this.applicationService.addNestCommonAPI('template', objTemplate).subscribe({
-              next: (res) => {
-                this.makeDatainTemplateTab();
-                this.saveLoader = false;
-              },
-              error: (err) => {
-                console.error(err);
-                this.saveLoader = false;
-                this.toastr.error('An error occurred', { nzDuration: 3000 });
-              }
-            });
+            this.requestSubscription = this.applicationService
+              .addNestCommonAPI('template', objTemplate)
+              .subscribe({
+                next: (res) => {
+                  this.makeDatainTemplateTab();
+                  this.saveLoader = false;
+                },
+                error: (err) => {
+                  console.error(err);
+                  this.saveLoader = false;
+                  this.toastr.error('An error occurred', { nzDuration: 3000 });
+                },
+              });
           }
           setTimeout(() => {
             this.saveJson();
             this.saveLoader = false;
             this.showModal = false;
           }, 500);
-        }
-        else {
+        } else {
           if (!this.saveAsTemplate && this.templateName) {
             alert("Please check the checkbox for 'Save as Template'.");
-          }
-          else if (this.saveAsTemplate && !this.templateName) {
-            alert("Please provide a template name.");
+          } else if (this.saveAsTemplate && !this.templateName) {
+            alert('Please provide a template name.');
           }
           if (
-            (!this.websiteBlockName && this.webisteBlockType && this.websiteBlockSave) ||
-            (this.websiteBlockName && !this.webisteBlockType && !this.websiteBlockSave) ||
-            (!this.websiteBlockName && this.webisteBlockType && !this.websiteBlockSave)
+            (!this.websiteBlockName &&
+              this.webisteBlockType &&
+              this.websiteBlockSave) ||
+            (this.websiteBlockName &&
+              !this.webisteBlockType &&
+              !this.websiteBlockSave) ||
+            (!this.websiteBlockName &&
+              this.webisteBlockType &&
+              !this.websiteBlockSave)
           ) {
-            alert("Please provide all the required information for saving the web block.");
+            alert(
+              'Please provide all the required information for saving the web block.'
+            );
           }
         }
-        const isTemplateNameValid = !this.saveAsTemplate && (!this.templateName || this.templateName == '');
-        const isWebsiteBlockValid = (!this.websiteBlockName || this.websiteBlockName == '') && (this.webisteBlockType || this.webisteBlockType == '') && !this.websiteBlockSave;
+        const isTemplateNameValid =
+          !this.saveAsTemplate &&
+          (!this.templateName || this.templateName == '');
+        const isWebsiteBlockValid =
+          (!this.websiteBlockName || this.websiteBlockName == '') &&
+          (this.webisteBlockType || this.webisteBlockType == '') &&
+          !this.websiteBlockSave;
 
         if (isTemplateNameValid && isWebsiteBlockValid) {
           this.saveJson();
           this.saveLoader = false;
           this.showModal = false;
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
         this.saveLoader = false;
       }
     }
@@ -4181,33 +5108,38 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-
   convertIntoDate(date: any) {
     if (!date) {
       return null;
     }
-    const startDateArray = date.split(',').map((str: any) => parseInt(str.trim(), 10));
-    const startDate = startDateArray.length ? new Date(startDateArray[0], startDateArray[1], startDateArray[2]) : null;
+    const startDateArray = date
+      .split(',')
+      .map((str: any) => parseInt(str.trim(), 10));
+    const startDate = startDateArray.length
+      ? new Date(startDateArray[0], startDateArray[1], startDateArray[2])
+      : null;
     return startDate;
   }
   api(value?: any, data?: any) {
     if (value) {
-      this.requestSubscription = this.builderService.genericApis(value).subscribe({
-        next: (res) => {
-          if (Array.isArray(res)) {
-            res.forEach((item) => {
-              data?.children?.push(item);
-            })
-          } else {
-            data?.children?.push(res);
-          }
-          this.updateNodes();
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      })
+      this.requestSubscription = this.builderService
+        .genericApis(value)
+        .subscribe({
+          next: (res) => {
+            if (Array.isArray(res)) {
+              res.forEach((item) => {
+                data?.children?.push(item);
+              });
+            } else {
+              data?.children?.push(res);
+            }
+            this.updateNodes();
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+            this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+          },
+        });
     }
     return data;
   }
@@ -4286,7 +5218,7 @@ export class BuilderComponent implements OnInit {
       treeView: 'title',
       message: 'content',
       mentions: 'title',
-      icon: 'title'
+      icon: 'title',
     };
 
     const type = node.type;
@@ -4301,22 +5233,18 @@ export class BuilderComponent implements OnInit {
         });
         return nodesArray;
       }
-    }
-    else if (node.type == "tag") {
+    } else if (node.type == 'tag') {
       if (Array.isArray(replaceData[value.defaultValue])) {
         node.options = replaceData[value.defaultValue];
         return node;
       }
-    }
-    else {
+    } else {
       if (key) {
         node[key] = replaceData[value.defaultValue];
       }
       return node;
     }
   }
-
-
 
   replaceObjectByKey(data: any, key: any, updatedObj: any) {
     if (data.key === key) {
@@ -4326,16 +5254,30 @@ export class BuilderComponent implements OnInit {
       const child = data.children[i];
       if (child.key === key) {
         if (Array.isArray(updatedObj) && child.type == 'avatar') {
-          let check = data.children.filter((a: any) => a.type == "avatar");
+          let check = data.children.filter((a: any) => a.type == 'avatar');
           if (check.length != 1) {
             // let getFirstAvatar = JSON.parse(JSON.stringify(check[0]));
             let deleteAvatar = check.length - 1;
             for (let index = 0; index < deleteAvatar; index++) {
-              const element = data.children.filter((a: any) => a.type == "avatar");;
+              const element = data.children.filter(
+                (a: any) => a.type == 'avatar'
+              );
               const idx = data.children.indexOf(element[0]);
               data.children.splice(idx as number, 1);
             }
-            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let lastAvatarIndex = data.children.filter(
+              (a: any) => a.type == 'avatar'
+            );
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          } else {
+            let lastAvatarIndex = data.children.filter(
+              (a: any) => a.type == 'avatar'
+            );
             let idx = data.children.indexOf(lastAvatarIndex[0]);
             data.children.splice(idx, 1);
             updatedObj.forEach((i: any) => {
@@ -4343,17 +5285,7 @@ export class BuilderComponent implements OnInit {
               idx = idx + 1;
             });
           }
-          else {
-            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
-            let idx = data.children.indexOf(lastAvatarIndex[0]);
-            data.children.splice(idx, 1);
-            updatedObj.forEach((i: any) => {
-              data.children.splice(idx + 1, 0, i);
-              idx = idx + 1;
-            });
-          }
-        }
-        else {
+        } else {
           data.children[i] = updatedObj;
         }
         return data;
@@ -4369,12 +5301,11 @@ export class BuilderComponent implements OnInit {
   arrayEqual(a: any, b: any) {
     if (a) {
       return JSON.stringify(a) === JSON.stringify(b);
-    }
-    else {
+    } else {
       return false;
     }
-  };
-  findObjectByType(node: any, newNode: any,) {
+  }
+  findObjectByType(node: any, newNode: any) {
     if (node.type === newNode.type && node.key === newNode.key) {
       node = newNode;
     }
@@ -4392,22 +5323,22 @@ export class BuilderComponent implements OnInit {
       if (text) {
         let updateData = JSON.parse(text);
         if (updateData[0]) {
-          if (updateData[0].type == 'page')
-            this.nodes = updateData;
+          if (updateData[0].type == 'page') this.nodes = updateData;
           if (updateData[0].type == 'sections')
             this.selectedNode.children?.push(updateData[0]);
           this.updateNodes();
-        }
-        else if (this.selectedNode && updateData) {
+        } else if (this.selectedNode && updateData) {
           this.selectedNode.children?.push(updateData);
           this.updateNodes();
-          this.toastr.success('Json update successfully!', { nzDuration: 3000 });
+          this.toastr.success('Json update successfully!', {
+            nzDuration: 3000,
+          });
+        } else {
+          this.toastr.error('Please select a data first!', {
+            nzDuration: 3000,
+          });
         }
-        else {
-          this.toastr.error('Please select a data first!', { nzDuration: 3000 });
-        }
-      }
-      else {
+      } else {
         this.toastr.error('Please select a data first!', { nzDuration: 3000 });
       }
     } catch (err) {
@@ -4416,14 +5347,12 @@ export class BuilderComponent implements OnInit {
   }
 
   openModal(type?: any, data?: any): void {
-
     if (type == 'webCode') {
-      this.modalType = 'webCode'
+      this.modalType = 'webCode';
       this.htmlBlockimagePreview = data;
-    }
-    else if (type == 'previewJson') {
+    } else if (type == 'previewJson') {
       this.selectedNode = data.origin;
-      this.modalType = 'previewJson'
+      this.modalType = 'previewJson';
       this.isActiveShow = data.origin.id;
     } else if (type == 'saveAsTemplate') {
       this.saveAsTemplate = false;
@@ -4431,60 +5360,64 @@ export class BuilderComponent implements OnInit {
       this.templateName = '';
       this.websiteBlockName = '';
       this.webisteBlockType = '';
-      this.modalType = 'saveAsTemplate'
+      this.modalType = 'saveAsTemplate';
     }
     this.showModal = true;
   }
 
   showWebBlockList(type: any) {
-
     if (type == 'Website Block') {
       this.webBlock = true;
-    }
-    else {
+    } else {
       this.webBlock = false;
     }
   }
 
   addTemplate(data: any, checkType?: any) {
-   let template = this.jsonParseWithObject(data.template);
+    let template = this.jsonParseWithObject(data.template);
     if (checkType == 'website-block') {
       template.forEach((item: any) => {
         this.nodes[0].children[1].children.push(item);
-      })
+      });
     } else {
       template.forEach((item: any) => {
         let data = JSON.parse(JSON.stringify(item));
         this.traverseAndChange(data);
         this.nodes[0].children[1].children.push(data);
-      })
+      });
     }
     this.updateNodes();
     this.toastr.success('Control Added', { nzDuration: 3000 });
   }
 
   makeDatainTemplateTab() {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPI('template').subscribe({
-      next: (res) => {
-        this.dbWebsiteBlockArray = res.filter(x => x.templateType == 'websiteBlock');
+    this.requestSubscription = this.applicationService
+      .getNestCommonAPI('template')
+      .subscribe({
+        next: (res) => {
+          this.dbWebsiteBlockArray = res.filter(
+            (x) => x.templateType == 'websiteBlock'
+          );
 
-        this.htmlTabsData[0].children.forEach((item: any) => {
-          if (item?.id == 'template') {
-            item.children[0].children = res.filter(x => x.templateType == 'builderBlock');
-          }
-        })
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-
-    });
+          this.htmlTabsData[0].children.forEach((item: any) => {
+            if (item?.id == 'template') {
+              item.children[0].children = res.filter(
+                (x) => x.templateType == 'builderBlock'
+              );
+            }
+          });
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error('An error occurred', { nzDuration: 3000 });
+        },
+      });
   }
 
   loadWebsiteBlockChild(data?: any) {
-    let filterdData = this.dbWebsiteBlockArray.filter((item: any) => item.type == data.label);
+    let filterdData = this.dbWebsiteBlockArray.filter(
+      (item: any) => item.type == data.label
+    );
     data.children = filterdData;
     this.websiteBlockButton = data.children;
   }
@@ -4494,7 +5427,9 @@ export class BuilderComponent implements OnInit {
     updatedObj = this.changeIdAndkey(updatedObj);
 
     if (updatedObj.children && Array.isArray(updatedObj.children)) {
-      updatedObj.children = updatedObj.children.map((child: any) => this.updateIdsAndKeys(child));
+      updatedObj.children = updatedObj.children.map((child: any) =>
+        this.updateIdsAndKeys(child)
+      );
     }
     return updatedObj;
   }
@@ -4518,13 +5453,15 @@ export class BuilderComponent implements OnInit {
     }
   }
   deleteValidationRule(data: any) {
-    this.applicationService.deleteNestCommonAPI('validation-rule', data.modelData._id).subscribe({
-      next: (res) => {
-        this.toastr.success('Delete data successfully', { nzDuration: 3000 });
-      },
-      error: () => {
-        this.toastr.error('Delete data unhandler', { nzDuration: 3000 });
-      }
-    })
+    this.applicationService
+      .deleteNestCommonAPI('validation-rule', data.modelData._id)
+      .subscribe({
+        next: (res) => {
+          this.toastr.success('Delete data successfully', { nzDuration: 3000 });
+        },
+        error: () => {
+          this.toastr.error('Delete data unhandler', { nzDuration: 3000 });
+        },
+      });
   }
 }
