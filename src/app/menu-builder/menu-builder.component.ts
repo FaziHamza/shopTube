@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { ApplicationService } from '../services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
+import { Router } from '@angular/router';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'st-menu-builder',
@@ -62,7 +64,9 @@ export class MenuBuilderComponent implements OnInit {
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
-    public builderService: BuilderService, private toastr: NzMessageService,) {
+    public builderService: BuilderService, private toastr: NzMessageService,
+    private router: Router,
+    public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
     this.htmlTabsData = [
@@ -141,6 +145,7 @@ export class MenuBuilderComponent implements OnInit {
     this.makeMenuData();
   }
   ngOnInit(): void {
+    this.dataSharedService.goToMenu = '';
     this.selectedTheme = {
       topHeaderMenu: 'w-1/6',
       topHeader: 'w-10/12',
@@ -188,7 +193,9 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
+    debugger
     this.applicationService.getNestCommonAPIById('menu/application', id).subscribe((res => {
+      this.dataSharedService.goToMenu = id;
       if (res.length > 0) {
         let getApplication = this.applications.find((a: any) => a._id == id);
         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1239,6 +1246,9 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('iconSize') ||
           layoutType.includes('iconType')) {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+          }
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
           this.selectedTheme['design'] = layoutType;
@@ -1275,6 +1285,7 @@ export class MenuBuilderComponent implements OnInit {
           }
           if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
             this.selectedTheme.isCollapsed = true;
+            this.selectedTheme.checked = false;
             this.selectedTheme.topHeaderMenu = 'w-1/12';
             this.selectedTheme.topHeader = 'w-full';
             this.selectedTheme.menuColumn = '';
@@ -1300,6 +1311,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.topHeader = 'w-full';
           this.selectedTheme.menuColumn = '';
           this.selectedTheme.rowClass = 'w-full';
+          this.selectedTheme.checked = false;
         }
         else if (layoutType == 'boxed') {
           if (this.selectedTheme.layout == 'horizental') {
@@ -1381,6 +1393,9 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('iconSize') ||
           layoutType.includes('iconType')) {
           this.selectedTheme['inPageMenu'][layoutType.split('_')[1]] = layoutType.split('_')[0];
+          if (layoutType.includes('iconType')) {
+            this.changeTabIconType(this.selectedTheme['inPageMenu']['iconType'], this.nodes);
+          }
         }
       } else if (data.reset) {
         this.selectedTheme['inPageMenu'] = data.resetTheme;
@@ -1512,6 +1527,29 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
+  changeTabIconType(data: any, nodeData: any) {
+    if (nodeData.length > 0) {
+      nodeData.forEach((node: any) => {
+        if (node.type == 'tab') {
+          if (node['icon']) {
+            if (node['icon'].includes('fa-') && data == 'font_awsome') {
+              node['iconType'] = data;
+            }
+            else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+              node['iconType'] = data;
+            }
+          } else {
+            node['iconType'] = data;
+          }
+          this.changeIconType(data, node);
+        }
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
+      });
+    }
+  }
+
   getMenuParents(selectedItem: any, menuItems: any[]): any {
     const parents: any[] = [];
     const parentIds: string[] = [];
@@ -1561,6 +1599,13 @@ export class MenuBuilderComponent implements OnInit {
   //   return result;
   // }
 
+  checkPage() {
+    if(this.dataSharedService.goToMenu){
+      this.router.navigate(['/']);
+    }else{
+      this.toastr.warning('Please select Application', { nzDuration: 3000 });
+    }
+  }
 }
 
 

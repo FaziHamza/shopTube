@@ -16,6 +16,7 @@ export class DataSharedService {
   public screenId: Subject<any> = new Subject();
   public invoiceSum: Subject<any> = new Subject();
   public menuSelectedThemeLayout: Subject<any> = new Subject();
+  // public goToMenu: Subject<any> = new Subject();
   public sectionSubmit: Subject<any> = new Subject();
   public pageSubmit: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
@@ -24,6 +25,7 @@ export class DataSharedService {
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
   defaultPageNodes:any;
+  goToMenu:any;
   screenCommentList : any[] = []
   public menus : any;
   currentUrl:any;

@@ -1,28 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'st-rate',
   templateUrl: './rate.component.html',
   styleUrls: ['./rate.component.scss']
 })
-export class RateComponent implements OnInit {
-  @Input() rateData:any;
+export class RateComponent implements OnChanges {
+  @Input() rateData: any;
   value = 0;
   constructor() { }
-
-  ngOnInit(): void {
+  ngOnChanges(changes: any) {
+    debugger
+    document.documentElement.style.setProperty('--my-color', this.rateData.iconColor != '' ? this.rateData.iconColor : 'yellow');
   }
+  // ngOnInit(): void {
+  // }
   onRateBlur() {
-    console.log('Rate component blurred');
+    // console.log('Rate component blurred');
   }
   onRateFocus() {
-    console.log('Rate component focused');
+    // console.log('Rate component focused');
   }
   onRateHoverChange(value: number) {
-    console.log(`Rate component hover changed to ${value}`);
+    document.documentElement.style.setProperty('--my-color', this.rateData.iconColor);
+    // console.log(`Rate component hover changed to ${value}`);
   }
   onRateKeyDown(event: KeyboardEvent) {
-    console.log(`Key ${event.key} pressed on Rate component`);
+    // console.log(`Key ${event.key} pressed on Rate component`);
   }
 
 }

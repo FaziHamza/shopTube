@@ -44,8 +44,7 @@
             <span nz-icon nzType="delete"></span>
           </button>
         </nz-button-group>
-        <button class="ml-2" nz-button nzType="primary"
-          routerLink="/pages/{{screenId}}">
+        <button class="ml-2" nz-button nzType="primary" (click)="checkPage()">
           Go To Page
           <span nz-icon nzType="file-done"></span>
         </button>
@@ -184,7 +183,7 @@
                     </li>
                   </div>
                 </ul>
-                <nz-tree [nzData]="nodes" nzDraggable nzBlockNode>
+                <nz-tree (nzBeforeDrop)="handleBeforeDrop($event)" [nzData]="nodes" nzDraggable nzBlockNode>
                   <ng-template #nzTreeTemplate let-node>
                     <div class="flex card-lable-row" (mouseover)="hoverIn(node)"
                       (mouseleave)="hoverOut(node)"

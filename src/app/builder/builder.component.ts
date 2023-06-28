@@ -34,6 +34,7 @@ import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'st-builder',
@@ -348,46 +349,44 @@ export class BuilderComponent implements OnInit {
   expandedKeys: any;
   previousScreenId: string = '';
   getScreenData(data: any) {
-    this.modalService.confirm({
-      nzTitle: 'Are you sure you want to switch your screen?',
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          const objScreen = this.screens.find((x: any) => x._id == data);
-          this.screenId = objScreen.screenId;
-          this.screenName = objScreen.name;
-          this.previousScreenId = objScreen.screenId;
-          this.isSavedDb = false;
-          // const newScreenName = this.screens
-          // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
-          //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
-          //   if (applicationType[0].application_Type == "website") {
-          //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
-          //       next: (result) => {
-          //         if (result.length > 0) {
-          //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
-          //           this.dataSharedService.menus.allMenuItems = result[0].menuData
-          //         }
-          //       },
-          //       error: (err) => {
-          //         console.error(err); // Log the error to the console
-          //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          //       }
-          //     })
-          //   }
-          // }
-          this.requestSubscription = this.applicationService
-            .getNestCommonAPIById('builder/screen', this._id)
-            .subscribe({
+    if (data) {
+      this.modalService.confirm({
+        nzTitle: 'Are you sure you want to switch your screen?',
+        nzOnOk: () => {
+          new Promise((resolve, reject) => {
+
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+            const objScreen = this.screens.find((x: any) => x._id == data);
+            this.screenId = objScreen.screenId;
+            this.screenName = objScreen.name;
+            this.previousScreenId = objScreen.screenId;
+            this.isSavedDb = false;
+            // const newScreenName = this.screens
+            // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
+            //   if (applicationType[0].application_Type == "website") {
+            //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
+            //       next: (result) => {
+            //         if (result.length > 0) {
+            //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
+            //           this.dataSharedService.menus.allMenuItems = result[0].menuData
+            //         }
+            //       },
+            //       error: (err) => {
+            //         console.error(err); // Log the error to the console
+            //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            //       }
+            //     })
+            //   }
+            // }
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('builder/screen', this._id).subscribe({
               next: (res) => {
                 if (res.length > 0) {
                   const objScreenData = JSON.parse(res[0].screenData);
                   this.isSavedDb = true;
                   // this.moduleId = res[0].moduleId;
                   this.formlyModel = [];
-                  this.nodes = this.jsonParseWithObject(
-                    this.jsonStringifyWithObject(objScreenData)
-                  );
+                  this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
                   this.updateNodes();
                   this.applyDefaultValue();
                   this.getJoiValidation(this._id);
@@ -725,6 +724,7 @@ export class BuilderComponent implements OnInit {
   }
 
   getUIRule(model: any, currentValue: any) {
+
     try {
       if (this.screenData != undefined) {
         var inputType =
@@ -1159,6 +1159,7 @@ export class BuilderComponent implements OnInit {
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
+
     let obj = {
       type: data?.parameter,
       title: value,
@@ -2292,18 +2293,16 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
-    configObj = JSON.parse(JSON.stringify(selectedNode));
-    selectedNode.id = selectedNode.id?.toLowerCase();
-    if (typeof selectedNode.className === 'string') {
-      let classes: any = selectedNode.className;
-      if (classes) {
-        let classList = classes.split(' ');
-        let newClass: any = [...classList];
-        configObj['className'] = newClass;
-      }
-    }
-
     configObj = selectedNode;
+    let newClass = selectedNode.className;
+    selectedNode.id = selectedNode.id?.toLowerCase();
+    if (typeof selectedNode.className === "string") {
+      const classObj = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
+      configObj.className = classObj
+    }
+    // this.selectedNode.className = newClass;
+    // selectedNode.className = newClass;
+    // configObj = JSON.parse(JSON.stringify(selectedNode));
     switch (type) {
       case 'drawer':
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
@@ -2790,6 +2789,7 @@ export class BuilderComponent implements OnInit {
         break;
     }
     this.formModalData = configObj;
+   
   }
   menuSearch() {
     this.filterMenuData = [];
@@ -3173,15 +3173,30 @@ export class BuilderComponent implements OnInit {
                 node.formly[0].fieldGroup
               );
             });
-            this.selectedNode?.children?.[1]?.children?.forEach(
-              (element: any) => {
-                if (!element.formly) {
-                  element['tooltipIcon'] = event.form.tooltipIcon;
-                }
+            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
+              if (!element.formly) {
+                element['tooltipIcon'] = event.form.tooltipIcon;
               }
-            );
+            });
+            if (Array.isArray(event.form.className)) {
+              if (event.form.className.length > 0) {
+                let classArray: any;
+                for (let i = 0; i < event.form.className.length; i++) {
+                  if (i == 0) {
+                    classArray = event.form.className[i];
+                  }
+                  else {
+                    classArray = classArray + ' ' + event.form.className[i];
+                  }
+                };
+                this.selectedNode['className'] = classArray;
+              }
+            }
+            else {
+              this.selectedNode['className'] = event.form.className;
+            }
             this.selectedNode.title = event.form.title;
-            this.selectedNode.className = event.form.className;
+            // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
             this.selectedNode['tooltipWithoutIcon'] =
               event.form.tooltipWithoutIcon;
@@ -4389,23 +4404,31 @@ export class BuilderComponent implements OnInit {
       default:
         break;
     }
-    if (event.type && event.type != 'inputValidationRule' && needToUpdate) {
-      this.selectedNode = { ...this.selectedNode, ...event.form };
+    if (event.type && event.type != "inputValidationRule" && needToUpdate) {
+      debugger
+      // this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
-          let classArray: any;
+          let classArray: string = '';
           for (let i = 0; i < event.form.className.length; i++) {
-            if (i == 0) {
-              classArray = event.form.className[i];
-            } else {
-              classArray = classArray + ' ' + event.form.className[i];
+            const classObj: string[] = event.form.className[i].split(" ");
+            if (classObj.length > 0) {
+              for (let j = 0; j < classObj.length; j++) {
+                if (j === 0 && i === 0) {
+                  classArray = classObj[j];
+                } else {
+                  classArray += ' ' + classObj[j];
+                }
+              }
             }
           }
-          this.selectedNode['className'] = classArray;
+          this.selectedNode.className = classArray;
+          this.selectedNode = { ...this.selectedNode, ...event.form };
         }
       } else {
-        this.selectedNode['className'] = event.form.className;
+        this.selectedNode.className = event.form.className;
       }
+      
       // this.updateNodes();
     }
     // this.showSuccess();

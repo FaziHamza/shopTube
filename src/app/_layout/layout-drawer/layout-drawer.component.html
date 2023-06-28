@@ -3,17 +3,18 @@
     style="display: flex; justify-content: center; align-items: center">
     <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
 </button>
-<nz-drawer
-    [nzClosable]="false"
-    [nzVisible]="visible"
-    nzPlacement="right"
-    nzTitle="Menu Design"
-    (nzOnClose)="close()"
-    [nzWidth]="'50%'"
-    [nzExtra]="extra">
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
+    nzTitle="Menu Design" (nzOnClose)="close()"
+    [nzWidth]="'50%'" [nzExtra]="extra">
     <ng-container *nzDrawerContent>
         <nz-tabset>
             <nz-tab nzTitle="Main menu">
+                <div style="display: flex; justify-content: flex-end;">
+                    <button nzDanger class="mr-2" nz-popconfirm
+                        nzPopconfirmTitle="Are you sure to reset menu design"
+                        nz-button nzType="primary"
+                        (nzOnConfirm)="reset('mainMenu')">Reset Main Theme</button>
+                </div>
                 <h6 class="mb-0 font-bold uppercase">Font Design</h6>
                 <p class="text-gray-500 text-xs">Choose Font Design
                 </p>
@@ -162,7 +163,8 @@
                         </div>
                     </div>
                     <h6 class="mb-0 font-bold uppercase pt-2"
-                        *ngIf="selectedTheme.layout != 'twoColumn'">LAYOUT WIDTH</h6>
+                        *ngIf="selectedTheme.layout != 'twoColumn'">LAYOUT WIDTH
+                    </h6>
                     <p class="text-gray-500 text-xs"
                         *ngIf="selectedTheme.layout != 'twoColumn'">Choose Fluid
                         or
@@ -251,8 +253,12 @@
                                 <img src="assets/images/layout/horizental.png"
                                     (click)="changeLayout('compact_left')">
                             </div>
-                            <p class="mt-2 font-bold" *ngIf="selectedTheme.layout != 'rtl'">Compact Left</p>
-                            <p class="mt-2 font-bold" *ngIf="selectedTheme.layout == 'rtl'">Compact Right</p>
+                            <p class="mt-2 font-bold"
+                                *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                Left</p>
+                            <p class="mt-2 font-bold"
+                                *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                Right</p>
                         </div>
                         <div class="w-1/4 px-2">
                             <div
@@ -293,12 +299,17 @@
                     <p class="text-gray-500 text-xs">Choose a image of Sidebar</p>
                     <div class="flex flex-wrap pt-2">
                         <div class="w-1/5 px-2">
-                            <div>
+                            <div
+                                [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
+                                (click)="changeLayout('')">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                            <!-- <div>
                                 <img
                                     [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
                                     src
                                     (click)="changeLayout('')">
-                            </div>
+                            </div> -->
                         </div>
                         <div class="w-1/5 px-2">
                             <div
@@ -389,6 +400,14 @@
                 </div>
             </nz-tab>
             <nz-tab nzTitle="In page Menu">
+                <div style="display: flex; justify-content: flex-end;">
+                    <button nzDanger class="mr-2" nz-popconfirm
+                        nzPopconfirmTitle="Are you sure to reset menu design"
+                        nz-button
+                        nzType="primary" (nzOnConfirm)="reset('inPageMenu')">Reset
+                        In Page
+                        Menu Theme</button>
+                </div>
                 <h6 class="mb-0 font-bold uppercase">Font Design</h6>
                 <p class="text-gray-500 text-xs">Choose Font Design
                 </p>
@@ -500,16 +519,8 @@
                 </div>
             </nz-tab>
         </nz-tabset>
-
     </ng-container>
     <ng-template #extra>
-        <button nzDanger class="mr-2" nz-popconfirm
-            nzPopconfirmTitle="Are you sure to reset menu design" nz-button
-            nzType="primary" (nzOnConfirm)="reset('mainMenu')">Reset Main Theme</button>
-        <button nzDanger class="mr-2" nz-popconfirm
-            nzPopconfirmTitle="Are you sure to reset menu design" nz-button
-            nzType="primary" (nzOnConfirm)="reset('inPageMenu')">Reset In Page
-            Menu Theme</button>
         <span nz-icon nzType="close" nzTheme="outline" (click)="close()"
             class="text-gray-500 hover:text-red-500 cursor-pointer"></span>
     </ng-template>

@@ -1233,7 +1233,6 @@ export class AddControlService {
       icon: 'star',
       showCount: 5,
       hoverIconColor: '',
-
       ngvalue: 0,
       disabled: false,
       iconType: 'outline',
