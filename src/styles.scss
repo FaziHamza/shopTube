@@ -1685,7 +1685,7 @@ a.fc-event:hover {
 
 .logo {
   height: 30px;
-  margin: 15px;
+  // margin: 15px;
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -1869,6 +1869,10 @@ object {
   // position: fixed !important;
   top: 64px;
   left: 0;
+}
+
+.ant-menu .nav-item {
+  border-radius: 3px;
 }
 
 .vertical-sidebar {
@@ -2184,13 +2188,16 @@ object {
 }
 
 .tow-colmn-sidebar {
-  .ng-star-inserted {
-    width: 100%;
+  background: white;
+
+  .ant-menu-submenu-arrow,
+  .ant-menu-submenu-expand-icon {
+    right: 0px !important;
   }
 
-  .ant-menu.ant-menu-inline-collapsed {
-    overflow-y: scroll;
-  }
+  // .ant-menu.ant-menu-inline-collapsed {
+  //   overflow-y: scroll;
+  // }
 
   .menu-title {
     display: none;
@@ -2412,11 +2419,11 @@ object {
   }
 }
 
-.ant-menu-submenu {
-  .ant-menu-item {
-    padding-left: 28px !important;
-  }
-}
+// .ant-menu-submenu {
+//   .ant-menu-item {
+//     padding-left: 28px !important;
+//   }
+// }
 
 .compact-sidebar ul li .ant-menu-submenu-title {
   height: 60px !important;
@@ -2451,8 +2458,9 @@ object {
 //   // }
 // }
 
-.side-menu {
-  min-width: 60px;
+.side-menu,
+.side-menu-rtl {
+  width: 60px;
   // .vertical-sidebar {
   //   height: calc(100vh - 60px);
   //   overflow-y: scroll;
@@ -2621,4 +2629,45 @@ object {
   .ant-menu.ant-menu-horizontal {
     overflow-y: hidden !important;
   }
+}
+
+.layout-topbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 15px;
+  // border-bottom: 2px solid #f5f5f5;
+
+}
+
+.resert-bg-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #ff4d4f;
+  background: #ff4d5020;
+}
+
+.selected.resert-bg-img {
+  border: 1px solid #ff4d4f !important;
+}
+
+.layout-tabs-drop-down-submenu {
+
+  .ant-menu-item,
+  .ant-menu-submenu {
+    padding: 0px 16px !important;
+    width: 100%;
+    padding-left: 16px !important;
+  }
+
+  .ant-menu-submenu-title {
+    padding: 0px !important;
+  }
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox::after,
+.ant-checkbox:hover::after {
+  border-radius: 100px !important;
 }
