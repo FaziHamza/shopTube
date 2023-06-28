@@ -109,7 +109,7 @@ export class AppSideMenuComponent implements OnInit {
   //   this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
   // }
 
-  loadTabsAndButtons(event: MouseEvent, data: any) {
+  loadTabsAndButtons(event: MouseEvent, data: any,pushInTwoColumn ?:any) {
     this.isActiveShow = data.id;
     event.stopPropagation();
     if (data.application) {
@@ -127,12 +127,14 @@ export class AppSideMenuComponent implements OnInit {
         }
       });
       this.notify.emit(data);
-      this.menuChildArrayTwoColumn = [];
+      if(pushInTwoColumn){
+        this.menuChildArrayTwoColumn = [];
+      }
       if (data.link && !checkTabsAndDropdown) {
         let routerLink = data.link;
         this.router.navigate([routerLink]);
       }
-      else if (data.children.length > 0 && this.selectedTheme.layout == 'twoColumn') {
+      else if (data.children.length > 0 && this.selectedTheme.layout == 'twoColumn' && pushInTwoColumn) {
         this.selectedTheme['isCollapsed'] = false;
         this.dataSharedService.collapseMenu.next(false)
         this.selectedTheme.menuColumn = 'w-1/6';
