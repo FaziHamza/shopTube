@@ -31,6 +31,7 @@ export class BusinessRuleGridComponent implements OnInit {
   isModalVisible = false;
   isReadOnly: boolean = true;
   requestSubscription: Subscription;
+  gridRuleId: string = '';
 
   ngOnInit(): void {
 
@@ -485,12 +486,10 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
-    this.dynmaicRule = true;
-    this.buisnessForm = this.formBuilder.group({
+    this.dynmaicRule = true; this.buisnessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([])
     });
 
@@ -522,25 +521,26 @@ export class BusinessRuleGridComponent implements OnInit {
             if (gridData.length > 0) {
               for (let k = 0; k < gridData.length; k++) {
                 if (gridData[k].gridKey == this.selectedNode.key) {
-                  const objRuleData = JSON.parse(gridData[k].buisnessRuleData);
+                  this.gridRuleId = gridData[k]._id;
+                  const objRuleData = JSON.parse(gridData[k].businessRuleData);
                   this.buisnessForm = this.formBuilder.group({
-                    buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
+                    buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                       this.formBuilder.group({
-                        ifCondition: [getBuisnessRuleRes.ifCondition],
-                        oprator: [getBuisnessRuleRes.oprator],
-                        isGetValue: [getBuisnessRuleRes.oprator == "NotNull" ? false : true],
-                        getValue: [getBuisnessRuleRes.getValue],
-                        target: [getBuisnessRuleRes.target],
-                        opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                        resultValue: [getBuisnessRuleRes.resultValue],
-                        conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                        ifCondition: [getBusinessRuleRes.ifCondition],
+                        oprator: [getBusinessRuleRes.oprator],
+                        isGetValue: [getBusinessRuleRes.oprator == "NotNull" ? false : true],
+                        getValue: [getBusinessRuleRes.getValue],
+                        target: [getBusinessRuleRes.target],
+                        opratorForTraget: [getBusinessRuleRes.opratorForTraget],
+                        resultValue: [getBusinessRuleRes.resultValue],
+                        conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
                           this.formBuilder.group({
                             condifCodition: getConditionalRes.condifCodition,
                             condOperator: getConditionalRes.condOperator,
                             condValue: getConditionalRes.condValue,
                             condType: getConditionalRes.condType
                           }))),
-                        thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                        thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
                           this.formBuilder.group({
                             thenTarget: getthenCodRes.thenTarget,
                             thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
@@ -564,7 +564,7 @@ export class BusinessRuleGridComponent implements OnInit {
                               })
                             ))
                           }))),
-                        getRuleCondition: this.formBuilder.array(getBuisnessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
+                        getRuleCondition: this.formBuilder.array(getBusinessRuleRes.getRuleCondition.map((objGetRuleCondition: any) =>
                           this.formBuilder.group({
                             ifCondition: objGetRuleCondition.ifCondition,
                             oprator: objGetRuleCondition.oprator,
@@ -586,9 +586,7 @@ export class BusinessRuleGridComponent implements OnInit {
                     ))
                   });
                 }
-
               }
-
             }
           } else
             this.toastr.error(getRes.message, { nzDuration: 3000 });
@@ -640,7 +638,6 @@ export class BusinessRuleGridComponent implements OnInit {
     this.buisnessRuleSkills(empIndex).at(skillIndex).get("condType")?.setValue(conValue);
   }
   saveGridBusinessRule() {
-
     let condThen: any = [];
     this.GridBusinessRuleData = [];
     this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
@@ -681,12 +678,16 @@ export class BusinessRuleGridComponent implements OnInit {
     }
 
     if (gridBusinessRuleModel.GridBusinessRule != null) {
-      debugger
-      if (selectedScreen[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel).subscribe({
+      if (selectedScreen[0].navigation != null) {
+        const checkAndProcess = this.gridRuleId == ''
+          ? this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel)
+          : this.applicationService.updateNestCommonAPI('cp/GridBusinessRule', this.gridRuleId, gridBusinessRuleModel);
+        this.requestSubscription = checkAndProcess.subscribe({
           next: (res: any) => {
-            if (res.isSuccess)
+            if (res.isSuccess) {
+              this.dynamicBuisnessRule();
               this.toastr.success(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+            }
             else
               this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
           },
@@ -803,16 +804,27 @@ export class BusinessRuleGridComponent implements OnInit {
       });
   }
   deleteGridBuisnessRule() {
-    this.applicationService.deleteNestCommonAPI('cp/GridBusinessRule', this.screenId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.toastr.success(res.message, { nzDuration: 3000 });
-        else
-          this.toastr.success(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    if (this.gridRuleId != '')
+      this.applicationService.deleteNestCommonAPI('cp/GridBusinessRule', this.gridRuleId).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.buisnessForm = this.formBuilder.group({
+              buisnessRule: this.formBuilder.array([])
+            });
+            this.dynamicBuisnessRule();
+            this.gridRuleId = '';
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          }
+          else
+            this.toastr.success(res.message, { nzDuration: 3000 });
+        },
+        error: (err) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    else
+      this.buisnessForm = this.formBuilder.group({
+        buisnessRule: this.formBuilder.array([])
+      });
   }
 }

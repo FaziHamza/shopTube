@@ -28,32 +28,34 @@ export class BusinessRuleComponent implements OnInit {
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
-  buisnessRuleData: any = [];
+  businessRuleData: any = [];
   requestSubscription: Subscription;
-  buisnessRuleIfList: any = [];
+  businessRuleIfList: any = [];
   BuisnessRuleCondationList: any;
-  buisnessForm: FormGroup;
-  buisnessRuleTargetList: any = [];
-  bussinessRuleObj: any = [];
+  businessForm: FormGroup;
+  businessRuleTargetList: any = [];
+  businessRuleObj: any = [];
   UIRule: boolean = false;
   dynmaicRule: boolean = false;
+  businessRuleId: string = '';
+
   dynamicBuisnessRule() {
-    this.buisnessRuleData = [];
-    this.buisnessRuleIfList = [];
+    this.businessRuleData = [];
+    this.businessRuleIfList = [];
     this.UIRule = false;
     this.dynmaicRule = true;
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    this.buisnessForm = this.formBuilder.group({
+    this.businessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([])
     });
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.buisnessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
+        this.businessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
-    this.buisnessRuleData = this.buisnessRuleIfList;
+    this.businessRuleData = this.businessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
-    this.buisnessRuleTargetList;
+    this.businessRuleTargetList;
     this.BuisnessRuleCondationList = [
       { name: "==", key: "==" },
       { name: "!=", key: "!=" },
@@ -68,17 +70,18 @@ export class BusinessRuleComponent implements OnInit {
         next: (getRes: any) => {
           if (getRes.isSuccess) {
             if (getRes.data.length > 0) {
-              const objRuleData = JSON.parse(getRes.data[0].buisnessRuleData);
-              this.buisnessForm = this.formBuilder.group({
-                buisnessRule: this.formBuilder.array(objRuleData.map((getBuisnessRuleRes: any) =>
+              this.businessRuleId = getRes.data[0]._id;
+              const objRuleData = JSON.parse(getRes.data[0].businessRuleData);
+              this.businessForm = this.formBuilder.group({
+                buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                   this.formBuilder.group({
-                    ifCondition: [getBuisnessRuleRes.ifCondition],
-                    oprator: [getBuisnessRuleRes.oprator],
-                    getValue: [getBuisnessRuleRes.getValue],
-                    target: [getBuisnessRuleRes.target],
-                    opratorForTraget: [getBuisnessRuleRes.opratorForTraget],
-                    resultValue: [getBuisnessRuleRes.resultValue],
-                    conditional: this.formBuilder.array(getBuisnessRuleRes.conditional.map((getConditionalRes: any) =>
+                    ifCondition: [getBusinessRuleRes.ifCondition],
+                    oprator: [getBusinessRuleRes.oprator],
+                    getValue: [getBusinessRuleRes.getValue],
+                    target: [getBusinessRuleRes.target],
+                    opratorForTraget: [getBusinessRuleRes.opratorForTraget],
+                    resultValue: [getBusinessRuleRes.resultValue],
+                    conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
                       this.formBuilder.group({
                         condifCodition: getConditionalRes.condifCodition,
                         condOperator: getConditionalRes.condOperator,
@@ -86,7 +89,7 @@ export class BusinessRuleComponent implements OnInit {
                         condType: getConditionalRes.condType
                       })
                     )),
-                    thenCondition: this.formBuilder.array(getBuisnessRuleRes.thenCondition.map((getthenCodRes: any) =>
+                    thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
                       this.formBuilder.group({
                         thenTarget: getthenCodRes.thenTarget,
                         thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
@@ -117,16 +120,16 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   changeDynamicBuisnessRuleIf() {
-    this.buisnessRuleTargetList = [];
+    this.businessRuleTargetList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.buisnessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
+        this.businessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
-    // this.buisnessRuleTargetList = this.buisnessRuleTargetList.filter((a: any) => a.key != this.ifDynamicMenuName);
+    // this.businessRuleTargetList = this.businessRuleTargetList.filter((a: any) => a.key != this.ifDynamicMenuName);
   }
   buisnessRule(): FormArray {
-    return this.buisnessForm.get('buisnessRule') as FormArray;
+    return this.businessForm.get('buisnessRule') as FormArray;
   }
   buisnessRuleSkills(empIndex: number): FormArray {
     return this.buisnessRule()
@@ -184,10 +187,8 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
-    debugger
-
-    this.bussinessRuleObj = [];
-    this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
+    this.businessRuleObj = [];
+    this.businessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
@@ -204,7 +205,7 @@ export class BusinessRuleComponent implements OnInit {
         if: elv.ifCondition + " " + elv.oprator + this.applyCondition(elv.getValue) + this.checkValueIntegerOrNot(elv.getValue) + this.applyCondition(elv.getValue) + cond,
         then: elv.target + " " + elv.opratorForTraget + ' "' + this.checkValueIntegerOrNot(elv.resultValue) + '"' + condThen
       };
-      this.bussinessRuleObj.push(dt);
+      this.businessRuleObj.push(dt);
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
     });
 
@@ -212,18 +213,23 @@ export class BusinessRuleComponent implements OnInit {
     const businessRuleValid = {
       "screenName": this.screenName,
       "screenBuilderId": this.screenId,
-      "businessRule": JSON.stringify(this.bussinessRuleObj),
-      "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule)
+      "businessRule": JSON.stringify(this.businessRuleObj),
+      "businessRuleData": JSON.stringify(this.businessForm.value.buisnessRule)
     }
     const businessRuleValidModel = {
       "BusinessRule": businessRuleValid
     }
     if (businessRuleValidModel.BusinessRule != null) {
-      if (mainModuleId[0].screenId != null) {
-        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', businessRuleValidModel).subscribe({
+      if (mainModuleId[0].navigation != null) {
+        const checkAndProcess = this.businessRuleId == ''
+          ? this.applicationService.addNestCommonAPI('cp', businessRuleValidModel)
+          : this.applicationService.updateNestCommonAPI('cp/BusinessRule', this.businessRuleId, businessRuleValidModel);
+        this.requestSubscription = checkAndProcess.subscribe({
           next: (res: any) => {
-            if (res.isSuccess)
+            if (res.isSuccess) {
+              this.dynamicBuisnessRule();
               this.toastr.success(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
+            }
             else
               this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
           },
@@ -273,7 +279,7 @@ export class BusinessRuleComponent implements OnInit {
         // });
       }
     }
-    const fishRhyme = ruleFactory(this.bussinessRuleObj);
+    const fishRhyme = ruleFactory(this.businessRuleObj);
     // const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
     // console.log(fishRhyme1({ text_675d95bf: "abc" }));
     // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
@@ -287,16 +293,26 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   deleteBuisnessRule() {
-    this.applicationService.deleteNestCommonAPI('cp/BusinessRule', this.screenId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.toastr.success(res.message, { nzDuration: 3000 });
-        else
-          this.toastr.success(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    if (this.businessRuleId != '')
+      this.applicationService.deleteNestCommonAPI('cp/BusinessRule', this.businessRuleId).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.businessRuleId = '';
+            this.businessForm = this.formBuilder.group({
+              buisnessRule: this.formBuilder.array([])
+            });
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          }
+          else
+            this.toastr.success(res.message, { nzDuration: 3000 });
+        },
+        error: (err) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    else
+      this.businessForm = this.formBuilder.group({
+        buisnessRule: this.formBuilder.array([])
+      });
   }
 }

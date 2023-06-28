@@ -107,7 +107,6 @@ export class MainComponent implements OnInit {
     this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
   getJoiValidation() {
-    debugger
     this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe(((getRes: any) => {
       if (getRes.isSuccess)
         this.joiValidationData = getRes.data;
@@ -116,7 +115,6 @@ export class MainComponent implements OnInit {
     }))
   }
   joiValidation() {
-    debugger
     let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.mainData.length; j++) {
@@ -269,7 +267,6 @@ export class MainComponent implements OnInit {
     return convertedModel;
   }
   updateModel(data: any) {
-    debugger
     const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
     if (this.form.get(dynamicPropertyName)) {
       this.form.get(dynamicPropertyName)?.patchValue(data);
@@ -497,6 +494,4 @@ export class MainComponent implements OnInit {
       }
     });
   }
-
-
 }

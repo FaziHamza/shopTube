@@ -74,7 +74,6 @@ export class MenuComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.menuSelectedThemeLayout.subscribe({
       next: (res) => {
         if (res)
-          debugger
         this.showCollapseButton = res;
       },
       error: (err) => {

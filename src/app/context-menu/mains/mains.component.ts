@@ -42,7 +42,6 @@ export class MainsComponent implements OnInit {
     this.notify.emit(data);
   }
   updateModel(data: any) {
-    debugger
     this.notifyDbClick.emit(data);
   }
   handleIndexChange(e: number): void {

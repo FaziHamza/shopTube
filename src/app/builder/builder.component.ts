@@ -157,8 +157,8 @@ export class BuilderComponent implements OnInit {
         if (res.isSuccess)
           this.departmentData = res.data;
         else
-        this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
-    },
+          this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
+      },
       error: (err) => {
         this.toastr.error(`Department : An error occured`, { nzDuration: 3000 });
       }
@@ -395,43 +395,43 @@ export class BuilderComponent implements OnInit {
           this.builderScreenData = res.data;
           if (res.data.length > 0) {
             const objScreenData = JSON.parse(res.data[0].screenData);
-                this.isSavedDb = true;
-                // this.moduleId = res[0].moduleId;
-                this.formlyModel = [];
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-                this.updateNodes();
-                this.applyDefaultValue();
-                this.getJoiValidation(this._id);
-                // if (res[0].menuData[0].children[1]) {
+            this.isSavedDb = true;
+            // this.moduleId = res[0].moduleId;
+            this.formlyModel = [];
+            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            this.updateNodes();
+            this.applyDefaultValue();
+            this.getJoiValidation(this._id);
+            // if (res[0].menuData[0].children[1]) {
 
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
-                // else {
+            //   // this.uiRuleGetData(res[0].moduleId);
+            //   // this.uiGridRuleGetData(res[0].moduleId);
+            // }
+            // else {
             //   this.navigation = res[0].id;
-                //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-                //   // this.uiRuleGetData(res[0].moduleId);
-                //   // this.uiGridRuleGetData(res[0].moduleId);
-                // }
+            //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
+            //   // this.uiRuleGetData(res[0].moduleId);
+            //   // this.uiGridRuleGetData(res[0].moduleId);
+            // }
 
-              }
-              else {
+          }
+          else {
             // this.navigation = 0;
-                this.clearChildNode();
-              }
-              this.isSavedDb = true;
-              this.formModalData = {};
-              this.getUIRuleData(true);
-              this.getBusinessRule();
-              this.expandedKeys = this.nodes.map((node: any) => node.key);
-              this.uiRuleGetData(this.screenName);
+            this.clearChildNode();
+          }
+          this.isSavedDb = true;
+          this.formModalData = {};
+          this.getUIRuleData(true);
+          this.getBusinessRule();
+          this.expandedKeys = this.nodes.map((node: any) => node.key);
+          this.uiRuleGetData(this.screenName);
         } else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-            },
-            error: (err) => {
-              console.error(err); // Log the error to the console
-              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-            }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
     });
   }
   applyDefaultValue() {
@@ -652,10 +652,15 @@ export class BuilderComponent implements OnInit {
     this.cdr.detectChanges();
     // this.cdr.detach();
   }
+  validationRuleId: string = '';
   getJoiValidation(_id: any) {
     this.applicationService.getNestCommonAPIById('cp/ValidationRule', _id).subscribe(((getRes: any) => {
-      if (getRes.isSuccess)
-        this.joiValidationData = getRes.data;
+      if (getRes.isSuccess) {
+        if (getRes.data.length > 0) {
+          this.validationRuleId = getRes.data[0]._id;
+          this.joiValidationData = getRes.data;
+        }
+      }
       else
         this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
     }));
@@ -665,17 +670,17 @@ export class BuilderComponent implements OnInit {
       next: (getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
-          const jsonUIResult = {
-            // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-            "key": this.selectedNode.key,
-            "title": this.selectedNode.title,
-            "screenName": this.screenName,
+            const jsonUIResult = {
+              // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+              "key": this.selectedNode.key,
+              "title": this.selectedNode.title,
+              "screenName": this.screenName,
               "screenBuilderId": this._id,
               "uiData": JSON.parse(getRes.data[0].uiData),
+            }
+            this.screenData = jsonUIResult;
+          } else {
           }
-          this.screenData = jsonUIResult;
-        } else {
-        }
         } else
           this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
       },
@@ -846,11 +851,11 @@ export class BuilderComponent implements OnInit {
         next: (getRes: any) => {
           if (getRes.isSuccess)
             if (getRes.data.length > 0) {
-            this.businessRuleData = [];
+              this.businessRuleData = [];
               this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
-          } else {
-            this.businessRuleData = [];
-          }
+            } else {
+              this.businessRuleData = [];
+            }
           else
             this.toastr.error(getRes.message, { nzDuration: 3000 }); // Show an error message to the user
         },
@@ -3026,7 +3031,7 @@ export class BuilderComponent implements OnInit {
           const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
           const jsonRuleValidation = {
             "screenName": this.screenName,
-            "screenId": this._id,
+            "screenBuilderId": this._id,
             "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
@@ -3042,11 +3047,17 @@ export class BuilderComponent implements OnInit {
           const validationRuleModel = {
             "ValidationRule": JOIData
           }
-          this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
+          const checkAndProcess = this.validationRuleId == ''
+            ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+            : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+          checkAndProcess.subscribe({
             next: (res: any) => {
-              if (res.isSuccess)
+              if (res.isSuccess) {
+                this.getJoiValidation(this._id);
                 this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-              else {this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })}
+              }
+              else
+                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
             },
             error: (err) => {
               this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
@@ -4535,12 +4546,11 @@ export class BuilderComponent implements OnInit {
               item.children[0].children = res.data.filter((x: any) => x.templateType == 'builderBlock');
             }
           })
-        } else
-         {this.toastr.error(`Template : ${res.message}`, { nzDuration: 3000 }); }
+        } else { this.toastr.error(`Template : ${res.message}`, { nzDuration: 3000 }); }
       },
       error: (err) => {
         console.error(err);
-        {this.toastr.error(`Template : An error occurred`, { nzDuration: 3000 }); }
+        { this.toastr.error(`Template : An error occurred`, { nzDuration: 3000 }); }
       }
     });
   }
@@ -4582,9 +4592,14 @@ export class BuilderComponent implements OnInit {
   deleteValidationRule(data: any) {
     this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData._id).subscribe({
       next: (res: any) => {
-        if (res.isSuccess)
-        this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-        else this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+        if (res.isSuccess) {
+          this.validationRuleId = '';
+          this.validationFieldData.modelData = {};
+          this.getJoiValidation(this._id);
+          this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+        }
+        else
+          this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
       },
       error: () => {
         this.toastr.error('Delete data unhandler', { nzDuration: 3000 });

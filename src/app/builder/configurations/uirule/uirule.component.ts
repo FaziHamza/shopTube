@@ -31,6 +31,7 @@ export class UIRuleComponent implements OnInit {
   condationList: any;
   ifMenuName: any = [];
   ifMenuList: any = [];
+  uiRuleId: string = '';
   ngOnInit(): void {
     this.uiRule();
   }
@@ -147,7 +148,7 @@ export class UIRuleComponent implements OnInit {
   }
   uiRuleFormInitilize() {
     this.uiRuleForm = this.formBuilder.group({
-      uiRules: this.formBuilder.array([this.uIRuleInitilize()])
+      uiRules: this.formBuilder.array([])
     });
   }
   getUiRule(): FormArray {
@@ -193,7 +194,6 @@ export class UIRuleComponent implements OnInit {
       .get('targetCondition') as FormArray;
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
-
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
       if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
@@ -326,10 +326,14 @@ export class UIRuleComponent implements OnInit {
       "UiRule": jsonUIResult
     }
     if (jsonUIResult != null) {
-      this.applicationService.addNestCommonAPI('cp', uiModel).subscribe({
+      const checkAndProcess = this.uiRuleId == ''
+        ? this.applicationService.addNestCommonAPI('cp', uiModel)
+        : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
+      checkAndProcess.subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+            this.uiRule();
             this.ruleNotify.emit(true);
             this.screenData = [];
             this.screenData = jsonUIResult;
@@ -394,38 +398,41 @@ export class UIRuleComponent implements OnInit {
 
     this.applicationService.getNestCommonAPIById('cp/UiRule', this.screenId).subscribe((getRes: any) => {
       if (getRes.isSuccess) {
-        const objUiData = JSON.parse(getRes.data[0].uiData);
-        this.uiRuleForm = this.formBuilder.group({
-          uiRules: this.formBuilder.array(
-            objUiData.map((getUIRes: any, uiIndex: number) =>
-              this.formBuilder.group({
-                ifMenuName: [getUIRes.ifMenuName],
-                condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
-                condationName: [getUIRes.condationName],
-                targetValue: [getUIRes.targetValue],
-                conditonType: [getUIRes.conditonType],
-                targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
-                  this.formBuilder.group({
-                    ifMenuName: [getIFRes.ifMenuName],
-                    condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
-                    condationName: [getIFRes.condationName],
-                    targetValue: [getIFRes.targetValue],
-                    conditonType: [getIFRes.conditonType]
-                  }))),
-                targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
-                  this.formBuilder.group({
-                    targetValue: [getTargetRes.targetValue],
-                    targetName: [getTargetRes.targetName],
-                    formattingName: [getTargetRes.formattingName],
-                    inputJsonData: [getTargetRes.inputJsonData],
-                    inputOldJsonData: [getTargetRes.inputOldJsonData],
-                    changeData: getTargetRes.changeData
-                  })
-                )),
-              })
+        if (getRes.data.length > 0) {
+          this.uiRuleId = getRes.data[0]._id;
+          const objUiData = JSON.parse(getRes.data[0].uiData);
+          this.uiRuleForm = this.formBuilder.group({
+            uiRules: this.formBuilder.array(
+              objUiData.map((getUIRes: any, uiIndex: number) =>
+                this.formBuilder.group({
+                  ifMenuName: [getUIRes.ifMenuName],
+                  condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
+                  condationName: [getUIRes.condationName],
+                  targetValue: [getUIRes.targetValue],
+                  conditonType: [getUIRes.conditonType],
+                  targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+                    this.formBuilder.group({
+                      ifMenuName: [getIFRes.ifMenuName],
+                      condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
+                      condationName: [getIFRes.condationName],
+                      targetValue: [getIFRes.targetValue],
+                      conditonType: [getIFRes.conditonType]
+                    }))),
+                  targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
+                    this.formBuilder.group({
+                      targetValue: [getTargetRes.targetValue],
+                      targetName: [getTargetRes.targetName],
+                      formattingName: [getTargetRes.formattingName],
+                      inputJsonData: [getTargetRes.inputJsonData],
+                      inputOldJsonData: [getTargetRes.inputOldJsonData],
+                      changeData: getTargetRes.changeData
+                    })
+                  )),
+                })
+              )
             )
-          )
-        });
+          });
+        }
       } else
         this.toastr.error(getRes.message, { nzDuration: 3000 });
     });
@@ -538,16 +545,23 @@ export class UIRuleComponent implements OnInit {
   }
 
   deleteUiRule() {
-    this.applicationService.deleteNestCommonAPI('cp/UiRule', this.screenId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
-        else
-          this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
+    if (this.uiRuleId != '')
+      this.applicationService.deleteNestCommonAPI('cp/UiRule', this.uiRuleId).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.uiRuleId = '';
+            this.uiRuleFormInitilize();
+            this.uiRule();
+            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          }
+          else
+            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+        },
+        error: (err) => {
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        }
+      });
+    else
+      this.uiRuleFormInitilize();
   }
 }
