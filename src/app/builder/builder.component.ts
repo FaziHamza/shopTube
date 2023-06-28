@@ -5498,7 +5498,7 @@ export class BuilderComponent implements OnInit {
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
-      this.router.navigate(['/pages/', this.screenId]);
+      this.router.navigate(['/pages/', this.navigation]);
     }
   }
 }
