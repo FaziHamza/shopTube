@@ -23,7 +23,7 @@ export class AppSideMenuComponent implements OnInit {
   moduleData: any = [];
   selectApplicationModuleData: any = [];
   requestSubscription: Subscription;
-  checked:false
+  checked: false
   isActiveShow: any;
   hoverActiveShow: any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
@@ -33,6 +33,20 @@ export class AppSideMenuComponent implements OnInit {
   ngOnInit(): void {
     this.loadModules();
     // this.makeMenuData();
+  }
+  loadModules(): void {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.moduleData = res.data;
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 
 
@@ -57,9 +71,36 @@ export class AppSideMenuComponent implements OnInit {
         this.selectedTheme.rowClass = 'w-10/12';
         this.selectedTheme.topHeaderMenu = 'w-1/6';
         this.selectedTheme.topHeader = 'w-10/12';
+      }
     }
-  }
 
+
+
+
+
+
+    // changeIcon() {
+    //   this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
+    // }
+
+
+
+    // newMenuArrayFunc() {
+    //   this.newMenuArray = [];
+    //   if (this.menuItems.length > 7) {
+    //     this.newMenuArray = [{
+    //       label: "More",
+    //       icon: "down",
+    //       subMenu: []
+    //     }]
+    //     this.newMenuArray[0].subMenu = this.menuItems.slice(7);
+    //     this.menuItems.splice(7);
+    //   }
+    // }
+
+
+
+  }
   getMenu() {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
       next: (res: any) => {
@@ -80,29 +121,8 @@ export class AppSideMenuComponent implements OnInit {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    }
+    })
   }
-
-  // getMenu() {
-  //   debugger
-  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', "649053c6ad28a951f554e688").subscribe({
-  //     next: (res) => {
-  //       if (res.length > 0) {
-  //         this.selectedTheme.allMenuItems = JSON.parse(res[0].menuData);
-  //         this.makeMenuData();
-  //         this.selectedTheme.allMenuItems.forEach((e: any) => {
-  //           e["menuIcon"] = "up"
-  //         });
-  //       }
-  //       else
-  //         this.menuItems = [];
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //     }
-  //   })
-  // }
   makeMenuData() {
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;
@@ -125,12 +145,6 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-
-
-  // changeIcon() {
-  //   this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
-  // }
-
   loadTabsAndButtons(event: MouseEvent, data: any,pushInTwoColumn ?:any) {
     this.isActiveShow = data.id;
     event.stopPropagation();
@@ -172,20 +186,6 @@ export class AppSideMenuComponent implements OnInit {
       }
     }
   }
-
-  // newMenuArrayFunc() {
-  //   this.newMenuArray = [];
-  //   if (this.menuItems.length > 7) {
-  //     this.newMenuArray = [{
-  //       label: "More",
-  //       icon: "down",
-  //       subMenu: []
-  //     }]
-  //     this.newMenuArray[0].subMenu = this.menuItems.slice(7);
-  //     this.menuItems.splice(7);
-  //   }
-  // }
-
   makeMenuItemsArray() {
     if (this.newMenuArray.length > 0) {
       if (this.newMenuArray[0].subMenu.length > 0) {
@@ -203,20 +203,7 @@ export class AppSideMenuComponent implements OnInit {
     }
     return true;
   }
-  loadModules(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.moduleData = res.data;
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
-  }
+
 }
 
 

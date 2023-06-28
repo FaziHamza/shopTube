@@ -36,14 +36,14 @@ export class MainComponent implements OnInit {
   editorData: any;
   ruleValidation: any = {};
   ruleObj: any = {};
- 
+
   formlyModel: any;
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
   joiValidationData: TreeNode[] = [];
   requestSubscription: Subscription;
   isShowContextMenu = false;
-
+  schemaValidation: any;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -54,7 +54,7 @@ export class MainComponent implements OnInit {
       this.isShowContextMenu = true;
   }
 
-  
+
   handleIndexChange(e: number): void {
     console.log(e);
   }
@@ -245,7 +245,7 @@ export class MainComponent implements OnInit {
         }
       }
     }
-
+  }
   updateModel(data: any) {
     const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
     if (this.form.get(dynamicPropertyName)) {
@@ -317,7 +317,7 @@ export class MainComponent implements OnInit {
     //     nestedObject = value;
     //   }
     // });
-    const empData = {
+    const empData: any = {
       screenId: this.screenName,
       modalData: oneModelData
     };
@@ -474,9 +474,9 @@ export class MainComponent implements OnInit {
       }
     });
   }
-  saveData(data : any){
-   
-    this.notifySection.emit(data);
-  }
+  // saveData(data: any) {
+
+  //   this.notifySection.emit(data);
+  // }
 
 }
