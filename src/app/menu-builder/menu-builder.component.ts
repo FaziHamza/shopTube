@@ -1322,10 +1322,11 @@ export class MenuBuilderComponent implements OnInit {
               this.selectedTheme.isCollapsed = false;
           }
           else {
-            this.selectedTheme.isCollapsed = true;
-            this.selectedTheme.horizontalRow = 'flex flex-wrap';
+            this.selectedTheme.isCollapsed = false;
+            this.selectedTheme.menuColumn = 'w-1/6';
             this.selectedTheme.rowClass = 'w-10/12';
-            this.selectedTheme.checked = false;
+            this.selectedTheme.topHeaderMenu = 'w-1/6';
+            this.selectedTheme.topHeader = 'w-10/12';
           }
         }
         else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
@@ -1600,9 +1601,9 @@ export class MenuBuilderComponent implements OnInit {
   // }
 
   checkPage() {
-    if(this.dataSharedService.goToMenu){
+    if (this.dataSharedService.goToMenu) {
       this.router.navigate(['/']);
-    }else{
+    } else {
       this.toastr.warning('Please select Application', { nzDuration: 3000 });
     }
   }
