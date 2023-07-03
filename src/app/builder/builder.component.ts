@@ -151,6 +151,7 @@ export class BuilderComponent implements OnInit {
     this.makeFormlyTypeOptions(htmlTabsData[0]);
   }
   getScreenBuilder(applicationId: string) {
+    debugger
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
@@ -166,7 +167,9 @@ export class BuilderComponent implements OnInit {
 
 
   }
+
   getDepartments() {
+    debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
       next: (res: any) => {
         if (res.isSuccess)
@@ -180,6 +183,7 @@ export class BuilderComponent implements OnInit {
     });
   };
   getApplications(id: any) {
+    debugger
     this.selectApplicationName = "";
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
       next: (res: any) => {
