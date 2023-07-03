@@ -3,7 +3,7 @@
     <div class="w-1/12 mt-1 ml-1">
       <label class="pr-2 pt-2">Departments</label>
     </div>
-    <small>{{selectDepartmentName}}</small>
+    <!-- <small>{{selectDepartmentName}}</small> -->
     <div class="w-1/6">
       <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectDepartmentName"
         (ngModelChange)="getApplications(selectDepartmentName)"
@@ -15,7 +15,7 @@
     <div class="w-1/12 mt-1 ml-1">
       <label class="pr-2 pt-2">Applications</label>
     </div>
-    <small>{{selectApplicationName}}</small>
+    <!-- <small>{{selectApplicationName}}</small> -->
     <div class="w-1/6">
       <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName"
         (ngModelChange)="getScreenBuilder(selectApplicationName)"
