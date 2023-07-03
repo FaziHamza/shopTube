@@ -1,4 +1,4 @@
-<div [class]="buttonData.buttonClass">
+
   <button
     *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'"
     nz-button
@@ -6,6 +6,7 @@
     [nzDanger]="buttonData.nzDanger"
     [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading"
     [nzShape]="buttonData.nzShape"
+    [class]="buttonData.buttonClass"
     [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
     [type]="buttonData.isSubmit ? 'submit' : 'button'"
     [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
@@ -45,7 +46,7 @@
       'background-color': bgColor || buttonData.color,
       'border-color': borderColor || buttonData.borderColor,
       'color': hoverTextColor || buttonData.textColor
-    }" [class]="[buttonData.color, buttonData.hoverColor]"
+    }" [class]="[buttonData.color, buttonData.hoverColor , buttonData.buttonClass]"
       (mouseover)="bgColor = buttonData?.hoverColor"
       (mouseout)="bgColor = buttonData?.color" (click)="pagesRoute(buttonData)"
       (mouseover)="handleButtonMouseOver(buttonData)"
@@ -70,11 +71,11 @@
   </div>
 
   <!-- dropdown  -->
-  <div *ngIf="buttonData.type == 'dropdownButton'">
-    <button nz-button nz-dropdown [nzDropdownMenu]="menu"
+    <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
       [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost"
       [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled"
       [nzLoading]="buttonData.nzLoading"
+      [class]="buttonData.buttonClass"
       [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger"
       [nzPlacement]="buttonData.placement"
       [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible"
@@ -122,9 +123,7 @@
         </li>
       </ul>
     </nz-dropdown-menu>
-  </div>
-</div>
-
+    
 <!-- Modal -->
 <nz-modal nzWidth="1000px" [(nzVisible)]="isVisible"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">

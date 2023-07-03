@@ -70,6 +70,7 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
+      rowClass:'flex flex-wrap'
     }
   }
   getHeaderControl() {
@@ -327,6 +328,7 @@ export class AddControlService {
       badgeRibbonText: '',
       badgeCount: '',
       dot_ribbon_color: '#E93F3F',
+      rowClass:'flex flex-wrap'
     }
   }
   getSwitchControl() {
@@ -611,6 +613,7 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
+      rowClass:'flex flex-wrap'
     }
   }
   getStepControl() {
@@ -702,6 +705,7 @@ export class AddControlService {
       imageSrc: '',
       height: 0,
       width: 0,
+      rowClass:'flex flex-wrap'
     }
   }
   mainDivControl() {

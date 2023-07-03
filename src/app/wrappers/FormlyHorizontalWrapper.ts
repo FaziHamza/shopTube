@@ -26,7 +26,7 @@ import { DataSharedService } from '../services/data-shared.service';
       <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
     </span>
   </label>
-  <div [ngClass]="[(!to.label) || (!to.label && to['className'].include('w-full')) ? 'w-full' : fieldColumn]">
+  <div  [ngClass]="[(!to.label) || (!to.label && to['className'].include('w-full')) ? 'w-full' : fieldColumn]">
     <ng-template #fieldComponent></ng-template>
   </div>
   <div *ngIf="to['additionalProperties']?.error != null" class="{{labelColumn}}"></div>

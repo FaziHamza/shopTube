@@ -1331,11 +1331,15 @@ export class MenuBuilderComponent implements OnInit {
           }
         }
         else if (layoutType == 'horizental') {
+          this.selectedTheme.siderBarImages = '';
           this.selectedTheme.isCollapsed = false;
           this.selectedTheme.layout = layoutType;
           this.horizentalLayout();
-          if (this.selectedTheme.layoutWidth == 'boxed')
-            this.selectedTheme.rowClass = 'w-full'
+          if (!this.selectedTheme.layoutWidth) {
+            this.selectedTheme.layoutWidth = 'fluid';
+          }
+          else if (this.selectedTheme.layoutWidth == 'boxed')
+          this.selectedTheme.rowClass = 'w-full'
         }
         else if (layoutType == 'dark') {
           this.selectedTheme.theme = true;
@@ -1384,10 +1388,6 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.layoutWidth = layoutType;
           if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
             this.horizentalLayout();
-            // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-            // this.selectedTheme.rowClass = 'h-5/6';
-            // this.selectedTheme.menuColumn = 'w-full',
-            // this.menuMode = "horizontal";
           }
         }
         else if (layoutType == 'light' || layoutType == 'dark') {

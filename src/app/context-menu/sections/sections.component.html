@@ -36,7 +36,7 @@
     class="{{sections.children[1].className}} {{sections.children[1].highLight ? 'highLight' : ''}} "
     [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
     <st-main (notifySection)="abc123($event)"
-      [mainData]="sections.children[1].children" [dataModel]="formlyModel"
+      [mainData]="sections.children[1]" [dataModel]="formlyModel"
       [screenId]="screenId"
       [screenName]="screenName"></st-main>
   </div>
@@ -65,7 +65,7 @@
         *ngIf="resData.length > 0"
         [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
         <st-main (notifySection)="abc123($event)"
-          [mainData]="sections.children[1].children" [dataModel]="formlyModel"
+          [mainData]="sections.children[1]" [dataModel]="formlyModel"
           [screenName]="screenName"
           [screenId]="screenId"></st-main>
       </div>

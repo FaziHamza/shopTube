@@ -3022,6 +3022,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'rowClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Row Class',
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'radius',
           type: 'input',
@@ -4584,6 +4593,7 @@ export class formFeildData {
             label: 'Number of Steps',
           }
         },
+        
         {
           key: 'mapApi',
           type: 'input',
@@ -4610,14 +4620,24 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'api',
+          key: 'rowClass',
           type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Section Api',
+            label: 'Row Class',
           }
         },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'api',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Section Api',
+        //   }
+        // },
+
       ]
     },
   ]
@@ -5007,6 +5027,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'rowClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Row Class',
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'footerTextColor',
           type: 'input',
@@ -5389,6 +5418,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Input ClassName',
+          }
+        },
+        {
+          key: 'rowClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Row Class',
           }
         },
         {

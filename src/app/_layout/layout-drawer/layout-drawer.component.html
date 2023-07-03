@@ -295,51 +295,55 @@
                     </button>
                 </nz-button-group>
             </div> -->
-                    <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR IMAGES</h6>
-                    <p class="text-gray-500 text-xs">Choose a image of Sidebar</p>
-                    <div class="flex flex-wrap pt-2">
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
-                                (click)="changeLayout('')">
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-                            <!-- <div>
+                    <div *ngIf="selectedTheme.layout != 'horizental'">
+                        <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR IMAGES</h6>
+                        <p class="text-gray-500 text-xs">Choose a image of
+                            Sidebar</p>
+                        <div class="flex flex-wrap pt-2">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
+                                    (click)="changeLayout('')">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                                <!-- <div>
                                 <img
                                     [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
                                     src
                                     (click)="changeLayout('')">
                             </div> -->
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image-1.avif"
-                                    (click)="changeLayout('assets/images/menu/image-1.avif')">
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image_2.avif"
-                                    (click)="changeLayout('assets/images/menu/image_2.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image-1.avif"
+                                        (click)="changeLayout('assets/images/menu/image-1.avif')">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image_3.avif"
-                                    (click)="changeLayout('assets/images/menu/image_3.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image_2.avif"
+                                        (click)="changeLayout('assets/images/menu/image_2.avif')">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image-4.avif"
-                                    (click)="changeLayout('assets/images/menu/image-4.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image_3.avif"
+                                        (click)="changeLayout('assets/images/menu/image_3.avif')">
+                                </div>
+                            </div>
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image-4.avif"
+                                        (click)="changeLayout('assets/images/menu/image-4.avif')">
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
             <p class="text-gray-500 text-xs">Choose Default or Detached Sidebar
                 view.</p>

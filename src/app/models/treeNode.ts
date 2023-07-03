@@ -407,7 +407,6 @@ export interface TreeNode {
   showColumnHeader?: any;
   pattern?: any;
   emailTypeAllow?: any;
-
   shape?: any;
   reference?: string;
   minlength?: number;
@@ -445,13 +444,10 @@ export interface TreeNode {
   wrapClassName?: string;
   zIndex?: number;
   onClose?: string;
-  //Skeleton
   isActive?: boolean;
   buttonShape?: string;
   avatarShape?: string;
   shapeType?: string;
-
-  //list
   isBordered?: boolean;
   borderRadius?: any;
   isSplit?: boolean;
@@ -512,8 +508,6 @@ export interface TreeNode {
   suffixIcon?: any,
   statisticArray?: any,
   iconColor?: any,
-
-  //
   isCriticalPath?: any,
   stroke?: any,
   strokeWidth?: any,
@@ -533,4 +527,5 @@ export interface TreeNode {
   columnNames?: any
   checkData?: any
   rowClickApi?: any,
+  rowClass?: any,
 }

@@ -177,7 +177,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
           if (res.data.length > 0) {
             this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
             this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-            if (!res[0].selectedTheme.showMenu) {
+            if (!res.data[0].selectedTheme.showMenu) {
               this.selectedTheme['showMenu'] = true;
             }
             this.makeMenuData();

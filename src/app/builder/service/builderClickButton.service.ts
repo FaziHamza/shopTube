@@ -115,7 +115,7 @@ export class BuilderClickButtonService {
       tooltip: node.formly[0].fieldGroup[0].props['additionalProperties']['tooltip'],
       classesArray: node.formly[0].fieldGroup[0].props['additionalProperties']['classesArray'],
       selectType: node.formly[0].fieldGroup[0].props['additionalProperties']['selectType'],
-      // formlyTypes: node.formly[0].fieldGroup[0].props['additionalProperties']['formlyTypes'],
+      formlyTypes: node.formly[0].fieldGroup[0].props['additionalProperties']['formlyTypes'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,
@@ -380,6 +380,7 @@ export class BuilderClickButtonService {
       dbData: node['dbData'],
       tableData: node['tableData'],
       borderRadius: node['borderRadius'],
+      rowClass: node['rowClass'],
       // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
     }
   }

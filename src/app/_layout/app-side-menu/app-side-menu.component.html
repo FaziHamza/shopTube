@@ -3,7 +3,7 @@
   [ngClass]="{
     'tow-colmn-sidebar': selectedTheme.layout == 'twoColumn',
     'flex':selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed,
-    'rtlMenu': selectedTheme.layout == 'rtl' && selectedTheme.sideBarSize != 'compact' && selectedTheme.sideBarSize != 'compact_right' && selectedTheme.sideBarSize != 'compact_left' && selectedTheme.sideBarSize != 'smallIconView' && selectedTheme.sideBarSize != 'smallHoverView',
+    'rtlMenu': selectedTheme.layout == 'rtl' ,
     'compact-sidebar': selectedTheme.sideBarSize == 'compact' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ,
     'compact-sidebar-right': selectedTheme.sideBarSize == 'compact_right' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
     'compact-sidebar-left': selectedTheme.sideBarSize == 'compact_left' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
@@ -19,7 +19,7 @@
       [style.background-image]="selectedTheme.layout != 'twoColumn' ? 'url(' + selectedTheme.siderBarImages + ')' : ''">
       <ul [class]="selectedTheme?.font"
         [style.background]="selectedTheme.backGroundColor" nz-menu
-        [ngClass]="this.selectedTheme.layout == 'rtl' ? 'rtlMenu' : ''"
+        [ngClass]="{'rtlMenu': selectedTheme.layout == 'rtl'}"
         [nzMode]='selectedTheme.menuMode'
         [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
         <div class="small-hover-menu-check">
@@ -378,30 +378,30 @@
             nz-icon nzType="line"></span> -->
           <span
             [style.font-size.px]="selectedTheme['titleSize'] || 15"
-            [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}aa</span>
+            [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
         </ng-template>
         <ul [class]="selectedTheme?.font"
           [style.background]="selectedTheme.backGroundColor">
           <ng-container *ngFor="let sub of item.children">
             <li *ngIf="sub.type != 'mainTab'"
-                [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-                nz-menu-item (click)="loadTabsAndButtons($event, sub)"
-                (mouseenter)="hoverActiveShow = sub.id"
-                (mouseleave)="hoverActiveShow = null"
-                nz-tooltip nzTooltipPlacement="right"
-                [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
-                <!-- <span class="menu-item-icon">
+              [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
+              nz-menu-item (click)="loadTabsAndButtons($event, sub)"
+              (mouseenter)="hoverActiveShow = sub.id"
+              (mouseleave)="hoverActiveShow = null"
+              nz-tooltip nzTooltipPlacement="right"
+              [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
+              <!-- <span class="menu-item-icon">
                   <st-icon *ngIf="sub.icon"
                     [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                     [size]="selectedTheme['iconSize'] || 15"
                     [color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverIconColor'] :
                 ((isActiveShow === sub.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
                 </span> -->
-                <span class="sidenav-title"
-                  [style.font-size.px]="selectedTheme['titleSize'] || 15"
-                  [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
-                  sub.title | translate}}</span>
-              </li>
+              <span class="sidenav-title"
+                [style.font-size.px]="selectedTheme['titleSize'] || 15"
+                [style.color]="(hoverActiveShow === sub.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === sub.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{
+                sub.title | translate}}</span>
+            </li>
           </ng-container>
         </ul>
       </li>
@@ -420,7 +420,7 @@
             nz-icon nzType="line"></span> -->
           <span
             [style.font-size.px]="selectedTheme['titleSize'] || 15"
-            [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}bb</span>
+            [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
         </li>
       </ng-template>
     </ng-container>
