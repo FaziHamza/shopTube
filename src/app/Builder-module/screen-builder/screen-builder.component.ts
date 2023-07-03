@@ -134,7 +134,7 @@ export class ScreenBuilderComponent implements OnInit {
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'departmentId' && event) {
-       
+       debugger
         this.getApplicationOptionList(event);
       }
       if (field.key === 'organizationId' && event) {
@@ -233,7 +233,7 @@ export class ScreenBuilderComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.isSuccess) {
           console.log('getOrganization-Info');
-          this.organizationData = res;
+          this.organizationData = res.data;
           this.loadScreenListFields();
         }
         else console.error(res.message, { nzDuration: 3000 });
@@ -251,7 +251,7 @@ export class ScreenBuilderComponent implements OnInit {
     }
     let findData = this.listOfDisplayData.find(
       (a) =>
-        a.screenId.toLowerCase() == this.form.value.screenId &&
+        a.navigation.toLowerCase() == this.form.value.navigation &&
         a.id != this.model?.id
     );
     let findDataScreen = this.listOfDisplayData.find(
@@ -277,12 +277,12 @@ export class ScreenBuilderComponent implements OnInit {
       return;
     } else {
       const screenModel = {
-        Screen: this.form.value,
+        ScreenBuilder: this.form.value,
       };
 
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, this.form.value);
+        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, screenModel);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -387,7 +387,7 @@ export class ScreenBuilderComponent implements OnInit {
       this.listOfDisplayData = this.listOfData.filter((item: any) => {
         const { name } = data;
         const {
-          screenId,
+          navigation,
           applicationName,
           departmentName,
           moduleName,
@@ -395,7 +395,7 @@ export class ScreenBuilderComponent implements OnInit {
         } = item;
 
         if (name === 'Screen Id') {
-          return screenId.toLowerCase().indexOf(inputValue) !== -1;
+          return navigation.toLowerCase().indexOf(inputValue) !== -1;
         }
 
         if (name === 'Department') {
