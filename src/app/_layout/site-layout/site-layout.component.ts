@@ -261,30 +261,29 @@ export class SiteLayoutComponent implements OnInit {
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
-        if (res.length > 0) {
-          debugger
-          this.logo = res[0].image;
+        if (res.isSuccess) {
+          this.logo = res.data[0]['image'];
           // this.dataSharedService.currentApplication.next(res[0]);
-          this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
+          this.currentWebsiteLayout = res.data[0]?.application_Type ? res.data[0]?.application_Type : 'backend_application';
           const observables = [
 
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
-            this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
-            this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
-            this.builderService.getJsonModules(res[0].name),
+            this.applicationService.getNestCommonAPIById('cp/Builder',res.data[0].name + "_header"),
+            this.applicationService.getNestCommonAPIById('cp/Builder',res.data[0].name + "_footer"),
+            this.applicationService.getNestCommonAPIById('cp/Menu',res.data[0]._id),
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-              // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
-              // this.dataSharedService.defaultPageNodes = results[2]? results[2].length > 0? results[2][0].menuData : "" : '';
-              this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
-              this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
-              this.dataSharedService.menus = results[2] ? results[2][0].selectedTheme ? results[2][0].selectedTheme : {} : {};
-              this.dataSharedService.menus.allMenuItems = results[2][0].menuData
-              if (this.currentWebsiteLayout == 'backend_application' && results[2] && results[2][0].selectedTheme) {
-                this.selectedTheme = results[2][0].selectedTheme;
-                this.selectedTheme.allMenuItems = results[2][0].menuData
+              this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length  > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
+              this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? this.jsonParseWithObject(results[1].data[0].screenData) : '' : '');
+              let getMenu = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) :{} : {};
+              let selectedTheme = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) :{} : {};
+              if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+                this.selectedTheme = selectedTheme;
+                this.selectedTheme.allMenuItems = getMenu
               } else {
+                this.dataSharedService.menus = getMenu;
+                this.dataSharedService.menus.allMenuItems = getMenu;
                 this.selectedTheme = undefined;
               }
             },
@@ -300,6 +299,28 @@ export class SiteLayoutComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(data, (key, value) => {
+      if (typeof value === 'string' && value.startsWith('(')) {
+        return eval(`(${value})`);
+      }
+      return value;
+    });
+  }
+  jsonStringifyWithObject(data: any) {
+    return (
+      JSON.stringify(data, function (key, value) {
+        if (typeof value == 'function') {
+          let check = value.toString();
+          if (check.includes('model =>'))
+            return check.replace('model =>', '(model) =>');
+          else return check;
+        } else {
+          return value;
+        }
+      }) || '{}'
+    );
   }
   loadTabsAndButtons(data: any) {
 

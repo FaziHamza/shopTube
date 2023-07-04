@@ -20,11 +20,11 @@ import {
   NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
   SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
   TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent, IconComponent,
-  ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
+  ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, ContentEditDirective, HtmlBlockComponent,
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -93,7 +93,7 @@ import { CommonService } from '../../common/common-services/common.service';
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,
     SanitizePipe, IconComponent, ButtonsComponent, EditorJsWrapperComponent,
-    BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, HtmlBlockComponent,
+    BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, HtmlBlockComponent,
     ContentEditDirective, BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,
     GanttChartComponent,GeoChartComponent, HistogramChartComponent,LineChartComponent,
     SankeyChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent,
@@ -108,7 +108,7 @@ import { CommonService } from '../../common/common-services/common.service';
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
 
@@ -134,7 +134,6 @@ import { CommonService } from '../../common/common-services/common.service';
     DetailComponent,
     SummaryComponent,
     ContextMenuComponent,
-    HeaderComponent,
     ListsComponent,
     ContentEditDirective,
     EditorJsWrapperComponent,
@@ -164,7 +163,7 @@ import { CommonService } from '../../common/common-services/common.service';
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     //

@@ -35,7 +35,7 @@ export class ScreenBuilderComponent implements OnInit {
     {
       name: 'Screen Id',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.screenId.localeCompare(b.screenId),
+      sortFn: (a: any, b: any) => a.navigation.localeCompare(b.navigation),
       sortDirections: ['ascend', 'descend', null],
     },
     {
@@ -134,11 +134,11 @@ export class ScreenBuilderComponent implements OnInit {
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'departmentId' && event) {
-       
+
         this.getApplicationOptionList(event);
       }
       if (field.key === 'organizationId' && event) {
-       
+
         this.getDepartmentOptionList(event);
       }
     });
@@ -211,7 +211,7 @@ export class ScreenBuilderComponent implements OnInit {
     if (!this.isSubmit) {
       this.isSubmit = true;
       // this.getDepartment();
-      this.getOrganization();
+      // this.getOrganization();
     }
   }
   handleCancel(): void {
@@ -233,7 +233,7 @@ export class ScreenBuilderComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.isSuccess) {
           console.log('getOrganization-Info');
-          this.organizationData = res;
+          this.organizationData = res.data;
           this.loadScreenListFields();
         }
         else console.error(res.message, { nzDuration: 3000 });
@@ -245,13 +245,14 @@ export class ScreenBuilderComponent implements OnInit {
   //   }))
   // }
   onSubmit() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
     }
     let findData = this.listOfDisplayData.find(
       (a) =>
-        a.screenId.toLowerCase() == this.form.value.screenId &&
+        a.navigation.toLowerCase() == this.form.value.navigation &&
         a.id != this.model?.id
     );
     let findDataScreen = this.listOfDisplayData.find(
@@ -277,7 +278,7 @@ export class ScreenBuilderComponent implements OnInit {
       return;
     } else {
       const screenModel = {
-        Screen: this.form.value,
+        ScreenBuilder: this.form.value,
       };
 
       const checkScreenAndProceed = this.isSubmit
@@ -351,7 +352,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-   
+
     this.model = JSON.parse(JSON.stringify(item));
     this.getApplicationOptionList(this.model.departmentId);
     this.isSubmit = false;
@@ -360,7 +361,7 @@ export class ScreenBuilderComponent implements OnInit {
     this.applicationService
       .deleteNestCommonAPI('cp/ScreenBuilder', id)
       .subscribe((res: any) => {
-        if (res.isSucces) {
+        if (res.isSuccess) {
           this.jsonScreenModuleList();
           this.toastr.success(`Screen: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
@@ -381,13 +382,13 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(event?: any, data?: any): void {
-   
+
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) => {
         const { name } = data;
         const {
-          screenId,
+          navigation,
           applicationName,
           departmentName,
           moduleName,
@@ -395,7 +396,7 @@ export class ScreenBuilderComponent implements OnInit {
         } = item;
 
         if (name === 'Screen Id') {
-          return screenId.toLowerCase().indexOf(inputValue) !== -1;
+          return navigation.toLowerCase().indexOf(inputValue) !== -1;
         }
 
         if (name === 'Department') {
