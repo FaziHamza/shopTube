@@ -34,7 +34,7 @@ import { BusinessRuleGridComponent } from '../builder/configurations/business-ru
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../menu/menu.component';
-import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutTabsComponent,
+import { SiteLayoutComponent,  LayoutTabsComponent,
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
   LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
@@ -104,7 +104,7 @@ import { CommonService } from '../../common/common-services/common.service';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
@@ -159,7 +159,7 @@ import { CommonService } from '../../common/common-services/common.service';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
