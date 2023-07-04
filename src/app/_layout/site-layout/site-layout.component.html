@@ -51,13 +51,20 @@
     </nz-header>
     <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
       [dir]="this.selectedTheme.layout">
-      <div [ngClass]="{
-        'side-menu': selectedTheme.layout != 'rtl',
-        'side-menu-rtl': selectedTheme.layout == 'rtl'
-      }" [class]='selectedTheme.menuColumn' *ngIf="selectedTheme.showMenu">
+      <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
+        'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+        [class]="selectedTheme.menuColumn + ' desktop-toggle'">
         <st-app-side-menu [selectedTheme]="selectedTheme"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
+      <div
+        [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+        [class]="selectedTheme.menuColumn + ' mobile-toggle'"
+        *ngIf="selectedTheme.showMenu">
+        <st-app-side-menu [selectedTheme]="selectedTheme"
+          (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+      </div>
+
       <div [ngClass]='selectedTheme.rowClass'
         class="content-body block p-6 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
         <ng-container *ngIf="tabs.length">

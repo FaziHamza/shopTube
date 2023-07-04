@@ -609,6 +609,7 @@ export class ApplicationBuilderComponent implements OnInit {
             props: {
               label: 'Owner Name',
               placeholder: 'Owner Name...',
+              required: true,
             }
           },
         ],
@@ -667,6 +668,7 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Application Type',
+              required: true,
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,

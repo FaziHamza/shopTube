@@ -207,31 +207,6 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedTheme.allMenuItems = this.nodes;
           }
           else {
-            this.selectedTheme = {
-              topHeaderMenu: 'w-1/6',
-              topHeader: 'w-10/12',
-              menuMode: 'inline',
-              menuColumn: 'w-2/12',
-              rowClass: 'w-10/12',
-              horizontalRow: 'flex flex-wrap',
-              layout: 'vertical',
-              colorScheme: 'light',
-              layoutWidth: 'fluid',
-              layoutPosition: 'fixed',
-              topBarColor: 'light',
-              sideBarSize: 'default',
-              siderBarView: 'sidebarViewDefault',
-              sieBarColor: 'light',
-              siderBarImages: '',
-              checked: false,
-              theme: false,
-              isCollapsed: false,
-              newMenuArray: [],
-              menuChildArrayTwoColumn: [],
-              isTwoColumnCollapsed: false,
-              allMenuItems: [],
-              showMenu: true,
-            }
             this.selectedTheme.allMenuItems = this.nodes;
           }
           if (!this.selectedTheme['font']) {
@@ -986,6 +961,15 @@ export class MenuBuilderComponent implements OnInit {
         var makeData = JSON.parse(contents);
         this.selectedTheme = makeData;
         this.nodes = makeData.allMenuItems;
+        if (!this.selectedTheme['font']) {
+          this.selectedTheme['font'] = 'font-roboto'
+        }
+        if (!this.selectedTheme['inPageMenu']) {
+          this.selectedTheme['inPageMenu'] = {};
+        }
+        if (!this.selectedTheme['inPageMenu']['font']) {
+          this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
+        }
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
         // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
@@ -1339,7 +1323,7 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedTheme.layoutWidth = 'fluid';
           }
           else if (this.selectedTheme.layoutWidth == 'boxed')
-          this.selectedTheme.rowClass = 'w-full'
+            this.selectedTheme.rowClass = 'w-full'
         }
         else if (layoutType == 'dark') {
           this.selectedTheme.theme = true;
@@ -1535,7 +1519,7 @@ export class MenuBuilderComponent implements OnInit {
         nzWidth: 1000,
         nzContent: MenuBulkUpdateComponent,
         nzContentParams: {
-          nodes: this.nodes
+          nodes: JSON.parse(JSON.stringify(this.nodes)) 
         }
       });
       drawerRef.afterOpen.subscribe(() => {
@@ -1546,6 +1530,7 @@ export class MenuBuilderComponent implements OnInit {
         if (data) {
           this.nodes = data;
           this.clickBack();
+          this.makeMenuData();
         }
       });
     } else {
@@ -1556,19 +1541,26 @@ export class MenuBuilderComponent implements OnInit {
   changeIconType(data: any, nodeData: any) {
     if (nodeData.length > 0) {
       nodeData.forEach((node: any) => {
-        if (node['icon']) {
-          if (node['icon'].includes('fa-') && data == 'font_awsome') {
-            node['iconType'] = data;
-          }
-          else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
-            node['iconType'] = data;
-          }
-        } else {
+        if (data != 'null') {
           node['iconType'] = data;
         }
-        if (node.children.length > 0) {
-          this.changeIconType(data, node.children)
-        }
+        // if (node['icon'] && data != 'null') {
+        //   if (node['icon'].includes('fa-') && data == 'font_awsome') {
+        //     node['iconType'] = data;
+        //   }
+        //   else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+        //     node['iconType'] = data;
+        //   }
+        // }
+        // else if (!node['icon'] && data != 'null') {
+        //   node['iconType'] = data
+        // }
+        // else if(data != 'null') {
+        //   node['iconType'] = data;
+        // }
+        // if (node.children.length > 0) {
+        //   this.changeIconType(data, node.children)
+        // }
       });
     }
   }
@@ -1576,14 +1568,21 @@ export class MenuBuilderComponent implements OnInit {
     if (nodeData.length > 0) {
       nodeData.forEach((node: any) => {
         if (node.type == 'tab') {
-          if (node['icon']) {
-            if (node['icon'].includes('fa-') && data == 'font_awsome') {
-              node['iconType'] = data;
-            }
-            else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
-              node['iconType'] = data;
-            }
-          } else {
+          // if (node['icon']) {
+          //   if (node['icon'].includes('fa-') && data == 'font_awsome') {
+          //     node['iconType'] = data;
+          //   }
+          //   else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+          //     node['iconType'] = data;
+          //   }
+          // }
+          // else if (!node['icon']) {
+          //   node['iconType'] = data
+          // }
+          // else {
+          //   node['iconType'] = data;
+          // }
+          if (data != 'null') {
             node['iconType'] = data;
           }
           this.changeIconType(data, node);

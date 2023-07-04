@@ -741,13 +741,13 @@ a.fc-event:hover {
   }
 }
 
-@media screen and (min-width: 790px) {
+@media screen and (min-width: 768px) {
   .mobile-toggle {
     display: none !important;
   }
 }
 
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 768px) {
   .desktop-toggle {
     display: none !important;
   }
