@@ -6,14 +6,15 @@
                 [ngClass]='selectedTheme.topHeaderMenu'>
                 <img *ngIf="!selectedTheme.isCollapsed" class="logo"
                     src="assets/images/logo-dark.png">
-                    <button *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
+                <button
+                    *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
                     nz-button class="menu-collapse" (click)="collapsed()"
                     nzType="primary">
                     <span nz-icon
-                      [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-                  </button>
+                        [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+                </button>
             </div>
-           
+
             <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
                 [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
          || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
@@ -33,14 +34,19 @@
 
     <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
         [dir]="this.selectedTheme.layout">
-        <div class="side-menu" [ngClass]='selectedTheme.menuColumn'
-            *ngIf="selectedTheme.showMenu">
+        <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
+        'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+            [class]="selectedTheme.menuColumn + ' desktop-toggle'">
             <st-app-side-menu [selectedTheme]="selectedTheme"
                 (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
         </div>
         <div
-            *ngIf="selectedTheme.menuMode == 'horizontal' && this.selectedTheme.layoutWidth != 'boxed'"
-            class="w-1/12 "></div>
+            [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+            [class]="selectedTheme.menuColumn + ' mobile-toggle'"
+            *ngIf="selectedTheme.showMenu">
+            <st-app-side-menu [selectedTheme]="selectedTheme"
+                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+        </div>
         <div [ngClass]='selectedTheme.rowClass' class="content-body">
             <ng-container *ngIf="dropdown.length">
                 <st-layout-button (notify)="notifyEmitForDropdown($event)"
@@ -56,7 +62,6 @@
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div>
     </div>
     <!-- <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer> -->
 </nz-layout>

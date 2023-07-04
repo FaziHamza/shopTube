@@ -947,7 +947,9 @@ export class BuilderComponent implements OnInit {
           if (getRes.isSuccess)
             if (getRes.data.length > 0) {
               this.businessRuleData = [];
-              this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
+              if (getRes.data[0].buisnessRule) {
+                this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
+              }
             } else {
               this.businessRuleData = [];
             }
@@ -3198,6 +3200,9 @@ export class BuilderComponent implements OnInit {
               this.selectedNode?.children?.[1]?.children
             );
             filteredNodes.forEach((node) => {
+              if (event.form.sectionClassName) {
+                node.className = event.form.sectionClassName;
+              }
               node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
                 event.form,
                 node.formly[0].fieldGroup
@@ -3245,7 +3250,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['borderRadius'] = event.form.borderRadius;
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
-            if(this.selectedNode.children){
+            if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
             if (this.selectedNode.wrappers != event.form.wrappers) {
