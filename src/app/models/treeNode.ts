@@ -86,6 +86,7 @@ export interface TreeNode {
   showDots?: any;
   affixType?: any;
   target?: any;
+  buttonClass?: any;
   bond?: any;
   alt?: any;
   source?: any;

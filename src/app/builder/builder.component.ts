@@ -2626,13 +2626,21 @@ export class BuilderComponent implements OnInit {
         break;
       case 'button':
         // configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
+        if (typeof selectedNode.buttonClass === "string") {
+          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+          configObj.buttonClass = classObj
+        }
         configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case 'dropdownButton':
+        if (typeof selectedNode.buttonClass === "string") {
+          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+          configObj.buttonClass = classObj
+        }
         (configObj.icon = selectedNode.btnIcon),
-          (configObj.options = selectedNode.dropdownOptions),
+          (configObj.options = selectedNode.dropdownOptions);
           // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
           this.addIconCommonConfiguration(
             _formFieldData.dropdownButtonFields,
@@ -2648,6 +2656,10 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case 'linkbutton':
+        if (typeof selectedNode.buttonClass === "string") {
+          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+          configObj.buttonClass = classObj
+        }
         // configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         (configObj.icon = selectedNode.btnIcon),
           this.addIconCommonConfiguration(
