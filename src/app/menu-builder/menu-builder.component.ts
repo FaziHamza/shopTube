@@ -131,13 +131,18 @@ export class MenuBuilderComponent implements OnInit {
   clearChildNode() {
     this.arrayEmpty();
     const newNode = [{
-      id: 'menu_' + Guid.newGuid(),
+      id: 'Menu_' + Guid.newGuid(),
       key: 'menu_' + Guid.newGuid(),
       title: 'Menu',
       link: '',
       icon: "appstore",
       type: "input",
       isTitle: false,
+      expanded: true,
+      // color: "",
+      iconType: "outline",
+      iconSize: "15",
+      iconColor: "",
       children: [
       ],
     } as any];
@@ -674,6 +679,8 @@ export class MenuBuilderComponent implements OnInit {
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     temporaryData.allMenuItems = []
+    temporaryData.menuChildArrayTwoColumn = []
+    temporaryData.newMenuArray = []
     var data: any =
     {
       "name": this.applicationName,
@@ -763,16 +770,20 @@ export class MenuBuilderComponent implements OnInit {
 
   downloadAllJson() {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
-    const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
-    var data =
+    // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
+    const SaveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
+    SaveTheme.allMenuItems = [];
+    SaveTheme.menuChildArrayTwoColumn = [];
+    SaveTheme.newMenuArray = [];
+    var data: any =
     {
-      "applicatioId": this.applicationName,
-      "menuData": currentData,
+      "name": this.applicationName,
+      "applicationId": this.applicationName,
+      "menuData": JSON.stringify(currentData),
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
-      "selectedTheme": temporaryData
+      "selectedTheme": JSON.parse(JSON.stringify(SaveTheme))
     };
-    const blob = new Blob([JSON.stringify(this.selectedTheme)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'file.';
@@ -953,14 +964,22 @@ export class MenuBuilderComponent implements OnInit {
     });
   };
   jsonUpload(event: Event) {
+    debugger
     // && event.target.files.length > 0
     if (event.target instanceof HTMLInputElement) {
       const reader = new FileReader();
       reader.onloadend = () => {
         let contents = reader.result as string;
         var makeData = JSON.parse(contents);
-        this.selectedTheme = makeData;
-        this.nodes = makeData.allMenuItems;
+        if (makeData.selectedTheme) {
+          this.selectedTheme = makeData.selectedTheme;
+          this.nodes = JSON.parse(makeData.menuData);
+
+        } 
+        else {
+          this.selectedTheme = makeData;
+          this.nodes = makeData.allMenuItems;
+        }
         if (!this.selectedTheme['font']) {
           this.selectedTheme['font'] = 'font-roboto'
         }
@@ -1519,7 +1538,7 @@ export class MenuBuilderComponent implements OnInit {
         nzWidth: 1000,
         nzContent: MenuBulkUpdateComponent,
         nzContentParams: {
-          nodes: JSON.parse(JSON.stringify(this.nodes)) 
+          nodes: JSON.parse(JSON.stringify(this.nodes))
         }
       });
       drawerRef.afterOpen.subscribe(() => {

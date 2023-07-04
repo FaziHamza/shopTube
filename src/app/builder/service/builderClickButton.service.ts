@@ -149,7 +149,6 @@ export class BuilderClickButtonService {
       iconType: node['iconType'],
       iconSize: node['iconSize'],
       iconColor: node['iconColor'],
-
     }
   }
   getTabAttributeConfig(node: any) {

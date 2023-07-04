@@ -457,7 +457,7 @@ export class MainComponent implements OnInit {
     // alert('Copied to clipboard');
   }
   comment(json: any) {
-
+    debugger
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Comment',
       nzContent: CommentModalComponent,
