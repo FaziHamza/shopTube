@@ -162,7 +162,6 @@ export class AppSideMenuComponent implements OnInit {
     }
   }
   changeHtlmenuAtMblView() {
-    debugger;
     const screenWidth = window.innerWidth;
     let arrayList = [...this.menuItems];
     // this.selectedTheme.allMenuItems = [];

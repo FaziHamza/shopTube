@@ -11,7 +11,7 @@
               </video>
     <iframe [src]="videoData.videoSrc | sanitize: 'resourceUrl'" title="YouTube video"></iframe>
 </div> -->
-<iframe [width]="videoData.width" [height]="videoData.height" [src]="videoData.videoSrc | sanitize: 'resourceUrl'"
+<iframe [class]="videoData.videoClass" [width]="videoData.width" [height]="videoData.height" [src]="videoData.videoSrc | sanitize: 'resourceUrl'"
     [title]="videoData.title | translate" frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen></iframe>

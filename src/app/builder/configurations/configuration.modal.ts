@@ -3989,6 +3989,18 @@ export class formFeildData {
                 value: 'italic'
               },
               {
+                label: 'font-sans',
+                value: 'font-sans'
+              },
+              {
+                label: 'font-serif',
+                value: 'font-serif'
+              },
+              {
+                label: 'font-mono',
+                value: 'font-mono'
+              },
+              {
                 label: 'underline',
                 value: 'underline'
               },
@@ -5462,6 +5474,15 @@ export class formFeildData {
         //     label: 'Expanded Icon',
         //   }
         // },
+        {
+          key: 'unExpandedIcon',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Unexpanded Icon',
+          }
+        },
         // {
         //   key: 'extra',
         //   type: 'input',
@@ -7777,6 +7798,15 @@ export class formFeildData {
         //     label: 'Video Title',
         //   },
         // },
+        {
+          key: 'videoClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Video Class',
+          },
+        },
         {
           key: 'width',
           type: 'input',

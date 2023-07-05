@@ -41,7 +41,7 @@
                 </div>
                 <ng-template #paragraph>
                     <p nz-typography (click)="pageRoute(headingData.link)"
-                        [ngClass]="[headingData.heading, headingData.fontweight, headingData.fontstyle]"
+                        [class]=" headingData.heading + ' ' +  headingData.fontweight + ' ' + headingData.fontstyle"
                         [style.color]="headingData.color || undefined">
                         {{ headingData.text | translate }}
                     </p>
