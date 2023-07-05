@@ -42,7 +42,7 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   ngOnInit(): void {
-    debugger
+    // debugger
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
        
@@ -87,14 +87,20 @@ export class PagesComponent implements OnInit {
       }
       // ----------------------------------------------------------------//
 
+
+      // ------------------
+      //  Working on Load 
+      // ------------------
       if (params["schema"]) {
         this.dataSharedService.defaultPageNodes = '';
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
-        this.requestSubscription = this.builderService.genericApis("commentList").subscribe(res => {
-          let commentList = res.filter((item: any) => item.screenId == this.screenName)
-          this.dataSharedService.screenCommentList = commentList;
+        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res:any) => {
+          if (res.isSuccess) {       
+            let commentList = res.filter((item: any) => item.screenId == this.screenName)
+            this.dataSharedService.screenCommentList = commentList;
+          }
         })
 
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({

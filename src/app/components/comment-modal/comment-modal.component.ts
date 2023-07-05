@@ -18,10 +18,13 @@ export class CommentModalComponent implements OnInit {
   @Input() screenName: any;
   form: FormGroup;
   requestSubscription: Subscription;
-  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute,
+  constructor(
+    private formBuilder: FormBuilder,
+     public builderService: BuilderService,
+     private toastr: NzMessageService, 
+     private route: ActivatedRoute,
      public dataSharedService: DataSharedService,
      private applicationService: ApplicationService) {
-
   }
 
   ngOnInit(): void {
@@ -43,7 +46,7 @@ export class CommentModalComponent implements OnInit {
         dateTime: new Date(),
         refLink : "",
         messageHeader: "body_Header",
-        message: "main message",
+        // message: "main message",  Should be remvoded from 
         messageDetail: "message_Detail",
         avatar: 'avatar.png'
       }
@@ -51,18 +54,21 @@ export class CommentModalComponent implements OnInit {
       const userCommentModel = {
         "UserComment" :  commentObj
       }
+      // Saving UserComment
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
         next: (res: any) => {
 
           if (res.isSuccess) {
-            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 }); // Show an error message to the user
-            this.getCommentsData()
+            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 }); 
+            this.getCommentsData();
             this.#modal.destroy();
-          }
-        },
+            
+            // error
+          } else  this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 }); 
+        }, 
         error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          // console.error(err); // Log the error to the console
+          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 }); 
           this.#modal.destroy();
         }
       });
@@ -74,14 +80,22 @@ export class CommentModalComponent implements OnInit {
 
   readonly #modal = inject(NzModalRef);
 
+  // Get Comments Data
   getCommentsData(): void {
-    this.requestSubscription = this.builderService.genericApis('commentList').subscribe({
-      next: (res) => {
-        this.dataSharedService.screenCommentList = res;
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+      next: (res:any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
+          this.dataSharedService.screenCommentList = res.data;
+
+         // error
+        }  else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });  
+        
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 }); 
         this.#modal.destroy();
       }
     });
