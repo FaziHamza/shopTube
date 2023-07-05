@@ -408,43 +408,43 @@ SaveAction() {
     debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/Actions", selectedScreen[0].navigation ).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/Action", selectedScreen[0].navigation ).subscribe({
         next: (res:any) => {
           if (res.isSuccess) {
             this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
           }
-          // if (res.data.length > 0) {
-          //   console.warn(`Length : ${res.data.length}`)
-          //   const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
-          //   if (getRes.length > 0) {
-          //     console.warn(`Get Result Length : ${res.data.length}`)
-          //     this.screenActions = getRes;
-          //     this.actionForm = this.formBuilder.group({
-          //       elementName: [getRes[0].elementName],
-          //       actionType: [getRes[0].actionType],
-          //       actionLink: [getRes[0].actionLink],
-          //       submissionType: [getRes[0].btnActionType],
-          //       Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
-          //         this.formBuilder.group({
-          //           id: [getQueryActionRes.id],
-          //           submit: [getQueryActionRes.submit],
-          //           type: [getQueryActionRes.type],
-          //           sqlType: [getQueryActionRes.sqlType],
-          //           actionType: [getQueryActionRes.actionType],
-          //           elementName: [getQueryActionRes.elementName],
-          //           actionLink: [getQueryActionRes.actionLink],
-          //           submissionType: [getQueryActionRes.btnActionType],
-          //           email: [getQueryActionRes.email],
-          //           confirmEmail: [getQueryActionRes.confirmEmail],
-          //           referenceId: [getQueryActionRes.referenceId],
-          //           query: [getQueryActionRes.quries],
-          //           httpAddress: [getQueryActionRes.httpAddress],
-          //           contentType: [getQueryActionRes.contentType]
-          //         })
-          //       )),
-          //     })
-          //   }
-          // }
+          if (res.data.length > 0) {
+            // console.warn(`Length : ${res.data.length}`)
+            const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
+            if (getRes.length > 0) {
+              // console.warn(`Get Result Length : ${res.data.length}`)
+              this.screenActions = getRes;
+              this.actionForm = this.formBuilder.group({
+                elementName: [getRes[0].elementName],
+                actionType: [getRes[0].actionType],
+                actionLink: [getRes[0].actionLink],
+                submissionType: [getRes[0].btnActionType],
+                Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
+                  this.formBuilder.group({
+                    id: [getQueryActionRes.id],
+                    submit: [getQueryActionRes.submit],
+                    type: [getQueryActionRes.type],
+                    sqlType: [getQueryActionRes.sqlType],
+                    actionType: [getQueryActionRes.actionType],
+                    elementName: [getQueryActionRes.elementName],
+                    actionLink: [getQueryActionRes.actionLink],
+                    submissionType: [getQueryActionRes.btnActionType],
+                    email: [getQueryActionRes.email],
+                    confirmEmail: [getQueryActionRes.confirmEmail],
+                    referenceId: [getQueryActionRes.referenceId],
+                    query: [getQueryActionRes.quries],
+                    httpAddress: [getQueryActionRes.httpAddress],
+                    contentType: [getQueryActionRes.contentType]
+                  })
+                )),
+              })
+            }
+          }
         },
         error: (err) => {
           console.error(err);

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-comment-modal',
@@ -17,7 +18,9 @@ export class CommentModalComponent implements OnInit {
   @Input() screenName: any;
   form: FormGroup;
   requestSubscription: Subscription;
-  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute, public dataSharedService: DataSharedService) {
+  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute,
+     public dataSharedService: DataSharedService,
+     private applicationService: ApplicationService) {
 
   }
 
@@ -33,18 +36,29 @@ export class CommentModalComponent implements OnInit {
       const currentDate = new Date();
       const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
       let commentObj = {
-        commentId: this.data.id,
+        // commentId: this.data.id,
         type: this.data.type,
         screenId: this.screenName,
         comment: this.form.value.comment,
-        date: new Date(),
-        time: commentTime
+        dateTime: new Date(),
+        refLink : "",
+        messageHeader: "body_Header",
+        message: "main message",
+        messageDetail: "message_Detail",
+        avatar: 'avatar.png'
       }
-      this.requestSubscription = this.builderService.genericApisPost('commentList', commentObj).subscribe({
-        next: (res) => {
-          this.getCommentsData()
-          this.#modal.destroy();
-          this.toastr.success("Data saved Successfully", { nzDuration: 3000 }); // Show an error message to the user
+
+      const userCommentModel = {
+        "UserComment" :  commentObj
+      }
+      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+        next: (res: any) => {
+
+          if (res.isSuccess) {
+            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 }); // Show an error message to the user
+            this.getCommentsData()
+            this.#modal.destroy();
+          }
         },
         error: (err) => {
           console.error(err); // Log the error to the console
