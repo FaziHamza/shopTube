@@ -10,7 +10,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class CommentListComponent implements OnInit {
   onCardHover: boolean = false;
   constructor(public dataSharedService: DataSharedService,private router:Router) { }
-
+  
   ngOnInit(): void {
 
   }
