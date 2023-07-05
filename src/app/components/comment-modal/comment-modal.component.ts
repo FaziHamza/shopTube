@@ -27,6 +27,10 @@ export class CommentModalComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
+      refLink: ['', Validators.required],
+      messageHeader: ['', Validators.required],
+      message: ['', Validators.required],
+      messageDetail: ['', Validators.required],
     });
   }
 
@@ -41,10 +45,10 @@ export class CommentModalComponent implements OnInit {
         screenId: this.screenName,
         comment: this.form.value.comment,
         dateTime: new Date(),
-        refLink : "",
-        messageHeader: "body_Header",
-        message: "main message",
-        messageDetail: "message_Detail",
+        refLink : this.form.value.refLink,
+        messageHeader: this.form.value.messageHeader,
+        message: this.form.value.message,
+        messageDetail: this.form.value.messageDetail,
         avatar: 'avatar.png'
       }
 
