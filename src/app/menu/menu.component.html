@@ -4,11 +4,13 @@
       <div class>
         <button *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
           nz-button class="mobile-toggle mr-4 ml-4" (click)="collapse('mobile')" nzType="primary">
-          <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          <span nz-icon [nzType]="isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></span>
         </button>
-        <button *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
+        <button
+          *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
           nz-button class="mr-4 ml-4 desktop-toggle" (click)="collapse('desktop')" nzType="primary">
-          <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+          <i nz-icon [nzType]="isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i>
+          <i class="fa-regular fa-bars"></i>
         </button>
         <button
           class="hover:bg-white  text-white bg-white border-color: rgb(255 255 255);  hover:text-white cursor-pointer text-center  "
@@ -19,7 +21,7 @@
           {{selectedApp}}
         </span>
         <nz-dropdown-menu #menu="nzDropdownMenu">
-          <nz-card class="rounded-md z-99">
+          <nz-card class="rounded-md z-99 nz-dropdown-menu">
             <nz-tabset>
               <nz-tab *ngFor="let dep of departments" [nzTitle]='dep.name'>
                 <div class="flex flex-nowrap">

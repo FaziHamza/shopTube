@@ -16,8 +16,8 @@
             *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
             nz-button class="desktop-toggle" (click)="collapsed()"
             nzType="primary">
-            <span nz-icon
-              [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+            <i nz-icon
+              [nzType]="selectedTheme?.isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i>
           </button>
           <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
         </div>
@@ -36,13 +36,13 @@
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
               nz-button class="mobile-toggle mr-4 ml-4"
               nzType="primary">
-              <span nz-icon [nzType]="'menu-unfold'"></span>
+              <span nz-icon [nzType]="'fa-regular fa-bars'"></span>
             </button>
             <button
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
               nz-button class="mr-4 ml-4 desktop-toggle"
               nzType="primary" (click)="collapsed()">
-              <i nz-icon [nzType]="'menu-unfold'"></i>
+              <span nz-icon [nzType]="'fa-regular fa-bars'"></span>
             </button>
           </div>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">

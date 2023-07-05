@@ -145,9 +145,11 @@ object {
 
 .theme-body {
   padding-top: 0px !important;
-.ant-checkbox {
-  margin-top: 7px;
-}
+
+  .ant-checkbox {
+    margin-top: 7px;
+  }
+
   .input-group-text {
     height: 50px !important;
     border-radius: 0px !important;
@@ -272,9 +274,8 @@ object {
     height: 51px !important;
   }
 
-  .ant-select-selection-item {
-    // height: 52px !important;
-    top: 9px !important;
+  .ant-select-selection-item .align-items-center {
+   margin-top: 9px !important;
   }
 
   .ant-select-show-search {
@@ -2693,22 +2694,42 @@ object {
 .ant-menu-horizontal>.ant-menu-submenu {
   top: 0px !important;
 }
+
 .ant-select-selector {
-  height: 32px;
-  overflow-y: scroll;
+
+  .ant-select-selection-item {
+    margin-inline-end: 3px !important;
+    padding-inline-start: 3px !important;
+    padding-inline-end: 3px !important;
+  }
+
+  .ant-select-selection-item-content {
+    font-size: 12px !important;
+  }
 }
 
 @media only screen and (max-width: 768px) {
-.horizental-fluid {
-  .side-menu {
+  .horizental-fluid {
+    .side-menu {
 
-    width: 100% !important;
-  }
-  .ant-menu-submenu-title {
-    padding: 0px  !important;
-  }
-  ul li {
-    width: 100%;
+      width: 100% !important;
+    }
+
+    .ant-menu-submenu-title {
+      padding: 0px !important;
+    }
+
+    ul li {
+      width: 100%;
+    }
   }
 }
+
+.nz-dropdown-menu {
+  .ant-tabs {
+    max-width: 800px;
+    .ant-tabs-nav {
+      overflow: scroll;
+    }
+  }
 }
