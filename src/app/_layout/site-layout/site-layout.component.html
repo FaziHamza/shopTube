@@ -32,6 +32,20 @@
             (notify)="notifyEmit($event)"
             [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
+            <button (click)="mobileViewCollapseInHostCom()"
+              *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
+              nz-button class="mobile-toggle mr-4 ml-4"
+              nzType="primary">
+              <span nz-icon [nzType]="'menu-unfold'"></span>
+            </button>
+            <button
+              *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
+              nz-button class="mr-4 ml-4 desktop-toggle"
+              nzType="primary" (click)="collapsed()">
+              <i nz-icon [nzType]="'menu-unfold'"></i>
+            </button>
+          </div>
+          <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
             <st-pages [resData]="currentHeader"
               *ngIf="currentHeader.length  > 0"></st-pages>
           </div>
@@ -41,7 +55,7 @@
           <st-menu
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
             (notify)="notifyEmit($event)"
-            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
+            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme" ></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
             <st-pages [resData]="currentHeader"
               *ngIf="currentHeader.length  > 0"></st-pages>
@@ -54,7 +68,7 @@
       <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
         'side-menu-rtl': selectedTheme.layout == 'rtl'}"
         [class]="selectedTheme.menuColumn + ' desktop-toggle'">
-        <st-app-side-menu [selectedTheme]="selectedTheme"
+        <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
       <div
@@ -62,7 +76,7 @@
         [class]="selectedTheme.menuColumn + ' mobile-toggle'"
         *ngIf="selectedTheme.showMenu">
         <st-app-side-menu [selectedTheme]="selectedTheme"
-          (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+          (notify)="loadTabsAndButtons($event)" [menuItems]="menuItems"></st-app-side-menu>
       </div>
 
       <div [ngClass]='selectedTheme.rowClass'

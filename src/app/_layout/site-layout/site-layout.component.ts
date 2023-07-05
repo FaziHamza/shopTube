@@ -63,7 +63,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
         this.currentHeader = res;
@@ -166,27 +165,6 @@ export class SiteLayoutComponent implements OnInit {
     // };
     // this.controlMenu();
   }
-  // toggleCollapsed(): void {
-
-  //   if (this.selectedTheme.layout == 'twoColumn') {
-  //     this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
-  //     if (this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/6';
-  //     } else if (!this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/5';
-  //     }
-  //   }
-  //   else {
-  //     this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-  //   }
-  //   if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
-  //     // this.selectedTheme.topHeaderMenu = 'w-1/12';
-  //     // this.selectedTheme.topHeader = 'w-11/12';
-  //   }
-  //   else if (!this.selectedTheme.isCollapsed) {
-  //     this.selectedTheme.menuColumn = 'w-2/12';
-  //   }
-  // }
 
 
   notifyEmit(data: any) {
@@ -209,11 +187,8 @@ export class SiteLayoutComponent implements OnInit {
         }
       }
       else if (data.screenType == 'mobile') {
-        // this.selectedTheme.isCollapsed = false;
         this.selectedTheme.showMenu = data.emitData;
       }
-      // let newData = JSON.parse(JSON.stringify(this.selectedTheme));
-      // this.selectedTheme = this.selectedTheme;
     }
     else {
       if (data.emitData.selectedTheme) {
@@ -223,7 +198,7 @@ export class SiteLayoutComponent implements OnInit {
         this.selectedTheme = this.newSelectedTheme;
       }
       this.selectedTheme.allMenuItems = data.emitData.menuData;
-      // this.newMenuArrayFunc();
+      this.menuItems = data.emitData.menuData;
       this.makeMenuData();
     }
   }
@@ -244,17 +219,10 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.topHeader = 'w-10/12';
     }
   }
-  // notifyEmitForDropdown(data: any) {
-
-  //   this.tabs = [];
-  //   data.children.forEach((i: any) => {
-  //     if (i.type == 'mainTab') {
-  //       this.tabs.push(i);
-  //     }
-  //   });
-  // }
+  mobileViewCollapseInHostCom() {
+    this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
+  }
   getMenuByDomainName() {
-
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
@@ -503,7 +471,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   callMenus(api?: any) {
-
     let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
