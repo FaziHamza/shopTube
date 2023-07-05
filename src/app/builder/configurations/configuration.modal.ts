@@ -571,6 +571,15 @@ export class formFeildData {
           defaultValue: false
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isSubmit',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Submit',
+          },
+        },
+        {
           key: 'buttonClass',
           type: 'multiselect',
           className: "w-full",
@@ -706,15 +715,7 @@ export class formFeildData {
             },
           },
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'isSubmit',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Submit',
-          },
-        },
+
 
       ]
     },
