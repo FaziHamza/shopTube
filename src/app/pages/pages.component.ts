@@ -97,8 +97,9 @@ export class PagesComponent implements OnInit {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
         this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res:any) => {
-          if (res.isSuccess) {       
-            let commentList = res.filter((item: any) => item.screenId == this.screenName)
+          if (res.isSuccess) {  
+            debugger
+            let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
             this.dataSharedService.screenCommentList = commentList;
           }
         })

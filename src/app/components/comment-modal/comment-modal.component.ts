@@ -28,6 +28,10 @@ export class CommentModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      this.create();
+  }
+  // create form
+  create(){
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
       refLink: ['', Validators.required],
@@ -36,7 +40,7 @@ export class CommentModalComponent implements OnInit {
       messageDetail: ['', Validators.required],
     });
   }
-
+  // submit form
   onSubmit() {
 
     if (this.form.valid) {
