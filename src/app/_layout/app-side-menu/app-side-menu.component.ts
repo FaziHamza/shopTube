@@ -55,9 +55,9 @@ export class AppSideMenuComponent implements OnInit {
   }
 
 
-  ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.requestSubscription.unsubscribe();
+  // }
 
   setHovered(value: any, event: any) {
     event.stopPropagation();

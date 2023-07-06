@@ -53,8 +53,8 @@
             *ngIf="currentHeader && !currentUrl.includes('localhost') && ((selectedTheme['showButton'] == undefined || selectedTheme['showButton']))">
             <button (click)="mobileViewCollapseInHostCom()"
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
-              nz-button
-              class="'mobile-toggle mr-4 ml-4  {{selectedTheme['buttonClass'] || ''}}"
+              nz-button class="mobile-toggle mr-4 ml-4"
+              [class]="selectedTheme['buttonClass'] || ''"
               nzType="primary">
               <st-icon
                 [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
@@ -64,9 +64,8 @@
             </button>
             <button
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
-              nz-button
-              class="mr-4 ml-4 desktop-toggle {{selectedTheme['buttonClass'] || ''}}"
-              [class]="selectedTheme['buttonClass']"
+              nz-button class="mr-4 ml-4 desktop-toggle"
+              [class]="selectedTheme['buttonClass'] || ''"
               nzType="primary" (click)="collapsed()">
               <st-icon
                 [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
