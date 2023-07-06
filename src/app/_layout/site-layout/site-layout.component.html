@@ -8,19 +8,33 @@
       [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
       <div class="flex flex-wrap">
         <div class="layout-topbar-icon" [ngClass]='selectedTheme.topHeaderMenu'>
-          <img *ngIf="!selectedTheme.isCollapsed && logo" class="logo"
+          <img
+            *ngIf="!selectedTheme.isCollapsed && logo && (selectedTheme['buttonPosition'] == 'right' || !selectedTheme['buttonPosition']) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo"
             [src]="logo">
-          <img *ngIf="!selectedTheme.isCollapsed && !logo" class="logo-sm"
+          <img
+            *ngIf="!selectedTheme.isCollapsed && !logo && (selectedTheme['buttonPosition'] == 'right' || !selectedTheme['buttonPosition']) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo-sm"
             src="assets/images/Daco_4764006.png">
-          <button
-            *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
+          <button [style.background]="selectedTheme['buttonColor']"
+            [style.border-color]="selectedTheme['buttonColor']"
+            *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed && (selectedTheme['showButton'] == undefined || selectedTheme['showButton'])"
             nz-button class="desktop-toggle" (click)="collapsed()"
             nzType="primary">
-            <!-- <i nz-icon
-              [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></i> -->
-            <i class="fa-regular fa-bars"></i>
+            <st-icon
+              [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+              [color]="selectedTheme['buttonIconColor']"
+              [size]="selectedTheme['buttonIconSize'] || 15"
+              [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
           </button>
-          <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
+          <img
+            *ngIf="!selectedTheme.isCollapsed && logo && (selectedTheme['buttonPosition'] == 'left' ) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo"
+            [src]="logo">
+          <img
+            *ngIf="!selectedTheme.isCollapsed && !logo && (selectedTheme['buttonPosition'] == 'left')&& (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo-sm"
+            src="assets/images/Daco_4764006.png">
         </div>
         <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
           [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
@@ -32,22 +46,27 @@
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
             (notify)="notifyEmit($event)"
             [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
-          <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
+          <div
+            *ngIf="currentHeader && !currentUrl.includes('localhost') && ((selectedTheme['showButton'] == undefined || selectedTheme['showButton']))">
             <button (click)="mobileViewCollapseInHostCom()"
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
               nz-button class="mobile-toggle mr-4 ml-4"
               nzType="primary">
-              <i class="fa-regular fa-bars"></i>
-              <!-- <span nz-icon
-                [nzType]="this.selectedTheme.showMenu ? 'menu-unfold' : 'menu-fold' "></span> -->
+              <st-icon
+                [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+                [color]="selectedTheme['buttonIconColor']"
+                [size]="selectedTheme['buttonIconSize'] || 15"
+                [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
             </button>
             <button
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
               nz-button class="mr-4 ml-4 desktop-toggle"
               nzType="primary" (click)="collapsed()">
-              <i class="fa-regular fa-bars"></i>
-              <!-- <span nz-icon
-                [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span> -->
+              <st-icon
+                [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+                [color]="selectedTheme['buttonIconColor']"
+                [size]="selectedTheme['buttonIconSize'] || 15"
+                [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
             </button>
           </div>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">

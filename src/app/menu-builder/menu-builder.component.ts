@@ -214,15 +214,7 @@ export class MenuBuilderComponent implements OnInit {
           else {
             this.selectedTheme.allMenuItems = this.nodes;
           }
-          if (!this.selectedTheme['font']) {
-            this.selectedTheme['font'] = 'font-roboto'
-          }
-          if (!this.selectedTheme['inPageMenu']) {
-            this.selectedTheme['inPageMenu'] = {};
-          }
-          if (!this.selectedTheme['inPageMenu']['font']) {
-            this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
-          }
+          this.controlUndefinedValues();
           this.makeMenuData();
         }
         else {
@@ -975,20 +967,12 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme = makeData.selectedTheme;
           this.nodes = JSON.parse(makeData.menuData);
 
-        } 
+        }
         else {
           this.selectedTheme = makeData;
           this.nodes = makeData.allMenuItems;
         }
-        if (!this.selectedTheme['font']) {
-          this.selectedTheme['font'] = 'font-roboto'
-        }
-        if (!this.selectedTheme['inPageMenu']) {
-          this.selectedTheme['inPageMenu'] = {};
-        }
-        if (!this.selectedTheme['inPageMenu']['font']) {
-          this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
-        }
+        this.controlUndefinedValues();
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
         // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
@@ -1285,10 +1269,17 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('hoverIconColor') ||
           layoutType.includes('activeIconColor') ||
           layoutType.includes('iconSize') ||
+          layoutType.includes('showButton') ||
           layoutType.includes('iconType')) {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
           if (layoutType.includes('iconType')) {
             this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+          }
+          if (layoutType.includes('showButton')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
+          }
+          if (layoutType.includes('showLogo')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
           }
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
@@ -1667,6 +1658,33 @@ export class MenuBuilderComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
       this.toastr.warning('Please select Application', { nzDuration: 3000 });
+    }
+  }
+
+  controlUndefinedValues() {
+    if (!this.selectedTheme['font']) {
+      this.selectedTheme['font'] = 'font-roboto'
+    }
+    if (!this.selectedTheme['buttonIcon']) {
+      this.selectedTheme['buttonIcon'] = 'fa-regular fa-bars'
+    }
+    if (!this.selectedTheme['buttonIconType']) {
+      this.selectedTheme['buttonIconType'] = 'font_awsome'
+    }
+    if (!this.selectedTheme['buttonPosition']) {
+      this.selectedTheme['buttonPosition'] = 'right'
+    }
+    if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
+      this.selectedTheme['showButton'] = true
+    }
+    if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
+      this.selectedTheme['showLogo'] = true
+    }
+    if (!this.selectedTheme['inPageMenu']) {
+      this.selectedTheme['inPageMenu'] = {};
+    }
+    if (!this.selectedTheme['inPageMenu']['font']) {
+      this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
     }
   }
 }

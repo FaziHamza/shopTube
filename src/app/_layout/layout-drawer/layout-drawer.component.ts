@@ -29,7 +29,7 @@ export class LayoutDrawerComponent implements OnInit {
   }
   changeLayout(layoutType: any) {
     debugger
-    if (layoutType == 'null_titleSize' || layoutType == 'null_iconSize') {
+    if (layoutType == 'null_titleSize' || layoutType == 'null_iconSize' || layoutType == 'null_buttonIconSize') {
       layoutType = layoutType.replace('null', '');
     }
     let obj = {
@@ -77,6 +77,13 @@ export class LayoutDrawerComponent implements OnInit {
       siderBarView: 'sidebarViewDefault',
       sieBarColor: 'light',
       siderBarImages: '',
+      buttonPosition: 'right',
+      buttonColor: '',
+      buttonIconColor: '',
+      buttonIconType: 'font_awsome',
+      buttonIcon: 'fa-regular fa-bars',
+      buttonIconSize: '',
+      showButton:true,
       checked: false,
       theme: false,
       isCollapsed: false,
