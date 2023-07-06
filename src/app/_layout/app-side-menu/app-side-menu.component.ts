@@ -25,6 +25,7 @@ export class AppSideMenuComponent implements OnInit {
   checked: false
   isActiveShow: any;
   hoverActiveShow: any;
+  currentUrl = "";
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
@@ -37,6 +38,8 @@ export class AppSideMenuComponent implements OnInit {
     // this.makeMenuData();
   }
   loadModules(): void {
+    this.currentUrl = window.location.host;
+    if(this.currentUrl.includes('localhost'))
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
       next: (res: any) => {
         if (res.isSuccess)
@@ -181,7 +184,7 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = this.menuItems;
     }
   }
-  
+
 }
 
 
