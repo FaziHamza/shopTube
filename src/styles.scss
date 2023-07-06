@@ -2754,3 +2754,36 @@ object {
     width: 100%;
   }
 }
+
+// .vertical-sidebar {
+//   .ant-menu {
+//     .ant-menu-item {
+//       padding-left: 30px !important;
+
+//       .ant-menu-item {
+//         padding-left: 40px !important;
+//       }
+//     }
+
+//   }
+// }
+.vertical-sidebar {
+  .ant-menu-submenu {
+    .ant-menu-sub {
+      .ant-menu-item {
+padding-left: 15px !important;
+      }
+    }
+  }
+  .ant-menu-submenu {
+    .ant-menu.ant-menu-sub {
+      padding-left: 15px;
+
+      .ant-menu-item {}
+
+      .ant-menu.ant-menu-sub .ant-menu-item {
+        padding-left: 15px !important;
+      }
+    }
+  }
+}
