@@ -20,28 +20,33 @@ export class CommentModalComponent implements OnInit {
   requestSubscription: Subscription;
   constructor(
     private formBuilder: FormBuilder,
-     public builderService: BuilderService,
-     private toastr: NzMessageService, 
-     private route: ActivatedRoute,
-     public dataSharedService: DataSharedService,
-     private applicationService: ApplicationService) {
+    public builderService: BuilderService,
+    private toastr: NzMessageService,
+    private route: ActivatedRoute,
+    public dataSharedService: DataSharedService,
+    private applicationService: ApplicationService) {
   }
 
   ngOnInit(): void {
-      this.create();
+    this.create();
   }
   // create form
-  create(){
+  create() {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
-      refLink: ['', Validators.required],
-      messageHeader: ['', Validators.required],
-      message: ['', Validators.required],
-      messageDetail: ['', Validators.required],
+      refLink: ['',],
+      messageHeader: ['',],
+      message: ['',],
+      messageDetail: ['',],
     });
   }
   // submit form
   onSubmit() {
+    // ScreenName cannot be Null.
+    if (!this.screenName) {
+      this.toastr.warning("Please select any screen", { nzDuration: 3000 });
+      return;
+    }
 
     if (this.form.valid) {
       const currentDate = new Date();
@@ -52,7 +57,7 @@ export class CommentModalComponent implements OnInit {
         screenId: this.screenName,
         comment: this.form.value.comment,
         dateTime: new Date(),
-        refLink : this.form.value.refLink,
+        refLink: this.form.value.refLink,
         messageHeader: this.form.value.messageHeader,
         message: this.form.value.message,
         messageDetail: this.form.value.messageDetail,
@@ -60,23 +65,23 @@ export class CommentModalComponent implements OnInit {
       }
 
       const userCommentModel = {
-        "UserComment" :  commentObj
+        "UserComment": commentObj
       }
       // Saving UserComment
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
         next: (res: any) => {
 
           if (res.isSuccess) {
-            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 }); 
+            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
             this.getCommentsData();
             this.#modal.destroy();
-            
+
             // error
-          } else  this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 }); 
-        }, 
+          } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+        },
         error: (err) => {
           // console.error(err); // Log the error to the console
-          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 }); 
+          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
           this.#modal.destroy();
         }
       });
@@ -92,18 +97,18 @@ export class CommentModalComponent implements OnInit {
   getCommentsData(): void {
     debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         if (res.isSuccess) {
           this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
           this.dataSharedService.screenCommentList = res.data;
 
-         // error
-        }  else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });  
-        
+          // error
+        } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 }); 
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
         this.#modal.destroy();
       }
     });

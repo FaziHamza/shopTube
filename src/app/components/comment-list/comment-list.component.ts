@@ -19,4 +19,6 @@ export class CommentListComponent implements OnInit {
     const queryParams = { screenName: item.screenId, commentId: item.id };
     this.router.navigate(['/pages/',item.screenId,item.id])
   }
+
+  
 }

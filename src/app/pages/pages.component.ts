@@ -99,7 +99,8 @@ export class PagesComponent implements OnInit {
         this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res:any) => {
           if (res.isSuccess) {  
             debugger
-            let commentList = res.data.data.filter((item: any) => item.screenId == this.screenName)
+            // let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
+            let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
           }
         })
