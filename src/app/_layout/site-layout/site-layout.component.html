@@ -1,3 +1,4 @@
+
 <div [ngClass]="{
   'mx-16': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout != 'horizental',
   'horizental-boxed': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout == 'horizental',
@@ -17,9 +18,11 @@
             class="logo-sm"
             src="assets/images/Daco_4764006.png">
           <button [style.background]="selectedTheme['buttonColor']"
+            [class]="selectedTheme['buttonClass']"
             [style.border-color]="selectedTheme['buttonColor']"
             *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed && (selectedTheme['showButton'] == undefined || selectedTheme['showButton'])"
-            nz-button class="desktop-toggle" (click)="collapsed()"
+            nz-button class="desktop-toggle {{selectedTheme['buttonClass']}}"
+            (click)="collapsed()"
             nzType="primary">
             <st-icon
               [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
@@ -50,7 +53,8 @@
             *ngIf="currentHeader && !currentUrl.includes('localhost') && ((selectedTheme['showButton'] == undefined || selectedTheme['showButton']))">
             <button (click)="mobileViewCollapseInHostCom()"
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
-              nz-button class="mobile-toggle mr-4 ml-4"
+              nz-button
+              class="'mobile-toggle mr-4 ml-4  {{selectedTheme['buttonClass'] || ''}}"
               nzType="primary">
               <st-icon
                 [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
@@ -60,7 +64,9 @@
             </button>
             <button
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
-              nz-button class="mr-4 ml-4 desktop-toggle"
+              nz-button
+              class="mr-4 ml-4 desktop-toggle {{selectedTheme['buttonClass'] || ''}}"
+              [class]="selectedTheme['buttonClass']"
               nzType="primary" (click)="collapsed()">
               <st-icon
                 [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
@@ -152,5 +158,6 @@
 
 </div>
 <!-- <button nz-button nzType="primary" routerLink="/pages/Screen">Button</button> -->
-<st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'  && currentWebsiteLayout"
+<st-layout1
+  *ngIf="currentWebsiteLayout != 'backend_application'  && currentWebsiteLayout"
   [layout]="currentWebsiteLayout"></st-layout1>
