@@ -275,7 +275,7 @@ object {
   }
 
   .ant-select-selection-item .align-items-center {
-   margin-top: 9px !important;
+    margin-top: 9px !important;
   }
 
   .ant-select-show-search {
@@ -2728,8 +2728,29 @@ object {
 .nz-dropdown-menu {
   .ant-tabs {
     max-width: 800px;
+
     .ant-tabs-nav {
       overflow: scroll;
     }
+  }
+}
+
+.dynamic-header-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+
+  .dynamic-header-btns {
+    display: flex;
+    align-items: center;
+    background: white !important;
+
+    .ant-btn {
+      margin: 0px 7px 0px 8px !important;
+    }
+  }
+
+  .dynamic-header {
+    width: 100%;
   }
 }

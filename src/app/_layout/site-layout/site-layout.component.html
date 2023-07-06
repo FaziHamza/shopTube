@@ -49,8 +49,8 @@
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
             (notify)="notifyEmit($event)"
             [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
-          <div>
-            <div
+          <div class="dynamic-header-row">
+            <div class="dynamic-header-btns"
               *ngIf="currentHeader && !currentUrl.includes('localhost') && ((selectedTheme['showButton'] == undefined || selectedTheme['showButton']))">
               <button (click)="mobileViewCollapseInHostCom()"
                 [style.background]="selectedTheme['buttonColor']"
@@ -77,7 +77,7 @@
                   [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
               </button>
             </div>
-            <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
+            <div class="dynamic-header" *ngIf="currentHeader && !currentUrl.includes('localhost')">
               <st-pages [resData]="currentHeader"
                 *ngIf="currentHeader.length  > 0"></st-pages>
             </div>
