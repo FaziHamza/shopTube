@@ -1270,6 +1270,7 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('activeIconColor') ||
           layoutType.includes('iconSize') ||
           layoutType.includes('showButton') ||
+          layoutType.includes('buttonClass') ||
           layoutType.includes('iconType')) {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
           if (layoutType.includes('iconType')) {
@@ -1280,6 +1281,9 @@ export class MenuBuilderComponent implements OnInit {
           }
           if (layoutType.includes('showLogo')) {
             this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
+          }
+          if (layoutType.includes('buttonClass')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0].replace(',', ' ');
           }
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
@@ -1673,6 +1677,9 @@ export class MenuBuilderComponent implements OnInit {
     }
     if (!this.selectedTheme['buttonPosition']) {
       this.selectedTheme['buttonPosition'] = 'right'
+    }
+    if (!this.selectedTheme['buttonClassArray']) {
+      this.selectedTheme['buttonClassArray'] = []
     }
     if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
       this.selectedTheme['showButton'] = true

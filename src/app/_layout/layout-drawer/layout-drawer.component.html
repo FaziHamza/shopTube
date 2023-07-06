@@ -578,13 +578,28 @@
                             (input)="changeLayout(selectedTheme['buttonIconSize']+'_'+'buttonIconSize')" />
                     </div>
                     <div class="w-1/5 p-1 pt-9">
-                        <label nz-checkbox [(ngModel)]="selectedTheme['showButton']"
-                        (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show button</label>
+                        <label nz-checkbox
+                            [(ngModel)]="selectedTheme['showButton']"
+                            (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
+                            button</label>
                     </div>
                     <div class="w-1/5 p-1 pt-9">
-                        <label nz-checkbox [(ngModel)]="selectedTheme['showLogo']"
-                        (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show Logo</label>
+                        <label nz-checkbox
+                            [(ngModel)]="selectedTheme['showLogo']"
+                            (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
+                            Logo</label>
                     </div>
+                    <div class="w-full">
+                        <label>Button Class</label>
+                        <nz-select nzMode="tags" nzPlaceHolder="Button Class"
+                            [(ngModel)]="selectedTheme['buttonClassArray']"
+                            (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
+                            <nz-option *ngFor="let option of listOfOption"
+                                [nzLabel]="option.label"
+                                [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </div>
+
                 </div>
             </nz-tab>
         </nz-tabset>

@@ -1,11 +1,11 @@
 <div class="flex flex-wrap">
   <div class="w-full">
     <div class="header-inner">
-      <div class>
+      <div>
         <button (click)="collapse('mobile')"
-        [style.background]="selectedTheme['buttonColor']"
+          [style.background]="selectedTheme['buttonColor']"
           *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && (selectedTheme['showButton'] == undefined || selectedTheme['showButton'])"
-          nz-button class="mobile-toggle mr-4 ml-4"
+          nz-button class="mobile-toggle mr-4 ml-4 {{selectedTheme['buttonClass']}}"
           nzType="primary">
           <st-icon
             [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
@@ -15,7 +15,7 @@
         </button>
         <button
           *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed && (selectedTheme['showButton'] == undefined || selectedTheme['showButton'])"
-          nz-button class="mr-4 ml-4 desktop-toggle"
+          nz-button class="mr-4 ml-4 desktop-toggle {{selectedTheme['buttonClass']}}"
           [style.background]="selectedTheme['buttonColor']"
           nzType="primary" (click)="collapse('desktop')">
           <st-icon
