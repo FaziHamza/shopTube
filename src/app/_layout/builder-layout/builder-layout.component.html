@@ -1,0 +1,68 @@
+<nz-layout>
+  <nz-header [dir]="selectedTheme?.layout" nz-menu
+      [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
+      <div class="flex flex-wrap">
+          <div class="layout-topbar-icon"
+              [ngClass]='selectedTheme.topHeaderMenu'>
+              <img *ngIf="!selectedTheme.isCollapsed" class="logo"
+                  src="assets/images/logo-dark.png">
+              <button
+                  *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
+                  nz-button class="menu-collapse" (click)="collapsed()"
+                  nzType="primary">
+                  <i class="fa-regular fa-bars"></i>
+                  <!-- <i nz-icon
+                      [nzType]="selectedTheme?.isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i> -->
+              </button>
+          </div>
+
+          <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
+              [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
+       || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
+              *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'"
+              nz-menu
+              [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
+              <st-menu (notify)="notifyEmit($event)"
+                  [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
+          </div>
+          <div [ngClass]='selectedTheme.topHeader'
+              *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
+              <st-menu (notify)="notifyEmit($event)"
+                  [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
+          </div>
+      </div>
+  </nz-header>
+
+  <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
+      [dir]="this.selectedTheme.layout">
+      <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
+      'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+          [class]="selectedTheme.menuColumn + ' desktop-toggle'">
+          <st-app-side-menu [selectedTheme]="selectedTheme"
+              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+      </div>
+      <div
+          [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+          [class]="selectedTheme.menuColumn + ' mobile-toggle'"
+          *ngIf="selectedTheme.showMenu">
+          <st-app-side-menu [selectedTheme]="selectedTheme"
+              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+      </div>
+      <div [ngClass]='selectedTheme.rowClass' class="content-body">
+          <ng-container *ngIf="dropdown.length">
+              <st-layout-button (notify)="notifyEmitForDropdown($event)"
+                  [dropdownData]="dropdown"></st-layout-button>
+          </ng-container>
+          <ng-container *ngIf="tabs.length">
+              <ng-container *ngFor="let item of tabs">
+                  <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"
+                      [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
+              </ng-container>
+          </ng-container>
+          <div dir="ltr">
+              <router-outlet></router-outlet>
+          </div>
+      </div>
+  </div>
+  <!-- <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer> -->
+</nz-layout>

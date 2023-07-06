@@ -162,7 +162,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
-  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any,model?:any) {
     if (isSubmit && key == "applicationId") {
       // const obj = {
       //   "ScreenBuilder": {
@@ -177,7 +177,8 @@ export class ApplicationBuilderComponent implements OnInit {
           name: value.name + "_header",
           navigation: value.name + "_header",
           departmentId: value.departmentId,
-          applicationId: value._id
+          applicationId: value._id,
+          organizationId: model?.organizationId
         }
       }
       this.loading = true;
@@ -189,7 +190,8 @@ export class ApplicationBuilderComponent implements OnInit {
                 name: value.name + "_footer",
                 navigation: value.name + "_footer",
                 departmentId: value.departmentId,
-                applicationId: value._id
+                applicationId: value._id,
+                organizationId:  model?.organizationId
               }
             }
             this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
@@ -402,9 +404,8 @@ export class ApplicationBuilderComponent implements OnInit {
         : this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel);
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
-          debugger
           if (this.applicationSubmit && key == "applicationId") {
-            this.defaultApplicationBuilder(this.isSubmit, key, res.data);
+            this.defaultApplicationBuilder(this.isSubmit, key, res.data,objDataModel);
           }
           // else
           this.getDepartment();
