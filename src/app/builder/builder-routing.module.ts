@@ -2,18 +2,18 @@ import { BuilderComponent } from './builder.component';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { DemoComponent } from './demo/demo.component';
-import { AppBuilderSideMenuComponent } from '../_layout/app-builder-side-menu/app-builder-side-menu.component';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ScreenBuilderComponent } from '../Builder-module/screen-builder/screen-builder.component';
 import { ApplicationBuilderComponent } from '../Builder-module/application-builder/application-builder.component';
 import { ModuleListComponent } from '../Builder-module/module-list/module-list.component';
 import { LanguageComponent } from '../Builder-module';
 import { organizationBuilderComponent } from '../Builder-module/organization/organization-builder.component';
+import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: AppBuilderSideMenuComponent,
+    component: BuilderLayoutComponent,
     children:[
       {
         path: "",

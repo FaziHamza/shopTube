@@ -29,14 +29,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
-import { ThirdPartyDraggable } from '@fullcalendar/interaction';
-import { ActionRuleComponent } from './configurations';
 import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { AnyComponent } from '@fullcalendar/core/preact';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -3935,7 +3930,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode &&
           this.selectedNode.children &&
           this.selectedNode.children[1] &&
-          this.selectedNode.children[1].children
+          this.selectedNode.children[1].children && event.form.tooltipIcon
         ) {
           this.selectedNode.children[1].children.forEach((element: any) => {
             element.children[1].children.forEach((element1: any) => {

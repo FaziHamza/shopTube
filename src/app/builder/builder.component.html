@@ -183,7 +183,7 @@
                     </li>
                   </div>
                 </ul>
-                <nz-tree  [nzData]="nodes" nzDraggable nzBlockNode>
+                <nz-tree [nzData]="nodes" nzDraggable nzBlockNode>
                   <ng-template #nzTreeTemplate let-node>
                     <div class="flex card-lable-row" (mouseover)="hoverIn(node)"
                       (mouseleave)="hoverOut(node)"

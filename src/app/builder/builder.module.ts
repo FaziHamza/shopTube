@@ -18,7 +18,6 @@ import { GoogleChartsModule } from "angular-google-charts";
 import { DemoComponent } from './demo/demo.component';
 import { NestedTableComponent } from './nested-table/nested-table.component';
 import { ApplicationBuilderComponent, ModuleListComponent, ScreenBuilderComponent, organizationBuilderComponent, LanguageComponent } from "../Builder-module";
-import { AppBuilderSideMenuComponent } from "../_layout/app-builder-side-menu/app-builder-side-menu.component";
 import { MenuBuilderComponent } from "../menu-builder/menu-builder.component";
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
@@ -27,11 +26,12 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
+import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
 
 @NgModule({
   declarations: [
     BuilderComponent,
-    AppBuilderSideMenuComponent,
+    BuilderLayoutComponent,
     MenuBuilderComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,

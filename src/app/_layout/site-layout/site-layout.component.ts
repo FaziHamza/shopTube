@@ -236,8 +236,8 @@ export class SiteLayoutComponent implements OnInit {
           const observables = [
 
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
-            this.applicationService.getNestCommonAPIById('cp/Builder',res.data[0].name + "_header"),
-            this.applicationService.getNestCommonAPIById('cp/Builder',res.data[0].name + "_footer"),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_header"),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_footer"),
             this.applicationService.getNestCommonAPIById('cp/Menu',res.data[0]._id),
           ];
           forkJoin(observables).subscribe({
