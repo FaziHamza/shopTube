@@ -10,10 +10,9 @@
                     *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
                     nz-button class="menu-collapse" (click)="collapsed()"
                     nzType="primary">
-          <i class="fa-regular fa-bars"></i>
-
-                    <i nz-icon
-                        [nzType]="selectedTheme?.isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i>
+                    <i class="fa-regular fa-bars"></i>
+                    <!-- <i nz-icon
+                        [nzType]="selectedTheme?.isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i> -->
                 </button>
             </div>
 

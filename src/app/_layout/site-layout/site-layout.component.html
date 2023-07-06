@@ -16,8 +16,9 @@
             *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
             nz-button class="desktop-toggle" (click)="collapsed()"
             nzType="primary">
-            <i nz-icon
-              [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+            <!-- <i nz-icon
+              [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></i> -->
+            <i class="fa-regular fa-bars"></i>
           </button>
           <!-- <img *ngIf="selectedTheme.isCollapsed" class="logo-sm" src="assets/images/logo-sm.png"> -->
         </div>
@@ -36,13 +37,17 @@
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
               nz-button class="mobile-toggle mr-4 ml-4"
               nzType="primary">
-              <span nz-icon [nzType]="this.selectedTheme.showMenu ? 'menu-unfold' : 'menu-fold' "></span>
+              <i class="fa-regular fa-bars"></i>
+              <!-- <span nz-icon
+                [nzType]="this.selectedTheme.showMenu ? 'menu-unfold' : 'menu-fold' "></span> -->
             </button>
             <button
               *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
               nz-button class="mr-4 ml-4 desktop-toggle"
               nzType="primary" (click)="collapsed()">
-              <span nz-icon [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+              <i class="fa-regular fa-bars"></i>
+              <!-- <span nz-icon
+                [nzType]="selectedTheme?.isCollapsed ? 'menu-unfold' : 'menu-fold'"></span> -->
             </button>
           </div>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
@@ -55,7 +60,7 @@
           <st-menu
             *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
             (notify)="notifyEmit($event)"
-            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme" ></st-menu>
+            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
             <st-pages [resData]="currentHeader"
               *ngIf="currentHeader.length  > 0"></st-pages>
@@ -68,7 +73,8 @@
       <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
         'side-menu-rtl': selectedTheme.layout == 'rtl'}"
         [class]="selectedTheme.menuColumn + ' desktop-toggle'">
-        <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
+        <st-app-side-menu [selectedTheme]="selectedTheme"
+          [menuItems]="menuItems"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
       <div

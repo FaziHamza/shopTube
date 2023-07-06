@@ -4,12 +4,12 @@
       <div class>
         <button *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
           nz-button class="mobile-toggle mr-4 ml-4" (click)="collapse('mobile')" nzType="primary">
-          <span nz-icon [nzType]="isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></span>
+          <i class="fa-regular fa-bars"></i>
         </button>
         <button
           *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
           nz-button class="mr-4 ml-4 desktop-toggle" (click)="collapse('desktop')" nzType="primary">
-          <i nz-icon [nzType]="isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i>
+          <!-- <i nz-icon [nzType]="isCollapsed ? 'fa-regular fa-bars' : 'fa-regular fa-bars'"></i> -->
           <i class="fa-regular fa-bars"></i>
         </button>
         <button
