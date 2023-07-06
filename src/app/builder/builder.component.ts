@@ -1236,7 +1236,7 @@ export class BuilderComponent implements OnInit {
     let newNode: any = {};
     if (data?.parameter == 'input') {
       newNode = {
-        id: this.screenName + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
+        id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -1250,7 +1250,7 @@ export class BuilderComponent implements OnInit {
     } else {
       newNode = {
         key: res?.key ? res.key : obj.key,
-        id: this.screenName + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
+        id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
         className: this.columnApply(value),
         expanded: true,
         type: value,
