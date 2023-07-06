@@ -28,6 +28,12 @@ export class ApplicationService {
             `${this.envService.nestBaseUrl}${api}/${id}`
         );
     }
+
+    getNestCommonAPIByScreenId(api: string, id:string): Observable<any[]> {
+        return this.http.get<any[]>(
+            `${this.envService.nestBaseUrl}${api}/${id}`
+        );
+    } 
     // getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {
     //     return this.http.get<any[]>(
     //         this.nestUrl + api + customQuery

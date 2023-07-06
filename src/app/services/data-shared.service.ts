@@ -27,6 +27,7 @@ export class DataSharedService {
   defaultPageNodes:any;
   goToMenu:any;
   screenCommentList : any[] = []
+  commentId : any;
   public menus : any;
   currentUrl:any;
   selectedNode:any;

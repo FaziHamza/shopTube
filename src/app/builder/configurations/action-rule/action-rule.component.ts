@@ -10,6 +10,7 @@ import {
 } from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { FormlyFormOptions } from '@ngx-formly/core';
+import { ApplicationService } from 'src/app/services/application.service';
 
 
 @Component({
@@ -49,9 +50,11 @@ export class ActionRuleComponent implements OnInit {
   nodeList: { title: string, key: string }[] = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
-    public dataSharedService: DataSharedService, private toastr: NzMessageService) { }
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, 
+    private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
+
     this.actionFormLoad();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
@@ -266,13 +269,68 @@ export class ActionRuleComponent implements OnInit {
     }
   }
 
+// Save Action Backup 💾
+/* 
+SaveAction() {
+  debugger
+   const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+   const observables = this.actionForm.value.Actions.map((element: any) => {
+     let data: any = {
+       "moduleName": this.screenName,
+       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+       "btnActionType": element.submissionType ? element.submissionType : "",
+       "elementName": element.elementName,
+       "actionType": element.actionType,
+       "actionLink": element.actionLink,
+       "quryType": element.referenceId,
+       "quries": element.query,
+       "submit": element.submit,
+       "type": element.type,
+       "sqlType": element.sqlType,
+       "email": element.email,
+       "confirmEmail": element.confirmEmail,
+       "referenceId": element.referenceId,
+       "httpAddress": element.httpAddress ? element.httpAddress : "",
+       "contentType": element.contentType ? element.contentType : ""
+     }
+     if (element.id == 0) {
+       return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
+         catchError(error => of(error)) // Handle error and continue the forkJoin
+       );
+     } else {
+       return this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).pipe(
+         catchError(error => of(error)) // Handle error and continue the forkJoin
+       );
+     }
+   });
+
+   forkJoin(observables).subscribe({
+     next: (results: any) => {
+       if (results.every((result: any) => !(result instanceof Error))) {
+         this.getActionData();
+         this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+       } else {
+         this.toastr.error("Actions not saved", { nzDuration: 3000 });
+       }
+     },
+     error: (err) => {
+       console.error(err);
+       this.toastr.error("Actions not saved", { nzDuration: 3000 });
+     }
+   });
+ } */
+
+
   SaveAction() {
-   
+   debugger
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    
     const observables = this.actionForm.value.Actions.map((element: any) => {
-      let data: any = {
+      
+      debugger
+      let actionData: any = {
         "moduleName": this.screenName,
-        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
         "btnActionType": element.submissionType ? element.submissionType : "",
         "elementName": element.elementName,
         "actionType": element.actionType,
@@ -288,18 +346,24 @@ export class ActionRuleComponent implements OnInit {
         "httpAddress": element.httpAddress ? element.httpAddress : "",
         "contentType": element.contentType ? element.contentType : ""
       }
+
+
+      const actionModel = {
+        "Action" : actionData
+      }
       if (element.id == 0) {
-        return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
+        debugger
+        return this.applicationService.addNestCommonAPI('cp', actionModel).pipe(
           catchError(error => of(error)) // Handle error and continue the forkJoin
         );
       } else {
-        return this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).pipe(
+        return this.applicationService.updateNestCommonAPI('cp/Action', element.id, actionModel).pipe(
           catchError(error => of(error)) // Handle error and continue the forkJoin
         );
       }
     });
 
-    forkJoin(observables).subscribe({
+/*     forkJoin(observables).subscribe({
       next: (results: any) => {
         if (results.every((result: any) => !(result instanceof Error))) {
           this.getActionData();
@@ -312,15 +376,85 @@ export class ActionRuleComponent implements OnInit {
         console.error(err);
         this.toastr.error("Actions not saved", { nzDuration: 3000 });
       }
+    }); */
+
+    forkJoin(observables).subscribe({
+      next: (allResults: any) => {
+        if (allResults.every((result:any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
+          debugger
+          // if (allResults) {
+            this.getActionData();
+            this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+          // }
+        } else {
+          this.toastr.error("Actions not saved", { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Actions: An error occured", { nzDuration: 3000 });
+      }
     });
+  
+
+    
   }
 
   updateActionData() {
 
   }
-  
+
   getActionData() {
-   
+    debugger
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/Action", selectedScreen[0].navigation ).subscribe({
+        next: (res:any) => {
+          if (res.isSuccess) {
+            this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
+          }
+          if (res.data.length > 0) {
+            // console.warn(`Length : ${res.data.length}`)
+            const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
+            if (getRes.length > 0) {
+              // console.warn(`Get Result Length : ${res.data.length}`)
+              this.screenActions = getRes;
+              this.actionForm = this.formBuilder.group({
+                elementName: [getRes[0].elementName],
+                actionType: [getRes[0].actionType],
+                actionLink: [getRes[0].actionLink],
+                submissionType: [getRes[0].btnActionType],
+                Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
+                  this.formBuilder.group({
+                    id: [getQueryActionRes.id],
+                    submit: [getQueryActionRes.submit],
+                    type: [getQueryActionRes.type],
+                    sqlType: [getQueryActionRes.sqlType],
+                    actionType: [getQueryActionRes.actionType],
+                    elementName: [getQueryActionRes.elementName],
+                    actionLink: [getQueryActionRes.actionLink],
+                    submissionType: [getQueryActionRes.btnActionType],
+                    email: [getQueryActionRes.email],
+                    confirmEmail: [getQueryActionRes.confirmEmail],
+                    referenceId: [getQueryActionRes.referenceId],
+                    query: [getQueryActionRes.quries],
+                    httpAddress: [getQueryActionRes.httpAddress],
+                    contentType: [getQueryActionRes.contentType]
+                  })
+                )),
+              })
+            }
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+  }
+  
+/*   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].screenId != null) {
       this.requestSubscription = this.employeeService.getSQLDatabaseTable('knex-crud/SQLQueries').subscribe({
@@ -362,7 +496,7 @@ export class ActionRuleComponent implements OnInit {
         }
       })
     }
-  }
+  } */
 
   changePostgress(queryType: string, index: number) {
     const sqlType: any = this.ActionsForms.at(index).get('sqlType');

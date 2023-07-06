@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-comment-modal',
@@ -17,38 +18,70 @@ export class CommentModalComponent implements OnInit {
   @Input() screenName: any;
   form: FormGroup;
   requestSubscription: Subscription;
-  constructor(private formBuilder: FormBuilder, public builderService: BuilderService, private toastr: NzMessageService, private route: ActivatedRoute, public dataSharedService: DataSharedService) {
-
+  constructor(
+    private formBuilder: FormBuilder,
+    public builderService: BuilderService,
+    private toastr: NzMessageService,
+    private route: ActivatedRoute,
+    public dataSharedService: DataSharedService,
+    private applicationService: ApplicationService) {
   }
 
   ngOnInit(): void {
+    this.create();
+  }
+  // create form
+  create() {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
+      refLink: ['',],
+      messageHeader: ['',],
+      message: ['',],
+      messageDetail: ['',],
     });
   }
-
+  // submit form
   onSubmit() {
+    // ScreenName cannot be Null.
+    if (!this.screenName) {
+      this.toastr.warning("Please select any screen", { nzDuration: 3000 });
+      return;
+    }
 
     if (this.form.valid) {
       const currentDate = new Date();
       const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
       let commentObj = {
-        commentId: this.data.id,
+        // commentId: this.data.id,
         type: this.data.type,
         screenId: this.screenName,
         comment: this.form.value.comment,
-        date: new Date(),
-        time: commentTime
+        dateTime: new Date(),
+        refLink: this.form.value.refLink,
+        messageHeader: this.form.value.messageHeader,
+        message: this.form.value.message,
+        messageDetail: this.form.value.messageDetail,
+        avatar: 'avatar.png'
       }
-      this.requestSubscription = this.builderService.genericApisPost('commentList', commentObj).subscribe({
-        next: (res) => {
-          this.getCommentsData()
-          this.#modal.destroy();
-          this.toastr.success("Data saved Successfully", { nzDuration: 3000 }); // Show an error message to the user
+
+      const userCommentModel = {
+        "UserComment": commentObj
+      }
+      // Saving UserComment
+      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+        next: (res: any) => {
+
+          if (res.isSuccess) {
+            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+            this.getCommentsData();
+            this.#modal.destroy();
+
+            // error
+          } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
         },
         error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          // console.error(err); // Log the error to the console
+          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
           this.#modal.destroy();
         }
       });
@@ -60,14 +93,22 @@ export class CommentModalComponent implements OnInit {
 
   readonly #modal = inject(NzModalRef);
 
+  // Get Comments Data
   getCommentsData(): void {
-    this.requestSubscription = this.builderService.genericApis('commentList').subscribe({
-      next: (res) => {
-        this.dataSharedService.screenCommentList = res;
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
+          this.dataSharedService.screenCommentList = res.data;
+
+          // error
+        } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+
       },
       error: (err) => {
         console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
         this.#modal.destroy();
       }
     });
