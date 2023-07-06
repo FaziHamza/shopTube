@@ -9,8 +9,8 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class CommentListComponent implements OnInit {
   onCardHover: boolean = false;
-  constructor(public dataSharedService: DataSharedService,private router:Router) { }
-
+  constructor(public dataSharedService: DataSharedService, private router:Router) { }
+  
   ngOnInit(): void {
 
   }
@@ -19,4 +19,6 @@ export class CommentListComponent implements OnInit {
     const queryParams = { screenName: item.screenId, commentId: item.id };
     this.router.navigate(['/pages/',item.screenId,item.id])
   }
+
+  
 }

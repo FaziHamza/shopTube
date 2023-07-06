@@ -283,7 +283,7 @@ export class ScreenBuilderComponent implements OnInit {
 
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, this.form.value);
+        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, screenModel);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
