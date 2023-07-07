@@ -195,7 +195,7 @@
               <ng-template #moreTemplate>
                 <span class="menu-item-icon">
                   <st-icon
-                    [type]="selectedTheme['iconType']"
+                    [type]="selectedTheme['iconType'] || 'outline'"
                     [icon]="selectedTheme['iconType'] != 'font_awsome' ? 'appstore' : 'fa-regular fa-grid-2'"
                     [size]="selectedTheme['iconSize'] || 15"
                     [color]="(hoverActiveShow === mainMenu.id) ? selectedTheme['hoverIconColor'] :

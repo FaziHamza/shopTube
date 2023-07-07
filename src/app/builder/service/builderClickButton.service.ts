@@ -394,4 +394,9 @@ export class BuilderClickButtonService {
       icon: node.btnIcon,
     }
   }
+  headerConfig(node: any) {
+    return {
+      headerCollapse: node.expand ? node.expand : node.headerCollapse,
+    }
+  }
 }

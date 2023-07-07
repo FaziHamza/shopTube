@@ -144,6 +144,10 @@
         <div dir="ltr">
           <router-outlet></router-outlet>
         </div>
+        <div
+          *ngIf="currentFooter && !currentUrl.includes('localhost')">
+          <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+        </div>
       </div>
     </div>
     <div *ngIf="currentUrl.includes('localhost')">
@@ -154,9 +158,7 @@
         <st-main [mainData]="dataSharedService.footerData"></st-main>
       </nz-footer> -->
     </div>
-    <nz-footer *ngIf="currentFooter && !currentUrl.includes('localhost')">
-      <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
-    </nz-footer>
+
   </nz-layout>
 
 </div>

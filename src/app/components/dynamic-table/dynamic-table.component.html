@@ -7,7 +7,6 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-<!-- {{responsiveTable | json}} -->
 <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
@@ -181,7 +180,7 @@
     <!-- <ng-container *ngTemplateOutlet="recursiveKeyList; context:{ $implicit: editRowTable.data }"></ng-container> -->
     <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: editRowTable.data }"></ng-container>
   </tbody>
-  <tfoot *ngIf="data?.nzFooter" class="bg-gray-100">
+  <tfoot *ngIf="data?.nzFooter && !responsiveTable" class="bg-gray-100">
     <tr nz-custom-footer>
       <td nzWidth="40px" *ngIf="data.expandable"></td>
       <td *ngIf="data.showCheckbox" nzWidth="60px"></td>

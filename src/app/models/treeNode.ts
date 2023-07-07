@@ -529,4 +529,5 @@ export interface TreeNode {
   checkData?: any
   rowClickApi?: any,
   rowClass?: any,
+  headerCollapse?: any,
 }

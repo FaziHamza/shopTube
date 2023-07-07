@@ -6296,7 +6296,7 @@ export class formFeildData {
           defaultValue: false
         },
         {
-          key: 'expanded',
+          key: 'headerCollapse',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

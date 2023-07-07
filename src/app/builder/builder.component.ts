@@ -1186,6 +1186,7 @@ export class BuilderComponent implements OnInit {
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
+    else if (value == 'header') return '';
     else if (value == 'buttonGroup') return 'w-11/12';
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
@@ -2692,6 +2693,10 @@ export class BuilderComponent implements OnInit {
         this.fieldData.mappingNode = this.selectedNode;
         break;
       case 'header':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.headerConfig(selectedNode),
+        };
         this.fieldData.formData = _formFieldData.headerFields;
         break;
       case 'footer':
@@ -3478,6 +3483,9 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.btnIcon = event.form?.icon;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
+        break;
+      case 'header':
+        this.selectedNode['headerCollapse'] = event.form?.headerCollapse;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
