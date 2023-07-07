@@ -2771,19 +2771,26 @@ object {
   .ant-menu-submenu {
     .ant-menu-sub {
       .ant-menu-item {
-padding-left: 15px !important;
+        padding-left: 15px !important;
       }
     }
   }
+
   .ant-menu-submenu {
     .ant-menu.ant-menu-sub {
       padding-left: 15px;
-
-      .ant-menu-item {}
 
       .ant-menu.ant-menu-sub .ant-menu-item {
         padding-left: 15px !important;
       }
     }
   }
+}
+
+.ant-layout-header {
+  height: 15% !important;
+}
+
+.ant-layout-header {
+  height: 15% !important;
 }

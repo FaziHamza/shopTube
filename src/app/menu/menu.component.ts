@@ -75,7 +75,6 @@ export class MenuComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res)
-
           this.isCollapsed = res;
       },
       error: (err) => {
@@ -99,7 +98,6 @@ export class MenuComponent implements OnInit {
     }));
   }
   UpdateMenuLink(data: any) {
-    // if (data.applicationName) {
     this.selectedApp = data.name;
     this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
       next: (res: any) => {
@@ -111,13 +109,8 @@ export class MenuComponent implements OnInit {
               applicationId: res.data[0].id,
               menuData: JSON.parse(res.data[0].menuData),
               selectedTheme: JSON.parse(res.data[0].selectedTheme),
-
             }
-            let obj = {
-              emitData: resData,
-              screenType: ''
-            };
-            this.notify.emit(obj);
+            this.notify.emit(resData);
           }
           else {
             this.notification.create(
@@ -133,56 +126,6 @@ export class MenuComponent implements OnInit {
         this.toastr.error("Error Unhandler", { nzDuration: 3000 });
       }
     });
-    // this.employeeService.getJsonModules(data.name).subscribe((res => {
-    //   if (res.length > 0) {
-    //     let obj = {
-    //       emitData: res[0],
-    //       screenType: ''
-    //     };
-    //     this.notify.emit(obj);
-    //   }
-    //   else {
-    //     this.notification.create(
-    //       'error',
-    //       'Error',
-    //       'No menu against this module'
-    //     );
-    //   }
-    // }));
-    // }
-    // else if (data.moduleName) {
-    //   this.selectedApp = data.name;
-    //   this.employeeService.getJsonModules(data.name).subscribe((res => {
-    //     if (res.length > 0) {
-    //       let obj = {
-    //         emitData: res[0],
-    //         screenType: ''
-    //       };
-    //       this.notify.emit(obj);
-    //     }
-    //     else {
-    //       this.notification.create(
-    //         'error',
-    //         'Error',
-    //         'No menu against this module'
-    //       );
-    //     }
-    //   }));
-    // }
-
-  }
-  collapse(screenType: any) {
-    debugger
-    if (screenType == 'desktop') {
-      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-    } else {
-      this.isCollapsed = !this.isCollapsed;
-    }
-    let obj = {
-      emitData: screenType == 'desktop' ? this.selectedTheme.isCollapsed : this.isCollapsed,
-      screenType: screenType
-    };
-    this.notify.emit(obj);
   }
   openComment() {
     this.isVisible = true;

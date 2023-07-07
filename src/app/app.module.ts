@@ -20,11 +20,10 @@ import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { AngularSplitModule } from 'angular-split';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { CommonModule } from '@angular/common';
-import { SideMenuBuildComponent } from './menu-builder/side-menu-build/side-menu-build.component';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
+// import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -50,10 +49,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppComponent,
     HomePageComponent,
     fieldComponents,
-    SideMenuBuildComponent,
     FormlyFieldStepper,
     RegisterComponent,
-    CreateDatabaseComponent,
+    // CreateDatabaseComponent,
     MapComponent,
     MenuBulkUpdateComponent,
     Screenv1Component,

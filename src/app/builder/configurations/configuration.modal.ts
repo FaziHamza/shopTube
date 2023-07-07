@@ -6189,26 +6189,21 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-
         {
-          key: 'labelPosition',
+          key: 'expandedIconPosition',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Label Position',
+            label: 'Icon Position',
             options: [
               {
                 label: 'Right',
-                value: 'text-right pt-3'
+                value: 'right'
               },
               {
                 label: 'Left',
-                value: 'text-left pt-3'
-              },
-              {
-                label: 'Center',
-                value: 'text-center pt-3'
+                value: 'left'
               },
             ],
             additionalProperties: {

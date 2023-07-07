@@ -88,6 +88,7 @@ export class BuilderComponent implements OnInit {
   websiteBlockTypeArray: any = [];
   websiteBlockName: any = '';
   webisteBlockType: any = '';
+  searchControlValue: any = '';
   websiteBlockSave: boolean = false;
   dbWebsiteBlockArray: any = [];
   dbHtmlCodeBlockArray: any = [];
@@ -2640,11 +2641,11 @@ export class BuilderComponent implements OnInit {
         }
         (configObj.icon = selectedNode.btnIcon),
           (configObj.options = selectedNode.dropdownOptions);
-          // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-          this.addIconCommonConfiguration(
-            _formFieldData.dropdownButtonFields,
-            true
-          );
+        // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        this.addIconCommonConfiguration(
+          _formFieldData.dropdownButtonFields,
+          true
+        );
         this.fieldData.formData = _formFieldData.dropdownButtonFields;
         break;
       case 'accordionButton':
@@ -2959,6 +2960,7 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
+    this.searchControlValue = '';
     let id = event.origin.id;
     let node = event.origin;
     if (this.screenPage) {
@@ -4565,29 +4567,23 @@ export class BuilderComponent implements OnInit {
   }
   searchControll() {
     this.searchControllData = [];
-    var input = (
-      document.getElementById('searchControll') as HTMLInputElement
-    ).value.toUpperCase();
-    if (input && input != ' ') {
-      let filterData = this.htmlTabsData[0].children.filter(
-        (a: any) => a.id != 'website-block'
-      );
+    const input = this.searchControlValue.toUpperCase();
+    if (input) {
+      const filterData = this.htmlTabsData[0].children.filter((a: any) => a.id !== 'website-block');
       filterData.forEach((a: any) => {
-        if (a.children.length > 0) {
-          a.children.forEach((b: any) => {
-            if (b.children)
-              if (b.children.length > 0) {
-                b.children.forEach((c: any) => {
-                  if (c.label.toUpperCase().includes(input)) {
-                    this.searchControllData.push(c);
-                  }
-                });
+        a.children.forEach((b: any) => {
+          if (b.children) {
+            b.children.forEach((c: any) => {
+              if (c.label.toUpperCase().includes(input)) {
+                this.searchControllData.push(c);
               }
-          });
-        }
+            });
+          }
+        });
       });
     }
   }
+
   diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
     if (fieldGroup) {
       if (fieldGroup[0].props) {

@@ -83,6 +83,7 @@ export class AddControlService {
       isNextChild: true,
       backGroundColor: "#FFFFFF",
       textColor: "#000000",
+      expandedIconPosition:'left'
     }
   }
   getBodyControl() {

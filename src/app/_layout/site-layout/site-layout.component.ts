@@ -53,8 +53,6 @@ export class SiteLayoutComponent implements OnInit {
     allMenuItems: [],
     showMenu: true,
   }
-  // selectedTheme: any;
-
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -115,9 +113,7 @@ export class SiteLayoutComponent implements OnInit {
     }
     else if (!window.location.href.includes('/menu-builder')) {
       if (!this.dataSharedService.goToMenu) {
-        if (!this.selectedTheme) {
-          this.selectedTheme = this.newSelectedTheme;
-        }
+        this.selectedTheme = this.selectedTheme ? this.selectedTheme : this.newSelectedTheme;
         this.getApplications();
         this.getAllMenu();
       } else {
@@ -160,51 +156,16 @@ export class SiteLayoutComponent implements OnInit {
       }
       this.tabs = [];
     });
-    // window.onresize = () => {
-    //   this.controlMenu();
-    // };
-    // this.controlMenu();
   }
 
 
   notifyEmit(data: any) {
-    debugger
-    if (data.screenType) {
-      if (data.screenType == 'desktop') {
-        this.selectedTheme.showMenu = true;
-        this.selectedTheme.isCollapsed = data.emitData;
-        if (this.selectedTheme.isCollapsed) {
-          this.selectedTheme.topHeaderMenu = 'w-1/12';
-          this.selectedTheme.topHeader = 'w-full';
-          this.selectedTheme.menuColumn = '';
-          this.selectedTheme.rowClass = 'w-full';
-        }
-        else {
-          this.selectedTheme.menuColumn = 'w-1/6';
-          this.selectedTheme.rowClass = 'w-10/12';
-          this.selectedTheme.topHeaderMenu = 'w-1/6';
-          this.selectedTheme.topHeader = 'w-10/12';
-        }
-      }
-      else if (data.screenType == 'mobile') {
-        this.selectedTheme.showMenu = data.emitData;
-      }
-    }
-    else {
-      if (data.emitData.selectedTheme) {
-        this.selectedTheme = data.emitData.selectedTheme
-      }
-      else {
-        this.selectedTheme = this.newSelectedTheme;
-      }
-      this.selectedTheme.allMenuItems = data.emitData.menuData;
-      this.menuItems = data.emitData.menuData;
-      this.makeMenuData();
-    }
+    this.selectedTheme = data.selectedTheme ? this.selectedTheme : this.newSelectedTheme
+    this.selectedTheme.allMenuItems = data.menuData;
+    this.menuItems = data.menuData;
+    this.makeMenuData();
   }
   collapsed() {
-    debugger
-    this.selectedTheme.showMenu = true;
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
       this.selectedTheme.topHeaderMenu = 'w-1/12';
@@ -223,6 +184,7 @@ export class SiteLayoutComponent implements OnInit {
     this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
   }
   getMenuByDomainName() {
+    debugger
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
@@ -236,16 +198,16 @@ export class SiteLayoutComponent implements OnInit {
           const observables = [
 
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
-            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_header"),
-            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_footer"),
-            this.applicationService.getNestCommonAPIById('cp/Menu',res.data[0]._id),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_header"),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_footer"),
+            this.applicationService.getNestCommonAPIById('cp/Menu', res.data[0]._id),
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-              this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length  > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
+              this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
               this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? this.jsonParseWithObject(results[1].data[0].screenData) : '' : '');
-              let getMenu = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) :{} : {};
-              let selectedTheme = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) :{} : {};
+              let getMenu = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) : {} : {};
+              let selectedTheme = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) : {} : {};
               if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu
@@ -339,62 +301,12 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getApplications() {
-    // this.currentUrl = window.location.host;
-    // let url = window.location.href.split('.com');
-    // this.currentWebsiteUrl = url[0] + ".com";
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             let menus: any = [];
-            // let checkHttp = this.currentWebsiteUrl.includes('http');
-            // if (!checkHttp)
-            //   this.currentWebsiteUrl = "http://" + this.currentWebsiteUrl;
-            // if (this.dataSharedService.currentUrl != this.currentUrl) {
-            //   this.dataSharedService.currentUrl = this.currentUrl;
-            //   let checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == this.currentWebsiteUrl.toLowerCase());
-            //   if (!checkLayout) {
-            //     let splitHttp = this.currentWebsiteUrl.split("//");
-            //     checkLayout = res.find((a: any) => a.domain && a.domain.toLowerCase() == splitHttp[1].toLowerCase());
-            //   }
-
-            //   this.currentWebsiteLayout = checkLayout?.layout;
-            //   let checkLayoutType = this.currentUrl.includes("pages");
-            //   if (!checkLayoutType && checkLayout && this.currentUrl.includes('/home')) {
-            //     this.builderService.getModuleByApplicationName(checkLayout.name).subscribe(res => {
-            //       this.dataSharedService.currentApplicationList.next(res);
-            //       let getDefaultModule = res.find(a => a.name.toLowerCase().includes("default"));
-            //       if (getDefaultModule) {
-            //         this.builderService.getScreenByModuleName(checkLayout.name).subscribe(res => {
-            //           let filterDefaultScreen = res.filter(a => a.name.toLowerCase().includes("default"));
-            //           if (filterDefaultScreen.length > 0) {
-            //             this.builderService.screenById(filterDefaultScreen[0].screenId).subscribe(res => {
-            //               if (filterDefaultScreen[0].screenId.toLowerCase().includes('header'))
-            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-            //               else
-            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-            //             })
-            //             this.builderService.screenById(filterDefaultScreen[1].screenId).subscribe(res => {
-            //               if (filterDefaultScreen[1].screenId.toLowerCase().includes('footer'))
-            //                 this.dataSharedService.currentFooter.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-            //               else
-            //                 this.dataSharedService.currentHeader.next(res ? res.length > 0 ? res[0].menuData : "" : '');
-            //             })
-            //           }
-            //         })
-            //         this.builderService.getJsonModules(getDefaultModule.name).subscribe(res => {
-            //           this.dataSharedService.currentMenu.next(res);
-            //         })
-            //       }
-            //     })
-            //     // this.dataSharedService.currentModule.next(checkLayout.name);
-            //   }
-            //   else {
-            //     this.currentWebsiteLayout = checkLayout?.layout ? checkLayout?.layout : "website";
-            //   }
-            // }
             this.currentWebsiteLayout = "backend_application";
-
             res.data.forEach((element: any) => {
               let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
               const newNode = {
@@ -428,22 +340,6 @@ export class SiteLayoutComponent implements OnInit {
 
     });
   }
-  // controlMenu() {
-  //   const screenWidth = window.innerWidth;
-  //   if (screenWidth <= 789) {
-  //     // this.selectedTheme.isCollapsed = true;
-  //     this.selectedTheme.showMenu = false;
-  //     this.selectedTheme.rowClass = 'w-full';
-  //     // this.selectedTheme.isCollapsed = true;
-  //   } else {
-  //     // this.selectedTheme.isCollapsed = false;
-  //     this.selectedTheme.rowClass = 'w-10/12';
-  //     this.selectedTheme.showMenu = true;
-  //     // this.selectedTheme.topHeaderMenu = 'w-1/6';
-  //     // this.selectedTheme.topHeader = 'w-10/12';
-  //   }
-  // }
-
   getAllMenu() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
       next: (res: any) => {

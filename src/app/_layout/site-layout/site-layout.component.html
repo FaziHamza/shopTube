@@ -45,13 +45,9 @@
           *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'"
           nz-menu
           [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
-          <st-menu
-            *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
-            (notify)="notifyEmit($event)"
-            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div class="dynamic-header-row">
             <div class="dynamic-header-btns"
-              *ngIf="currentHeader && !currentUrl.includes('localhost') && ((selectedTheme['showButton'] == undefined || selectedTheme['showButton']))">
+              *ngIf="selectedTheme['showButton'] == undefined || selectedTheme['showButton']">
               <button (click)="mobileViewCollapseInHostCom()"
                 [style.background]="selectedTheme['buttonColor']"
                 *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
@@ -77,17 +73,20 @@
                   [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
               </button>
             </div>
-            <div class="dynamic-header" *ngIf="currentHeader && !currentUrl.includes('localhost')">
+            <div class="dynamic-header" *ngIf="currentHeader">
               <st-pages [resData]="currentHeader"
                 *ngIf="currentHeader.length  > 0"></st-pages>
             </div>
+            <st-menu class="dynamic-header"
+              *ngIf="!currentHeader"
+              (notify)="notifyEmit($event)"
+              [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           </div>
-
         </div>
         <div [ngClass]='selectedTheme.topHeader'
           *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
           <st-menu
-            *ngIf="currentUrl.includes('localhost') || fullCurrentUrl.includes('/menu-builder')"
+            *ngIf="!currentHeader"
             (notify)="notifyEmit($event)"
             [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
@@ -115,7 +114,7 @@
       </div>
 
       <div [ngClass]='selectedTheme.rowClass'
-        class="content-body block p-0 p-3 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
+        class="content-body block p-3 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
         <ng-container *ngIf="tabs.length">
           <ng-container *ngFor="let item of tabs">
             <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"

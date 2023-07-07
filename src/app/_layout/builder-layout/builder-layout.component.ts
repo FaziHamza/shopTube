@@ -50,10 +50,6 @@ export class BuilderLayoutComponent implements OnInit {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
     }
-    // window.onresize = () => {
-    //   this.controlMenu();
-    // };
-    this.controlMenu();
   }
   toggleCollapsed(): void {
 
@@ -110,7 +106,6 @@ export class BuilderLayoutComponent implements OnInit {
     }
   }
   notifyEmitForDropdown(data: any) {
-
     this.tabs = [];
     data.children.forEach((i: any) => {
       if (i.type == 'mainTab') {
@@ -120,7 +115,6 @@ export class BuilderLayoutComponent implements OnInit {
   }
 
   loadTabsAndButtons(data: any) {
-
     data.isOpen = !data.isOpen;
     this.tabs = [];
     this.dropdown = [];
@@ -147,7 +141,6 @@ export class BuilderLayoutComponent implements OnInit {
   }
 
   makeMenuData() {
-
     let arrayList = [];
     arrayList = this.selectedTheme.allMenuItems;
     this.selectedTheme.newMenuArray = [];
@@ -192,18 +185,7 @@ export class BuilderLayoutComponent implements OnInit {
       }
     })
   }
-  controlMenu() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 789) {
-      this.selectedTheme.showMenu = false;
-      this.selectedTheme.rowClass = 'w-full';
-    } else {
-      this.selectedTheme.rowClass = 'w-10/12';
-      this.selectedTheme.showMenu = true;
-    }
-  }
   collapsed() {
-    this.selectedTheme.showMenu = true;
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
       this.selectedTheme.topHeaderMenu = 'w-1/12';
@@ -217,5 +199,8 @@ export class BuilderLayoutComponent implements OnInit {
       this.selectedTheme.topHeaderMenu = 'w-1/6';
       this.selectedTheme.topHeader = 'w-10/12';
     }
+  }
+  mobileViewCollapseInHostCom() {
+    this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
   }
 }
