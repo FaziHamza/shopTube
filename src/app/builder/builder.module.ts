@@ -27,6 +27,7 @@ import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
+import { CreateDatabaseComponent } from "../admin/create-database/create-database.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
     LanguageComponent,
-    BulkUpdateComponent
+    BulkUpdateComponent,
+    CreateDatabaseComponent
   ],
   imports: [
     CommonModule,

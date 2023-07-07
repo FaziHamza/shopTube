@@ -12,6 +12,7 @@ import { DividerComponent } from '../components';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ApplicationService } from '../services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'st-pages',
@@ -35,18 +36,33 @@ export class PagesComponent implements OnInit {
   @Input() resData: any = [];
   @Input() formlyModel: any;
   fields: any = [];
+  dataModel: any = {};
   screenData: any;
   businessRuleData: any;
   @Input() screenName = '';
   @Input() screenId: any;
   requestSubscription: Subscription;
   isPageContextShow = false;
+  form: any = new FormGroup({});
   ngOnInit(): void {
-    // debugger
+
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 
-       console.log(res);
+        let makeModel: any = {};
+        const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
+        for (let item in this.formlyModel) {
+          filteredNodes.forEach((element) => {
+            if (item == element.formly[0].fieldGroup[0].key) {
+              makeModel[item] = this.formlyModel[item]
+            }
+          });
+        }
+        // this.dataModel = makeModel;
+        this.dataModel = this.formlyModel;
+        // this.submit();
+        if(Object.keys(makeModel).length > 0)
+          this.saveData(res)
       },
       error: (err) => {
         console.error(err);
@@ -89,7 +105,7 @@ export class PagesComponent implements OnInit {
 
 
       // ------------------
-      //  Working on Load 
+      //  Working on Load
       // ------------------
       if (params["schema"]) {
         this.dataSharedService.defaultPageNodes = '';
@@ -97,8 +113,8 @@ export class PagesComponent implements OnInit {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
         this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res:any) => {
-          if (res.isSuccess) {  
-            debugger
+          if (res.isSuccess) {
+
             // let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
@@ -115,7 +131,8 @@ export class PagesComponent implements OnInit {
                 const data = JSON.parse(res.data[0].screenData);
                 this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
                 this.checkDynamicSection();
-                this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' })
+                this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
+                this.getFromQuery();
                 if (params["commentId"] != "all") {
                   this.builderService.getCommentById(params["commentId"]).subscribe(res => {
                     if (res.length > 0) {
@@ -142,6 +159,212 @@ export class PagesComponent implements OnInit {
 
     });
   }
+  saveData(data: any) {
+
+    if (data.isSubmit) {
+      let oneModelData = this.convertModel(this.dataModel);
+      // this.sections.children[1].children
+      // this.sections.children[1].childrena.forEach((element:any) => {
+      //   if(element.type == "gridList"){
+      //     let tableData = this.findObjectByType(element,"gridList");
+      //     tableData.tableData = [];
+      //     tableData.tableHeaders = [];
+      //     tableData?.tableData?.push(this.dataModel);
+      //   }
+      // });
+      // let tableData = this.findObjectByType(element,"gridList");
+      let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
+      if (tableData.length > 0) {
+        tableData[0]['api'] = data.dataTable;
+        let saveForm = JSON.parse(JSON.stringify(oneModelData));
+        // saveForm["id"] = '';
+        // this.dataModel["id"] = tableData[0]['tableKey'].length
+        const firstObjectKeys = Object.keys(saveForm);
+        let obj = firstObjectKeys.map(key => ({ name: key }));
+        // obj.unshift({name: 'id'});
+        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+          tableData[0].tableData = [];
+          tableData[0]['tableKey'] = obj;
+          tableData[0].tableHeaders = tableData[0]['tableKey'];
+          saveForm.id = tableData[0].tableData.length + 1
+          tableData[0].tableData?.push(saveForm);
+        } else {
+          tableData[0]['tableKey'] = obj;
+          tableData[0].tableHeaders = tableData[0]['tableKey'];
+          saveForm.id = tableData[0].tableData.length + 1;
+          tableData[0].tableData?.push(saveForm);
+        }
+
+      }
+      this.saveData1(data);
+    }
+  }
+  submit() {
+
+    this.dataModel =  this.formlyModel;
+  }
+  saveData1(data: any) {
+    this.submit();
+    let oneModelData = this.convertModel(this.dataModel);
+    // const objModel: any = this.dataModel;
+    // var nestedObject = {};
+    // for (var key in objModel) {
+    //   Object.assign(nestedObject, objModel[key]);
+    // }
+
+    // let nestedObject: any = null;
+    // Object.keys(objModel).forEach(key => {
+    //   const value = objModel[key];
+    //   if (typeof value === "object" && value !== null) {
+    //     nestedObject = value;
+    //   }
+    // });
+    const empData = {
+      screenId: this.screenName,
+      modalData: oneModelData
+    };
+
+    console.log(empData);
+    const tableNames = new Set();
+
+    for (const key in empData.modalData) {
+      const tableName = key.split('.')[0];
+      tableNames.add(tableName);
+    }
+
+    const Arraytables = Array.from(tableNames)
+    const remainingTables = Arraytables.slice(1);
+    let id;
+    for (const key in empData.modalData) {
+      if (empData.modalData.hasOwnProperty(key) &&
+        key.endsWith('.id') &&
+        empData.modalData[key] !== "") {
+        id = key;
+      }
+    }
+
+    if (id == undefined) {
+      let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
+      relationIds = relationIds.toString();
+      const tables = (Array.from(tableNames)).toString();
+      console.log(tables);
+      this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
+        next: (res) => {
+          if (res[0]?.error)
+            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+          else {
+            this.toastr.success("Save Successfully", { nzDuration: 3000 });
+            this.setInternalValuesEmpty(this.dataModel)
+            // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+            this.getFromQuery();
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+    } else {
+      // const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
+      if (this.dataModel) {
+        // this.form.get(dynamicPropertyName);
+        const model = {
+          screenId: this.screenName,
+          postType: 'put',
+          modalData: empData.modalData
+        };
+
+        this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
+          next: (res) => {
+            this.toastr.success("Update Successfully", { nzDuration: 3000 });
+            this.getFromQuery();
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+      }
+    }
+
+    // if (data.dataTable) {
+    //   this.requestSubscription = this.builderService.genericApisPost(data.dataTable, this.dataModel).subscribe({
+    //     next: (res) => {
+    //       this.toastr.success("Data saved!", { nzDuration: 3000 });
+    //     },
+    //     error: (err) => {
+    //       console.error(err); // Log the error to the console
+    //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    //     }
+    //   });
+    // } else {
+    //   this.toastr.error("Data table required", { nzDuration: 3000 }); // Show an error message to the user
+    // }
+  }
+  getFromQuery() {
+    let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
+    this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+      next: (res) => {
+
+        if (tableData.length > 0) {
+          // tableData[0]['api'] = data.dataTable;
+          let saveForm = JSON.parse(JSON.stringify(res[0]));
+          // saveForm["id"] = '';
+          // this.dataModel["id"] = tableData[0]['tableKey'].length
+          const firstObjectKeys = Object.keys(saveForm);
+          let obj = firstObjectKeys.map(key => ({ name: key }));
+          // obj.unshift({name: 'id'});
+          if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+            tableData[0].tableData = [];
+            tableData[0]['tableKey'] = obj;
+            tableData[0].tableHeaders = tableData[0]['tableKey'];
+            saveForm.id = tableData[0].tableData.length + 1
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData[0].tableData?.push(element);
+            });
+          } else {
+            tableData[0]['tableKey'] = obj;
+            tableData[0].tableHeaders = tableData[0]['tableKey'];
+            tableData[0].tableData = [];
+            saveForm.id = tableData[0].tableData.length + 1;
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData[0].tableData?.push(element);
+            });
+            // tableData[0].tableData?.push(saveForm);
+          }
+        }
+      }
+    });
+  }
+  convertModel(model: any, parentKey = "") {
+    const convertedModel: any = {};
+
+    for (const key in model) {
+      if (model.hasOwnProperty(key)) {
+        const value = model[key];
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null) {
+          Object.assign(convertedModel, this.convertModel(value, newKey.toLocaleLowerCase()));
+        } else {
+          convertedModel[newKey.toLocaleLowerCase()] = value;
+        }
+      }
+    }
+
+    return convertedModel;
+  }
+  setInternalValuesEmpty = (obj: any) => {
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        this.setInternalValuesEmpty(obj[key]);
+      } else {
+        obj[key] = '';
+      }
+    }
+  };
   jsonParseWithObject(data: any) {
     return JSON.parse(
       data, (key, value) => {
@@ -919,5 +1142,18 @@ export class PagesComponent implements OnInit {
         return null;
       }
     }
+  }
+  isButtonIdExist(data: any[], targetId: string): boolean {
+    for (const item of data) {
+      if (item.type === 'button' && item.id === targetId) {
+        return true;
+      }
+      if (item.children && item.children.length > 0) {
+        if (this.isButtonIdExist(item.children, targetId)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

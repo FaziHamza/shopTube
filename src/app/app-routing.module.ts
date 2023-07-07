@@ -5,7 +5,6 @@ import { PagesComponent } from './pages/pages.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { BarChartComponent,  FileManagerComponent, googleMapComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
-import { CreateDatabaseComponent } from './admin/create-database/create-database.component';
 import { Layout1Component } from './admin/layout1/layout1.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
@@ -35,10 +34,7 @@ const routes: Routes = [
         path: 'home/pages/:schema',
         component: PagesComponent
       },
-      {
-        path: 'database',
-        component: CreateDatabaseComponent
-      },
+
     ]
   },
   {

@@ -123,7 +123,8 @@ export class CreateDatabaseComponent implements OnInit {
 //  }
 
   ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
+    if(this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   ngOnInit(): void {
     // this.getDatabaseTable();
@@ -141,7 +142,7 @@ export class CreateDatabaseComponent implements OnInit {
     };
   }
   saveEdit(id: number): void {
-   
+
     const index = this.listOfData.findIndex(item => item.id === id);
     Object.assign(this.listOfData[index], this.editCache[id].data);
     this.editCache[id].edit = false;
@@ -270,7 +271,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   submitFormv1() {
-   
+
     const isExistingDataValid = this.listOfData.every(item => {
       // Check if any field in the existing rows is empty or null
       return (
@@ -358,7 +359,7 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
   updateFormv1() {
-   
+
     const isExistingDataValid = this.listOfData.every(item => {
       debugger
       // Check if any field in the existing rows is empty or null
@@ -524,7 +525,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   editTableData(item: any) {
-   
+
     this.tableId = item.id
     this.model = item;
     this.listOfData = item.schema;

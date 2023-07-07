@@ -50,7 +50,7 @@ export class ActionRuleComponent implements OnInit {
   nodeList: { title: string, key: string }[] = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
-    public dataSharedService: DataSharedService, private toastr: NzMessageService, 
+    public dataSharedService: DataSharedService, private toastr: NzMessageService,
     private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class ActionRuleComponent implements OnInit {
     this.extractNodes(this.nodes, this.nodeList);
   }
   // getNodeList() {
-  //  
+  //
   //   for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
   //     if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
   //       this.nodeList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
@@ -113,7 +113,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-   
+
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -160,7 +160,7 @@ export class ActionRuleComponent implements OnInit {
 
       // if (this.actionForm.value.actionLink == 'select') {
       //   dataForQuery += "select " + fields.join(', ') + " from " + element.name.toLocaleLowerCase();
-      // } else 
+      // } else
       if (this.actionForm.value.actionLink == 'get') {
         if (mainArray.length == i + 1) {
           dataForQuery += `select ${joinFields.join(', ')} from ${element.name.toLocaleLowerCase()};`;
@@ -252,7 +252,7 @@ export class ActionRuleComponent implements OnInit {
 
   // Remove FormGroup
   removeActionFormGroup(index: number, data: any) {
-   
+
     if (data.id == 0) {
       this.ActionsForms.removeAt(index);
     } else {
@@ -270,7 +270,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
 // Save Action Backup 💾
-/* 
+/*
 SaveAction() {
   debugger
    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
@@ -324,9 +324,9 @@ SaveAction() {
   SaveAction() {
    debugger
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    
+
     const observables = this.actionForm.value.Actions.map((element: any) => {
-      
+
       debugger
       let actionData: any = {
         "moduleName": this.screenName,
@@ -395,9 +395,9 @@ SaveAction() {
         this.toastr.error("Actions: An error occured", { nzDuration: 3000 });
       }
     });
-  
 
-    
+
+
   }
 
   updateActionData() {
@@ -413,7 +413,7 @@ SaveAction() {
           if (res.isSuccess) {
             this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
           }
-          if (res.data.length > 0) {
+          if (res.data && res.data.length > 0) {
             // console.warn(`Length : ${res.data.length}`)
             const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
             if (getRes.length > 0) {
@@ -453,7 +453,7 @@ SaveAction() {
       })
     }
   }
-  
+
 /*   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].screenId != null) {
