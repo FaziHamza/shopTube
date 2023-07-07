@@ -324,44 +324,60 @@ SaveAction() {
   SaveAction() {
    debugger
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction',mainModuleId[0].navigation).subscribe(res=>{
+      const observables = this.actionForm.value.Actions.map((element: any) => {
 
-    const observables = this.actionForm.value.Actions.map((element: any) => {
-
-      debugger
-      let actionData: any = {
-        "moduleName": this.screenName,
-        "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-        "btnActionType": element.submissionType ? element.submissionType : "",
-        "elementName": element.elementName,
-        "actionType": element.actionType,
-        "actionLink": element.actionLink,
-        "quryType": element.referenceId,
-        "quries": element.query,
-        "submit": element.submit,
-        "type": element.type,
-        "sqlType": element.sqlType,
-        "email": element.email,
-        "confirmEmail": element.confirmEmail,
-        "referenceId": element.referenceId,
-        "httpAddress": element.httpAddress ? element.httpAddress : "",
-        "contentType": element.contentType ? element.contentType : ""
-      }
+        let actionData: any = {
+          "moduleName": this.screenName,
+          "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
+          "btnActionType": element.submissionType ? element.submissionType : "",
+          "elementName": element.elementName,
+          "actionType": element.actionType,
+          "actionLink": element.actionLink,
+          "quryType": element.referenceId,
+          "quries": element.query,
+          "submit": element.submit,
+          "type": element.type,
+          "sqlType": element.sqlType,
+          "email": element.email,
+          "confirmEmail": element.confirmEmail,
+          "referenceId": element.referenceId,
+          "httpAddress": element.httpAddress ? element.httpAddress : "",
+          "contentType": element.contentType ? element.contentType : ""
+        }
 
 
-      const actionModel = {
-        "Action" : actionData
-      }
-      if (element.id == 0) {
-        debugger
+        const actionModel = {
+          "Action" : actionData
+        }
         return this.applicationService.addNestCommonAPI('cp', actionModel).pipe(
           catchError(error => of(error)) // Handle error and continue the forkJoin
         );
-      } else {
-        return this.applicationService.updateNestCommonAPI('cp/Action', element.id, actionModel).pipe(
-          catchError(error => of(error)) // Handle error and continue the forkJoin
-        );
-      }
-    });
+        // else {
+        //   return this.applicationService.updateNestCommonAPI('cp/Action',element.id, actionModel).pipe(
+        //     catchError(error => of(error)) // Handle error and continue the forkJoin
+        //   );
+        // }
+      });
+      forkJoin(observables).subscribe({
+        next: (allResults: any) => {
+          if (allResults.every((result:any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
+            debugger
+            // if (allResults) {
+              this.getActionData();
+              this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+            // }
+          } else {
+            this.toastr.error("Actions not saved", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Actions: An error occured", { nzDuration: 3000 });
+        }
+      });
+    })
+
 
 /*     forkJoin(observables).subscribe({
       next: (results: any) => {
@@ -378,23 +394,7 @@ SaveAction() {
       }
     }); */
 
-    forkJoin(observables).subscribe({
-      next: (allResults: any) => {
-        if (allResults.every((result:any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
-          debugger
-          // if (allResults) {
-            this.getActionData();
-            this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
-          // }
-        } else {
-          this.toastr.error("Actions not saved", { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Actions: An error occured", { nzDuration: 3000 });
-      }
-    });
+
 
 
 
@@ -408,14 +408,14 @@ SaveAction() {
     debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/Action", selectedScreen[0].navigation ).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0].navigation ).subscribe({
         next: (res:any) => {
           if (res.isSuccess) {
-            this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
+            // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
           }
           if (res.data && res.data.length > 0) {
             // console.warn(`Length : ${res.data.length}`)
-            const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
+            const getRes = res.data.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
             if (getRes.length > 0) {
               // console.warn(`Get Result Length : ${res.data.length}`)
               this.screenActions = getRes;
@@ -426,7 +426,7 @@ SaveAction() {
                 submissionType: [getRes[0].btnActionType],
                 Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
                   this.formBuilder.group({
-                    id: [getQueryActionRes.id],
+                    id: [getQueryActionRes._id],
                     submit: [getQueryActionRes.submit],
                     type: [getQueryActionRes.type],
                     sqlType: [getQueryActionRes.sqlType],
