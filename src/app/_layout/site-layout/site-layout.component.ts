@@ -349,8 +349,8 @@ export class SiteLayoutComponent implements OnInit {
             {
               "_id": res.data._id,
               "name": res.data.name,
-              "selectedTheme": JSON.parse(res.data.selectedTheme),
-              "menuData": JSON.parse(res.data.menuData),
+              "selectedTheme": res.data?.selectedTheme ?  JSON.parse(res.data?.selectedTheme) : {},
+              "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
               "__v": 0,
               "applicationId": "648b4d73dc2ca800d3684f7b"
             }

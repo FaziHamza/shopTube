@@ -16,8 +16,8 @@ export class DynamicTableComponent implements OnInit {
   @Input() itemData: any;
   @Input() tableId: any;
   @Input() checkType: boolean;
-  @Input() tableData: any[];
-  @Input() tableHeaders: any[];
+  @Input() tableData: any[]= [];
+  @Input() tableHeaders: any[]= [];
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
@@ -25,7 +25,7 @@ export class DynamicTableComponent implements OnInit {
   GridType: string = '';
   // key: any;
   screenNameaa: any;
-  footerData: any[];
+  footerData: any[] = [];
   childKey: any;
   allChecked = false;
   indeterminate = false;
@@ -50,7 +50,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
     // if (this.tableData.length > 0) {
     //   this.storeRows = JSON.parse(JSON.stringify(this.tableData));
     // }
@@ -605,7 +605,7 @@ export class DynamicTableComponent implements OnInit {
   // Method to save the updated value of an entry
 
   controlMenu() {
-   
+
     const screenWidth = window.innerWidth;
     if (screenWidth <= 756) {
       // this.tableData = this.storeRows;
@@ -648,7 +648,7 @@ export class DynamicTableComponent implements OnInit {
       //   this.data['tableKey'] = tablekey;
       //   this.data['showColumnHeader'] = false;
       //   // this.gridInitilize();
-      //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders)); 
+      //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
       //   this.tableHeaders.forEach(headElement => {
       //     if (headElement['dataType'] == 'select') {
       //       headElement['dataType'] = 'input';

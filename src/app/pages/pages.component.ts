@@ -306,7 +306,7 @@ export class PagesComponent implements OnInit {
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
 
-        if (tableData.length > 0) {
+        if (tableData.length > 0 && res) {
           // tableData[0]['api'] = data.dataTable;
           let saveForm = JSON.parse(JSON.stringify(res[0]));
           // saveForm["id"] = '';
