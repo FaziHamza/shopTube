@@ -77,7 +77,7 @@ export class AddControlService {
     return {
       footer: false,
       headingSize: "",
-      expanded: false,
+      headerCollapse: false,
       header: true,
       labelPosition: "text-left",
       isNextChild: true,

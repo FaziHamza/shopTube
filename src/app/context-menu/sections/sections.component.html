@@ -1,7 +1,7 @@
 <!-- INCOLAPSSABLE CASE -->
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="{{sections.isBordered?'border': ''}}"
-    *ngIf="!sections.children[0]?.expanded"
+    *ngIf="!sections.children[0]?.headerCollapse || sections.children[0]?.headerCollapse == undefined"
     [style]="{'border-color': sections.borderColor + '!important'}">
     <div
       class="site-page-header-ghost-wrapper {{sections.isBordered?'border-b': ''}}"
@@ -62,12 +62,13 @@
     </div>
   </div>
   <!-- COLLAPSABLE CASE -->
-  <div *ngIf="sections.children[0]?.expanded">
+  <div *ngIf="sections.children[0]?.headerCollapse">
     <nz-collapse *ngIf="sections.children[0].header"
       [nzBordered]="sections.isBordered"
       [nzExpandIconPosition]="sections.children[0].expandedIconPosition || 'left'">
       <nz-collapse-panel
         [nzHeader]="collapseTitle" [nzExtra]="extraTpl"
+        [nzActive]='false'
         [style.background]="sections.children[0].backGroundColor +'!important'"
         [ngStyle]="sections.isBordered?{'border-color': sections.borderColor + '!important'}:{'border-radius': '4px','border': '0px','border-color': sections.borderColor + '!important'}">
         <div
@@ -96,7 +97,7 @@
         </div>
       </nz-collapse-panel>
       <ng-template #extraTpl>
-        <div *ngFor="let item of sections.children[0].children">
+        <!-- <div *ngFor="let item of sections.children[0].children">
           <st-block-buttons-card [softIconList]="item">
           </st-block-buttons-card>
         </div>
@@ -107,15 +108,12 @@
         <div *ngIf="sections.repeatable">
           <a nz-button nzType="link" (click)="sectionRepeat(sections)">Repeat
             Section</a>
-        </div>
+        </div> -->
       </ng-template>
     </nz-collapse>
     <ng-template #collapseTitle>
       <p [style.color]="sections.children[0].textColor + ' !important'"
         [class]="sections.children[0].headingSize ? sections.children[0].headingSize + '' + sections.children[0].className : 'collapse-title ' + sections.children[0].className">{{sections.children[0].title}}</p>
-    </ng-template>
-    <ng-template #extraTpl>
-      <span nz-icon nzType="setting" (click)="$event.stopPropagation()"></span>
     </ng-template>
   </div>
 </form>
