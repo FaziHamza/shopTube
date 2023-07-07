@@ -36,10 +36,9 @@ export class SectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getJoiValidation();
-    this.getFromQuery();
+    // this.getFromQuery();
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-
         const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         if (checkButtonExist) {
           let makeModel: any = {};
@@ -52,14 +51,68 @@ export class SectionsComponent implements OnInit {
             });
           }
           this.dataModel = makeModel;
+          if(Object.keys(makeModel).length > 0){
+            for (const key in this.dataModel) {
+              if (this.dataModel.hasOwnProperty(key)) {
+                const value = this.getValueFromNestedObject(key, this.formlyModel);
+                if (value !== undefined) {
+                  this.dataModel[key] = value;
+                }
+              }
+            }
+          }
           // this.submit();
-          this.saveData(res)
+          if(Object.keys(makeModel).length > 0){
+            let obj = {
+             "employeeeuser": this.dataModel
+            };
+            // this.dataModel = obj;
+            this.saveData(res)
+
+          }
         }
+
+
+
+          // for (const key in this.dataModel) {
+          //   if (this.dataModel.hasOwnProperty(key)) {
+          //     if (this.formlyModel.hasOwnProperty(key)) {
+          //       this.dataModel[key] = this.formlyModel[key];
+          //     }
+          //   }
+          // }
+          // this.saveData(res);
+        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+        // if (checkButtonExist) {
+        //   let makeModel: any = {};
+        //   const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+        //   for (let item in this.formlyModel) {
+        //     filteredNodes.forEach((element) => {
+        //       if (item == element.formly[0].fieldGroup[0].key) {
+        //         makeModel[item] = this.formlyModel[item]
+        //       }
+        //     });
+        //   }
+        //   this.dataModel = makeModel;
+        //   // this.submit();
+        //   this.saveData(res)
+        // }
       },
       error: (err) => {
         console.error(err);
       }
     })
+  }
+  getValueFromNestedObject(key: string, obj: any): any {
+    const keys = key.split('.');
+    let value = obj;
+    for (const k of keys) {
+      if (!value || !value.hasOwnProperty(k)) {
+        return undefined;
+      }
+      value = value[k];
+    }
+    return value;
   }
   traverseAndChange(node: any, type: string) {
     let obj = {
@@ -107,7 +160,6 @@ export class SectionsComponent implements OnInit {
   }
   saveData(data: any) {
 
-    // this.notifySection.emit(data);
     if (data.isSubmit) {
       let oneModelData = this.convertModel(this.dataModel);
       // this.sections.children[1].children
@@ -147,9 +199,8 @@ export class SectionsComponent implements OnInit {
     }
   }
   saveData1(data: any) {
-    this.sections.children[1].children
+    // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
-
     // const objModel: any = this.dataModel;
     // var nestedObject = {};
     // for (var key in objModel) {
@@ -200,7 +251,7 @@ export class SectionsComponent implements OnInit {
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
             this.setInternalValuesEmpty(this.dataModel)
             // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-            this.getFromQuery();
+            // this.getFromQuery();
           }
         },
         error: (err) => {
@@ -209,19 +260,19 @@ export class SectionsComponent implements OnInit {
         }
       });
     } else {
-      const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
-      if (this.form.get(dynamicPropertyName)) {
-        this.form.get(dynamicPropertyName);
+      // const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
+      if (this.dataModel) {
+        // this.form.get(dynamicPropertyName);
         const model = {
           screenId: this.screenName,
           postType: 'put',
-          modalData: this.dataModel[dynamicPropertyName]
+          modalData: empData.modalData
         };
 
         this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
-            this.getFromQuery();
+            // this.getFromQuery();
           },
           error: (err) => {
             console.error(err);
@@ -318,11 +369,11 @@ export class SectionsComponent implements OnInit {
     this.dataModel =  this.formlyModel;
     // this.formlyModel = this.dataModel;
     this.joiValidation();
-    if (this.validationCheckStatus.length === 0) {
-      this.dataModel;
-      console.log(this.dataModel);
-      this.dataModel
-    }
+    // if (this.validationCheckStatus.length === 0) {
+    //   this.dataModel;
+    //   console.log(this.dataModel);
+    //   this.dataModel
+    // }
     // else {
     //   alert(this.validationCheckStatus);
     // }
@@ -458,9 +509,5 @@ export class SectionsComponent implements OnInit {
     this.applicationServices.getNestCommonAPIById('validation-rule/screen', this.screenId).subscribe((getRes => {
       this.joiValidationData = getRes;
     }))
-  }
-  abc123(data: any){
-
-    this.form.value;
   }
 }

@@ -24,7 +24,6 @@ import { ApplicationService } from '../services/application.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  @Output() notifySection: EventEmitter<any> = new EventEmitter();
   @Input() mainData: any = [];
   @Input() dataModel !: any;
   form: any = new FormGroup({});
@@ -474,9 +473,4 @@ export class MainComponent implements OnInit {
       }
     });
   }
-  // saveData(data: any) {
-
-  //   this.notifySection.emit(data);
-  // }
-
 }

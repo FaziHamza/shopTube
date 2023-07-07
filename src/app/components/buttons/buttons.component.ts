@@ -29,7 +29,7 @@ export class ButtonsComponent implements OnInit {
     public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    
+
     // this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
@@ -85,7 +85,7 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData : any): void {
-   
+
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     // this.notify.emit(buttonData);
