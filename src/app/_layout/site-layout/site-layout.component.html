@@ -143,12 +143,12 @@
         </div>
         <div dir="ltr" class="dynamic-body">
           <router-outlet></router-outlet>
+          <div class="dynamic-footer"
+            *ngIf="currentFooter && !currentUrl.includes('localhost')">
+            <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+          </div>
         </div>
-        <div class="dynamic-footer"
-          *ngIf="currentFooter && !currentUrl.includes('localhost')">
-          <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
         </div>
-      </div>
     </div>
     <div *ngIf="currentUrl.includes('localhost')">
       <!-- <nz-footer class="bg-white-500 text-black-500"
