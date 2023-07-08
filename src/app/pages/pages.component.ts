@@ -183,12 +183,14 @@ export class PagesComponent implements OnInit {
         let obj = firstObjectKeys.map(key => ({ name: key }));
         // obj.unshift({name: 'id'});
         if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+          tableData[0].nzFooter = '';
           tableData[0].tableData = [];
           tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
           saveForm.id = tableData[0].tableData.length + 1
           tableData[0].tableData?.push(saveForm);
         } else {
+          tableData[0].nzFooter = '';
           tableData[0]['tableKey'] = obj;
           tableData[0].tableHeaders = tableData[0]['tableKey'];
           saveForm.id = tableData[0].tableData.length + 1;

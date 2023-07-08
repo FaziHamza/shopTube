@@ -144,7 +144,7 @@
         <div dir="ltr">
           <router-outlet></router-outlet>
         </div>
-        <div
+        <div class="dynamic-footer"
           *ngIf="currentFooter && !currentUrl.includes('localhost')">
           <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
         </div>
