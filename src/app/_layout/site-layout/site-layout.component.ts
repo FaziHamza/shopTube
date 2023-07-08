@@ -160,7 +160,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   notifyEmit(data: any) {
-    this.selectedTheme = data.selectedTheme ? this.selectedTheme : this.newSelectedTheme
+    this.selectedTheme = data.selectedTheme ? data.selectedTheme : this.newSelectedTheme
     this.selectedTheme.allMenuItems = data.menuData;
     this.menuItems = data.menuData;
     this.makeMenuData();

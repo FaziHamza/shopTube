@@ -3484,6 +3484,11 @@ export class BuilderComponent implements OnInit {
         break;
       case 'header':
         this.selectedNode['headerCollapse'] = event.form?.headerCollapse;
+        this.selectedNode['expandedIconPosition'] = event.form?.expandedIconPosition;
+        this.selectedNode['headingSize'] = event.form?.headingSize;
+        this.selectedNode['backGroundColor'] = event.form?.backGroundColor;
+        this.selectedNode['textColor'] = event.form?.textColor;
+        this.selectedNode['header'] = event.form?.header;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;

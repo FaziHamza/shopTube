@@ -259,9 +259,9 @@ export class ApplicationBuilderComponent implements OnInit {
     delete footerModel.Builder.__v;
     delete footerModel.Builder._id;
     const requests = [
-      this.applicationService.addNestCommonAPI('cp/Builder', screenModel),
-      this.applicationService.addNestCommonAPI('cp/Builder', header),
-      this.applicationService.addNestCommonAPI('cp/Builder', footer),
+      this.applicationService.addNestCommonAPI('cp', screenModel),
+      this.applicationService.addNestCommonAPI('cp', headerModel),
+      this.applicationService.addNestCommonAPI('cp', footerModel),
     ];
     forkJoin(requests).subscribe((responses: any) => {
       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
