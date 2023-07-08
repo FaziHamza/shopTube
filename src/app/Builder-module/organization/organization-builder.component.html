@@ -21,7 +21,7 @@
         </ng-template> -->
     </div>
 
-    <nz-table #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData"
+    <nz-table [nzScroll]="{ x: '1200px', y: null }" #nestedTable [nzLoading]="loading" [nzData]="listOfDisplayData"
         [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr>

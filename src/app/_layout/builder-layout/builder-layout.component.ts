@@ -4,14 +4,12 @@ import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 
-
 @Component({
-  selector: 'st-app-builder-side-menu',
-  templateUrl: './app-builder-side-menu.component.html',
-  styleUrls: ['./app-builder-side-menu.component.scss']
+  selector: 'st-builder-layout',
+  templateUrl: './builder-layout.component.html',
+  styleUrls: ['./builder-layout.component.scss']
 })
-
-export class AppBuilderSideMenuComponent implements OnInit {
+export class BuilderLayoutComponent implements OnInit {
   selectedTheme: any;
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
@@ -177,7 +175,7 @@ export class AppBuilderSideMenuComponent implements OnInit {
           if (res.data.length > 0) {
             this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
             this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-            if (!res[0].selectedTheme.showMenu) {
+            if (!res.data[0].selectedTheme.showMenu) {
               this.selectedTheme['showMenu'] = true;
             }
             this.makeMenuData();

@@ -106,11 +106,11 @@ export class MenuComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             const resData = {
-              _id: res[0]._id,
-              name: res[0].name,
-              applicationId: res[0].id,
-              menuData: JSON.parse(res[0].menuData),
-              selectedTheme: JSON.parse(res[0].selectedTheme),
+              _id: res.data[0]._id,
+              name: res.data[0].name,
+              applicationId: res.data[0].id,
+              menuData: JSON.parse(res.data[0].menuData),
+              selectedTheme: JSON.parse(res.data[0].selectedTheme),
 
             }
             let obj = {

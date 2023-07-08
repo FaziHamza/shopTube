@@ -5,3 +5,9 @@
     padding: 12px 0;
     color: rgba(0, 0, 0, .85);
 }
+
+.scroll-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    // white-space: nowrap !important;
+}

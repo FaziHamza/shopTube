@@ -35,7 +35,7 @@ export class ScreenBuilderComponent implements OnInit {
     {
       name: 'Screen Id',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a.screenId.localeCompare(b.screenId),
+      sortFn: (a: any, b: any) => a.navigation.localeCompare(b.navigation),
       sortDirections: ['ascend', 'descend', null],
     },
     {
@@ -134,11 +134,11 @@ export class ScreenBuilderComponent implements OnInit {
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'departmentId' && event) {
-       debugger
+
         this.getApplicationOptionList(event);
       }
       if (field.key === 'organizationId' && event) {
-       
+
         this.getDepartmentOptionList(event);
       }
     });
@@ -211,7 +211,7 @@ export class ScreenBuilderComponent implements OnInit {
     if (!this.isSubmit) {
       this.isSubmit = true;
       // this.getDepartment();
-      this.getOrganization();
+      // this.getOrganization();
     }
   }
   handleCancel(): void {
@@ -245,6 +245,7 @@ export class ScreenBuilderComponent implements OnInit {
   //   }))
   // }
   onSubmit() {
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -351,7 +352,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   editItem(item: any) {
-   
+
     this.model = JSON.parse(JSON.stringify(item));
     this.getApplicationOptionList(this.model.departmentId);
     this.isSubmit = false;
@@ -360,7 +361,7 @@ export class ScreenBuilderComponent implements OnInit {
     this.applicationService
       .deleteNestCommonAPI('cp/ScreenBuilder', id)
       .subscribe((res: any) => {
-        if (res.isSucces) {
+        if (res.isSuccess) {
           this.jsonScreenModuleList();
           this.toastr.success(`Screen: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
@@ -381,7 +382,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   search(event?: any, data?: any): void {
-   
+
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.listOfDisplayData = this.listOfData.filter((item: any) => {

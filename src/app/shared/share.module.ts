@@ -20,11 +20,11 @@ import {
   NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
   SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
   TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent, IconComponent,
-  ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, ContentEditDirective, HtmlBlockComponent,
+  ButtonsComponent, BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, ContentEditDirective, HtmlBlockComponent,
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,DemoLayotPageComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -34,7 +34,7 @@ import { BusinessRuleGridComponent } from '../builder/configurations/business-ru
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../menu/menu.component';
-import { SiteFooterComponent, SiteHeaderComponent, SiteLayoutComponent,  LayoutTabsComponent,
+import { SiteLayoutComponent,  LayoutTabsComponent,
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
   LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
@@ -93,7 +93,7 @@ import { CommonService } from '../../common/common-services/common.service';
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,
     SanitizePipe, IconComponent, ButtonsComponent, EditorJsWrapperComponent,
-    BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent, HeaderComponent, ListsComponent, HtmlBlockComponent,
+    BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, HtmlBlockComponent,
     ContentEditDirective, BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,
     GanttChartComponent,GeoChartComponent, HistogramChartComponent,LineChartComponent,
     SankeyChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent,
@@ -104,11 +104,11 @@ import { CommonService } from '../../common/common-services/common.service';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
 
@@ -134,7 +134,6 @@ import { CommonService } from '../../common/common-services/common.service';
     DetailComponent,
     SummaryComponent,
     ContextMenuComponent,
-    HeaderComponent,
     ListsComponent,
     ContentEditDirective,
     EditorJsWrapperComponent,
@@ -160,11 +159,11 @@ import { CommonService } from '../../common/common-services/common.service';
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,SiteFooterComponent,SiteHeaderComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,DemoLayotPageComponent,
+    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     //

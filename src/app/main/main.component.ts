@@ -99,9 +99,9 @@ export class MainComponent implements OnInit {
   joiValidation() {
     let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
-      for (let j = 0; j < this.mainData.length; j++) {
-        if (this.mainData[j].formlyType != undefined) {
-          let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.mainData[j].formly[0].fieldGroup[0].key);
+      for (let j = 0; j < this.mainData.children.length; j++) {
+        if (this.mainData.children[j].formlyType != undefined) {
+          let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.mainData.children[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length) {
             if (jsonScreenRes[0].type == "text") {
               const joiString = Joi.string()
@@ -155,18 +155,18 @@ export class MainComponent implements OnInit {
     return true;
   }
   validationChecker() {
-    this.mainData.forEach((item: any) => {
+    this.mainData.children.forEach((item: any) => {
       if (item.formly) {
         item.formly[0].fieldGroup[0].props.error = null;
       }
-      // for (let index = 0; index < this.mainData[0].formly[0].fieldGroup.length; index++) {
-      //   this.mainData[0].formly[0].fieldGroup[index].props.error = null;
+      // for (let index = 0; index < this.mainData.children[0].formly[0].fieldGroup.length; index++) {
+      //   this.mainData.children[0].formly[0].fieldGroup[index].props.error = null;
       // }
     });
 
     this.validationCheckStatus = [];
     const cc = this.schemaValidation.validate(Object.assign({}, this.formlyModel), { abortEarly: false });
-    let filteredNodes = this.filterInputElements(this.mainData);
+    let filteredNodes = this.filterInputElements(this.mainData.children);
     if (cc?.error) {
       this.setErrorToInput = cc.error.details;
       filteredNodes.forEach((V2: any) => {
@@ -201,7 +201,7 @@ export class MainComponent implements OnInit {
       this.cd.detectChanges();
     }
     else {
-      // filteredNodes = this.filterInputElements(this.mainData);
+      // filteredNodes = this.filterInputElements(this.mainData.children);
       filteredNodes.forEach((V2: any) => {
         for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
           V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
@@ -256,8 +256,8 @@ export class MainComponent implements OnInit {
   saveData(data: any) {
     if (data.isSubmit) {
       let oneModelData = this.convertModel(this.form.value);
-      // this.mainData
-      // this.mainData.forEach((element:any) => {
+      // this.mainData.children
+      // this.mainData.children.forEach((element:any) => {
       //   if(element.type == "gridList"){
       //     let tableData = this.findObjectByType(element,"gridList");
       //     tableData.tableData = [];
@@ -266,7 +266,7 @@ export class MainComponent implements OnInit {
       //   }
       // });
       // let tableData = this.findObjectByType(element,"gridList");
-      let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+      let tableData = this.mainData.children.filter((a: any) => a.type == "gridList");
       if (tableData.length > 0) {
         tableData[0]['api'] = data.dataTable;
         let saveForm = JSON.parse(JSON.stringify(oneModelData));
@@ -402,7 +402,7 @@ export class MainComponent implements OnInit {
     // }
   }
   getFromQuery() {
-    let tableData = this.mainData.filter((a: any) => a.type == "gridList");
+    let tableData = this.mainData.children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
 
@@ -457,7 +457,7 @@ export class MainComponent implements OnInit {
     // alert('Copied to clipboard');
   }
   comment(json: any) {
-
+    debugger
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Comment',
       nzContent: CommentModalComponent,

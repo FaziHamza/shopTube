@@ -17,7 +17,6 @@ export class AppSideMenuComponent implements OnInit {
   @Input() selectedTheme: any;
   @Input() menuItems: any = [];
   @Output() notify: EventEmitter<any> = new EventEmitter();
-  // menuItems: MenuItem[] = [];
   newMenuArray: any = false;
   menuChildArrayTwoColumn: any = [];
   moduleData: any = [];
@@ -26,15 +25,21 @@ export class AppSideMenuComponent implements OnInit {
   checked: false
   isActiveShow: any;
   hoverActiveShow: any;
+  currentUrl = "";
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
     this.loadModules();
+    window.onresize = () => {
+      this.changeHtlmenuAtMblView();
+    };
     // this.makeMenuData();
   }
   loadModules(): void {
+    this.currentUrl = window.location.host;
+    if(this.currentUrl.includes('localhost'))
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
       next: (res: any) => {
         if (res.isSuccess)
@@ -50,9 +55,9 @@ export class AppSideMenuComponent implements OnInit {
   }
 
 
-  ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.requestSubscription.unsubscribe();
+  // }
 
   setHovered(value: any, event: any) {
     event.stopPropagation();
@@ -73,33 +78,6 @@ export class AppSideMenuComponent implements OnInit {
         this.selectedTheme.topHeader = 'w-10/12';
       }
     }
-
-
-
-
-
-
-    // changeIcon() {
-    //   this.newMenuArray[0].icon == 'up' ? 'down' : 'up';
-    // }
-
-
-
-    // newMenuArrayFunc() {
-    //   this.newMenuArray = [];
-    //   if (this.menuItems.length > 7) {
-    //     this.newMenuArray = [{
-    //       label: "More",
-    //       icon: "down",
-    //       subMenu: []
-    //     }]
-    //     this.newMenuArray[0].subMenu = this.menuItems.slice(7);
-    //     this.menuItems.splice(7);
-    //   }
-    // }
-
-
-
   }
   getMenu() {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
@@ -145,7 +123,7 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-  loadTabsAndButtons(event: MouseEvent, data: any,pushInTwoColumn ?:any) {
+  loadTabsAndButtons(event: MouseEvent, data: any, pushInTwoColumn?: any) {
     this.isActiveShow = data.id;
     event.stopPropagation();
     if (data.application) {
@@ -163,7 +141,7 @@ export class AppSideMenuComponent implements OnInit {
         }
       });
       this.notify.emit(data);
-      if(pushInTwoColumn){
+      if (pushInTwoColumn) {
         this.menuChildArrayTwoColumn = [];
       }
       if (data.link && !checkTabsAndDropdown) {
@@ -186,22 +164,25 @@ export class AppSideMenuComponent implements OnInit {
       }
     }
   }
-  makeMenuItemsArray() {
-    if (this.newMenuArray.length > 0) {
-      if (this.newMenuArray[0].subMenu.length > 0) {
-        this.newMenuArray[0].subMenu.forEach((a: any) => {
-          this.menuItems.push(a);
-        });
-      }
+  changeHtlmenuAtMblView() {
+    const screenWidth = window.innerWidth;
+    let arrayList = [...this.menuItems];
+    // this.selectedTheme.allMenuItems = [];
+    this.selectedTheme.newMenuArray = [];
+    if (this.menuItems.length > 7 && this.selectedTheme.layout === 'horizental' && screenWidth > 768) {
+      this.selectedTheme.newMenuArray = [{
+        label: "More",
+        icon: "down",
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
+        children: []
+      }];
+      const withoutTitle = this.menuItems.filter((item : any) => !item.isTitle);
+      this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
+    } else if(this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
+      this.selectedTheme.allMenuItems = this.menuItems;
     }
-    this.newMenuArray = [];
-  }
-
-  shouldExecute(data: any): boolean {
-    if (data.type === 'mainTab' || data.type === 'dropdown') {
-      return false;
-    }
-    return true;
   }
 
 }

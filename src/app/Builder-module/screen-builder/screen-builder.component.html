@@ -20,7 +20,7 @@
     <!-- <ng-template #suffixIconSearch>
         <span nz-icon (click)="clearModel()" [nzType]="searchIcon"></span>
     </ng-template> -->
-    <nz-table #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
+    <nz-table [nzScroll]="{ x: '1200px', y: null }" #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr> 
                 <th>#</th>
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div> -->
-    <div class="table-controls">
+    <!-- <div class="table-controls">
         <div class="pagination">
             <label class="label">Pagination</label>
             <div class="input-container">
@@ -92,6 +92,12 @@
         </div>
         <div>
             <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
+        </div>
+    </div> -->
+    <div class="pagination">
+        <label class="label">Pagination</label>
+        <div class="input-container">
+            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
         </div>
     </div>
 </nz-card>

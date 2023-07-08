@@ -63,7 +63,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // debugger
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
         this.currentHeader = res;
@@ -166,27 +165,6 @@ export class SiteLayoutComponent implements OnInit {
     // };
     // this.controlMenu();
   }
-  // toggleCollapsed(): void {
-
-  //   if (this.selectedTheme.layout == 'twoColumn') {
-  //     this.selectedTheme.isTwoColumnCollapsed = !this.selectedTheme.isTwoColumnCollapsed;
-  //     if (this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/6';
-  //     } else if (!this.selectedTheme.isTwoColumnCollapsed) {
-  //       this.selectedTheme.menuColumn = 'w-1/5';
-  //     }
-  //   }
-  //   else {
-  //     this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-  //   }
-  //   if (this.selectedTheme.isCollapsed == true && this.selectedTheme.layout != 'twoColumn') {
-  //     // this.selectedTheme.topHeaderMenu = 'w-1/12';
-  //     // this.selectedTheme.topHeader = 'w-11/12';
-  //   }
-  //   else if (!this.selectedTheme.isCollapsed) {
-  //     this.selectedTheme.menuColumn = 'w-2/12';
-  //   }
-  // }
 
 
   notifyEmit(data: any) {
@@ -209,11 +187,8 @@ export class SiteLayoutComponent implements OnInit {
         }
       }
       else if (data.screenType == 'mobile') {
-        // this.selectedTheme.isCollapsed = false;
         this.selectedTheme.showMenu = data.emitData;
       }
-      // let newData = JSON.parse(JSON.stringify(this.selectedTheme));
-      // this.selectedTheme = this.selectedTheme;
     }
     else {
       if (data.emitData.selectedTheme) {
@@ -223,7 +198,7 @@ export class SiteLayoutComponent implements OnInit {
         this.selectedTheme = this.newSelectedTheme;
       }
       this.selectedTheme.allMenuItems = data.emitData.menuData;
-      // this.newMenuArrayFunc();
+      this.menuItems = data.emitData.menuData;
       this.makeMenuData();
     }
   }
@@ -244,47 +219,39 @@ export class SiteLayoutComponent implements OnInit {
       this.selectedTheme.topHeader = 'w-10/12';
     }
   }
-  // notifyEmitForDropdown(data: any) {
-
-  //   this.tabs = [];
-  //   data.children.forEach((i: any) => {
-  //     if (i.type == 'mainTab') {
-  //       this.tabs.push(i);
-  //     }
-  //   });
-  // }
+  mobileViewCollapseInHostCom() {
+    this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
+  }
   getMenuByDomainName() {
-
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
-        if (res.length > 0) {
-          debugger
-          this.logo = res[0].image;
+        if (res.isSuccess) {
+          this.logo = res.data[0]['image'];
           // this.dataSharedService.currentApplication.next(res[0]);
-          this.currentWebsiteLayout = res[0]?.application_Type ? res[0]?.application_Type : 'backend_application';
+          this.currentWebsiteLayout = res.data[0]?.application_Type ? res.data[0]?.application_Type : 'backend_application';
           const observables = [
 
             // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
-            this.builderService.jsonBuilderSettingV1(res[0].name + "_header"),
-            this.builderService.jsonBuilderSettingV1(res[0].name + "_footer"),
-            this.builderService.getJsonModules(res[0].name),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_header"),
+            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder',res.data[0].name + "_footer"),
+            this.applicationService.getNestCommonAPIById('cp/Menu',res.data[0]._id),
           ];
           forkJoin(observables).subscribe({
             next: (results) => {
-              // this.dataSharedService.defaultPage.next(results[0].length > 0 ? results[0][0].menuData : '');
-              // this.dataSharedService.defaultPageNodes = results[2]? results[2].length > 0? results[2][0].menuData : "" : '';
-              this.dataSharedService.currentHeader.next(results[0] ? results[0].length > 0 ? results[0][0].menuData : "" : '');
-              this.dataSharedService.currentFooter.next(results[1] ? results[1].length > 0 ? results[1][0].menuData : "" : '');
-              this.dataSharedService.menus = results[2] ? results[2][0].selectedTheme ? results[2][0].selectedTheme : {} : {};
-              this.dataSharedService.menus.allMenuItems = results[2][0].menuData
-              if (this.currentWebsiteLayout == 'backend_application' && results[2] && results[2][0].selectedTheme) {
-                this.selectedTheme = results[2][0].selectedTheme;
-                this.selectedTheme.allMenuItems = results[2][0].menuData
+              this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length  > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
+              this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? this.jsonParseWithObject(results[1].data[0].screenData) : '' : '');
+              let getMenu = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) :{} : {};
+              let selectedTheme = results[2].isSuccess ? results[2].data.length  > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) :{} : {};
+              if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+                this.selectedTheme = selectedTheme;
+                this.selectedTheme.allMenuItems = getMenu
               } else {
+                this.dataSharedService.menus = getMenu;
+                this.dataSharedService.menus.allMenuItems = getMenu;
                 this.selectedTheme = undefined;
               }
             },
@@ -300,6 +267,28 @@ export class SiteLayoutComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(data, (key, value) => {
+      if (typeof value === 'string' && value.startsWith('(')) {
+        return eval(`(${value})`);
+      }
+      return value;
+    });
+  }
+  jsonStringifyWithObject(data: any) {
+    return (
+      JSON.stringify(data, function (key, value) {
+        if (typeof value == 'function') {
+          let check = value.toString();
+          if (check.includes('model =>'))
+            return check.replace('model =>', '(model) =>');
+          else return check;
+        } else {
+          return value;
+        }
+      }) || '{}'
+    );
   }
   loadTabsAndButtons(data: any) {
 
@@ -482,7 +471,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   callMenus(api?: any) {
-
     let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }

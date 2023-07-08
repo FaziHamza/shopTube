@@ -146,6 +146,10 @@ object {
 .theme-body {
   padding-top: 0px !important;
 
+  .ant-checkbox {
+    margin-top: 7px;
+  }
+
   .input-group-text {
     height: 50px !important;
     border-radius: 0px !important;
@@ -270,9 +274,8 @@ object {
     height: 51px !important;
   }
 
-  .ant-select-selection-item {
-    // height: 52px !important;
-    top: 9px !important;
+  .ant-select-selection-item .align-items-center {
+   margin-top: 9px !important;
   }
 
   .ant-select-show-search {
@@ -354,9 +357,9 @@ object {
 }
 
 .height {
-  .ant-input-number-input {
-    // height: 0px !important;
-  }
+  // .ant-input-number-input {
+  //   // height: 0px !important;
+  // }
 
   .ant-input-group .ant-input-affix-wrapper:not(:last-child),
   .ant-input-group-addon:first-child,
@@ -741,13 +744,13 @@ a.fc-event:hover {
   }
 }
 
-@media screen and (min-width: 790px) {
+@media screen and (min-width: 768px) {
   .mobile-toggle {
     display: none !important;
   }
 }
 
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 768px) {
   .desktop-toggle {
     display: none !important;
   }
@@ -1871,9 +1874,9 @@ object {
   left: 0;
 }
 
-.ant-menu .nav-item {
-  border-radius: 3px;
-}
+// .ant-menu .nav-item {
+//   border-radius: 3px;
+// }
 
 .vertical-sidebar {
   .ant-menu-inline-collapsed {
@@ -2325,14 +2328,14 @@ object {
 //   }
 // }
 
-.as-horizontal {
-  .ant-menu-submenu {
-    span {
-      color: #7c7f90;
-      font-weight: 500 !important;
-    }
-  }
-}
+// .as-horizontal {
+//   .ant-menu-submenu {
+//     span {
+//       // color: #7c7f90;
+//       // font-weight: 500 !important;
+//     }
+//   }
+// }
 
 .ant-menu-vertical {
 
@@ -2567,10 +2570,10 @@ object {
   }
 }
 
-.ant-menu-horizontal>.ant-menu-item,
-.ant-menu-horizontal>.ant-menu-submenu {
-  top: 0px !important;
-}
+// .ant-menu-horizontal>.ant-menu-item,
+// .ant-menu-horizontal>.ant-menu-submenu {
+//   top: -0.1px !important;
+// }
 
 .ant-btn-circle.ant-btn-lg {
   right: 0px;
@@ -2670,4 +2673,63 @@ object {
 .ant-checkbox-wrapper:hover .ant-checkbox::after,
 .ant-checkbox:hover::after {
   border-radius: 100px !important;
+}
+
+// .cdk-overlay-connected-position-bounding-box {
+//   .cdk-overlay-pane {
+//     margin-left: 20px;
+//   }
+// }
+.ant-menu-submenu.ant-menu-submenu-placement-right {
+  left: 15px !important;
+}
+
+// .ant-menu-vertical {
+//    .nav-item {
+//     border-radius: 0px !important;
+//   }
+
+// }
+.ant-menu-horizontal>.ant-menu-item,
+.ant-menu-horizontal>.ant-menu-submenu {
+  top: 0px !important;
+}
+
+.ant-select-selector {
+
+  .ant-select-selection-item {
+    margin-inline-end: 3px !important;
+    padding-inline-start: 3px !important;
+    padding-inline-end: 3px !important;
+  }
+
+  .ant-select-selection-item-content {
+    font-size: 12px !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .horizental-fluid {
+    .side-menu {
+
+      width: 100% !important;
+    }
+
+    .ant-menu-submenu-title {
+      padding: 0px !important;
+    }
+
+    ul li {
+      width: 100%;
+    }
+  }
+}
+
+.nz-dropdown-menu {
+  .ant-tabs {
+    max-width: 800px;
+    .ant-tabs-nav {
+      overflow: scroll;
+    }
+  }
 }

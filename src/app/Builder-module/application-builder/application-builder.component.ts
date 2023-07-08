@@ -162,58 +162,67 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
-  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any) {
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any,model?:any) {
     if (isSubmit && key == "applicationId") {
+      // const obj = {
+      //   "ScreenBuilder": {
+      //     name: value.name + "_default",
+      //     navigation: value.name + "_default",
+      //     departmentId: value.departmentId,
+      //     applicationId: value._id
+      //   }
+      // }
       const obj = {
         "ScreenBuilder": {
-          name: value.name + "_default",
-          navigation: value.name + "_default",
-          departmentId: value._id,
-          applicationId: value.departmentId
+          name: value.name + "_header",
+          navigation: value.name + "_header",
+          departmentId: value.departmentId,
+          applicationId: value._id,
+          organizationId: model?.organizationId
         }
       }
       this.loading = true;
       this.applicationService.addNestCommonAPI("cp", obj).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
-            setTimeout(() => {
-              const screen = {
-                "ScreenBuilder": {
-                  name: value.name + "_header",
-                  navigation: value.name + "_header",
-                  departmentId: value._id,
-                  applicationId: value.departmentId
-                }
+            let screen = {
+              "ScreenBuilder": {
+                name: value.name + "_footer",
+                navigation: value.name + "_footer",
+                departmentId: value.departmentId,
+                applicationId: value._id,
+                organizationId:  model?.organizationId
               }
-              this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
-                if (getRes.isSuccess) {
-                  let screen = {
-                    "ScreenBuilder": {
-                      name: value.name + "_footer",
-                      navigation: value.name + "_footer",
-                      departmentId: value._id,
-                      applicationId: value.departmentId
-                    }
-                  }
-                  this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
-                    if (res3.isSuccess) {
-                      this.loading = false;
-                      // this.jsonApplicationBuilder();
-                      this.toastr.success("Default things Added", { nzDuration: 2000 });
-                      // setTimeout(() => {
-                      //   this.jsonApplicationBuilder();
-                      // }, 2000)
-                    } else {
-                      this.loading = false;
-                      this.toastr.error(res.message, { nzDuration: 2000 });
-                    }
-                  })
-                } else {
-                  this.loading = false;
-                  this.toastr.error(res.message, { nzDuration: 2000 });
-                }
-              })
-            }, 1000);
+            }
+            this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
+              if (getRes.isSuccess) {
+                this.toastr.success("Default things Added", { nzDuration: 2000 });
+                // let screen = {
+                //   "ScreenBuilder": {
+                //     name: value.name + "_footer",
+                //     navigation: value.name + "_footer",
+                //     departmentId: value.departmentId,
+                //     applicationId: value._id
+                //   }
+                // }
+                // this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
+                //   if (res3.isSuccess) {
+                //     this.loading = false;
+                //     // this.jsonApplicationBuilder();
+                //     this.toastr.success("Default things Added", { nzDuration: 2000 });
+                //     // setTimeout(() => {
+                //     //   this.jsonApplicationBuilder();
+                //     // }, 2000)
+                //   } else {
+                //     this.loading = false;
+                //     this.toastr.error(res.message, { nzDuration: 2000 });
+                //   }
+                // })
+              } else {
+                this.loading = false;
+                this.toastr.error(res.message, { nzDuration: 2000 });
+              }
+            })
           } else {
             this.loading = false;
             this.toastr.error(res.message, { nzDuration: 2000 });
@@ -351,7 +360,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-   
+
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -396,9 +405,7 @@ export class ApplicationBuilderComponent implements OnInit {
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
           if (this.applicationSubmit && key == "applicationId") {
-            setTimeout(() => {
-              this.defaultApplicationBuilder(this.isSubmit, key, res.data);
-            }, 1000);
+            this.defaultApplicationBuilder(this.isSubmit, key, res.data,objDataModel);
           }
           // else
           this.getDepartment();
@@ -406,7 +413,7 @@ export class ApplicationBuilderComponent implements OnInit {
           this.handleCancel();
           this.toastr.success(res.message, { nzDuration: 2000 });
           this.isSubmit = true;
-        } else 
+        } else
           this.toastr.error(res.message, { nzDuration: 2000 });
 
         // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
@@ -475,7 +482,7 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(department: any) {
-   
+
     const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
     department['children'] = moduleData;
   }
@@ -609,6 +616,7 @@ export class ApplicationBuilderComponent implements OnInit {
             props: {
               label: 'Owner Name',
               placeholder: 'Owner Name...',
+              required: true,
             }
           },
         ],
@@ -667,6 +675,7 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Application Type',
+              required: true,
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,

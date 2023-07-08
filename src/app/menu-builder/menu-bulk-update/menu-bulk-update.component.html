@@ -1,9 +1,14 @@
 <div class="flex">
-    <div class="text-right">
-      <button nz-button nzType="primary" (click)="save()">
-        <span nz-icon nzType="save"></span>
-        Save
-      </button>
-    </div>
+  <div class="text-right">
+    <button nz-button nzType="primary" (click)="save()">
+      <span nz-icon nzType="save"></span>
+      Save
+    </button>
+    <button class="ml-2" nz-button nzType="primary" (click)="addMenu()">
+      <span nz-icon nzType="plus"></span>
+      Add Menu
+    </button>
   </div>
-<st-table-row [data]="tabelNodes"></st-table-row>
+</div>
+<br/>
+<st-table-row class="mt-2" [data]="tabelNodes"></st-table-row>

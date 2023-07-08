@@ -10,7 +10,6 @@ export class RateComponent implements OnChanges {
   value = 0;
   constructor() { }
   ngOnChanges(changes: any) {
-    debugger
     document.documentElement.style.setProperty('--my-color', this.rateData.iconColor != '' ? this.rateData.iconColor : 'yellow');
   }
   // ngOnInit(): void {

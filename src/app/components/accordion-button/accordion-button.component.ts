@@ -10,7 +10,7 @@ export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
   @Input() dataModel !: any;
   expandIconPosition: any = "left";
-
+  expand: any = false;
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
   }
@@ -24,5 +24,9 @@ export class AccordionButtonComponent implements OnInit {
   }
   onClose(): void {
     console.log('tag was closed.');
+  }
+  accordionCollapse(){
+    debugger
+    this.expand = !this.expand;
   }
 }

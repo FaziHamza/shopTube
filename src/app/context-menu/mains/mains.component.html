@@ -10,7 +10,8 @@
     <st-multi-file-upload [multiFileUploadData]="item"
         *ngIf="item.type == 'multiFileUpload';else one"></st-multi-file-upload>
     <ng-template #one>
-        <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
+        <st-sales-card [salesdata]="item"
+            *ngIf="item.type == 'chart';else second "></st-sales-card>
     </ng-template>
     <ng-template #second>
         <div *ngIf="item.type == 'sectionCard';else third">
@@ -54,47 +55,64 @@
         </div>
     </ng-template>
     <ng-template #tenth>
-        <st-heading *ngIf="item.type == 'heading'; else eleventh" [headingData]="item"></st-heading>
+        <st-heading *ngIf="item.type == 'heading'; else eleventh"
+            [headingData]="item"></st-heading>
     </ng-template>
     <ng-template #eleventh>
-        <st-paragraph *ngIf="item.type =='paragraph' ; else twelth" [data]="item"></st-paragraph>
+        <st-paragraph *ngIf="item.type =='paragraph' ; else twelth"
+            [data]="item"></st-paragraph>
     </ng-template>
     <ng-template #twelth>
         <div
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
-            <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
-                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+            <nz-badge
+                *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'"
+                [nzCount]="item?.badgeCount">
+                <st-block-buttons-card (notify)="saveData($event)"
+                    [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
-            <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
-                <st-block-buttons-card (notify)="saveData($event)" [softIconList]="item">
+            <nz-badge nzDot
+                *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
+                <st-block-buttons-card (notify)="saveData($event)"
+                    [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
-            <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-block-buttons-card
+                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 (notify)="saveData($event)" [softIconList]="item">
             </st-block-buttons-card>
         </div>
     </ng-template>
     <ng-template #thirteenth>
-        <st-html-block [htmlBlockData]="item.data" *ngIf="item.type =='htmlBlock'; else forteenth"></st-html-block>
+        <st-html-block [htmlBlockData]="item.data"
+            *ngIf="item.type =='htmlBlock'; else forteenth"></st-html-block>
     </ng-template>
     <ng-template #forteenth>
         <div *ngIf="item.type =='icon'; else fifteen">
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
-                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
+                <st-icon [type]="item.iconType" [icon]="item.icon"
+                    [size]="item.iconSize" [color]="item.iconColor"
                     [hoverIconColor]="item.hoverIconColor"></st-icon>
             </nz-badge>
-            <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
-                <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor"></st-icon>
+            <nz-badge [nzCount]="item?.badgeCount"
+                *ngIf="item?.badgeType == 'count'">
+                <st-icon [type]="item.iconType" [icon]="item.icon"
+                    [size]="item.iconSize"
+                    [hoverIconColor]="item.hoverIconColor"
+                    [color]="item.iconColor"></st-icon>
             </nz-badge>
-            <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
-              item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
+            <st-icon
+                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+                [type]="
+              item.iconType" [icon]="item.icon" [size]="item.iconSize"
+                [color]="item.iconColor"
                 [hoverIconColor]="item.hoverIconColor"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
-            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
+            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'"
+                [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
                 <st-card-with-components [item]="item"></st-card-with-components>
             </nz-ribbon>
@@ -104,31 +122,40 @@
           <nz-badge *ngIf="item?.badgeType == 'dot'" [nzColor]="item.dot_ribbon_color" nzDot>
               <st-card-with-components [item]="item"></st-card-with-components>
           </nz-badge> -->
-            <st-card-with-components *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-card-with-components
+                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [item]="item"></st-card-with-components>
         </div>
     </ng-template>
     <ng-template #sixteen>
-        <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
-            [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [dataModel]="dataModel"
-            [screenId]="screenId" [data]="item" (notifyDbClick)="updateModel($event)"
+        <dynamic-table [tableId]='item.tableId'
+            *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
+            [tableData]='item.tableData' [tableHeaders]='item.tableHeaders'
+            [dataModel]="dataModel"
+            [screenId]="screenId" [data]="item"
+            (notifyDbClick)="updateModel($event)"
             [screenName]="screenName"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
-        <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
+        <st-table
+            *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
         <!-- <st-tui-grid [gridData]="item"></st-tui-grid> -->
     </ng-template>
     <ng-template #eighteen>
-        <st-progressbars [progressBarData]="item" *ngIf="item.type == 'progressBar'; else ninteen"></st-progressbars>
+        <st-progressbars [progressBarData]="item"
+            *ngIf="item.type == 'progressBar'; else ninteen"></st-progressbars>
     </ng-template>
     <ng-template #ninteen>
-        <st-divider [dividerData]="item" *ngIf="item.type == 'divider' ; else twenty"></st-divider>
+        <st-divider [dividerData]="item"
+            *ngIf="item.type == 'divider' ; else twenty"></st-divider>
     </ng-template>
     <ng-template #twenty>
-        <st-videos [videoData]="item" *ngIf="item.type == 'video'; else twentyone"></st-videos>
+        <st-videos [videoData]="item"
+            *ngIf="item.type == 'video'; else twentyone"></st-videos>
     </ng-template>
     <ng-template #twentyone>
-        <st-audio [audioData]="item" *ngIf="item.type == 'audio' ;else twentytwo"></st-audio>
+        <st-audio [audioData]="item"
+            *ngIf="item.type == 'audio' ;else twentytwo"></st-audio>
     </ng-template>
     <ng-template #twentytwo>
         <div *ngIf="item.type == 'browserCombineChart' ;else twentythree">
@@ -149,16 +176,20 @@
         </div>
     </ng-template>
     <ng-template #twentyfive>
-        <st-new-alerts [alertData]="item" *ngIf="item.type == 'alert' ;else twentysix"></st-new-alerts>
+        <st-new-alerts [alertData]="item"
+            *ngIf="item.type == 'alert' ;else twentysix"></st-new-alerts>
     </ng-template>
     <ng-template #twentysix>
-        <div *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
-            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
+        <div
+            *ngIf="item.type == 'simpleCardWithHeaderBodyFooter' ;else twentyseven">
+            <nz-ribbon *ngIf="item?.badgeType == 'ribbon'"
+                [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
                 <st-simple-card-with-header-body-footer [cardData]="item">
                 </st-simple-card-with-header-body-footer>
             </nz-ribbon>
-            <st-simple-card-with-header-body-footer *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
+            <st-simple-card-with-header-body-footer
+                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [cardData]="item">
             </st-simple-card-with-header-body-footer>
         </div>
@@ -190,7 +221,8 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <st-stepper [step]="item" *ngIf="item.type == 'mainStep'; else thirtyTwo">
+        <st-stepper [step]="item"
+            *ngIf="item.type == 'mainStep'; else thirtyTwo">
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
@@ -198,10 +230,12 @@
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
-        <st-switch [switchData]="item" *ngIf="item.type == 'switch'; else thirtyforth"></st-switch>
+        <st-switch [switchData]="item"
+            *ngIf="item.type == 'switch'; else thirtyforth"></st-switch>
     </ng-template>
     <ng-template #thirtyforth>
-        <st-board [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth"></st-board>
+        <st-board [kanbanData]="item"
+            *ngIf="item.type == 'kanban' ; else thirtyfifth"></st-board>
         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
     </ng-template>
     <ng-template #thirtyfifth>
@@ -209,7 +243,8 @@
             <div *ngFor="let data of item.children">
                 <div
                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
-                    <st-block-buttons-card (notify)="saveData($event)" [softIconList]="data">
+                    <st-block-buttons-card (notify)="saveData($event)"
+                        [softIconList]="data">
                     </st-block-buttons-card>
                 </div>
             </div>
@@ -219,7 +254,8 @@
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
-                <formly-form [fields]="item.formly" [model]="dataModel" [form]="form">
+                <formly-form [fields]="item.formly" [model]="dataModel"
+                    [form]="form">
                 </formly-form>
             </div>
             <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button> -->
@@ -231,7 +267,8 @@
     </ng-template>
     <ng-template #thirtySeven>
         <nz-card *ngIf="item.type == 'textEditor'; else thirtyEight">
-            <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
+            <st-editor-js-wrapper [(ngModel)]="item.editorJson"
+                [minHeight]="'300px'"
                 [data]="item.editorJson"></st-editor-js-wrapper>
         </nz-card>
         <!-- <pre>{{ item.editorJson | json }}</pre> -->
@@ -245,10 +282,12 @@
             *ngIf="item.type == 'carouselCrossfade' ; else fourty"></st-carousel-crossfade-card>
     </ng-template>
     <ng-template #fourty>
-        <st-builder-toater [toastrData]="item" *ngIf="item.type == 'toastr' ; else fourtyOne"></st-builder-toater>
+        <st-builder-toater [toastrData]="item"
+            *ngIf="item.type == 'toastr' ; else fourtyOne"></st-builder-toater>
     </ng-template>
     <ng-template #fourtyOne>
-        <st-rang-inputs [rangSlider]="item" *ngIf="item.type == 'rangeSlider' ; else fourtyTwo"></st-rang-inputs>
+        <st-rang-inputs [rangSlider]="item"
+            *ngIf="item.type == 'rangeSlider' ; else fourtyTwo"></st-rang-inputs>
     </ng-template>
     <ng-template #fourtyTwo>
         <div *ngIf="item.type == 'editor_js' ; else fourtyThree">
@@ -256,12 +295,16 @@
         </div>
     </ng-template>
     <ng-template #fourtyThree>
-        <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
-            <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
+        <div class="image-preview"
+            *ngIf="item.type == 'imageUpload' ; else fourtyFour">
+            <button class="mb-2" nz-button nzType="primary"
+                *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
-            <img *ngIf="item.source" nz-image [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt'
+            <img *ngIf="item.source" nz-image [class]='item.imageClass'
+                [nzSrc]='item.source' [alt]='item.alt'
                 [nzDisablePreview]="false" [nzFallback]="item.fallback" />
-            <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
+            <img *ngIf="item.base64Image" nz-image [class]='item.imageClass'
+                [nzSrc]='item.base64Image' [alt]='item.alt'
                 [nzFallback]="item.fallback" />
         </div>
     </ng-template>
@@ -270,45 +313,63 @@
             *ngIf="item.type == 'invoice' ; else fourtyFive"></st-invoice-template>
     </ng-template>
     <ng-template #fourtyFive>
-        <st-affix [affixData]="item" *ngIf="item.type == 'affix' ; else fourtysix"></st-affix>
+        <st-affix [affixData]="item"
+            *ngIf="item.type == 'affix' ; else fourtysix"></st-affix>
     </ng-template>
     <ng-template #fourtysix>
-        <st-transfer [transferData]="item" *ngIf="item.type == 'transfer' ; else fourtyseven"></st-transfer>
+        <st-transfer [transferData]="item"
+            *ngIf="item.type == 'transfer' ; else fourtyseven"></st-transfer>
     </ng-template>
     <ng-template #fourtyseven>
-        <st-tree-select [treeSelectData]="item" *ngIf="item.type == 'treeSelect' ; else fourtyeight"></st-tree-select>
+        <st-tree-select [treeSelectData]="item"
+            *ngIf="item.type == 'treeSelect' ; else fourtyeight"></st-tree-select>
     </ng-template>
     <ng-template #fourtyeight>
-        <st-cascader [cascaderData]="item" *ngIf="item.type == 'cascader' ; else fourtyNine"></st-cascader>
+        <st-cascader [cascaderData]="item"
+            *ngIf="item.type == 'cascader' ; else fourtyNine"></st-cascader>
     </ng-template>
     <ng-template #fourtyNine>
-        <st-avatar [avatarData]="item" *ngIf="item.type == 'avatar' ; else fifty"></st-avatar>
+        <st-avatar [avatarData]="item"
+            *ngIf="item.type == 'avatar' ; else fifty"></st-avatar>
     </ng-template>
     <ng-template #fifty>
-        <st-badge [badgeData]="item" *ngIf="item.type == 'badge' ; else fiftyOne"></st-badge>
+        <st-badge [badgeData]="item"
+            *ngIf="item.type == 'badge' ; else fiftyOne"></st-badge>
     </ng-template>
     <ng-template #fiftyOne>
-        <st-comment [commentData]="item" *ngIf="item.type == 'comment' ; else fiftyTwo"></st-comment>
+        <st-comment [commentData]="item"
+            *ngIf="item.type == 'comment' ; else fiftyTwo"></st-comment>
     </ng-template>
     <ng-template #fiftyTwo>
-        <button *ngIf="item.type == 'popOver' ; else fiftyThree" [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
-            [nzPopoverTrigger]="item.trigger" [nzPopoverPlacement]="item.placement" [nzPopoverVisible]="item.visible"
-            [nzPopoverMouseEnterDelay]="item.mouseEnterDelay" [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay"
-            nz-button nz-popover nzType="primary" [nzPopoverTitle]="item.title | translate"
+        <button *ngIf="item.type == 'popOver' ; else fiftyThree"
+            [nzPopoverArrowPointAtCenter]="item.arrowPointAtCenter"
+            [nzPopoverTrigger]="item.trigger"
+            [nzPopoverPlacement]="item.placement"
+            [nzPopoverVisible]="item.visible"
+            [nzPopoverMouseEnterDelay]="item.mouseEnterDelay"
+            [nzPopoverMouseLeaveDelay]="item.mouseLeaveDelay"
+            nz-button nz-popover nzType="primary"
+            [nzPopoverTitle]="item.title | translate"
             [nzPopoverContent]="item.content">{{item.btnLabel}}</button>
     </ng-template>
     <ng-template #fiftyThree>
-        <nz-segmented *ngIf="item.type == 'segmented'; else fiftyFour" [nzBlock]="item.block"
-            [nzDisabled]="item.disabled" [nzSize]="item.size" [(ngModel)]="item.defaultSelectedIndex"
-            [nzOptions]="item.options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+        <nz-segmented *ngIf="item.type == 'segmented'; else fiftyFour"
+            [nzBlock]="item.block"
+            [nzDisabled]="item.disabled" [nzSize]="item.size"
+            [(ngModel)]="item.defaultSelectedIndex"
+            [nzOptions]="item.options"
+            (nzValueChange)="handleIndexChange($event)"></nz-segmented>
     </ng-template>
     <ng-template #fiftyFour>
         <div *ngIf="item.type == 'tag' ; else fiftyFive">
-            <nz-tag *ngFor="let child of item.options ; index as i" [nzColor]='child.tagColor' [nzMode]="item.mode"
+            <nz-tag *ngFor="let child of item.options ; index as i"
+                [nzColor]='child.tagColor' [nzMode]="item.mode"
                 [nzChecked]="item.checked" (nzOnClose)="onClose(item , i)">
                 <span *ngIf="child?.icon">
-                    <st-icon [type]="item?.iconType || 'outline'" [icon]="child?.icon" [size]="item?.iconSize"
-                        [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
+                    <st-icon [type]="item?.iconType || 'outline'"
+                        [icon]="child?.icon" [size]="item?.iconSize"
+                        [hoverIconColor]="item?.hoverIconColor || ''"
+                        [color]="item?.iconColor"></st-icon>
                 </span>
                 <!-- <span
                       nz-icon [nzType]='child.icon'></span> -->
@@ -317,41 +378,53 @@
         </div>
     </ng-template>
     <ng-template #fiftyFive>
-        <nz-spin *ngIf="item.type == 'spin' ; else fiftySix" [nzSimple]="item.simple" [nzSpinning]="item.spinning"
-            [nzSize]='item.size' [nzDelay]="item.delayTime" [nzTip]='item.loaderText'></nz-spin>
+        <nz-spin *ngIf="item.type == 'spin' ; else fiftySix"
+            [nzSimple]="item.simple" [nzSpinning]="item.spinning"
+            [nzSize]='item.size' [nzDelay]="item.delayTime"
+            [nzTip]='item.loaderText'></nz-spin>
     </ng-template>
     <ng-template #fiftySix>
         <st-rate [rateData]="item" *ngIf="item.type == 'rate' ; else fiftySeven"></st-rate>
     </ng-template>
     <ng-template #fiftySeven>
-        <st-modal [modalData]="item" *ngIf="item.type == 'modal' ; else fiftyEight"></st-modal>
+        <st-modal [modalData]="item"
+            *ngIf="item.type == 'modal' ; else fiftyEight"></st-modal>
     </ng-template>
     <ng-template #fiftyEight>
-        <st-popconfirm [popConfirmData]="item" *ngIf="item.type == 'popConfirm' ; else fiftyNine"></st-popconfirm>
+        <st-popconfirm [popConfirmData]="item"
+            *ngIf="item.type == 'popConfirm' ; else fiftyNine"></st-popconfirm>
     </ng-template>
     <ng-template #fiftyNine>
-        <st-description [descriptionData]="item" *ngIf="item.type == 'description' ; else sixty"></st-description>
+        <st-description [descriptionData]="item"
+            *ngIf="item.type == 'description' ; else sixty"></st-description>
     </ng-template>
     <ng-template #sixty>
-        <st-result [resulData]="item" *ngIf="item.type == 'result' ; else sixtyOne"></st-result>
+        <st-result [resulData]="item"
+            *ngIf="item.type == 'result' ; else sixtyOne"></st-result>
     </ng-template>
     <ng-template #sixtyOne>
-        <st-anchor [anchorData]="item" *ngIf="item.type == 'anchor' ; else sixtyTwo"></st-anchor>
+        <st-anchor [anchorData]="item"
+            *ngIf="item.type == 'anchor' ; else sixtyTwo"></st-anchor>
     </ng-template>
     <ng-template #sixtyTwo>
-        <st-back-top [backTopData]="item" *ngIf="item.type == 'backTop' ; else sixtyThree"></st-back-top>
+        <st-back-top [backTopData]="item"
+            *ngIf="item.type == 'backTop' ; else sixtyThree"></st-back-top>
     </ng-template>
     <ng-template #sixtyThree>
-        <st-statistic [statisticData]="item" *ngIf="item.type == 'statistic' ; else sixtyFour"></st-statistic>
+        <st-statistic [statisticData]="item"
+            *ngIf="item.type == 'statistic' ; else sixtyFour"></st-statistic>
     </ng-template>
     <ng-template #sixtyFour>
-        <st-drawer [drawerData]="item" *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
+        <st-drawer [drawerData]="item"
+            *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
     </ng-template>
     <ng-template #sixtyFive>
-        <st-skeleton [skeltonData]="item" *ngIf="item.type == 'skeleton' else sixtySix"></st-skeleton>
+        <st-skeleton [skeltonData]="item"
+            *ngIf="item.type == 'skeleton' else sixtySix"></st-skeleton>
     </ng-template>
     <ng-template #sixtySix>
-        <st-empty [emptyData]="item" *ngIf="item.type == 'empty' else sixtySeven"></st-empty>
+        <st-empty [emptyData]="item"
+            *ngIf="item.type == 'empty' else sixtySeven"></st-empty>
     </ng-template>
     <ng-template #sixtySeven>
         <st-list [listData]="item" *ngIf="item.type == 'list' else sixtyEight"></st-list>
@@ -362,57 +435,72 @@
         </div>
     </ng-template>
     <ng-template #sixtyNine>
-        <st-mention [mentionData]="item" *ngIf="item.type == 'mentions' else seventy"></st-mention>
+        <st-mention [mentionData]="item"
+            *ngIf="item.type == 'mentions' else seventy"></st-mention>
     </ng-template>
     <ng-template #seventy>
-        <st-message [messageData]="item" *ngIf="item.type == 'message' else seventyOne"></st-message>
+        <st-message [messageData]="item"
+            *ngIf="item.type == 'message' else seventyOne"></st-message>
     </ng-template>
     <ng-template #seventyOne>
         <st-notification [notificationData]="item"
             *ngIf="item.type == 'notification'; else seventyTwo"></st-notification>
     </ng-template>
     <ng-template #seventyTwo>
-        <st-tree [treeData]="item" *ngIf="item.type == 'tree'; else seventyThree"></st-tree>
+        <st-tree [treeData]="item"
+            *ngIf="item.type == 'tree'; else seventyThree"></st-tree>
     </ng-template>
     <ng-template #seventyThree>
-        <st-bar-chart *ngIf="item.type == 'barChart' else seventyFour" [charts]="item"
+        <st-bar-chart *ngIf="item.type == 'barChart' else seventyFour"
+            [charts]="item"
             [chartData]="item.chartData?item.chartData:item.tableData"></st-bar-chart>
     </ng-template>
     <ng-template #seventyFour>
-        <st-pie-chart *ngIf="item.type == 'pieChart' else seventyFive" [charts]="item"
+        <st-pie-chart *ngIf="item.type == 'pieChart' else seventyFive"
+            [charts]="item"
             [chartData]="item.chartData?item.chartData:item.tableData"></st-pie-chart>
     </ng-template>
     <ng-template #seventyFive>
-        <st-bubble-chart [charts]="item" *ngIf="item.type == 'bubbleChart' else seventySix"
+        <st-bubble-chart [charts]="item"
+            *ngIf="item.type == 'bubbleChart' else seventySix"
             [chartData]="item.chartData?item.chartData:item.tableData"></st-bubble-chart>
     </ng-template>
     <ng-template #seventySix>
-        <st-candlestick-chart *ngIf="item.type == 'candlestickChart' else seventySeven"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-candlestick-chart>
+        <st-candlestick-chart
+            *ngIf="item.type == 'candlestickChart' else seventySeven"
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-candlestick-chart>
     </ng-template>
     <ng-template #seventySeven>
         <st-column-chart *ngIf="item.type == 'columnChart' else seventyEight"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-column-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-column-chart>
     </ng-template>
     <ng-template #seventyEight>
         <st-gantt-chart *ngIf="item.type == 'ganttChart' else seventyNine"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-gantt-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-gantt-chart>
     </ng-template>
     <ng-template #seventyNine>
         <st-geo-chart *ngIf="item.type == 'geoChart' else eighty"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-geo-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-geo-chart>
     </ng-template>
     <ng-template #eighty>
         <st-histogram-chart *ngIf="item.type == 'histogramChart' else eightyOne"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-histogram-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-histogram-chart>
     </ng-template>
     <ng-template #eightyOne>
-        <st-line-chart *ngIf="item.type == 'lineChart' else eightyTwo" [charts]="item"
+        <st-line-chart *ngIf="item.type == 'lineChart' else eightyTwo"
+            [charts]="item"
             [chartData]="item.chartData?item.chartData:item.tableData"></st-line-chart>
     </ng-template>
     <ng-template #eightyTwo>
         <div>
-            <st-sankey-chart *ngIf="item.type == 'sankeyChart'; else eightyThree" [charts]="item"
+            <st-sankey-chart
+                *ngIf="item.type == 'sankeyChart'; else eightyThree"
+                [charts]="item"
                 [chartData]="item.chartData?item.chartData:item.tableData"></st-sankey-chart>
         </div>
     </ng-template>
@@ -424,26 +512,29 @@
     </ng-template>
     <ng-template #eightyFour>
         <div *ngIf="item.type == 'areaChart'; else eightyFive">
-            <st-area-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-area-chart>
+            <st-area-chart [charts]="item"
+                [chartData]="item.chartData?item.chartData:item.tableData"></st-area-chart>
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div *ngIf="item.type == 'div'; else eightySix" [style.border-radius.px]="item['radius']"
-            [class]="item.divClass" [ngStyle]="{
-        'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
-        'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
-        'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',
-        'background-repeat': 'no-repeat',
-        'background-size': '100% 100%',
-        'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'
-
-      }">
-            <st-main [screenId]="screenId" [screenName]="screenName" [mainData]="item.children"></st-main>
+        <div *ngIf="item.type == 'div'; else eightySix"
+            [style.border-radius.px]="item['radius']"
+            [class]="item.divClass"
+            [ngStyle]="{
+            'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
+            'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
+            'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',
+            'background-repeat': 'no-repeat',
+            'background-size': '100% 100%',
+            'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
+            <st-main [mainData]="item"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>
-        <div [class]="item.divClass" *ngIf="item.type == 'comboChart'; else eightySeven">
-            <st-combo-chart [charts]="item" [chartData]="item.chartData?item.chartData:item.tableData"></st-combo-chart>
+        <div [class]="item.divClass"
+            *ngIf="item.type == 'comboChart'; else eightySeven">
+            <st-combo-chart [charts]="item"
+                [chartData]="item.chartData?item.chartData:item.tableData"></st-combo-chart>
         </div>
     </ng-template>
     <ng-template #eightySeven>
@@ -454,63 +545,80 @@
     </ng-template>
     <ng-template #eightyEight>
         <div *ngIf="item.type == 'timelineChart'; else eightyNine">
-            <st-timeline-chart [chartData]="item.chartData ? item.chartData : item.tableData"
+            <st-timeline-chart
+                [chartData]="item.chartData ? item.chartData : item.tableData"
                 [charts]="item"></st-timeline-chart>
 
         </div>
     </ng-template>
     <ng-template #eightyNine>
         <st-org-chart *ngIf="item.type == 'orgChart' ; else ninty"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-org-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-org-chart>
     </ng-template>
     <ng-template #ninty>
         <st-table-chart *ngIf="item.type == 'tableChart' ; else nintyOne"
-            [chartData]="item.chartData?item.chartData:item.tableData" [charts]="item"></st-table-chart>
+            [chartData]="item.chartData?item.chartData:item.tableData"
+            [charts]="item"></st-table-chart>
     </ng-template>
     <ng-template #nintyOne>
-        <st-list-with-components *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
+        <st-list-with-components
+            *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
             [listData]="item"></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
         <st-tree-map *ngIf="item.type == 'treeMapChart' ; else nintyThree"
-            [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-tree-map>
+            [chartData]="item.chartData ? item.chartData : item.tableData"
+            [charts]="item"></st-tree-map>
     </ng-template>
     <ng-template #nintyThree>
-        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintyFour" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintyFour"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintyFour>
-        <st-webiste-header *ngIf="item.type == 'header_2' ; else nintyFive" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_2' ; else nintyFive"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintyFive>
-        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintySix" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintySix"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintySix>
-        <st-webiste-header *ngIf="item.type == 'header_3' ; else nintySeven" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_3' ; else nintySeven"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintySeven>
-        <st-webiste-header *ngIf="item.type == 'header_4' ; else nintyEight" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_4' ; else nintyEight"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintyEight>
-        <st-webiste-header *ngIf="item.type == 'header_5' ; else nintyNine" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_5' ; else nintyNine"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #nintyNine>
-        <st-webiste-header *ngIf="item.type == 'header_6' ; else hunered" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_6' ; else hunered"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #hunered>
-        <st-webiste-header *ngIf="item.type == 'header_7' ; else hOne" [data]="item.children"></st-webiste-header>
+        <st-webiste-header *ngIf="item.type == 'header_7' ; else hOne"
+            [data]="item.children"></st-webiste-header>
     </ng-template>
     <ng-template #hOne>
-        <st-website-pricing *ngIf="item.type == 'pricing' ; else hTwo" [data]="item.children"></st-website-pricing>
+        <st-website-pricing *ngIf="item.type == 'pricing' ; else hTwo"
+            [data]="item.children"></st-website-pricing>
     </ng-template>
     <ng-template #hTwo>
         <div *ngIf="item.type == 'mainDiv'; else hThree" class="flex flex-wrap">
-            <div class={{itemChild.className}} *ngFor="let itemChild of item.children">
-                <div *ngIf="itemChild.type == 'div'" [class]="itemChild.divClass" [ngStyle]="{
+            <div class={{itemChild.className}}
+                *ngFor="let itemChild of item.children">
+                <div *ngIf="itemChild.type == 'div'"
+                    [class]="itemChild.divClass" [ngStyle]="{
                     'height': itemChild.height && item.height != 0 ? itemChild.height + 'px' : 'auto',
                     'width': itemChild.width && itemChild.width != 0 && itemChild.imageSrc ? itemChild.width + 'px' : 'auto'
                 }"
                     style="background-image: url({{itemChild.imageSrc}}); background-repeat: no-repeat; background-size: cover; overflow-y: auto;">
-                    <st-main [screenId]="screenId" [screenName]="screenName" [mainData]="itemChild.children"></st-main>
+                    <st-mains [screenId]="screenId" [screenName]="screenName"
+                        [item]="itemChild"></st-mains>
                 </div>
             </div>
         </div>

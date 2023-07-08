@@ -39,7 +39,7 @@ export class SectionsComponent implements OnInit {
     this.getFromQuery();
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-       
+
         const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         if (checkButtonExist) {
           let makeModel: any = {};
@@ -106,7 +106,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-   
+
     // this.notifySection.emit(data);
     if (data.isSubmit) {
       let oneModelData = this.convertModel(this.dataModel);
@@ -310,7 +310,7 @@ export class SectionsComponent implements OnInit {
     }
   };
   submit() {
-   
+
     // this.commonChartService.submit();
     // this.cd.detectChanges();
     // this.joiService.dataModel = this.dataModel;
@@ -454,12 +454,13 @@ export class SectionsComponent implements OnInit {
     return null;
   }
   getJoiValidation() {
+    if(this.screenId)
     this.applicationServices.getNestCommonAPIById('validation-rule/screen', this.screenId).subscribe((getRes => {
       this.joiValidationData = getRes;
     }))
   }
   abc123(data: any){
-   
+
     this.form.value;
   }
 }

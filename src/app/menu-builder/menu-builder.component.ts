@@ -131,13 +131,18 @@ export class MenuBuilderComponent implements OnInit {
   clearChildNode() {
     this.arrayEmpty();
     const newNode = [{
-      id: 'menu_' + Guid.newGuid(),
+      id: 'Menu_' + Guid.newGuid(),
       key: 'menu_' + Guid.newGuid(),
       title: 'Menu',
       link: '',
       icon: "appstore",
       type: "input",
       isTitle: false,
+      expanded: true,
+      // color: "",
+      iconType: "outline",
+      iconSize: "15",
+      iconColor: "",
       children: [
       ],
     } as any];
@@ -207,42 +212,9 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedTheme.allMenuItems = this.nodes;
           }
           else {
-            this.selectedTheme = {
-              topHeaderMenu: 'w-1/6',
-              topHeader: 'w-10/12',
-              menuMode: 'inline',
-              menuColumn: 'w-2/12',
-              rowClass: 'w-10/12',
-              horizontalRow: 'flex flex-wrap',
-              layout: 'vertical',
-              colorScheme: 'light',
-              layoutWidth: 'fluid',
-              layoutPosition: 'fixed',
-              topBarColor: 'light',
-              sideBarSize: 'default',
-              siderBarView: 'sidebarViewDefault',
-              sieBarColor: 'light',
-              siderBarImages: '',
-              checked: false,
-              theme: false,
-              isCollapsed: false,
-              newMenuArray: [],
-              menuChildArrayTwoColumn: [],
-              isTwoColumnCollapsed: false,
-              allMenuItems: [],
-              showMenu: true,
-            }
             this.selectedTheme.allMenuItems = this.nodes;
           }
-          if (!this.selectedTheme['font']) {
-            this.selectedTheme['font'] = 'font-roboto'
-          }
-          if (!this.selectedTheme['inPageMenu']) {
-            this.selectedTheme['inPageMenu'] = {};
-          }
-          if (!this.selectedTheme['inPageMenu']['font']) {
-            this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
-          }
+          this.controlUndefinedValues();
           this.makeMenuData();
         }
         else {
@@ -699,6 +671,8 @@ export class MenuBuilderComponent implements OnInit {
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
     const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
     temporaryData.allMenuItems = []
+    temporaryData.menuChildArrayTwoColumn = []
+    temporaryData.newMenuArray = []
     var data: any =
     {
       "name": this.applicationName,
@@ -788,16 +762,20 @@ export class MenuBuilderComponent implements OnInit {
 
   downloadAllJson() {
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
-    const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
-    const temporaryData = JSON.parse(JSON.stringify(this.selectedTheme));
-    var data =
+    // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
+    const SaveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
+    SaveTheme.allMenuItems = [];
+    SaveTheme.menuChildArrayTwoColumn = [];
+    SaveTheme.newMenuArray = [];
+    var data: any =
     {
-      "applicatioId": this.applicationName,
-      "menuData": currentData,
+      "name": this.applicationName,
+      "applicationId": this.applicationName,
+      "menuData": JSON.stringify(currentData),
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
-      "selectedTheme": temporaryData
+      "selectedTheme": JSON.parse(JSON.stringify(SaveTheme))
     };
-    const blob = new Blob([JSON.stringify(this.selectedTheme)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'file.';
@@ -978,14 +956,23 @@ export class MenuBuilderComponent implements OnInit {
     });
   };
   jsonUpload(event: Event) {
+    debugger
     // && event.target.files.length > 0
     if (event.target instanceof HTMLInputElement) {
       const reader = new FileReader();
       reader.onloadend = () => {
         let contents = reader.result as string;
         var makeData = JSON.parse(contents);
-        this.selectedTheme = makeData;
-        this.nodes = makeData.allMenuItems;
+        if (makeData.selectedTheme) {
+          this.selectedTheme = makeData.selectedTheme;
+          this.nodes = JSON.parse(makeData.menuData);
+
+        }
+        else {
+          this.selectedTheme = makeData;
+          this.nodes = makeData.allMenuItems;
+        }
+        this.controlUndefinedValues();
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
         // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
@@ -1282,10 +1269,21 @@ export class MenuBuilderComponent implements OnInit {
           layoutType.includes('hoverIconColor') ||
           layoutType.includes('activeIconColor') ||
           layoutType.includes('iconSize') ||
+          layoutType.includes('showButton') ||
+          layoutType.includes('buttonClass') ||
           layoutType.includes('iconType')) {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
           if (layoutType.includes('iconType')) {
             this.changeIconType(this.selectedTheme['iconType'], this.nodes);
+          }
+          if (layoutType.includes('showButton')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
+          }
+          if (layoutType.includes('showLogo')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
+          }
+          if (layoutType.includes('buttonClass')) {
+            this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0].replace(',', ' ');
           }
         }
         else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
@@ -1331,10 +1329,14 @@ export class MenuBuilderComponent implements OnInit {
           }
         }
         else if (layoutType == 'horizental') {
+          this.selectedTheme.siderBarImages = '';
           this.selectedTheme.isCollapsed = false;
           this.selectedTheme.layout = layoutType;
           this.horizentalLayout();
-          if (this.selectedTheme.layoutWidth == 'boxed')
+          if (!this.selectedTheme.layoutWidth) {
+            this.selectedTheme.layoutWidth = 'fluid';
+          }
+          else if (this.selectedTheme.layoutWidth == 'boxed')
             this.selectedTheme.rowClass = 'w-full'
         }
         else if (layoutType == 'dark') {
@@ -1384,10 +1386,6 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme.layoutWidth = layoutType;
           if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
             this.horizentalLayout();
-            // this.selectedTheme.horizontalRow = 'flex flex-wrap';
-            // this.selectedTheme.rowClass = 'h-5/6';
-            // this.selectedTheme.menuColumn = 'w-full',
-            // this.menuMode = "horizontal";
           }
         }
         else if (layoutType == 'light' || layoutType == 'dark') {
@@ -1535,7 +1533,7 @@ export class MenuBuilderComponent implements OnInit {
         nzWidth: 1000,
         nzContent: MenuBulkUpdateComponent,
         nzContentParams: {
-          nodes: this.nodes
+          nodes: JSON.parse(JSON.stringify(this.nodes))
         }
       });
       drawerRef.afterOpen.subscribe(() => {
@@ -1546,6 +1544,7 @@ export class MenuBuilderComponent implements OnInit {
         if (data) {
           this.nodes = data;
           this.clickBack();
+          this.makeMenuData();
         }
       });
     } else {
@@ -1556,19 +1555,26 @@ export class MenuBuilderComponent implements OnInit {
   changeIconType(data: any, nodeData: any) {
     if (nodeData.length > 0) {
       nodeData.forEach((node: any) => {
-        if (node['icon']) {
-          if (node['icon'].includes('fa-') && data == 'font_awsome') {
-            node['iconType'] = data;
-          }
-          else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
-            node['iconType'] = data;
-          }
-        } else {
+        if (data != 'null') {
           node['iconType'] = data;
         }
-        if (node.children.length > 0) {
-          this.changeIconType(data, node.children)
-        }
+        // if (node['icon'] && data != 'null') {
+        //   if (node['icon'].includes('fa-') && data == 'font_awsome') {
+        //     node['iconType'] = data;
+        //   }
+        //   else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+        //     node['iconType'] = data;
+        //   }
+        // }
+        // else if (!node['icon'] && data != 'null') {
+        //   node['iconType'] = data
+        // }
+        // else if(data != 'null') {
+        //   node['iconType'] = data;
+        // }
+        // if (node.children.length > 0) {
+        //   this.changeIconType(data, node.children)
+        // }
       });
     }
   }
@@ -1576,14 +1582,21 @@ export class MenuBuilderComponent implements OnInit {
     if (nodeData.length > 0) {
       nodeData.forEach((node: any) => {
         if (node.type == 'tab') {
-          if (node['icon']) {
-            if (node['icon'].includes('fa-') && data == 'font_awsome') {
-              node['iconType'] = data;
-            }
-            else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
-              node['iconType'] = data;
-            }
-          } else {
+          // if (node['icon']) {
+          //   if (node['icon'].includes('fa-') && data == 'font_awsome') {
+          //     node['iconType'] = data;
+          //   }
+          //   else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
+          //     node['iconType'] = data;
+          //   }
+          // }
+          // else if (!node['icon']) {
+          //   node['iconType'] = data
+          // }
+          // else {
+          //   node['iconType'] = data;
+          // }
+          if (data != 'null') {
             node['iconType'] = data;
           }
           this.changeIconType(data, node);
@@ -1649,6 +1662,36 @@ export class MenuBuilderComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
       this.toastr.warning('Please select Application', { nzDuration: 3000 });
+    }
+  }
+
+  controlUndefinedValues() {
+    if (!this.selectedTheme['font']) {
+      this.selectedTheme['font'] = 'font-roboto'
+    }
+    if (!this.selectedTheme['buttonIcon']) {
+      this.selectedTheme['buttonIcon'] = 'fa-regular fa-bars'
+    }
+    if (!this.selectedTheme['buttonIconType']) {
+      this.selectedTheme['buttonIconType'] = 'font_awsome'
+    }
+    if (!this.selectedTheme['buttonPosition']) {
+      this.selectedTheme['buttonPosition'] = 'right'
+    }
+    if (!this.selectedTheme['buttonClassArray']) {
+      this.selectedTheme['buttonClassArray'] = []
+    }
+    if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
+      this.selectedTheme['showButton'] = true
+    }
+    if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
+      this.selectedTheme['showLogo'] = true
+    }
+    if (!this.selectedTheme['inPageMenu']) {
+      this.selectedTheme['inPageMenu'] = {};
+    }
+    if (!this.selectedTheme['inPageMenu']['font']) {
+      this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
     }
   }
 }

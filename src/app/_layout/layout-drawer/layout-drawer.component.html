@@ -295,51 +295,55 @@
                     </button>
                 </nz-button-group>
             </div> -->
-                    <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR IMAGES</h6>
-                    <p class="text-gray-500 text-xs">Choose a image of Sidebar</p>
-                    <div class="flex flex-wrap pt-2">
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
-                                (click)="changeLayout('')">
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-                            <!-- <div>
+                    <div *ngIf="selectedTheme.layout != 'horizental'">
+                        <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR IMAGES</h6>
+                        <p class="text-gray-500 text-xs">Choose a image of
+                            Sidebar</p>
+                        <div class="flex flex-wrap pt-2">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
+                                    (click)="changeLayout('')">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                                <!-- <div>
                                 <img
                                     [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
                                     src
                                     (click)="changeLayout('')">
                             </div> -->
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image-1.avif"
-                                    (click)="changeLayout('assets/images/menu/image-1.avif')">
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image_2.avif"
-                                    (click)="changeLayout('assets/images/menu/image_2.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image-1.avif"
+                                        (click)="changeLayout('assets/images/menu/image-1.avif')">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image_3.avif"
-                                    (click)="changeLayout('assets/images/menu/image_3.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image_2.avif"
+                                        (click)="changeLayout('assets/images/menu/image_2.avif')">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-1/5 px-2">
-                            <div
-                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
-                                <img src="assets/images/menu/image-4.avif"
-                                    (click)="changeLayout('assets/images/menu/image-4.avif')">
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image_3.avif"
+                                        (click)="changeLayout('assets/images/menu/image_3.avif')">
+                                </div>
+                            </div>
+                            <div class="w-1/5 px-2">
+                                <div
+                                    [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/menu/image-4.avif"
+                                        (click)="changeLayout('assets/images/menu/image-4.avif')">
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
             <p class="text-gray-500 text-xs">Choose Default or Detached Sidebar
                 view.</p>
@@ -516,6 +520,86 @@
                             <nz-option nzLabel="Material" nzValue="material"></nz-option>
                         </nz-select>
                     </div>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Menu Header">
+                <h6 class="mb-0 font-bold uppercase">Button Design</h6>
+                <p class="text-gray-500 text-xs">Choose Button Design
+                </p>
+                <div class="flex flex-wrap">
+                    <div class="w-1/5 p-1">
+                        <label>Button Position</label>
+                        <nz-select style="width:100%" nzShowSearch nzAllowClear
+                            nzPlaceHolder="Button Position"
+                            [(ngModel)]="selectedTheme['buttonPosition']"
+                            (ngModelChange)="changeInPageLayout(selectedTheme['buttonPosition']+'_'+'buttonPosition')">
+                            <nz-option nzLabel="right" nzValue="right"></nz-option>
+                            <nz-option nzLabel="left" nzValue="left"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="w-1/5 p-1">
+                        <label>Button color</label>
+                        <input nz-input type="color"
+                            [(ngModel)]="selectedTheme['buttonColor']"
+                            (input)="changeInPageLayout(selectedTheme['buttonColor']+'_'+'buttonColor')" />
+                    </div>
+                    <div class="w-1/5 p-1">
+                        <label>Button Icon color</label>
+                        <input nz-input type="color"
+                            [(ngModel)]="selectedTheme['buttonIconColor']"
+                            (input)="changeInPageLayout(selectedTheme['buttonIconColor']+'_'+'buttonIconColor')" />
+                    </div>
+                    <div class="w-1/5 p-1">
+                        <label>Button Icon Type</label>
+                        <nz-select nzShowSearch nzAllowClear
+                            [(ngModel)]="selectedTheme['buttonIconType']"
+                            (ngModelChange)="changeLayout(selectedTheme['buttonIconType']+'_'+'buttonIconType')"
+                            nzPlaceHolder="Icon Type">
+                            <nz-option nzLabel="ng-zorro outlined"
+                                nzValue="outline"></nz-option>
+                            <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                            <nz-option nzLabel="ng-zorro twotone"
+                                nzValue="twotone"></nz-option>
+                            <nz-option nzLabel="Font Awsome"
+                                nzValue="font_awsome"></nz-option>
+                            <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="w-1/5 p-1">
+                        <label>Button Icon</label>
+                        <input nz-input
+                            [(ngModel)]="selectedTheme['buttonIcon']"
+                            (input)="changeInPageLayout(selectedTheme['buttonIcon']+'_'+'buttonIcon')" />
+                    </div>
+                    <div class="w-1/5 p-1">
+                        <label>Button Icon Size</label>
+                        <input nz-input type="number"
+                            [(ngModel)]="selectedTheme['buttonIconSize']"
+                            (input)="changeLayout(selectedTheme['buttonIconSize']+'_'+'buttonIconSize')" />
+                    </div>
+                    <div class="w-1/5 p-1 pt-9">
+                        <label nz-checkbox
+                            [(ngModel)]="selectedTheme['showButton']"
+                            (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
+                            button</label>
+                    </div>
+                    <div class="w-1/5 p-1 pt-9">
+                        <label nz-checkbox
+                            [(ngModel)]="selectedTheme['showLogo']"
+                            (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
+                            Logo</label>
+                    </div>
+                    <div class="w-full">
+                        <label>Button Class</label>
+                        <nz-select nzMode="tags" nzPlaceHolder="Button Class"
+                            [(ngModel)]="selectedTheme['buttonClassArray']"
+                            (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
+                            <nz-option *ngFor="let option of listOfOption"
+                                [nzLabel]="option.label"
+                                [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </div>
+
                 </div>
             </nz-tab>
         </nz-tabset>

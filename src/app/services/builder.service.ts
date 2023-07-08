@@ -361,7 +361,7 @@ export class BuilderService {
   }
   getApplicationByDomainName(domain: any): Observable<any> {
     return this.http.get<any>(
-      this.baseUrl + "jsonModule?domain="+domain
+      this.nestUrl + "cp/domain/Application/"+domain
     );
   }
   deletejsonModule(id: number): Observable<any[]> {
@@ -406,7 +406,7 @@ export class BuilderService {
     const payload = { key, translation };
     return this.http.post<void>(url, payload).toPromise();
   }
-  
+
   getDatabaseTable(): Observable<any> {
     return this.http.get<any>(
       this.baseUrl + "databaseTable"

@@ -18,8 +18,13 @@ export class ApplicationService {
             this.nestUrl + api
         );
     }
-    getNestCommonAPIById(api: string, id:string): Observable<any[]> {
-        return this.http.get<any[]>(
+    getNestCommonAPIById(api: string, id:string): Observable<any> {
+        return this.http.get<any>(
+            `${this.envService.nestBaseUrl}${api}/${id}`
+        );
+    }
+    getNestBuilderAPIByScreen(api: string, id:string): Observable<any> {
+        return this.http.get<any>(
             `${this.envService.nestBaseUrl}${api}/${id}`
         );
     }

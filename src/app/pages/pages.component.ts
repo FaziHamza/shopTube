@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit {
     // debugger
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-       
+
        console.log(res);
       },
       error: (err) => {
@@ -55,36 +55,36 @@ export class PagesComponent implements OnInit {
     // if (this.router.url.includes('/pages'))
     //   this.isPageContextShow = true;
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-      // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
-      if (params["application"] && params["module"]) {
-        let activeModule = params["module"].replace('-', ' ');
-        let activeApplication = params["application"].replace('-', ' ');
-        if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
-          this.dataSharedService.checkModule = params["module"];
-          if (params["module"]) {
-            this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
-              next: (res: any) => {
-                if (res.length > 0) {
-                  this.setData(res[0]);
+      // // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
+      // if (params["application"] && params["module"]) {
+      //   let activeModule = params["module"].replace('-', ' ');
+      //   let activeApplication = params["application"].replace('-', ' ');
+      //   if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
+      //     this.dataSharedService.checkModule = params["module"];
+      //     if (params["module"]) {
+      //       this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
+      //         next: (res: any) => {
+      //           if (res.length > 0) {
+      //             this.setData(res[0]);
 
-                  if (res.length > 1) {
-                    this.setData(res[1]);
-                  }
-                }
-              },
-              error: (err) => {
-                console.error(err);
-              }
-            });
-          }
-          this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
-        }
-        else {
-        }
-      }
-      else {
-        // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-      }
+      //             if (res.length > 1) {
+      //               this.setData(res[1]);
+      //             }
+      //           }
+      //         },
+      //         error: (err) => {
+      //           console.error(err);
+      //         }
+      //       });
+      //     }
+      //     this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
+      //   }
+      //   else {
+      //   }
+      // }
+      // else {
+      //   // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+      // }
       // ----------------------------------------------------------------//
 
 
@@ -317,7 +317,8 @@ export class PagesComponent implements OnInit {
           if (getRes.isSuccess) {
             if (getRes.data.length > 0) {
               this.businessRuleData = [];
-              this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
+              if(getRes.data[0].buisnessRule)
+                this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
             }
           } else
             this.toastr.error(getRes.message, { nzDuration: 3000 });
