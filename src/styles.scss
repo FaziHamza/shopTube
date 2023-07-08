@@ -2731,6 +2731,14 @@ object {
     max-width: 800px;
 
     .btn-primary {
+      white-space: nowrap;
+      // background: #038edc;
+      // color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .btn-primary:hover {
       background: #038edc;
       color: white;
       padding: 5px 10px;
@@ -2834,3 +2842,10 @@ object {
   right: 0;
 }
 
+.content-body {
+  .dynamic-body {
+    padding-bottom: 65px;
+    overflow: scroll;
+    height: calc(100vh - 75px) !important;
+  }
+}
