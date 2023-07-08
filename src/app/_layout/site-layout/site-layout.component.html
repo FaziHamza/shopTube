@@ -145,7 +145,7 @@
         <div dir="ltr">
           <router-outlet></router-outlet>
         </div>
-        <div class="dynamic-footer"
+        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
           *ngIf="currentFooter && !currentUrl.includes('localhost')">
           <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
         </div>

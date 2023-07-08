@@ -6468,6 +6468,32 @@ export class formFeildData {
         //   },
         // },
         {
+          key: 'labelAlignment',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Alignment',
+            options: [
+              {
+                label: 'left',
+                value: 'left'
+              },
+              {
+                label: 'right',
+                value: 'right'
+              },
+
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           key: 'size',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -6492,6 +6518,16 @@ export class formFeildData {
               showSearch: true,
             },
           },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'switchCheckedColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'checked Color',
+            type: 'color',
+          }
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

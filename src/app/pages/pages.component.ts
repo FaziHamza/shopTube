@@ -130,6 +130,7 @@ export class PagesComponent implements OnInit {
                 this.getBusinessRule(res.data[0].screenBuilderId);
                 const data = JSON.parse(res.data[0].screenData);
                 this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+                this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
                 this.checkDynamicSection();
                 this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
                 this.getFromQuery();
