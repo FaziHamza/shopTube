@@ -5,8 +5,8 @@
     </div>
     <!-- <small>{{selectDepartmentName}}</small> -->
     <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectDepartmentName"
-        (ngModelChange)="getApplications(selectDepartmentName)"
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectDepartmentId"
+        (ngModelChange)="getApplications(selectDepartmentId)"
         placeholder="Select Departments">
         <nz-option [nzValue]="item._id" [nzLabel]="item.name"
           *ngFor="let item of departmentData"></nz-option>
@@ -17,8 +17,8 @@
     </div>
     <!-- <small>{{selectApplicationName}}</small> -->
     <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName"
-        (ngModelChange)="getScreenBuilder(selectApplicationName)"
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationId"
+        (ngModelChange)="getScreenBuilder(selectApplicationId)"
         placeholder="Select Applications">
         <nz-option [nzValue]="item._id" [nzLabel]="item.name"
           *ngFor="let item of applicationData"></nz-option>

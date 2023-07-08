@@ -45,7 +45,7 @@ export class BuilderComponent implements OnInit {
   size: NzButtonSize = 'large';
   departmentData: any = [];
   applicationData: any = [];
-  selectDepartmentName: any;
+  selectDepartmentId: any;
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
   sizes = [20, 80, 0];
@@ -77,7 +77,7 @@ export class BuilderComponent implements OnInit {
   showNotification: boolean = true;
   previewJsonData: any = '';
   searchValue: any = '';
-  selectApplicationName: any = '';
+  selectApplicationId: any = '';
   saveLoader: any = false;
   htmlBlockimagePreview: any = '';
   webBlock: boolean = false;
@@ -146,6 +146,46 @@ export class BuilderComponent implements OnInit {
     this.websiteBlockTypeArray = filterdButtons[0].children;
     this.makeFormlyTypeOptions(htmlTabsData[0]);
   }
+
+ //#region  Dropdown Work start
+
+  // getDepartment Drodown
+  getDepartments() {
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.departmentData = res.data;
+        else
+          this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.toastr.error(`Department : An error occured`, { nzDuration: 3000 });
+      }
+    });
+  };
+
+   // getApplication Drodown
+  getApplications(departmentId: any) {
+    debugger
+    if (!departmentId) {
+      return;
+    }
+    this.selectApplicationId = "";
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', departmentId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          this.applicationData = res.data;
+        else  this.toastr.error(`Application : ${res.message}`, { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        
+        this.toastr.error(`Application : An error occurred`, { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  }
+
+  // getScreenBuilder Drodown
   getScreenBuilder(applicationId: string) {
     debugger
     if (!applicationId) {
@@ -164,42 +204,12 @@ export class BuilderComponent implements OnInit {
       }
     });
 
-
   }
 
-  getDepartments() {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.departmentData = res.data;
-        else
-          this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error(`Department : An error occured`, { nzDuration: 3000 });
-      }
-    });
-  };
-  getApplications(departmentId: any) {
-    debugger
-    if (!departmentId) {
-      return;
-    }
-    this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', departmentId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.applicationData = res.data;
-        else
-          this.toastr.error(`Application : ${res.message}`, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        // console.error(err); // Log the error to the console
-        this.toastr.error(`Application : An error occurred`, { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
+ //#endregion Dropdown Work End
+
+
+
   LayerShow() {
     if (this.IslayerVisible) this.IslayerVisible = false;
     else this.IslayerVisible = true;
