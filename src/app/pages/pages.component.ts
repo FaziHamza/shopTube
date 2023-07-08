@@ -274,7 +274,7 @@ export class PagesComponent implements OnInit {
           modalData: empData.modalData
         };
 
-        this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
+        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
             this.getFromQuery();

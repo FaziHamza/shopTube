@@ -402,7 +402,7 @@ export class DynamicTableComponent implements OnInit {
       modalData: data
     };
     if (this.screenName != undefined) {
-      this.employeeService.saveSQLDatabaseTable('knex-delete-queries/executeQuery', model).subscribe({
+      this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
         next: (res) => {
           this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
           this.toastr.success("Delete Successfully", { nzDuration: 3000 });
