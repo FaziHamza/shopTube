@@ -8,6 +8,7 @@ import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'st-application-builder',
@@ -162,17 +163,18 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
-  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any,model?:any) {
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
+    debugger
     if (isSubmit && key == "applicationId") {
-      // const obj = {
-      //   "ScreenBuilder": {
-      //     name: value.name + "_default",
-      //     navigation: value.name + "_default",
-      //     departmentId: value.departmentId,
-      //     applicationId: value._id
-      //   }
-      // }
-      const obj = {
+      const screen = {
+        "ScreenBuilder": {
+          name: value.name + "_default",
+          navigation: value.name + "_default",
+          departmentId: value.departmentId,
+          applicationId: value._id
+        }
+      };
+      const header = {
         "ScreenBuilder": {
           name: value.name + "_header",
           navigation: value.name + "_header",
@@ -180,61 +182,98 @@ export class ApplicationBuilderComponent implements OnInit {
           applicationId: value._id,
           organizationId: model?.organizationId
         }
-      }
-      this.loading = true;
-      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            let screen = {
-              "ScreenBuilder": {
-                name: value.name + "_footer",
-                navigation: value.name + "_footer",
-                departmentId: value.departmentId,
-                applicationId: value._id,
-                organizationId:  model?.organizationId
-              }
-            }
-            this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
-              if (getRes.isSuccess) {
-                this.toastr.success("Default things Added", { nzDuration: 2000 });
-                // let screen = {
-                //   "ScreenBuilder": {
-                //     name: value.name + "_footer",
-                //     navigation: value.name + "_footer",
-                //     departmentId: value.departmentId,
-                //     applicationId: value._id
-                //   }
-                // }
-                // this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
-                //   if (res3.isSuccess) {
-                //     this.loading = false;
-                //     // this.jsonApplicationBuilder();
-                //     this.toastr.success("Default things Added", { nzDuration: 2000 });
-                //     // setTimeout(() => {
-                //     //   this.jsonApplicationBuilder();
-                //     // }, 2000)
-                //   } else {
-                //     this.loading = false;
-                //     this.toastr.error(res.message, { nzDuration: 2000 });
-                //   }
-                // })
-              } else {
-                this.loading = false;
-                this.toastr.error(res.message, { nzDuration: 2000 });
-              }
-            })
-          } else {
-            this.loading = false;
-            this.toastr.error(res.message, { nzDuration: 2000 });
-          }
-        },
-        error: (err) => {
-          this.loading = false;
-          this.toastr.error("Some exception are unhandler", { nzDuration: 2000 });
-        }
-      })
+      };
 
+      const footer = {
+        "ScreenBuilder": {
+          name: value.name + "_footer",
+          navigation: value.name + "_footer",
+          departmentId: value.departmentId,
+          applicationId: value._id,
+          organizationId: model?.organizationId
+        }
+      };
+      const requests = [
+        this.applicationService.addNestCommonAPI("cp", screen),
+        this.applicationService.addNestCommonAPI("cp", header),
+        this.applicationService.addNestCommonAPI("cp", footer)
+      ];
+      this.loading = true;
+      forkJoin(requests).subscribe((responses: any) => {
+
+        if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+          this.getBuilderScreen(responses[0], responses[1], responses[2])
+        } else {
+          this.toastr.error("Some error occurred", { nzDuration: 2000 });
+        }
+        this.loading = false;
+      },
+        (error) => {
+          this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+          this.loading = false;
+        });
     }
+  }
+
+  getBuilderScreen(screen: any, header: any, footer: any) {
+    debugger
+    const requests = [
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
+    ];
+    this.loading = true;
+    forkJoin(requests).subscribe((responses: any) => {
+      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+        const objects = [screen, header, footer];
+        for (let i = 0; i < responses.length; i++) {
+          responses[i].data[0].navigation = objects[i].data.navigation;
+          responses[i].data[0].screenName = objects[i].data.name;
+          responses[i].data[0].screenBuilderId = objects[i].data._id;
+        }
+        this.saveBuilderScreen(responses[0], responses[1], responses[2]);
+      } else {
+        this.toastr.error("Some error occurred", { nzDuration: 2000 });
+      }
+    },
+      (error) => {
+        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+        this.loading = false;
+      });
+  }
+
+  saveBuilderScreen(screen: any, header: any, footer: any) {
+    const screenModel: any = {
+      "Builder": screen.data[0]
+    }
+    const headerModel = {
+      "Builder": header.data[0]
+    }
+    const footerModel = {
+      "Builder": footer.data[0]
+    }
+    delete screenModel.Builder.__v;
+    delete screenModel.Builder._id;
+    delete headerModel.Builder.__v;
+    delete headerModel.Builder._id;
+    delete footerModel.Builder.__v;
+    delete footerModel.Builder._id;
+    const requests = [
+      this.applicationService.addNestCommonAPI('cp/Builder', screenModel),
+      this.applicationService.addNestCommonAPI('cp/Builder', header),
+      this.applicationService.addNestCommonAPI('cp/Builder', footer),
+    ];
+    forkJoin(requests).subscribe((responses: any) => {
+      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+        this.toastr.success("Default things Added", { nzDuration: 2000 });
+      } else {
+        this.toastr.error("Some error occurred", { nzDuration: 2000 });
+      }
+    },
+      (error) => {
+        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+        this.loading = false;
+      });
   }
 
   // defaultMenu() {
@@ -405,7 +444,7 @@ export class ApplicationBuilderComponent implements OnInit {
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
           if (this.applicationSubmit && key == "applicationId") {
-            this.defaultApplicationBuilder(this.isSubmit, key, res.data,objDataModel);
+            this.defaultApplicationBuilder(this.isSubmit, key, res.data, objDataModel);
           }
           // else
           this.getDepartment();

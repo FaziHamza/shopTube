@@ -373,24 +373,22 @@ export class BuilderComponent implements OnInit {
           this.previousScreenId = objScreen.navigation;
           this.isSavedDb = false;
           this.getBuilderScreen();
-          // const newScreenName = this.screens
-          // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
-          //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
-          //   if (applicationType[0].application_Type == "website") {
-          //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
-          //       next: (result) => {
-          //         if (result.length > 0) {
-          //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
-          //           this.dataSharedService.menus.allMenuItems = result[0].menuData
-          //         }
-          //       },
-          //       error: (err) => {
-          //         console.error(err); // Log the error to the console
-          //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          //       }
-          //     })
-          //   }
-          // }
+          const newScreenName = this.screens
+          debugger
+          if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+            if (application.application_Type == "website") {
+              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                    this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                  }
+                } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              }));
+            }
+          }
 
           this.screenPage = true;
         }).catch(() => this.navigation = this.previousScreenId)
