@@ -2303,13 +2303,13 @@ object {
 //     }
 //   }
 // }
-.ant-menu-submenu {
-  .menu-item-icon {
-    i {
-      color: #7c7f90;
-    }
-  }
-}
+// .ant-menu-submenu {
+//   .menu-item-icon {
+//     i {
+//       color: #7c7f90;
+//     }
+//   }
+// }
 
 .ant-menu-submenu {
   .anticon-down svg {
@@ -2342,8 +2342,9 @@ object {
   .ant-menu-item,
   .ant-menu-submenu {
     span {
-      color: #7c7f90;
-      font-weight: 500 !important;
+      font-size: 14px !important;
+      // color: #7c7f90;
+      // font-weight: 500 !important;
     }
   }
 }
@@ -2729,8 +2730,24 @@ object {
   .ant-tabs {
     max-width: 800px;
 
+    .btn-primary {
+      background: #038edc;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
     .ant-tabs-nav {
       overflow: scroll;
+    }
+  }
+}
+
+.ant-menu-vertical {
+  .w-full {
+    .dynamic-header-btns {
+
+      width: 62px;
     }
   }
 }
@@ -2742,6 +2759,7 @@ object {
 
   .dynamic-header-btns {
     display: flex;
+    justify-content: center;
     align-items: center;
     background: white !important;
 
@@ -2788,9 +2806,31 @@ object {
 }
 
 .ant-layout-header {
-  height: 15% !important;
+  height: 60px !important;
+
+  .card-content {
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
 }
 
-.ant-layout-header {
-  height: 15% !important;
+.collaspe-panel {
+  .ant-collapse-header {
+    .anticon {
+      margin-top: 9px !important;
+    }
+  }
 }
+
+.content-body {
+  position: relative;
+}
+
+.dynamic-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
