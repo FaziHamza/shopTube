@@ -152,16 +152,19 @@ export class BuilderComponent implements OnInit {
   }
   getScreenBuilder(applicationId: string) {
     debugger
+    if (!applicationId) {
+      return;
+    }
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
           this.screens = res.data;
         else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.toastr.error(`ScreenBuilder : ${res.message}`, { nzDuration: 3000 });
       },
       error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        // console.error(err); 
+        this.toastr.error(`ScreenBuilder : An error occurred`, { nzDuration: 3000 }); 
       }
     });
 
@@ -182,19 +185,22 @@ export class BuilderComponent implements OnInit {
       }
     });
   };
-  getApplications(id: any) {
+  getApplications(departmentId: any) {
     debugger
+    if (!departmentId) {
+      return;
+    }
     this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', departmentId).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
           this.applicationData = res.data;
         else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.toastr.error(`Application : ${res.message}`, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        // console.error(err); // Log the error to the console
+        this.toastr.error(`Application : An error occurred`, { nzDuration: 3000 }); // Show an error message to the user
       }
     });
   }
