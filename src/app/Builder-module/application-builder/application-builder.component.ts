@@ -202,7 +202,7 @@ export class ApplicationBuilderComponent implements OnInit {
       forkJoin(requests).subscribe((responses: any) => {
 
         if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-          this.getBuilderScreen(responses[0], responses[1], responses[2])
+          this.getBuilderScreen(responses[0], responses[1], responses[2],value)
         } else {
           this.toastr.error("Some error occurred", { nzDuration: 2000 });
         }
@@ -215,23 +215,24 @@ export class ApplicationBuilderComponent implements OnInit {
     }
   }
 
-  getBuilderScreen(screen: any, header: any, footer: any) {
+  getBuilderScreen(screen: any, header: any, footer: any,value:any) {
     debugger
     const requests = [
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
+      this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
     ];
     this.loading = true;
     forkJoin(requests).subscribe((responses: any) => {
       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
         const objects = [screen, header, footer];
-        for (let i = 0; i < responses.length; i++) {
+        for (let i = 0; i < 3; i++) {
           responses[i].data[0].navigation = objects[i].data.navigation;
           responses[i].data[0].screenName = objects[i].data.name;
           responses[i].data[0].screenBuilderId = objects[i].data._id;
         }
-        this.saveBuilderScreen(responses[0], responses[1], responses[2]);
+        this.saveBuilderScreen(responses[0], responses[1], responses[2],responses[3],value);
       } else {
         this.toastr.error("Some error occurred", { nzDuration: 2000 });
       }
@@ -242,7 +243,7 @@ export class ApplicationBuilderComponent implements OnInit {
       });
   }
 
-  saveBuilderScreen(screen: any, header: any, footer: any) {
+  saveBuilderScreen(screen: any, header: any, footer: any,menu:any,value:any) {
     const screenModel: any = {
       "Builder": screen.data[0]
     }
@@ -258,10 +259,18 @@ export class ApplicationBuilderComponent implements OnInit {
     delete headerModel.Builder._id;
     delete footerModel.Builder.__v;
     delete footerModel.Builder._id;
+    const menuModel = {
+      "Menu": menu.data[0]
+    }
+    delete menuModel.Menu.__v;
+    delete menuModel.Menu._id;
+    menuModel.Menu.applicationId = value._id
+    menuModel.Menu.name = value._id
     const requests = [
       this.applicationService.addNestCommonAPI('cp', screenModel),
       this.applicationService.addNestCommonAPI('cp', headerModel),
       this.applicationService.addNestCommonAPI('cp', footerModel),
+      this.applicationService.addNestCommonAPI('cp',menuModel),
     ];
     forkJoin(requests).subscribe((responses: any) => {
       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {

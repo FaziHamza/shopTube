@@ -11,8 +11,6 @@
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
 </div>
-<br />
-<br />
 <!-- {{tableData | json}} -->
 <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData" *ngIf="data"
   [nzScroll]="{ x: '100vw', y: null }" [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
