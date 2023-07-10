@@ -243,6 +243,7 @@ export class SectionsComponent implements OnInit {
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
+      if(Object.keys(empData.modalData).length > 0)
       this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
         next: (res) => {
           if (res[0]?.error)
@@ -268,7 +269,7 @@ export class SectionsComponent implements OnInit {
           postType: 'put',
           modalData: empData.modalData
         };
-
+        if(Object.keys(empData.modalData).length > 0)
         this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
