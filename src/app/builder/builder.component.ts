@@ -3782,7 +3782,6 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'gridList':
-        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections
             ? JSON.parse(event.form.sortDirections)

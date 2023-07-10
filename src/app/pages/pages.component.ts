@@ -161,53 +161,54 @@ export class PagesComponent implements OnInit {
     });
   }
   saveData(data: any) {
-
+    debugger
     if (data.isSubmit) {
-      let oneModelData = this.convertModel(this.dataModel);
-      // this.sections.children[1].children
-      // this.sections.children[1].childrena.forEach((element:any) => {
-      //   if(element.type == "gridList"){
-      //     let tableData = this.findObjectByType(element,"gridList");
-      //     tableData.tableData = [];
-      //     tableData.tableHeaders = [];
-      //     tableData?.tableData?.push(this.dataModel);
+      // let oneModelData = this.convertModel(this.dataModel);
+      // // this.sections.children[1].children
+      // // this.sections.children[1].childrena.forEach((element:any) => {
+      // //   if(element.type == "gridList"){
+      // //     let tableData = this.findObjectByType(element,"gridList");
+      // //     tableData.tableData = [];
+      // //     tableData.tableHeaders = [];
+      // //     tableData?.tableData?.push(this.dataModel);
+      // //   }
+      // // });
+      // // let tableData = this.findObjectByType(element,"gridList");
+      // let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
+      // if (tableData.length > 0) {
+      //   tableData[0]['api'] = data.dataTable;
+      //   let saveForm = JSON.parse(JSON.stringify(oneModelData));
+      //   // saveForm["id"] = '';
+      //   // this.dataModel["id"] = tableData[0]['tableKey'].length
+      //   const firstObjectKeys = Object.keys(saveForm);
+      //   let obj = firstObjectKeys.map(key => ({ name: key }));
+      //   // obj.unshift({name: 'id'});
+      //   if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+      //     tableData[0].nzFooter = '';
+      //     tableData[0].tableData = [];
+      //     tableData[0]['tableKey'] = obj;
+      //     tableData[0].tableHeaders = tableData[0]['tableKey'];
+      //     saveForm.id = tableData[0].tableData.length + 1
+      //     tableData[0].tableData?.push(saveForm);
+      //   } else {
+      //     tableData[0].nzFooter = '';
+      //     tableData[0]['tableKey'] = obj;
+      //     tableData[0].tableHeaders = tableData[0]['tableKey'];
+      //     saveForm.id = tableData[0].tableData.length + 1;
+      //     tableData[0].tableData?.push(saveForm);
       //   }
-      // });
-      // let tableData = this.findObjectByType(element,"gridList");
-      let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
-      if (tableData.length > 0) {
-        tableData[0]['api'] = data.dataTable;
-        let saveForm = JSON.parse(JSON.stringify(oneModelData));
-        // saveForm["id"] = '';
-        // this.dataModel["id"] = tableData[0]['tableKey'].length
-        const firstObjectKeys = Object.keys(saveForm);
-        let obj = firstObjectKeys.map(key => ({ name: key }));
-        // obj.unshift({name: 'id'});
-        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-          tableData[0].nzFooter = '';
-          tableData[0].tableData = [];
-          tableData[0]['tableKey'] = obj;
-          tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id = tableData[0].tableData.length + 1
-          tableData[0].tableData?.push(saveForm);
-        } else {
-          tableData[0].nzFooter = '';
-          tableData[0]['tableKey'] = obj;
-          tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id = tableData[0].tableData.length + 1;
-          tableData[0].tableData?.push(saveForm);
-        }
 
-      }
+      // }
       this.saveData1(data);
+
     }
   }
   submit() {
-
     this.dataModel =  this.formlyModel;
   }
   saveData1(data: any) {
-    this.submit();
+    debugger
+    this.dataModel =  this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;
     // var nestedObject = {};
@@ -305,11 +306,11 @@ export class PagesComponent implements OnInit {
     // }
   }
   getFromQuery() {
+    debugger
     let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
-
-        if (tableData.length > 0 && res) {
+          if (tableData.length > 0 && res) {
           // tableData[0]['api'] = data.dataTable;
           let saveForm = JSON.parse(JSON.stringify(res[0]));
           // saveForm["id"] = '';

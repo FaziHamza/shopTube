@@ -202,7 +202,7 @@ export class ApplicationBuilderComponent implements OnInit {
       forkJoin(requests).subscribe((responses: any) => {
 
         if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-          this.getBuilderScreen(responses[0], responses[1], responses[2],value)
+          this.getBuilderScreen(responses[0], responses[1], responses[2], value)
         } else {
           this.toastr.error("Some error occurred", { nzDuration: 2000 });
         }
@@ -215,7 +215,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }
   }
 
-  getBuilderScreen(screen: any, header: any, footer: any,value:any) {
+  getBuilderScreen(screen: any, header: any, footer: any, value: any) {
     debugger
     const requests = [
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
@@ -232,7 +232,7 @@ export class ApplicationBuilderComponent implements OnInit {
           responses[i].data[0].screenName = objects[i].data.name;
           responses[i].data[0].screenBuilderId = objects[i].data._id;
         }
-        this.saveBuilderScreen(responses[0], responses[1], responses[2],responses[3],value);
+        this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
       } else {
         this.toastr.error("Some error occurred", { nzDuration: 2000 });
       }
@@ -243,7 +243,42 @@ export class ApplicationBuilderComponent implements OnInit {
       });
   }
 
-  saveBuilderScreen(screen: any, header: any, footer: any,menu:any,value:any) {
+  getScreensForClone(value?: any, model?: any) {
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.cloneApplication).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            res.data.forEach((screen: any) => {
+              screen.applicationId = value._id;
+              screen.departmentId = value.departmentId;
+              screen['organizationId'] = model?.organizationId;
+              if (screen.name.includes('_header') || screen.name.includes('_footer') || screen.name.includes('_default')) {
+                screen.name = value.name + '_' + screen.name.split('_')[1]
+                screen.navigation = value.name + '_' + screen.navigation.split('_')[1];
+              }
+            });
+            console.log(res.data);
+            forkJoin(res.data).subscribe((responses: any) => {
+              this.loading = false;
+            },
+              (error) => {
+                this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+                this.loading = false;
+              });
+          }
+        }
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  }
+
+  saveBuilderScreen(screen: any, header: any, footer: any, menu: any, value: any) {
     const screenModel: any = {
       "Builder": screen.data[0]
     }
@@ -259,9 +294,9 @@ export class ApplicationBuilderComponent implements OnInit {
     delete headerModel.Builder._id;
     delete footerModel.Builder.__v;
     delete footerModel.Builder._id;
-    screenModel.Builder['applicationId']=  value._id;
-    headerModel.Builder['applicationId']=  value._id;
-    footerModel.Builder['applicationId']=  value._id;
+    screenModel.Builder['applicationId'] = value._id;
+    headerModel.Builder['applicationId'] = value._id;
+    footerModel.Builder['applicationId'] = value._id;
     const menuModel = {
       "Menu": menu.data[0]
     }
@@ -273,7 +308,7 @@ export class ApplicationBuilderComponent implements OnInit {
       this.applicationService.addNestCommonAPI('cp', screenModel),
       this.applicationService.addNestCommonAPI('cp', headerModel),
       this.applicationService.addNestCommonAPI('cp', footerModel),
-      this.applicationService.addNestCommonAPI('cp',menuModel),
+      this.applicationService.addNestCommonAPI('cp', menuModel),
     ];
     forkJoin(requests).subscribe((responses: any) => {
       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
@@ -287,82 +322,6 @@ export class ApplicationBuilderComponent implements OnInit {
         this.loading = false;
       });
   }
-
-  // defaultMenu() {
-  //   this.loading = true;
-  //   setTimeout(() => {
-  //     let menu = {
-  //       "applicationName": this.myForm.value.name,
-  //       "menuData": [
-  //         {
-  //           "id": "menu_" + Guid.newGuid(),
-  //           "key": "menu_" + Guid.newGuid(),
-  //           "title": "Menu",
-  //           "link": "",
-  //           "icon": "appstore",
-  //           "type": "input",
-  //           "isTitle": false,
-  //           "children": []
-  //         }
-  //       ],
-  //       "applicationId": this.myForm.value.name,
-  //       "selectedTheme": {
-  //         "topHeaderMenu": "w-1/6",
-  //         "topHeader": "w-10/12",
-  //         "menuMode": "inline",
-  //         "menuColumn": "w-2/12",
-  //         "rowClass": "w-10/12",
-  //         "horizontalRow": "flex flex-wrap",
-  //         "layout": "vertical",
-  //         "colorScheme": "light",
-  //         "layoutWidth": "fluid",
-  //         "layoutPosition": "fixed",
-  //         "topBarColor": "light",
-  //         "sideBarSize": "default",
-  //         "siderBarView": "sidebarViewDefault",
-  //         "sieBarColor": "light",
-  //         "siderBarImages": "",
-  //         "checked": false,
-  //         "theme": false,
-  //         "isCollapsed": false,
-  //         "newMenuArray": [],
-  //         "menuChildArrayTwoColumn": [],
-  //         "isTwoColumnCollapsed": false,
-  //         "allMenuItems": [],
-  //         "showMenu": true
-  //       },
-  //       "id": 59
-  //     }
-  //     this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
-  //       next: (res) => {
-  //         // let screen = {
-  //         //   name: this.myForm.value.name,
-  //         //   screenId: this.myForm.value.name,
-  //         //   departmentName: '',
-  //         //   applicationName: this.myForm.value.name,
-  //         // }
-  //         // setTimeout(() => {
-  //         //   this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
-  //         //     next: (res) => {
-  //         //       this.loading = false;
-  //         //     },
-  //         //     error: (err) => {
-  //         //       console.error(err); // Log the error to the console
-  //         //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //         //       this.loading = false;
-  //         //     }
-  //         //   })
-  //         // }, 500)
-
-  //       },
-  //       error: (err) => {
-  //         console.error(err); // Log the error to the console
-  //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //         this.loading = false;
-  //       }
-  //     })
-  //   }, 500)
-  // }
   openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -455,8 +414,12 @@ export class ApplicationBuilderComponent implements OnInit {
         : this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel);
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
-          if (this.applicationSubmit && key == "applicationId") {
-            this.defaultApplicationBuilder(this.isSubmit, key, res.data, objDataModel);
+          if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
+            if (!this.myForm.value.cloneApplication) {
+              this.defaultApplicationBuilder(this.isSubmit, key, res.data, objDataModel);
+            } else if (this.myForm.value.cloneApplication) {
+              this.getScreensForClone(res.data, objDataModel);
+            }
           }
           // else
           this.getDepartment();
@@ -555,26 +518,6 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
 
-  // saveHeaderFooter(type: any) {
-
-  //   if (this.isSubmit) {
-  //     let screen = {
-  //       name: this.myForm.value.name + '-' + type,
-  //       screenId: this.myForm.value.name + '-' + type,
-  //       applicationName: '',
-  //       moduleName: this.myForm.value.name,
-  //     }
-  //     this.builderService.addScreenModule(screen).subscribe(() => {
-  //       if (!this.footerSaved) { // Check if 'footer' hasn't been saved yet
-  //         this.footerSaved = true; // Set the flag to indicate 'footer' has been saved
-  //         setTimeout(() => {
-  //           this.saveHeaderFooter('footer');
-  //         }, 2000);
-  //       }
-  //     })
-  //   }
-  // }
-
   loadDepartmentFields() {
     this.fields = [
       {
@@ -618,6 +561,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
   loadApplicationFields() {
     const options = this.listOfData.map((item: any) => ({
+      label: item.name,
+      value: item._id
+    }));
+    const cloneApplicationTypeOptions = this.listOfChildrenData.map((item: any) => ({
       label: item.name,
       value: item._id
     }));
@@ -745,23 +692,19 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'layout',
+            key: 'cloneApplication',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Layout',
+              label: 'clone Application',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
                 showArrow: true,
                 showSearch: true,
               },
-              options: [
-                { label: "Layout1", value: 'layout1' },
-                { label: "Layout2", value: 'layout2' },
-                { label: "Layout3", value: 'layout3' },
-              ]
+              options: cloneApplicationTypeOptions
             }
           }
         ]
