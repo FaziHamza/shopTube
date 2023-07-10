@@ -147,22 +147,22 @@ export class BuilderComponent implements OnInit {
     this.websiteBlockTypeArray = filterdButtons[0].children;
     this.makeFormlyTypeOptions(htmlTabsData[0]);
   }
-  getScreenBuilder(applicationId: string) {
+
+  // onDepartmentChange
+  onDepartmentChange(departmentId: any) {
     debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.screens = res.data;
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-
-
+    if (departmentId.length === 1) {
+      this.getApplications(departmentId);
+    } else if (departmentId.length === 2) {
+      this.getScreenBuilder(departmentId);
+    } else if (departmentId.length === 3){
+      this.getScreenData(departmentId[2])
+    }
+    else {
+      this.selectApplicationName = "";
+      this.applicationData = []; // Clear the application data when the department is deselected
+      this.screens = []; // Clear the screens when the department is deselected
+    }
   }
 
   getDepartments() {
@@ -170,8 +170,13 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
       next: (res: any) => {
         if (res.isSuccess)
-          this.departmentData = res.data;
-        else
+          this.departmentData = res.data.map((data: any) => {
+            return {
+              label: data.name,
+              value: data._id
+            };
+
+          }); else
           this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
       },
       error: (err) => {
@@ -179,13 +184,59 @@ export class BuilderComponent implements OnInit {
       }
     });
   };
-  getApplications(id: any) {
+
+  getApplications(departmentId: any) {
     debugger
     this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', departmentId[0]).subscribe({
       next: (res: any) => {
-        if (res.isSuccess)
-          this.applicationData = res.data;
+        if (res.isSuccess) {
+          this.applicationData = res.data.map((appData: any) => {
+            
+            return {
+              label: appData.name,
+              value: appData._id,
+            };
+          });
+          const department = this.departmentData.find((dept: any) => dept.value === departmentId[0]);
+          if (department) {
+            department['children'] = this.applicationData;
+            console.log(department['children']);
+            //   this.applicationData.forEach((application: any) => {
+            //     // this.getScreenBuilder(application.value);
+            // })
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        console.error(`Application : An error occured`); // Log the error to the console
+        this.toastr.error(`Application : An error occured`, { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  }
+
+  getScreenBuilder(applicationId: string) {
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId[1]).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          const screenData = res.data.map((mapData: any) => {
+            this.screens = res.data;
+            return {
+              label: mapData.name,
+              value: mapData._id,
+              isLeaf: true
+            };
+          });
+
+          const department = this.departmentData.find((dept: any) => dept.value === applicationId[0]);
+          let applicationChildren = department.children.find((app: any) => app.value === applicationId[1])
+          if (applicationChildren) {
+            applicationChildren['children'] = screenData;
+            console.log(applicationChildren['children'])
+          }
+        }
         else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
@@ -195,6 +246,7 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
+
   LayerShow() {
     if (this.IslayerVisible) this.IslayerVisible = false;
     else this.IslayerVisible = true;
@@ -362,6 +414,7 @@ export class BuilderComponent implements OnInit {
   previousScreenId: string = '';
   builderScreenData: any;
   getScreenData(data: any) {
+    debugger
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
@@ -369,6 +422,7 @@ export class BuilderComponent implements OnInit {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
+          this._id = objScreen._id;
           this.screenName = objScreen.name;
           this.previousScreenId = objScreen.navigation;
           this.isSavedDb = false;
