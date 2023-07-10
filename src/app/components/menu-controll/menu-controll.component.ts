@@ -10,7 +10,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./menu-controll.component.scss']
 })
 export class MenuControllComponent implements OnInit {
-  @Input() data : any;
+  @Input() selectedTheme : any;
   isActiveShow : any;
   hoverActiveShow: any;
   requestSubscription: Subscription;
@@ -22,13 +22,12 @@ export class MenuControllComponent implements OnInit {
 
   }
 
-  route(data : any): void {
+  route(event: MouseEvent, data : any ): void {
     this.isActiveShow = data.id;
     if (data.link) {
       let routerLink = data.link;
       this.router.navigate([routerLink]);
       this.dataSharedService.defaultPageNodes = '';
-      // this.dataSharedService.defaultPage.next("")
     }
   }
 }

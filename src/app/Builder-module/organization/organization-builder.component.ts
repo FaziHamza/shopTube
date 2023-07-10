@@ -504,7 +504,7 @@ export class organizationBuilderComponent implements OnInit {
               label: 'Organization Name',
               additionalProperties: {
                 allowClear: true,
-                serveSearch: true,
+                serveSearch: false,
                 showArrow: true,
                 showSearch: true,
               },

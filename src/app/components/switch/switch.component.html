@@ -1,107 +1,24 @@
-<!-- <div>
-        <div class="form-check form-switch form-switch-md mb-2" [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'defaultSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control"
-                        [ngModel]="false"></nz-switch>
-                <label>{{switchData.label}}<span *ngIf="switchData.tooltip&& switchData.tooltip!=''"
-                                style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </span></label>
-        </div>
-        <div class="form-check form-switch form-switch-md mb-2" [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'checkedSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control"
-                        [ngModel]="true"></nz-switch>
-                <label>{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-        <div class="form-check form-switch form-switch-md mb-2" [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'disabledSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control" [ngModel]="false"
-                        [nzDisabled]="true"></nz-switch>
-                <label class="form-check-label" for="flexSwitchCheckDisabled">{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-        <div class="form-check form-switch form-switch-md" [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'disabledCheckedSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control" [ngModel]="true"
-                        [nzDisabled]="true"></nz-switch>
-                <label>{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-        <div class="form-check form-switch mb-2" dir="ltr" [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'smallSizeSwitch'">
-                <nz-switch nzSize="small" [nzLoading]="switchData.loading" [nzControl]="switchData.control"
-                        [ngModel]="true"></nz-switch>
-                <label>{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-        <div class="form-check form-switch form-switch-md mb-2" dir="ltr"
-                [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'mediumSizeSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control"
-                        [ngModel]="true"></nz-switch>
-                <label class="form-check-label" for="customSwitchsizemd">{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-        <div class="form-check form-switch form-switch-lg mb-0" dir="ltr"
-                [ngStyle]="{'text-align': switchData.switchPosition}"
-                *ngIf="switchData.switchType == 'largeSizeSwitch'">
-                <nz-switch [nzLoading]="switchData.loading" [nzControl]="switchData.control"
-                        [ngModel]="true"></nz-switch>
-                <label class="form-check-label" for="customSwitchsizelg">{{switchData.label}}
-                        <div *ngIf="switchData.tooltip&& switchData.tooltip!=''" style="text-align: right;">
-                                <span nz-tooltip nzTooltipTitle={{switchData.tooltip}}><span nz-icon
-                                                nzType="question-circle" nzTheme="outline"></span></span>
-                        </div>
-                </label>
-        </div>
-</div> -->
-
-<!-- <nz-switch [formlyAttributes]="field"
-
-></nz-switch> -->
-<!-- <nz-switch [formlyAttributes]="field"
- [nzSize]="field.size"
-[nzCheckedChildren]="field.checkedChildren"
-[nzUnCheckedChildren]="field.unCheckedChildren"
-[nzDisabled]="field.disabled"
-
-[nzLoading]="field.loading"
-[nzControl]="field.control"
-></nz-switch> -->
-<!-- {{switchData | json}} -->
-<span *ngIf="switchData?.tooltip && !switchData?.tooltipWithoutIcon" nz-tooltip [nzTooltipTitle]="switchData.tooltip">
+<span *ngIf="switchData?.tooltip && !switchData?.tooltipWithoutIcon" nz-tooltip
+        [nzTooltipTitle]="switchData.tooltip">
         <span nz-icon nzType="question-circle" nzTheme="twotone"></span></span>
 <div style="display: flex;">
-        <p *ngIf="switchData.title" class="pr-2">
+        <p
+                *ngIf="switchData.title && (switchData.labelAlignment == 'left' || !switchData.labelAlignment) "
+                class="pr-2">
                 {{switchData.title | translate}}
         </p>
-        <nz-switch [(ngModel)]="switchData.model" [nzSize]="switchData.size"
-                [nzCheckedChildren]="switchData.checkedChildren" [nzUnCheckedChildren]="switchData.unCheckedChildren"
-                [nzDisabled]="switchData.disabled" [nzLoading]="switchData.loading"
+        <nz-switch [style.color]="'red'" [(ngModel)]="switchData.model"
+                [nzSize]="switchData.size"
+                [nzCheckedChildren]="switchData.checkedChildren"
+                [nzUnCheckedChildren]="switchData.unCheckedChildren"
+                [nzDisabled]="switchData.disabled"
+                [nzLoading]="switchData.loading"
                 [nzControl]="switchData.control"></nz-switch>
+
+        <p *ngIf="switchData.title && switchData.labelAlignment == 'right'"
+                class="pr-2">
+                {{switchData.title | translate}}
+        </p>
 </div>
 
 <!-- <span class="switch-label">{{field.props?.label}}</span> -->

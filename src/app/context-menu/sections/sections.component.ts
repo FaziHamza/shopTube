@@ -159,42 +159,42 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-
+    debugger
     if (data.isSubmit) {
-      let oneModelData = this.convertModel(this.dataModel);
-      // this.sections.children[1].children
-      // this.sections.children[1].childrena.forEach((element:any) => {
-      //   if(element.type == "gridList"){
-      //     let tableData = this.findObjectByType(element,"gridList");
-      //     tableData.tableData = [];
-      //     tableData.tableHeaders = [];
-      //     tableData?.tableData?.push(this.dataModel);
+      // let oneModelData = this.convertModel(this.dataModel);
+      // // this.sections.children[1].children
+      // // this.sections.children[1].childrena.forEach((element:any) => {
+      // //   if(element.type == "gridList"){
+      // //     let tableData = this.findObjectByType(element,"gridList");
+      // //     tableData.tableData = [];
+      // //     tableData.tableHeaders = [];
+      // //     tableData?.tableData?.push(this.dataModel);
+      // //   }
+      // // });
+      // // let tableData = this.findObjectByType(element,"gridList");
+      // let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
+      // if (tableData.length > 0) {
+      //   tableData[0]['api'] = data.dataTable;
+      //   let saveForm = JSON.parse(JSON.stringify(oneModelData));
+      //   // saveForm["id"] = '';
+      //   // this.dataModel["id"] = tableData[0]['tableKey'].length
+      //   const firstObjectKeys = Object.keys(saveForm);
+      //   let obj = firstObjectKeys.map(key => ({ name: key }));
+      //   // obj.unshift({name: 'id'});
+      //   if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+      //     tableData[0].tableData = [];
+      //     tableData[0]['tableKey'] = obj;
+      //     tableData[0].tableHeaders = tableData[0]['tableKey'];
+      //     saveForm.id = tableData[0].tableData.length + 1
+      //     tableData[0].tableData?.push(saveForm);
+      //   } else {
+      //     tableData[0]['tableKey'] = obj;
+      //     tableData[0].tableHeaders = tableData[0]['tableKey'];
+      //     saveForm.id = tableData[0].tableData.length + 1;
+      //     tableData[0].tableData?.push(saveForm);
       //   }
-      // });
-      // let tableData = this.findObjectByType(element,"gridList");
-      let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
-      if (tableData.length > 0) {
-        tableData[0]['api'] = data.dataTable;
-        let saveForm = JSON.parse(JSON.stringify(oneModelData));
-        // saveForm["id"] = '';
-        // this.dataModel["id"] = tableData[0]['tableKey'].length
-        const firstObjectKeys = Object.keys(saveForm);
-        let obj = firstObjectKeys.map(key => ({ name: key }));
-        // obj.unshift({name: 'id'});
-        if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-          tableData[0].tableData = [];
-          tableData[0]['tableKey'] = obj;
-          tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id = tableData[0].tableData.length + 1
-          tableData[0].tableData?.push(saveForm);
-        } else {
-          tableData[0]['tableKey'] = obj;
-          tableData[0].tableHeaders = tableData[0]['tableKey'];
-          saveForm.id = tableData[0].tableData.length + 1;
-          tableData[0].tableData?.push(saveForm);
-        }
 
-      }
+      // }
       this.saveData1(data);
     }
   }
@@ -243,6 +243,7 @@ export class SectionsComponent implements OnInit {
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
+      if(Object.keys(empData.modalData).length > 0)
       this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
         next: (res) => {
           if (res[0]?.error)
@@ -251,7 +252,7 @@ export class SectionsComponent implements OnInit {
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
             this.setInternalValuesEmpty(this.dataModel)
             // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-            // this.getFromQuery();
+            this.getFromQuery();
           }
         },
         error: (err) => {
@@ -268,11 +269,11 @@ export class SectionsComponent implements OnInit {
           postType: 'put',
           modalData: empData.modalData
         };
-
+        if(Object.keys(empData.modalData).length > 0)
         this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
-            // this.getFromQuery();
+            this.getFromQuery();
           },
           error: (err) => {
             console.error(err);
@@ -315,6 +316,7 @@ export class SectionsComponent implements OnInit {
     return convertedModel;
   }
   getFromQuery() {
+    debugger
     let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {

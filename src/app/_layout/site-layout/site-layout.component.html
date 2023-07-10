@@ -39,7 +39,8 @@
             class="logo-sm"
             src="assets/images/Daco_4764006.png">
         </div>
-        <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
+        <div class="layout-topbar-menu"
+          [ngClass]="selectedTheme.topHeader"
           [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
           || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
           *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'"
@@ -50,7 +51,7 @@
               *ngIf="selectedTheme['showButton'] == undefined || selectedTheme['showButton']">
               <button (click)="mobileViewCollapseInHostCom()"
                 [style.background]="selectedTheme['buttonColor']"
-                *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
+                *ngIf="selectedTheme?.sideBarSize != 'smallHoverView' "
                 nz-button class="mobile-toggle mr-4 ml-4"
                 [class]="selectedTheme['buttonClass'] || ''"
                 nzType="primary">
@@ -83,7 +84,7 @@
               [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           </div>
         </div>
-        <div [ngClass]='selectedTheme.topHeader'
+        <div [ngClass]="selectedTheme.topHeader + ' ' + 'header-mobile-view'"
           *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
           <st-menu
             *ngIf="!currentHeader"
@@ -141,14 +142,17 @@
             <label>{{modChild.name}}</label>
           </div>
         </div>
-        <div dir="ltr">
+        <div dir="ltr" class="dynamic-body">
           <router-outlet></router-outlet>
+          <div class="dynamic-footer"
+            *ngIf="currentFooter && !currentUrl.includes('localhost')">
+            <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+          </div>
         </div>
-        <div
+        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
           *ngIf="currentFooter && !currentUrl.includes('localhost')">
           <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
         </div>
-      </div>
     </div>
     <div *ngIf="currentUrl.includes('localhost')">
       <!-- <nz-footer class="bg-white-500 text-black-500"
@@ -158,7 +162,7 @@
         <st-main [mainData]="dataSharedService.footerData"></st-main>
       </nz-footer> -->
     </div>
-
+  </div>
   </nz-layout>
 
 </div>

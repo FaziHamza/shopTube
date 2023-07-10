@@ -49,10 +49,19 @@ export class DynamicTableRepeatSectionComponent implements OnInit {
     this.editId = null;
   }
   loadTableData() {
-    const firstObjectKeys = Object.keys(this.tableData[0]);
-    this.key = firstObjectKeys.map(key => ({ name: key }));
-    if (!this.tableHeaders) {
-      this.tableHeaders = this.key;
+    if (this.tableData.length > 0) {
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.key = firstObjectKeys.map(key => ({ name: key }));
+      if (!this.tableHeaders) {
+        this.tableHeaders = this.key;
+      }
+      let newId = 0;
+      if (!this.tableData[0].id) {
+        this.tableData.forEach((j: any) => {
+          newId = newId + 1
+          j['id'] = newId;
+        });
+      }
     }
     if (!this.data) {
       const newNode = {
@@ -78,13 +87,6 @@ export class DynamicTableRepeatSectionComponent implements OnInit {
         filter: true,
       }
       this.data = newNode;
-    }
-    let newId = 0;
-    if (!this.tableData[0].id) {
-      this.tableData.forEach((j: any) => {
-        newId = newId + 1
-        j['id'] = newId;
-      });
     }
   }
   save() {
