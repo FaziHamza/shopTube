@@ -259,6 +259,9 @@ export class ApplicationBuilderComponent implements OnInit {
     delete headerModel.Builder._id;
     delete footerModel.Builder.__v;
     delete footerModel.Builder._id;
+    screenModel.Builder['applicationId']=  value._id;
+    headerModel.Builder['applicationId']=  value._id;
+    footerModel.Builder['applicationId']=  value._id;
     const menuModel = {
       "Menu": menu.data[0]
     }
