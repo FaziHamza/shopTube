@@ -531,4 +531,6 @@ export interface TreeNode {
   rowClass?: any,
   headerCollapse?: any,
   expandedIconPosition?: any,
+  toolTipClass?: any,
+  tooltipPosition?: any,
 }

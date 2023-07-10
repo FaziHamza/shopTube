@@ -3781,6 +3781,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'gridList':
+        debugger
         if (this.selectedNode.id) {
           this.selectedNode.sortDirections = event.form.sortDirections
             ? JSON.parse(event.form.sortDirections)
@@ -3788,6 +3789,30 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form?.className;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.rowClickApi = event.form?.rowClickApi;
+          this.selectedNode['key'] = event.form?.key;
+          this.selectedNode['id'] = event.form?.id;
+          this.selectedNode['tooltip'] = event.form?.tooltip;
+          this.selectedNode['tooltipWithoutIcon'] = event.form?.tooltipWithoutIcon;
+          this.selectedNode['toolTipClass'] = event.form?.toolTipClass;
+          this.selectedNode['tooltipPosition'] = event.form?.tooltipPosition;
+          this.selectedNode['hideExpression'] = event.form?.hideExpression;
+          this.selectedNode['nzFooter'] = event.form?.nzFooter;
+          this.selectedNode['title'] = event.form?.title;
+          this.selectedNode['nzTitle'] = event.form?.nzTitle;
+          this.selectedNode['nzPaginationPosition'] = event.form?.nzPaginationPosition;
+          this.selectedNode['nzPaginationType'] = event.form?.nzPaginationType;
+          this.selectedNode['nzSize'] = event.form?.nzSize;
+          this.selectedNode['filterMultiple'] = event.form?.filterMultiple;
+          this.selectedNode['nzBordered'] = event.form?.nzBordered;
+          this.selectedNode['showColumnHeader'] = event.form?.showColumnHeader;
+          this.selectedNode['noResult'] = event.form?.noResult;
+          this.selectedNode['nzShowSizeChanger'] = event.form?.nzShowSizeChanger;
+          this.selectedNode['nzSimple'] = event.form?.nzSimple;
+          this.selectedNode['showCheckbox'] = event.form?.showCheckbox;
+          this.selectedNode['isAddRow'] = event.form?.isAddRow;
+          this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
+          this.selectedNode['nzLoading'] = event.form?.nzLoading;
+          this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
           this.selectedNode.tableHeaders = event.tableDta
             ? event.tableDta
             : event.form.options;
