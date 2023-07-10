@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -249,24 +249,38 @@ export class ApplicationBuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            res.data.forEach((screen: any) => {
-              screen.applicationId = value._id;
-              screen.departmentId = value.departmentId;
-              screen['organizationId'] = model?.organizationId;
-              if (screen.name.includes('_header') || screen.name.includes('_footer') || screen.name.includes('_default')) {
-                screen.name = value.name + '_' + screen.name.split('_')[1]
-                screen.navigation = value.name + '_' + screen.navigation.split('_')[1];
+            const requests = res.data.map((element: any) => {
+              const screen = {
+                "ScreenBuilder": {
+                  applicationId: value._id,
+                  departmentId: value.departmentId,
+                  name: (element.name.includes('_header') || element.name.includes('_footer') || element.name.includes('_default')) ? value.name + '_' + element.name.split('_')[1] : element.name,
+                  navigation: (element.navigation.includes('_header') || element.navigation.includes('_footer') || element.navigation.includes('_default')) ? value.name + '_' + element.navigation.split('_')[1] : element.navigation,
+                  organizationId: model?.organizationId
+                }
+              };
+
+              return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+                catchError(error => of(error)) // Handle error and continue the forkJoin
+              );
+            });
+
+            forkJoin(requests).subscribe({
+              next: (allResults: any) => {
+                if (allResults.every((result: any) => result.isSuccess === true)) {
+                  this.loading = false;
+                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                } else {
+                  this.toastr.error("Error Occurred", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
               }
             });
-            console.log(res.data);
-            forkJoin(res.data).subscribe((responses: any) => {
-              this.loading = false;
-            },
-              (error) => {
-                this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-                this.loading = false;
-              });
           }
+
         }
         else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
