@@ -278,6 +278,7 @@ export class BuilderComponent implements OnInit {
         "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
+        "applicationId": this.selectApplicationName,
       };
       const builderModel = {
         "Builder": data
