@@ -397,6 +397,11 @@ export class BuilderClickButtonService {
   headerConfig(node: any) {
     return {
       headerCollapse: node.expand ? node.expand : node.headerCollapse,
+      expandedIconPosition: node.expandedIconPosition,
+      headingSize: node.headingSize,
+      backGroundColor: node.backGroundColor,
+      textColor: node.textColor,
+      header: node.header
     }
   }
 }

@@ -427,7 +427,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-    if (this.tableData) {
+    if (this.tableData.length > 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 

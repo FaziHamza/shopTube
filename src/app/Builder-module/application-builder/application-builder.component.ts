@@ -3,11 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'st-application-builder',
@@ -162,17 +163,18 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
-  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any,model?:any) {
+  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
+    debugger
     if (isSubmit && key == "applicationId") {
-      // const obj = {
-      //   "ScreenBuilder": {
-      //     name: value.name + "_default",
-      //     navigation: value.name + "_default",
-      //     departmentId: value.departmentId,
-      //     applicationId: value._id
-      //   }
-      // }
-      const obj = {
+      const screen = {
+        "ScreenBuilder": {
+          name: value.name + "_default",
+          navigation: value.name + "_default",
+          departmentId: value.departmentId,
+          applicationId: value._id
+        }
+      };
+      const header = {
         "ScreenBuilder": {
           name: value.name + "_header",
           navigation: value.name + "_header",
@@ -180,138 +182,160 @@ export class ApplicationBuilderComponent implements OnInit {
           applicationId: value._id,
           organizationId: model?.organizationId
         }
-      }
-      this.loading = true;
-      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            let screen = {
-              "ScreenBuilder": {
-                name: value.name + "_footer",
-                navigation: value.name + "_footer",
-                departmentId: value.departmentId,
-                applicationId: value._id,
-                organizationId:  model?.organizationId
-              }
-            }
-            this.applicationService.addNestCommonAPI("cp", screen).subscribe((getRes: any) => {
-              if (getRes.isSuccess) {
-                this.toastr.success("Default things Added", { nzDuration: 2000 });
-                // let screen = {
-                //   "ScreenBuilder": {
-                //     name: value.name + "_footer",
-                //     navigation: value.name + "_footer",
-                //     departmentId: value.departmentId,
-                //     applicationId: value._id
-                //   }
-                // }
-                // this.applicationService.addNestCommonAPI("cp", screen).subscribe((res3: any) => {
-                //   if (res3.isSuccess) {
-                //     this.loading = false;
-                //     // this.jsonApplicationBuilder();
-                //     this.toastr.success("Default things Added", { nzDuration: 2000 });
-                //     // setTimeout(() => {
-                //     //   this.jsonApplicationBuilder();
-                //     // }, 2000)
-                //   } else {
-                //     this.loading = false;
-                //     this.toastr.error(res.message, { nzDuration: 2000 });
-                //   }
-                // })
-              } else {
-                this.loading = false;
-                this.toastr.error(res.message, { nzDuration: 2000 });
-              }
-            })
-          } else {
-            this.loading = false;
-            this.toastr.error(res.message, { nzDuration: 2000 });
-          }
-        },
-        error: (err) => {
-          this.loading = false;
-          this.toastr.error("Some exception are unhandler", { nzDuration: 2000 });
-        }
-      })
+      };
 
+      const footer = {
+        "ScreenBuilder": {
+          name: value.name + "_footer",
+          navigation: value.name + "_footer",
+          departmentId: value.departmentId,
+          applicationId: value._id,
+          organizationId: model?.organizationId
+        }
+      };
+      const requests = [
+        this.applicationService.addNestCommonAPI("cp", screen),
+        this.applicationService.addNestCommonAPI("cp", header),
+        this.applicationService.addNestCommonAPI("cp", footer)
+      ];
+      this.loading = true;
+      forkJoin(requests).subscribe((responses: any) => {
+
+        if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+          this.getBuilderScreen(responses[0], responses[1], responses[2], value)
+        } else {
+          this.toastr.error("Some error occurred", { nzDuration: 2000 });
+        }
+        this.loading = false;
+      },
+        (error) => {
+          this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+          this.loading = false;
+        });
     }
   }
 
-  // defaultMenu() {
-  //   this.loading = true;
-  //   setTimeout(() => {
-  //     let menu = {
-  //       "applicationName": this.myForm.value.name,
-  //       "menuData": [
-  //         {
-  //           "id": "menu_" + Guid.newGuid(),
-  //           "key": "menu_" + Guid.newGuid(),
-  //           "title": "Menu",
-  //           "link": "",
-  //           "icon": "appstore",
-  //           "type": "input",
-  //           "isTitle": false,
-  //           "children": []
-  //         }
-  //       ],
-  //       "applicationId": this.myForm.value.name,
-  //       "selectedTheme": {
-  //         "topHeaderMenu": "w-1/6",
-  //         "topHeader": "w-10/12",
-  //         "menuMode": "inline",
-  //         "menuColumn": "w-2/12",
-  //         "rowClass": "w-10/12",
-  //         "horizontalRow": "flex flex-wrap",
-  //         "layout": "vertical",
-  //         "colorScheme": "light",
-  //         "layoutWidth": "fluid",
-  //         "layoutPosition": "fixed",
-  //         "topBarColor": "light",
-  //         "sideBarSize": "default",
-  //         "siderBarView": "sidebarViewDefault",
-  //         "sieBarColor": "light",
-  //         "siderBarImages": "",
-  //         "checked": false,
-  //         "theme": false,
-  //         "isCollapsed": false,
-  //         "newMenuArray": [],
-  //         "menuChildArrayTwoColumn": [],
-  //         "isTwoColumnCollapsed": false,
-  //         "allMenuItems": [],
-  //         "showMenu": true
-  //       },
-  //       "id": 59
-  //     }
-  //     this.requestSubscription = this.builderService.jsonSaveModule(menu).subscribe({
-  //       next: (res) => {
-  //         // let screen = {
-  //         //   name: this.myForm.value.name,
-  //         //   screenId: this.myForm.value.name,
-  //         //   departmentName: '',
-  //         //   applicationName: this.myForm.value.name,
-  //         // }
-  //         // setTimeout(() => {
-  //         //   this.requestSubscription = this.builderService.addScreenModule(screen).subscribe({
-  //         //     next: (res) => {
-  //         //       this.loading = false;
-  //         //     },
-  //         //     error: (err) => {
-  //         //       console.error(err); // Log the error to the console
-  //         //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //         //       this.loading = false;
-  //         //     }
-  //         //   })
-  //         // }, 500)
+  getBuilderScreen(screen: any, header: any, footer: any, value: any) {
+    debugger
+    const requests = [
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
+      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
+      this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
+    ];
+    this.loading = true;
+    forkJoin(requests).subscribe((responses: any) => {
+      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+        const objects = [screen, header, footer];
+        for (let i = 0; i < 3; i++) {
+          responses[i].data[0].navigation = objects[i].data.navigation;
+          responses[i].data[0].screenName = objects[i].data.name;
+          responses[i].data[0].screenBuilderId = objects[i].data._id;
+        }
+        this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
+      } else {
+        this.toastr.error("Some error occurred", { nzDuration: 2000 });
+      }
+    },
+      (error) => {
+        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+        this.loading = false;
+      });
+  }
 
-  //       },
-  //       error: (err) => {
-  //         console.error(err); // Log the error to the console
-  //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //         this.loading = false;
-  //       }
-  //     })
-  //   }, 500)
-  // }
+  getScreensForClone(value?: any, model?: any) {
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.cloneApplication).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const requests = res.data.map((element: any) => {
+              const screen = {
+                "ScreenBuilder": {
+                  applicationId: value._id,
+                  departmentId: value.departmentId,
+                  name: (element.name.includes('_header') || element.name.includes('_footer') || element.name.includes('_default')) ? value.name + '_' + element.name.split('_')[1] : element.name,
+                  navigation: (element.navigation.includes('_header') || element.navigation.includes('_footer') || element.navigation.includes('_default')) ? value.name + '_' + element.navigation.split('_')[1] : element.navigation,
+                  organizationId: model?.organizationId
+                }
+              };
+
+              return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+                catchError(error => of(error)) // Handle error and continue the forkJoin
+              );
+            });
+
+            forkJoin(requests).subscribe({
+              next: (allResults: any) => {
+                if (allResults.every((result: any) => result.isSuccess === true)) {
+                  this.loading = false;
+                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                } else {
+                  this.toastr.error("Error Occurred", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
+
+        }
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  }
+
+  saveBuilderScreen(screen: any, header: any, footer: any, menu: any, value: any) {
+    const screenModel: any = {
+      "Builder": screen.data[0]
+    }
+    const headerModel = {
+      "Builder": header.data[0]
+    }
+    const footerModel = {
+      "Builder": footer.data[0]
+    }
+    delete screenModel.Builder.__v;
+    delete screenModel.Builder._id;
+    delete headerModel.Builder.__v;
+    delete headerModel.Builder._id;
+    delete footerModel.Builder.__v;
+    delete footerModel.Builder._id;
+    screenModel.Builder['applicationId'] = value._id;
+    headerModel.Builder['applicationId'] = value._id;
+    footerModel.Builder['applicationId'] = value._id;
+    const menuModel = {
+      "Menu": menu.data[0]
+    }
+    delete menuModel.Menu.__v;
+    delete menuModel.Menu._id;
+    menuModel.Menu.applicationId = value._id
+    menuModel.Menu.name = value._id
+    const requests = [
+      this.applicationService.addNestCommonAPI('cp', screenModel),
+      this.applicationService.addNestCommonAPI('cp', headerModel),
+      this.applicationService.addNestCommonAPI('cp', footerModel),
+      this.applicationService.addNestCommonAPI('cp', menuModel),
+    ];
+    forkJoin(requests).subscribe((responses: any) => {
+      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+        this.toastr.success("Default things Added", { nzDuration: 2000 });
+      } else {
+        this.toastr.error("Some error occurred", { nzDuration: 2000 });
+      }
+    },
+      (error) => {
+        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+        this.loading = false;
+      });
+  }
   openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -404,8 +428,12 @@ export class ApplicationBuilderComponent implements OnInit {
         : this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel);
       action$.subscribe((res: any) => {
         if (res.isSuccess) {
-          if (this.applicationSubmit && key == "applicationId") {
-            this.defaultApplicationBuilder(this.isSubmit, key, res.data,objDataModel);
+          if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
+            if (!this.myForm.value.cloneApplication) {
+              this.defaultApplicationBuilder(this.isSubmit, key, res.data, objDataModel);
+            } else if (this.myForm.value.cloneApplication) {
+              this.getScreensForClone(res.data, objDataModel);
+            }
           }
           // else
           this.getDepartment();
@@ -504,26 +532,6 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
 
-  // saveHeaderFooter(type: any) {
-
-  //   if (this.isSubmit) {
-  //     let screen = {
-  //       name: this.myForm.value.name + '-' + type,
-  //       screenId: this.myForm.value.name + '-' + type,
-  //       applicationName: '',
-  //       moduleName: this.myForm.value.name,
-  //     }
-  //     this.builderService.addScreenModule(screen).subscribe(() => {
-  //       if (!this.footerSaved) { // Check if 'footer' hasn't been saved yet
-  //         this.footerSaved = true; // Set the flag to indicate 'footer' has been saved
-  //         setTimeout(() => {
-  //           this.saveHeaderFooter('footer');
-  //         }, 2000);
-  //       }
-  //     })
-  //   }
-  // }
-
   loadDepartmentFields() {
     this.fields = [
       {
@@ -567,6 +575,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
   loadApplicationFields() {
     const options = this.listOfData.map((item: any) => ({
+      label: item.name,
+      value: item._id
+    }));
+    const cloneApplicationTypeOptions = this.listOfChildrenData.map((item: any) => ({
       label: item.name,
       value: item._id
     }));
@@ -694,23 +706,19 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'layout',
+            key: 'cloneApplication',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
-              label: 'Layout',
+              label: 'clone Application',
               additionalProperties: {
                 allowClear: true,
                 serveSearch: true,
                 showArrow: true,
                 showSearch: true,
               },
-              options: [
-                { label: "Layout1", value: 'layout1' },
-                { label: "Layout2", value: 'layout2' },
-                { label: "Layout3", value: 'layout3' },
-              ]
+              options: cloneApplicationTypeOptions
             }
           }
         ]

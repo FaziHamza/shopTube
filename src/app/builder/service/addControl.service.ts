@@ -797,14 +797,14 @@ export class AddControlService {
   gridListControl() {
     return {
       tableId: "gridList_" + Guid.newGuid(),
-      nzFooter: "This is footer",
-      nzTitle: "This is Title",
+      nzFooter: "",
+      nzTitle: "",
       nzPaginationPosition: "bottom",
       nzPaginationType: "default",
       nzLoading: false,
       nzFrontPagination: true,
       nzShowPagination: true,
-      nzBordered: false,
+      nzBordered: true,
       showColumnHeader: true,
       noResult: false,
       nzSimple: false,
@@ -812,160 +812,160 @@ export class AddControlService {
       isNextChild: false,
       nzShowSizeChanger: false,
       api: "",
-      showCheckbox: true,
+      showCheckbox: false,
       expandable: true,
       fixHeader: false,
       tableScroll: false,
       fixedColumn: false,
       sort: true,
       filter: true,
-      isAddRow: true,
+      isAddRow: false,
       rowClickApi: "",
       tableKey: [],
       tableHeaders: [
-        {
-          name: 'Id',
-          key: 'Id',
-          sortOrder: null,
-          columnClickApi: "",
-          sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-          sortDirections: ['ascend', 'descend', null],
-          filterMultiple: true,
-          show: true,
-          dataType: "input",
-          sum: false,
-          // listOfFilter: [
-          //   { text: 'Joe', value: 'Joe' },
-          //   { text: 'Jim', value: 'Jim', byDefault: true }
-          // ],
-          // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-        },
-        {
-          name: 'Name',
-          key: 'Name',
-          isColumnClick: false,
-          sortOrder: null,
-          sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-          sortDirections: ['ascend', 'descend', null],
-          filterMultiple: true,
-          show: true,
-          sum: false,
-          dataType: "input",
-          listOfFilter: [
-            // { text: 'Joe', value: 'Joe' },
-            // { text: 'Jim', value: 'Jim', byDefault: true }
-          ],
-          filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-        },
-        {
-          name: 'Age',
-          key: 'Age',
-          isColumnClick: false,
-          sortOrder: 'descend',
-          sortFn: (a: any, b: any) => a.age - b.age,
-          sortDirections: ['descend', null],
-          listOfFilter: [],
-          filterFn: null,
-          sum: false,
-          show: true,
-          dataType: "select",
-          filterMultiple: false
-        },
-        {
-          name: 'Address',
-          key: 'Address',
-          isColumnClick: false,
-          sortOrder: null,
-          sortDirections: ['ascend', 'descend', null],
-          sortFn: (a: any, b: any) => a.address.length - b.address.length,
-          filterMultiple: false,
-          show: true,
-          sum: false,
-          dataType: "input",
-          listOfFilter: [
-            { text: 'London', value: 'London' },
-            { text: 'Sidney', value: 'Sidney' }
-          ],
-          filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
-        }
+        // {
+        //   name: 'Id',
+        //   key: 'Id',
+        //   sortOrder: null,
+        //   columnClickApi: "",
+        //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+        //   sortDirections: ['ascend', 'descend', null],
+        //   filterMultiple: true,
+        //   show: true,
+        //   dataType: "input",
+        //   sum: false,
+        //   // listOfFilter: [
+        //   //   { text: 'Joe', value: 'Joe' },
+        //   //   { text: 'Jim', value: 'Jim', byDefault: true }
+        //   // ],
+        //   // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+        // },
+        // {
+        //   name: 'Name',
+        //   key: 'Name',
+        //   isColumnClick: false,
+        //   sortOrder: null,
+        //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+        //   sortDirections: ['ascend', 'descend', null],
+        //   filterMultiple: true,
+        //   show: true,
+        //   sum: false,
+        //   dataType: "input",
+        //   listOfFilter: [
+        //     // { text: 'Joe', value: 'Joe' },
+        //     // { text: 'Jim', value: 'Jim', byDefault: true }
+        //   ],
+        //   filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+        // },
+        // {
+        //   name: 'Age',
+        //   key: 'Age',
+        //   isColumnClick: false,
+        //   sortOrder: 'descend',
+        //   sortFn: (a: any, b: any) => a.age - b.age,
+        //   sortDirections: ['descend', null],
+        //   listOfFilter: [],
+        //   filterFn: null,
+        //   sum: false,
+        //   show: true,
+        //   dataType: "select",
+        //   filterMultiple: false
+        // },
+        // {
+        //   name: 'Address',
+        //   key: 'Address',
+        //   isColumnClick: false,
+        //   sortOrder: null,
+        //   sortDirections: ['ascend', 'descend', null],
+        //   sortFn: (a: any, b: any) => a.address.length - b.address.length,
+        //   filterMultiple: false,
+        //   show: true,
+        //   sum: false,
+        //   dataType: "input",
+        //   listOfFilter: [
+        //     { text: 'London', value: 'London' },
+        //     { text: 'Sidney', value: 'Sidney' }
+        //   ],
+        //   filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
+        // }
       ],
       tableData: [
-        {
-          id: 1,
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          description: 'My name is John Brown, I am 2 years old, living in New York No',
-          checked: false,
-          expand: false,
-          children: [
-            {
-              id: 1,
-              name: 'test',
-              title: "check 1"
-            },
-            {
-              id: 2,
-              name: 'test2',
-              title: "check 2"
-            },
-            {
-              id: 3,
-              name: 'test 6',
-              title: "check 4"
-            },
-            {
-              id: 4,
-              name: 'test 7',
-              title: "check 5"
-            },
-          ]
-        },
-        {
-          id: 2,
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          description: 'My name is John Brown, I am 2 years old, living in New York No',
-          checked: false,
-          expand: false,
-          children: [
-            {
-              id: 1,
-              name: 'test 4',
-            },
-            {
-              id: 2,
-              name: 'test2 6'
-            },
-            {
-              id: 1,
-              name: 'test check 3',
-            },
-            {
-              id: 2,
-              name: 'test2  check 6'
-            },
-          ]
-        },
-        {
-          id: 3,
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-          description: 'My name is John Brown, I am 2 years old, living in New York No',
-          checked: false,
-          expand: false,
-        },
-        {
-          id: 4,
-          name: 'Jim Red',
-          age: 32,
-          address: 'London No. 2 Lake Park',
-          description: 'My name is John Brown, I am 2 years old, living in New York No',
-          checked: false,
-          expand: false,
-        }
+        // {
+        //   id: 1,
+        //   name: 'John Brown',
+        //   age: 32,
+        //   address: 'New York No. 1 Lake Park',
+        //   description: 'My name is John Brown, I am 2 years old, living in New York No',
+        //   checked: false,
+        //   expand: false,
+        //   children: [
+        //     {
+        //       id: 1,
+        //       name: 'test',
+        //       title: "check 1"
+        //     },
+        //     {
+        //       id: 2,
+        //       name: 'test2',
+        //       title: "check 2"
+        //     },
+        //     {
+        //       id: 3,
+        //       name: 'test 6',
+        //       title: "check 4"
+        //     },
+        //     {
+        //       id: 4,
+        //       name: 'test 7',
+        //       title: "check 5"
+        //     },
+        //   ]
+        // },
+        // {
+        //   id: 2,
+        //   name: 'Jim Green',
+        //   age: 42,
+        //   address: 'London No. 1 Lake Park',
+        //   description: 'My name is John Brown, I am 2 years old, living in New York No',
+        //   checked: false,
+        //   expand: false,
+        //   children: [
+        //     {
+        //       id: 1,
+        //       name: 'test 4',
+        //     },
+        //     {
+        //       id: 2,
+        //       name: 'test2 6'
+        //     },
+        //     {
+        //       id: 1,
+        //       name: 'test check 3',
+        //     },
+        //     {
+        //       id: 2,
+        //       name: 'test2  check 6'
+        //     },
+        //   ]
+        // },
+        // {
+        //   id: 3,
+        //   name: 'Joe Black',
+        //   age: 32,
+        //   address: 'Sidney No. 1 Lake Park',
+        //   description: 'My name is John Brown, I am 2 years old, living in New York No',
+        //   checked: false,
+        //   expand: false,
+        // },
+        // {
+        //   id: 4,
+        //   name: 'Jim Red',
+        //   age: 32,
+        //   address: 'London No. 2 Lake Park',
+        //   description: 'My name is John Brown, I am 2 years old, living in New York No',
+        //   checked: false,
+        //   expand: false,
+        // }
       ],
     }
   }

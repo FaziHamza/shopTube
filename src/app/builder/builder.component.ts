@@ -278,6 +278,7 @@ export class BuilderComponent implements OnInit {
         "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
+        "applicationId": this.selectApplicationName,
       };
       const builderModel = {
         "Builder": data
@@ -373,24 +374,22 @@ export class BuilderComponent implements OnInit {
           this.previousScreenId = objScreen.navigation;
           this.isSavedDb = false;
           this.getBuilderScreen();
-          // const newScreenName = this.screens
-          // if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
-          //   let applicationType = this.applicationData.filter((item: any) => item.name == this.selectApplicationName);
-          //   if (applicationType[0].application_Type == "website") {
-          //     this.requestSubscription = this.builderService.getJsonModules(this.selectApplicationName).subscribe({
-          //       next: (result) => {
-          //         if (result.length > 0) {
-          //           this.dataSharedService.menus = result ? result[0].selectedTheme ? result[0].selectedTheme : {} : {};
-          //           this.dataSharedService.menus.allMenuItems = result[0].menuData
-          //         }
-          //       },
-          //       error: (err) => {
-          //         console.error(err); // Log the error to the console
-          //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-          //       }
-          //     })
-          //   }
-          // }
+          const newScreenName = this.screens
+          debugger
+          if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+            let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+            if (application.application_Type == "website") {
+              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                    this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                  }
+                } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              }));
+            }
+          }
 
           this.screenPage = true;
         }).catch(() => this.navigation = this.previousScreenId)
@@ -3486,6 +3485,11 @@ export class BuilderComponent implements OnInit {
         break;
       case 'header':
         this.selectedNode['headerCollapse'] = event.form?.headerCollapse;
+        this.selectedNode['expandedIconPosition'] = event.form?.expandedIconPosition;
+        this.selectedNode['headingSize'] = event.form?.headingSize;
+        this.selectedNode['backGroundColor'] = event.form?.backGroundColor;
+        this.selectedNode['textColor'] = event.form?.textColor;
+        this.selectedNode['header'] = event.form?.header;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
@@ -3785,6 +3789,30 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = event.form?.className;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.rowClickApi = event.form?.rowClickApi;
+          this.selectedNode['key'] = event.form?.key;
+          this.selectedNode['id'] = event.form?.id;
+          this.selectedNode['tooltip'] = event.form?.tooltip;
+          this.selectedNode['tooltipWithoutIcon'] = event.form?.tooltipWithoutIcon;
+          this.selectedNode['toolTipClass'] = event.form?.toolTipClass;
+          this.selectedNode['tooltipPosition'] = event.form?.tooltipPosition;
+          this.selectedNode['hideExpression'] = event.form?.hideExpression;
+          this.selectedNode['nzFooter'] = event.form?.nzFooter;
+          this.selectedNode['title'] = event.form?.title;
+          this.selectedNode['nzTitle'] = event.form?.nzTitle;
+          this.selectedNode['nzPaginationPosition'] = event.form?.nzPaginationPosition;
+          this.selectedNode['nzPaginationType'] = event.form?.nzPaginationType;
+          this.selectedNode['nzSize'] = event.form?.nzSize;
+          this.selectedNode['filterMultiple'] = event.form?.filterMultiple;
+          this.selectedNode['nzBordered'] = event.form?.nzBordered;
+          this.selectedNode['showColumnHeader'] = event.form?.showColumnHeader;
+          this.selectedNode['noResult'] = event.form?.noResult;
+          this.selectedNode['nzShowSizeChanger'] = event.form?.nzShowSizeChanger;
+          this.selectedNode['nzSimple'] = event.form?.nzSimple;
+          this.selectedNode['showCheckbox'] = event.form?.showCheckbox;
+          this.selectedNode['isAddRow'] = event.form?.isAddRow;
+          this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
+          this.selectedNode['nzLoading'] = event.form?.nzLoading;
+          this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
           this.selectedNode.tableHeaders = event.tableDta
             ? event.tableDta
             : event.form.options;

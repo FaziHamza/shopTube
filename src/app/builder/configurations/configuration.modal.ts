@@ -6468,6 +6468,32 @@ export class formFeildData {
         //   },
         // },
         {
+          key: 'labelAlignment',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label Alignment',
+            options: [
+              {
+                label: 'left',
+                value: 'left'
+              },
+              {
+                label: 'right',
+                value: 'right'
+              },
+
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: true,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           key: 'size',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -6492,6 +6518,16 @@ export class formFeildData {
               showSearch: true,
             },
           },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'switchCheckedColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'checked Color',
+            type: 'color',
+          }
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -10976,25 +11012,24 @@ export class formFeildData {
             },
           },
         },
-        {
-          key: 'api',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Api',
-            options: [
-              { value: 'gridNewApi', label: 'Api' },
-
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: true,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        // {
+        //   key: 'api',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Api',
+        //     options: [
+        //       { value: 'gridNewApi', label: 'Api' },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: true,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
           key: 'sortOrder',
           type: 'select',
@@ -11134,7 +11169,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Is Add New',
+            label: 'Add New / Saved',
           },
           defaultValue: false
         },
@@ -11148,16 +11183,10 @@ export class formFeildData {
           }
         },
         {
-          template: '<div class="bold-label mt-3">Columns</div>',
-        },
-        {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",
           props: {
-            style: "margin-top: 6%;",
-            canAdd: true,
-            canRemove: true
           },
           fieldArray: {
             className: 'ml-3 me-2',
@@ -11850,15 +11879,15 @@ export class formFeildData {
             label: 'Required Message',
           },
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'toolTipClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'ToolTip Class',
-          },
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'toolTipClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'ToolTip Class',
+        //   },
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'tooltipPosition',
@@ -12041,15 +12070,15 @@ export class formFeildData {
         //   defaultValue: 'w-1/2  px-1'
         // },
 
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'toolTipClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'ToolTip Class',
-          },
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'toolTipClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'ToolTip Class',
+        //   },
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'tooltipPosition',

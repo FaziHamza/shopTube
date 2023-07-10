@@ -707,6 +707,21 @@ a.fc-event:hover {
 }
 
 @media screen and (max-width: 789px) {
+  .horizental-fluid {
+    .ant-layout-header {
+      .header-mobile-view {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .horizental-fluid {
+    .ant-layout-header {
+      .header-mobile-view {
+        width: 100% !important;
+      }
+    }
+  }
 
   // .web-view {
   //   display: none !important;
