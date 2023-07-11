@@ -32,7 +32,7 @@ export class SectionsComponent implements OnInit {
   ruleObj: any = {};
   ruleValidation: any = {};
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService
-    ,private applicationServices: ApplicationService,private cd: ChangeDetectorRef) { }
+    , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getJoiValidation();
@@ -51,7 +51,7 @@ export class SectionsComponent implements OnInit {
             });
           }
           this.dataModel = makeModel;
-          if(Object.keys(makeModel).length > 0){
+          if (Object.keys(makeModel).length > 0) {
             for (const key in this.dataModel) {
               if (this.dataModel.hasOwnProperty(key)) {
                 const value = this.getValueFromNestedObject(key, this.formlyModel);
@@ -62,9 +62,9 @@ export class SectionsComponent implements OnInit {
             }
           }
           // this.submit();
-          if(Object.keys(makeModel).length > 0){
+          if (Object.keys(makeModel).length > 0) {
             let obj = {
-             "employeeeuser": this.dataModel
+              "employeeeuser": this.dataModel
             };
             // this.dataModel = obj;
             this.saveData(res)
@@ -74,14 +74,14 @@ export class SectionsComponent implements OnInit {
 
 
 
-          // for (const key in this.dataModel) {
-          //   if (this.dataModel.hasOwnProperty(key)) {
-          //     if (this.formlyModel.hasOwnProperty(key)) {
-          //       this.dataModel[key] = this.formlyModel[key];
-          //     }
-          //   }
-          // }
-          // this.saveData(res);
+        // for (const key in this.dataModel) {
+        //   if (this.dataModel.hasOwnProperty(key)) {
+        //     if (this.formlyModel.hasOwnProperty(key)) {
+        //       this.dataModel[key] = this.formlyModel[key];
+        //     }
+        //   }
+        // }
+        // this.saveData(res);
         // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         // if (checkButtonExist) {
         //   let makeModel: any = {};
@@ -159,7 +159,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    
+
     if (data.isSubmit) {
       // let oneModelData = this.convertModel(this.dataModel);
       // // this.sections.children[1].children
@@ -196,7 +196,7 @@ export class SectionsComponent implements OnInit {
 
       // }
       this.joiValidation();
-      this.saveData1(data);
+      // this.saveData1(data);
     }
   }
   saveData1(data: any) {
@@ -244,23 +244,23 @@ export class SectionsComponent implements OnInit {
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
-      if(Object.keys(empData.modalData).length > 0)
-      this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
-        next: (res) => {
-          if (res[0]?.error)
-            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-          else {
-            this.toastr.success("Save Successfully", { nzDuration: 3000 });
-            this.setInternalValuesEmpty(this.dataModel)
-            // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-            this.getFromQuery();
+      if (Object.keys(empData.modalData).length > 0)
+        this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
+          next: (res) => {
+            if (res[0]?.error)
+              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+            else {
+              this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              this.setInternalValuesEmpty(this.dataModel)
+              // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+              this.getFromQuery();
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+        });
     } else {
       // const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
       if (this.dataModel) {
@@ -270,17 +270,17 @@ export class SectionsComponent implements OnInit {
           postType: 'put',
           modalData: empData.modalData
         };
-        if(Object.keys(empData.modalData).length > 0)
-        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
-          next: (res) => {
-            this.toastr.success("Update Successfully", { nzDuration: 3000 });
-            this.getFromQuery();
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        });
+        if (Object.keys(empData.modalData).length > 0)
+          this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+            next: (res) => {
+              this.toastr.success("Update Successfully", { nzDuration: 3000 });
+              this.getFromQuery();
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          });
       }
     }
 
@@ -317,7 +317,7 @@ export class SectionsComponent implements OnInit {
     return convertedModel;
   }
   getFromQuery() {
-    
+
     let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
@@ -369,7 +369,7 @@ export class SectionsComponent implements OnInit {
     // this.cd.detectChanges();
     // this.joiService.dataModel = this.dataModel;
     // this.joiService.submit();
-    this.dataModel =  this.formlyModel;
+    this.dataModel = this.formlyModel;
     // this.formlyModel = this.dataModel;
     this.joiValidation();
     // if (this.validationCheckStatus.length === 0) {
@@ -388,16 +388,22 @@ export class SectionsComponent implements OnInit {
       for (let j = 0; j < this.sections.children[1].children.length; j++) {
         if (this.sections.children[1].children[j].formlyType != undefined) {
           let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.sections.children[1].children[j].formly[0].fieldGroup[0].key);
-          if (jsonScreenRes.length) {
-            if (jsonScreenRes[0].type == "text") {
+          if (jsonScreenRes.length > 0) {
+            if (jsonScreenRes[0].type === "text") {
+              const { minlength, maxlength } = jsonScreenRes[0];
+              const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
+              const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
-              }
+                [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              };
             }
-            else if (jsonScreenRes[0].type == "number") {
+            else if (jsonScreenRes[0].type === "number") {
+              const { minlength, maxlength } = jsonScreenRes[0];
+              const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
+              const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.number().integer().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
-              }
+                [jsonScreenRes[0].key]: Joi.number().integer().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              };
             }
             else if (jsonScreenRes[0].type == "pattern") {
               this.ruleObj = {
@@ -500,9 +506,9 @@ export class SectionsComponent implements OnInit {
   }
   getJoiValidation() {
     debugger
-    if(this.screenId)
-    this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
-      this.joiValidationData = getRes.data;
-    }))
+    if (this.screenId)
+      this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
+        this.joiValidationData = getRes.data;
+      }))
   }
 }
