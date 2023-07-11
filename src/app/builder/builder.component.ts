@@ -32,6 +32,7 @@ import { AddControlCommonPropertiesComponent } from './add-control-common-proper
 import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -131,8 +132,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-    // this.getScreenBuilder();
-    this.getDepartments();
+    this.loadDepartmentData();
     document
       .getElementsByTagName('body')[0]
       .setAttribute('data-sidebar-size', 'sm');
@@ -150,104 +150,72 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    debugger
-    if (departmentId.length === 1) {
-      this.getApplications(departmentId);
-      this.selectApplicationName = "";
-    } 
-    else if (departmentId.length === 2) {
-      this.selectApplicationName = departmentId[1];
-      this.getScreenBuilder(departmentId);
-    } 
-    else if (departmentId.length === 3){
+    if (departmentId.length === 3){
       this.getScreenData(departmentId[2])
     }
-    // else {
-    //   this.applicationData = []; // Clear the application data when the department is deselected
-    //   this.screens = []; // Clear the screens when the department is deselected
-    // }
   }
-
-  getDepartments() {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.departmentData = res.data.map((data: any) => {
-            return {
-              label: data.name,
-              value: data._id
-            };
-
-          }); else
-          this.toastr.error(`Department : ${res.message}`, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error(`Department : An error occured`, { nzDuration: 3000 });
+  async loadDepartmentData(): Promise<void> {
+    try {
+      const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
+      if (res?.isSuccess) {
+        this.departmentData = res.data?.map((data: any) => {
+          return {
+            label: data.name,
+            value: data._id
+          };
+        });
+      } else {
+        this.toastr.error(`Department:`, { nzDuration: 3000 });
       }
-    });
-  };
-
-  getApplications(departmentId: any) {
-    debugger
-    this.selectApplicationName = "";
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', departmentId[0]).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.applicationData = res.data.map((appData: any) => {
-            
-            return {
-              label: appData.name,
-              value: appData._id,
-            };
-          });
-          const department = this.departmentData.find((dept: any) => dept.value === departmentId[0]);
-          if (department) {
-            department['children'] = this.applicationData;
-            console.log(department['children']);
-            //   this.applicationData.forEach((application: any) => {
-            //     // this.getScreenBuilder(application.value);
-            // })
-          }
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        console.error(`Application : An error occured`); // Log the error to the console
-        this.toastr.error(`Application : An error occured`, { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
+    } catch (err) {
+      console.error('Department: An error occurred');
+      this.toastr.error('Department: An error occurred', { nzDuration: 3000 });
+    }
   }
-
-  getScreenBuilder(applicationId: string) {
-    debugger
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId[1]).subscribe({
-      next: (res: any) => {
+  async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    if (index == 1) {
+      // Root node - Load application data
+      try {
+        this.selectApplicationName = node.value;
+        const res = await this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', node.value).toPromise();
         if (res.isSuccess) {
           this.screens = res.data;
-          const screenData = res.data.map((mapData: any) => {
+          const screens = res.data.map((screenData: any) => {
             return {
-              label: mapData.name,
-              value: mapData._id,
+              label: screenData.name,
+              value: screenData._id,
               isLeaf: true
             };
           });
-
-          const department = this.departmentData.find((dept: any) => dept.value === applicationId[0]);
-          let applicationChildren = department.children.find((app: any) => app.value === applicationId[1])
-          if (applicationChildren) {
-            applicationChildren['children'] = screenData;
-            // console.log(applicationChildren['children'])
-          }
+          node.children = screens;
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
         }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      } catch (err) {
+        this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
       }
-    });
+    } else if (index === 0) {
+      try {
+        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        if (res.isSuccess) {
+          this.selectApplicationName = "";
+          this.applicationData = res.data;
+          const applications = res.data.map((appData: any) => {
+            return {
+              label: appData.name,
+              value: appData._id,
+              isLeaf: false
+            };
+          });
+          node.children = applications;
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+      } catch (err) {
+        console.error('Error loading screen data:', err);
+        this.toastr.error('An error occurred while loading screen data', { nzDuration: 3000 });
+      }
+    }
   }
 
   LayerShow() {
@@ -449,10 +417,10 @@ export class BuilderComponent implements OnInit {
           }
 
         })
-        .catch(() => this.navigation = this.previousScreenId)
+        .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
       nzOnCancel: () => {
-        this.navigation = this.previousScreenId;
+        this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation;
         console.log('User clicked Cancel');
       }
     });
@@ -3746,7 +3714,66 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-      case 'inputValidationRule':
+        case 'inputValidationRule':
+          debugger
+          if (this.selectedNode) {
+            const selectedScreen = this.screens.filter(
+              (a: any) => a.name == this.screenName
+            );
+            const jsonRuleValidation = {
+              "screenName": this.screenName,
+              "screenBuilderId": this._id,
+              "id": this.selectedNode.id,
+              "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+              "type": event.form.type,
+              "label": event.form.label,
+              "reference": event.form.reference,
+              "minlength": event.form.minlength,
+              "maxlength": event.form.maxlength,
+              "pattern": event.form.pattern,
+              "required": event.form.required,
+              "emailTypeAllow": event.form.emailTypeAllow,
+            }
+            var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+            const validationRuleModel = {
+              "ValidationRule": JOIData
+            }
+            // const checkAndProcess = this.validationRuleId == ''
+            //   ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+            //   : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+            this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  this.getJoiValidation(this._id);
+                  this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+                }
+                else
+                  this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+              },
+              error: (err) => {
+                this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
+              }
+            });
+            // if (selectedScreen.length > 0) {
+            //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
+            //     getRes;
+            //     if (getRes.length > 0) {
+            //       this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
+            //         this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+            //           alert("Data Save");
+            //         }))
+            //       }))
+            //     }
+            //     else {
+            //       this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+            //         alert("Data Save");
+            //       }))
+            //     }
+            //   }));
+            // }
+          }
+          break;
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter(
             (a: any) => a.name == this.screenName
