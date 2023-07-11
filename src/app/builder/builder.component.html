@@ -2,24 +2,15 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="flex sub-header">
     <div class="w-1/12 mt-1 ml-1">
-      <label class="pr-2 pt-2">Departments</label>
     </div>
     <!-- <small>{{selectDepartmentName}}</small> -->
     <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectDepartmentName"
-        (ngModelChange)="getApplications(selectDepartmentName)" placeholder="Select Departments">
-        <nz-option [nzValue]="item._id" [nzLabel]="item.name" *ngFor="let item of departmentData"></nz-option>
-      </nz-select>
+
     </div>
     <div class="w-1/12 mt-1 ml-1">
-      <label class="pr-2 pt-2">Applications</label>
     </div>
     <!-- <small>{{selectApplicationName}}</small> -->
     <div class="w-1/6">
-      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectApplicationName"
-        (ngModelChange)="getScreenBuilder(selectApplicationName)" placeholder="Select Applications">
-        <nz-option [nzValue]="item._id" [nzLabel]="item.name" *ngFor="let item of applicationData"></nz-option>
-      </nz-select>
     </div>
     <!-- <div class="w-1/4 text-right">
       <input type="color" (input)="setCustomColor($event)">
@@ -84,7 +75,7 @@
           <nz-option [nzValue]="item._id" [nzLabel]="item.name"
             *ngFor="let item of screens"></nz-option>
         </nz-select> -->
-        
+
         <!-- {{departmentData | json}} -->
 
         <!-- <hr/>
@@ -92,18 +83,20 @@
         applicationData
         {{applicationData |json}} -->
 
-        
+
         <nz-cascader
-        nzChangeOnSelect
-        [nzAllowClear]="true"
-        style="padding-left: 4px; width: 100%"
-        [(ngModel)]="selectDepartmentName"
-        [nzOptions]="departmentData"
-        (ngModelChange)="onDepartmentChange($event)"
-        [nzExpandTrigger]="'hover'"
-        placeholder="Select Screen"
-      ></nz-cascader>
-      
+          nzChangeOnSelect
+          [nzAllowClear]="true"
+          style="padding-left: 4px; width: 100%"
+          [(ngModel)]="selectDepartmentName"
+          [nzOptions]="departmentData"
+          (ngModelChange)="onDepartmentChange($event)"
+          [nzLoadData]="loadData.bind(this)"
+          placeholder="Select Screen"
+        >
+      </nz-cascader>
+
+
 
       </div>
       <div class="w-1/6 jsonEdiotTab ml-1">

@@ -13,8 +13,8 @@ export class ApplicationService {
     protected finalUrl = "";
     constructor(public http: HttpClient , public envService :EnvService) { }
 
-    getNestCommonAPI(api: string): Observable<any[]> {
-        return this.http.get<any[]>(
+    getNestCommonAPI(api: string): Observable<any> {
+        return this.http.get<any>(
             this.nestUrl + api
         );
     }
@@ -33,7 +33,7 @@ export class ApplicationService {
         return this.http.get<any[]>(
             `${this.envService.nestBaseUrl}${api}/${id}`
         );
-    } 
+    }
     // getNestCommonAPIByCustomQuery(api: string, customQuery:string): Observable<any[]> {
     //     return this.http.get<any[]>(
     //         this.nestUrl + api + customQuery
