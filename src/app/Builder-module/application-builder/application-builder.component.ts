@@ -455,7 +455,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-
+    debugger
     if (!this.myForm.valid) {
       this.handleCancel();
       return;

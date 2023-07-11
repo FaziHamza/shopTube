@@ -7,11 +7,10 @@
     'compact-sidebar': selectedTheme.sideBarSize == 'compact' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ,
     'compact-sidebar-right': selectedTheme.sideBarSize == 'compact_right' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
     'compact-sidebar-left': selectedTheme.sideBarSize == 'compact_left' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
-    'horizontal-sidebar': selectedTheme.layout == 'horizontal',
+    'horizontal-sidebar': selectedTheme.layout == 'horizental',
     'vertical-sidebar': selectedTheme.layout == 'vertical'
   }">
   <div>
-    <!-- <div *ngIf="selectedTheme.menuMode == 'horizontal'" class="w-1/12"></div> -->
     <div
       [ngClass]="{
         'menu-bg-image':selectedTheme.siderBarImages
@@ -42,7 +41,7 @@
                 [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
                       ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])"></st-icon>
             </span>
-            <span class="sidenav-title" [class]="!selectedTheme?.font"
+            <span class="sidenav-title" [class]="selectedTheme?.font"
               [style.font-size.px]="selectedTheme['titleSize'] || 10"
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
               {{ item.title | translate }}

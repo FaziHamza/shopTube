@@ -153,16 +153,19 @@ export class BuilderComponent implements OnInit {
     debugger
     if (departmentId.length === 1) {
       this.getApplications(departmentId);
-    } else if (departmentId.length === 2) {
+      this.selectApplicationName = "";
+    } 
+    else if (departmentId.length === 2) {
+      this.selectApplicationName = departmentId[1];
       this.getScreenBuilder(departmentId);
-    } else if (departmentId.length === 3){
+    } 
+    else if (departmentId.length === 3){
       this.getScreenData(departmentId[2])
     }
-    else {
-      this.selectApplicationName = "";
-      this.applicationData = []; // Clear the application data when the department is deselected
-      this.screens = []; // Clear the screens when the department is deselected
-    }
+    // else {
+    //   this.applicationData = []; // Clear the application data when the department is deselected
+    //   this.screens = []; // Clear the screens when the department is deselected
+    // }
   }
 
   getDepartments() {
@@ -221,8 +224,8 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', applicationId[1]).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
+          this.screens = res.data;
           const screenData = res.data.map((mapData: any) => {
-            this.screens = res.data;
             return {
               label: mapData.name,
               value: mapData._id,
@@ -234,7 +237,7 @@ export class BuilderComponent implements OnInit {
           let applicationChildren = department.children.find((app: any) => app.value === applicationId[1])
           if (applicationChildren) {
             applicationChildren['children'] = screenData;
-            console.log(applicationChildren['children'])
+            // console.log(applicationChildren['children'])
           }
         }
         else
@@ -327,11 +330,12 @@ export class BuilderComponent implements OnInit {
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
-        "screenName": this.screenName,
+        // "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
         "applicationId": this.selectApplicationName,
       };
+      data.navigation = this.navigation;
       const builderModel = {
         "Builder": data
       }
@@ -420,17 +424,16 @@ export class BuilderComponent implements OnInit {
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
+          debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
           this._id = objScreen._id;
           this.screenName = objScreen.name;
-          this.previousScreenId = objScreen.navigation;
           this.isSavedDb = false;
           this.getBuilderScreen();
-          const newScreenName = this.screens
-          debugger
-          if (newScreenName[0].name.includes('_header') && this.selectApplicationName) {
+          this.screenPage = true;
+          if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             if (application.application_Type == "website") {
               this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
@@ -445,8 +448,8 @@ export class BuilderComponent implements OnInit {
             }
           }
 
-          this.screenPage = true;
-        }).catch(() => this.navigation = this.previousScreenId)
+        })
+        .catch(() => this.navigation = this.previousScreenId)
       },
       nzOnCancel: () => {
         this.navigation = this.previousScreenId;
@@ -4823,13 +4826,13 @@ export class BuilderComponent implements OnInit {
             }) || '{}'
           );
 
-          var data =
-          {
-            "screenName": makeData.screenName,
-            "screenData": currentData,
-            "navigation": makeData.navigation,
-          };
-          this.navigation = makeData.navigation;
+          // var data =
+          // {
+          //   "screenName": makeData.screenName,
+          //   "screenData": currentData,
+          //   "navigation": makeData.navigation,
+          // };
+          // this.navigation = makeData.navigation;
           this.nodes = makeData.screenData;
           // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
           //   if (res.length > 0) {
@@ -5615,6 +5618,7 @@ export class BuilderComponent implements OnInit {
     })
   }
   checkPage() {
+    debugger
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {

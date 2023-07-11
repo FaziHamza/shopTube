@@ -2864,3 +2864,20 @@ object {
     height: calc(100vh - 75px) !important;
   }
 }
+
+.horizental-fluid {
+  .ant-layout-header {
+    .dynamic-header-row {
+      background-color: #001529 !important;
+      color: rgba(255,255,255,.65) !important;
+    }
+  }
+}
+.horizental-boxed {
+  .ant-layout-header {
+    .dynamic-header-row {
+      background-color: #001529 !important;
+      color: rgba(255,255,255,.65) !important;
+    }
+  }
+}

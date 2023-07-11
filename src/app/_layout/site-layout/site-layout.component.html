@@ -9,75 +9,96 @@
       <div class="flex flex-wrap">
         <div class="layout-topbar-icon" [ngClass]='selectedTheme.topHeaderMenu'>
           <img
-            *ngIf="!selectedTheme.isCollapsed && logo && (selectedTheme['buttonPosition'] == 'right' || !selectedTheme['buttonPosition']) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
-            class="logo" [src]="logo">
-          <img
+            *ngIf="!selectedTheme.isCollapsed && (selectedTheme['buttonPosition'] == 'right' || !selectedTheme['buttonPosition']) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo-sm" [src]="logo ? logo : 'assets/images/Daco_4764006.png'">
+          <!-- <img
             *ngIf="!selectedTheme.isCollapsed && !logo && (selectedTheme['buttonPosition'] == 'right' || !selectedTheme['buttonPosition']) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
-            class="logo-sm" src="assets/images/Daco_4764006.png">
-          <button [style.background]="selectedTheme['buttonColor']" [class]="selectedTheme['buttonClass']"
+            class="logo-sm" src="assets/images/Daco_4764006.png"> -->
+          <button [style.background]="selectedTheme['buttonColor']"
+            [class]="selectedTheme['buttonClass']"
             [style.border-color]="selectedTheme['buttonColor']"
             *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed && (selectedTheme['showButton'] == undefined || selectedTheme['showButton'])"
-            nz-button class="desktop-toggle {{selectedTheme['buttonClass']}}" (click)="collapsed()" nzType="primary">
-            <st-icon [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
-              [color]="selectedTheme['buttonIconColor']" [size]="selectedTheme['buttonIconSize'] || 15"
+            nz-button class="desktop-toggle {{selectedTheme['buttonClass']}}"
+            (click)="collapsed()" nzType="primary">
+            <st-icon
+              [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+              [color]="selectedTheme['buttonIconColor']"
+              [size]="selectedTheme['buttonIconSize'] || 15"
               [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
           </button>
           <img
-            *ngIf="!selectedTheme.isCollapsed && logo && (selectedTheme['buttonPosition'] == 'left' ) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
-            class="logo" [src]="logo">
-          <img
+            *ngIf="!selectedTheme.isCollapsed && (selectedTheme['buttonPosition'] == 'left' ) && (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
+            class="logo-sm" [src]="logo ? logo : 'assets/images/Daco_4764006.png'">
+          <!-- <img
             *ngIf="!selectedTheme.isCollapsed && !logo && (selectedTheme['buttonPosition'] == 'left')&& (selectedTheme['showLogo'] == undefined || selectedTheme['showLogo'])"
-            class="logo-sm" src="assets/images/Daco_4764006.png">
+            class="logo-sm" src="assets/images/Daco_4764006.png"> -->
         </div>
-        <div class="layout-topbar-menu" [ngClass]="selectedTheme.topHeader" [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
+        <div class="layout-topbar-menu" [ngClass]="selectedTheme.topHeader"
+          [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
           || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
-          *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'" nz-menu
+          
+          nz-menu
           [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
           <div class="dynamic-header-row">
             <div class="dynamic-header-btns"
               *ngIf="selectedTheme['showButton'] == undefined || selectedTheme['showButton']">
-              <button (click)="mobileViewCollapseInHostCom()" [style.background]="selectedTheme['buttonColor']"
-                *ngIf="selectedTheme?.sideBarSize != 'smallHoverView' " nz-button class="mobile-toggle mr-4 ml-4"
+              <button (click)="mobileViewCollapseInHostCom()"
+                [style.background]="selectedTheme['buttonColor']"
+                nz-button class="mobile-toggle mr-4 ml-4"
                 [class]="selectedTheme['buttonClass'] || ''" nzType="primary">
-                <st-icon [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
-                  [color]="selectedTheme['buttonIconColor']" [size]="selectedTheme['buttonIconSize'] || 15"
+                <st-icon
+                  [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+                  [color]="selectedTheme['buttonIconColor']"
+                  [size]="selectedTheme['buttonIconSize'] || 15"
                   [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
               </button>
               <button [style.background]="selectedTheme['buttonColor']"
                 *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
-                nz-button class="mr-4 ml-4 desktop-toggle" [class]="selectedTheme['buttonClass'] || ''" nzType="primary"
+                nz-button class="mr-4 ml-4 desktop-toggle"
+                [class]="selectedTheme['buttonClass'] || ''" nzType="primary"
                 (click)="collapsed()">
-                <st-icon [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
-                  [color]="selectedTheme['buttonIconColor']" [size]="selectedTheme['buttonIconSize'] || 15"
+                <st-icon
+                  [icon]="selectedTheme['buttonIcon'] ? selectedTheme['buttonIcon'] : 'fa-regular fa-bars'"
+                  [color]="selectedTheme['buttonIconColor']"
+                  [size]="selectedTheme['buttonIconSize'] || 15"
                   [type]="selectedTheme['buttonIconType'] ? selectedTheme['buttonIconType'] : 'font_awsome'"></st-icon>
               </button>
             </div>
             <div class="dynamic-header" *ngIf="currentHeader">
-              <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
+              <st-pages [resData]="currentHeader"
+                *ngIf="currentHeader.length  > 0"></st-pages>
             </div>
-            <st-menu class="dynamic-header" *ngIf="!currentHeader" (notify)="notifyEmit($event)"
+            <st-menu class="dynamic-header" *ngIf="!currentHeader"
+              (notify)="notifyEmit($event)"
               [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
           </div>
         </div>
-        <div [ngClass]="selectedTheme.topHeader + ' ' + 'header-mobile-view'"
+        <!-- <div [ngClass]="selectedTheme.topHeader + ' ' + 'header-mobile-view'"
           *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
           <st-menu *ngIf="!currentHeader" (notify)="notifyEmit($event)"
-            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
+            [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>sad
           <div *ngIf="currentHeader && !currentUrl.includes('localhost')">
-            <st-pages [resData]="currentHeader" *ngIf="currentHeader.length  > 0"></st-pages>
+            <st-pages [resData]="currentHeader"
+              *ngIf="currentHeader.length  > 0"></st-pages>
           </div>
-        </div>
+        </div> -->
       </div>
     </nz-header>
-    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout" [dir]="this.selectedTheme.layout">
+    <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
+      [dir]="this.selectedTheme.layout">
       <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
-        'side-menu-rtl': selectedTheme.layout == 'rtl'}" [class]="selectedTheme.menuColumn + ' desktop-toggle'">
-        <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
+        'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+        [class]="selectedTheme.menuColumn + ' desktop-toggle'">
+        <st-app-side-menu [selectedTheme]="selectedTheme"
+          [menuItems]="menuItems"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </div>
-      <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
-        [class]="selectedTheme.menuColumn + ' mobile-toggle'" *ngIf="selectedTheme.showMenu">
-        <st-app-side-menu [selectedTheme]="selectedTheme" (notify)="loadTabsAndButtons($event)"
+      <div
+        [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
+        [class]="selectedTheme.menuColumn + ' mobile-toggle'"
+        *ngIf="selectedTheme.showMenu">
+        <st-app-side-menu [selectedTheme]="selectedTheme"
+          (notify)="loadTabsAndButtons($event)"
           [menuItems]="menuItems"></st-app-side-menu>
       </div>
 
@@ -85,20 +106,25 @@
         class="content-body block p-3 bg-white border border-gray-200  shadow  dark:bg-gray-800 ">
         <ng-container *ngIf="tabs.length">
           <ng-container *ngFor="let item of tabs">
-            <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
+            <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"
+              [layoutTabsDropdownData]="item"
               [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
           </ng-container>
         </ng-container>
         <div class="flex flex-wrap p-4" *ngIf="modules.length > 0">
-          <div (click)="callMenus(modChild)" class="w-1/6 p-4 my-2 text-center" (mouseover)="modChild.select =  true"
-            (mouseout)="modChild.select = false" [ngClass]="{'select': modChild.select == true}"
+          <div (click)="callMenus(modChild)" class="w-1/6 p-4 my-2 text-center"
+            (mouseover)="modChild.select =  true"
+            (mouseout)="modChild.select = false"
+            [ngClass]="{'select': modChild.select == true}"
             *ngFor="let modChild of modules">
             <div class="image mb-2">
-              <img *ngIf="modChild.image" class="rounded-full" [src]="modChild.image" alt="image description"
+              <img *ngIf="modChild.image" class="rounded-full"
+                [src]="modChild.image" alt="image description"
                 style="height: 100px; width: 100px;">
             </div>
             <div class="mb-2">
-              <span *ngIf="!modChild.image" nz-icon style="font-size: 50px" nzType="check-circle"
+              <span *ngIf="!modChild.image" nz-icon style="font-size: 50px"
+                nzType="check-circle"
                 nzTheme="outline"></span>
             </div>
             <label>{{modChild.name}}</label>
@@ -106,24 +132,21 @@
         </div>
         <div dir="ltr" class="dynamic-body">
           <router-outlet></router-outlet>
-          <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
+          <div
+            [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
             *ngIf="currentFooter && !currentUrl.includes('localhost')">
-            <st-pages [resData]="currentFooter" *ngIf="currentFooter.length  > 0"></st-pages>
+            <st-pages [resData]="currentFooter"
+              *ngIf="currentFooter.length  > 0"></st-pages>
           </div>
         </div>
       </div>
-      <div *ngIf="currentUrl.includes('localhost')">
-        <!-- <nz-footer class="bg-white-500 text-black-500"
-        *ngIf="dataSharedService.footerData.length == 0">ShopoTube</nz-footer> -->
-        <!-- <nz-footer class="bg-white-500 text-black-500"
-        *ngIf="dataSharedService.footerData.length">
-        <st-main [mainData]="dataSharedService.footerData"></st-main>
-      </nz-footer> -->
-      </div>
+      <!-- <div *ngIf="currentUrl.includes('localhost')">
+        <nz-footer class="bg-white-500 text-black-500">ShopoTube</nz-footer>
+      </div> -->
     </div>
   </nz-layout>
-
 </div>
 <!-- <button nz-button nzType="primary" routerLink="/pages/Screen">Button</button> -->
-<st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'  && currentWebsiteLayout"
+<st-layout1
+  *ngIf="currentWebsiteLayout != 'backend_application'  && currentWebsiteLayout"
   [layout]="currentWebsiteLayout"></st-layout1>

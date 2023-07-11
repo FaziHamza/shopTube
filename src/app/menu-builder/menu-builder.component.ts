@@ -1345,7 +1345,7 @@ export class MenuBuilderComponent implements OnInit {
         }
         else if (layoutType == 'horizental') {
           this.selectedTheme.siderBarImages = '';
-          this.selectedTheme.isCollapsed = false;
+          // this.selectedTheme.isCollapsed = false;
           this.selectedTheme.layout = layoutType;
           this.horizentalLayout();
           if (!this.selectedTheme.layoutWidth) {
@@ -1478,7 +1478,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   horizentalLayout() {
-    this.selectedTheme.isCollapsed = false;
+    // this.selectedTheme.isCollapsed = false;
     this.selectedTheme.topHeaderMenu = 'w-1/6';
     this.selectedTheme.topHeader = 'w-10/12';
     this.selectedTheme.horizontalRow = '';

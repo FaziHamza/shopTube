@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit {
   isPageContextShow = false;
   form: any = new FormGroup({});
   ngOnInit(): void {
-
+    
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 
@@ -161,7 +161,6 @@ export class PagesComponent implements OnInit {
     });
   }
   saveData(data: any) {
-    debugger
     if (data.isSubmit) {
       // let oneModelData = this.convertModel(this.dataModel);
       // // this.sections.children[1].children
@@ -207,7 +206,7 @@ export class PagesComponent implements OnInit {
     this.dataModel =  this.formlyModel;
   }
   saveData1(data: any) {
-    debugger
+    
     this.dataModel =  this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;
@@ -306,7 +305,7 @@ export class PagesComponent implements OnInit {
     // }
   }
   getFromQuery() {
-    debugger
+    
     let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {

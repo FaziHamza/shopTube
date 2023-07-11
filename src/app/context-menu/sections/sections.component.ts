@@ -159,7 +159,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    debugger
+    
     if (data.isSubmit) {
       // let oneModelData = this.convertModel(this.dataModel);
       // // this.sections.children[1].children
@@ -195,6 +195,7 @@ export class SectionsComponent implements OnInit {
       //   }
 
       // }
+      this.joiValidation();
       this.saveData1(data);
     }
   }
@@ -316,7 +317,7 @@ export class SectionsComponent implements OnInit {
     return convertedModel;
   }
   getFromQuery() {
-    debugger
+    
     let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
@@ -381,7 +382,7 @@ export class SectionsComponent implements OnInit {
     // }
   }
   joiValidation() {
-
+    debugger
     let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.sections.children[1].children.length; j++) {
@@ -389,19 +390,10 @@ export class SectionsComponent implements OnInit {
           let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.sections.children[1].children[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length) {
             if (jsonScreenRes[0].type == "text") {
-              const joiString = Joi.string()
-                .min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0)
-                .max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0);
-
-              if (jsonScreenRes[0].required) {
-                joiString.required();
-              }
-
               this.ruleObj = {
-                [jsonScreenRes[0].key]: joiString,
-              };
+                [jsonScreenRes[0].key]: Joi.string().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
+              }
             }
-
             else if (jsonScreenRes[0].type == "number") {
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.number().integer().min(typeof jsonScreenRes[0].minlength !== 'undefined' ? jsonScreenRes[0].minlength : 0).max(typeof jsonScreenRes[0].maxlength !== 'undefined' ? jsonScreenRes[0].maxlength : 0),
@@ -507,9 +499,10 @@ export class SectionsComponent implements OnInit {
     return null;
   }
   getJoiValidation() {
+    debugger
     if(this.screenId)
-    this.applicationServices.getNestCommonAPIById('validation-rule/screen', this.screenId).subscribe((getRes => {
-      this.joiValidationData = getRes;
+    this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
+      this.joiValidationData = getRes.data;
     }))
   }
 }
