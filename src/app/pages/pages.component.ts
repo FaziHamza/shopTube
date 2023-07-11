@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit {
   isPageContextShow = false;
   form: any = new FormGroup({});
   ngOnInit(): void {
-    
+
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 
@@ -61,7 +61,7 @@ export class PagesComponent implements OnInit {
         // this.dataModel = makeModel;
         this.dataModel = this.formlyModel;
         // this.submit();
-        if(Object.keys(makeModel).length > 0)
+        if (Object.keys(makeModel).length > 0)
           this.saveData(res)
       },
       error: (err) => {
@@ -112,7 +112,7 @@ export class PagesComponent implements OnInit {
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
-        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res:any) => {
+        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res: any) => {
           if (res.isSuccess) {
 
             // let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
@@ -126,8 +126,8 @@ export class PagesComponent implements OnInit {
             if (res.isSuccess) {
               if (res.data.length > 0) {
                 this.screenId = res.data[0].screenBuilderId;
-                this.getUIRuleData(res.data[0].screenBuilderId);
                 this.getBusinessRule(res.data[0].screenBuilderId);
+                this.getUIRuleData(res.data[0].screenBuilderId);
                 const data = JSON.parse(res.data[0].screenData);
                 this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
                 this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -203,11 +203,11 @@ export class PagesComponent implements OnInit {
     }
   }
   submit() {
-    this.dataModel =  this.formlyModel;
+    this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-    
-    this.dataModel =  this.formlyModel;
+
+    this.dataModel = this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;
     // var nestedObject = {};
@@ -305,11 +305,11 @@ export class PagesComponent implements OnInit {
     // }
   }
   getFromQuery() {
-    
+
     let tableData = this.resData[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
     this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
       next: (res) => {
-          if (tableData.length > 0 && res) {
+        if (tableData.length > 0 && res) {
           // tableData[0]['api'] = data.dataTable;
           let saveForm = JSON.parse(JSON.stringify(res[0]));
           // saveForm["id"] = '';
@@ -431,6 +431,7 @@ export class PagesComponent implements OnInit {
     // this.cdr.detach();
   }
   getUIRule(model: any, currentValue: any) {
+    debugger
     try {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children[0].children[1].children;
@@ -488,18 +489,22 @@ export class PagesComponent implements OnInit {
             }
           }
         }
-      } else {
+      }
+      else {
         this.updateFormlyModel();
       }
     } catch (error) {
       console.log(error)
-    } finally {
+    }
+    finally {
       if (this.screenName) {
-        const fishRhyme = ruleFactory(this.businessRuleData);
-        // console.log(fishRhyme(this.formlyModel));
-        this.updateFormlyModel()
-        // this.cdr.detectChanges();
-        // this.cdr.detach();
+        if (this.businessRuleData) {
+          const fishRhyme = ruleFactory(this.businessRuleData);
+          console.log(fishRhyme(this.formlyModel));
+          this.updateFormlyModel()
+          this.cdr.detectChanges();
+          // this.cdr.detach();
+        }
       }
       this.getSetVariableRule(model, currentValue);
 
@@ -510,9 +515,10 @@ export class PagesComponent implements OnInit {
     const filteredNodes = this.filterInputElements(this.resData);
     filteredNodes.forEach(node => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.props?.config;
-      if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
-        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
-      }
+      if (formlyConfig?.setVariable)
+        if (formlyConfig?.setVariable === model?.props?.config?.getVariable) {
+          this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] = value;
+        }
     });
   }
   filterInputElements(data: ElementData[]): any[] {
@@ -543,8 +549,8 @@ export class PagesComponent implements OnInit {
           if (getRes.isSuccess) {
             if (getRes.data.length > 0) {
               this.businessRuleData = [];
-              if(getRes.data[0].buisnessRule)
-                this.businessRuleData = JSON.parse(getRes.data[0].buisnessRule)
+              if (getRes.data[0].businessRule)
+                this.businessRuleData = JSON.parse(getRes.data[0].businessRule)
             }
           } else
             this.toastr.error(getRes.message, { nzDuration: 3000 });
@@ -690,7 +696,7 @@ export class PagesComponent implements OnInit {
           } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
             inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
           }
-        } else if (inputType[l].type == "alert" || inputType[l].type == "header" || inputType[l].type == "paragraph" ||
+        } else if (inputType[l].type == "alert" || inputType[l].type == "heading" || inputType[l].type == "paragraph" ||
           inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
           inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||
           inputType[l].type == "treeSelect" || inputType[l].type == "switch" || inputType[l].type == "avatar" ||

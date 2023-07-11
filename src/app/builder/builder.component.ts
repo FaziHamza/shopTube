@@ -1886,9 +1886,10 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options, data.type),
                       keyup: (model: any) => {
+                        debugger
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
-                        // this.checkConditionUIRule(model, currentVal);
+                        this.checkConditionUIRule(model, currentVal);
                       },
                     },
                   },

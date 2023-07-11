@@ -36,6 +36,7 @@ export class UIRuleComponent implements OnInit {
     this.uiRule();
   }
   changeIf() {
+    debugger
     // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
     this.targetList = [];
     var objTargetList = { key: '', value: '' };
@@ -56,7 +57,7 @@ export class UIRuleComponent implements OnInit {
         objTargetList.value = inputType.title ? (inputType.title).toString() : '';
         this.targetList.push(objTargetList);
       }
-      else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
+      else if (inputType.type == "alert" || inputType.type == "heading" || inputType.type == "paragraph" ||
         inputType.type == "tag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
         inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
         inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
@@ -137,7 +138,7 @@ export class UIRuleComponent implements OnInit {
     return this.formBuilder.group({
       ifMenuName: '',
       inputType: '',
-      condationList: [''],
+      condationList: [this.conditioList('')],
       condationName: '',
       targetValue: '',
       targetName: '',
@@ -163,7 +164,7 @@ export class UIRuleComponent implements OnInit {
     return this.formBuilder.group({
       ifMenuName: '',
       inputType: '',
-      condationList: [''],
+      condationList: [this.conditioList('')],
       condationName: '',
       targetValue: '',
       conditonType: 'AND',
@@ -194,6 +195,7 @@ export class UIRuleComponent implements OnInit {
       .get('targetCondition') as FormArray;
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
+    debugger
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       var inputType = this.nodes[0].children[1].children[0].children[1].children[j]
       if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
@@ -224,7 +226,7 @@ export class UIRuleComponent implements OnInit {
             inputOldJsonData: inputType.formly[0].fieldGroup[0]
           });
         }
-      } else if (inputType.type == "alert" || inputType.type == "header" || inputType.type == "paragraph" ||
+      } else if (inputType.type == "alert" || inputType.type == "heading" || inputType.type == "paragraph" ||
         inputType.type == "tag" || inputType.type == "card" || inputType.type == "simpleCardWithHeaderBodyFooter" ||
         inputType.type == "cascader" || inputType.type == "mentions" || inputType.type == "transfer" ||
         inputType.type == "treeSelect" || inputType.type == "switch" || inputType.type == "avatar" ||
@@ -385,13 +387,11 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuName = [];
     this.ifMenuList = [];
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
         if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
           this.nodes[0].children[1].children[0].children[1].children[j]['key'] = this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0].key
           this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
         } else
           this.ifMenuList.push(this.nodes[0].children[1].children[0].children[1].children[j]);
-      }
     }
     this.ifMenuName = this.ifMenuList;
     this.changeIf();
@@ -440,7 +440,7 @@ export class UIRuleComponent implements OnInit {
   getConditionListOnLoad(menuName: string) {
 
     let nodeList: any;
-    nodeList = this.findElementNode(this.nodes, menuName);
+    nodeList = this.findObjectByKey(this.nodes[0], menuName);
     if (nodeList) {
 
       let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
@@ -471,6 +471,24 @@ export class UIRuleComponent implements OnInit {
       ]
     }
     return this.condationList;
+  }
+  findObjectByKey(data: any, key: any) {
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
   }
   findElementNode(data: any, key: any) {
     if (data?.key === key) {

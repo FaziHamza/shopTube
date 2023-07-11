@@ -382,7 +382,6 @@ export class SectionsComponent implements OnInit {
     // }
   }
   joiValidation() {
-    debugger
     let jsonScreenRes: any = [];
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < this.sections.children[1].children.length; j++) {
@@ -505,7 +504,7 @@ export class SectionsComponent implements OnInit {
     return null;
   }
   getJoiValidation() {
-    debugger
+    
     if (this.screenId)
       this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
         this.joiValidationData = getRes.data;
