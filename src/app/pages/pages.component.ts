@@ -498,9 +498,15 @@ export class PagesComponent implements OnInit {
     }
     finally {
       if (this.screenName) {
+        debugger
         if (this.businessRuleData) {
           const fishRhyme = ruleFactory(this.businessRuleData);
-          const updatedModel = fishRhyme(this.formlyModel);
+          const updatedModel = fishRhyme({
+            "name": 10,   // Parse as number
+            "fname": "",
+            "lname": 15,  // Parse as number
+            "email": ""
+        });
           this.updateFormlyModel();
 
           // if(updatedModel){
