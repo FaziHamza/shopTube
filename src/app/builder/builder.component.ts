@@ -150,7 +150,7 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    if (departmentId.length === 3){
+    if (departmentId.length === 3) {
       this.getScreenData(departmentId[2])
     }
   }
@@ -417,7 +417,7 @@ export class BuilderComponent implements OnInit {
           }
 
         })
-        .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
+          .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
       nzOnCancel: () => {
         this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation;
@@ -3069,6 +3069,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   changeIdAndkey(node: any) {
+    debugger
     if (node.id) {
       let changeId = node.id.split('_');
       if (changeId.length == 2) {
@@ -3079,13 +3080,18 @@ export class BuilderComponent implements OnInit {
     }
     if (node.formly) {
       if (node.formly[0].key) {
-        node.formly[0].key = node.formly[0].key + Guid.newGuid();
-      } else if (node.formly[0].fieldGroup[0].key) {
-        node.formly[0].fieldGroup[0].key =
-          node.formly[0].fieldGroup[0].key + Guid.newGuid();
+        node.formly[0].key = node.formly[0].key.split('_')[0] + '_' + Guid.newGuid();
       }
-    } else if (node.key) {
-      node.key = node.key + Guid.newGuid();
+      else if (node.formly[0].fieldGroup[0].key) {
+        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key.split('_')[0] + '_' + Guid.newGuid();
+      }
+    }
+    else if (node.key) {
+      if (node.key.includes('_')) {
+        node.key = node.key.split('_')[0] + '_' + Guid.newGuid();
+      } else {
+        node.key = node.key;
+      }
     }
     return node;
   }
@@ -3715,66 +3721,66 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-        case 'inputValidationRule':
-          debugger
-          if (this.selectedNode) {
-            const selectedScreen = this.screens.filter(
-              (a: any) => a.name == this.screenName
-            );
-            const jsonRuleValidation = {
-              "screenName": this.screenName,
-              "screenBuilderId": this._id,
-              "id": this.selectedNode.id,
-              "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-              "type": event.form.type,
-              "label": event.form.label,
-              "reference": event.form.reference,
-              "minlength": event.form.minlength,
-              "maxlength": event.form.maxlength,
-              "pattern": event.form.pattern,
-              "required": event.form.required,
-              "emailTypeAllow": event.form.emailTypeAllow,
-            }
-            var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-            const validationRuleModel = {
-              "ValidationRule": JOIData
-            }
-            // const checkAndProcess = this.validationRuleId == ''
-            //   ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-            //   : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
-            this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
-              next: (res: any) => {
-                if (res.isSuccess) {
-                  this.getJoiValidation(this._id);
-                  this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-                }
-                else
-                  this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-              },
-              error: (err) => {
-                this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
-
-              }
-            });
-            // if (selectedScreen.length > 0) {
-            //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
-            //     getRes;
-            //     if (getRes.length > 0) {
-            //       this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
-            //         this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-            //           alert("Data Save");
-            //         }))
-            //       }))
-            //     }
-            //     else {
-            //       this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-            //         alert("Data Save");
-            //       }))
-            //     }
-            //   }));
-            // }
+      case 'inputValidationRule':
+        debugger
+        if (this.selectedNode) {
+          const selectedScreen = this.screens.filter(
+            (a: any) => a.name == this.screenName
+          );
+          const jsonRuleValidation = {
+            "screenName": this.screenName,
+            "screenBuilderId": this._id,
+            "id": this.selectedNode.id,
+            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "type": event.form.type,
+            "label": event.form.label,
+            "reference": event.form.reference,
+            "minlength": event.form.minlength,
+            "maxlength": event.form.maxlength,
+            "pattern": event.form.pattern,
+            "required": event.form.required,
+            "emailTypeAllow": event.form.emailTypeAllow,
           }
-          break;
+          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+          const validationRuleModel = {
+            "ValidationRule": JOIData
+          }
+          // const checkAndProcess = this.validationRuleId == ''
+          //   ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+          //   : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+          this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
+            next: (res: any) => {
+              if (res.isSuccess) {
+                this.getJoiValidation(this._id);
+                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+              }
+              else
+                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+            },
+            error: (err) => {
+              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
+            }
+          });
+          // if (selectedScreen.length > 0) {
+          //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
+          //     getRes;
+          //     if (getRes.length > 0) {
+          //       this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
+          //         this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+          //           alert("Data Save");
+          //         }))
+          //       }))
+          //     }
+          //     else {
+          //       this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
+          //         alert("Data Save");
+          //       }))
+          //     }
+          //   }));
+          // }
+        }
+        break;
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter(
             (a: any) => a.name == this.screenName

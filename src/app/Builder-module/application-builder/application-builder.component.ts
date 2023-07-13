@@ -429,7 +429,7 @@ export class ApplicationBuilderComponent implements OnInit {
       this.loadDepartmentFields();
       this.applicationSubmit = false;
     }
-    if(this.isSubmit && this.applicationSubmit){
+    if (this.isSubmit && this.applicationSubmit) {
       this.model['defaultApplication'] = "64abfe6476ac2e992aa14d88";
     }
     this.isVisible = true;
@@ -491,41 +491,44 @@ export class ApplicationBuilderComponent implements OnInit {
           "Department": this.myForm.value
         }
       }
+      if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
+        debugger
+        this.applicationService.addNestCommonAPI(`applications/${this.myForm.value.defaultApplication}/clone`, this.myForm.value).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              console.log("saved");
+            } else {
+              this.toastr.error(`clone: ${res.message}`, { nzDuration: 3000 });
+            }
+          },
+          error: (err) => {
+            this.toastr.error(`clone saved, some unhandled exception`, { nzDuration: 3000 });
+          }
+        });
+      }
 
-      const action$ = !this.applicationSubmit ? (this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', objDataModel)
-        : this.applicationService.updateNestCommonAPI('cp/Department', this.model._id, objDataModel)) : this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', objDataModel)
-        : this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel);
-      action$.subscribe((res: any) => {
-        if (res.isSuccess) {
-          // if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
-          //   if (!this.myForm.value.defaultApplication) {
-          //     this.defaultApplicationBuilder(this.isSubmit, key, res.data, objDataModel);
-          //   } else if (this.myForm.value.defaultApplication) {
-          //     this.getScreensForClone(res.data, objDataModel);
-          //   }
-          // }
-          // else
-          this.getDepartment();
-          this.getApplication();
-          this.handleCancel();
-          this.toastr.success(res.message, { nzDuration: 2000 });
-          this.isSubmit = true;
-        } else
-          this.toastr.error(res.message, { nzDuration: 2000 });
+      const action$ = !this.applicationSubmit
+        ? this.isSubmit
+          ? this.applicationService.addNestCommonAPI('cp', objDataModel)
+          : this.applicationService.updateNestCommonAPI('cp/Department', this.model._id, objDataModel)
+        : !this.isSubmit
+          ? this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel)
+          : '';
 
-        // if (this.applicationSubmit && key == 'moduleId' && this.myForm.value) {
-        //   this.defaultMenu();
-        // };
-        // if (this.applicationSubmit) {
-        //   setTimeout(() => {
-        //     this.saveHeaderFooter('header');
-        //   }, 2000);
-        //   this.footerSaved = false;
-        // }
+      if (action$) {
+        action$.subscribe((res: any) => {
+          if (res.isSuccess) {
 
-      });
+            this.getDepartment();
+            this.getApplication();
+            this.handleCancel();
+            this.toastr.success(res.message, { nzDuration: 2000 });
+            this.isSubmit = true;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+        });
+      }
     }
   }
   editItem(item: any) {
