@@ -150,7 +150,7 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    if (departmentId.length === 3){
+    if (departmentId.length === 3) {
       this.getScreenData(departmentId[2])
     }
   }
@@ -417,7 +417,7 @@ export class BuilderComponent implements OnInit {
           }
 
         })
-        .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
+          .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
       nzOnCancel: () => {
         this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation;
@@ -3074,6 +3074,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   changeIdAndkey(node: any) {
+    debugger
     if (node.id) {
       let changeId = node.id.split('_');
       if (changeId.length == 2) {
@@ -3084,13 +3085,18 @@ export class BuilderComponent implements OnInit {
     }
     if (node.formly) {
       if (node.formly[0].key) {
-        node.formly[0].key = node.formly[0].key + Guid.newGuid();
-      } else if (node.formly[0].fieldGroup[0].key) {
-        node.formly[0].fieldGroup[0].key =
-          node.formly[0].fieldGroup[0].key + Guid.newGuid();
+        node.formly[0].key = node.formly[0].key.split('_')[0] + '_' + Guid.newGuid();
       }
-    } else if (node.key) {
-      node.key = node.key + Guid.newGuid();
+      else if (node.formly[0].fieldGroup[0].key) {
+        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key.split('_')[0] + '_' + Guid.newGuid();
+      }
+    }
+    else if (node.key) {
+      if (node.key.includes('_')) {
+        node.key = node.key.split('_')[0] + '_' + Guid.newGuid();
+      } else {
+        node.key = node.key;
+      }
     }
     return node;
   }
