@@ -491,7 +491,7 @@ export class PagesComponent implements OnInit {
         }
       }
       else {
-        this.updateFormlyModel();
+        // this.updateFormlyModel();
       }
     } catch (error) {
       console.log(error)
@@ -500,8 +500,12 @@ export class PagesComponent implements OnInit {
       if (this.screenName) {
         if (this.businessRuleData) {
           const fishRhyme = ruleFactory(this.businessRuleData);
-          console.log(fishRhyme(this.formlyModel));
-          this.updateFormlyModel()
+          const updatedModel = fishRhyme(this.formlyModel);
+          if(updatedModel){
+            this.updateFormlyModel();
+          }else{
+            this.updateFormlyModelData()
+          }
           this.cdr.detectChanges();
           // this.cdr.detach();
         }
@@ -509,6 +513,102 @@ export class PagesComponent implements OnInit {
       this.getSetVariableRule(model, currentValue);
 
     }
+  }
+  updateFormlyModelData() {
+    for (const rule of this.businessRuleData) {
+      if (this.evaluateCondition(rule.if)) {
+        this.updateModelWithStatement(rule.then);
+      } else {
+        if (rule.then) {
+          this.modelWithStatement(rule.then);
+        }
+      }
+    }
+  }
+  evaluateCondition(condition: string): boolean {
+    if(condition.includes('AND') || condition.includes('OR'))
+      return this.evaluateConditionOperatoe(condition);
+    else
+      return this.evaluateConditionSimple(condition);
+  }
+  evaluateConditionSimple(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+    };
+
+    const parts = condition.split(" ");
+    const leftOperand = parts[0].trim();
+    const operator = parts[1].trim();
+    const rightOperand = parts[2].trim();
+
+    const leftValue = this.formlyModel[leftOperand];
+    const rightValue = this.formlyModel[rightOperand];
+
+    return operators[operator](leftValue, rightValue);
+  }
+  evaluateConditionOperatoe(condition: string): boolean {
+      const operators: { [key: string]: (a: any, b: any) => boolean } = {
+        "==": (a: any, b: any) => a == b,
+        "!=": (a: any, b: any) => a != b,
+        ">=": (a: any, b: any) => a >= b,
+        "<=": (a: any, b: any) => a <= b,
+        "=": (a: any, b: any) => a === b,
+        ">": (a: any, b: any) => a > b,
+        "<": (a: any, b: any) => a < b,
+      };
+
+      const andConditions = condition.split("AND");
+      let andResult = true;
+
+      for (const andCondition of andConditions) {
+        const orConditions = andCondition.split("OR");
+        let orResult = false;
+
+        for (const orCondition of orConditions) {
+          const parts = orCondition.split(" ");
+          const leftOperand = parts[0].trim();
+          const operator = parts[1].trim();
+          const rightOperand = parts[2].trim();
+
+          const leftValue = this.formlyModel[leftOperand];
+          const rightValue = this.formlyModel[rightOperand];
+
+          const conditionResult = operators[operator](leftValue, rightValue);
+
+          if (conditionResult) {
+            orResult = true;
+            break;
+          }
+        }
+
+        if (!orResult) {
+          andResult = false;
+          break;
+        }
+      }
+
+      return andResult;
+  }
+
+  updateModelWithStatement(statement: string) {
+    // Implement your own logic to update the model based on the statement
+    const parts = statement.split('=');
+    const key = parts[0].trim();
+    const value = parts[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
+    this.formlyModel[key] = value;
+  }
+  modelWithStatement(statement: string) {
+    // Implement your own logic to update the model based on the statement
+    const parts = statement.split('=');
+    const key = parts[0].trim();
+    const value = parts[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
+    this.formlyModel[key] = '';
   }
   getSetVariableRule(model: any, value: any) {
     //for grid amount assign to other input field

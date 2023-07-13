@@ -723,8 +723,8 @@ export class BuilderComponent implements OnInit {
           if (getRes.data.length > 0) {
             const jsonUIResult = {
               // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-              "key": this.selectedNode.key,
-              "title": this.selectedNode.title,
+              // "key": this.selectedNode.key,
+              // "title": this.selectedNode.title,
               "screenName": this.screenName,
               "screenBuilderId": this._id,
               "uiData": JSON.parse(getRes.data[0].uiData),
@@ -2159,7 +2159,7 @@ export class BuilderComponent implements OnInit {
     });
     if (this.joiValidationData.length > 0) {
       let getJoiRule = this.joiValidationData.find(
-        (a) => a.key == this.selectedNode.key
+        (a) => a.id == this.selectedNode.id
       );
       if (getJoiRule) this.validationFieldData.modelData = getJoiRule;
     }
@@ -3013,7 +3013,8 @@ export class BuilderComponent implements OnInit {
   newChild: any = [];
   insertAt(node: any) {
     let parent = node?.parentNode?.origin;
-    node = node.origin;
+    node  = node.origin
+    // node = node.origin;
     if (
       node.type != 'page' &&
       node.type != 'pageHeader' &&
@@ -3023,7 +3024,11 @@ export class BuilderComponent implements OnInit {
       node.type != 'body' &&
       node.type != 'footer'
     ) {
-      let newNode = JSON.parse(JSON.stringify(node));
+      let newNode : any;
+      if(node.formlyType)
+        newNode = JSON.parse(this.jsonStringifyWithObject(node));
+      else
+        newNode = JSON.parse(JSON.stringify(node));
       newNode = this.changeIdAndkey(newNode);
       const idx = parent.children.indexOf(node as TreeNode);
       newNode.children.forEach((child: any) => {
@@ -3721,124 +3726,52 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-      case 'inputValidationRule':
-        debugger
-        if (this.selectedNode) {
-          const selectedScreen = this.screens.filter(
-            (a: any) => a.name == this.screenName
-          );
-          const jsonRuleValidation = {
-            "screenName": this.screenName,
-            "screenBuilderId": this._id,
-            "id": this.selectedNode.id,
-            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-            "type": event.form.type,
-            "label": event.form.label,
-            "reference": event.form.reference,
-            "minlength": event.form.minlength,
-            "maxlength": event.form.maxlength,
-            "pattern": event.form.pattern,
-            "required": event.form.required,
-            "emailTypeAllow": event.form.emailTypeAllow,
-          }
-          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          const validationRuleModel = {
-            "ValidationRule": JOIData
-          }
-          // const checkAndProcess = this.validationRuleId == ''
-          //   ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-          //   : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
-          this.applicationService.addNestCommonAPI('cp', validationRuleModel).subscribe({
-            next: (res: any) => {
-              if (res.isSuccess) {
-                this.getJoiValidation(this._id);
-                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-              }
-              else
-                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-            },
-            error: (err) => {
-              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
-
+        case 'inputValidationRule':
+          debugger
+          if (this.selectedNode) {
+            const selectedScreen = this.screens.filter(
+              (a: any) => a.name == this.screenName
+            );
+            const jsonRuleValidation = {
+              "screenName": this.screenName,
+              "screenBuilderId": this._id,
+              "id": this.selectedNode.id,
+              "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+              "type": event.form.type,
+              "label": event.form.label,
+              "reference": event.form.reference,
+              "minlength": event.form.minlength,
+              "maxlength": event.form.maxlength,
+              "pattern": event.form.pattern,
+              "required": event.form.required,
+              "emailTypeAllow": event.form.emailTypeAllow,
+              "applicationId": this.selectApplicationName,
             }
-          });
-          // if (selectedScreen.length > 0) {
-          //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
-          //     getRes;
-          //     if (getRes.length > 0) {
-          //       this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
-          //         this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-          //           alert("Data Save");
-          //         }))
-          //       }))
-          //     }
-          //     else {
-          //       this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-          //         alert("Data Save");
-          //       }))
-          //     }
-          //   }));
-          // }
-        }
-        break;
-        if (this.selectedNode) {
-          const selectedScreen = this.screens.filter(
-            (a: any) => a.name == this.screenName
-          );
-          const jsonRuleValidation = {
-            "screenName": this.screenName,
-            "screenBuilderId": this._id,
-            "id": this.selectedNode.id,
-            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-            "type": event.form.type,
-            "label": event.form.label,
-            "reference": event.form.reference,
-            "minlength": event.form.minlength,
-            "maxlength": event.form.maxlength,
-            "pattern": event.form.pattern,
-            "required": event.form.required,
-            "emailTypeAllow": event.form.emailTypeAllow,
-          }
-          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          const validationRuleModel = {
-            "ValidationRule": JOIData
-          }
-          const checkAndProcess = this.validationRuleId == ''
-            ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-            : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
-          checkAndProcess.subscribe({
-            next: (res: any) => {
-              if (res.isSuccess) {
-                this.getJoiValidation(this._id);
-                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-              }
-              else
-                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-            },
-            error: (err) => {
-              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
-
+            var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+            const validationRuleModel = {
+              "ValidationRule": JOIData
             }
-          });
-          // if (selectedScreen.length > 0) {
-          //   this.builderService.jsonGetValidationRule(selectedScreen[0].screenId, this.selectedNode.id).subscribe((getRes => {
-          //     getRes;
-          //     if (getRes.length > 0) {
-          //       this.builderService.jsonDeleteValidationRule(this.selectedNode.id).subscribe((delRes => {
-          //         this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-          //           alert("Data Save");
-          //         }))
-          //       }))
-          //     }
-          //     else {
-          //       this.builderService.jsonSaveValidationRule(JOIData).subscribe((saveRes => {
-          //         alert("Data Save");
-          //       }))
-          //     }
-          //   }));
-          // }
-        }
-        break;
+            // const checkAndProcess = this.validationRuleId == ''
+            const checkAndProcess = !event.form._id
+              ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+              : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form._id, validationRuleModel);
+              // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+            checkAndProcess.subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  this.getJoiValidation(this._id);
+                  this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+                }
+                else
+                  this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+              },
+              error: (err) => {
+                this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
+              }
+            });
+          }
+          break;
       case 'avatar':
         if (event.form.src) {
           this.selectedNode.src = event.form.src;
