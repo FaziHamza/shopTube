@@ -493,10 +493,16 @@ export class ApplicationBuilderComponent implements OnInit {
       }
       if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
         debugger
+        this.handleCancel();
+        this.loading = true
         this.applicationService.addNestCommonAPI(`applications/${this.myForm.value.defaultApplication}/clone`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
-              console.log("saved");
+              this.getDepartment();
+              this.getApplication();
+              this.toastr.success(res.message, { nzDuration: 2000 });
+              this.isSubmit = true;
+              this.loading = false;
             } else {
               this.toastr.error(`clone: ${res.message}`, { nzDuration: 3000 });
             }

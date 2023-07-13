@@ -308,6 +308,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartmentOptionList(id: string) {
+    debugger
     this.applicationService.getNestCommonAPIById('cp/Department', id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({

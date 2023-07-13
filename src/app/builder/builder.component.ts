@@ -303,7 +303,7 @@ export class BuilderComponent implements OnInit {
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
-        // "screenName": this.screenName,
+        "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
         "applicationId": this.selectApplicationName,
@@ -445,7 +445,7 @@ export class BuilderComponent implements OnInit {
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
-            this.getFromQuery(res.data[0].navigation);
+            // this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -3020,7 +3020,7 @@ export class BuilderComponent implements OnInit {
   newChild: any = [];
   insertAt(node: any) {
     let parent = node?.parentNode?.origin;
-    node  = node.origin
+    node = node.origin
     // node = node.origin;
     if (
       node.type != 'page' &&
@@ -3031,8 +3031,8 @@ export class BuilderComponent implements OnInit {
       node.type != 'body' &&
       node.type != 'footer'
     ) {
-      let newNode : any;
-      if(node.formlyType)
+      let newNode: any;
+      if (node.formlyType)
         newNode = JSON.parse(this.jsonStringifyWithObject(node));
       else
         newNode = JSON.parse(JSON.stringify(node));
@@ -3247,6 +3247,7 @@ export class BuilderComponent implements OnInit {
       case 'listWithComponentsChild':
       case 'cardWithComponents':
         if (this.selectedNode.id) {
+
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode.imageSrc = event.form.imageSrc
@@ -3257,23 +3258,6 @@ export class BuilderComponent implements OnInit {
             }
           }
           if (event.type == 'sections') {
-            const filteredNodes = this.filterInputElements(
-              this.selectedNode?.children?.[1]?.children
-            );
-            filteredNodes.forEach((node) => {
-              if (event.form.sectionClassName) {
-                node.className = event.form.sectionClassName;
-              }
-              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
-                event.form,
-                node.formly[0].fieldGroup
-              );
-            });
-            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
-              if (!element.formly) {
-                element['tooltipIcon'] = event.form.tooltipIcon;
-              }
-            });
             if (Array.isArray(event.form.className)) {
               if (event.form.className.length > 0) {
                 let classArray: any;
@@ -3291,6 +3275,24 @@ export class BuilderComponent implements OnInit {
             else {
               this.selectedNode['className'] = event.form.className;
             }
+            const filteredNodes = this.filterInputElements(
+              this.selectedNode?.children?.[1]?.children
+            );
+            filteredNodes.forEach((node) => {
+              if (event.form.sectionClassName) {
+                node.className = event.form.sectionClassName;
+              }
+              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
+                event.form,
+                node.formly[0].fieldGroup
+              );
+            });
+            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
+              if (!element.formly) {
+                element['tooltipIcon'] = event.form.tooltipIcon;
+              }
+            });
+
             this.selectedNode.title = event.form.title;
             // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
@@ -3733,52 +3735,52 @@ export class BuilderComponent implements OnInit {
           this.updateNodes();
         }
         break;
-        case 'inputValidationRule':
-          debugger
-          if (this.selectedNode) {
-            const selectedScreen = this.screens.filter(
-              (a: any) => a.name == this.screenName
-            );
-            const jsonRuleValidation = {
-              "screenName": this.screenName,
-              "screenBuilderId": this._id,
-              "id": this.selectedNode.id,
-              "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-              "type": event.form.type,
-              "label": event.form.label,
-              "reference": event.form.reference,
-              "minlength": event.form.minlength,
-              "maxlength": event.form.maxlength,
-              "pattern": event.form.pattern,
-              "required": event.form.required,
-              "emailTypeAllow": event.form.emailTypeAllow,
-              "applicationId": this.selectApplicationName,
-            }
-            var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-            const validationRuleModel = {
-              "ValidationRule": JOIData
-            }
-            // const checkAndProcess = this.validationRuleId == ''
-            const checkAndProcess = !event.form._id
-              ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-              : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form._id, validationRuleModel);
-              // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
-            checkAndProcess.subscribe({
-              next: (res: any) => {
-                if (res.isSuccess) {
-                  this.getJoiValidation(this._id);
-                  this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-                }
-                else
-                  this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-              },
-              error: (err) => {
-                this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
-
-              }
-            });
+      case 'inputValidationRule':
+        debugger
+        if (this.selectedNode) {
+          const selectedScreen = this.screens.filter(
+            (a: any) => a.name == this.screenName
+          );
+          const jsonRuleValidation = {
+            "screenName": this.screenName,
+            "screenBuilderId": this._id,
+            "id": this.selectedNode.id,
+            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "type": event.form.type,
+            "label": event.form.label,
+            "reference": event.form.reference,
+            "minlength": event.form.minlength,
+            "maxlength": event.form.maxlength,
+            "pattern": event.form.pattern,
+            "required": event.form.required,
+            "emailTypeAllow": event.form.emailTypeAllow,
+            "applicationId": this.selectApplicationName,
           }
-          break;
+          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+          const validationRuleModel = {
+            "ValidationRule": JOIData
+          }
+          // const checkAndProcess = this.validationRuleId == ''
+          const checkAndProcess = !event.form._id
+            ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+            : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form._id, validationRuleModel);
+          // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+          checkAndProcess.subscribe({
+            next: (res: any) => {
+              if (res.isSuccess) {
+                this.getJoiValidation(this._id);
+                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+              }
+              else
+                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+            },
+            error: (err) => {
+              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
+            }
+          });
+        }
+        break;
       case 'avatar':
         if (event.form.src) {
           this.selectedNode.src = event.form.src;
@@ -4541,24 +4543,20 @@ export class BuilderComponent implements OnInit {
       // this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
-          let classArray: string = '';
+          let classArray: any;
           for (let i = 0; i < event.form.className.length; i++) {
-            const classObj: string[] = event.form.className[i].split(" ");
-            if (classObj.length > 0) {
-              for (let j = 0; j < classObj.length; j++) {
-                if (j === 0 && i === 0) {
-                  classArray = classObj[j];
-                } else {
-                  classArray += ' ' + classObj[j];
-                }
-              }
+            if (i == 0) {
+              classArray = event.form.className[i];
             }
-          }
-          this.selectedNode.className = classArray;
-          this.selectedNode = { ...this.selectedNode, ...event.form };
+            else {
+              classArray = classArray + ' ' + event.form.className[i];
+            }
+          };
+          this.selectedNode['className'] = classArray;
         }
-      } else {
-        this.selectedNode.className = event.form.className;
+      }
+      else {
+        this.selectedNode['className'] = event.form.className;
       }
 
       // this.updateNodes();
