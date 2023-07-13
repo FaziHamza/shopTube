@@ -439,6 +439,7 @@ export class BuilderComponent implements OnInit {
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
+            this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -5590,6 +5591,44 @@ export class BuilderComponent implements OnInit {
       alert("Please Select Screen")
     } else {
       this.router.navigate(['/pages/', this.navigation]);
+    }
+  }
+  getFromQuery(name:string) {
+    let tableData = this.nodes[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
+    if(tableData.length > 0){
+      this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
+        next: (res) => {
+          if (tableData.length > 0 && res) {
+            // tableData[0]['api'] = data.dataTable;
+            let saveForm = JSON.parse(JSON.stringify(res[0]));
+            // saveForm["id"] = '';
+            // this.dataModel["id"] = tableData[0]['tableKey'].length
+            const firstObjectKeys = Object.keys(saveForm);
+            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
+            // obj.unshift({name: 'id'});
+            if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+              tableData[0].tableData = [];
+              tableData[0]['tableKey'] = obj;
+              tableData[0].tableHeaders = tableData[0]['tableKey'];
+              saveForm.id = tableData[0].tableData.length + 1
+              res.forEach((element: any) => {
+                element.id = (element.id).toString();
+                tableData[0].tableData?.push(element);
+              });
+            } else {
+              tableData[0]['tableKey'] = obj;
+              tableData[0].tableHeaders = tableData[0]['tableKey'];
+              tableData[0].tableData = [];
+              saveForm.id = tableData[0].tableData.length + 1;
+              res.forEach((element: any) => {
+                element.id = (element.id).toString();
+                tableData[0].tableData?.push(element);
+              });
+              // tableData[0].tableData?.push(saveForm);
+            }
+          }
+        }
+      });
     }
   }
 }

@@ -322,7 +322,6 @@ SaveAction() {
 
 
   SaveAction() {
-   debugger
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction',mainModuleId[0].navigation).subscribe(res=>{
       const observables = this.actionForm.value.Actions.map((element: any) => {
@@ -365,6 +364,7 @@ SaveAction() {
             debugger
             // if (allResults) {
               this.getActionData();
+              this.getFromQuery();
               this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
             // }
           } else {
@@ -377,30 +377,6 @@ SaveAction() {
         }
       });
     })
-
-
-/*     forkJoin(observables).subscribe({
-      next: (results: any) => {
-        if (results.every((result: any) => !(result instanceof Error))) {
-          this.getActionData();
-          this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
-        } else {
-          this.toastr.error("Actions not saved", { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Actions not saved", { nzDuration: 3000 });
-      }
-    }); */
-
-
-
-
-
-  }
-
-  updateActionData() {
 
   }
 
@@ -453,51 +429,6 @@ SaveAction() {
       })
     }
   }
-
-/*   getActionData() {
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
-    if (selectedScreen[0].screenId != null) {
-      this.requestSubscription = this.employeeService.getSQLDatabaseTable('knex-crud/SQLQueries').subscribe({
-        next: (res) => {
-          if (res.length > 0) {
-            const getRes = res.filter((x: any) => x.moduleId == selectedScreen[0].screenId)
-            if (getRes.length > 0) {
-              this.screenActions = getRes;
-              this.actionForm = this.formBuilder.group({
-                elementName: [getRes[0].elementName],
-                actionType: [getRes[0].actionType],
-                actionLink: [getRes[0].actionLink],
-                submissionType: [getRes[0].btnActionType],
-                Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
-                  this.formBuilder.group({
-                    id: [getQueryActionRes.id],
-                    submit: [getQueryActionRes.submit],
-                    type: [getQueryActionRes.type],
-                    sqlType: [getQueryActionRes.sqlType],
-                    actionType: [getQueryActionRes.actionType],
-                    elementName: [getQueryActionRes.elementName],
-                    actionLink: [getQueryActionRes.actionLink],
-                    submissionType: [getQueryActionRes.btnActionType],
-                    email: [getQueryActionRes.email],
-                    confirmEmail: [getQueryActionRes.confirmEmail],
-                    referenceId: [getQueryActionRes.referenceId],
-                    query: [getQueryActionRes.quries],
-                    httpAddress: [getQueryActionRes.httpAddress],
-                    contentType: [getQueryActionRes.contentType]
-                  })
-                )),
-              })
-            }
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
-    }
-  } */
-
   changePostgress(queryType: string, index: number) {
     const sqlType: any = this.ActionsForms.at(index).get('sqlType');
     if (sqlType == "postgress")
@@ -511,5 +442,44 @@ SaveAction() {
         const value = this.actionForm.value.Actions[index].confirmEmail.replaceAll('"', "'")
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
+  }
+  getFromQuery() {
+    let tableData = this.nodes[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
+    if(tableData.length > 0){
+      const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+      this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`).subscribe({
+        next: (res) => {
+          if (tableData.length > 0 && res) {
+            // tableData[0]['api'] = data.dataTable;
+            let saveForm = JSON.parse(JSON.stringify(res[0]));
+            // saveForm["id"] = '';
+            // this.dataModel["id"] = tableData[0]['tableKey'].length
+            const firstObjectKeys = Object.keys(saveForm);
+            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
+            // obj.unshift({name: 'id'});
+            if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
+              tableData[0].tableData = [];
+              tableData[0]['tableKey'] = obj;
+              tableData[0].tableHeaders = tableData[0]['tableKey'];
+              saveForm.id = tableData[0].tableData.length + 1
+              res.forEach((element: any) => {
+                element.id = (element.id).toString();
+                tableData[0].tableData?.push(element);
+              });
+            } else {
+              tableData[0]['tableKey'] = obj;
+              tableData[0].tableHeaders = tableData[0]['tableKey'];
+              tableData[0].tableData = [];
+              saveForm.id = tableData[0].tableData.length + 1;
+              res.forEach((element: any) => {
+                element.id = (element.id).toString();
+                tableData[0].tableData?.push(element);
+              });
+              // tableData[0].tableData?.push(saveForm);
+            }
+          }
+        }
+      });
+    }
   }
 }
