@@ -501,11 +501,13 @@ export class PagesComponent implements OnInit {
         if (this.businessRuleData) {
           const fishRhyme = ruleFactory(this.businessRuleData);
           const updatedModel = fishRhyme(this.formlyModel);
-          if(updatedModel){
-            this.updateFormlyModel();
-          }else{
-            this.updateFormlyModelData()
-          }
+          this.updateFormlyModel();
+
+          // if(updatedModel){
+          //   this.updateFormlyModel();
+          // }else{
+          //   this.updateFormlyModelData()
+          // }
           this.cdr.detectChanges();
           // this.cdr.detach();
         }
