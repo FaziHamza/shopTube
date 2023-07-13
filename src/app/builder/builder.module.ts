@@ -28,6 +28,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
 import { CreateDatabaseComponent } from "../admin/create-database/create-database.component";
+import { BuilderDesignComponent } from './builder-design/builder-design.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CreateDatabaseComponent } from "../admin/create-database/create-databas
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
     LanguageComponent,
     BulkUpdateComponent,
-    CreateDatabaseComponent
+    CreateDatabaseComponent,
+    BuilderDesignComponent
   ],
   imports: [
     CommonModule,

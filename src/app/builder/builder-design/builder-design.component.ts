@@ -8,37 +8,38 @@ import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
-import { GenaricFeild } from '../models/genaricFeild.modal';
-import { Guid } from '../models/guid';
-import { TreeNode } from '../models/treeNode';
-import { BuilderService } from '../services/builder.service';
-import { DataSharedService } from '../services/data-shared.service';
+import { GenaricFeild } from 'src/app/models/genaricFeild.modal';
+import { Guid } from 'src/app/models/guid';
+import { TreeNode } from 'src/app/models/treeNode';
+import { BuilderService } from 'src/app/services/builder.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import {
   actionTypeFeild,
   formFeildData,
-} from './configurations/configuration.modal';
-import { htmlTabsData } from './ControlList';
-import { BuilderClickButtonService } from './service/builderClickButton.service';
+} from '../configurations/configuration.modal';
+import { htmlTabsData } from '../ControlList';
+import { BuilderClickButtonService } from '../service/builderClickButton.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
-import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
-import { ColorPickerService } from '../services/colorpicker.service';
-import { DataService } from '../services/offlineDb.service';
-import { EncryptionService } from '../services/encryption.service';
+import { INITIAL_EVENTS } from 'src/app/shared/event-utils/event-utils';
+import { ColorPickerService } from 'src/app/services/colorpicker.service';
+import { DataService } from 'src/app/services/offlineDb.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AddControlService } from './service/addControl.service';
+import { AddControlService } from '../service/addControl.service';
 import { Router } from '@angular/router';
-import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
-import { ApplicationService } from '../services/application.service';
-import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
+import { AddControlCommonPropertiesComponent } from '../add-control-common-properties/add-control-common-properties.component';
+import { ApplicationService } from 'src/app/services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
+import { BulkUpdateComponent } from '../bulk-update/bulk-update.component';
+import { EncryptionService } from 'src/app/services/encryption.service';
+
 @Component({
-  selector: 'st-builder',
-  templateUrl: './builder.component.html',
-  styleUrls: ['./builder.component.scss'],
+  selector: 'st-builder-design',
+  templateUrl: './builder-design.component.html',
+  styleUrls: ['./builder-design.component.scss']
 })
-export class BuilderComponent implements OnInit {
+export class BuilderDesignComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
@@ -298,7 +299,7 @@ export class BuilderComponent implements OnInit {
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
-        "screenName": this.screenName,
+        // "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
         "applicationId": this.selectApplicationName,
@@ -439,7 +440,6 @@ export class BuilderComponent implements OnInit {
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
-            this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -5591,44 +5591,6 @@ export class BuilderComponent implements OnInit {
       alert("Please Select Screen")
     } else {
       this.router.navigate(['/pages/', this.navigation]);
-    }
-  }
-  getFromQuery(name:string) {
-    let tableData = this.nodes[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
-    if(tableData.length > 0){
-      this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
-        next: (res) => {
-          if (tableData.length > 0 && res) {
-            // tableData[0]['api'] = data.dataTable;
-            let saveForm = JSON.parse(JSON.stringify(res[0]));
-            // saveForm["id"] = '';
-            // this.dataModel["id"] = tableData[0]['tableKey'].length
-            const firstObjectKeys = Object.keys(saveForm);
-            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
-            // obj.unshift({name: 'id'});
-            if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-              tableData[0].tableData = [];
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              saveForm.id = tableData[0].tableData.length + 1
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
-              });
-            } else {
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              tableData[0].tableData = [];
-              saveForm.id = tableData[0].tableData.length + 1;
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
-              });
-              // tableData[0].tableData?.push(saveForm);
-            }
-          }
-        }
-      });
     }
   }
 }

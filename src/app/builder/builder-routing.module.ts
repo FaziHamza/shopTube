@@ -10,6 +10,7 @@ import { LanguageComponent } from '../Builder-module';
 import { organizationBuilderComponent } from '../Builder-module/organization/organization-builder.component';
 import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout.component';
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
+import { BuilderDesignComponent } from './builder-design/builder-design.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
       {
         path: "",
         component:BuilderComponent
+      },
+      {
+        path: "builder-design",
+        component:BuilderDesignComponent
       },
       {
         path: 'menu-builder',

@@ -498,14 +498,22 @@ export class PagesComponent implements OnInit {
     }
     finally {
       if (this.screenName) {
+        debugger
         if (this.businessRuleData) {
           const fishRhyme = ruleFactory(this.businessRuleData);
-          const updatedModel = fishRhyme(this.formlyModel);
-          if(updatedModel){
-            this.updateFormlyModel();
-          }else{
-            this.updateFormlyModelData()
-          }
+          const updatedModel = fishRhyme({
+            "name": 10,   // Parse as number
+            "fname": "",
+            "lname": 15,  // Parse as number
+            "email": ""
+        });
+          this.updateFormlyModel();
+
+          // if(updatedModel){
+          //   this.updateFormlyModel();
+          // }else{
+          //   this.updateFormlyModelData()
+          // }
           this.cdr.detectChanges();
           // this.cdr.detach();
         }
