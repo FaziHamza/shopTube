@@ -212,8 +212,8 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu
               } else {
-                // this.dataSharedService.menus = getMenu;
-                // this.dataSharedService.menus.allMenuItems = getMenu;
+                this.dataSharedService.menus = getMenu;
+                this.dataSharedService.menus.allMenuItems = getMenu;
                 this.selectedTheme = undefined;
               }
             },

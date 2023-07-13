@@ -35,11 +35,26 @@
                             <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
                             <nz-option nzLabel="font-roboto"
                                 nzValue="font-roboto"></nz-option>
-                            <!-- <nz-option nzLabel="font-montserrat"
-                        nzValue="font-montserrat"></nz-option>
-                    <nz-option nzLabel="font-open-sans" nzValue="font-open-sans"></nz-option> -->
-                            <nz-option nzLabel="line-through"
-                                nzValue="line-through"></nz-option>
+                            <!-- <nz-option nzLabel="line-through"
+                                nzValue="line-through"></nz-option> -->
+                            <nz-option nzLabel="font-thin"
+                                nzValue="font-thin"></nz-option>
+                            <nz-option nzLabel="font-extralight"
+                                nzValue="font-extralight"></nz-option>
+                            <!-- <nz-option nzLabel="font-light"
+                                nzValue="font-light"></nz-option> -->
+                            <nz-option nzLabel="font-normal"
+                                nzValue="font-normal"></nz-option>
+                            <!-- <nz-option nzLabel="font-medium"
+                                nzValue="font-medium"></nz-option> -->
+                            <!-- <nz-option nzLabel="font-semibold"
+                                nzValue="font-semibold"></nz-option> -->
+                            <nz-option nzLabel="font-bold"
+                                nzValue="font-bold"></nz-option>
+                            <nz-option nzLabel="font-extrabold"
+                                nzValue="font-extrabold"></nz-option>
+                            <nz-option nzLabel="font-black"
+                                nzValue="font-black"></nz-option>
                         </nz-select>
                     </div>
                     <div class="w-1/5 p-1">
@@ -139,7 +154,8 @@
                         </div>
                         <div class="w-1/4 px-2">
                             <div
-                                [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
+                                [ngClass]="selectedTheme.layout == '
+                                ' ? 'selected' : 'unselected'">
                                 <img src="assets/images/layout/horizental.png"
                                     (click)="changeLayout('horizental')">
                             </div>
@@ -423,7 +439,7 @@
                             [(ngModel)]="selectedTheme['inPageMenu']['font']"
                             (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['font']+'_'+'font')">
                             <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                            <nz-option nzLabel="underline" nzValue="underline"></nz-option>
+                            <!-- <nz-option nzLabel="underline" nzValue="underline"></nz-option> -->
                             <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
                             <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
                             <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
@@ -432,11 +448,26 @@
                             <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
                             <nz-option nzLabel="font-roboto"
                                 nzValue="font-roboto"></nz-option>
-                            <!-- <nz-option nzLabel="font-montserrat"
-                        nzValue="font-montserrat"></nz-option>
-                    <nz-option nzLabel="font-open-sans" nzValue="font-open-sans"></nz-option> -->
-                            <nz-option nzLabel="line-through"
-                                nzValue="line-through"></nz-option>
+                            <!-- <nz-option nzLabel="line-through"
+                                nzValue="line-through"></nz-option> -->
+                            <nz-option nzLabel="font-thin"
+                                nzValue="font-thin"></nz-option>
+                            <nz-option nzLabel="font-extralight"
+                                nzValue="font-extralight"></nz-option>
+                            <!-- <nz-option nzLabel="font-light"
+                                nzValue="font-light"></nz-option> -->
+                            <nz-option nzLabel="font-normal"
+                                nzValue="font-normal"></nz-option>
+                            <!-- <nz-option nzLabel="font-medium"
+                                nzValue="font-medium"></nz-option> -->
+                            <!-- <nz-option nzLabel="font-semibold"
+                                nzValue="font-semibold"></nz-option> -->
+                            <nz-option nzLabel="font-bold"
+                                nzValue="font-bold"></nz-option>
+                            <nz-option nzLabel="font-extrabold"
+                                nzValue="font-extrabold"></nz-option>
+                            <nz-option nzLabel="font-black"
+                                nzValue="font-black"></nz-option>
                         </nz-select>
                     </div>
                     <div class="w-1/5 p-1">
@@ -522,7 +553,7 @@
                     </div>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="Menu Header">
+            <nz-tab nzTitle="Collapse button">
                 <h6 class="mb-0 font-bold uppercase">Button Design</h6>
                 <p class="text-gray-500 text-xs">Choose Button Design
                 </p>

@@ -40,6 +40,7 @@ export class ActionRuleComponent implements OnInit {
   @Input() selectedNode: any;
   @Input() formlyModel: any;
   @Input() nodes: any;
+  @Input() applicationId: string;
   actionForm: FormGroup;
   genrateQuery: any;
   genrateValue: any;
@@ -343,7 +344,8 @@ SaveAction() {
           "confirmEmail": element.confirmEmail,
           "referenceId": element.referenceId,
           "httpAddress": element.httpAddress ? element.httpAddress : "",
-          "contentType": element.contentType ? element.contentType : ""
+          "contentType": element.contentType ? element.contentType : "",
+          "applicationId": this.applicationId,
         }
 
 

@@ -298,7 +298,7 @@ export class BuilderComponent implements OnInit {
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
-        // "screenName": this.screenName,
+        "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
         "applicationId": this.selectApplicationName,

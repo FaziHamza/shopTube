@@ -21,6 +21,7 @@ export class BusinessRuleGridComponent implements OnInit {
   @Input() GridType: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
+  @Input() applicationId: string;
   isVisible = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
@@ -670,7 +671,8 @@ export class BusinessRuleGridComponent implements OnInit {
       "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
       "businessRule": JSON.stringify(this.GridBusinessRuleData),
       "gridKey": this.selectedNode.key,
-      "gridType": this.GridType ? this.GridType : 'Body'
+      "gridType": this.GridType ? this.GridType : 'Body',
+      "applicationId": this.applicationId,
     }
     // api response work
     const gridBusinessRuleModel = {
