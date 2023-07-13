@@ -444,42 +444,44 @@ SaveAction() {
       }
   }
   getFromQuery() {
-    let tableData = this.nodes[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
-    if(tableData.length > 0){
+    let tableData = this.findObjectByTypeBase(this.nodes[0],"gridList");
+    if(tableData){
       const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
       this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`).subscribe({
         next: (res) => {
           if (tableData.length > 0 && res) {
-            // tableData[0]['api'] = data.dataTable;
             let saveForm = JSON.parse(JSON.stringify(res[0]));
-            // saveForm["id"] = '';
-            // this.dataModel["id"] = tableData[0]['tableKey'].length
             const firstObjectKeys = Object.keys(saveForm);
             let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
-            // obj.unshift({name: 'id'});
-            if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-              tableData[0].tableData = [];
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              saveForm.id = tableData[0].tableData.length + 1
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
-              });
-            } else {
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              tableData[0].tableData = [];
-              saveForm.id = tableData[0].tableData.length + 1;
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
-              });
-              // tableData[0].tableData?.push(saveForm);
-            }
+            tableData.tableData = [];
+            tableData['tableKey'] = obj;
+            tableData.tableHeaders = tableData['tableKey'];
+            saveForm.id = tableData.tableData.length + 1
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData.tableData?.push(element);
+            });
           }
         }
       });
+    }
+  }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
     }
   }
 }

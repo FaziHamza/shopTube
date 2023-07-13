@@ -317,42 +317,59 @@ export class SectionsComponent implements OnInit {
     return convertedModel;
   }
   getFromQuery() {
+    let tableData = this.findObjectByTypeBase(this.sections,"gridList");
+    if(tableData){
+      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+        next: (res) => {
 
-    let tableData = this.sections.children[1].children.filter((a: any) => a.type == "gridList");
-    this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
-      next: (res) => {
-
-        if (tableData.length > 0) {
-          // tableData[0]['api'] = data.dataTable;
-          let saveForm = JSON.parse(JSON.stringify(res[0]));
-          // saveForm["id"] = '';
-          // this.dataModel["id"] = tableData[0]['tableKey'].length
-          const firstObjectKeys = Object.keys(saveForm);
-          let obj = firstObjectKeys.map(key => ({ name: key }));
-          // obj.unshift({name: 'id'});
-          if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-            tableData[0].tableData = [];
-            tableData[0]['tableKey'] = obj;
-            tableData[0].tableHeaders = tableData[0]['tableKey'];
-            saveForm.id = tableData[0].tableData.length + 1
+          if (tableData && res) {
+            let saveForm = JSON.parse(JSON.stringify(res[0]));
+            const firstObjectKeys = Object.keys(saveForm);
+            let obj = firstObjectKeys.map(key => ({ name: key }));
+            tableData.tableData = [];
+            saveForm.id = tableData.tableData.length + 1
             res.forEach((element: any) => {
               element.id = (element.id).toString();
-              tableData[0].tableData?.push(element);
+              tableData.tableData?.push(element);
             });
-          } else {
-            tableData[0]['tableKey'] = obj;
-            tableData[0].tableHeaders = tableData[0]['tableKey'];
-            tableData[0].tableData = [];
-            saveForm.id = tableData[0].tableData.length + 1;
-            res.forEach((element: any) => {
-              element.id = (element.id).toString();
-              tableData[0].tableData?.push(element);
-            });
-            // tableData[0].tableData?.push(saveForm);
+            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
+              const updatedData = tableData.tableHeaders.filter((updatedItem:any) => {
+                const name = updatedItem.name;
+                return !obj.some((headerItem:any) => headerItem.name === name);
+              });
+              if(updatedData.length > 0) {
+                tableData.tableHeaders =  tableData.tableHeaders.map((item:any) => {
+                  const newItem = { ...item };
+                      for (let i = 0; i < updatedData.length; i++) {
+                        newItem[updatedData[i].key] = "";
+                      }
+                  return newItem;
+                });
+              }
+            }
           }
         }
+      });
+    }
+
+  }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
       }
-    });
+    }
   }
   setInternalValuesEmpty = (obj: any) => {
     for (const key in obj) {

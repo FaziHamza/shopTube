@@ -175,6 +175,7 @@ export interface TreeNode {
   filterMultiple?: any;
   sort?: any;
   tableHeaders?: any;
+  tableKey?: any;
   tableNoResultArray?: any;
   expandable?: any;
   tableData?: any;

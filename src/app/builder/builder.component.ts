@@ -295,6 +295,11 @@ export class BuilderComponent implements OnInit {
         this.highlightSelect(this.selectedNode.id, false);
       }
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.navigation)
+      // Check Grid Data
+      let gridData = this.findObjectByTypeBase(this.nodes[0],'gridList');
+      if(gridData){
+        gridData.tableData = [];
+      }
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
@@ -324,6 +329,7 @@ export class BuilderComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.getBuilderScreen();
+            this.getFromQuery(this.navigation);
           }
           else
             this.toastr.error(res.message, { nzDuration: 3000 });
@@ -3838,6 +3844,21 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
+          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          const updatedData = tableData.filter((updatedItem:any) => {
+            const key = updatedItem.key;
+            return !this.selectedNode.tableHeaders.some((headerItem:any) => headerItem.key === key);
+          });
+          this.selectedNode.tableKey = tableData.map((key:any) => ({ name: key.name}));
+          if(updatedData.length > 0) {
+            this.selectedNode.tableHeaders.map((item:any) => {
+              const newItem = { ...item };
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
+              return newItem;
+            });
+          }
           this.selectedNode.tableHeaders = event.tableDta
             ? event.tableDta
             : event.form.options;
@@ -5567,7 +5588,24 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
   deleteValidationRule(data: any) {
     this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData._id).subscribe({
       next: (res: any) => {
@@ -5594,37 +5632,34 @@ export class BuilderComponent implements OnInit {
     }
   }
   getFromQuery(name:string) {
-    let tableData = this.nodes[0].children[1].children[0].children[1].children.filter((a: any) => a.type == "gridList");
-    if(tableData.length > 0){
+    let tableData = this.findObjectByTypeBase(this.nodes[0],"gridList");
+    if(tableData){
       this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
         next: (res) => {
-          if (tableData.length > 0 && res) {
-            // tableData[0]['api'] = data.dataTable;
+          if (tableData && res) {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
-            // saveForm["id"] = '';
-            // this.dataModel["id"] = tableData[0]['tableKey'].length
             const firstObjectKeys = Object.keys(saveForm);
-            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
-            // obj.unshift({name: 'id'});
-            if (JSON.stringify(tableData[0]['tableKey']) != JSON.stringify(obj)) {
-              tableData[0].tableData = [];
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              saveForm.id = tableData[0].tableData.length + 1
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
+            let tableKey = firstObjectKeys.map(key => ({ name: key}));
+            tableData.tableData = [];
+            saveForm.id = tableData.tableData.length + 1;
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData.tableData?.push(element);
+            });
+            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+              const updatedData = tableData.tableHeaders.filter((updatedItem:any) => {
+                const name = updatedItem.name;
+                return !tableKey.some((headerItem:any) => headerItem.name === name);
               });
-            } else {
-              tableData[0]['tableKey'] = obj;
-              tableData[0].tableHeaders = tableData[0]['tableKey'];
-              tableData[0].tableData = [];
-              saveForm.id = tableData[0].tableData.length + 1;
-              res.forEach((element: any) => {
-                element.id = (element.id).toString();
-                tableData[0].tableData?.push(element);
-              });
-              // tableData[0].tableData?.push(saveForm);
+              if(updatedData.length > 0) {
+                tableData.tableHeaders.map((item:any) => {
+                  const newItem = { ...item };
+                      for (let i = 0; i < updatedData.length; i++) {
+                        newItem[updatedData[i].key] = "";
+                      }
+                  return newItem;
+                });
+              }
             }
           }
         }

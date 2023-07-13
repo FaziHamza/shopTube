@@ -126,7 +126,7 @@ export class DynamicTableComponent implements OnInit {
             let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
             for (let m = 0; m < gridFilter.length; m++) {
               if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
-                const objRuleData = JSON.parse(gridFilter[m].buisnessRulleData);
+                const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
                 for (let index = 0; index < objRuleData.length; index++) {
                   const elementv1 = objRuleData[index];
                   let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
@@ -190,8 +190,8 @@ export class DynamicTableComponent implements OnInit {
             let headerFilter = getRes.filter((a: any) => a.gridType == 'Header');
             for (let m = 0; m < headerFilter.length; m++) {
               if (headerFilter[m].gridKey == this.data.key && this.data.tableData) {
-                for (let index = 0; index < headerFilter[m].buisnessRulleData.length; index++) {
-                  const elementv1 = headerFilter[m].buisnessRulleData[index];
+                for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
+                  const elementv1 = headerFilter[m].businessRuleData[index];
                   let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
                   if (checkType.length == 0) {
                     // const filteredData = this.filterTableData(elementv1)
@@ -240,8 +240,8 @@ export class DynamicTableComponent implements OnInit {
             let footerFilter = getRes.filter((a: any) => a.gridType == 'Footer');
             for (let m = 0; m < footerFilter.length; m++) {
               if (footerFilter[m].gridKey == this.data.key && this.data.tableData) {
-                for (let index = 0; index < footerFilter[m].buisnessRulleData.length; index++) {
-                  const elementv1 = footerFilter[m].buisnessRulleData[index];
+                for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
+                  const elementv1 = footerFilter[m].businessRuleData[index];
                   let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
                   if (checkType.length == 0) {
                     console.log("No obj Found!")
