@@ -17,6 +17,7 @@ export class BusinessRuleComponent implements OnInit {
   @Input() screenName: any;
   @Input() screenId: any;
   @Input() selectedNode: any;
+  @Input() applicationId: any;
   @Input() nodes: any;
   @Input() formlyModel: any;
   constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService,
@@ -187,14 +188,14 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   saveBussinessRule() {
-   
+
 
     this.businessRuleObj = [];
     this.businessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond + '"' + elv2.condType + '"' + elv2.condifCodition + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + " ";
+          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + " ";
         });
       }
       let condThen = '';
@@ -204,8 +205,8 @@ export class BusinessRuleComponent implements OnInit {
         });
       }
       var dt = {
-        if: elv.ifCondition + " " + elv.oprator + this.applyCondition(elv.getValue) + this.checkValueIntegerOrNot(elv.getValue) + this.applyCondition(elv.getValue) + cond,
-        then: elv.target + " " + elv.opratorForTraget + ' "' + this.checkValueIntegerOrNot(elv.resultValue) + '"' + condThen
+        if: elv.ifCondition + " " + elv.oprator + this.applyCondition(elv.getValue) + " " + this.checkValueIntegerOrNot(elv.getValue) + this.applyCondition(elv.getValue) + cond,
+        then: elv.target + " " + elv.opratorForTraget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
       };
       this.businessRuleObj.push(dt);
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
@@ -215,6 +216,7 @@ export class BusinessRuleComponent implements OnInit {
     const businessRuleValid = {
       "screenName": this.screenName,
       "screenBuilderId": this.screenId,
+      "applicationId": this.applicationId,
       "businessRule": JSON.stringify(this.businessRuleObj),
       "businessRuleData": JSON.stringify(this.businessForm.value.buisnessRule)
     }

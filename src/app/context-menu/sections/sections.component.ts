@@ -383,18 +383,26 @@ export class SectionsComponent implements OnInit {
   }
   joiValidation() {
     let jsonScreenRes: any = [];
+    let filteredInputNodes = this.filterInputElements(this.sections.children[1].children);
     if (this.joiValidationData.length > 0) {
-      for (let j = 0; j < this.sections.children[1].children.length; j++) {
-        if (this.sections.children[1].children[j].formlyType != undefined) {
-          let jsonScreenRes = this.joiValidationData.filter(a => a.key == this.sections.children[1].children[j].formly[0].fieldGroup[0].key);
+      for (let j = 0; j < filteredInputNodes.length; j++) {
+        if (filteredInputNodes[j].formlyType != undefined) {
+          let jsonScreenRes = this.joiValidationData.filter(a => a.key == filteredInputNodes[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length > 0) {
             if (jsonScreenRes[0].type === "text") {
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
-              this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
-              };
+              if (!minLimit && !maxLimit) {
+                this.ruleObj = {
+                  [jsonScreenRes[0].key]: Joi.string().required()
+                }
+              }
+              else {
+                this.ruleObj = {
+                  [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+                };
+              }
             }
             else if (jsonScreenRes[0].type === "number") {
               const { minlength, maxlength } = jsonScreenRes[0];
@@ -437,58 +445,31 @@ export class SectionsComponent implements OnInit {
     return true;
   }
   validationChecker() {
-    this.sections.children[1].children.forEach((item: any) => {
+    let filteredNodes = this.filterInputElements(this.sections.children[1].children);
+    filteredNodes.forEach((item: any) => {
       if (item.formly) {
         item.formly[0].fieldGroup[0].props.error = null;
+        item.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage = null;
       }
-      // for (let index = 0; index < this.sections.children[1].children[0].formly[0].fieldGroup.length; index++) {
-      //   this.sections.children[1].children[0].formly[0].fieldGroup[index].props.error = null;
-      // }
     });
 
     this.validationCheckStatus = [];
     const cc = this.schemaValidation.validate(Object.assign({}, this.formlyModel), { abortEarly: false });
-    let filteredNodes = this.filterInputElements(this.sections.children[1].children);
     if (cc?.error) {
       this.setErrorToInput = cc.error.details;
-      filteredNodes.forEach((V2: any) => {
-        for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
-          for (let i = 0; i < this.setErrorToInput.length; i++) {
-            const element = this.setErrorToInput[i];
-            if (V2.formly[0].fieldGroup[index].key.includes(this.setErrorToInput[i].context.key)) {
-              if (this.setErrorToInput[i].message == '"' + this.setErrorToInput[i].context.key + '" ' + "is not allowed") {
-                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
-                // V2.formly[0].fieldGroup[index].props['required'] = false;
-              }
-              else {
-                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[index].props.label);
-                // V2.formly[0].fieldGroup[index].props['required'] = true;
-              }
-            }
-            else {
-              let check = this.setErrorToInput.filter((error: any) => error.context.key == V2.formly[0].fieldGroup[index].key);
-              if (check.length == 0) {
-                V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
-                // this.dataSharedService.formlyShowError.next(false);
-              }
-            }
+      filteredNodes.forEach((V2: any, index) => {
+        for (let i = 0; i < this.setErrorToInput.length; i++) {
+          if (this.setErrorToInput[i].context.key == V2.formly[0].fieldGroup[0].key) {
+            V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[0].props.label);
           }
-          if (V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage)
-            this.validationCheckStatus.push(V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage);
         }
+        if (V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage)
+          this.validationCheckStatus.push(V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage);
       });
       if (this.setErrorToInput.length > 0) {
         this.dataSharedService.formlyShowError.next(true);
       }
       this.cd.detectChanges();
-    }
-    else {
-      // filteredNodes = this.filterInputElements(this.sections.children[1].children);
-      filteredNodes.forEach((V2: any) => {
-        for (let index = 0; index < V2.formly[0].fieldGroup.length; index++) {
-          V2.formly[0].fieldGroup[index].props['additionalProperties'].requiredMessage = null;
-        }
-      })
     }
   }
   findObjectByType(data: any, key: any) {
@@ -504,7 +485,6 @@ export class SectionsComponent implements OnInit {
     return null;
   }
   getJoiValidation() {
-    
     if (this.screenId)
       this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
         this.joiValidationData = getRes.data;

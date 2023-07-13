@@ -89,4 +89,8 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
       default: return '';
     }
   }
+  ngOnDestroy(): void {
+    this.requestSubscription.unsubscribe();
+    this.hasError = false;
+  }
 }

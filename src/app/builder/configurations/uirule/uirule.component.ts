@@ -15,6 +15,7 @@ export class UIRuleComponent implements OnInit {
   @Input() screens: any;
   @Input() screenId: string;
   @Input() screenName: string;
+  @Input() applicationId: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
   public editorOptions: JsonEditorOptions;
@@ -112,11 +113,11 @@ export class UIRuleComponent implements OnInit {
     let menuName: any;
     if (ifIndex != undefined && uiIndex != undefined) {
       menuName = this.addUIRuleIfCondition(uiIndex)?.at(ifIndex)?.get("ifMenuName")?.value;
-      nodeList = this.findElementNode(this.nodes, menuName);
+      nodeList = this.findElementNode(this.nodes[0], menuName);
     }
     else if (uiIndex != undefined) {
       menuName = this.getUiRule().at(uiIndex).get('ifMenuName')?.value;
-      nodeList = this.findElementNode(this.nodes, menuName);
+      nodeList = this.findElementNode(this.nodes[0], menuName);
     }
 
     let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
@@ -321,6 +322,7 @@ export class UIRuleComponent implements OnInit {
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
       "screenName": this.screenName,
+      "applicationId": this.applicationId,
       "screenBuilderId": this.screenId,
       "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
     }
@@ -440,7 +442,7 @@ export class UIRuleComponent implements OnInit {
   getConditionListOnLoad(menuName: string) {
 
     let nodeList: any;
-    nodeList = this.findObjectByKey(this.nodes[0], menuName);
+    nodeList = this.findElementNode(this.nodes[0], menuName);
     if (nodeList) {
 
       let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
@@ -472,7 +474,7 @@ export class UIRuleComponent implements OnInit {
     }
     return this.condationList;
   }
-  findObjectByKey(data: any, key: any) {
+  findElementNode(data: any, key: any) {
     if (data) {
       if (data.key && key) {
         if (data.key === key) {
@@ -480,7 +482,7 @@ export class UIRuleComponent implements OnInit {
         }
         if (data.children.length > 0) {
           for (let child of data.children) {
-            let result: any = this.findObjectByKey(child, key);
+            let result: any = this.findElementNode(child, key);
             if (result !== null) {
               return result;
             }
@@ -489,77 +491,6 @@ export class UIRuleComponent implements OnInit {
         return null;
       }
     }
-  }
-  findElementNode(data: any, key: any) {
-    if (data?.key === key) {
-      return data;
-    }
-    if (data.children)
-      for (let child of data.children) {
-        let result: any = this.findElementNode(child, key);
-        if (result !== null) {
-          return result;
-        }
-      }
-    return null;
-    // if(selectedNode && selectedNode.length)
-    // if (selectedNode[0].key == key) {
-    //   console.log(selectedNode);
-    // } else {
-    //   if (selectedNode[0] && selectedNode[0].children) {
-    //     for (let i = 0; i < selectedNode[0].children.length; i++) {
-    //       if (selectedNode[0].children[i]?.formly) {
-    //         if (selectedNode[0].children[i]?.formly[0]?.key == key)
-    //           return selectedNode[0].children[i];
-    //       } else {
-    //         for (let j = 0; j < selectedNode[0].children[i].children.length; j++) {
-    //           if (selectedNode[0].children[i].children[j].formly) {
-    //             if (selectedNode[0].children[i].children[j].formly[0].key == key)
-    //               return selectedNode[0].children[i].children[j];
-    //           } else if (j == selectedNode[0].children[i].children.length - 1) {
-    //             for (let k = 0; k < selectedNode[0].children[i].children[j].children.length; k++) {
-    //               let isSelectedKey = true;
-    //               if (selectedNode[0].children[i].children[j].children[k].formly) {
-    //                 if (selectedNode[0].children[i].children[j].children[k].formly[0].key == key) {
-    //                   console.log(selectedNode[0].children[i].children[j].children[k]);
-    //                   isSelectedKey = false;
-    //                   return selectedNode[0].children[i].children[j].children[k];
-    //                 }
-    //               }
-    //               if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children.length > 0) {
-    //                 for (let l = 0; l < selectedNode[0].children[i].children[j].children[k].children.length; l++) {
-    //                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.formly != undefined) {
-    //                     if (selectedNode[0].children[i].children[j].children[k].children[l]?.key == key) {
-    //                       isSelectedKey = false;
-    //                       console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
-    //                       return selectedNode[0].children[i].children[j].children[k].children[l];
-    //                     }
-    //                   }
-    //                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.key == key) {
-    //                     isSelectedKey = false;
-    //                     console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
-    //                     return selectedNode[0].children[i].children[j].children[k].children[l];
-    //                   }//strat Input Fields
-    //                   if (isSelectedKey && selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup != undefined) {
-    //                     if (selectedNode[0].children[i].children[j].children[k].children[l]?.buttonGroup[0]?.btnConfig[0]?.key == key) {
-    //                       isSelectedKey = false;
-    //                       console.log(selectedNode[0].children[i].children[j].children[k].children[l]);
-    //                       return selectedNode[0].children[i].children[j].children[k].children[l];
-    //                     }
-    //                   }
-    //                   if (isSelectedKey && l == selectedNode[0].children[i].children[j].children[k].children.length - 1) {
-    //                     this.findElementNode(selectedNode[0].children[i].children[j].children[k].formly, key);
-    //                   }
-    //                 }
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-
-    // }
   }
 
   deleteUiRule() {
