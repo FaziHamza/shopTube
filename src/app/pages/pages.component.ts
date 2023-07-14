@@ -517,9 +517,9 @@ export class PagesComponent implements OnInit {
         const expr = conditions[i];
         if (!expr.includes('AND') && !expr.includes('OR')) {
           const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = parts[0];
+          const leftOperand = this.parseOperand(parts[0]);
           const operator = parts[1];
-          const rightOperand = parts[2];
+          const rightOperand = this.parseOperand(parts[2]);
 
           if (!operators[operator]) {
             result = false; // Invalid operator found
@@ -536,12 +536,17 @@ export class PagesComponent implements OnInit {
       return result;
     } else {
       const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = parts[0];
+      const leftOperand = this.parseOperand(parts[0]);
       const operator = parts[1];
-      const rightOperand = parts[2];
+      const rightOperand = this.parseOperand(parts[2]);
 
       return operators[operator](leftOperand, rightOperand);
     }
+  }
+  parseOperand(operand: string): any {
+    const trimmedOperand = operand.trim();
+    const numericValue = Number(trimmedOperand);
+    return isNaN(numericValue) ? trimmedOperand : numericValue;
   }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
@@ -782,7 +787,7 @@ export class PagesComponent implements OnInit {
         if (this.businessRuleData) {
           // const fishRhyme = ruleFactory(this.businessRuleData);
           // const updatedModel = fishRhyme(this.formlyModel);
-          this.applyRules(this.formlyModel, this.businessRuleData);
+          // this.applyRules(this.formlyModel, this.businessRuleData);
           this.updateFormlyModel();
           this.cdr.detectChanges();
           // this.cdr.detach();
