@@ -545,8 +545,10 @@ export class PagesComponent implements OnInit {
   }
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
-    const numericValue = Number(trimmedOperand);
-    return isNaN(numericValue) ? trimmedOperand : numericValue;
+    if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
+      return Number(trimmedOperand); // Parse as number if it's a valid numeric string
+    }
+    return trimmedOperand; // Return as string otherwise
   }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
@@ -787,7 +789,7 @@ export class PagesComponent implements OnInit {
         if (this.businessRuleData) {
           // const fishRhyme = ruleFactory(this.businessRuleData);
           // const updatedModel = fishRhyme(this.formlyModel);
-          // this.applyRules(this.formlyModel, this.businessRuleData);
+          this.applyRules(this.formlyModel, this.businessRuleData);
           this.updateFormlyModel();
           this.cdr.detectChanges();
           // this.cdr.detach();
@@ -797,12 +799,13 @@ export class PagesComponent implements OnInit {
 
     }
   }
-  applyRules(data:any, rules:any) {
+  applyRules(data: any, rules: any[]) {
+    rules = this.transformRules(rules);
     for (let rule of rules) {
       let conditions = rule.if.split(' AND ');
 
-      let conditionResults = conditions.map((condition:any) => {
-        let [key, operator, value] = condition.split(' ').map((s:any) => s.trim());
+      let conditionResults = conditions.map((condition: any) => {
+        let [key, operator, value] = condition.split(' ').map((s: any) => s.trim());
         value = value.replace(/['"]/g, '');  // remove quotes
 
         if (operator == '==') return data[key] == value;
@@ -815,19 +818,39 @@ export class PagesComponent implements OnInit {
       });
 
       // check if all conditions are true
-      if (conditionResults.every((result:any) => result)) {
-        let actions = rule.then.split(',').map((s:any) => s.trim());
-        for (let action of actions) {
-          let [key, , value] = action.split(' ').map((s:any) => s.trim());
-          value = value.replace(/['"]/g, '');  // remove quotes
+      if (conditionResults.every((result: any) => result)) {
+        let thenActions = rule.then;
+        // let thenActions = rule.then.split(',').map((s: any) => s.trim());
+        for (let action of thenActions) {
+          action = action.trim().replace("'then' :", ""); // remove quotes
+          let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value;
+        }
+      }else{
+        let thenActions = rule.then;
+        for (let action of thenActions) {
+          action = action.trim().replace("'then' :", ""); // remove quotes
+          let [key, value] = action.split('=').map((s: any) => s.trim());
+          data[key] = "";
         }
       }
     }
-
+    console.log("my data: ", data);
     return data;
   }
+  transformRules(oldRules: any[]): any[] {
+    return oldRules.map(rule => {
+      let newRule = {...rule};  // clone rule
+      let thenActions = rule.then.split(',').map((s: any) => s.trim());
 
+      newRule.then = thenActions.map((action: any) => {
+        let [key, value] = action.split('=').map((s: any) => s.trim());
+        return `${key} = ${value}`;
+      });
+
+      return newRule;
+    });
+  }
   getSetVariableRule(model: any, value: any) {
     //for grid amount assign to other input field
     const filteredNodes = this.filterInputElements(this.resData);

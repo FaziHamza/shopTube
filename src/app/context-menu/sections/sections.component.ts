@@ -497,9 +497,9 @@ export class SectionsComponent implements OnInit {
         const expr = conditions[i];
         if (!expr.includes('AND') && !expr.includes('OR')) {
           const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = parts[0];
+          const leftOperand = this.parseOperand(parts[0]);
           const operator = parts[1];
-          const rightOperand = parts[2];
+          const rightOperand = this.parseOperand(parts[2]);
 
           if (!operators[operator]) {
             result = false; // Invalid operator found
@@ -516,12 +516,19 @@ export class SectionsComponent implements OnInit {
       return result;
     } else {
       const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = parts[0];
+      const leftOperand = this.parseOperand(parts[0]);
       const operator = parts[1];
-      const rightOperand = parts[2];
+      const rightOperand = this.parseOperand(parts[2]);
 
       return operators[operator](leftOperand, rightOperand);
     }
+  }
+  parseOperand(operand: string): any {
+    const trimmedOperand = operand.trim();
+    if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
+      return Number(trimmedOperand); // Parse as number if it's a valid numeric string
+    }
+    return trimmedOperand; // Return as string otherwise
   }
 
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
