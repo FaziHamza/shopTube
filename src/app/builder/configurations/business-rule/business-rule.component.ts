@@ -195,13 +195,13 @@ debugger
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue);
+          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue)  + ' ';
         });
       }
       let condThen = '';
       if (elv.thenCondition) {
         elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue);
+          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
         });
       }
       var dt = {

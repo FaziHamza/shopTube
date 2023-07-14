@@ -254,19 +254,19 @@ export class ActionRuleComponent implements OnInit {
   // Remove FormGroup
   removeActionFormGroup(index: number, data: any) {
 
+    this.ActionsForms.removeAt(index);
     if (data.id == 0) {
-      this.ActionsForms.removeAt(index);
     } else {
-      this.requestSubscription = this.employeeService.deleteSQLDatabaseTable('knex-crud/SQLQueries/', data.id).subscribe({
-        next: (res) => {
-          this.ActionsForms.removeAt(index);
-          this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      // this.requestSubscription = this.employeeService.deleteSQLDatabaseTable('knex-crud/SQLQueries/', data.id).subscribe({
+      //   next: (res) => {
+      //     this.ActionsForms.removeAt(index);
+      //     this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+      //   },
+      //   error: (err) => {
+      //     console.error(err);
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // });
     }
   }
 
@@ -451,7 +451,7 @@ SaveAction() {
       const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
       this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`).subscribe({
         next: (res) => {
-          if (tableData.length > 0 && res) {
+          if (tableData  && res) {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
             const firstObjectKeys = Object.keys(saveForm);
             let obj = firstObjectKeys.map(key => ({ name: key,key: key}));

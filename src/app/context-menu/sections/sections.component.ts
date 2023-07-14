@@ -306,27 +306,30 @@ export class SectionsComponent implements OnInit {
                 let firstValue = data.tableData[j][elementv1.ifCondition] ? data.tableData[j][elementv1.ifCondition] : "0";
                 query =  firstValue + elementv1.oprator + elementv1.getValue
               }
-
-              if (eval(query)) {
+              for (let k = 0; k < elementv1.conditional.length; k++) {
+                const element = elementv1.conditional[k];
+                query += ' ' +element.condType + ' ' + data.tableData[j][element.condifCodition] + element.condOperator +  element.condValue;
+              }
+              if (this.evaluateGridCondition(query)) {
                 for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                   const elementv2 = elementv1.getRuleCondition[k];
                   if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                    data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                    data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                   } else {
                     if (k > 0) {
-                      data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                       data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                     else
-                      data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                   }
                   if (elementv2.multiConditionList.length > 0) {
                     for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                       const elementv3 = elementv2.multiConditionList[l];
                       const value = data.tableData[j][elementv1.target];
-                      data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                       // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                   }
@@ -335,12 +338,12 @@ export class SectionsComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    data.tableData[j][elementv2.thenTarget] = eval(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                    data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                     if (elementv3.multiConditionList.length > 0) {
                       for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                         const elementv4 = elementv3.multiConditionList[m];
                         const value = data.tableData[j][elementv2.thenTarget];
-                        data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
+                        data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
                         // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                       }
                     }
@@ -449,6 +452,78 @@ export class SectionsComponent implements OnInit {
       }
     }
   }
+  private isNumeric(value: any): boolean {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+  evaluateGridConditionOperator(condition: string): any {
+    const operators: { [key: string]: (a: any, b: any) => any } = {
+      "+": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a + b : null,
+      "-": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a - b : null,
+      "*": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a * b : null,
+      "/": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a / b : null,
+      "%": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a % b : null,
+    };
+
+    const parts = condition.split(/(\+|-|\*|\/|%)/).map(part => part.trim());
+    const leftOperand = parts[0];
+    const operator = parts[1];
+    const rightOperand = parts[2];
+
+    const leftValue = this.isNumeric(leftOperand) ? Number(leftOperand) : null;
+    const rightValue = this.isNumeric(rightOperand) ? Number(rightOperand) : null;
+
+    return operators[operator](leftValue, rightValue);
+  }
+  evaluateGridCondition(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+    };
+
+    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+
+    if (hasLogicalOperator) {
+      const conditions = condition.split(/\s+(AND|OR)\s+/);
+      let result = true;
+
+      for (let i = 0; i < conditions.length; i++) {
+        const expr = conditions[i];
+        if(!expr.includes('AND') && !expr.includes('OR')){
+          const parts = expr.split(/(==|!=|>=|<=|=|>|<)/).map(part => part.trim());
+          const leftOperand = parts[0];
+          const operator = parts[1];
+          const rightOperand = parts[2];
+
+          if (!operators[operator]) {
+            result = false; // Invalid operator found
+            break;
+          }
+
+          if (!operators[operator](leftOperand, rightOperand)) {
+            result = false; // Condition not satisfied
+            break;
+          }
+        }
+      }
+
+      return result;
+    } else {
+      const parts = condition.split(/(==|!=|>=|<=|=|>|<)/).map(part => part.trim());
+      const leftOperand = parts[0];
+      const operator = parts[1];
+      const rightOperand = parts[2];
+
+      return operators[operator](leftOperand, rightOperand);
+    }
+  }
+
+
+
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
       element[value] = resultData?.sum;
