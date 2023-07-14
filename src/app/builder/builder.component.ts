@@ -46,7 +46,7 @@ export class BuilderComponent implements OnInit {
   size: NzButtonSize = 'large';
   departmentData: any = [];
   applicationData: any = [];
-  selectDepartmentName: any;
+  selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
   sizes = [20, 80, 0];
@@ -136,9 +136,18 @@ export class BuilderComponent implements OnInit {
     document
       .getElementsByTagName('body')[0]
       .setAttribute('data-sidebar-size', 'sm');
-    if (this.dataSharedService.screenName) {
-      this.getScreenData(this.dataSharedService.screenName);
-    }
+    // if (this.dataSharedService.screenName) {
+    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.departmentId
+    //   // this.loadData(this.dataSharedService.screenName,0);
+    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.applicationId
+    //   // this.loadData(this.dataSharedService.screenName,1);
+    //   this.selectDepartmentName = [
+    //     this.dataSharedService.screenName.departmentId,
+    //     this.dataSharedService.screenName.applicationId,
+    //     this.dataSharedService.screenName._id
+    //   ];
+    //   this.getScreenData(this.dataSharedService.screenName._id);
+    // }
     this.htmlTabsData = htmlTabsData;
     this.makeDatainTemplateTab();
     let filterdButtons = this.htmlTabsData[0].children.filter(
@@ -150,6 +159,7 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
+    debugger
     if (departmentId.length === 3) {
       this.getScreenData(departmentId[2])
     }
@@ -173,6 +183,8 @@ export class BuilderComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    debugger
+    this.selectDepartmentName;
     if (index == 1) {
       // Root node - Load application data
       try {
@@ -194,7 +206,8 @@ export class BuilderComponent implements OnInit {
       } catch (err) {
         this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
       }
-    } else if (index === 0) {
+    }
+    else if (index === 0) {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
         if (res.isSuccess) {
@@ -285,7 +298,8 @@ export class BuilderComponent implements OnInit {
   JsonEditorShow() {
     this.IslayerVisible = false;
     this.IsjsonEditorVisible = true;
-    this.IsShowConfig = true;
+    this.IsShowConfig = false;
+    this.controlListvisible = false;
     this.applySize();
   }
   saveJson() {
@@ -296,8 +310,8 @@ export class BuilderComponent implements OnInit {
       }
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.navigation)
       // Check Grid Data
-      let gridData = this.findObjectByTypeBase(this.nodes[0],'gridList');
-      if(gridData){
+      let gridData = this.findObjectByTypeBase(this.nodes[0], 'gridList');
+      if (gridData) {
         gridData.tableData = [];
       }
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
@@ -432,6 +446,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   getBuilderScreen() {
+    this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -445,7 +460,8 @@ export class BuilderComponent implements OnInit {
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
-            this.getFromQuery(res.data[0].navigation);
+            this.saveLoader = false;
+            // this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -462,6 +478,7 @@ export class BuilderComponent implements OnInit {
           else {
             // this.navigation = 0;
             this.clearChildNode();
+            this.saveLoader = false;
           }
           this.isSavedDb = true;
           this.formModalData = {};
@@ -469,12 +486,15 @@ export class BuilderComponent implements OnInit {
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
-        } else
+        } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.saveLoader = false;
+        }
       },
       error: (err) => {
         console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
       }
     });
   }
@@ -3525,6 +3545,23 @@ export class BuilderComponent implements OnInit {
         break;
       case 'button':
       case 'linkbutton':
+        if (Array.isArray(event.form.buttonClass)) {
+          if (event.form.buttonClass.length > 0) {
+            let classArray: any;
+            for (let i = 0; i < event.form.buttonClass.length; i++) {
+              if (i == 0) {
+                classArray = event.form.buttonClass[i];
+              }
+              else {
+                classArray = classArray + ' ' + event.form.buttonClass[i];
+              }
+            };
+            this.selectedNode['buttonClass'] = classArray;
+          }
+        }
+        else {
+          this.selectedNode['buttonClass'] = event.form.buttonClass;
+        }
         this.selectedNode.btnIcon = event.form?.icon;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
@@ -3847,17 +3884,17 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
           const tableData = event.tableDta ? event.tableDta : event.form.options;
-          const updatedData = tableData.filter((updatedItem:any) => {
+          const updatedData = tableData.filter((updatedItem: any) => {
             const key = updatedItem.key;
-            return !this.selectedNode.tableHeaders.some((headerItem:any) => headerItem.key === key);
+            return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
           });
-          this.selectedNode.tableKey = tableData.map((key:any) => ({ name: key.name}));
-          if(updatedData.length > 0) {
-            this.selectedNode.tableHeaders.map((item:any) => {
+          this.selectedNode.tableKey = tableData.map((key: any) => ({ name: key.name }));
+          if (updatedData.length > 0) {
+            this.selectedNode.tableHeaders.map((item: any) => {
               const newItem = { ...item };
-                  for (let i = 0; i < updatedData.length; i++) {
-                    newItem[updatedData[i].key] = "";
-                  }
+              for (let i = 0; i < updatedData.length; i++) {
+                newItem[updatedData[i].key] = "";
+              }
               return newItem;
             });
           }
@@ -4543,28 +4580,47 @@ export class BuilderComponent implements OnInit {
       // this.selectedNode = { ...this.selectedNode, ...event.form };
       if (Array.isArray(event.form.className)) {
         if (event.form.className.length > 0) {
-          let classArray: any;
+          let classArray: string = '';
           for (let i = 0; i < event.form.className.length; i++) {
-            if (i == 0) {
-              classArray = event.form.className[i];
+            const classObj: string[] = event.form.className[i].split(" ");
+            if (classObj.length > 0) {
+              for (let j = 0; j < classObj.length; j++) {
+                if (j === 0 && i === 0) {
+                  classArray = classObj[j];
+                } else {
+                  classArray += ' ' + classObj[j];
+                }
+              }
             }
-            else {
-              classArray = classArray + ' ' + event.form.className[i];
-            }
-          };
-          this.selectedNode['className'] = classArray;
+          }
+          this.selectedNode.className = classArray;
+          this.selectedNode = { ...this.selectedNode, ...event.form };
         }
-      }
-      else {
-        this.selectedNode['className'] = event.form.className;
+      } else {
+        this.selectedNode.className = event.form.className;
       }
 
       // this.updateNodes();
     }
+
     // this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
   }
+
+  autocorrectClassValue(classValue: string): string {
+    // Split the classValue by spaces
+    const classArray = classValue.split(' ');
+
+    // Filter out any empty class names
+    const filteredClassArray = classArray.filter(className => className.trim() !== '');
+
+    // Join the filtered class names with spaces
+    const correctedClassValue = filteredClassArray.join(' ');
+
+    return correctedClassValue;
+  }
+
   updateTableData(tableData: any, tableHeaders: any) {
     tableData.forEach((data: any) => {
       tableHeaders.forEach((header: any) => {
@@ -5629,15 +5685,15 @@ export class BuilderComponent implements OnInit {
       this.router.navigate(['/pages/', this.navigation]);
     }
   }
-  getFromQuery(name:string) {
-    let tableData = this.findObjectByTypeBase(this.nodes[0],"gridList");
-    if(tableData){
+  getFromQuery(name: string) {
+    let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
+    if (tableData) {
       this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
         next: (res) => {
           if (tableData && res) {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
             const firstObjectKeys = Object.keys(saveForm);
-            let tableKey = firstObjectKeys.map(key => ({ name: key}));
+            let tableKey = firstObjectKeys.map(key => ({ name: key }));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             res.forEach((element: any) => {
@@ -5645,16 +5701,16 @@ export class BuilderComponent implements OnInit {
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem:any) => {
+              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                 const name = updatedItem.name;
-                return !tableKey.some((headerItem:any) => headerItem.name === name);
+                return !tableKey.some((headerItem: any) => headerItem.name === name);
               });
-              if(updatedData.length > 0) {
-                tableData.tableHeaders.map((item:any) => {
+              if (updatedData.length > 0) {
+                tableData.tableHeaders.map((item: any) => {
                   const newItem = { ...item };
-                      for (let i = 0; i < updatedData.length; i++) {
-                        newItem[updatedData[i].key] = "";
-                      }
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
                   return newItem;
                 });
               }
@@ -5662,6 +5718,21 @@ export class BuilderComponent implements OnInit {
           }
         }
       });
+    }
+  }
+
+  updateSelectDepartmentName(selectedIndex: number) {
+    if (this.dataSharedService.screenName) {
+      if (selectedIndex === 0) {
+        this.selectDepartmentName = [
+          this.dataSharedService.screenName.departmentId,
+          this.dataSharedService.screenName.applicationId,
+          this.dataSharedService.screenName._id
+        ];
+      } else if (selectedIndex === 1) {
+        // Perform a different operation for index 1, if needed
+      }
+      this.getScreenData(this.dataSharedService.screenName._id);
     }
   }
 }

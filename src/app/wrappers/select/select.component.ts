@@ -34,8 +34,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     this.formControl.patchValue(value);
   }
   onModelChange(event: any, model: any) {
-
     this.sharedService.onChange(event, this.field,);
-    console.log(event, model, 'radio');
+    // console.log(event, model, 'radio');
   }
 }

@@ -23,7 +23,7 @@
     <nz-table [nzScroll]="{ x: '1200px', y: null }" #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" nzBordered>
         <thead>
             <tr> 
-                <th>#</th>
+                <!-- <th>#</th> -->
                 <ng-container *ngFor="let column of listOfColumns">
                     <th nzCustomFilter *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
                         <nz-filter-trigger [nzVisible]="column.visible || false" [nzDropdownMenu]="menu">
@@ -47,9 +47,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of filterTable.data; index as i">
-                <td>{{ i+1 }}</td>
-
-                <!-- <td>{{ data.screenId }}</td> -->
+                <!-- <td>{{ i+1 }}</td> -->
                 <td>{{ data.navigation }}</td>
                 <td>{{ data.name }}</td>
                 <td>{{ data.orgnaizationName ? data.orgnaizationName : 'no data'}}</td>
@@ -62,9 +60,9 @@
                         nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                         (nzOnConfirm)="deleteRow(data._id)"></span>
                     <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="file-done" nzTheme="outline"
-                        nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.screenId}}"></span>
+                        nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.navigation}}"></span>
                     <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="form" nzTheme="outline"
-                        nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data.name)"></span>
+                        nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data)"></span>
                 </td>
             </tr>
         </tbody>

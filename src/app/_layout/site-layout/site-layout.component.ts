@@ -191,37 +191,52 @@ export class SiteLayoutComponent implements OnInit {
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
+        debugger
         if (res.isSuccess) {
-          this.logo = res.data[0]['image'];
+          this.logo = res.data.appication['image'];
           // this.dataSharedService.currentApplication.next(res[0]);
-          this.currentWebsiteLayout = res.data[0]?.application_Type ? res.data[0]?.application_Type : 'backend_application';
-          const observables = [
+          this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
+          this.dataSharedService.currentHeader.next(res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '');
+          this.dataSharedService.currentFooter.next(res.data['header'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');
+          let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
+          let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+          if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+            this.selectedTheme = selectedTheme;
+            this.selectedTheme.allMenuItems = getMenu
+          } else {
+            this.dataSharedService.menus = getMenu;
+            this.dataSharedService.menus.allMenuItems = getMenu;
+            this.selectedTheme = undefined;
+          }
 
-            // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
-            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_header"),
-            this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_footer"),
-            this.applicationService.getNestCommonAPIById('cp/Menu', res.data[0]._id),
-          ];
-          forkJoin(observables).subscribe({
-            next: (results) => {
-              this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
-              this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? this.jsonParseWithObject(results[1].data[0].screenData) : '' : '');
-              let getMenu = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) : {} : {};
-              let selectedTheme = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) : {} : {};
-              if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
-                this.selectedTheme = selectedTheme;
-                this.selectedTheme.allMenuItems = getMenu
-              } else {
-                this.dataSharedService.menus = getMenu;
-                this.dataSharedService.menus.allMenuItems = getMenu;
-                this.selectedTheme = undefined;
-              }
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          });
+
+          // const observables = [
+
+          //   // this.builderService.jsonBuilderSettingV1(res[0].name + "_default"),
+          //   this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_header"),
+          //   this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', res.data[0].name + "_footer"),
+          //   this.applicationService.getNestCommonAPIById('cp/Menu', res.data[0]._id),
+          // ];
+          // forkJoin(observables).subscribe({
+          //   next: (results) => {
+          //     this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? this.jsonParseWithObject(results[0].data[0].screenData) : '' : '');
+          //     this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? this.jsonParseWithObject(results[1].data[0].screenData) : '' : '');
+          //     let getMenu = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].menuData) : {} : {};
+          //     let selectedTheme = results[2].isSuccess ? results[2].data.length > 0 ? this.jsonParseWithObject(results[2].data[0].selectedTheme) : {} : {};
+          //     if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+          //       this.selectedTheme = selectedTheme;
+          //       this.selectedTheme.allMenuItems = getMenu
+          //     } else {
+          //       this.dataSharedService.menus = getMenu;
+          //       this.dataSharedService.menus.allMenuItems = getMenu;
+          //       this.selectedTheme = undefined;
+          //     }
+          //   },
+          //   error: (err) => {
+          //     console.error(err);
+          //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+          //   }
+          // });
         }
       },
       error: (err) => {
@@ -349,7 +364,7 @@ export class SiteLayoutComponent implements OnInit {
             {
               "_id": res.data._id,
               "name": res.data.name,
-              "selectedTheme": res.data?.selectedTheme ?  JSON.parse(res.data?.selectedTheme) : {},
+              "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
               "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
               "__v": 0,
               "applicationId": "648b4d73dc2ca800d3684f7b"
