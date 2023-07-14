@@ -483,6 +483,8 @@ export class SectionsComponent implements OnInit {
       "=": (a: any, b: any) => a === b,
       ">": (a: any, b: any) => a > b,
       "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
     };
 
     const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
@@ -493,8 +495,8 @@ export class SectionsComponent implements OnInit {
 
       for (let i = 0; i < conditions.length; i++) {
         const expr = conditions[i];
-        if(!expr.includes('AND') && !expr.includes('OR')){
-          const parts = expr.split(/(==|!=|>=|<=|=|>|<)/).map(part => part.trim());
+        if (!expr.includes('AND') && !expr.includes('OR')) {
+          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
           const leftOperand = parts[0];
           const operator = parts[1];
           const rightOperand = parts[2];
@@ -513,7 +515,7 @@ export class SectionsComponent implements OnInit {
 
       return result;
     } else {
-      const parts = condition.split(/(==|!=|>=|<=|=|>|<)/).map(part => part.trim());
+      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
       const leftOperand = parts[0];
       const operator = parts[1];
       const rightOperand = parts[2];
@@ -521,8 +523,6 @@ export class SectionsComponent implements OnInit {
       return operators[operator](leftOperand, rightOperand);
     }
   }
-
-
 
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')

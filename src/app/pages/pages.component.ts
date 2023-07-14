@@ -330,26 +330,26 @@ export class PagesComponent implements OnInit {
                 query =  firstValue + elementv1.oprator + elementv1.getValue
               }
 
-              if (eval(query)) {
+              if (this.evaluateGridCondition(query)) {
                 for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                   const elementv2 = elementv1.getRuleCondition[k];
                   if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                    data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                    data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                   } else {
                     if (k > 0) {
-                      data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                       data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                     else
-                      data.tableData[j][elementv1.target] = eval(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                   }
                   if (elementv2.multiConditionList.length > 0) {
                     for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                       const elementv3 = elementv2.multiConditionList[l];
                       const value = data.tableData[j][elementv1.target];
-                      data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                       // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                   }
@@ -358,12 +358,12 @@ export class PagesComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    data.tableData[j][elementv2.thenTarget] = eval(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                    data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                     if (elementv3.multiConditionList.length > 0) {
                       for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                         const elementv4 = elementv3.multiConditionList[m];
                         const value = data.tableData[j][elementv2.thenTarget];
-                        data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
+                        data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
                         // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                       }
                     }
@@ -470,6 +470,77 @@ export class PagesComponent implements OnInit {
           }
         }
       }
+    }
+  }
+  private isNumeric(value: any): boolean {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+  evaluateGridConditionOperator(condition: string): any {
+    const operators: { [key: string]: (a: any, b: any) => any } = {
+      "+": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a + b : null,
+      "-": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a - b : null,
+      "*": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a * b : null,
+      "/": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a / b : null,
+      "%": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a % b : null,
+    };
+
+    const parts = condition.split(/(\+|-|\*|\/|%)/).map(part => part.trim());
+    const leftOperand = parts[0];
+    const operator = parts[1];
+    const rightOperand = parts[2];
+
+    const leftValue = this.isNumeric(leftOperand) ? Number(leftOperand) : null;
+    const rightValue = this.isNumeric(rightOperand) ? Number(rightOperand) : null;
+
+    return operators[operator](leftValue, rightValue);
+  }
+  evaluateGridCondition(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+
+    if (hasLogicalOperator) {
+      const conditions = condition.split(/\s+(AND|OR)\s+/);
+      let result = true;
+
+      for (let i = 0; i < conditions.length; i++) {
+        const expr = conditions[i];
+        if (!expr.includes('AND') && !expr.includes('OR')) {
+          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+          const leftOperand = parts[0];
+          const operator = parts[1];
+          const rightOperand = parts[2];
+
+          if (!operators[operator]) {
+            result = false; // Invalid operator found
+            break;
+          }
+
+          if (!operators[operator](leftOperand, rightOperand)) {
+            result = false; // Condition not satisfied
+            break;
+          }
+        }
+      }
+
+      return result;
+    } else {
+      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+      const leftOperand = parts[0];
+      const operator = parts[1];
+      const rightOperand = parts[2];
+
+      return operators[operator](leftOperand, rightOperand);
     }
   }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
@@ -685,7 +756,7 @@ export class PagesComponent implements OnInit {
                 query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
-            if (eval(query)) {
+            if (this.evaluateGridCondition(query)) {
               const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
               this.resData[0].children[1].children[0].children[1].children = check;
               this.updateNodes();
@@ -709,15 +780,10 @@ export class PagesComponent implements OnInit {
     finally {
       if (this.screenName) {
         if (this.businessRuleData) {
-          const fishRhyme = ruleFactory(this.businessRuleData);
-          const updatedModel = fishRhyme(this.formlyModel);
-          // this.updateFormlyModelData();
+          // const fishRhyme = ruleFactory(this.businessRuleData);
+          // const updatedModel = fishRhyme(this.formlyModel);
+          this.applyRules(this.formlyModel, this.businessRuleData);
           this.updateFormlyModel();
-          // if(updatedModel){
-          //   this.updateFormlyModel();
-          // }else{
-          //   this.updateFormlyModelData()
-          // }
           this.cdr.detectChanges();
           // this.cdr.detach();
         }
@@ -726,132 +792,37 @@ export class PagesComponent implements OnInit {
 
     }
   }
-  updateFormlyModelData() {
-    for (const rule of this.businessRuleData) {
-      if (this.evaluateCondition(rule.if)) {
-        this.updateModelWithStatement(rule.then);
-      } else {
-        if (rule.then) {
-          this.modelWithStatement(rule.then);
+  applyRules(data:any, rules:any) {
+    for (let rule of rules) {
+      let conditions = rule.if.split(' AND ');
+
+      let conditionResults = conditions.map((condition:any) => {
+        let [key, operator, value] = condition.split(' ').map((s:any) => s.trim());
+        value = value.replace(/['"]/g, '');  // remove quotes
+
+        if (operator == '==') return data[key] == value;
+        if (operator == '!=') return data[key] != value;
+        if (operator == '>=') return data[key] >= value;
+        if (operator == '<=') return data[key] <= value;
+        if (operator == '>') return data[key] > value;
+        if (operator == '<') return data[key] < value;
+        throw new Error(`Unknown operator: ${operator}`);
+      });
+
+      // check if all conditions are true
+      if (conditionResults.every((result:any) => result)) {
+        let actions = rule.then.split(',').map((s:any) => s.trim());
+        for (let action of actions) {
+          let [key, , value] = action.split(' ').map((s:any) => s.trim());
+          value = value.replace(/['"]/g, '');  // remove quotes
+          data[key] = value;
         }
       }
     }
-  }
-  evaluateCondition(condition: string): boolean {
-    if (condition.includes('AND') || condition.includes('OR'))
-      return this.evaluateConditionOperatoe(condition);
-    else
-      return this.evaluateConditionSimple(condition);
-  }
-  evaluateConditionSimple(condition: string): boolean {
-    const operators: { [key: string]: (a: any, b: any) => boolean } = {
-      "==": (a: any, b: any) => a == b,
-      "!=": (a: any, b: any) => a != b,
-      ">=": (a: any, b: any) => a >= b,
-      "<=": (a: any, b: any) => a <= b,
-      "=": (a: any, b: any) => a === b,
-      ">": (a: any, b: any) => a > b,
-      "<": (a: any, b: any) => a < b,
-    };
 
-    const parts = condition.split(" ");
-    const leftOperand = parts[0].trim();
-    const operator = parts[1].trim();
-    const rightOperand = parts[2].trim();
-
-    const leftValue = this.formlyModel[leftOperand];
-    // const rightValue = this.formlyModel[leftOperand];
-
-    return operators[operator](leftValue, rightOperand)
-  }
-  evaluateConditionOperatoe(condition: string): boolean {
-    const operators: { [key: string]: (a: any, b: any) => boolean } = {
-      "==": (a: any, b: any) => a == b,
-      "!=": (a: any, b: any) => a != b,
-      ">=": (a: any, b: any) => a >= b,
-      "<=": (a: any, b: any) => a <= b,
-      "=": (a: any, b: any) => a === b,
-      ">": (a: any, b: any) => a > b,
-      "<": (a: any, b: any) => a < b,
-    };
-
-    const andConditions = condition.split("AND");
-    let andResult = true;
-
-    for (const andCondition of andConditions) {
-      const orConditions = andCondition.split("OR");
-      let orResult = false;
-
-      for (const orCondition of orConditions) {
-        const parts = orCondition.split(" ");
-        const leftOperand = parts[0].trim();
-        const operator = parts[1].trim();
-        const rightOperand = parts[2].trim();
-
-        const leftValue = this.formlyModel[leftOperand];
-        const rightValue = this.formlyModel[rightOperand];
-
-          const conditionResult = operators[operator](leftValue, rightOperand)
-
-        if (conditionResult) {
-          orResult = true;
-          break;
-        }
-      }
-
-      if (!orResult) {
-        andResult = false;
-        break;
-      }
-    }
-
-    return andResult;
+    return data;
   }
 
-  updateModelWithStatement(statement: string) {
-    const parts = statement.split(',');
-    for (const part of parts) {
-      if(part.includes('then')){
-        const keyValue  = part.split(': ')[1].split('=');
-        const key = keyValue[0].trim();
-        const value = keyValue[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
-        this.formlyModel[key] = value;
-      }
-      else
-      {
-        const keyValue = part.split('=');
-        const key = keyValue[0].trim();
-        const value = keyValue[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
-        this.formlyModel[key] = value;
-      }
-
-    }
-  }
-
-  modelWithStatement(statement: string) {
-    // Implement your own logic to update the model based on the statement
-    const parts = statement.split(',');
-    for (const part of parts) {
-      if(part.includes('then')){
-        const keyValue  = part.split(': ')[1].split('=');
-        const key = keyValue[0].trim();
-        const value = keyValue[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
-        this.formlyModel[key] = '';
-      }
-      else
-      {
-        const keyValue = part.split('=');
-        const key = keyValue[0].trim();
-        const value = keyValue[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
-        this.formlyModel[key] = '';
-      }
-
-    }
-    // const parts = statement.split('=');
-    // const key = parts[0].trim();
-    // const value = parts[1].trim().replace(/"/g, ''); // Remove double quotes from the value if present
-    // this.formlyModel[key] = '';
-  }
   getSetVariableRule(model: any, value: any) {
     //for grid amount assign to other input field
     const filteredNodes = this.filterInputElements(this.resData);
@@ -1034,9 +1005,9 @@ export class PagesComponent implements OnInit {
           inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
             if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
-              inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              inputType[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
             } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
-              inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              inputType[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
             }
         } else if (inputType[l].type == "alert" || inputType[l].type == "heading" || inputType[l].type == "paragraph" ||
           inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
