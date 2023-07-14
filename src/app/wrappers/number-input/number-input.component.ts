@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'number-input',
@@ -7,6 +8,9 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   styleUrls: ['./number-input.component.scss']
 })
 export class NumberInputComponent extends FieldType<FieldTypeConfig> {
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   precision = 1;
   // get max() {
   //   return this.to?.max ?? Infinity;
@@ -38,4 +42,8 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
   // isBelowMax(value: any): boolean {
   //   return this.max == null || value <= this.max;
   // }
+  onModelChange(event: any, model: any) {
+    this.sharedService.onChange(event, this.field,);
+    // console.log(event, model, 'radio');
+  }
 }

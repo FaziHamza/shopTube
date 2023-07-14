@@ -26,20 +26,25 @@
     <div class>
       <div class="flex header-tab">
         <div class=" jsonEdiotTab">
-          <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()">
+          <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()"
+            nzTooltipTitle="Show/hide menu layer"
+            nz-tooltip>
             <span nz-icon nzType="group" nzTheme="outline"></span>
           </button>
           <button nz-button nzType="primary" class="ml-2 " title="Json Edit"
-            (click)="JsonEditorShow()"> <span nz-icon
+            (click)="JsonEditorShow()"
+            nzTooltipTitle="Edit json" nz-tooltip> <span nz-icon
               nzType="edit" nzTheme="outline"></span> </button>
-
           <button nz-button nzType="primary" class="ml-2 "
             [nzLoading]="saveLoader" title="Json Menu"
-            (click)="saveJsonMenu()" ngbTooltip="Save screen"><span nz-icon
+            (click)="saveJsonMenu()" nzTooltipTitle="Save screen"
+            nz-tooltip><span nz-icon
               nzType="save" nzTheme="outline"></span>
           </button>
           <button nz-button nzType="primary" class="ml-2"
-            (click)="clearChildNode()">
+            (click)="clearChildNode()"
+            nzTooltipTitle="Clear node"
+            nz-tooltip>
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
         </div>
         <div class=" ml-2 jsonsearchTab">

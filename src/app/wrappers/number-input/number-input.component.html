@@ -2,7 +2,7 @@
   <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'" >
     <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon " [nzSuffix]="to['additionalProperties']?.addonRight"
       [nzPrefix]="to['additionalProperties']?.addonLeft" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-      <nz-input-number [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%"
+      <nz-input-number (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%"
         [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
         [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision"
         nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border"
@@ -14,7 +14,7 @@
 
     <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
       [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-      <nz-input-number [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
+      <nz-input-number (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" style="width:100%" [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1"
         [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision" nzPrecisionMode="cut" nzInputMode=""
       [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border" [nzDisabled]="to.disabled"
         [nzReadOnly]="to.readonly" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
@@ -35,6 +35,7 @@
   </ng-container>
   <div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
     <nz-input-number style="width:100%"
+    (ngModelChange)="onModelChange($event, field)"
       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       [nzMin]="to.minLength || 0" [nzMax]="to.maxLength || 1" [nzStep]="to['additionalProperties']?.step || 1" [nzPrecision]="precision"
      [style.border-radius]="to['additionalProperties']?.borderRadius" nzPrecisionMode="cut" nzInputMode="" [nzPlaceHolder]="to.placeholder || ''" [nzBorderless]="to['additionalProperties']?.border"

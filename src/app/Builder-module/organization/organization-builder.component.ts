@@ -122,6 +122,12 @@ export class organizationBuilderComponent implements OnInit {
           return 1;
         } else if (name2 === undefined) {
           return -1;
+        } else if (name1 === null && name2 === null) {
+          return 0;
+        } else if (name1 === null) {
+          return 1;
+        } else if (name2 === null) {
+          return -1;
         } else {
           return name1.localeCompare(name2);
         }
@@ -142,6 +148,12 @@ export class organizationBuilderComponent implements OnInit {
           return 1;
         } else if (name2 === undefined) {
           return -1;
+        } else if (name1 === null && name2 === null) {
+          return 0;
+        } else if (name1 === null) {
+          return 1;
+        } else if (name2 === null) {
+          return -1;
         } else {
           return name1.localeCompare(name2);
         }
@@ -161,6 +173,12 @@ export class organizationBuilderComponent implements OnInit {
         } else if (name1 === undefined) {
           return 1;
         } else if (name2 === undefined) {
+          return -1;
+        } else if (name1 === null && name2 === null) {
+          return 0;
+        } else if (name1 === null) {
+          return 1;
+        } else if (name2 === null) {
           return -1;
         } else {
           return name1.localeCompare(name2);
@@ -230,7 +248,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
-   
+
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
@@ -261,7 +279,7 @@ export class organizationBuilderComponent implements OnInit {
     }
   }
   handleCancel(): void {
-   
+
     this.isVisible = false;
   }
 
@@ -321,7 +339,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   departmentSave() {
-   
+
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -367,7 +385,7 @@ export class organizationBuilderComponent implements OnInit {
     }
   }
   resetForm() {
-   
+
     for (let prop in this.model) {
       if (this.model.hasOwnProperty(prop)) {
         this.model[prop] = null;

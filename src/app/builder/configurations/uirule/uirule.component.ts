@@ -223,8 +223,8 @@ export class UIRuleComponent implements OnInit {
         const element = inputType.key;
         if (element == event) {
           this.addTargetCondition(uiIndex).at(index).patchValue({
-            inputJsonData: inputType.formly[0].fieldGroup[0],
-            inputOldJsonData: inputType.formly[0].fieldGroup[0]
+            inputJsonData: inputType,
+            inputOldJsonData: inputType
           });
         }
       } else if (inputType.type == "alert" || inputType.type == "heading" || inputType.type == "paragraph" ||

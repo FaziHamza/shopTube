@@ -327,7 +327,7 @@ export class ScreenBuilderComponent implements OnInit {
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
       // Find the index of the "Select Module" field in the 'this.fields' array
-      });
+    });
   }
   getApplicationOptionList(id: string) {
     this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe((res: any) => {
@@ -349,7 +349,7 @@ export class ScreenBuilderComponent implements OnInit {
         }
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
-      });
+    });
   }
 
   editItem(item: any) {
@@ -368,9 +368,10 @@ export class ScreenBuilderComponent implements OnInit {
         } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
       });
   }
-  goToBuildPage(screenName: any) {
+  goToBuildPage(data: any) {
+    debugger
+    this.dataSharedService.screenName = data;
     this.router.navigate(['/builder']);
-    this.dataSharedService.screenName = screenName;
   }
   downloadJson() {
     let obj = Object.assign({}, this.jsonScreenModule);

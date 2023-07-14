@@ -27,7 +27,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-
+      debugger
       if (event && field && this.router.url.includes('/pages')) {
         this.checkConditionUIRule(field, event);
       }
@@ -254,8 +254,8 @@ export class PagesComponent implements OnInit {
     }
   }
   getFromQuery() {
-    let tableData = this.findObjectByTypeBase(this.resData[0],"gridList");
-    if(tableData){
+    let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
+    if (tableData) {
       this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
         next: (res) => {
           if (tableData && res) {
@@ -269,16 +269,16 @@ export class PagesComponent implements OnInit {
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem:any) => {
+              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                 const name = updatedItem.name;
-                return !obj.some((headerItem:any) => headerItem.name === name);
+                return !obj.some((headerItem: any) => headerItem.name === name);
               });
-              if(updatedData.length > 0) {
-                tableData.tableData =   tableData.tableData.map((item:any) => {
+              if (updatedData.length > 0) {
+                tableData.tableData = tableData.tableData.map((item: any) => {
                   const newItem = { ...item };
-                      for (let i = 0; i < updatedData.length; i++) {
-                        newItem[updatedData[i].key] = "";
-                      }
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
                   return newItem;
                 });
               }
@@ -486,7 +486,7 @@ export class PagesComponent implements OnInit {
       element[value] = resultData.max;
     return element;
   }
-  filterTableData(elementv1: any,data:any) {
+  filterTableData(elementv1: any, data: any) {
     let filterData = data.tableData.filter((item: any) => {
       const condition = item[elementv1.ifCondition];
       const value = elementv1.getValue;
@@ -738,7 +738,7 @@ export class PagesComponent implements OnInit {
     }
   }
   evaluateCondition(condition: string): boolean {
-    if(condition.includes('AND') || condition.includes('OR'))
+    if (condition.includes('AND') || condition.includes('OR'))
       return this.evaluateConditionOperatoe(condition);
     else
       return this.evaluateConditionSimple(condition);
@@ -765,47 +765,47 @@ export class PagesComponent implements OnInit {
     return operators[operator](leftValue, rightOperand)
   }
   evaluateConditionOperatoe(condition: string): boolean {
-      const operators: { [key: string]: (a: any, b: any) => boolean } = {
-        "==": (a: any, b: any) => a == b,
-        "!=": (a: any, b: any) => a != b,
-        ">=": (a: any, b: any) => a >= b,
-        "<=": (a: any, b: any) => a <= b,
-        "=": (a: any, b: any) => a === b,
-        ">": (a: any, b: any) => a > b,
-        "<": (a: any, b: any) => a < b,
-      };
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+    };
 
-      const andConditions = condition.split("AND");
-      let andResult = true;
+    const andConditions = condition.split("AND");
+    let andResult = true;
 
-      for (const andCondition of andConditions) {
-        const orConditions = andCondition.split("OR");
-        let orResult = false;
+    for (const andCondition of andConditions) {
+      const orConditions = andCondition.split("OR");
+      let orResult = false;
 
-        for (const orCondition of orConditions) {
-          const parts = orCondition.split(" ");
-          const leftOperand = parts[0].trim();
-          const operator = parts[1].trim();
-          const rightOperand = parts[2].trim();
+      for (const orCondition of orConditions) {
+        const parts = orCondition.split(" ");
+        const leftOperand = parts[0].trim();
+        const operator = parts[1].trim();
+        const rightOperand = parts[2].trim();
 
-          const leftValue = this.formlyModel[leftOperand];
-          const rightValue = this.formlyModel[rightOperand];
+        const leftValue = this.formlyModel[leftOperand];
+        const rightValue = this.formlyModel[rightOperand];
 
           const conditionResult = operators[operator](leftValue, rightOperand)
 
-          if (conditionResult) {
-            orResult = true;
-            break;
-          }
-        }
-
-        if (!orResult) {
-          andResult = false;
+        if (conditionResult) {
+          orResult = true;
           break;
         }
       }
 
-      return andResult;
+      if (!orResult) {
+        andResult = false;
+        break;
+      }
+    }
+
+    return andResult;
   }
 
   updateModelWithStatement(statement: string) {
@@ -1033,11 +1033,11 @@ export class PagesComponent implements OnInit {
           inputType[l].type == "repeatSection" || inputType[l].type == "tags" || inputType[l].type == "telephone" ||
           inputType[l].type == "textarea" || inputType[l].type == "date" || inputType[l].type == "datetime" ||
           inputType[l].type == "month" || inputType[l].type == "time" || inputType[l].type == "week") {
-          if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
-            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-          } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
-            inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-          }
+            if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && currentValue) {
+              inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+            } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[l].formly[0].fieldGroup[0].key && !currentValue) {
+              inputType[l].formly[0].fieldGroup[0] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+            }
         } else if (inputType[l].type == "alert" || inputType[l].type == "heading" || inputType[l].type == "paragraph" ||
           inputType[l].type == "tag" || inputType[l].type == "card" || inputType[l].type == "simpleCardWithHeaderBodyFooter" ||
           inputType[l].type == "cascader" || inputType[l].type == "mentions" || inputType[l].type == "transfer" ||

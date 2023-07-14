@@ -193,7 +193,7 @@ export class MenuBuilderComponent implements OnInit {
     this.IslayerVisible = false;
     this.controlListvisible = false;
     this.IsjsonEditorVisible = true;
-    this.IsShowConfig = true;
+    this.IsShowConfig = false;
     this.applySize();
   }
 
@@ -1587,9 +1587,9 @@ export class MenuBuilderComponent implements OnInit {
         // else if(data != 'null') {
         //   node['iconType'] = data;
         // }
-        // if (node.children.length > 0) {
-        //   this.changeIconType(data, node.children)
-        // }
+        if (node.children.length > 0) {
+          this.changeIconType(data, node.children)
+        }
       });
     }
   }
