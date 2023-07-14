@@ -195,17 +195,17 @@ debugger
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + " ";
+          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue);
         });
       }
       let condThen = '';
       if (elv.thenCondition) {
         elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + elv2.thenOpratorForTraget + '"' + elv2.thenResultValue + '"';
+          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue);
         });
       }
       var dt = {
-        if: elv.ifCondition + " " + elv.oprator + this.applyCondition(elv.getValue) + " " + this.checkValueIntegerOrNot(elv.getValue) + this.applyCondition(elv.getValue) + cond,
+        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue)  + cond,
         then: elv.target + " " + elv.opratorForTraget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
       };
       this.businessRuleObj.push(dt);
@@ -290,7 +290,7 @@ debugger
     console.log(fishRhyme(this.formlyModel));
   }
   checkValueIntegerOrNot(value: any) {
-    return /^[0-9]+$/.test(value) ? parseInt(value) : value
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "'"+ value +"'"
   }
   applyCondition(value: any) {
     return /^[0-9]+$/.test(value) ? '' : '"'
