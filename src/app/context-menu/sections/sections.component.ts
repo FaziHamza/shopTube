@@ -133,7 +133,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-
+    debugger
     if (data.isSubmit) {
       this.joiValidation();
       this.saveData1(data);
@@ -231,8 +231,8 @@ export class SectionsComponent implements OnInit {
     return convertedModel;
   }
   getFromQuery() {
-    let tableData = this.findObjectByTypeBase(this.sections,"gridList");
-    if(tableData){
+    let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+    if (tableData) {
       this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
         next: (res) => {
           if (tableData && res) {
@@ -246,16 +246,16 @@ export class SectionsComponent implements OnInit {
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem:any) => {
+              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                 const name = updatedItem.name;
-                return !obj.some((headerItem:any) => headerItem.name === name);
+                return !obj.some((headerItem: any) => headerItem.name === name);
               });
-              if(updatedData.length > 0) {
-                tableData.tableData =   tableData.tableData.map((item:any) => {
+              if (updatedData.length > 0) {
+                tableData.tableData = tableData.tableData.map((item: any) => {
                   const newItem = { ...item };
-                      for (let i = 0; i < updatedData.length; i++) {
-                        newItem[updatedData[i].key] = "";
-                      }
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
                   return newItem;
                 });
               }
@@ -266,18 +266,17 @@ export class SectionsComponent implements OnInit {
       });
     }
   }
-  gridRulesData:any;
-  assignGridRules(data:any){
-    if(this.gridRulesData?.data.length > 0){
-      this.gridRules(this.gridRulesData,data);
+  gridRulesData: any;
+  assignGridRules(data: any) {
+    if (this.gridRulesData?.data.length > 0) {
+      this.gridRules(this.gridRulesData, data);
     }
-    else
-    {
+    else {
       this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
-            this.gridRules(getRes,data);
+            this.gridRules(getRes, data);
           }
         } else
           this.toastr.error(getRes.message, { nzDuration: 3000 });
@@ -285,7 +284,7 @@ export class SectionsComponent implements OnInit {
     }
 
   }
-  gridRules(getRes:any,data:any){
+  gridRules(getRes: any, data: any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
@@ -302,13 +301,13 @@ export class SectionsComponent implements OnInit {
               let query: any;
               if (elementv1.oprator == 'NotNull')
                 query = "1==1"
-              else{
+              else {
                 let firstValue = data.tableData[j][elementv1.ifCondition] ? data.tableData[j][elementv1.ifCondition] : "0";
-                query =  firstValue + elementv1.oprator + elementv1.getValue
+                query = firstValue + elementv1.oprator + elementv1.getValue
               }
               for (let k = 0; k < elementv1.conditional.length; k++) {
                 const element = elementv1.conditional[k];
-                query += ' ' +element.condType + ' ' + data.tableData[j][element.condifCodition] + element.condOperator +  element.condValue;
+                query += ' ' + element.condType + ' ' + data.tableData[j][element.condifCodition] + element.condOperator + element.condValue;
               }
               if (this.evaluateGridCondition(query)) {
                 for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
@@ -369,10 +368,10 @@ export class SectionsComponent implements OnInit {
             // });
           }
           else {
-            data.tableHeaders.forEach((element:any) => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridHeaderSum'] = 0;
-                const filteredData = this.filterTableData(elementv1,data)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
@@ -387,7 +386,7 @@ export class SectionsComponent implements OnInit {
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      data.tableHeaders.forEach((element:any) => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridHeaderSum')
                         }
@@ -415,10 +414,10 @@ export class SectionsComponent implements OnInit {
             console.log("No obj Found!")
           }
           else {
-            data.tableHeaders.forEach((element:any) => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridFooterSum'] = 0;
-                const filteredData = this.filterTableData(elementv1,data)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridFooterSum')
@@ -433,7 +432,7 @@ export class SectionsComponent implements OnInit {
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      data.tableHeaders.forEach((element:any) => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridFooterSum')
                         }
@@ -539,7 +538,7 @@ export class SectionsComponent implements OnInit {
       element[value] = resultData.max;
     return element;
   }
-  filterTableData(elementv1: any,data:any) {
+  filterTableData(elementv1: any, data: any) {
     let filterData = data.tableData.filter((item: any) => {
       const condition = item[elementv1.ifCondition];
       const value = elementv1.getValue;
@@ -643,16 +642,9 @@ export class SectionsComponent implements OnInit {
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
-              if (!minLimit && !maxLimit) {
-                this.ruleObj = {
-                  [jsonScreenRes[0].key]: Joi.string().required()
-                }
-              }
-              else {
-                this.ruleObj = {
-                  [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
-                };
-              }
+              this.ruleObj = {
+                [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              };
             }
             else if (jsonScreenRes[0].type === "number") {
               const { minlength, maxlength } = jsonScreenRes[0];
@@ -698,8 +690,10 @@ export class SectionsComponent implements OnInit {
     let filteredNodes = this.filterInputElements(this.sections.children[1].children);
     filteredNodes.forEach((item: any) => {
       if (item.formly) {
-        item.formly[0].fieldGroup[0].props.error = null;
-        item.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage = null;
+        // item.formly[0].fieldGroup[0].props.error = null;
+        if (item.formly[0].fieldGroup[0].props) {
+          item.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage = null;
+        }
       }
     });
 
@@ -708,14 +702,16 @@ export class SectionsComponent implements OnInit {
     if (cc?.error) {
       this.setErrorToInput = cc.error.details;
       filteredNodes.forEach((V2: any, index) => {
-        for (let i = 0; i < this.setErrorToInput.length; i++) {
-          if (this.setErrorToInput[i].context.key == V2.formly[0].fieldGroup[0].key) {
-            V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage = this.setErrorToInput[i].message.replace(this.setErrorToInput[i].context.key, V2.formly[0].fieldGroup[0].props.label);
-          }
+        const key = V2.formly[0].fieldGroup[0].key;
+        const matchingError = this.setErrorToInput.find((error: any) => error.context.key === key);
+
+        if (matchingError && V2.formly[0].fieldGroup[0].props) {
+          const props = V2.formly[0].fieldGroup[0].props;
+          props.additionalProperties.requiredMessage = matchingError.message.replace(matchingError.context.key, props.label);
+          this.validationCheckStatus.push(props.additionalProperties.requiredMessage);
         }
-        if (V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage)
-          this.validationCheckStatus.push(V2.formly[0].fieldGroup[0].props['additionalProperties'].requiredMessage);
       });
+
       if (this.setErrorToInput.length > 0) {
         this.dataSharedService.formlyShowError.next(true);
       }
