@@ -15,7 +15,7 @@ import { EnvService } from './envoirment.service';
 export class AuthInterceptor implements HttpInterceptor {
   authReq: any;
 
-  constructor(private router: Router, private envService: EnvService) {}
+  constructor(private router: Router, private envService: EnvService) { }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     // debugger;
@@ -43,12 +43,12 @@ export class AuthInterceptor implements HttpInterceptor {
     //     })
     // }
     let token = JSON.parse(localStorage.getItem('authToken')!);
-
+    debugger
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-      'applicationId': localStorage.getItem('applicationId')!,
-      'organizationId': localStorage.getItem('organizationId')!,
+        'applicationId': `64a910940ab8ae224f887a9b`,
+        'organizationId': `64a7b131ca7003a2b5c7a7cd`
       },
     });
     return next
