@@ -507,41 +507,72 @@ export class PagesComponent implements OnInit {
       "contains": (a: any, b: any) => a.includes(b),
     };
 
-    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+    const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
 
-    if (hasLogicalOperator) {
-      const conditions = condition.split(/\s+(AND|OR)\s+/);
-      let result = true;
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
 
-      for (let i = 0; i < conditions.length; i++) {
-        const expr = conditions[i];
-        if (!expr.includes('AND') && !expr.includes('OR')) {
-          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = this.parseOperand(parts[0]);
-          const operator = parts[1];
-          const rightOperand = this.parseOperand(parts[2]);
-
-          if (!operators[operator]) {
-            result = false; // Invalid operator found
-            break;
-          }
-
-          if (!operators[operator](leftOperand, rightOperand)) {
-            result = false; // Condition not satisfied
-            break;
-          }
-        }
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
       }
 
-      return result;
-    } else {
-      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = this.parseOperand(parts[0]);
-      const operator = parts[1];
-      const rightOperand = this.parseOperand(parts[2]);
+      return operators[operator](leftOperand, rightOperand);
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
+  }
+  UiRuleCondition(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const logicalOperatorsRegex = /\s+(&&|||)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
+
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
+      }
 
       return operators[operator](leftOperand, rightOperand);
-    }
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("&&")) {
+        const subConditions = condition.split(" && ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("||")) {
+        const subConditions = condition.split(" || ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
   }
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
@@ -763,7 +794,7 @@ export class PagesComponent implements OnInit {
                 query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
-            if (this.evaluateGridCondition(query)) {
+            if (this.UiRuleCondition(query)) {
               const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
               this.resData[0].children[1].children[0].children[1].children = check;
               this.updateNodes();
@@ -786,13 +817,15 @@ export class PagesComponent implements OnInit {
     }
     finally {
       if (this.screenName) {
-        if (this.businessRuleData) {
-          // const fishRhyme = ruleFactory(this.businessRuleData);
-          // const updatedModel = fishRhyme(this.formlyModel);
-          this.applyRules(this.formlyModel, this.businessRuleData);
-          this.updateFormlyModel();
-          this.cdr.detectChanges();
-          // this.cdr.detach();
+        if(this.businessRuleData){
+          if (this.businessRuleData.length > 0) {
+            // const fishRhyme = ruleFactory(this.businessRuleData);
+            // const updatedModel = fishRhyme(this.formlyModel);
+            this.applyRules(this.formlyModel, this.businessRuleData);
+            this.updateFormlyModel();
+            this.cdr.detectChanges();
+            // this.cdr.detach();
+          }
         }
       }
       this.getSetVariableRule(model, currentValue);
