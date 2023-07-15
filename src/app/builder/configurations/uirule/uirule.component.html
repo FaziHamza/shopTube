@@ -13,7 +13,7 @@
                     <div>
                       <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                         (ngModelChange)="[changeIf(),getConditionList(uiIndex)]">
-                        <nz-option [nzLabel]="uiData.title" [nzValue]="uiData.key"
+                        <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
                           *ngFor="let uiData of ifMenuName"></nz-option>
                       </nz-select>
                     </div>
@@ -57,7 +57,7 @@
                               <div>
                                 <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                                   (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
-                                  <nz-option [nzLabel]="uiData.title" [nzValue]="uiData.key"
+                                  <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
                                     *ngFor="let uiData of ifMenuName"></nz-option>
                                 </nz-select>
                               </div>

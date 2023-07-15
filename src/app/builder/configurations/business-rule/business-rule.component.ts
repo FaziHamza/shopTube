@@ -27,7 +27,8 @@ export class BusinessRuleComponent implements OnInit {
     this.dynamicBuisnessRule();
   }
   ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
+    if(this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   businessRuleData: any = [];
   requestSubscription: Subscription;
@@ -54,6 +55,7 @@ export class BusinessRuleComponent implements OnInit {
         this.businessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
+    debugger
     this.businessRuleData = this.businessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
     this.businessRuleTargetList;

@@ -461,7 +461,7 @@ export class BuilderComponent implements OnInit {
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
-            // this.getFromQuery(res.data[0].navigation);
+            this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);

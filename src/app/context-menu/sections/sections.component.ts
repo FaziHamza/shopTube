@@ -487,42 +487,36 @@ export class SectionsComponent implements OnInit {
       "contains": (a: any, b: any) => a.includes(b),
     };
 
-    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+    const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
 
-    if (hasLogicalOperator) {
-      const conditions = condition.split(/\s+(AND|OR)\s+/);
-      let result = true;
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
 
-      for (let i = 0; i < conditions.length; i++) {
-        const expr = conditions[i];
-        if (!expr.includes('AND') && !expr.includes('OR')) {
-          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = this.parseOperand(parts[0]);
-          const operator = parts[1];
-          const rightOperand = this.parseOperand(parts[2]);
-
-          if (!operators[operator]) {
-            result = false; // Invalid operator found
-            break;
-          }
-
-          if (!operators[operator](leftOperand, rightOperand)) {
-            result = false; // Condition not satisfied
-            break;
-          }
-        }
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
       }
 
-      return result;
-    } else {
-      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = this.parseOperand(parts[0]);
-      const operator = parts[1];
-      const rightOperand = this.parseOperand(parts[2]);
-
       return operators[operator](leftOperand, rightOperand);
-    }
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
   }
+
+
+
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
     if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
