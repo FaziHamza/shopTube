@@ -198,8 +198,22 @@ export class SectionsComponent implements OnInit {
           postType: 'put',
           modalData: empData.modalData
         };
+        const removePrefix = (data: Record<string, any>): Record<string, any> => {
+          const newData: Record<string, any> = {};
+          for (const key in data) {
+            const lastDotIndex = key.lastIndexOf('.');
+            const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+            newData[newKey] = data[key];
+          }
+          return newData;
+        };
+
+        const result = {
+          ...model,
+          modalData: removePrefix(model.modalData)
+        };
         if (Object.keys(empData.modalData).length > 0)
-          this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+          this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.getFromQuery();
@@ -283,7 +297,6 @@ export class SectionsComponent implements OnInit {
           this.toastr.error(getRes.message, { nzDuration: 3000 });
       }));
     }
-
   }
   gridRules(getRes:any,data:any){
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
@@ -487,43 +500,40 @@ export class SectionsComponent implements OnInit {
       "contains": (a: any, b: any) => a.includes(b),
     };
 
-    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+    const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
 
-    if (hasLogicalOperator) {
-      const conditions = condition.split(/\s+(AND|OR)\s+/);
-      let result = true;
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
 
-      for (let i = 0; i < conditions.length; i++) {
-        const expr = conditions[i];
-        if (!expr.includes('AND') && !expr.includes('OR')) {
-          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = parts[0];
-          const operator = parts[1];
-          const rightOperand = parts[2];
-
-          if (!operators[operator]) {
-            result = false; // Invalid operator found
-            break;
-          }
-
-          if (!operators[operator](leftOperand, rightOperand)) {
-            result = false; // Condition not satisfied
-            break;
-          }
-        }
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
       }
 
-      return result;
-    } else {
-      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = parts[0];
-      const operator = parts[1];
-      const rightOperand = parts[2];
-
       return operators[operator](leftOperand, rightOperand);
-    }
-  }
+    };
 
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
+  }
+  parseOperand(operand: string): any {
+    const trimmedOperand = operand.trim();
+    if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
+      return Number(trimmedOperand); // Parse as number if it's a valid numeric string
+    }
+    return trimmedOperand; // Return as string otherwise
+  }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
       element[value] = resultData?.sum;

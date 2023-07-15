@@ -1266,7 +1266,7 @@ export const htmlTabsData = [
               {
                 parameter: "multiFileUpload",
                 icon: "uil-file-copy-alt",
-                label: "File Uploader"
+                label: "Multi-file Uploader"
               },
 
 
@@ -1366,7 +1366,7 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
-                label: "image Uploader",
+                label: "File Uploader",
                 type: 'input',
                 configType: 'image', fieldType: 'file',
                 // maskString: "",

@@ -507,41 +507,79 @@ export class PagesComponent implements OnInit {
       "contains": (a: any, b: any) => a.includes(b),
     };
 
-    const hasLogicalOperator = condition.includes("AND") || condition.includes("OR");
+    const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
 
-    if (hasLogicalOperator) {
-      const conditions = condition.split(/\s+(AND|OR)\s+/);
-      let result = true;
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
 
-      for (let i = 0; i < conditions.length; i++) {
-        const expr = conditions[i];
-        if (!expr.includes('AND') && !expr.includes('OR')) {
-          const parts = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-          const leftOperand = parts[0];
-          const operator = parts[1];
-          const rightOperand = parts[2];
-
-          if (!operators[operator]) {
-            result = false; // Invalid operator found
-            break;
-          }
-
-          if (!operators[operator](leftOperand, rightOperand)) {
-            result = false; // Condition not satisfied
-            break;
-          }
-        }
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
       }
 
-      return result;
-    } else {
-      const parts = condition.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-      const leftOperand = parts[0];
-      const operator = parts[1];
-      const rightOperand = parts[2];
+      return operators[operator](leftOperand, rightOperand);
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
+  }
+  UiRuleCondition(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const logicalOperatorsRegex = /\s+(&&|||)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
+
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
+      }
 
       return operators[operator](leftOperand, rightOperand);
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("&&")) {
+        const subConditions = condition.split(" && ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("||")) {
+        const subConditions = condition.split(" || ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
+  }
+  parseOperand(operand: string): any {
+    const trimmedOperand = operand.trim();
+    if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
+      return Number(trimmedOperand); // Parse as number if it's a valid numeric string
     }
+    return trimmedOperand; // Return as string otherwise
   }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
@@ -756,7 +794,7 @@ export class PagesComponent implements OnInit {
                 query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
-            if (this.evaluateGridCondition(query)) {
+            if (this.UiRuleCondition(query)) {
               const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
               this.resData[0].children[1].children[0].children[1].children = check;
               this.updateNodes();
@@ -779,25 +817,28 @@ export class PagesComponent implements OnInit {
     }
     finally {
       if (this.screenName) {
-        if (this.businessRuleData) {
-          // const fishRhyme = ruleFactory(this.businessRuleData);
-          // const updatedModel = fishRhyme(this.formlyModel);
-          this.applyRules(this.formlyModel, this.businessRuleData);
-          this.updateFormlyModel();
-          this.cdr.detectChanges();
-          // this.cdr.detach();
+        if(this.businessRuleData){
+          if (this.businessRuleData.length > 0) {
+            // const fishRhyme = ruleFactory(this.businessRuleData);
+            // const updatedModel = fishRhyme(this.formlyModel);
+            this.applyRules(this.formlyModel, this.businessRuleData);
+            this.updateFormlyModel();
+            this.cdr.detectChanges();
+            // this.cdr.detach();
+          }
         }
       }
       this.getSetVariableRule(model, currentValue);
 
     }
   }
-  applyRules(data:any, rules:any) {
+  applyRules(data: any, rules: any[]) {
+    rules = this.transformRules(rules);
     for (let rule of rules) {
       let conditions = rule.if.split(' AND ');
 
-      let conditionResults = conditions.map((condition:any) => {
-        let [key, operator, value] = condition.split(' ').map((s:any) => s.trim());
+      let conditionResults = conditions.map((condition: any) => {
+        let [key, operator, value] = condition.split(' ').map((s: any) => s.trim());
         value = value.replace(/['"]/g, '');  // remove quotes
 
         if (operator == '==') return data[key] == value;
@@ -810,19 +851,39 @@ export class PagesComponent implements OnInit {
       });
 
       // check if all conditions are true
-      if (conditionResults.every((result:any) => result)) {
-        let actions = rule.then.split(',').map((s:any) => s.trim());
-        for (let action of actions) {
-          let [key, , value] = action.split(' ').map((s:any) => s.trim());
-          value = value.replace(/['"]/g, '');  // remove quotes
+      if (conditionResults.every((result: any) => result)) {
+        let thenActions = rule.then;
+        // let thenActions = rule.then.split(',').map((s: any) => s.trim());
+        for (let action of thenActions) {
+          action = action.trim().replace("'then' :", ""); // remove quotes
+          let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value;
+        }
+      }else{
+        let thenActions = rule.then;
+        for (let action of thenActions) {
+          action = action.trim().replace("'then' :", ""); // remove quotes
+          let [key, value] = action.split('=').map((s: any) => s.trim());
+          data[key] = "";
         }
       }
     }
-
+    console.log("my data: ", data);
     return data;
   }
+  transformRules(oldRules: any[]): any[] {
+    return oldRules.map(rule => {
+      let newRule = {...rule};  // clone rule
+      let thenActions = rule.then.split(',').map((s: any) => s.trim());
 
+      newRule.then = thenActions.map((action: any) => {
+        let [key, value] = action.split('=').map((s: any) => s.trim());
+        return `${key} = ${value}`;
+      });
+
+      return newRule;
+    });
+  }
   getSetVariableRule(model: any, value: any) {
     //for grid amount assign to other input field
     const filteredNodes = this.filterInputElements(this.resData);

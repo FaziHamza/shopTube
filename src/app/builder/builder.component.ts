@@ -461,7 +461,7 @@ export class BuilderComponent implements OnInit {
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
-            // this.getFromQuery(res.data[0].navigation);
+            this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -3231,7 +3231,7 @@ export class BuilderComponent implements OnInit {
     }
     this.updateNodes();
   }
-  nzEvent(event: NzFormatEmitEvent): void { }
+  // nzEvent(event: NzFormatEmitEvent): void { }
 
   clickBack() {
     this.nodes = this.jsonParseWithObject(
@@ -5734,5 +5734,39 @@ export class BuilderComponent implements OnInit {
       }
       this.getScreenData(this.dataSharedService.screenName._id);
     }
+  }
+
+  //Fazi code
+  nzEvent(event: NzFormatEmitEvent): void {
+    debugger
+    if (event.eventName === 'drop') {
+      // capture the dragNode and dropNode
+      const dragNode = event.dragNode?.origin;
+      const dropNode = event?.node?.origin;
+  
+      // Use the keys of the dragNode and dropNode to update your tree
+      if (dropNode?.key) {
+        this.nodes = this.updateNodesDnD(this.nodes, dragNode, dropNode?.key);
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+    updateNodesDnD(nodes: any[], nodeToMove: any, destinationKey: string): any[] {
+    return nodes.reduce((result, node) => {
+      if (node.key === nodeToMove.key) {
+        // Skip over this node because we're moving it
+      } else if (node.key === destinationKey) {
+        // Add the node we're moving to this node's children
+        result.push({ ...node, children: [...(node.children || []), nodeToMove] });
+      } else {
+        // Otherwise just add the node as-is
+        result.push({
+          ...node,
+          children: node.children ? this.updateNodesDnD(node?.children, nodeToMove, destinationKey) : undefined,
+        });
+      }
+      return result;
+    }, []);
   }
 }
