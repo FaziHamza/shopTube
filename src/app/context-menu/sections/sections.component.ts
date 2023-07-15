@@ -640,7 +640,8 @@ export class SectionsComponent implements OnInit {
     // }
   }
   joiValidation() {
-    let jsonScreenRes: any = [];
+    let modelObj: any = [];
+    this.ruleValidation = {};
     let filteredInputNodes = this.filterInputElements(this.sections.children[1].children);
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < filteredInputNodes.length; j++) {
@@ -654,6 +655,7 @@ export class SectionsComponent implements OnInit {
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
+              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               if (!minLimit && !maxLimit) {
                 this.ruleObj = {
                   [jsonScreenRes[0].key]: Joi.string().required()
@@ -666,6 +668,7 @@ export class SectionsComponent implements OnInit {
               }
             }
             else if (jsonScreenRes[0].type === "number") {
+              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
@@ -674,16 +677,19 @@ export class SectionsComponent implements OnInit {
               };
             }
             else if (jsonScreenRes[0].type == "pattern") {
+              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.string().pattern(new RegExp(jsonScreenRes[0].pattern)),
               }
             }
             else if (jsonScreenRes[0].type == "reference") {
+              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
             else if (jsonScreenRes[0].type == "email") {
+              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
               // }
@@ -700,12 +706,12 @@ export class SectionsComponent implements OnInit {
 
       }
       this.schemaValidation = Joi.object(Object.assign({}, this.ruleValidation));
-      this.validationChecker();
+      this.validationChecker(modelObj);
 
     }
     return true;
   }
-  validationChecker() {
+  validationChecker(object: any){
     let filteredNodes = this.filterInputElements(this.sections.children[1].children);
     filteredNodes.forEach((item: any) => {
       if (item.formly) {
@@ -717,9 +723,9 @@ export class SectionsComponent implements OnInit {
     });
 
     this.validationCheckStatus = [];
-    const cc = this.schemaValidation.validate(Object.assign({}, this.formlyModel), { abortEarly: false });
+    const cc = this.schemaValidation.validate(Object.assign({}, object), { abortEarly: false });
     if (cc?.error) {
-      this.setErrorToInput = cc.error.details;
+      this.setErrorToInput = JSON.parse(JSON.stringify(cc.error.details));
       filteredNodes.forEach((V2: any, index) => {
         const key = V2.formly[0].fieldGroup[0].key;
         const matchingError = this.setErrorToInput.find((error: any) => error.context.key === key);
