@@ -8165,6 +8165,39 @@ export class formFeildData {
           },
         },
         {
+          key: 'multiFileUploadTypes',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Types',
+            options: [
+              {
+                label: 'Drag n drop',
+                value: 'dragNDrop'
+              },
+              {
+                label: 'Button',
+                value: 'button'
+              },
+              {
+                label: 'JPG',
+                value: 'jpg'
+              },
+              {
+                label: 'png',
+                value: 'png'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           key: 'showDialogueBox',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],

@@ -97,7 +97,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: white;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -384,12 +384,32 @@ object {
 }
 
 .rtlMenu {
+  .small-hover-menu-check {
+    position: absolute;
+    left: 6px;
+    top: -3px !important;
+
+    .ant-checkbox-inner {
+      border-radius: 100px;
+    }
+  }
+
   li {
     // padding-left: 0px !important;
     // padding-right: 24px !important;
 
     .title {
       padding-right: 10px;
+    }
+  }
+
+  .ant-menu-submenu {
+    .ant-menu.ant-menu-sub {
+      padding-right: 15px;
+
+      .ant-menu.ant-menu-sub .ant-menu-item {
+        padding-right: 15px !important;
+      }
     }
   }
 
@@ -2311,20 +2331,15 @@ object {
   }
 }
 
-// .ant-menu-submenu {
-//   .menu-item-icon {
-//     i {
-//       // color: #7c7f90 !important;
-//     }
-//   }
-// }
-// .ant-menu-submenu {
-//   .menu-item-icon {
-//     i {
-//       color: #7c7f90;
-//     }
-//   }
-// }
+.ant-menu-submenu {
+  .menu-item-icon {
+
+    i,
+    span {
+      // color: #7c7f90 !important;
+    }
+  }
+}
 
 .ant-menu-submenu {
   .anticon-down svg {
@@ -2696,9 +2711,9 @@ object {
 //     margin-left: 20px;
 //   }
 // }
-.ant-menu-submenu.ant-menu-submenu-placement-right {
-  left: 15px !important;
-}
+// .ant-menu-submenu.ant-menu-submenu-placement-right {
+//   left: 15px !important;
+// }
 
 // .ant-menu-vertical {
 //    .nav-item {
@@ -2809,7 +2824,16 @@ object {
 //   }
 // }
 .vertical-sidebar {
+  .ant-menu-inline-collapsed {
+
+    i,
+    span {
+      color: black !important;
+    }
+  }
+
   .ant-menu-submenu {
+
     .ant-menu-sub {
       .ant-menu-item {
         padding-left: 15px !important;
@@ -2832,7 +2856,7 @@ object {
   height: 60px !important;
 
   .card-content {
-    height: 60px;
+    height: 58px;
     display: flex;
     align-items: center;
   }
@@ -2869,15 +2893,33 @@ object {
   .ant-layout-header {
     .dynamic-header-row {
       background-color: #001529 !important;
-      color: rgba(255,255,255,.65) !important;
+      color: rgba(255, 255, 255, .65) !important;
     }
   }
 }
+
 .horizental-boxed {
   .ant-layout-header {
     .dynamic-header-row {
       background-color: #001529 !important;
-      color: rgba(255,255,255,.65) !important;
+      color: rgba(255, 255, 255, .65) !important;
     }
   }
+}
+
+.horizental-boxed {
+
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border-right: none;
+  }
+
+  .ant-menu.ant-menu-horizontal {
+    overflow: revert !important;
+  }
+}
+
+.horizontal-sidebar li:hover span {
+  color: black !important;
 }
