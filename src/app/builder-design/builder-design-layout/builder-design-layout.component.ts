@@ -3,6 +3,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { NzFormatEmitEvent, NzTreeNode } from 'ng-zorro-antd/tree';
+import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 
 @Component({
   selector: 'st-builder-design-layout',
@@ -42,8 +44,8 @@ export class BuilderDesignLayoutComponent implements OnInit {
     allMenuItems: [],
     showMenu: true,
   }
-
-  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService) { }
+  isCollapsed = false;
+  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService, private nzContextMenuService: NzContextMenuService) { }
 
   ngOnInit(): void {
     if (!this.selectedTheme) {
@@ -202,5 +204,51 @@ export class BuilderDesignLayoutComponent implements OnInit {
   }
   mobileViewCollapseInHostCom() {
     this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
+  }
+  activatedNode?: NzTreeNode;
+  nodes = [
+    {
+      title: 'parent 0',
+      key: '100',
+      author: 'NG ZORRO',
+      expanded: true,
+      children: [
+        { title: 'leaf 0-0', key: '1000', author: 'NG ZORRO', isLeaf: true },
+        { title: 'leaf 0-1', key: '1001', author: 'NG ZORRO', isLeaf: true }
+      ]
+    },
+    {
+      title: 'parent 1',
+      key: '101',
+      author: 'NG ZORRO',
+      children: [
+        { title: 'leaf 1-0', key: '1010', author: 'NG ZORRO', isLeaf: true },
+        { title: 'leaf 1-1', key: '1011', author: 'NG ZORRO', isLeaf: true }
+      ]
+    }
+  ];
+
+  openFolder(data: NzTreeNode | NzFormatEmitEvent): void {
+    // do something if u want
+    if (data instanceof NzTreeNode) {
+      data.isExpanded = !data.isExpanded;
+    } else {
+      const node = data.node;
+      if (node) {
+        node.isExpanded = !node.isExpanded;
+      }
+    }
+  }
+
+  activeNode(data: NzFormatEmitEvent): void {
+    this.activatedNode = data.node!;
+  }
+
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    this.nzContextMenuService.create($event, menu);
+  }
+
+  selectDropdown(): void {
+    // do something
   }
 }
