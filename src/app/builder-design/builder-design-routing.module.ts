@@ -13,7 +13,7 @@ import { BuilderDesignComponent } from "./builder-design.component";
 const routes: Routes = [
   {
     path: "",
-    component: BuilderLayoutComponent,
+    component: BuilderDesignComponent,
     children:[
 
       {
