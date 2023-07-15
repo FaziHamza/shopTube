@@ -1,6 +1,4 @@
 import { NgModule } from "@angular/core";
-import { BuilderComponent } from "./builder.component";
-import { BuilderRoutingModule } from "./builder-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AngularSplitModule } from "angular-split";
 import { NgJsonEditorModule } from "ang-jsoneditor";
@@ -17,27 +15,29 @@ import {  MonacoEditorModule } from "ngx-monaco-editor";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
+import { BuilderDesignComponent } from "./builder-design.component";
+import { BuilderDesignRoutingModule } from "./builder-design-routing.module";
 import { BuilderShareModule } from "../shared/builder-share.module";
+import { BuilderDesignLayoutComponent } from "./builder-design-layout/builder-design-layout.component";
 
 @NgModule({
   declarations: [
-    BuilderComponent,
-    BuilderLayoutComponent,
+    BuilderDesignComponent,
+    BuilderDesignLayoutComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     AngularSplitModule,
     NgJsonEditorModule,
+    BuilderShareModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,
     MonacoEditorModule.forRoot(),
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
-    BuilderRoutingModule,
-    BuilderShareModule,
+    BuilderDesignRoutingModule,
     ShareModule,
     GoogleChartsModule,
     ContextMenuModule,
@@ -53,4 +53,4 @@ import { BuilderShareModule } from "../shared/builder-share.module";
   ],
 })
 
-export class BuilderModule { }
+export class BuilderDesignModule { }

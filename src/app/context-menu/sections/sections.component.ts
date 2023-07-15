@@ -651,9 +651,19 @@ export class SectionsComponent implements OnInit {
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
-              this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
-              };
+              // this.ruleObj = {
+              //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              // };
+              if (!minLimit && !maxLimit) {
+                this.ruleObj = {
+                  [jsonScreenRes[0].key]: Joi.string().required()
+                }
+              }
+              else {
+                this.ruleObj = {
+                  [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+                };
+              }
             }
             else if (jsonScreenRes[0].type === "number") {
               const { minlength, maxlength } = jsonScreenRes[0];
