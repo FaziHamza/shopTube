@@ -9,11 +9,12 @@ import { organizationBuilderComponent } from '../Builder-module/organization/org
 import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout.component';
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
 import { BuilderDesignComponent } from "./builder-design.component";
+import { BuilderDesignLayoutComponent } from "./builder-design-layout/builder-design-layout.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: BuilderDesignComponent,
+    component: BuilderDesignLayoutComponent,
     children:[
 
       {
