@@ -198,8 +198,22 @@ export class SectionsComponent implements OnInit {
           postType: 'put',
           modalData: empData.modalData
         };
+        const removePrefix = (data: Record<string, any>): Record<string, any> => {
+          const newData: Record<string, any> = {};
+          for (const key in data) {
+            const lastDotIndex = key.lastIndexOf('.');
+            const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+            newData[newKey] = data[key];
+          }
+          return newData;
+        };
+
+        const result = {
+          ...model,
+          modalData: removePrefix(model.modalData)
+        };
         if (Object.keys(empData.modalData).length > 0)
-          this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+          this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.getFromQuery();
@@ -283,7 +297,6 @@ export class SectionsComponent implements OnInit {
           this.toastr.error(getRes.message, { nzDuration: 3000 });
       }));
     }
-
   }
   gridRules(getRes:any,data:any){
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
@@ -514,9 +527,6 @@ export class SectionsComponent implements OnInit {
 
     return evaluateCondition(condition);
   }
-
-
-
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
     if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
@@ -524,7 +534,6 @@ export class SectionsComponent implements OnInit {
     }
     return trimmedOperand; // Return as string otherwise
   }
-
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
       element[value] = resultData?.sum;
