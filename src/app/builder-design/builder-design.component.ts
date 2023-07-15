@@ -8,31 +8,28 @@ import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
-import { GenaricFeild } from 'src/app/models/genaricFeild.modal';
-import { Guid } from 'src/app/models/guid';
-import { TreeNode } from 'src/app/models/treeNode';
-import { BuilderService } from 'src/app/services/builder.service';
-import { DataSharedService } from 'src/app/services/data-shared.service';
-import {
-  actionTypeFeild,
-  formFeildData,
-} from '../configurations/configuration.modal';
-import { htmlTabsData } from '../ControlList';
-import { BuilderClickButtonService } from '../service/builderClickButton.service';
+import { GenaricFeild } from '../models/genaricFeild.modal';
+import { Guid } from '../models/guid';
+import { TreeNode } from '../models/treeNode';
+import { BuilderService } from '../services/builder.service';
+import { DataSharedService } from '../services/data-shared.service';
 import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
-import { INITIAL_EVENTS } from 'src/app/shared/event-utils/event-utils';
-import { ColorPickerService } from 'src/app/services/colorpicker.service';
-import { DataService } from 'src/app/services/offlineDb.service';
+import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
+import { ColorPickerService } from '../services/colorpicker.service';
+import { DataService } from '../services/offlineDb.service';
+import { EncryptionService } from '../services/encryption.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AddControlService } from '../service/addControl.service';
 import { Router } from '@angular/router';
-import { AddControlCommonPropertiesComponent } from '../add-control-common-properties/add-control-common-properties.component';
-import { ApplicationService } from 'src/app/services/application.service';
+import { ApplicationService } from '../services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
-import { BulkUpdateComponent } from '../bulk-update/bulk-update.component';
-import { EncryptionService } from 'src/app/services/encryption.service';
+import { AddControlService } from '../builder/service/addControl.service';
+import { BuilderClickButtonService } from '../builder/service/builderClickButton.service';
+import { htmlTabsData } from '../builder/ControlList';
+import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
+import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
+import { actionTypeFeild, formFeildData } from '../builder/configurations/configuration.modal';
 
 @Component({
   selector: 'st-builder-design',
@@ -47,7 +44,7 @@ export class BuilderDesignComponent implements OnInit {
   size: NzButtonSize = 'large';
   departmentData: any = [];
   applicationData: any = [];
-  selectDepartmentName: any;
+  selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
   sizes = [20, 80, 0];
@@ -137,9 +134,18 @@ export class BuilderDesignComponent implements OnInit {
     document
       .getElementsByTagName('body')[0]
       .setAttribute('data-sidebar-size', 'sm');
-    if (this.dataSharedService.screenName) {
-      this.getScreenData(this.dataSharedService.screenName);
-    }
+    // if (this.dataSharedService.screenName) {
+    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.departmentId
+    //   // this.loadData(this.dataSharedService.screenName,0);
+    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.applicationId
+    //   // this.loadData(this.dataSharedService.screenName,1);
+    //   this.selectDepartmentName = [
+    //     this.dataSharedService.screenName.departmentId,
+    //     this.dataSharedService.screenName.applicationId,
+    //     this.dataSharedService.screenName._id
+    //   ];
+    //   this.getScreenData(this.dataSharedService.screenName._id);
+    // }
     this.htmlTabsData = htmlTabsData;
     this.makeDatainTemplateTab();
     let filterdButtons = this.htmlTabsData[0].children.filter(
@@ -151,6 +157,7 @@ export class BuilderDesignComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
+    debugger
     if (departmentId.length === 3) {
       this.getScreenData(departmentId[2])
     }
@@ -174,6 +181,8 @@ export class BuilderDesignComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    debugger
+    this.selectDepartmentName;
     if (index == 1) {
       // Root node - Load application data
       try {
@@ -195,7 +204,8 @@ export class BuilderDesignComponent implements OnInit {
       } catch (err) {
         this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
       }
-    } else if (index === 0) {
+    }
+    else if (index === 0) {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
         if (res.isSuccess) {
@@ -286,7 +296,8 @@ export class BuilderDesignComponent implements OnInit {
   JsonEditorShow() {
     this.IslayerVisible = false;
     this.IsjsonEditorVisible = true;
-    this.IsShowConfig = true;
+    this.IsShowConfig = false;
+    this.controlListvisible = false;
     this.applySize();
   }
   saveJson() {
@@ -296,10 +307,15 @@ export class BuilderDesignComponent implements OnInit {
         this.highlightSelect(this.selectedNode.id, false);
       }
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.navigation)
+      // Check Grid Data
+      let gridData = this.findObjectByTypeBase(this.nodes[0], 'gridList');
+      if (gridData) {
+        gridData.tableData = [];
+      }
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
-        // "screenName": this.screenName,
+        "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
         "applicationId": this.selectApplicationName,
@@ -325,6 +341,7 @@ export class BuilderDesignComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.getBuilderScreen();
+            this.getFromQuery(this.navigation);
           }
           else
             this.toastr.error(res.message, { nzDuration: 3000 });
@@ -427,6 +444,7 @@ export class BuilderDesignComponent implements OnInit {
     });
   }
   getBuilderScreen() {
+    this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -440,6 +458,8 @@ export class BuilderDesignComponent implements OnInit {
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
+            this.saveLoader = false;
+            this.getFromQuery(res.data[0].navigation);
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -456,6 +476,7 @@ export class BuilderDesignComponent implements OnInit {
           else {
             // this.navigation = 0;
             this.clearChildNode();
+            this.saveLoader = false;
           }
           this.isSavedDb = true;
           this.formModalData = {};
@@ -463,12 +484,15 @@ export class BuilderDesignComponent implements OnInit {
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
-        } else
+        } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.saveLoader = false;
+        }
       },
       error: (err) => {
         console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
       }
     });
   }
@@ -3014,7 +3038,7 @@ export class BuilderDesignComponent implements OnInit {
   newChild: any = [];
   insertAt(node: any) {
     let parent = node?.parentNode?.origin;
-    node  = node.origin
+    node = node.origin
     // node = node.origin;
     if (
       node.type != 'page' &&
@@ -3025,8 +3049,8 @@ export class BuilderDesignComponent implements OnInit {
       node.type != 'body' &&
       node.type != 'footer'
     ) {
-      let newNode : any;
-      if(node.formlyType)
+      let newNode: any;
+      if (node.formlyType)
         newNode = JSON.parse(this.jsonStringifyWithObject(node));
       else
         newNode = JSON.parse(JSON.stringify(node));
@@ -3205,7 +3229,7 @@ export class BuilderDesignComponent implements OnInit {
     }
     this.updateNodes();
   }
-  nzEvent(event: NzFormatEmitEvent): void { }
+  // nzEvent(event: NzFormatEmitEvent): void { }
 
   clickBack() {
     this.nodes = this.jsonParseWithObject(
@@ -3241,6 +3265,7 @@ export class BuilderDesignComponent implements OnInit {
       case 'listWithComponentsChild':
       case 'cardWithComponents':
         if (this.selectedNode.id) {
+
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode.imageSrc = event.form.imageSrc
@@ -3251,23 +3276,6 @@ export class BuilderDesignComponent implements OnInit {
             }
           }
           if (event.type == 'sections') {
-            const filteredNodes = this.filterInputElements(
-              this.selectedNode?.children?.[1]?.children
-            );
-            filteredNodes.forEach((node) => {
-              if (event.form.sectionClassName) {
-                node.className = event.form.sectionClassName;
-              }
-              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
-                event.form,
-                node.formly[0].fieldGroup
-              );
-            });
-            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
-              if (!element.formly) {
-                element['tooltipIcon'] = event.form.tooltipIcon;
-              }
-            });
             if (Array.isArray(event.form.className)) {
               if (event.form.className.length > 0) {
                 let classArray: any;
@@ -3285,6 +3293,24 @@ export class BuilderDesignComponent implements OnInit {
             else {
               this.selectedNode['className'] = event.form.className;
             }
+            const filteredNodes = this.filterInputElements(
+              this.selectedNode?.children?.[1]?.children
+            );
+            filteredNodes.forEach((node) => {
+              if (event.form.sectionClassName) {
+                node.className = event.form.sectionClassName;
+              }
+              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
+                event.form,
+                node.formly[0].fieldGroup
+              );
+            });
+            this.selectedNode?.children?.[1]?.children?.forEach((element: any) => {
+              if (!element.formly) {
+                element['tooltipIcon'] = event.form.tooltipIcon;
+              }
+            });
+
             this.selectedNode.title = event.form.title;
             // this.selectedNode.className = event.form.className;
             this.selectedNode.tooltip = event.form.tooltip;
@@ -3517,6 +3543,23 @@ export class BuilderDesignComponent implements OnInit {
         break;
       case 'button':
       case 'linkbutton':
+        if (Array.isArray(event.form.buttonClass)) {
+          if (event.form.buttonClass.length > 0) {
+            let classArray: any;
+            for (let i = 0; i < event.form.buttonClass.length; i++) {
+              if (i == 0) {
+                classArray = event.form.buttonClass[i];
+              }
+              else {
+                classArray = classArray + ' ' + event.form.buttonClass[i];
+              }
+            };
+            this.selectedNode['buttonClass'] = classArray;
+          }
+        }
+        else {
+          this.selectedNode['buttonClass'] = event.form.buttonClass;
+        }
         this.selectedNode.btnIcon = event.form?.icon;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
@@ -3727,52 +3770,52 @@ export class BuilderDesignComponent implements OnInit {
           this.updateNodes();
         }
         break;
-        case 'inputValidationRule':
-          debugger
-          if (this.selectedNode) {
-            const selectedScreen = this.screens.filter(
-              (a: any) => a.name == this.screenName
-            );
-            const jsonRuleValidation = {
-              "screenName": this.screenName,
-              "screenBuilderId": this._id,
-              "id": this.selectedNode.id,
-              "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-              "type": event.form.type,
-              "label": event.form.label,
-              "reference": event.form.reference,
-              "minlength": event.form.minlength,
-              "maxlength": event.form.maxlength,
-              "pattern": event.form.pattern,
-              "required": event.form.required,
-              "emailTypeAllow": event.form.emailTypeAllow,
-              "applicationId": this.selectApplicationName,
-            }
-            var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-            const validationRuleModel = {
-              "ValidationRule": JOIData
-            }
-            // const checkAndProcess = this.validationRuleId == ''
-            const checkAndProcess = !event.form._id
-              ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-              : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form._id, validationRuleModel);
-              // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
-            checkAndProcess.subscribe({
-              next: (res: any) => {
-                if (res.isSuccess) {
-                  this.getJoiValidation(this._id);
-                  this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-                }
-                else
-                  this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
-              },
-              error: (err) => {
-                this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
-
-              }
-            });
+      case 'inputValidationRule':
+        debugger
+        if (this.selectedNode) {
+          const selectedScreen = this.screens.filter(
+            (a: any) => a.name == this.screenName
+          );
+          const jsonRuleValidation = {
+            "screenName": this.screenName,
+            "screenBuilderId": this._id,
+            "id": this.selectedNode.id,
+            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "type": event.form.type,
+            "label": event.form.label,
+            "reference": event.form.reference,
+            "minlength": event.form.minlength,
+            "maxlength": event.form.maxlength,
+            "pattern": event.form.pattern,
+            "required": event.form.required,
+            "emailTypeAllow": event.form.emailTypeAllow,
+            "applicationId": this.selectApplicationName,
           }
-          break;
+          var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+          const validationRuleModel = {
+            "ValidationRule": JOIData
+          }
+          // const checkAndProcess = this.validationRuleId == ''
+          const checkAndProcess = !event.form._id
+            ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
+            : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form._id, validationRuleModel);
+          // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+          checkAndProcess.subscribe({
+            next: (res: any) => {
+              if (res.isSuccess) {
+                this.getJoiValidation(this._id);
+                this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
+              }
+              else
+                this.toastr.error(`Validation Rule: ${res.message}`, { nzDuration: 3000 })
+            },
+            error: (err) => {
+              this.toastr.error(`Validation rule not save, some exception unhandle`, { nzDuration: 3000 });
+
+            }
+          });
+        }
+        break;
       case 'avatar':
         if (event.form.src) {
           this.selectedNode.src = event.form.src;
@@ -3838,6 +3881,21 @@ export class BuilderDesignComponent implements OnInit {
           this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
+          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          const updatedData = tableData.filter((updatedItem: any) => {
+            const key = updatedItem.key;
+            return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
+          });
+          this.selectedNode.tableKey = tableData.map((key: any) => ({ name: key.name }));
+          if (updatedData.length > 0) {
+            this.selectedNode.tableHeaders.map((item: any) => {
+              const newItem = { ...item };
+              for (let i = 0; i < updatedData.length; i++) {
+                newItem[updatedData[i].key] = "";
+              }
+              return newItem;
+            });
+          }
           this.selectedNode.tableHeaders = event.tableDta
             ? event.tableDta
             : event.form.options;
@@ -4542,10 +4600,25 @@ export class BuilderDesignComponent implements OnInit {
 
       // this.updateNodes();
     }
+
     // this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
   }
+
+  autocorrectClassValue(classValue: string): string {
+    // Split the classValue by spaces
+    const classArray = classValue.split(' ');
+
+    // Filter out any empty class names
+    const filteredClassArray = classArray.filter(className => className.trim() !== '');
+
+    // Join the filtered class names with spaces
+    const correctedClassValue = filteredClassArray.join(' ');
+
+    return correctedClassValue;
+  }
+
   updateTableData(tableData: any, tableHeaders: any) {
     tableData.forEach((data: any) => {
       tableHeaders.forEach((header: any) => {
@@ -5567,7 +5640,24 @@ export class BuilderDesignComponent implements OnInit {
       }
     }
   }
-
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
   deleteValidationRule(data: any) {
     this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData._id).subscribe({
       next: (res: any) => {
@@ -5592,5 +5682,89 @@ export class BuilderDesignComponent implements OnInit {
     } else {
       this.router.navigate(['/pages/', this.navigation]);
     }
+  }
+  getFromQuery(name: string) {
+    let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
+    if (tableData) {
+      this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
+        next: (res) => {
+          if (tableData && res) {
+            let saveForm = JSON.parse(JSON.stringify(res[0]));
+            const firstObjectKeys = Object.keys(saveForm);
+            let tableKey = firstObjectKeys.map(key => ({ name: key }));
+            tableData.tableData = [];
+            saveForm.id = tableData.tableData.length + 1;
+            res.forEach((element: any) => {
+              element.id = (element.id).toString();
+              tableData.tableData?.push(element);
+            });
+            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                const name = updatedItem.name;
+                return !tableKey.some((headerItem: any) => headerItem.name === name);
+              });
+              if (updatedData.length > 0) {
+                tableData.tableHeaders.map((item: any) => {
+                  const newItem = { ...item };
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
+                  return newItem;
+                });
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  updateSelectDepartmentName(selectedIndex: number) {
+    if (this.dataSharedService.screenName) {
+      if (selectedIndex === 0) {
+        this.selectDepartmentName = [
+          this.dataSharedService.screenName.departmentId,
+          this.dataSharedService.screenName.applicationId,
+          this.dataSharedService.screenName._id
+        ];
+      } else if (selectedIndex === 1) {
+        // Perform a different operation for index 1, if needed
+      }
+      this.getScreenData(this.dataSharedService.screenName._id);
+    }
+  }
+
+  //Fazi code
+  nzEvent(event: NzFormatEmitEvent): void {
+    debugger
+    if (event.eventName === 'drop') {
+      // capture the dragNode and dropNode
+      const dragNode = event.dragNode?.origin;
+      const dropNode = event?.node?.origin;
+
+      // Use the keys of the dragNode and dropNode to update your tree
+      if (dropNode?.key) {
+        this.nodes = this.updateNodesDnD(this.nodes, dragNode, dropNode?.key);
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+    updateNodesDnD(nodes: any[], nodeToMove: any, destinationKey: string): any[] {
+    return nodes.reduce((result, node) => {
+      if (node.key === nodeToMove.key) {
+        // Skip over this node because we're moving it
+      } else if (node.key === destinationKey) {
+        // Add the node we're moving to this node's children
+        result.push({ ...node, children: [...(node.children || []), nodeToMove] });
+      } else {
+        // Otherwise just add the node as-is
+        result.push({
+          ...node,
+          children: node.children ? this.updateNodesDnD(node?.children, nodeToMove, destinationKey) : undefined,
+        });
+      }
+      return result;
+    }, []);
   }
 }
