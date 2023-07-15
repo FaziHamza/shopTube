@@ -26,6 +26,9 @@ export class AuthService {
     this.jwtService.saveToken(user.access_token);
     window.localStorage['user'] = JSON.stringify(user);
     window.localStorage['authToken'] = JSON.stringify(user?.access_token);
+    window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
+    window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
+
 
     // set current user data into  Observable
     this.currentUserSubject.next(user)
