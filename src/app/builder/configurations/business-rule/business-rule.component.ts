@@ -55,7 +55,6 @@ export class BusinessRuleComponent implements OnInit {
         this.businessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
-    debugger
     this.businessRuleData = this.businessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
     this.businessRuleTargetList;
@@ -318,7 +317,10 @@ debugger
       });
     else
       this.businessForm = this.formBuilder.group({
-        buisnessRule: this.formBuilder.array([])
+        buisnessRule: this.formBuilder.array([]),
+        name:'',
+        description:'',
+        type: ''
       });
   }
 }
