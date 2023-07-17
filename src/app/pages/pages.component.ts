@@ -752,9 +752,22 @@ export class PagesComponent implements OnInit {
   getUIRule(model: any, currentValue: any) {
     debugger
     try {
+      if (this.screenName) {
+        if(this.businessRuleData){
+          if (this.businessRuleData.length > 0) {
+            this.applyRules(this.formlyModel, this.businessRuleData);
+            this.updateFormlyModel();
+            // this.cdr.detach();
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children[0].children[1].children;
-        for (let index = 0; index < this.screenData.uiData.length; index++) {
+        for (let index = 0; index < this.screenData?.uiData?.length; index++) {
           if (model.key == this.screenData.uiData[index].ifMenuName) {
             let query: any;
             let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
@@ -812,23 +825,8 @@ export class PagesComponent implements OnInit {
       else {
         // this.updateFormlyModel();
       }
-    } catch (error) {
-      console.log(error)
-    }
-    finally {
-      if (this.screenName) {
-        if(this.businessRuleData){
-          if (this.businessRuleData.length > 0) {
-            // const fishRhyme = ruleFactory(this.businessRuleData);
-            // const updatedModel = fishRhyme(this.formlyModel);
-            this.applyRules(this.formlyModel, this.businessRuleData);
-            this.updateFormlyModel();
-            this.cdr.detectChanges();
-            // this.cdr.detach();
-          }
-        }
-      }
       this.getSetVariableRule(model, currentValue);
+      this.cdr.detectChanges();
 
     }
   }
@@ -868,7 +866,7 @@ export class PagesComponent implements OnInit {
         }
       }
     }
-    console.log("my data: ", data);
+    // console.log("my data: ", data);
     return data;
   }
   transformRules(oldRules: any[]): any[] {
