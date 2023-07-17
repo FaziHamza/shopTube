@@ -1242,6 +1242,7 @@ export class BuilderComponent implements OnInit {
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
+    debugger
 
     let obj = {
       type: data?.parameter,
@@ -1255,7 +1256,8 @@ export class BuilderComponent implements OnInit {
     }
     if (this.addControl) {
       this.controls(value, data, obj);
-    } else {
+    } 
+    else {
       const modal =
         this.modalService.create<AddControlCommonPropertiesComponent>({
           nzTitle: 'Change Control Value',
@@ -3650,23 +3652,49 @@ export class BuilderComponent implements OnInit {
                 // this.selectedNode['id'] = this.screenName + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               }
             }
+
             if (Array.isArray(event.form.className)) {
               if (event.form.className.length > 0) {
-                let classArray: any;
+                let classArray: string = '';
                 for (let i = 0; i < event.form.className.length; i++) {
-                  if (i == 0) {
-                    classArray = event.form.className[i];
-                  } else {
-                    classArray = classArray + ' ' + event.form.className[i];
+                  const classObj: string[] = event.form.className[i].split(" ");
+                  if (classObj.length > 0) {
+                    for (let j = 0; j < classObj.length; j++) {
+                      if (j === 0 && i === 0) {
+                        classArray = classObj[j];
+                      } else {
+                        classArray += ' ' + classObj[j];
+                      }
+                    }
                   }
                 }
-                this.selectedNode['className'] = classArray;
+                this.selectedNode.className = classArray;
                 props['className'] = classArray;
               }
-            } else {
+            } 
+            else {
               props['className'] = event.form.className;
               this.selectedNode['className'] = event.form.className;
             }
+
+            // if (Array.isArray(event.form.className)) {
+            //   if (event.form.className.length > 0) {
+            //     let classArray: any;
+            //     for (let i = 0; i < event.form.className.length; i++) {
+            //       if (i == 0) {
+            //         classArray = event.form.className[i];
+            //       } else {
+            //         classArray = classArray + ' ' + event.form.className[i];
+            //       }
+            //     }
+            //     this.selectedNode['className'] = classArray;
+            //     props['className'] = classArray;
+            //   }
+            // } 
+            // else {
+            //   props['className'] = event.form.className;
+            //   this.selectedNode['className'] = event.form.className;
+            // }
             props.label = event.form.title;
             // props['key'] = event.form.key
             this.formlyModel[event.form.key] = event.form.defaultValue
@@ -4596,7 +4624,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.className = classArray;
           this.selectedNode = { ...this.selectedNode, ...event.form };
         }
-      } else {
+      } 
+      else {
         this.selectedNode.className = event.form.className;
       }
 

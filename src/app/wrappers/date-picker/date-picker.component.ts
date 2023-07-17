@@ -48,10 +48,7 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
   
   onModelChange(event: any, model: any) {
-    // const formattedDate = formatDate(event, 'yyyy-MM-dd', 'en-US');
-    // this.formControl.patchValue(formattedDate);
     this.sharedService.onChange(event, this.field);
-    // console.log(event, model);
   }
 
 }

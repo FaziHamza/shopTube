@@ -663,14 +663,17 @@ export class SectionsComponent implements OnInit {
               // };
               modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               if (!minLimit && !maxLimit) {
-                if (this.formlyModel[jsonScreenRes[0].key] instanceof Date) {
+                if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
                     [jsonScreenRes[0].key]: Joi.date().iso().required()
                   };
-                }
-                else {
+                } else if (typeof modelObj[jsonScreenRes[0].key] === 'string') {
                   this.ruleObj = {
                     [jsonScreenRes[0].key]: Joi.string().required()
+                  };
+                } else {
+                  this.ruleObj = {
+                    [jsonScreenRes[0].key]: Joi.any().required()
                   };
                 }
               }
