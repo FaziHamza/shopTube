@@ -136,7 +136,13 @@ export class SectionsComponent implements OnInit {
     debugger
     if (data.isSubmit) {
       this.joiValidation();
-      this.saveData1(data);
+      if (this.joiValidationData.length > 0) {
+        if (this.validationCheckStatus.length == 0) {
+          this.saveData1(data);
+        }
+      } else {
+        this.saveData1(data);
+      }
     }
   }
   saveData1(data: any) {
@@ -657,8 +663,15 @@ export class SectionsComponent implements OnInit {
               // };
               modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
               if (!minLimit && !maxLimit) {
-                this.ruleObj = {
-                  [jsonScreenRes[0].key]: Joi.string().required()
+                if (this.formlyModel[jsonScreenRes[0].key] instanceof Date) {
+                  this.ruleObj = {
+                    [jsonScreenRes[0].key]: Joi.date().iso().required()
+                  };
+                }
+                else {
+                  this.ruleObj = {
+                    [jsonScreenRes[0].key]: Joi.string().required()
+                  };
                 }
               }
               else {
@@ -711,7 +724,7 @@ export class SectionsComponent implements OnInit {
     }
     return true;
   }
-  validationChecker(object: any){
+  validationChecker(object: any) {
     let filteredNodes = this.filterInputElements(this.sections.children[1].children);
     filteredNodes.forEach((item: any) => {
       if (item.formly) {
@@ -737,7 +750,7 @@ export class SectionsComponent implements OnInit {
         }
       });
 
-      if (this.setErrorToInput.length > 0) {
+      if (this.validationCheckStatus.length > 0) {
         this.dataSharedService.formlyShowError.next(true);
       }
       this.cd.detectChanges();

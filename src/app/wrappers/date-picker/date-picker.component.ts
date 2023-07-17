@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
@@ -47,9 +48,10 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
   
   onModelChange(event: any, model: any) {
-    
+    // const formattedDate = formatDate(event, 'yyyy-MM-dd', 'en-US');
+    // this.formControl.patchValue(formattedDate);
     this.sharedService.onChange(event, this.field);
-    console.log(event, model);
+    // console.log(event, model);
   }
 
 }

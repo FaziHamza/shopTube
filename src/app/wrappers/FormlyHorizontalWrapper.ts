@@ -49,7 +49,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
   rtl: any;
   requestSubscription: Subscription;
   hasError: boolean = false;
-  constructor(public dataSharedService: DataSharedService , private cd: ChangeDetectorRef) {
+  constructor(public dataSharedService: DataSharedService, private cd: ChangeDetectorRef) {
     super();
   }
 
@@ -58,13 +58,14 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
       next: (res: any) => {
         if (res) {
           this.hasError = JSON.parse(JSON.stringify(res));
-          this.cd.detectChanges();
+          this.cd.detectChanges(); // Mark component for change detection
         }
       },
       error: (err: any) => {
         console.error(err);
       }
     });
+
     if (this.field.formControl) {
       this.field.formControl.statusChanges.subscribe(() => {
         if (this.field.formControl) {
