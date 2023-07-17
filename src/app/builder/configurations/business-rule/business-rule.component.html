@@ -13,7 +13,7 @@
               <div class="flex-inline">
                 <label class="label">Description</label>
                 <input nz-input placeholder="description"
-                  formControlName="description" />
+                formControlName="description" />
               </div>
               <div class="flex-inline">
                 <label class="label">Type</label>
@@ -58,7 +58,7 @@
               </div>
               <div class="w-1/6 ml-1">
                 <nz-select nzShowSearch nzAllowClear
-                  formControlName="opratorForTraget">
+                  formControlName="opratorForTarget">
                   <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
                     *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
                 </nz-select>
@@ -154,7 +154,7 @@
                           </div>
                           <div class="w-1/4 ml-1">
                             <nz-select nzShowSearch nzAllowClear
-                              formControlName="thenOpratorForTraget">
+                              formControlName="thenOpratorForTarget">
                               <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
                                 *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
                             </nz-select>

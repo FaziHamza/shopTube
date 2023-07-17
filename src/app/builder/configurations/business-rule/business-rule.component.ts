@@ -84,7 +84,7 @@ export class BusinessRuleComponent implements OnInit {
                     oprator: [getBusinessRuleRes.oprator],
                     getValue: [getBusinessRuleRes.getValue],
                     target: [getBusinessRuleRes.target],
-                    opratorForTraget: [getBusinessRuleRes.opratorForTraget],
+                    opratorForTarget: [getBusinessRuleRes.opratorForTarget],
                     resultValue: [getBusinessRuleRes.resultValue],
                     conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
                       this.formBuilder.group({
@@ -97,7 +97,7 @@ export class BusinessRuleComponent implements OnInit {
                     thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
                       this.formBuilder.group({
                         thenTarget: getthenCodRes.thenTarget,
-                        thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                        thenOpratorForTarget: getthenCodRes.thenOpratorForTarget,
                         thenResultValue: getthenCodRes.thenResultValue
                       })
                     ))
@@ -119,7 +119,7 @@ export class BusinessRuleComponent implements OnInit {
   newThen(): FormGroup {
     return this.formBuilder.group({
       thenTarget: '',
-      thenOpratorForTraget: '',
+      thenOpratorForTarget: '',
       thenResultValue: ''
     });
   }
@@ -208,12 +208,12 @@ export class BusinessRuleComponent implements OnInit {
       let condThen = '';
       if (elv.thenCondition) {
         elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
+          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTarget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
         });
       }
       var dt = {
         if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue) + cond,
-        then: elv.target + " " + elv.opratorForTraget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
+        then: elv.target + " " + elv.opratorForTarget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
       };
       this.businessRuleObj.push(dt);
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
