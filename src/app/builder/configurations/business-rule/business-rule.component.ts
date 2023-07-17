@@ -27,7 +27,7 @@ export class BusinessRuleComponent implements OnInit {
     this.dynamicBuisnessRule();
   }
   ngOnDestroy() {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
   businessRuleData: any = [];
@@ -48,7 +48,7 @@ export class BusinessRuleComponent implements OnInit {
     this.dynmaicRule = true;
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.businessForm = this.formBuilder.group({
-      buisnessRule: this.formBuilder.array([])
+      buisnessRule: this.formBuilder.array([]),
     });
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
@@ -77,6 +77,9 @@ export class BusinessRuleComponent implements OnInit {
               this.businessForm = this.formBuilder.group({
                 buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                   this.formBuilder.group({
+                    name: getBusinessRuleRes.name ? getBusinessRuleRes.name : '',
+                    description: getBusinessRuleRes.description ? getBusinessRuleRes.description : '',
+                    type: getBusinessRuleRes.type ? getBusinessRuleRes.type : '',
                     ifCondition: [getBusinessRuleRes.ifCondition],
                     oprator: [getBusinessRuleRes.oprator],
                     getValue: [getBusinessRuleRes.getValue],
@@ -148,11 +151,14 @@ export class BusinessRuleComponent implements OnInit {
   }
   newBuisnessRule(): FormGroup {
     return this.formBuilder.group({
+      name: '',
+      description: '',
+      type: 'clientSide',
       ifCondition: '',
       oprator: '',
       getValue: '',
       target: '',
-      opratorForTraget: '',
+      opratorForTarget: '',
       resultValue: '',
       conditional: this.formBuilder.array([]),
       thenCondition: this.formBuilder.array([]),
@@ -190,13 +196,13 @@ export class BusinessRuleComponent implements OnInit {
 
   saveBussinessRule() {
 
-debugger
+    debugger
     this.businessRuleObj = [];
     this.businessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue)  + ' ';
+          cond = cond + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + ' ';
         });
       }
       let condThen = '';
@@ -206,7 +212,7 @@ debugger
         });
       }
       var dt = {
-        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue)  + cond,
+        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue) + cond,
         then: elv.target + " " + elv.opratorForTraget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
       };
       this.businessRuleObj.push(dt);
@@ -291,7 +297,7 @@ debugger
     console.log(fishRhyme(this.formlyModel));
   }
   checkValueIntegerOrNot(value: any) {
-    return /^[0-9]+$/.test(value) ? parseInt(value) : "'"+ value +"'"
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"
   }
   applyCondition(value: any) {
     return /^[0-9]+$/.test(value) ? '' : '"'
@@ -318,9 +324,6 @@ debugger
     else
       this.businessForm = this.formBuilder.group({
         buisnessRule: this.formBuilder.array([]),
-        name:'',
-        description:'',
-        type: ''
       });
   }
 }
