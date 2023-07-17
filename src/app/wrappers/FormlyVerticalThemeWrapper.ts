@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
 import { DataSharedService } from '../services/data-shared.service';
 import { Subscription } from 'rxjs';
@@ -34,7 +34,7 @@ import { Subscription } from 'rxjs';
   `,
 })
 export class FormlyVerticalThemeWrapper extends FieldWrapper {
-  constructor(public dataSharedService: DataSharedService) {
+  constructor(public dataSharedService: DataSharedService, private cd: ChangeDetectorRef) {
     super();
   }
   requestSubscription: Subscription;
@@ -43,8 +43,10 @@ export class FormlyVerticalThemeWrapper extends FieldWrapper {
     this.to;
     this.requestSubscription = this.dataSharedService.formlyShowError.subscribe({
       next: (res: any) => {
-        if (res)
-            this.hasError = res;
+        if (res) {
+          this.hasError = JSON.parse(JSON.stringify(res));
+          this.cd.detectChanges(); // Mark component for change detection
+        }
       },
       error: (err: any) => {
         console.error(err);

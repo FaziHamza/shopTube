@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzMarks } from 'ng-zorro-antd/slider';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-rang-inputs',
   templateUrl: './rang-inputs.component.html',
   styleUrls: ['./rang-inputs.component.scss']
 })
-export class RangInputsComponent implements OnInit {
+export class RangInputsComponent extends FieldType<FieldTypeConfig> {
   @Input() rangSlider: any;
   marks : any;
   rangeValue: any;
@@ -14,7 +16,9 @@ export class RangInputsComponent implements OnInit {
   preHighLight = false;
   nextHighLight = false;
   mid : any = 0;
-  constructor() { }
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   ngOnInit(): void {
     this.mid = parseFloat(((this.rangSlider.max - this.rangSlider.min) / 2).toFixed(5));
     this.marks =  {
@@ -32,5 +36,8 @@ export class RangInputsComponent implements OnInit {
     const lower = this._sliderValue >= this.mid;
     this.preHighLight = !lower;
     this.nextHighLight = lower;
+  }
+  onModelChange(event: any, model: any) {
+    this.sharedService.onChange(event, this.field);
   }
 }

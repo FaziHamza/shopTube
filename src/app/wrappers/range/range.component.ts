@@ -17,9 +17,8 @@ export class RangeComponent extends FieldType<FieldTypeConfig> {
   }
 
   onModelChange(event: any, model: any) {
-    
     this.sharedService.onChange(event, this.field);
-    console.log(event, model);
+    // console.log(event, model);
   }
 
 }

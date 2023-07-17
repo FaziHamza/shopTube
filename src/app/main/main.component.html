@@ -2,6 +2,7 @@
     [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
     *ngFor="let item of mainData.children ; index as i; last as isLast">
+    <!-- {{item.className | json}} -->
     <div [ngClass]="{'highLight': item.highLight == true}"
             *ngIf="!item.hideExpression">
             <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">

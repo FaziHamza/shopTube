@@ -27,7 +27,7 @@ export class BusinessRuleComponent implements OnInit {
     this.dynamicBuisnessRule();
   }
   ngOnDestroy() {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
   businessRuleData: any = [];
@@ -48,14 +48,13 @@ export class BusinessRuleComponent implements OnInit {
     this.dynmaicRule = true;
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.businessForm = this.formBuilder.group({
-      buisnessRule: this.formBuilder.array([])
+      buisnessRule: this.formBuilder.array([]),
     });
     for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
       if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
         this.businessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
       }
     }
-    debugger
     this.businessRuleData = this.businessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
     this.businessRuleTargetList;
@@ -78,11 +77,14 @@ export class BusinessRuleComponent implements OnInit {
               this.businessForm = this.formBuilder.group({
                 buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                   this.formBuilder.group({
+                    name: getBusinessRuleRes.name ? getBusinessRuleRes.name : '',
+                    description: getBusinessRuleRes.description ? getBusinessRuleRes.description : '',
+                    type: getBusinessRuleRes.type ? getBusinessRuleRes.type : '',
                     ifCondition: [getBusinessRuleRes.ifCondition],
                     oprator: [getBusinessRuleRes.oprator],
                     getValue: [getBusinessRuleRes.getValue],
                     target: [getBusinessRuleRes.target],
-                    opratorForTraget: [getBusinessRuleRes.opratorForTraget],
+                    opratorForTarget: [getBusinessRuleRes.opratorForTarget],
                     resultValue: [getBusinessRuleRes.resultValue],
                     conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
                       this.formBuilder.group({
@@ -95,7 +97,7 @@ export class BusinessRuleComponent implements OnInit {
                     thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
                       this.formBuilder.group({
                         thenTarget: getthenCodRes.thenTarget,
-                        thenOpratorForTraget: getthenCodRes.thenOpratorForTraget,
+                        thenOpratorForTarget: getthenCodRes.thenOpratorForTarget,
                         thenResultValue: getthenCodRes.thenResultValue
                       })
                     ))
@@ -117,7 +119,7 @@ export class BusinessRuleComponent implements OnInit {
   newThen(): FormGroup {
     return this.formBuilder.group({
       thenTarget: '',
-      thenOpratorForTraget: '',
+      thenOpratorForTarget: '',
       thenResultValue: ''
     });
   }
@@ -149,11 +151,14 @@ export class BusinessRuleComponent implements OnInit {
   }
   newBuisnessRule(): FormGroup {
     return this.formBuilder.group({
+      name: '',
+      description: '',
+      type: 'clientSide',
       ifCondition: '',
       oprator: '',
       getValue: '',
       target: '',
-      opratorForTraget: '',
+      opratorForTarget: '',
       resultValue: '',
       conditional: this.formBuilder.array([]),
       thenCondition: this.formBuilder.array([]),
@@ -191,24 +196,24 @@ export class BusinessRuleComponent implements OnInit {
 
   saveBussinessRule() {
 
-debugger
+    debugger
     this.businessRuleObj = [];
     this.businessForm.value.buisnessRule.forEach((elv: any) => {
       let cond = ' ';
       if (elv.conditional) {
         elv.conditional.forEach((elv2: any) => {
-          cond = cond  + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue)  + ' ';
+          cond = cond + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + ' ';
         });
       }
       let condThen = '';
       if (elv.thenCondition) {
         elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
+          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTarget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
         });
       }
       var dt = {
-        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue)  + cond,
-        then: elv.target + " " + elv.opratorForTraget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
+        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue) + cond,
+        then: elv.target + " " + elv.opratorForTarget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
       };
       this.businessRuleObj.push(dt);
       // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
@@ -292,7 +297,7 @@ debugger
     console.log(fishRhyme(this.formlyModel));
   }
   checkValueIntegerOrNot(value: any) {
-    return /^[0-9]+$/.test(value) ? parseInt(value) : "'"+ value +"'"
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"
   }
   applyCondition(value: any) {
     return /^[0-9]+$/.test(value) ? '' : '"'
@@ -318,7 +323,7 @@ debugger
       });
     else
       this.businessForm = this.formBuilder.group({
-        buisnessRule: this.formBuilder.array([])
+        buisnessRule: this.formBuilder.array([]),
       });
   }
 }

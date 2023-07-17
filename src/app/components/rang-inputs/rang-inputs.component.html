@@ -1,19 +1,32 @@
-<span *ngIf="rangSlider.tooltip" nz-tooltip [nzTooltipTitle]="rangSlider.tooltip"><span nz-icon nzType="question-circle"
-        nzTheme="outline"></span></span>
+<span *ngIf="rangSlider.tooltip" nz-tooltip
+  [nzTooltipTitle]="rangSlider.tooltip"><span nz-icon nzType="question-circle"
+    nzTheme="outline"></span></span>
 <span [ngClass]="{'vertical-range-slider': rangSlider.format}">
-    <span *ngIf="rangSlider.showValue && rangSlider.format">{{_sliderValue}}</span>
-    <st-icon text-slate-200 *ngIf="rangSlider.icon" [type]="rangSlider.iconType" [icon]="rangSlider.icon"
-      [hoverIconColor]="rangSlider?.hoverIconColor || ''"  [size]="rangSlider.iconSize" [color]="preHighLight ? rangSlider?.iconColor : '#929092'"></st-icon>
-    <div [ngClass]="{'pb-3' : rangSlider.format}" [ngStyle]="{
-'height': rangSlider.height && rangSlider.height != 0 ? rangSlider.height + 'px' : 'auto'}">
-        <nz-slider *ngIf="!rangSlider.format" [nzReverse]="rangSlider.reverse" [nzVertical]="rangSlider.format"
-            [nzMin]="rangSlider.min" [(ngModel)]="sliderValue" [nzMax]="rangSlider.max"
-            [nzDisabled]='rangSlider.disabled'></nz-slider>
-        <nz-slider *ngIf="rangSlider.format" nzVertical [nzReverse]="rangSlider.reverse" [nzMin]="rangSlider.min"
-            [(ngModel)]="sliderValue" [nzMax]="rangSlider.max" [nzDisabled]='rangSlider.disabled'></nz-slider>
-    </div>
-    <st-icon [class.icon-highlight]="nextHighLight" *ngIf="rangSlider.icon" [type]="rangSlider.iconType"
-        [icon]="rangSlider.icon" [size]="rangSlider.iconSize"
-      [hoverIconColor]="rangSlider?.hoverIconColor || ''"  [color]="nextHighLight ? rangSlider?.iconColor : '#929092'"></st-icon>
-    <span *ngIf="rangSlider.showValue && !rangSlider.format">{{_sliderValue}}</span>
+  <span *ngIf="rangSlider.showValue && rangSlider.format">{{_sliderValue}}</span>
+  <st-icon text-slate-200 *ngIf="rangSlider.icon" [type]="rangSlider.iconType"
+    [icon]="rangSlider.icon"
+    [hoverIconColor]="rangSlider?.hoverIconColor || ''"
+    [size]="rangSlider.iconSize"
+    [color]="preHighLight ? rangSlider?.iconColor : '#929092'"></st-icon>
+  <div [ngClass]="{'pb-3' : rangSlider.format}" [ngStyle]="{
+      'height': rangSlider.height && rangSlider.height != 0 ? rangSlider.height + 'px' : 'auto'}">
+    <nz-slider *ngIf="!rangSlider.format" [nzReverse]="rangSlider.reverse"
+      [nzVertical]="rangSlider.format"
+      [nzMin]="rangSlider.min" [formControl]="formControl" 
+      (ngModelChange)="onModelChange($event, field)"
+      [nzMax]="rangSlider.max"
+      [nzDisabled]='rangSlider.disabled'></nz-slider>
+    <nz-slider *ngIf="rangSlider.format" nzVertical
+      [nzReverse]="rangSlider.reverse" [nzMin]="rangSlider.min"
+      [formControl]="formControl"  
+      (ngModelChange)="onModelChange($event, field)"
+      [nzMax]="rangSlider.max"
+      [nzDisabled]='rangSlider.disabled'></nz-slider>
+  </div>
+  <st-icon [class.icon-highlight]="nextHighLight" *ngIf="rangSlider.icon"
+    [type]="rangSlider.iconType"
+    [icon]="rangSlider.icon" [size]="rangSlider.iconSize"
+    [hoverIconColor]="rangSlider?.hoverIconColor || ''"
+    [color]="nextHighLight ? rangSlider?.iconColor : '#929092'"></st-icon>
+  <span *ngIf="rangSlider.showValue && !rangSlider.format">{{_sliderValue}}</span>
 </span>
