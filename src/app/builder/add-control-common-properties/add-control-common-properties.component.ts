@@ -85,4 +85,7 @@ export class AddControlCommonPropertiesComponent implements OnInit {
 
     this.#modal.destroy(this.model);
   }
+  cancel(){
+    this.#modal.destroy();
+  }
 }
