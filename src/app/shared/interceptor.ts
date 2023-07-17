@@ -43,7 +43,6 @@ export class AuthInterceptor implements HttpInterceptor {
     //     })
     // }
     let token = JSON.parse(localStorage.getItem('authToken')!);
-    debugger
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,

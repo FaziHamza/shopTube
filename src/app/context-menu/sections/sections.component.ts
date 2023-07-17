@@ -179,7 +179,7 @@ export class SectionsComponent implements OnInit {
               this.toastr.error(res[0]?.error, { nzDuration: 3000 });
             else {
               this.toastr.success("Save Successfully", { nzDuration: 3000 });
-              this.setInternalValuesEmpty(this.dataModel)
+              // this.setInternalValuesEmpty(this.dataModel)
               // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
               this.getFromQuery();
             }
