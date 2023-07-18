@@ -1892,7 +1892,7 @@ export class BuilderDesignComponent implements OnInit {
                         tooltip: '',
                         default: '',
                         hoverIconColor: '',
-                        requiredMessage: 'This field is required',
+                        requiredMessage: '',
                         tooltipPosition: 'right',
                         toolTipClass: '',
                         formlyTypes: '',

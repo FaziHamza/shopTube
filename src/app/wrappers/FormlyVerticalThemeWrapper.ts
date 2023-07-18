@@ -60,4 +60,9 @@ export class FormlyVerticalThemeWrapper extends FieldWrapper {
       });
     }
   }
+  ngOnDestroy(): void {
+    this.requestSubscription.unsubscribe();
+    this.hasError = false;
+  }
+
 }
