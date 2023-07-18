@@ -5,6 +5,7 @@ import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { ElementData } from 'src/app/models/element';
 
 @Component({
   selector: 'st-business-rule',
@@ -40,7 +41,7 @@ export class BusinessRuleComponent implements OnInit {
   UIRule: boolean = false;
   dynmaicRule: boolean = false;
   businessRuleId: string = '';
-
+  allFormlyInputs: any[] = [];
   dynamicBuisnessRule() {
     this.businessRuleData = [];
     this.businessRuleIfList = [];
@@ -50,10 +51,9 @@ export class BusinessRuleComponent implements OnInit {
     this.businessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([]),
     });
-    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.businessRuleIfList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
-      }
+    this.allFormlyInputs = this.filterInputElements(this.nodes);
+    for (let j = 0; j < this.allFormlyInputs.length; j++) {
+      this.businessRuleIfList.push(this.allFormlyInputs[j].formly[0].fieldGroup[0]);
     }
     this.businessRuleData = this.businessRuleIfList;
     this.changeDynamicBuisnessRuleIf();
@@ -115,7 +115,27 @@ export class BusinessRuleComponent implements OnInit {
       })
     }
   }
+  filterInputElements(data: ElementData[]): any[] {
+    const inputElements: ElementData[] = [];
 
+    function traverse(obj: any): void {
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input') {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
+  }
   newThen(): FormGroup {
     return this.formBuilder.group({
       thenTarget: '',
@@ -126,10 +146,8 @@ export class BusinessRuleComponent implements OnInit {
 
   changeDynamicBuisnessRuleIf() {
     this.businessRuleTargetList = [];
-    for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-      if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-        this.businessRuleTargetList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
-      }
+    for (let j = 0; j < this.allFormlyInputs.length; j++) {
+      this.businessRuleTargetList.push(this.allFormlyInputs[j].formly[0].fieldGroup[0]);
     }
     // this.businessRuleTargetList = this.businessRuleTargetList.filter((a: any) => a.key != this.ifDynamicMenuName);
   }
