@@ -139,7 +139,7 @@ export class BusinessRuleComponent implements OnInit {
   newThen(): FormGroup {
     return this.formBuilder.group({
       thenTarget: '',
-      thenOpratorForTarget: '',
+      thenOpratorForTarget: '=',
       thenResultValue: ''
     });
   }

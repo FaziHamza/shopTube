@@ -855,7 +855,7 @@ export class PagesComponent implements OnInit {
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ""); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
-          data[key] = value;
+          data[key] = value.replace(/'/g, '');
         }
       }else{
         let thenActions = rule.then;
