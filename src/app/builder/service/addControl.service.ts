@@ -53,6 +53,7 @@ export class AddControlService {
       labelPosition: "text-left",
       isNextChild: true,
       repeatable: false,
+      borderLessInputs: false,
       isBordered: true,
       size: 'default',
       status: '',

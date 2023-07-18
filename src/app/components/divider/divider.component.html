@@ -6,10 +6,9 @@
   [nzPlain]="dividerData.plain"
   [nzOrientation]="dividerData.orientation"
   [ngStyle]="{
-    'border-top-color': dividerData.dividerType == 'horizontal' ? dividerData['color']  : 'none',
-    'border-left': dividerData.dividerType == 'vertical' ? dividerData['color']: 'none'
-  }"
->
+    'border-top-color': dividerData.dividerType === 'horizontal' ? dividerData['color'] : 'none',
+    'border-left-color': dividerData.dividerType === 'vertical' ? dividerData['color'] : 'none'
+  }">
   <ng-template #text>
     <span [style.color]="dividerData['color']">
       <st-icon
@@ -18,8 +17,7 @@
         [icon]="dividerData?.icon"
         [hoverIconColor]="dividerData?.hoverIconColor || ''"
         [size]="dividerData?.iconSize"
-        [style.color]="dividerData?.iconColor"
-      ></st-icon>
+        [style.color]="dividerData?.iconColor"></st-icon>
       <span>{{ dividerData.dividerText }}</span>
     </span>
   </ng-template>
@@ -29,10 +27,8 @@
   *ngIf="!dividerData.dividerText && !dividerData.icon"
   [style.height.px]="dividerData.dividerType === 'vertical' && dividerData['height'] && dividerData['height'] !== 0 ? dividerData['height'] : 'auto'"
   [ngStyle]="{
-    'border-top': dividerData.dividerType === 'horizontal' ? '1px solid ' + dividerData['color'] : 'none',
-    'border-left': dividerData.dividerType === 'vertical' ? '1px solid ' + dividerData['color'] : 'none'
+    'border-top-color': dividerData.dividerType === 'horizontal' ? dividerData['color'] : 'none',
+    'border-left-color': dividerData.dividerType === 'vertical' ? dividerData['color'] : 'none'
   }"
-  
-  [nzDashed]="dividerData.dashed"
   [nzType]="dividerData.dividerType"
-></nz-divider>
+  [nzDashed]="dividerData.dashed"></nz-divider>

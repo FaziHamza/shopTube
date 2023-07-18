@@ -289,18 +289,17 @@ export class PagesComponent implements OnInit {
       });
     }
   }
-  gridRulesData :any[] = [];
-  assignGridRules(data:any){
-    if(this.gridRulesData.length > 0){
-      this.gridRules(this.gridRulesData,data);
+  gridRulesData: any[] = [];
+  assignGridRules(data: any) {
+    if (this.gridRulesData.length > 0) {
+      this.gridRules(this.gridRulesData, data);
     }
-    else
-    {
+    else {
       this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
-            this.gridRules(getRes,data);
+            this.gridRules(getRes, data);
           }
         } else
           this.toastr.error(getRes.message, { nzDuration: 3000 });
@@ -308,7 +307,7 @@ export class PagesComponent implements OnInit {
     }
 
   }
-  gridRules(getRes:any,data:any){
+  gridRules(getRes: any, data: any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
@@ -325,9 +324,9 @@ export class PagesComponent implements OnInit {
               let query: any;
               if (elementv1.oprator == 'NotNull')
                 query = "1==1"
-              else{
+              else {
                 let firstValue = data.tableData[j][elementv1.ifCondition] ? data.tableData[j][elementv1.ifCondition] : "0";
-                query =  firstValue + elementv1.oprator + elementv1.getValue
+                query = firstValue + elementv1.oprator + elementv1.getValue
               }
 
               if (this.evaluateGridCondition(query)) {
@@ -389,10 +388,10 @@ export class PagesComponent implements OnInit {
             // });
           }
           else {
-            data.tableHeaders.forEach((element:any) => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridHeaderSum'] = 0;
-                const filteredData = this.filterTableData(elementv1,data)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
@@ -407,7 +406,7 @@ export class PagesComponent implements OnInit {
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      data.tableHeaders.forEach((element:any) => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridHeaderSum')
                         }
@@ -435,10 +434,10 @@ export class PagesComponent implements OnInit {
             console.log("No obj Found!")
           }
           else {
-            data.tableHeaders.forEach((element:any) => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridFooterSum'] = 0;
-                const filteredData = this.filterTableData(elementv1,data)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridFooterSum')
@@ -453,7 +452,7 @@ export class PagesComponent implements OnInit {
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      data.tableHeaders.forEach((element:any) => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridFooterSum')
                         }
@@ -753,7 +752,7 @@ export class PagesComponent implements OnInit {
     debugger
     try {
       if (this.screenName) {
-        if(this.businessRuleData){
+        if (this.businessRuleData) {
           if (this.businessRuleData.length > 0) {
             this.applyRules(this.formlyModel, this.businessRuleData);
             this.updateFormlyModel();
@@ -766,14 +765,24 @@ export class PagesComponent implements OnInit {
     }
     finally {
       if (this.screenData != undefined) {
-          var inputType = this.resData[0].children[1].children;
-          for (let index = 0; index < this.screenData?.uiData?.length; index++) {
-            if (model.key == this.screenData.uiData[index].ifMenuName) {
-              let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+        var inputType = this.resData[0].children[1].children;
+        for (let index = 0; index < this.screenData?.uiData?.length; index++) {
+          if (model.key == this.screenData.uiData[index].ifMenuName) {
+            let query: any;
+            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+            if (this.screenData.uiData[index].condationName == 'contains') {
+              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+                query = '1 == 1';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+              else {
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              }
+            } else if (this.screenData.uiData[index].condationName == 'null') {
+              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -781,46 +790,36 @@ export class PagesComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
-
               } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-                }
+                query = '1 == 2';
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
-              if (this.UiRuleCondition(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
-              }
-              else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
+
+            } else {
+              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              } else {
+                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+
+                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
               }
             }
+            if (this.UiRuleCondition(query)) {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+              this.resData[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
+            }
+            else {
+              const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+              this.resData[0].children[1].children = check;
+              this.updateNodes();
+              this.updateFormlyModel();
+            }
           }
+        }
       }
       else {
         // this.updateFormlyModel();
@@ -834,30 +833,41 @@ export class PagesComponent implements OnInit {
     rules = this.transformRules(rules);
     for (let rule of rules) {
       let conditions = rule.if.split(' AND ');
-
       let conditionResults = conditions.map((condition: any) => {
-        let [key, operator, value] = condition.split(' ').map((s: any) => s.trim());
-        value = value.replace(/['"]/g, '');  // remove quotes
-
-        if (operator == '==') return data[key] == value;
-        if (operator == '!=') return data[key] != value;
-        if (operator == '>=') return data[key] >= value;
-        if (operator == '<=') return data[key] <= value;
-        if (operator == '>') return data[key] > value;
-        if (operator == '<') return data[key] < value;
-        throw new Error(`Unknown operator: ${operator}`);
+        const subConditions = condition.split(' OR ');
+        const subConditionResults = subConditions.map((subCondition: any) => {
+          let [key, operator, value] = subCondition.split(' ').map((s: any) => s.trim());
+          value = value.replace(/['"]/g, '');  // remove quotes
+          switch (operator) {
+            case '==':
+              return data[key] == value;
+            case '!=':
+              return data[key] != value;
+            case '>=':
+              return data[key] >= value;
+            case '<=':
+              return data[key] <= value;
+            case '>':
+              return data[key] > value;
+            case '<':
+              return data[key] < value;
+            default:
+              throw new Error(`Unknown operator: ${operator}`);
+          }
+        });
+        // check if any of the sub-conditions are true
+        return subConditionResults.some((result: any) => result);
       });
 
       // check if all conditions are true
       if (conditionResults.every((result: any) => result)) {
         let thenActions = rule.then;
-        // let thenActions = rule.then.split(',').map((s: any) => s.trim());
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ""); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value.replace(/'/g, '');
         }
-      }else{
+      } else {
         let thenActions = rule.then;
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ""); // remove quotes
@@ -866,12 +876,12 @@ export class PagesComponent implements OnInit {
         }
       }
     }
-    // console.log("my data: ", data);
     return data;
   }
+
   transformRules(oldRules: any[]): any[] {
     return oldRules.map(rule => {
-      let newRule = {...rule};  // clone rule
+      let newRule = { ...rule };  // clone rule
       let thenActions = rule.then.split(',').map((s: any) => s.trim());
 
       newRule.then = thenActions.map((action: any) => {
@@ -1047,13 +1057,12 @@ export class PagesComponent implements OnInit {
     for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
       for (let j = 0; j < inputType.length; j++) {
         let element = inputType[j];
-        if(this.screenData.uiData[index].targetCondition[k].targetName == element.key && currentValue){
+        if (this.screenData.uiData[index].targetCondition[k].targetName == element.key && currentValue) {
           inputType[j] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
         }
         else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].key && !currentValue)
-           inputType[j] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        else
-        {
+          inputType[j] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+        else {
           for (let l = 0; l < inputType[j].children[1].children.length; l++) {
             if (inputType[j].children[1].children[l].type == "button" || inputType[j].children[1].children[l].type == "linkButton" || inputType[j].children[1].children[l].type == "dropdownButton") {
               if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue) {
@@ -1072,11 +1081,11 @@ export class PagesComponent implements OnInit {
               inputType[j].children[1].children[l].type == "repeatSection" || inputType[j].children[1].children[l].type == "tags" || inputType[j].children[1].children[l].type == "telephone" ||
               inputType[j].children[1].children[l].type == "textarea" || inputType[j].children[1].children[l].type == "date" || inputType[j].children[1].children[l].type == "datetime" ||
               inputType[j].children[1].children[l].type == "month" || inputType[j].children[1].children[l].type == "time" || inputType[j].children[1].children[l].type == "week") {
-                if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && currentValue) {
-                  inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-                } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && !currentValue) {
-                  inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-                }
+              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && currentValue) {
+                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && !currentValue) {
+                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              }
             } else if (inputType[j].children[1].children[l].type == "alert" || inputType[j].children[1].children[l].type == "heading" || inputType[j].children[1].children[l].type == "paragraph" ||
               inputType[j].children[1].children[l].type == "tag" || inputType[j].children[1].children[l].type == "card" || inputType[j].children[1].children[l].type == "simpleCardWithHeaderBodyFooter" ||
               inputType[j].children[1].children[l].type == "cascader" || inputType[j].children[1].children[l].type == "mentions" || inputType[j].children[1].children[l].type == "transfer" ||
