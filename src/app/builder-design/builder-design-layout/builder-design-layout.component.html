@@ -1,84 +1,199 @@
-<nz-layout>
-  <nz-header [dir]="selectedTheme?.layout" nz-menu
-      [nzTheme]="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl' ? 'dark' : 'light'">
-      <div class="flex flex-wrap">
-          <div class="layout-topbar-icon"
-              [ngClass]='selectedTheme.topHeaderMenu'>
-              <img *ngIf="!selectedTheme.isCollapsed" class="logo"
-                  src="assets/images/logo-dark.png">
-              <button
-                  *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && !selectedTheme?.isCollapsed"
-                  nz-button class="desktop-toggle" (click)="collapsed()"
-                  nzType="primary">
-                  <i class="fa-regular fa-bars"></i>
-              </button>
-          </div>
+<div class="user-builder-layout">
+    <nz-layout class="app-layout">
+        <nz-header>
+            <div class="app-header">
+                <div class="b-brand">
+                    <!-- <div class="b-logo"> -->
+                    <img src="assets/images/logo.png" alt="">
+                    <!-- </div> -->
+                    <div (click)="isCollapsed = !isCollapsed">
+                        <i [class]="isCollapsed ? 'fa-regular fa-arrow-right-long' : 'fa-regular fa-bars'"></i>
+                    </div>
+                </div>
+                <div class="header-action-btns">
+                    <div class="nav-item">
+                        <i class="fa-light fa-magnifying-glass"></i>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa-light fa-grid-2"></i>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa-light fa-bell"></i>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa-light fa-earth-asia"></i>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fa-light fa-gear"></i>
+                    </div>
+                    <div class="nav-item">
+                        <a nz-dropdown [nzDropdownMenu]="menu">
+                            <div class="user-profile-header">
+                                <img src="assets/images/user.png" alt="">
+                            </div>
+                        </a>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu nzSelectable>
+                                <li nz-menu-item>1st menu item</li>
+                                <li nz-menu-item>2nd menu item</li>
+                                <li nz-menu-item>3rd menu item</li>
+                                <li nz-menu-item nzDanger>4th danger item</li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </div>
+                </div>
+            </div>
+        </nz-header>
+        <nz-layout class="main-layout">
+            <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="256px" nzBreakpoint="md"
+                [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+                <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+                    <li nz-menu-item>
+                        <i class="fa-light fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-square-list"></i>
+                        <span>Forms</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-feather"></i>
+                        <span>Ui Features</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-message-captions"></i>
+                        <span>Modal & Overlays</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-sidebar"></i>
+                        <span>Extra Components</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-messages"></i>
+                        <span>Charts</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-files"></i>
+                        <span>File</span>
+                    </li>
+                    <li nz-menu-item>
+                        <i class="fa-light fa-pen-to-square"></i>
+                        <span>Editors</span>
+                    </li>
+                    <li nz-submenu nzOpen [nzTitle]="title">
+                        <ng-template #title>
+                            <i class="fa-light fa-table"></i>
+                            <span>Tables & Date</span>
+                        </ng-template>
+                        <ul>
+                            <li nz-menu-item nzMatchRouter>
+                                <a routerLink="/welcome">Welcome</a>
+                            </li>
+                            <li nz-menu-item nzMatchRouter>
+                                <a>Monitor</a>
+                            </li>
+                            <li nz-menu-item nzMatchRouter>
+                                <a>Workplace</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nz-sider>
 
-          <div class="layout-topbar-menu" [ngClass]='selectedTheme.topHeader'
-              [ngStyle]="{'margin-bottom': selectedTheme.layoutWidth === 'boxed'
-              || selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView'?'20px' :''}"
-              *ngIf="selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'"
-              nz-menu
-              [nzTheme]="selectedTheme.layout === 'vertical'||  selectedTheme.layout === 'rtl'? 'dark' : 'light'">
-              <div class="dynamic-header-row">
-                  <div class="dynamic-header-btns"
-                      *ngIf="selectedTheme['showButton'] == undefined || selectedTheme['showButton']">
-                      <button (click)="mobileViewCollapseInHostCom()"
-                          *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' "
-                          nz-button class="mobile-toggle mr-4 ml-4"
-                          nzType="primary">
-                          <i class="fa-regular fa-bars"></i>
-                      </button>
-                      <button
-                          *ngIf="selectedTheme?.layout != 'horizental' && selectedTheme?.sideBarSize != 'smallHoverView' && selectedTheme?.isCollapsed"
-                          nz-button class="mr-4 ml-4 desktop-toggle"
-                          nzType="primary" (click)="collapsed()">
-                          <i class="fa-regular fa-bars"></i>
-                      </button>
-                  </div>
-                  <st-menu (notify)="notifyEmit($event)"
-                      class="dynamic-header"
-                      [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
-              </div>
-          </div>
-          <div [ngClass]='selectedTheme.topHeader'
-              *ngIf="selectedTheme.layout != 'vertical' && selectedTheme.layout != 'rtl'">
-              <st-menu (notify)="notifyEmit($event)"
-                  [selectedTheme]="selectedTheme.layout ? selectedTheme : newSelectedTheme"></st-menu>
-          </div>
-      </div>
-  </nz-header>
+            <nz-content>
+                <div class="b-card top-action-bar p-3">
+                    <div class="page-selector">
+                        <nz-form-control nzErrorTip="Please Select Page">
+                            <nz-select id="gender" formControlName="gender" nzPlaceHolder="Please Select Page">
+                                <nz-option nzValue="male" nzLabel="male"></nz-option>
+                                <nz-option nzValue="female" nzLabel="female"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </div>
+                    <div class="action-bar">
+                        <div class="component-actions">
+                            <button nz-button nzType="link" class="active">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-regular fa-arrow-rotate-left"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-regular fa-arrow-rotate-right"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-regular fa-floppy-disk"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-regular fa-brackets-curly"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-regular fa-trash"></i>
+                            </button>
+                        </div>
 
-  <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
-      [dir]="this.selectedTheme.layout">
-      <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
-    'side-menu-rtl': selectedTheme.layout == 'rtl'}"
-          [class]="selectedTheme.menuColumn + ' desktop-toggle'">
-          <st-app-side-menu [selectedTheme]="selectedTheme"
-              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-      </div>
-      <div
-          [ngClass]="{'side-menu': selectedTheme.layout != 'rtl', 'side-menu-rtl': selectedTheme.layout == 'rtl'}"
-          [class]="selectedTheme.menuColumn + ' mobile-toggle'"
-          *ngIf="selectedTheme.showMenu">
-          <st-app-side-menu [selectedTheme]="selectedTheme"
-              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-      </div>
-      <div [ngClass]='selectedTheme.rowClass' class="content-body">
-          <ng-container *ngIf="dropdown.length">
-              <st-layout-button (notify)="notifyEmitForDropdown($event)"
-                  [dropdownData]="dropdown"></st-layout-button>
-          </ng-container>
-          <ng-container *ngIf="tabs.length">
-              <ng-container *ngFor="let item of tabs">
-                  <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'"
-                      [layoutTabsDropdownData]="item"></st-layout-tabs-dropdown>
-              </ng-container>
-          </ng-container>
-          <div dir="ltr">
-              <router-outlet></router-outlet>
-          </div>
-      </div>
-  </div>
-  <div class="bg-white-500 text-black-500">ShopoTube</div>
-</nz-layout>
+                        <div class="screen-sizing">
+                            <button nz-button nzType="link" class="active">
+                                <i class="fa-solid fa-display"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-solid fa-laptop"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-solid fa-tablet-screen-button"></i>
+                            </button>
+                            <button nz-button nzType="link">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </button>
+                        </div>
+                        <div class="action-drop-down">
+                            <button nz-button nzType="primary" class="actions-btn" nz-dropdown [nzDropdownMenu]="menu4">
+                                Actions
+                                <span nz-icon nzType="down"></span>
+                            </button>
+                            <nz-dropdown-menu #menu4="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item>menu4 1st menu item</li>
+                                    <li nz-menu-item>menu4 2nd menu item</li>
+                                    <li nz-menu-item>menu4 3rd menu item</li>
+                                </ul>
+                            </nz-dropdown-menu>
+                            <button nz-button nzType="primary" class="upload-btn">
+                                <i class="fa-regular fa-arrow-up-from-bracket"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="builder-main-body ">
+                    <div class="builder-tree b-card ">
+                        <nz-input-group class="input-group-icon">
+                            <input type="text" nz-input placeholder="input search text" />
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                        </nz-input-group>
+                        <div class="b-tree">
+                            <nz-tree nzBlockNode [nzData]="nodes" (nzClick)="activeNode($event)"
+                                (nzDblClick)="openFolder($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+                            <ng-template #nzTreeTemplate let-node let-origin="origin">
+                                <span class="custom-node">
+                                    <span *ngIf="!node.isLeaf" >
+                                        <span nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"
+                                            (click)="openFolder(node)"></span>
+                                        <span class="folder-name">{{ node.title }}</span>
+                                    </span>
+                                    <span *ngIf="node.isLeaf" >
+                                        <span nz-icon nzType="file"></span>
+                                        <span class="file-name">{{ node.title }}</span>
+                                    </span>
+                                </span>
+                            </ng-template>
+
+                        </div>
+                    </div>
+                    <div class="b-content-body b-card p-4">
+                        Content Body
+                    </div>
+                </div>
+            </nz-content>
+        </nz-layout>
+    </nz-layout>
+</div>

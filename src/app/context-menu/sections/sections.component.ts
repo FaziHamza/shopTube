@@ -635,7 +635,7 @@ export class SectionsComponent implements OnInit {
     // this.joiService.submit();
     this.dataModel = this.formlyModel;
     // this.formlyModel = this.dataModel;
-    this.joiValidation();
+    // this.joiValidation();
     // if (this.validationCheckStatus.length === 0) {
     //   this.dataModel;
     //   console.log(this.dataModel);
@@ -777,4 +777,7 @@ export class SectionsComponent implements OnInit {
         this.joiValidationData = getRes.data;
       }))
   }
+  // ngOnDestroy() {
+  //   this.requestSubscription.unsubscribe();
+  // }
 }

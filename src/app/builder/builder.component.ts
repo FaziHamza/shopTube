@@ -1896,7 +1896,7 @@ export class BuilderComponent implements OnInit {
                         tooltip: '',
                         default: '',
                         hoverIconColor: '',
-                        requiredMessage: 'This field is required',
+                        requiredMessage: '',
                         tooltipPosition: 'right',
                         toolTipClass: '',
                         formlyTypes: '',
@@ -2216,143 +2216,143 @@ export class BuilderComponent implements OnInit {
           fieldGroup.push(element);
         }
       });
-      fieldGroup.push({
-        key: 'className',
-        type: 'multiselect',
-        className: 'w-full',
-        wrappers: ['formly-vertical-theme-wrapper'],
-        props: {
-          multiple: true,
-          label: 'CSS ClassName',
-          options: [
-            {
-              label: 'w-1/2',
-              value: 'w-1/2',
-            },
-            {
-              label: 'w-1/3',
-              value: 'w-1/3',
-            },
-            {
-              label: 'w-2/3',
-              value: 'w-2/3',
-            },
-            {
-              label: 'w-1/4',
-              value: 'w-1/4',
-            },
-            {
-              label: 'w-3/4',
-              value: 'w-3/4',
-            },
-            {
-              label: 'w-full',
-              value: 'w-full',
-            },
-            {
-              label: 'w-auto',
-              value: 'w-auto',
-            },
-            {
-              label: 'w-screen',
-              value: 'w-screen',
-            },
-            {
-              label: 'sm:w-1/2',
-              value: 'sm:w-1/2',
-            },
-            {
-              label: 'md:w-1/3',
-              value: 'md:w-1/3',
-            },
-            {
-              label: 'lg:w-2/3',
-              value: 'lg:w-2/3',
-            },
-            {
-              label: 'xl:w-1/4',
-              value: 'xl:w-1/4',
-            },
-            {
-              label: 'text-gray-500',
-              value: 'text-gray-500',
-            },
-            {
-              label: 'text-red-600',
-              value: 'text-red-600',
-            },
-            {
-              label: 'text-blue-400',
-              value: 'text-blue-400',
-            },
-            {
-              label: 'text-green-500',
-              value: 'text-green-500',
-            },
-            {
-              label: 'text-yellow-300',
-              value: 'text-yellow-300',
-            },
-            {
-              label: 'bg-gray-200',
-              value: 'bg-gray-200',
-            },
-            {
-              label: 'bg-blue-500',
-              value: 'bg-blue-500',
-            },
-            {
-              label: 'bg-green-300',
-              value: 'bg-green-300',
-            },
-            {
-              label: 'bg-yellow-200',
-              value: 'bg-yellow-200',
-            },
-            {
-              label: 'p-4',
-              value: 'p-4',
-            },
-            {
-              label: 'pt-6',
-              value: 'pt-6',
-            },
-            {
-              label: 'ml-2',
-              value: 'ml-2',
-            },
-            {
-              label: 'mr-8',
-              value: 'mr-8',
-            },
-            {
-              label: 'my-3',
-              value: 'my-3',
-            },
-            {
-              label: 'flex',
-              value: 'flex',
-            },
-            {
-              label: 'justify-center',
-              value: 'justify-center',
-            },
-            {
-              label: 'items-center',
-              value: 'items-center',
-            },
-          ],
-          additionalProperties: {
-            allowClear: true,
-            serveSearch: true,
-            showArrow: true,
-            showSearch: true,
-            selectType: 'tags',
-            maxCount: 6,
-          },
-        },
-      });
-      _formFieldData.commonFormlyConfigurationFields[0].fieldGroup = fieldGroup;
+      // fieldGroup.push({
+      //   key: 'className',
+      //   type: 'multiselect',
+      //   className: 'w-full',
+      //   wrappers: ['formly-vertical-theme-wrapper'],
+      //   props: {
+      //     multiple: true,
+      //     label: 'CSS ClassName',
+      //     options: [
+      //       {
+      //         label: 'w-1/2',
+      //         value: 'w-1/2',
+      //       },
+      //       {
+      //         label: 'w-1/3',
+      //         value: 'w-1/3',
+      //       },
+      //       {
+      //         label: 'w-2/3',
+      //         value: 'w-2/3',
+      //       },
+      //       {
+      //         label: 'w-1/4',
+      //         value: 'w-1/4',
+      //       },
+      //       {
+      //         label: 'w-3/4',
+      //         value: 'w-3/4',
+      //       },
+      //       {
+      //         label: 'w-full',
+      //         value: 'w-full',
+      //       },
+      //       {
+      //         label: 'w-auto',
+      //         value: 'w-auto',
+      //       },
+      //       {
+      //         label: 'w-screen',
+      //         value: 'w-screen',
+      //       },
+      //       {
+      //         label: 'sm:w-1/2',
+      //         value: 'sm:w-1/2',
+      //       },
+      //       {
+      //         label: 'md:w-1/3',
+      //         value: 'md:w-1/3',
+      //       },
+      //       {
+      //         label: 'lg:w-2/3',
+      //         value: 'lg:w-2/3',
+      //       },
+      //       {
+      //         label: 'xl:w-1/4',
+      //         value: 'xl:w-1/4',
+      //       },
+      //       {
+      //         label: 'text-gray-500',
+      //         value: 'text-gray-500',
+      //       },
+      //       {
+      //         label: 'text-red-600',
+      //         value: 'text-red-600',
+      //       },
+      //       {
+      //         label: 'text-blue-400',
+      //         value: 'text-blue-400',
+      //       },
+      //       {
+      //         label: 'text-green-500',
+      //         value: 'text-green-500',
+      //       },
+      //       {
+      //         label: 'text-yellow-300',
+      //         value: 'text-yellow-300',
+      //       },
+      //       {
+      //         label: 'bg-gray-200',
+      //         value: 'bg-gray-200',
+      //       },
+      //       {
+      //         label: 'bg-blue-500',
+      //         value: 'bg-blue-500',
+      //       },
+      //       {
+      //         label: 'bg-green-300',
+      //         value: 'bg-green-300',
+      //       },
+      //       {
+      //         label: 'bg-yellow-200',
+      //         value: 'bg-yellow-200',
+      //       },
+      //       {
+      //         label: 'p-4',
+      //         value: 'p-4',
+      //       },
+      //       {
+      //         label: 'pt-6',
+      //         value: 'pt-6',
+      //       },
+      //       {
+      //         label: 'ml-2',
+      //         value: 'ml-2',
+      //       },
+      //       {
+      //         label: 'mr-8',
+      //         value: 'mr-8',
+      //       },
+      //       {
+      //         label: 'my-3',
+      //         value: 'my-3',
+      //       },
+      //       {
+      //         label: 'flex',
+      //         value: 'flex',
+      //       },
+      //       {
+      //         label: 'justify-center',
+      //         value: 'justify-center',
+      //       },
+      //       {
+      //         label: 'items-center',
+      //         value: 'items-center',
+      //       },
+      //     ],
+      //     additionalProperties: {
+      //       allowClear: true,
+      //       serveSearch: true,
+      //       showArrow: true,
+      //       showSearch: true,
+      //       selectType: 'tags',
+      //       maxCount: 6,
+      //     },
+      //   },
+      // });
+      // _formFieldData.commonFormlyConfigurationFields[0].fieldGroup = fieldGroup;
     }
 
     const filteredFields: any =
@@ -2379,13 +2379,12 @@ export class BuilderComponent implements OnInit {
     });
     const selectedNode = this.selectedNode;
     let configObj: any;
-    configObj = selectedNode;
-    let newClass = selectedNode.className;
-    selectedNode.id = selectedNode.id?.toLowerCase();
-    if (typeof selectedNode.className === "string") {
-      const classObj = JSON.parse(JSON.stringify(selectedNode.className.split(" ")));
-      configObj.className = classObj
+    if (Array.isArray(selectedNode.className)) {
+      selectedNode.className = selectedNode.className.join(' ');
     }
+    configObj = selectedNode;
+    // let newClass = selectedNode.className;
+    selectedNode.id = selectedNode.id?.toLowerCase();
     // this.selectedNode.className = newClass;
     // selectedNode.className = newClass;
     // configObj = JSON.parse(JSON.stringify(selectedNode));
@@ -2681,19 +2680,19 @@ export class BuilderComponent implements OnInit {
         break;
       case 'button':
         // configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
-        if (typeof selectedNode.buttonClass === "string") {
-          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-          configObj.buttonClass = classObj
-        }
+        // if (typeof selectedNode.buttonClass === "string") {
+        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+        //   configObj.buttonClass = classObj
+        // }
         configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.formData = _formFieldData.buttonFields;
         break;
       case 'dropdownButton':
-        if (typeof selectedNode.buttonClass === "string") {
-          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-          configObj.buttonClass = classObj
-        }
+        // if (typeof selectedNode.buttonClass === "string") {
+        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+        //   configObj.buttonClass = classObj
+        // }
         (configObj.icon = selectedNode.btnIcon),
           (configObj.options = selectedNode.dropdownOptions);
         // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
@@ -2711,10 +2710,10 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.accordionButtonFields;
         break;
       case 'linkbutton':
-        if (typeof selectedNode.buttonClass === "string") {
-          const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-          configObj.buttonClass = classObj
-        }
+        // if (typeof selectedNode.buttonClass === "string") {
+        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+        //   configObj.buttonClass = classObj
+        // }
         // configObj = { ...configObj, ...this.clickButtonService.getLinkButtonConfig(selectedNode) };
         (configObj.icon = selectedNode.btnIcon),
           this.addIconCommonConfiguration(
@@ -3547,23 +3546,23 @@ export class BuilderComponent implements OnInit {
         break;
       case 'button':
       case 'linkbutton':
-        if (Array.isArray(event.form.buttonClass)) {
-          if (event.form.buttonClass.length > 0) {
-            let classArray: any;
-            for (let i = 0; i < event.form.buttonClass.length; i++) {
-              if (i == 0) {
-                classArray = event.form.buttonClass[i];
-              }
-              else {
-                classArray = classArray + ' ' + event.form.buttonClass[i];
-              }
-            };
-            this.selectedNode['buttonClass'] = classArray;
-          }
-        }
-        else {
-          this.selectedNode['buttonClass'] = event.form.buttonClass;
-        }
+        // if (Array.isArray(event.form.buttonClass)) {
+        //   if (event.form.buttonClass.length > 0) {
+        //     let classArray: any;
+        //     for (let i = 0; i < event.form.buttonClass.length; i++) {
+        //       if (i == 0) {
+        //         classArray = event.form.buttonClass[i];
+        //       }
+        //       else {
+        //         classArray = classArray + ' ' + event.form.buttonClass[i];
+        //       }
+        //     };
+        //     this.selectedNode['buttonClass'] = classArray;
+        //   }
+        // }
+        // else {
+        //   this.selectedNode['buttonClass'] = event.form.buttonClass;
+        // }
         this.selectedNode.btnIcon = event.form?.icon;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
@@ -4605,29 +4604,29 @@ export class BuilderComponent implements OnInit {
         break;
     }
     if (event.type && event.type != "inputValidationRule" && needToUpdate) {
-      // this.selectedNode = { ...this.selectedNode, ...event.form };
-      if (Array.isArray(event.form.className)) {
-        if (event.form.className.length > 0) {
-          let classArray: string = '';
-          for (let i = 0; i < event.form.className.length; i++) {
-            const classObj: string[] = event.form.className[i].split(" ");
-            if (classObj.length > 0) {
-              for (let j = 0; j < classObj.length; j++) {
-                if (j === 0 && i === 0) {
-                  classArray = classObj[j];
-                } else {
-                  classArray += ' ' + classObj[j];
-                }
-              }
-            }
-          }
-          this.selectedNode.className = classArray;
-          this.selectedNode = { ...this.selectedNode, ...event.form };
-        }
-      } 
-      else {
-        this.selectedNode.className = event.form.className;
-      }
+      this.selectedNode = { ...this.selectedNode, ...event.form };
+      // if (Array.isArray(event.form.className)) {
+      //   if (event.form.className.length > 0) {
+      //     let classArray: string = '';
+      //     for (let i = 0; i < event.form.className.length; i++) {
+      //       const classObj: string[] = event.form.className[i].split(" ");
+      //       if (classObj.length > 0) {
+      //         for (let j = 0; j < classObj.length; j++) {
+      //           if (j === 0 && i === 0) {
+      //             classArray = classObj[j];
+      //           } else {
+      //             classArray += ' ' + classObj[j];
+      //           }
+      //         }
+      //       }
+      //     }
+      //     this.selectedNode.className = classArray;
+      //     this.selectedNode = { ...this.selectedNode, ...event.form };
+      //   }
+      // } 
+      // else {
+      //   this.selectedNode.className = event.form.className;
+      // }
 
       // this.updateNodes();
     }

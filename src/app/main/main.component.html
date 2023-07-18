@@ -1,9 +1,9 @@
 <div
     [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
-    *ngFor="let item of mainData.children ; index as i; last as isLast">
-    <!-- {{item.className | json}} -->
-    <div [ngClass]="{'highLight': item.highLight == true}"
+        *ngFor="let item of mainData.children ; index as i; last as isLast">
+        <!-- {{item.className | json}} -->
+        <div [ngClass]="{'highLight': item.highLight == true}"
             *ngIf="!item.hideExpression">
             <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                 <context-menu #oneContextMenu>
@@ -13,7 +13,6 @@
                         [visible]="isShowContextMenu">Comment</ng-template>
                 </context-menu>
                 <st-mains [item]="item" [dataModel]="dataModel"
-                    (notify)="saveData($event)"
                     (notifyDbClick)="updateModel($event)"
                     [screenName]="screenName" [screenId]="screenId"
                     [isLast]='isLast' [form]="form"
@@ -33,8 +32,7 @@
             </span>
             <div>
 
-                <st-mains [item]="item" [isLast]="isLast"
-                    (notify)="saveData($event)" [form]="form"
+                <st-mains [item]="item" [isLast]="isLast" [form]="form"
                     (notifyDbClick)="updateModel($event)"
                     [screenName]="screenName" [screenId]="screenId"
                     *ngIf="item && !isShowContextMenu"></st-mains>

@@ -35,7 +35,7 @@ import { DataSharedService } from '../services/data-shared.service';
   </div>
   <div *ngIf="showError" class="{{labelColumn}}"></div>
   <div *ngIf="hasError" class="text-red-500 text-sm block {{fieldColumn}}">
-    <span>{{to['additionalProperties']?.requiredMessage}}</span>
+    <span *ngIf="to['additionalProperties']?.requiredMessage">{{to['additionalProperties']?.requiredMessage}}</span>
     <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
   </div>
 </div>
@@ -91,7 +91,7 @@ export class FormlyHorizontalWrapper extends FieldWrapper {
     }
   }
   ngOnDestroy(): void {
+    this.dataSharedService.formlyShowError.next(false)
     this.requestSubscription.unsubscribe();
-    this.hasError = false;
   }
 }
