@@ -384,6 +384,14 @@ object {
 }
 
 .rtlMenu {
+  .ant-menu-inline-collapsed {
+
+    i,
+    span {
+      color: #7c7f90 !important;
+    }
+  }
+
   .small-hover-menu-check {
     position: absolute;
     left: 6px;
@@ -2225,7 +2233,22 @@ object {
   padding: 0px !important;
 }
 
+.ant-layout-header {
+  .dynamic-header-row {
+    background-color: #001529 !important;
+    color: rgba(255, 255, 255, .65) !important;
+  }
+}
+
 .tow-colmn-sidebar {
+  .ant-menu-inline-collapsed {
+
+    i,
+    span {
+      color: #7c7f90 !important;
+    }
+  }
+
   background: white;
 
   .ant-menu-submenu-arrow,
@@ -2331,15 +2354,15 @@ object {
   }
 }
 
-.ant-menu-submenu {
-  .menu-item-icon {
+// .ant-menu-submenu {
+//   .menu-item-icon {
 
-    i,
-    span {
-      // color: #7c7f90 !important;
-    }
-  }
-}
+//     i,
+//     span {
+//       // color: #7c7f90 !important;
+//     }
+//   }
+// }
 
 .ant-menu-submenu {
   .anticon-down svg {
@@ -2828,7 +2851,7 @@ object {
 
     i,
     span {
-      color: black !important;
+      color: #7c7f90 !important;
     }
   }
 
@@ -2920,9 +2943,21 @@ object {
   }
 }
 
-.horizontal-sidebar li:hover span {
-  color: black !important;
+.horizontal-sidebar {
+  .ant-menu-horizontal {
+    color: #7c7f90 !important
+  }
 }
+.ant-menu-light .ant-menu-submenu-title{
+  color: #7c7f90 !important
+}
+.ant-menu-item{
+  color: #7c7f90 !important
+}
+
+// .horizontal-sidebar li:hover span {
+//   color: rgb(24, 144, 255) !important
+// }
 
 .user-builder-layout {
   .ant-layout {
@@ -3289,6 +3324,7 @@ object {
 
   .b-tree {
     padding: 12px;
+
     nz-tree {
       overflow: hidden;
     }
@@ -3314,5 +3350,12 @@ object {
       position: relative;
       left: 12px;
     }
+  }
+
+  .two-column-second-column {
+    width: 100% !important;
+    height: calc(100vh - 64px);
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }

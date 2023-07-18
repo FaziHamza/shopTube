@@ -534,4 +534,5 @@ export interface TreeNode {
   expandedIconPosition?: any,
   toolTipClass?: any,
   tooltipPosition?: any,
+  borderLessInputs?: any,
 }

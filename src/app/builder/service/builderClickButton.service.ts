@@ -380,6 +380,7 @@ export class BuilderClickButtonService {
       tableData: node['tableData'],
       borderRadius: node['borderRadius'],
       rowClass: node['rowClass'],
+      borderLessInputs: node['borderLessInputs'],
       // formatAlignment: !node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment ? 'ltr' : node.children?.at(1)?.children[0].formly[0].fieldGroup[0].props['additionalProperties']?.formatAlignment,
     }
   }

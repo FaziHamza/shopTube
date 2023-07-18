@@ -342,7 +342,7 @@ export class BuilderComponent implements OnInit {
         next: (res: any) => {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
-            this.getBuilderScreen();
+            // this.getBuilderScreen();
             this.getFromQuery(this.navigation);
           }
           else
@@ -414,28 +414,9 @@ export class BuilderComponent implements OnInit {
         new Promise((resolve, reject) => {
           debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          const objScreen = this.screens.find((x: any) => x._id == data);
-          this.navigation = objScreen.navigation;
-          this._id = objScreen._id;
-          this.screenName = objScreen.name;
-          this.isSavedDb = false;
-          this.getBuilderScreen();
-          this.screenPage = true;
-          if (objScreen.name.includes('_header') && this.selectApplicationName) {
-            let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
-            if (application.application_Type == "website") {
-              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
-                if (res.isSuccess) {
-                  if (res.data.length > 0) {
-                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
-                    this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                  }
-                } else
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-              }));
-            }
-          }
-
+          // const objScreen = this.screens.find((x: any) => x._id == data);
+          this._id = data;
+          this.getBuilderScreen(data);
         })
           .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
@@ -445,14 +426,32 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-  getBuilderScreen() {
+  getBuilderScreen(id:any) {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.builderScreenData = res.data;
           if (res.data.length > 0) {
             const objScreenData = JSON.parse(res.data[0].screenData);
+            this.navigation = res.data[0].navigation;
+            this.screenName = res.data[0].screenName;
+            this.isSavedDb = false;
+            this.screenPage = true;
+            if (res.data[0].screenName.includes('_header') && this.selectApplicationName) {
+              let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+              if (application.application_Type == "website") {
+                this.applicationService.getNestCommonAPIById('cp/Menu', this.selectApplicationName).subscribe(((res: any) => {
+                  if (res.isSuccess) {
+                    if (res.data.length > 0) {
+                      this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                      this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                    }
+                  } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+                }));
+              }
+            }
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
@@ -486,6 +485,7 @@ export class BuilderComponent implements OnInit {
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
+          this.saveLoader = false;
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
@@ -1256,7 +1256,7 @@ export class BuilderComponent implements OnInit {
     }
     if (this.addControl) {
       this.controls(value, data, obj);
-    } 
+    }
     else {
       const modal =
         this.modalService.create<AddControlCommonPropertiesComponent>({
@@ -3334,6 +3334,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['borderRadius'] = event.form.borderRadius;
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
+            this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
@@ -3670,7 +3671,7 @@ export class BuilderComponent implements OnInit {
                 this.selectedNode.className = classArray;
                 props['className'] = classArray;
               }
-            } 
+            }
             else {
               props['className'] = event.form.className;
               this.selectedNode['className'] = event.form.className;
@@ -4805,6 +4806,8 @@ export class BuilderComponent implements OnInit {
           formValues.borderRadius;
         fieldGroup[0].props['additionalProperties']['tooltipIcon'] =
           formValues.tooltipIcon;
+        fieldGroup[0].props['additionalProperties']['border'] =
+          formValues.borderLessInputs;
       }
     }
     return fieldGroup;
@@ -5710,7 +5713,7 @@ export class BuilderComponent implements OnInit {
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
-      this.router.navigate(['/pages/', this.navigation]);
+      window.open('/pages/' + this.navigation);
     }
   }
   getFromQuery(name: string) {
@@ -5771,7 +5774,7 @@ export class BuilderComponent implements OnInit {
       // capture the dragNode and dropNode
       const dragNode = event.dragNode?.origin;
       const dropNode = event?.node?.origin;
-  
+
       // Use the keys of the dragNode and dropNode to update your tree
       if (dropNode?.key) {
         this.nodes = this.updateNodesDnD(this.nodes, dragNode, dropNode?.key);
@@ -5780,7 +5783,7 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-    updateNodesDnD(nodes: any[], nodeToMove: any, destinationKey: string): any[] {
+  updateNodesDnD(nodes: any[], nodeToMove: any, destinationKey: string): any[] {
     return nodes.reduce((result, node) => {
       if (node.key === nodeToMove.key) {
         // Skip over this node because we're moving it
