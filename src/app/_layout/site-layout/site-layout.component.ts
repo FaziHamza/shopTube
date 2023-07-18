@@ -197,7 +197,7 @@ export class SiteLayoutComponent implements OnInit {
           // this.dataSharedService.currentApplication.next(res[0]);
           this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
           this.dataSharedService.currentHeader.next(res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '');
-          this.dataSharedService.currentFooter.next(res.data['header'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');
+          this.dataSharedService.currentFooter.next(res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');
           let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
           let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
           if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
