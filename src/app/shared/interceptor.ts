@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (err.status === 401 || err.status === 403) { // || err.status === 0
       this.clearStorage();
       // this.envService.showWarning();
-      this.router.navigateByUrl('/auth/login');
+      this.router.navigateByUrl('/login');
       return of(err.message);
     }
     return throwError(err);

@@ -195,6 +195,8 @@ export class SiteLayoutComponent implements OnInit {
         if (res.isSuccess) {
           this.logo = res.data.appication['image'];
           // this.dataSharedService.currentApplication.next(res[0]);
+          localStorage.setItem('applicationId',JSON.stringify(res.data?.appication?._id));
+          localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
           this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
           this.dataSharedService.currentHeader.next(res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '');
           this.dataSharedService.currentFooter.next(res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');

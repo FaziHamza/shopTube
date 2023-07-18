@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
       // debugger
 
         if (!localStorage.getItem('authToken')) { // or however you manage your user authentication
-            this.router.navigate(['/auth/login']); // navigate to login if not authenticated
+            this.router.navigate(['/login']); // navigate to login if not authenticated
             return false;
         }
         return true;

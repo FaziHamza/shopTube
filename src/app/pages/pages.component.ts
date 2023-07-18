@@ -29,7 +29,10 @@ export class PagesComponent implements OnInit {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
       if (event && field && this.router.url.includes('/pages')) {
-        this.checkConditionUIRule(field, event);
+        if (this.formlyModel) {
+          this.formlyModel[field.key] = event
+          this.checkConditionUIRule(field, event);
+        }
       }
     });
   }
