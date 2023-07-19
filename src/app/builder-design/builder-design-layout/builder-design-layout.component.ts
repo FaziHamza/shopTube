@@ -5,6 +5,26 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzFormatEmitEvent, NzTreeNode } from 'ng-zorro-antd/tree';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
+import { FormGroup } from '@angular/forms';
+import { FormlyFormOptions } from '@ngx-formly/core';
+
+// import { Component } from '@angular/core';
+
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+
+interface DataItem {
+  name: string;
+  age: number;
+  address: string;
+}
+
+interface ColumnItem {
+  name: string;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn<DataItem> | null;
+  listOfFilter: NzTableFilterList;
+  filterFn: NzTableFilterFn<DataItem> | null;
+}
 
 @Component({
   selector: 'st-builder-design-layout',
@@ -12,6 +32,9 @@ import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dro
   styleUrls: ['./builder-design-layout.component.scss']
 })
 export class BuilderDesignLayoutComponent implements OnInit {
+  form = new FormGroup({});
+  model: any = {};
+  options: FormlyFormOptions = {};
   selectedTheme: any;
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
@@ -274,5 +297,322 @@ export class BuilderDesignLayoutComponent implements OnInit {
 
   selectDropdown(): void {
     // do something
+  }
+  fields: any = [
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+    {
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          defaultValue: '',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Name',
+            placeholder: 'File Name'
+          },
+        },
+      ],
+    },
+  ];
+
+  // table
+  listOfColumns: any[] = [
+    {
+      name: 'Check',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'ID',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: '',
+      width: "40px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'Subject',
+      width: "100px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'Requester Name',
+      width: "140px",
+
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'Created Date',
+      width: "100px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'Status',
+      width: "100px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+    {
+      name: 'Priority',
+      width: "100px",
+      sortOrder: null,
+      sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
+      listOfFilter: [],
+      filterFn: null
+    },
+
+
+  ];
+  listOfData: DataItem[] = [
+    {
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park'
+    },
+    {
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park'
+    },
+    {
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    },
+    {
+      name: 'Jim Red',
+      age: 32,
+      address: 'London No. 2 Lake Park'
+    }
+  ];
+
+  trackByName(_: number, item: ColumnItem): string {
+    return item.name;
+  }
+
+  sortByAge(): void {
+    this.listOfColumns.forEach(item => {
+      if (item.name === 'Age') {
+        item.sortOrder = 'descend';
+      } else {
+        item.sortOrder = null;
+      }
+    });
+  }
+
+  resetFilters(): void {
+    this.listOfColumns.forEach(item => {
+      if (item.name === 'Name') {
+        item.listOfFilter = [
+          { text: 'Joe', value: 'Joe' },
+          { text: 'Jim', value: 'Jim' }
+        ];
+      } else if (item.name === 'Address') {
+        item.listOfFilter = [
+          { text: 'London', value: 'London' },
+          { text: 'Sidney', value: 'Sidney' }
+        ];
+      }
+    });
+  }
+
+  resetSortAndFilters(): void {
+    this.listOfColumns.forEach(item => {
+      item.sortOrder = null;
+    });
+    this.resetFilters();
+  }
+  visible = false;
+  size: 'large' | 'default' = 'default';
+
+  get title(): string {
+    return `${this.size} Drawer`;
+  }
+
+  showDefault(): void {
+    this.size = 'default';
+    this.open();
+  }
+
+  showLarge(): void {
+    this.size = 'large';
+    this.open();
+  }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
   }
 }
