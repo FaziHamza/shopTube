@@ -45,9 +45,11 @@ export class BuilderDesignLayoutComponent implements OnInit {
     showMenu: true,
   }
   isCollapsed = false;
+  currentUser: any;
   constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService, private nzContextMenuService: NzContextMenuService) { }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
@@ -164,7 +166,7 @@ export class BuilderDesignLayoutComponent implements OnInit {
     }
   }
   getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64904a898a251ec02d145c55").subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
           if (res.data.length > 0) {
@@ -176,8 +178,30 @@ export class BuilderDesignLayoutComponent implements OnInit {
             this.makeMenuData();
             this.notifyEmit({ emitData: true, screenType: "desktop" })
           }
-          else
-            this.newSelectedTheme.allMenuItems = [];
+          else {
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64904a898a251ec02d145c55").subscribe({
+              next: (res: any) => {
+                if (res.isSuccess)
+                  if (res.data.length > 0) {
+                    this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+                    this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+                    if (!res.data[0].selectedTheme.showMenu) {
+                      this.selectedTheme['showMenu'] = true;
+                    }
+                    this.makeMenuData();
+                    this.notifyEmit({ emitData: true, screenType: "desktop" })
+                  }
+                  else
+                    this.newSelectedTheme.allMenuItems = [];
+                else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
         else
           this.toastr.error(res.message, { nzDuration: 3000 });
       },
@@ -185,7 +209,7 @@ export class BuilderDesignLayoutComponent implements OnInit {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
   }
   collapsed() {
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed

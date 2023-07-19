@@ -94,6 +94,7 @@ export class BuilderComponent implements OnInit {
   dbWebsiteBlockArray: any = [];
   dbHtmlCodeBlockArray: any = [];
   formlyTypes: any = [];
+  currentUser: any;
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -132,6 +133,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
       .getElementsByTagName('body')[0]
@@ -424,18 +426,27 @@ export class BuilderComponent implements OnInit {
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             if (application.application_Type == "website") {
-              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+              this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
                 if (res.isSuccess) {
                   if (res.data.length > 0) {
                     this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
                     this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                  }else{
+                    this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+                      if (res.isSuccess) {
+                        if (res.data.length > 0) {
+                          this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                          this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                        }
+                      } else
+                        this.toastr.error(res.message, { nzDuration: 3000 });
+                    }));
                   }
                 } else
                   this.toastr.error(res.message, { nzDuration: 3000 });
               }));
             }
           }
-
         })
           .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },

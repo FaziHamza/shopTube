@@ -26,11 +26,12 @@ export class AppSideMenuComponent implements OnInit {
   isActiveShow: any;
   hoverActiveShow: any;
   currentUrl = "";
+  currentUser: any;
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
-
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadModules();
     window.onresize = () => {
       this.changeHtlmenuAtMblView();
@@ -39,19 +40,19 @@ export class AppSideMenuComponent implements OnInit {
   }
   loadModules(): void {
     this.currentUrl = window.location.host;
-    if(this.currentUrl.includes('localhost'))
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          this.moduleData = res.data;
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    if (this.currentUrl.includes('localhost'))
+      this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+        next: (res: any) => {
+          if (res.isSuccess)
+            this.moduleData = res.data;
+          else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
   }
 
 
@@ -80,7 +81,7 @@ export class AppSideMenuComponent implements OnInit {
     }
   }
   getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
       next: (res: any) => {
         if (res.isSuccess)
           if (res.data.length > 0) {
@@ -90,8 +91,28 @@ export class AppSideMenuComponent implements OnInit {
               e["menuIcon"] = "up"
             });
           }
-          else
-            this.menuItems = [];
+          else {
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
+              next: (res: any) => {
+                if (res.isSuccess)
+                  if (res.data.length > 0) {
+                    this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+                    this.makeMenuData();
+                    this.selectedTheme.allMenuItems.forEach((e: any) => {
+                      e["menuIcon"] = "up"
+                    });
+                  }
+                  else
+                    this.menuItems = [];
+                else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
         else
           this.toastr.error(res.message, { nzDuration: 3000 });
       },
@@ -99,7 +120,7 @@ export class AppSideMenuComponent implements OnInit {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
   }
   makeMenuData() {
     let arrayList = [];
@@ -177,10 +198,10 @@ export class AppSideMenuComponent implements OnInit {
         key: 'menu_0f7d1e4e',
         children: []
       }];
-      const withoutTitle = this.menuItems.filter((item : any) => !item.isTitle);
+      const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
       this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
-    } else if(this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
+    } else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
       this.selectedTheme.allMenuItems = this.menuItems;
     }
   }
