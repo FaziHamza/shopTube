@@ -414,9 +414,28 @@ export class BuilderComponent implements OnInit {
         new Promise((resolve, reject) => {
           debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          // const objScreen = this.screens.find((x: any) => x._id == data);
-          this._id = data;
-          this.getBuilderScreen(data);
+          const objScreen = this.screens.find((x: any) => x._id == data);
+          this.navigation = objScreen.navigation;
+          this._id = objScreen._id;
+          this.screenName = objScreen.name;
+          this.isSavedDb = false;
+          this.getBuilderScreen();
+          this.screenPage = true;
+          if (objScreen.name.includes('_header') && this.selectApplicationName) {
+            let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+            if (application.application_Type == "website") {
+              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                    this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                  }
+                } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              }));
+            }
+          }
+
         })
           .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
@@ -426,32 +445,14 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-  getBuilderScreen(id:any) {
+  getBuilderScreen() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.builderScreenData = res.data;
           if (res.data.length > 0) {
             const objScreenData = JSON.parse(res.data[0].screenData);
-            this.navigation = res.data[0].navigation;
-            this.screenName = res.data[0].screenName;
-            this.isSavedDb = false;
-            this.screenPage = true;
-            if (res.data[0].screenName.includes('_header') && this.selectApplicationName) {
-              let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
-              if (application.application_Type == "website") {
-                this.applicationService.getNestCommonAPIById('cp/Menu', this.selectApplicationName).subscribe(((res: any) => {
-                  if (res.isSuccess) {
-                    if (res.data.length > 0) {
-                      this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
-                      this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                    }
-                  } else
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-                }));
-              }
-            }
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
@@ -485,7 +486,6 @@ export class BuilderComponent implements OnInit {
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
-          this.saveLoader = false;
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;

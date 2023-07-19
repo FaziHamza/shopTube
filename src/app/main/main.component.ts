@@ -25,7 +25,7 @@ import { ApplicationService } from '../services/application.service';
 })
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
-  @Input() dataModel !: any;
+  @Input() formlyModel: any;
   form: any = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -35,8 +35,6 @@ export class MainComponent implements OnInit {
   editorData: any;
   ruleValidation: any = {};
   ruleObj: any = {};
-
-  formlyModel: any;
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
   joiValidationData: TreeNode[] = [];

@@ -8,7 +8,7 @@
     [style.border]="item?.borderless ? 'none' :'1px solid #f0f0f0' ">
     <div
         class="'body'">
-        <st-main [mainData]="item"></st-main>
+        <st-main [mainData]="item" [formlyModel]="formlyModel"></st-main>
     </div>
     <div class="footer footer-border" *ngIf="item?.footerText">
         <p class="footer-text" [style.color]="item?.footerTextColor || ''">{{item?.footerText}}</p>

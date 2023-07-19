@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
-  @Input() dataModel !: any;
+  @Input() formlyModel : any;
   expandIconPosition: any = "left";
   expand: any = false;
   constructor(private cd: ChangeDetectorRef) { }

@@ -114,7 +114,7 @@
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'"
                 [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-card-with-components [item]="item"></st-card-with-components>
+                <st-card-with-components [item]="item" [formlyModel]="formlyModel"></st-card-with-components>
             </nz-ribbon>
             <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
               <st-card-with-components [item]="item"></st-card-with-components>
@@ -131,7 +131,7 @@
         <dynamic-table [tableId]='item.tableId'
             *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
             [tableData]='item.tableData' [tableHeaders]='item.tableHeaders'
-            [dataModel]="dataModel"
+            [formlyModel]="formlyModel"
             [screenId]="screenId" [data]="item"
             (notifyDbClick)="updateModel($event)"
             [screenName]="screenName"></dynamic-table>
@@ -211,7 +211,7 @@
         <div *ngIf="item.type == 'inputFields';else thirtyOne">
             <!-- <div *ngFor="let items of item.children">
           <form [formGroup]="form">
-              <formly-form [fields]="items.formly" [(model)]="dataModel" [form]="form">
+              <formly-form [fields]="items.formly" [(model)]="formlyModel" [form]="form">
               </formly-form>
               <button *ngIf="isLast" nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
               <button *ngIf="isLast" type="submit" class="btn btn-primary submit-button">Submit</button>
@@ -226,7 +226,7 @@
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item"
+        <st-accordion-button [accordionData]="item" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
@@ -254,7 +254,7 @@
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
-                <formly-form [fields]="item.formly" [model]="dataModel"
+                <formly-form [fields]="item.formly" [model]="formlyModel"
                     [form]="form">
                 </formly-form>
             </div>
@@ -527,7 +527,7 @@
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
-            <st-main [mainData]="item"></st-main>
+            <st-main [mainData]="item" [formlyModel]="formlyModel"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>
@@ -564,7 +564,7 @@
     <ng-template #nintyOne>
         <st-list-with-components
             *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
-            [listData]="item"></st-list-with-components>
+            [listData]="item" [formlyModel]="formlyModel"></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
         <st-tree-map *ngIf="item.type == 'treeMapChart' ; else nintyThree"

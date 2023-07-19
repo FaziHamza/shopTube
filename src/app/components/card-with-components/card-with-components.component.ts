@@ -7,6 +7,7 @@ import { Component, OnInit , Input } from '@angular/core';
 })
 export class CardWithComponentsComponent implements OnInit {
   @Input() item : any;
+  @Input() formlyModel : any;
   constructor() { }
 
   ngOnInit(): void {

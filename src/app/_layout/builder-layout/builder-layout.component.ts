@@ -162,11 +162,13 @@ export class BuilderLayoutComponent implements OnInit {
     }
   }
   getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64a910940ab8ae224f887a9b").subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64904a898a251ec02d145c55").subscribe({
       next: (res: any) => {
+        debugger
         if (res.isSuccess)
           if (res.data.length > 0) {
-            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+            this.selectedTheme = res.data[0].selectedTheme ? JSON.parse(res.data[0].selectedTheme) : this.newSelectedTheme;
+            this.collapsed();
             this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
             if (!res.data[0].selectedTheme.showMenu) {
               this.selectedTheme['showMenu'] = true;
@@ -174,8 +176,11 @@ export class BuilderLayoutComponent implements OnInit {
             this.makeMenuData();
             this.notifyEmit({ emitData: true, screenType: "desktop" })
           }
-          else
-            this.newSelectedTheme.allMenuItems = [];
+          else {
+            this.selectedTheme = this.newSelectedTheme;
+            this.collapsed();
+            // this.newSelectedTheme.allMenuItems = [];
+          }
         else
           this.toastr.error(res.message, { nzDuration: 3000 });
       },

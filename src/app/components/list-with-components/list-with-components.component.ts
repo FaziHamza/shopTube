@@ -7,6 +7,7 @@ import { Component, OnInit , Input } from '@angular/core';
 })
 export class ListWithComponentsComponent implements OnInit {
   @Input() listData : any;
+  @Input() formlyModel : any;
   constructor() { }
 
   ngOnInit(): void {

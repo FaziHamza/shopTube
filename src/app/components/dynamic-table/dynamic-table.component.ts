@@ -32,7 +32,7 @@ export class DynamicTableComponent implements OnInit {
   scrollX: string | null = null;
   scrollY: string | null = null;
   @Input() screenId: any;
-  @Input() dataModel: any;
+  @Input() formlyModel: any;
   storeRows: any = [];
   storeColums: any = [];
   responsiveTable: boolean = false;
@@ -122,7 +122,7 @@ export class DynamicTableComponent implements OnInit {
       this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
-            // this.dataModel['input34d5985f']='1313'
+            // this.formlyModel['input34d5985f']='1313'
             let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
             for (let m = 0; m < gridFilter.length; m++) {
               if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {

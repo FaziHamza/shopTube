@@ -12,7 +12,7 @@
                     <ng-template contextMenuItem (execute)="comment(item)"
                         [visible]="isShowContextMenu">Comment</ng-template>
                 </context-menu>
-                <st-mains [item]="item" [dataModel]="dataModel"
+                <st-mains [item]="item" [formlyModel]="formlyModel"
                     (notifyDbClick)="updateModel($event)"
                     [screenName]="screenName" [screenId]="screenId"
                     [isLast]='isLast' [form]="form"

@@ -9,7 +9,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class MainsComponent implements OnInit {
   @Input() item: any;
-  @Input() dataModel: any;
+  @Input() formlyModel: any;
   @Input() isLast: any;
   @Input() form: any;
   @Input() screenName: any;
