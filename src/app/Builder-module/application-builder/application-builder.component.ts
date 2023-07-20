@@ -38,6 +38,7 @@ export class ApplicationBuilderComponent implements OnInit {
   checkRes: boolean = false;
   footerSaved: boolean = false;
   searchArray: any = [];
+  currentUser: any;
   listOfColumns = [
     {
       name: '',
@@ -124,6 +125,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
@@ -219,7 +221,7 @@ export class ApplicationBuilderComponent implements OnInit {
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
       this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
-      this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
+      // this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
     ];
     this.loading = true;
     forkJoin(requests).subscribe((responses: any) => {

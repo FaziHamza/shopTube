@@ -17,6 +17,7 @@ export class BuilderLayoutComponent implements OnInit {
   tabs: any = [];
   dropdown: any = [];
   requestSubscription: Subscription;
+  currentUser: any;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -46,6 +47,7 @@ export class BuilderLayoutComponent implements OnInit {
   constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     if (!this.selectedTheme) {
       this.selectedTheme = this.newSelectedTheme;
       this.getMenu();
@@ -162,13 +164,12 @@ export class BuilderLayoutComponent implements OnInit {
     }
   }
   getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64904a898a251ec02d145c55").subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
       next: (res: any) => {
-        debugger
         if (res.isSuccess)
           if (res.data.length > 0) {
             this.selectedTheme = res.data[0].selectedTheme ? JSON.parse(res.data[0].selectedTheme) : this.newSelectedTheme;
-            this.collapsed();
+                    this.collapsed();
             this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
             if (!res.data[0].selectedTheme.showMenu) {
               this.selectedTheme['showMenu'] = true;
@@ -177,9 +178,32 @@ export class BuilderLayoutComponent implements OnInit {
             this.notifyEmit({ emitData: true, screenType: "desktop" })
           }
           else {
-            this.selectedTheme = this.newSelectedTheme;
-            this.collapsed();
-            // this.newSelectedTheme.allMenuItems = [];
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "64a910940ab8ae224f887a9b").subscribe({
+              next: (res: any) => {
+                if (res.isSuccess)
+                  if (res.data.length > 0) {
+                    this.selectedTheme = res.data[0].selectedTheme ? JSON.parse(res.data[0].selectedTheme) : this.newSelectedTheme;
+                    this.collapsed();
+                    this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+                    if (!res.data[0].selectedTheme.showMenu) {
+                      this.selectedTheme['showMenu'] = true;
+                    }
+                    this.makeMenuData();
+                    this.notifyEmit({ emitData: true, screenType: "desktop" })
+                  }
+                  else {
+                    this.selectedTheme = this.newSelectedTheme;
+                    this.collapsed();
+                    // this.newSelectedTheme.allMenuItems = [];
+                  }
+                else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
           }
         else
           this.toastr.error(res.message, { nzDuration: 3000 });
@@ -188,8 +212,9 @@ export class BuilderLayoutComponent implements OnInit {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
   }
+  
   collapsed() {
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
