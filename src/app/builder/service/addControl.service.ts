@@ -792,7 +792,8 @@ export class AddControlService {
       isNextChild: false,
       uploadLimit: 10,
       size: 30,
-      selectType:'multiple'
+      selectType:'multiple',
+      multiFileUploadTypes:'dragNDrop'
     }
   }
   gridListControl() {

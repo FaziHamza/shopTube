@@ -42,6 +42,7 @@ export class CommentModalComponent implements OnInit {
   }
   // submit form
   onSubmit() {
+    debugger
     // ScreenName cannot be Null.
     if (!this.screenName) {
       this.toastr.warning("Please select any screen", { nzDuration: 3000 });
@@ -51,6 +52,8 @@ export class CommentModalComponent implements OnInit {
     if (this.form.valid) {
       const currentDate = new Date();
       const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
+      let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+      let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
       let commentObj = {
         // commentId: this.data.id,
         type: this.data.type,
@@ -70,11 +73,10 @@ export class CommentModalComponent implements OnInit {
       // Saving UserComment
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
         next: (res: any) => {
-
           if (res.isSuccess) {
             this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
             this.getCommentsData();
-            this.#modal.destroy();
+          
 
             // error
           } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
@@ -95,15 +97,17 @@ export class CommentModalComponent implements OnInit {
 
   // Get Comments Data
   getCommentsData(): void {
-    debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
           this.dataSharedService.screenCommentList = res.data;
-
+          this.#modal.destroy();
           // error
-        } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+        } else {
+          this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          this.#modal.destroy();
+        }  
 
       },
       error: (err) => {

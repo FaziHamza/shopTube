@@ -741,13 +741,27 @@ a.fc-event:hover {
         width: 100% !important;
       }
     }
+
+    .ant-menu-dark .ant-menu-sub,
+    .ant-menu.ant-menu-dark,
+    .ant-menu.ant-menu-dark .ant-menu-sub {
+      color: rgba(255, 255, 255, .65);
+      background: #ffffff !important;
+    }
   }
 
-  .horizental-fluid {
+  .horizental-boxed {
     .ant-layout-header {
       .header-mobile-view {
         width: 100% !important;
       }
+    }
+
+    .ant-menu-dark .ant-menu-sub,
+    .ant-menu.ant-menu-dark,
+    .ant-menu.ant-menu-dark .ant-menu-sub {
+      color: rgba(255, 255, 255, .65);
+      background: #ffffff !important;
     }
   }
 
@@ -2409,6 +2423,10 @@ object {
     z-index: 999 !important;
     left: 0px !important;
     top: 62px !important;
+    // background-color: rgba(0, 0, 0, .45) !important;
+    // opacity: 0 !important;
+    // transition: opacity .3s linear, height 0s ease .3s !important;
+    // pointer-events: none !important;
   }
 
   .main-layout .side-menu.side-menu-rtl {
@@ -2948,10 +2966,12 @@ object {
     color: #7c7f90 !important
   }
 }
-.ant-menu-light .ant-menu-submenu-title{
+
+.ant-menu-light .ant-menu-submenu-title {
   color: #7c7f90 !important
 }
-.ant-menu-item{
+
+.ant-menu-item {
   color: #7c7f90 !important
 }
 
@@ -3358,4 +3378,9 @@ object {
     overflow-y: scroll;
     overflow-x: hidden;
   }
+}
+
+.boxed-menu {
+  margin: 0px 16px 0px 16px;
+  border-left: 1px solid #d9d9d9;
 }
