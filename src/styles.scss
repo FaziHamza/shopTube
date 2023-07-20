@@ -1673,7 +1673,7 @@ a.fc-event:hover {
 }
 
 .content-body {
-  height: calc(100vh - 64px);
+  // height: calc(100vh - 64px);
   padding: 10px 10px;
 }
 
@@ -2476,9 +2476,9 @@ object {
   z-index: 99;
 }
 
-.main-layout {
-  height: calc(100vh - 64px);
-}
+// .main-layout {
+//   height: calc(100vh - 64px);
+// }
 
 // .scroll,
 // .vertical-sidebar {
@@ -2937,9 +2937,8 @@ object {
 .user-builder-layout {
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-  .ant-layout {
-    background: #F8FAFC;
-  }
+  background: #F8FAFC;
+  height: 100vh;
 
   h1,
   h2,
@@ -3279,13 +3278,12 @@ object {
 
   .builder-main-body {
     width: 100%;
-    height: calc(100vh - 165px);
     display: flex;
 
     .builder-tree {
       width: 235px;
       margin-right: 12px;
-      height: 100%;
+      height: calc(100vh - 164px);
     }
 
     .b-content-body {
@@ -3672,5 +3670,42 @@ object {
     .ant-tabs-nav::before {
       border-bottom: none !important;
     }
+  }
+
+
+}
+
+.ant-table-content {
+  overflow-x: scroll;
+}
+
+.main-layout {
+  // height: calc(100vh - 65px);
+  // overflow-y: scroll;
+  padding-bottom: 20px;
+}
+
+.b-horizontal-menu {
+  display: flex !important;
+  width: 100%;
+  flex-direction: column !important;
+
+  .builder-tree {
+    height: calc(100vh - 222px) !important;
+  }
+
+  .menu-sidebar {
+    flex: none !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    margin-bottom: 12px;
+  }
+
+  nz-content {
+    margin: auto !important;
+  }
+
+  .ant-layout-content {
+    width: 100% !important;
   }
 }
