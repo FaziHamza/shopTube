@@ -5725,27 +5725,35 @@ export class BuilderComponent implements OnInit {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
             const firstObjectKeys = Object.keys(saveForm);
             let tableKey = firstObjectKeys.map(key => ({ name: key }));
+            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             res.forEach((element: any) => {
               element.id = (element.id).toString();
               tableData.tableData?.push(element);
             });
-            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                const name = updatedItem.name;
-                return !tableKey.some((headerItem: any) => headerItem.name === name);
-              });
-              if (updatedData.length > 0) {
-                tableData.tableHeaders.map((item: any) => {
-                  const newItem = { ...item };
-                  for (let i = 0; i < updatedData.length; i++) {
-                    newItem[updatedData[i].key] = "";
-                  }
-                  return newItem;
+            if(tableData.tableHeaders.length == 0){
+              tableData.tableHeaders = obj;
+              tableData['tableKey'] = tableKey
+            }
+            else{
+              if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                  const name = updatedItem.name;
+                  return !tableKey.some((headerItem: any) => headerItem.name === name);
                 });
+                if (updatedData.length > 0) {
+                  tableData.tableHeaders.map((item: any) => {
+                    const newItem = { ...item };
+                    for (let i = 0; i < updatedData.length; i++) {
+                      newItem[updatedData[i].key] = "";
+                    }
+                    return newItem;
+                  });
+                }
               }
             }
+            
           }
         }
       });
