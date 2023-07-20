@@ -258,10 +258,10 @@ export class BusinessRuleComponent implements OnInit {
       let ifConditions: any = [];
 
       rule.ifRuleMain.forEach((ifRule: any) => {
-        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${ifRule.getValue}'`;
+        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${this.checkValueIntegerOrNot(ifRule.getValue)}'`;
 
         if (ifRule.conditional && ifRule.conditional.length > 0) {
-          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${cond.condValue}'`);
+          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${this.checkValueIntegerOrNot(cond.condValue)}'`);
           ifCondition = `(${ifCondition} ${conditionalConditions.join(' ')}) ${ifRule.condType === 'AND' ? ' && ' : ifRule.condType === 'OR' ? ' || ' : ''} `;
         }
 
