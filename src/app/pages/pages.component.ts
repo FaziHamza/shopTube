@@ -889,55 +889,6 @@ export class PagesComponent implements OnInit {
     }
     return data;
   }
-  // applyRules(data: any, rules: any[]) {
-  //   rules = this.transformRules(rules);
-  //   for (let rule of rules) {
-  //     let conditions = rule.if.split(' && ');
-  //     let conditionResults = conditions.map((condition: any) => {
-  //       const subConditions = condition.split(' || ');
-  //       const subConditionResults = subConditions.map((subCondition: any) => {
-  //         let [key, operator, value] = subCondition.split(' ').map((s: any) => s.trim());
-  //         value = value.replace(/['"]/g, '');  // remove quotes
-  //         switch (operator) {
-  //           case '==':
-  //             return data[key] == value;
-  //           case '!=':
-  //             return data[key] != value;
-  //           case '>=':
-  //             return data[key] >= value;
-  //           case '<=':
-  //             return data[key] <= value;
-  //           case '>':
-  //             return data[key] > value;
-  //           case '<':
-  //             return data[key] < value;
-  //           default:
-  //             throw new Error(`Unknown operator: ${operator}`);
-  //         }
-  //       });
-  //       // check if any of the sub-conditions are true
-  //       return subConditionResults.some((result: any) => result);
-  //     });
-
-  //     // check if all conditions are true
-  //     if (conditionResults.every((result: any) => result)) {
-  //       let thenActions = rule.then;
-  //       for (let action of thenActions) {
-  //         action = action.trim().replace("'then' :", ""); // remove quotes
-  //         let [key, value] = action.split('=').map((s: any) => s.trim());
-  //         data[key] = value.replace(/'/g, '');
-  //       }
-  //     } else {
-  //       let thenActions = rule.then;
-  //       for (let action of thenActions) {
-  //         action = action.trim().replace("'then' :", ""); // remove quotes
-  //         let [key, value] = action.split('=').map((s: any) => s.trim());
-  //         data[key] = "";
-  //       }
-  //     }
-  //   }
-  //   return data;
-  // }
 
   transformRules(oldRules: any[]): any[] {
     return oldRules.map(rule => {
