@@ -152,7 +152,7 @@
   *ngIf="currentWebsiteLayout != 'backend_application'  && currentWebsiteLayout"
   [layout]="currentWebsiteLayout"></st-layout1>
 <!-- Comment -->
-<button nz-button nzType="primary" nzShape="circle"
+<button *ngIf="!fullCurrentUrl.includes('/menu-builder')" nz-button nzType="primary" nzShape="circle"
   (click)="openComment()" class="fixed bottom-4 right-4"
   style="display: flex; justify-content: center; align-items: center">
   <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
