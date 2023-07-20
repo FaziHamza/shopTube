@@ -94,6 +94,7 @@ export class BuilderComponent implements OnInit {
   dbWebsiteBlockArray: any = [];
   dbHtmlCodeBlockArray: any = [];
   formlyTypes: any = [];
+  currentUser: any;
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -132,6 +133,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
       .getElementsByTagName('body')[0]
@@ -424,18 +426,27 @@ export class BuilderComponent implements OnInit {
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             if (application.application_Type == "website") {
-              this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+              this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
                 if (res.isSuccess) {
                   if (res.data.length > 0) {
                     this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
                     this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                  }else{
+                    this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
+                      if (res.isSuccess) {
+                        if (res.data.length > 0) {
+                          this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                          this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                        }
+                      } else
+                        this.toastr.error(res.message, { nzDuration: 3000 });
+                    }));
                   }
                 } else
                   this.toastr.error(res.message, { nzDuration: 3000 });
               }));
             }
           }
-
         })
           .catch(() => this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation)
       },
@@ -5725,27 +5736,35 @@ export class BuilderComponent implements OnInit {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
             const firstObjectKeys = Object.keys(saveForm);
             let tableKey = firstObjectKeys.map(key => ({ name: key }));
+            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             res.forEach((element: any) => {
               element.id = (element.id).toString();
               tableData.tableData?.push(element);
             });
-            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                const name = updatedItem.name;
-                return !tableKey.some((headerItem: any) => headerItem.name === name);
-              });
-              if (updatedData.length > 0) {
-                tableData.tableHeaders.map((item: any) => {
-                  const newItem = { ...item };
-                  for (let i = 0; i < updatedData.length; i++) {
-                    newItem[updatedData[i].key] = "";
-                  }
-                  return newItem;
+            if(tableData.tableHeaders.length == 0){
+              tableData.tableHeaders = obj;
+              tableData['tableKey'] = tableKey
+            }
+            else{
+              if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                  const name = updatedItem.name;
+                  return !tableKey.some((headerItem: any) => headerItem.name === name);
                 });
+                if (updatedData.length > 0) {
+                  tableData.tableHeaders.map((item: any) => {
+                    const newItem = { ...item };
+                    for (let i = 0; i < updatedData.length; i++) {
+                      newItem[updatedData[i].key] = "";
+                    }
+                    return newItem;
+                  });
+                }
               }
             }
+            
           }
         }
       });

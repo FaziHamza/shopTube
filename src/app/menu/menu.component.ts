@@ -24,6 +24,7 @@ export class MenuComponent implements OnInit {
   isVisible: boolean = false;
   showCollapseButton: boolean = true;
   requestSubscription: Subscription;
+  currentUser: any;
   languages = [
     {
       id: 'english',
@@ -64,6 +65,7 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.getApllicationAndModule();
     const currentLanguageString = this.storageService.getString("currentLanguage");
     let currentLanguage: any;
@@ -99,7 +101,7 @@ export class MenuComponent implements OnInit {
   }
   UpdateMenuLink(data: any) {
     this.selectedApp = data.name;
-    this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
+    this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -113,11 +115,29 @@ export class MenuComponent implements OnInit {
             this.notify.emit(resData);
           }
           else {
-            this.notification.create(
-              'error',
-              'Error',
-              'No menu against this module'
-            );
+            this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    const resData = {
+                      _id: res.data[0]._id,
+                      name: res.data[0].name,
+                      applicationId: res.data[0].id,
+                      menuData: JSON.parse(res.data[0].menuData),
+                      selectedTheme: JSON.parse(res.data[0].selectedTheme),
+                    }
+                    this.notify.emit(resData);
+                  }
+                  else {
+                    this.notification.create('error', 'Error', 'No menu against this module');
+                  }
+                } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                this.toastr.error("Error Unhandler", { nzDuration: 3000 });
+              }
+            });
           }
         } else
           this.toastr.error(res.message, { nzDuration: 3000 });

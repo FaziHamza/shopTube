@@ -835,9 +835,9 @@ export class PagesComponent implements OnInit {
   applyRules(data: any, rules: any[]) {
     rules = this.transformRules(rules);
     for (let rule of rules) {
-      let conditions = rule.if.split(' AND ');
+      let conditions = rule.if.split(' && ');
       let conditionResults = conditions.map((condition: any) => {
-        const subConditions = condition.split(' OR ');
+        const subConditions = condition.split(' || ');
         const subConditionResults = subConditions.map((subCondition: any) => {
           let [key, operator, value] = subCondition.split(' ').map((s: any) => s.trim());
           value = value.replace(/['"]/g, '');  // remove quotes

@@ -29,6 +29,7 @@ export class SiteLayoutComponent implements OnInit {
   currentWebsiteLayout = "";
   currentUrl = "";
   fullCurrentUrl = "";
+  currentUser: any;
   newSelectedTheme = {
     topHeaderMenu: 'w-1/6',
     topHeader: 'w-10/12',
@@ -62,6 +63,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
       next: (res) => {
         this.currentHeader = res;
@@ -362,7 +364,7 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getAllMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/CacheMenu').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -376,15 +378,40 @@ export class SiteLayoutComponent implements OnInit {
               "applicationId": "648b4d73dc2ca800d3684f7b"
             }
             this.menuList = objMenu;
+          } else {
+            this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    const objMenu =
+                    {
+                      "_id": res.data._id,
+                      "name": res.data.name,
+                      "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
+                      "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
+                      "__v": 0,
+                      "applicationId": "648b4d73dc2ca800d3684f7b"
+                    }
+                    this.menuList = objMenu;
+                  }
+                } else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
           }
-        } else
+        } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
+        }
       },
       error: (err) => {
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
   }
 
   callMenus(api?: any) {
