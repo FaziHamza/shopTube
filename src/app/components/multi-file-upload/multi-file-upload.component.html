@@ -41,8 +41,7 @@
   [nzLimit]="multiFileUploadData.uploadLimit"
   [nzSize]="multiFileUploadData.size">
   <ng-container *ngIf="!avatarUrl">
-    <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
-    <div class="ant-upload-text">{{multiFileUploadData.uploadBtnLabel}}</div>
+    <div class="ant-upload-text"><span class="upload-icon mr-1" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>{{multiFileUploadData.uploadBtnLabel}}</div>
   </ng-container>
   <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
 </nz-upload>

@@ -75,34 +75,44 @@ export class BusinessRuleComponent implements OnInit {
               this.businessRuleId = getRes.data[0]._id;
               const objRuleData = JSON.parse(getRes.data[0].businessRuleData);
               this.businessForm = this.formBuilder.group({
-                buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
-                  this.formBuilder.group({
-                    name: getBusinessRuleRes.name ? getBusinessRuleRes.name : '',
-                    description: getBusinessRuleRes.description ? getBusinessRuleRes.description : '',
-                    type: getBusinessRuleRes.type ? getBusinessRuleRes.type : '',
-                    ifCondition: [getBusinessRuleRes.ifCondition],
-                    oprator: [getBusinessRuleRes.oprator],
-                    getValue: [getBusinessRuleRes.getValue],
-                    target: [getBusinessRuleRes.target],
-                    opratorForTarget: [getBusinessRuleRes.opratorForTarget],
-                    resultValue: [getBusinessRuleRes.resultValue],
-                    conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
-                      this.formBuilder.group({
-                        condifCodition: getConditionalRes.condifCodition,
-                        condOperator: getConditionalRes.condOperator,
-                        condValue: getConditionalRes.condValue,
-                        condType: getConditionalRes.condType
-                      })
-                    )),
-                    thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
-                      this.formBuilder.group({
-                        thenTarget: getthenCodRes.thenTarget,
-                        thenOpratorForTarget: getthenCodRes.thenOpratorForTarget,
-                        thenResultValue: getthenCodRes.thenResultValue
-                      })
-                    ))
-                  })
-                ))
+                buisnessRule: this.formBuilder.array(
+                  objRuleData.map((getBusinessRuleRes: any) =>
+                    this.formBuilder.group({
+                      name: [getBusinessRuleRes.name],
+                      description: [getBusinessRuleRes.description],
+                      type: [getBusinessRuleRes.type],
+                      ifRuleMain: this.formBuilder.array(
+                        getBusinessRuleRes.ifRuleMain.map((ifRuleMain: any) =>
+                          this.formBuilder.group({
+                            ifCondition: [ifRuleMain.ifCondition],
+                            oprator: [ifRuleMain.oprator],
+                            getValue: [ifRuleMain.getValue],
+                            condType: [ifRuleMain.condType],
+                            conditional: this.formBuilder.array(
+                              ifRuleMain.conditional.map((conditional: any) =>
+                                this.formBuilder.group({
+                                  condifCodition: [conditional.condifCodition],
+                                  condOperator: [conditional.condOperator],
+                                  condValue: [conditional.condValue],
+                                  condType: [conditional.condType]
+                                })
+                              )
+                            )
+                          })
+                        )
+                      ),
+                      thenCondition: this.formBuilder.array(
+                        getBusinessRuleRes.thenCondition.map((thenCondition: any) =>
+                          this.formBuilder.group({
+                            thenTarget: [thenCondition.thenTarget],
+                            thenOpratorForTarget: [thenCondition.thenOpratorForTarget],
+                            thenResultValue: [thenCondition.thenResultValue]
+                          })
+                        )
+                      )
+                    })
+                  )
+                )
               });
             }
           } else
@@ -136,13 +146,6 @@ export class BusinessRuleComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-  newThen(): FormGroup {
-    return this.formBuilder.group({
-      thenTarget: '',
-      thenOpratorForTarget: '=',
-      thenResultValue: ''
-    });
-  }
 
   changeDynamicBuisnessRuleIf() {
     this.businessRuleTargetList = [];
@@ -151,18 +154,10 @@ export class BusinessRuleComponent implements OnInit {
     }
     // this.businessRuleTargetList = this.businessRuleTargetList.filter((a: any) => a.key != this.ifDynamicMenuName);
   }
+
+  //Add Main Rule Start
   buisnessRule(): FormArray {
     return this.businessForm.get('buisnessRule') as FormArray;
-  }
-  buisnessRuleSkills(empIndex: number): FormArray {
-    return this.buisnessRule()
-      .at(empIndex)
-      .get('conditional') as FormArray;
-  }
-  buisnessRuleThen(empIndex: number): FormArray {
-    return this.buisnessRule()
-      .at(empIndex)
-      .get('thenCondition') as FormArray;
   }
   addBuisnessRule() {
     this.buisnessRule().push(this.newBuisnessRule());
@@ -172,70 +167,118 @@ export class BusinessRuleComponent implements OnInit {
       name: '',
       description: '',
       type: 'clientSide',
-      ifCondition: '',
-      oprator: '',
-      getValue: '',
-      target: '',
-      opratorForTarget: '',
-      resultValue: '',
-      conditional: this.formBuilder.array([]),
-      thenCondition: this.formBuilder.array([]),
+      ifRuleMain: this.formBuilder.array([this.newIfRuleMain()]),
+      thenCondition: this.formBuilder.array([this.newThen()]),
     });
   }
   removeBuisnessRule(empIndex: number) {
     this.buisnessRule().removeAt(empIndex);
   }
-  removeBuisnessRuleSkill(empIndex: number, skillIndex: number) {
-    this.buisnessRuleSkills(empIndex).removeAt(skillIndex);
-  }
-  removeBuisnessRuleThen(empIndex: number, thenIndex: number) {
-    this.buisnessRuleThen(empIndex).removeAt(thenIndex);
-  }
-  buttonTextCahnge(empIndex: number, skillIndex: number) {
-    let conValue = this.buisnessRuleSkills(empIndex)?.at(skillIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
-    this.buisnessRuleSkills(empIndex).at(skillIndex).get("condType")?.setValue(conValue);
-  }
-  addBuisnessRuleSkill(empIndex: number) {
-    this.buisnessRuleSkills(empIndex).push(this.newSkill());
-    // this.cd.detectChanges();
-  }
-  addBuisnessRuleThen(empIndex: number) {
-    this.buisnessRuleThen(empIndex).push(this.newThen());
-  }
+  //Main Rule End
 
-  newSkill(): FormGroup {
+  //ifRuleMain Rule Start
+  newIfRuleMain(): FormGroup {
+    return this.formBuilder.group({
+      ifCondition: '',
+      oprator: '',
+      getValue: '',
+      condType: '',
+      conditional: this.formBuilder.array([])
+    });
+  }
+  buisnessRuleIfMain(mainIndex: number): FormArray {
+    return this.buisnessRule()
+      .at(mainIndex)
+      .get('ifRuleMain') as FormArray;
+  }
+  addBuisnessIfRuleMain(mainIndex: number) {
+    this.buisnessRuleIfMain(mainIndex).push(this.newIfRuleMain());
+  }
+  removeBuisnessIfRuleMain(mainIndex: number, ifIndex: number) {
+    this.buisnessRuleIfMain(mainIndex).removeAt(ifIndex);
+  }
+  ifButtonCondition(mainIndex: number, ifIndex: number) {
+    let conValue = this.buisnessRuleIfMain(mainIndex)?.at(ifIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
+    this.buisnessRuleIfMain(mainIndex).at(ifIndex).get("condType")?.setValue(conValue);
+  }
+  //ifRuleMain Rule End
+
+  //Conditional Rule Start
+  newConditional(): FormGroup {
     return this.formBuilder.group({
       condifCodition: '',
       condOperator: '',
       condValue: '',
-      condType: 'AND',
+      condType: '',
     });
   }
+  buisnessRuleConditional(mainIndex: number, ifIndex: number): FormArray {
+    return this.buisnessRuleIfMain(mainIndex)
+      .at(ifIndex)
+      .get('conditional') as FormArray;
+  }
+  addBuisnessRuleConditional(mainIndex: number, ifIndex: number) {
+    this.buisnessRuleConditional(mainIndex, ifIndex).push(this.newConditional());
+  }
+  removeBuisnessRuleConditional(mainIndex: number, ifIndex: number, conditionIndex: number) {
+    this.buisnessRuleConditional(mainIndex, ifIndex).removeAt(conditionIndex);
+  }
+  conditionalButton(mainIndex: number, ifIndex: number, conditionIndex: number) {
+    let conValue = this.buisnessRuleConditional(mainIndex, ifIndex)?.at(conditionIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
+    this.buisnessRuleConditional(mainIndex, ifIndex).at(conditionIndex).get("condType")?.setValue(conValue);
+  }
+  //Conditional Rule End
+
+  //Then Conditional Rule Start
+  newThen(): FormGroup {
+    return this.formBuilder.group({
+      thenTarget: '',
+      thenOpratorForTarget: '=',
+      thenResultValue: ''
+    });
+  }
+  buisnessRuleThen(empIndex: number): FormArray {
+    return this.buisnessRule()
+      .at(empIndex)
+      .get('thenCondition') as FormArray;
+  }
+  addBuisnessRuleThen(empIndex: number) {
+    this.buisnessRuleThen(empIndex).push(this.newThen());
+  }
+  removeBuisnessRuleThen(empIndex: number, thenIndex: number) {
+    this.buisnessRuleThen(empIndex).removeAt(thenIndex);
+  }
+  //Then Conditional Rule End
+
 
   saveBussinessRule() {
-
     debugger
     this.businessRuleObj = [];
-    this.businessForm.value.buisnessRule.forEach((elv: any) => {
-      let cond = ' ';
-      if (elv.conditional) {
-        elv.conditional.forEach((elv2: any) => {
-          cond = cond + elv2.condType + ' ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + this.checkValueIntegerOrNot(elv2.condValue) + ' ';
-        });
-      }
-      let condThen = '';
-      if (elv.thenCondition) {
-        elv.thenCondition.forEach((elv2: any) => {
-          condThen = condThen + " , 'then' : " + elv2.thenTarget + " " + elv2.thenOpratorForTarget + " " + this.checkValueIntegerOrNot(elv2.thenResultValue) + ' ';
-        });
-      }
-      var dt = {
-        if: elv.ifCondition + " " + elv.oprator + " " + this.checkValueIntegerOrNot(elv.getValue) + cond,
-        then: elv.target + " " + elv.opratorForTarget + ' ' + this.checkValueIntegerOrNot(elv.resultValue) + ' ' + condThen
-      };
-      this.businessRuleObj.push(dt);
-      // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
+    this.businessForm.value.buisnessRule.forEach((rule: any) => {
+      let ifConditions: any = [];
+
+      rule.ifRuleMain.forEach((ifRule: any) => {
+        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${this.checkValueIntegerOrNot(ifRule.getValue)}'`;
+
+        if (ifRule.conditional && ifRule.conditional.length > 0) {
+          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${this.checkValueIntegerOrNot(cond.condValue)}'`);
+          ifCondition = `(${ifCondition} ${conditionalConditions.join(' ')}) ${ifRule.condType === 'AND' ? ' && ' : ifRule.condType === 'OR' ? ' || ' : ''} `;
+        }
+
+        ifConditions.push(ifCondition);
+      });
+
+      let ifConditionExpression = ifConditions.join('').trim();
+
+      let thenConditions = rule.thenCondition.map((thenRule: any) => `${thenRule.thenTarget} ${thenRule.thenOpratorForTarget} '${thenRule.thenResultValue}'`);
+      let thenConditionExpression = thenConditions.join(' , ');
+
+      let ruleExpression = { if: ifConditionExpression, then: thenConditionExpression };
+      this.businessRuleObj.push(ruleExpression);
     });
+
+    console.log(this.businessRuleObj);
+
 
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     const businessRuleValid = {
@@ -309,9 +352,9 @@ export class BusinessRuleComponent implements OnInit {
       }
     }
     const fishRhyme = ruleFactory(this.businessRuleObj);
-    // const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
-    // console.log(fishRhyme1({ text_675d95bf: "abc" }));
-    // console.log(fishRhyme({text_675d95bf:"abc"})); // {fish: 'twoFish'}
+    const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
+    console.log(fishRhyme1({ text_675d95bf: "abc" }));
+    console.log(fishRhyme({ text_675d95bf: "abc" })); // {fish: 'twoFish'}
     console.log(fishRhyme(this.formlyModel));
   }
   checkValueIntegerOrNot(value: any) {

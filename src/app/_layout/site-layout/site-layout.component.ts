@@ -16,6 +16,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
+  isVisible: boolean = false;
   currentHeader: any;
   logo: any;
   currentFooter: any;
@@ -103,14 +104,11 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
     this.currentUrl = window.location.host;
-    if (this.currentUrl.includes('localhost') || window.location.href.includes('/menu-builder')) {
+    if (this.currentUrl.includes('localhost')) {
       this.currentWebsiteLayout = "backend_application";
-    } else {
-      this.currentWebsiteLayout = "";
     }
     this.fullCurrentUrl = window.location.href;
-    if (!this.currentUrl.includes('localhost') && !window.location.href.includes('/menu-builder')) {
-      this.selectedTheme = this.newSelectedTheme;
+    if (!this.currentUrl.includes('localhost')) {
       this.getMenuByDomainName();
     }
     else if (!window.location.href.includes('/menu-builder')) {
@@ -195,24 +193,30 @@ export class SiteLayoutComponent implements OnInit {
       next: (res) => {
         debugger
         if (res.isSuccess) {
+          debugger
+          if (res.data.appication) {
+            this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
+          }
+          // this.currentWebsiteLayout = JSON.stringify(res.data?.appication?._id)
           this.logo = res.data.appication['image'];
           // this.dataSharedService.currentApplication.next(res[0]);
-          localStorage.setItem('applicationId',JSON.stringify(res.data?.appication?._id));
+          localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
           localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
           this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
           this.dataSharedService.currentHeader.next(res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '');
           this.dataSharedService.currentFooter.next(res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');
-          let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-          let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
-          if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
-            this.selectedTheme = selectedTheme;
-            this.selectedTheme.allMenuItems = getMenu
-          } else {
-            this.dataSharedService.menus = getMenu;
-            this.dataSharedService.menus.allMenuItems = getMenu;
-            this.selectedTheme = undefined;
+          if (!window.location.href.includes('/menu-builder')) {
+            let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
+            let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+            if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+              this.selectedTheme = selectedTheme;
+              this.selectedTheme.allMenuItems = getMenu
+            } else {
+              this.dataSharedService.menus = getMenu;
+              this.dataSharedService.menus.allMenuItems = getMenu;
+              this.selectedTheme = undefined;
+            }
           }
-
 
           // const observables = [
 
@@ -415,5 +419,17 @@ export class SiteLayoutComponent implements OnInit {
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
 
+  openComment() {
+    this.isVisible = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res: any) => {
+      if (res.isSuccess) {
+        let commentList = res.data
+        this.dataSharedService.screenCommentList = commentList;
+      }
+    })
+  }
+  handleCancel(): void {
+    this.isVisible = false;
+  }
 }
 

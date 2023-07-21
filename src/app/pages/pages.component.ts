@@ -832,50 +832,58 @@ export class PagesComponent implements OnInit {
 
     }
   }
-  applyRules(data: any, rules: any[]) {
+  applyRules(data: any, rules: any) {
+    debugger
     rules = this.transformRules(rules);
-    for (let rule of rules) {
-      let conditions = rule.if.split(' AND ');
-      let conditionResults = conditions.map((condition: any) => {
-        const subConditions = condition.split(' OR ');
-        const subConditionResults = subConditions.map((subCondition: any) => {
-          let [key, operator, value] = subCondition.split(' ').map((s: any) => s.trim());
-          value = value.replace(/['"]/g, '');  // remove quotes
-          switch (operator) {
-            case '==':
-              return data[key] == value;
-            case '!=':
-              return data[key] != value;
-            case '>=':
-              return data[key] >= value;
-            case '<=':
-              return data[key] <= value;
-            case '>':
-              return data[key] > value;
-            case '<':
-              return data[key] < value;
-            default:
-              throw new Error(`Unknown operator: ${operator}`);
-          }
-        });
-        // check if any of the sub-conditions are true
-        return subConditionResults.some((result: any) => result);
-      });
 
-      // check if all conditions are true
-      if (conditionResults.every((result: any) => result)) {
+    function evaluateCondition(condition: any) {
+      // Remove any surrounding parentheses
+      condition = condition.trim().replace(/^\(|\)$/g, '');
+      if (condition.includes(' && ')) {
+        const andConditions = condition.split(' && ');
+        return andConditions.every((andCondition: any) => evaluateCondition(andCondition));
+      } else if (condition.includes(' || ')) {
+        const orConditions = condition.split(' || ');
+        return orConditions.some((orCondition: any) => evaluateCondition(orCondition));
+      } else {
+        let [key, operator, value] = condition.split(' ').map((s: any) => s.trim());
+        value = value.replace(/['"]/g, ''); // remove quotes
+        switch (operator) {
+          case '==':
+            return data[key] == value;
+          case '!=':
+            return data[key] != value;
+          case '>=':
+            return data[key] >= value;
+          case '<=':
+            return data[key] <= value;
+          case '>':
+            return data[key] > value;
+          case '<':
+            return data[key] < value;
+          default:
+            throw new Error(`Unknown operator: ${operator}`);
+        }
+      }
+    }
+
+    for (let rule of rules) {
+      const conditions = rule.if.split('||').map((condition: any) => condition.trim());
+      const conditionResults = conditions.map((condition: any) => evaluateCondition(condition));
+
+      if (conditionResults.some((result: any) => result)) { // Change .every to .some
         let thenActions = rule.then;
         for (let action of thenActions) {
-          action = action.trim().replace("'then' :", ""); // remove quotes
+          action = action.trim().replace("'then' :", ''); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value.replace(/'/g, '');
         }
       } else {
         let thenActions = rule.then;
         for (let action of thenActions) {
-          action = action.trim().replace("'then' :", ""); // remove quotes
+          action = action.trim().replace("'then' :", ''); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
-          data[key] = "";
+          data[key] = '';
         }
       }
     }
