@@ -157,6 +157,101 @@ export class BusinessRuleGridComponent implements OnInit {
       multiConditionList: this.formBuilder.array([]),
     });
   }
+
+  //Add Main Rule Start
+  buisnessRule(): FormArray {
+    return this.buisnessForm.get('buisnessRule') as FormArray;
+  }
+
+  addGridBuisnessRule() {
+    this.buisnessRule().push(this.newBuisnessRule());
+  }
+
+  newBuisnessRule(): FormGroup {
+    return this.formBuilder.group({
+      // ifCondition: '',
+      // oprator: '',
+      // getValue: '',
+      // isGetValue: true,
+      target: '',
+      opratorForTraget: '',
+      resultValue: '',
+      ifRuleMain: this.formBuilder.array([this.newIfRuleMain()]),
+      // conditional: this.formBuilder.array([]),
+      thenCondition: this.formBuilder.array([]),
+      getRuleCondition: this.formBuilder.array([]),
+    });
+  }
+
+  removeBuisnessRule(empIndex: number) {
+    this.buisnessRule().removeAt(empIndex);
+  }
+
+  //Main Rule End
+
+  //ifRuleMain Rule Start
+
+  newIfRuleMain(): FormGroup {
+    return this.formBuilder.group({
+      ifCondition: '',
+      oprator: '',
+      getValue: '',
+      condType: '',
+      isGetValue: true,
+      conditional: this.formBuilder.array([])
+    });
+  }
+  buisnessRuleIfMain(mainIndex: number): FormArray {
+    return this.buisnessRule()
+      .at(mainIndex)
+      .get('ifRuleMain') as FormArray;
+  }
+  addBuisnessIfRuleMain(mainIndex: number) {
+    this.buisnessRuleIfMain(mainIndex).push(this.newIfRuleMain());
+  }
+
+  removeBuisnessIfRuleMain(mainIndex: number, ifIndex: number) {
+    this.buisnessRuleIfMain(mainIndex).removeAt(ifIndex);
+  }
+  //ifRuleMain Rule End
+
+  //Conditional Rule Start
+
+  getRuleCondition(): FormArray {
+    return this.conditionForm.get('getRuleCondition') as FormArray;
+  }
+
+  //Conditional Rule End
+
+
+  //Then Conditional Rule Start
+  newThen(): FormGroup {
+    return this.formBuilder.group({
+      thenTarget: '',
+      thenOpratorForTraget: '',
+      thenResultValue: '',
+      getRuleCondition: this.formBuilder.array([]),
+    });
+  }
+
+  buisnessRuleThen(empIndex: number): FormArray {
+    return this.buisnessRule()
+      .at(empIndex)
+      .get('thenCondition') as FormArray;
+  }
+
+  addBuisnessRuleThen(empIndex: number) {
+    this.buisnessRuleThen(empIndex).push(this.newThen());
+  }
+
+  removeBuisnessRuleThen(empIndex: number, thenIndex: number) {
+    this.buisnessRuleThen(empIndex).removeAt(thenIndex);
+  }
+
+  //Then Conditional Rule End
+
+  //Then  multicondition Rule Start
+
   multiCondition(): FormGroup {
     return this.formBuilder.group({
       oprator: '',
@@ -164,32 +259,36 @@ export class BusinessRuleGridComponent implements OnInit {
       condType: 'AND',
     });
   }
-  getRuleCondition(): FormArray {
-    return this.conditionForm.get('getRuleCondition') as FormArray;
-  }
+
   getRuleMultiCondition(index: number): FormArray {
     return this.getRuleCondition()
       .at(index)
       .get('multiConditionList') as FormArray;
   }
-  addMathmaticRule() {
 
-    this.getRuleCondition().push(this.mathmaticRule());
-  }
   addgetRuleMultiCondition(index: number) {
 
     this.getRuleMultiCondition(index).push(this.multiCondition());
     this.cd.detectChanges();
   }
+
+  removegetRuleMultiCondition(index: number, cIndex: number) {
+    this.getRuleMultiCondition(index).removeAt(cIndex);
+    this.getGridRuleCondition();
+  }
+  //Then  multicondition Rule End
+
+  //Mathematical Rule start
+  addMathmaticRule() {
+    this.getRuleCondition().push(this.mathmaticRule());
+  }
+
   removeMathmaticRule(mathIndex: number) {
 
     this.getRuleCondition().removeAt(mathIndex);
     this.getGridRuleCondition();
   }
-  removegetRuleMultiCondition(index: number, cIndex: number) {
-    this.getRuleMultiCondition(index).removeAt(cIndex);
-    this.getGridRuleCondition();
-  }
+
   saveMathmaticRule() {
 
     if (this.thenIndexForConditionForm != undefined) {
@@ -339,20 +438,7 @@ export class BusinessRuleGridComponent implements OnInit {
   dynmaicRule: boolean = false;
   // bussinessForm: FormArray = new FormArray([
   // ]);
-  newBuisnessRule(): FormGroup {
-    return this.formBuilder.group({
-      ifCondition: '',
-      oprator: '',
-      getValue: '',
-      isGetValue: true,
-      target: '',
-      opratorForTraget: '',
-      resultValue: '',
-      conditional: this.formBuilder.array([]),
-      thenCondition: this.formBuilder.array([]),
-      getRuleCondition: this.formBuilder.array([]),
-    });
-  }
+
   newSkill(): FormGroup {
     return this.formBuilder.group({
       condifCodition: '',
@@ -361,15 +447,7 @@ export class BusinessRuleGridComponent implements OnInit {
       condType: 'AND',
     });
   }
-  newThen(): FormGroup {
 
-    return this.formBuilder.group({
-      thenTarget: '',
-      thenOpratorForTraget: '',
-      thenResultValue: '',
-      getRuleCondition: this.formBuilder.array([]),
-    });
-  }
   buisnessGetThenRuleCondition(): FormGroup {
 
     return this.formBuilder.group({
@@ -399,7 +477,7 @@ export class BusinessRuleGridComponent implements OnInit {
       referenceOperator: '',
       referenceColor: '',
       condition: '',
-      multiConditionList: this.formBuilder.array([]),
+      // multiConditionList: this.formBuilder.array([]),
     });
   }
   buisnessGetRuleMultiCondition(): FormGroup {
@@ -409,19 +487,14 @@ export class BusinessRuleGridComponent implements OnInit {
       condType: 'AND',
     });
   }
-  buisnessRule(): FormArray {
-    return this.buisnessForm.get('buisnessRule') as FormArray;
-  }
-  buisnessRuleSkills(empIndex: number): FormArray {
-    return this.buisnessRule()
-      .at(empIndex)
+
+
+  buisnessRuleSkills(empIndex: number, ifIndex: number): FormArray {
+    return this.buisnessRuleIfMain(empIndex)
+      .at(ifIndex)
       .get('conditional') as FormArray;
   }
-  buisnessRuleThen(empIndex: number): FormArray {
-    return this.buisnessRule()
-      .at(empIndex)
-      .get('thenCondition') as FormArray;
-  }
+
   getBuisnessThenRuleCondition(empIndex: number, conditionIndex: number): FormArray {
     return this.buisnessRuleThen(empIndex)
       .at(conditionIndex)
@@ -442,17 +515,16 @@ export class BusinessRuleGridComponent implements OnInit {
       .at(conditionIndex)
       .get('multiConditionList') as FormArray;
   }
-  addGridBuisnessRule() {
 
-    this.buisnessRule().push(this.newBuisnessRule());
+  addBuisnessRuleSkill(mainIndex: number, ifIndex: number) {
+    return this.buisnessRuleIfMain(mainIndex)
+      .at(ifIndex)
+      .get('conditional') as FormArray;
   }
-  addBuisnessRuleSkill(empIndex: number) {
-    this.buisnessRuleSkills(empIndex).push(this.newSkill());
-    this.cd.detectChanges();
+  addRuleCondition(mainIndex: number, ifIndex: number) {
+    this.addBuisnessRuleSkill(mainIndex, ifIndex).push(this.newSkill());
   }
-  addBuisnessRuleThen(empIndex: number) {
-    this.buisnessRuleThen(empIndex).push(this.newThen());
-  }
+
   addBuisnessThenRuleCondition(empIndex: number, conditionIndex: number) {
     this.getBuisnessThenRuleCondition(empIndex, conditionIndex).push(this.buisnessGetThenRuleCondition());
   }
@@ -465,15 +537,11 @@ export class BusinessRuleGridComponent implements OnInit {
   addBuisnessRuleMultiCondition(empIndex: number, conditionIndex: number) {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).push(this.buisnessGetRuleMultiCondition());
   }
-  removeBuisnessRule(empIndex: number) {
-    this.buisnessRule().removeAt(empIndex);
+
+  removeBuisnessRuleSkill(mainIndex: number, ifIndex: number, conditionIndex: number) {
+    this.buisnessRuleSkills(mainIndex, ifIndex).removeAt(conditionIndex);
   }
-  removeBuisnessRuleSkill(empIndex: number, skillIndex: number) {
-    this.buisnessRuleSkills(empIndex).removeAt(skillIndex);
-  }
-  removeBuisnessRuleThen(empIndex: number, thenIndex: number) {
-    this.buisnessRuleThen(empIndex).removeAt(thenIndex);
-  }
+
   removeBuisnessThenRuleCondition(empIndex: number, thenIndex: number, conditionIndex: number) {
     this.getBuisnessThenRuleCondition(empIndex, thenIndex).removeAt(conditionIndex);
   }
@@ -487,6 +555,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
+    debugger
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
@@ -527,20 +596,30 @@ export class BusinessRuleGridComponent implements OnInit {
                   this.buisnessForm = this.formBuilder.group({
                     buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                       this.formBuilder.group({
-                        ifCondition: [getBusinessRuleRes.ifCondition],
-                        oprator: [getBusinessRuleRes.oprator],
-                        isGetValue: [getBusinessRuleRes.oprator == "NotNull" ? false : true],
-                        getValue: [getBusinessRuleRes.getValue],
                         target: [getBusinessRuleRes.target],
                         opratorForTraget: [getBusinessRuleRes.opratorForTraget],
                         resultValue: [getBusinessRuleRes.resultValue],
-                        conditional: this.formBuilder.array(getBusinessRuleRes.conditional.map((getConditionalRes: any) =>
-                          this.formBuilder.group({
-                            condifCodition: getConditionalRes.condifCodition,
-                            condOperator: getConditionalRes.condOperator,
-                            condValue: getConditionalRes.condValue,
-                            condType: getConditionalRes.condType
-                          }))),
+                        ifRuleMain: this.formBuilder.array(
+                          getBusinessRuleRes.ifRuleMain.map((ifRuleMain: any) =>
+                            this.formBuilder.group({
+                              ifCondition: [ifRuleMain.ifCondition],
+                              oprator: [ifRuleMain.oprator],
+                              isGetValue: [ifRuleMain.oprator == "NotNull" ? false : true],
+                              getValue: [ifRuleMain.getValue],
+                              condType: [ifRuleMain.condType],
+                              conditional: this.formBuilder.array(
+                                ifRuleMain.conditional.map((conditional: any) =>
+                                  this.formBuilder.group({
+                                    condifCodition: [conditional.condifCodition],
+                                    condOperator: [conditional.condOperator],
+                                    condValue: [conditional.condValue],
+                                    condType: [conditional.condType]
+                                  })
+                                )
+                              )
+                            })
+                          )
+                        ),
                         thenCondition: this.formBuilder.array(getBusinessRuleRes.thenCondition.map((getthenCodRes: any) =>
                           this.formBuilder.group({
                             thenTarget: getthenCodRes.thenTarget,
@@ -634,34 +713,34 @@ export class BusinessRuleGridComponent implements OnInit {
       this.buisnessRuleTargetList[0].VariableData = veriableOptions;
     }
   }
-  buttonTextCahnge(empIndex: number, skillIndex: number) {
-    let conValue = this.buisnessRuleSkills(empIndex)?.at(skillIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
-    this.buisnessRuleSkills(empIndex).at(skillIndex).get("condType")?.setValue(conValue);
+  buttonTextCahnge(mainIndex: number, ifIndex: number, conditionIndex: number) {
+    let conValue = this.buisnessRuleSkills(mainIndex, ifIndex)?.at(conditionIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
+    this.buisnessRuleSkills(mainIndex, ifIndex).at(conditionIndex).get("condType")?.setValue(conValue);
   }
   saveGridBusinessRule() {
-    let condThen: any = [];
+    debugger
     this.GridBusinessRuleData = [];
-    this.buisnessForm.value.buisnessRule.forEach((elv: any) => {
-      let cond = '"';
-      if (elv.conditional) {
-        elv.conditional.forEach((elv2: any) => {
-          cond = ' "' + elv2.condType + '" ' + elv2.condifCodition + ' ' + elv2.condOperator + " " + elv2.condValue;
-        });
-      }
-      condThen.push(elv.target + " " + elv.opratorForTraget + ' ' + elv.resultValue + '')
-      if (elv.thenCondition) {
-        elv.thenCondition.forEach((elv2: any) => {
-          condThen.push(elv2.thenTarget + " " + elv2.thenOpratorForTraget + " " + elv2.thenResultValue + " ");
-        });
-      }
+    this.buisnessForm.value.buisnessRule.forEach((rule: any) => {
+      let ifConditions: any = [];
 
-      var dt = {
-        if: elv.ifCondition + " " + elv.oprator + ' ' + elv.getValue,
-        then: condThen
-      };
-      condThen = [];
-      this.GridBusinessRuleData.push(dt);
-      // { if: 'fish == "oneFish"', then: 'fish = "twoFish"' }
+      rule.ifRuleMain.forEach((ifRule: any) => {
+        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${this.checkValueIntegerOrNot(ifRule.getValue)}'`;
+
+        if (ifRule.conditional && ifRule.conditional.length > 0) {
+          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${this.checkValueIntegerOrNot(cond.condValue)}'`);
+          ifCondition = `(${ifCondition} ${conditionalConditions.join(' ')}) ${ifRule.condType === 'AND' ? ' && ' : ifRule.condType === 'OR' ? ' || ' : ''} `;
+        }
+
+        ifConditions.push(ifCondition);
+      });
+
+      let ifConditionExpression = ifConditions.join('').trim();
+      let thenConditions = rule.thenCondition.map((thenRule: any) => `${thenRule.thenTarget} ${thenRule.thenOpratorForTraget} '${thenRule.thenResultValue}'`);
+      thenConditions.push(rule.target + " " + rule.opratorForTraget + ' ' + rule.resultValue + '')
+      let thenConditionExpression = thenConditions.join(' , ');
+
+      let ruleExpression = { if: ifConditionExpression, then: thenConditionExpression };
+      this.GridBusinessRuleData.push(ruleExpression);
     });
 
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
@@ -754,29 +833,31 @@ export class BusinessRuleGridComponent implements OnInit {
       for (let index = 0; index < this.buisnessForm?.value?.buisnessRule.length; index++) {
         let query: any;
         let color = this.buisnessForm?.value?.buisnessRule[index]?.getRuleCondition[0]?.referenceColor;
-        let dataval = this.buisnessForm?.value?.buisnessRule[index]?.getValue.toString();
-        var conditionKey: any = this.buisnessForm.value.buisnessRule[index].ifCondition;
-        var conditionOperator: any = this.buisnessForm.value.buisnessRule[index].oprator;
-        let _attributes = {
-          className: {
-            row: [color]
+        this.buisnessForm?.value?.buisnessRule[index].ifRuleMain.forEach((element: any) => {
+          let dataval = element?.getValue.toString();
+          var conditionKey: any = element.ifCondition;
+          var conditionOperator: any = element.oprator;
+          let _attributes = {
+            className: {
+              row: [color]
+            }
           }
-        }
-        let _attributesRevert = {
-        }
-        this.selectedNode?.rowData?.forEach((elementV1: any) => {
+          let _attributesRevert = {
+          }
+          this.selectedNode?.rowData?.forEach((elementV1: any) => {
 
-          query = elementV1[conditionKey] + " " + conditionOperator + " " + dataval;
-          if (eval(query)) {
-            elementV1["_attributes"] = _attributes;
-            // var data = fishRhyme(elementV1);
-            // if (data) {
-            //   elementV1 = data;
-            // }
-            // else {
-            //   elementV1 = _attributesRevert;
-            // }
-          }
+            query = elementV1[conditionKey] + " " + conditionOperator + " " + dataval;
+            if (eval(query)) {
+              elementV1["_attributes"] = _attributes;
+              // var data = fishRhyme(elementV1);
+              // if (data) {
+              //   elementV1 = data;
+              // }
+              // else {
+              //   elementV1 = _attributesRevert;
+              // }
+            }
+          });
         });
       }
     }
@@ -793,18 +874,21 @@ export class BusinessRuleGridComponent implements OnInit {
     this.isVisible = false;
   }
   isInput: boolean = true;
-  operatorChange(operator: string, index: number) {
+  operatorChange(operator: string, mainIndex: number, ruleIndex: number) {
+    const ifRuleMain = this.buisnessRuleIfMain(mainIndex);
 
-    if (operator == "NotNull")
-      this.buisnessRule().at(index).patchValue({
+    if (operator === "NotNull") {
+      ifRuleMain.at(ruleIndex).patchValue({
         isGetValue: false,
         getValue: null
       });
-    else
-      this.buisnessRule().at(index).patchValue({
+    } else {
+      ifRuleMain.at(ruleIndex).patchValue({
         isGetValue: true
       });
+    }
   }
+
   deleteGridBuisnessRule() {
     if (this.gridRuleId != '')
       this.applicationService.deleteNestCommonAPI('cp/GridBusinessRule', this.gridRuleId).subscribe({
@@ -828,5 +912,14 @@ export class BusinessRuleGridComponent implements OnInit {
       this.buisnessForm = this.formBuilder.group({
         buisnessRule: this.formBuilder.array([])
       });
+  }
+
+  ifButtonCondition(mainIndex: number, ifIndex: number) {
+    let conValue = this.buisnessRuleIfMain(mainIndex)?.at(ifIndex)?.get("condType")?.value == "AND" ? "OR" : "AND";
+    this.buisnessRuleIfMain(mainIndex).at(ifIndex).get("condType")?.setValue(conValue);
+  }
+
+  checkValueIntegerOrNot(value: any) {
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"
   }
 }

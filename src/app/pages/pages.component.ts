@@ -27,7 +27,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+      
       if (event && field && this.router.url.includes('/pages')) {
         if (this.formlyModel) {
           this.formlyModel[field.key] = event
@@ -752,7 +752,6 @@ export class PagesComponent implements OnInit {
     // this.cdr.detach();
   }
   getUIRule(model: any, currentValue: any) {
-    debugger
     try {
       if (this.screenName) {
         if (this.businessRuleData) {
@@ -833,7 +832,7 @@ export class PagesComponent implements OnInit {
     }
   }
   applyRules(data: any, rules: any) {
-    debugger
+    
     rules = this.transformRules(rules);
 
     function evaluateCondition(condition: any) {
@@ -878,7 +877,8 @@ export class PagesComponent implements OnInit {
           let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value.replace(/'/g, '');
         }
-      } else {
+      } 
+      else {
         let thenActions = rule.then;
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ''); // remove quotes

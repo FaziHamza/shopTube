@@ -1,4 +1,5 @@
-<nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal"
+  (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <form [formGroup]="conditionForm">
@@ -8,21 +9,28 @@
             <div class="flex flex-wrap border">
               <div class="w-full">
                 <div class="flex flex-wrap mt-2">
-                  <label class="form-label ml-3 text-base font-bold w-3/12">reference ID</label>
-                  <input nz-input type="text" class="form-control ml-1  w-4/12" placeholder="Enetr Reference ID"
-                    formControlName="referenceId" (keyup)="getConditionFormInput()">
-                  <input nz-input type="color" class="form-control ml-1 w-4/12" formControlName="referenceColor">
+                  <label class="form-label ml-3 text-base font-bold w-3/12">reference
+                    ID</label>
+                  <input nz-input type="text" class="form-control ml-1  w-4/12"
+                    placeholder="Enetr Reference ID"
+                    formControlName="referenceId"
+                    (keyup)="getConditionFormInput()">
+                  <input nz-input type="color" class="form-control ml-1 w-4/12"
+                    formControlName="referenceColor">
                 </div>
                 <div class="flex flex-wrap mt-2">
                   <div class="w-4/12 ml-2">
-                    <nz-select formControlName="ifCondition" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
-                      <ng-container *ngFor="let allCond of buisnessRuleTargetList">
+                    <nz-select formControlName="ifCondition" nzAllowClear
+                      nzPlaceHolder="Choose" nzShowSearch>
+                      <ng-container
+                        *ngFor="let allCond of buisnessRuleTargetList">
                         <nz-option-group [nzLabel]="allCond.Group">
                           <nz-option *ngFor="let ifCond of allCond.GroupDate"
                             [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
                             [nzLabel]="ifCond.name"></nz-option>
                         </nz-option-group>
-                        <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
+                        <nz-option-group [nzLabel]="allCond.Variable"
+                          *ngIf="allCond.VariableData.length  > 0">
                           <nz-option *ngFor="let ifCond of allCond.VariableData"
                             [nzValue]="ifCond.value"
                             [nzLabel]="ifCond.label"></nz-option>
@@ -36,24 +44,29 @@
                     </nz-select> -->
                   </div>
                   <div class="w-2/12 ml-1">
-                    <nz-select formControlName="oprator" *ngIf="!GridType" nzShowSearch nzAllowClear>
+                    <nz-select formControlName="oprator" *ngIf="!GridType"
+                      nzShowSearch nzAllowClear>
                       <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                         *ngFor="let ifCond of conditonFormOprator"></nz-option>
                     </nz-select>
-                    <nz-select formControlName="oprator" *ngIf="GridType" nzShowSearch nzAllowClear>
+                    <nz-select formControlName="oprator" *ngIf="GridType"
+                      nzShowSearch nzAllowClear>
                       <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                         *ngFor="let ifCond of aggregateFormOprator"></nz-option>
                     </nz-select>
                   </div>
                   <div class="w-4/12 ml-1">
-                    <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
-                      <ng-container *ngFor="let allCond of buisnessRuleTargetList">
+                    <nz-select formControlName="target" nzAllowClear
+                      nzPlaceHolder="Choose" nzShowSearch>
+                      <ng-container
+                        *ngFor="let allCond of buisnessRuleTargetList">
                         <nz-option-group [nzLabel]="allCond.Group">
                           <nz-option *ngFor="let ifCond of allCond.GroupDate"
                             [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
                             [nzLabel]="ifCond.name"></nz-option>
                         </nz-option-group>
-                        <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
+                        <nz-option-group [nzLabel]="allCond.Variable"
+                          *ngIf="allCond.VariableData.length  > 0">
                           <nz-option *ngFor="let ifCond of allCond.VariableData"
                             [nzValue]="ifCond.value"
                             [nzLabel]="ifCond.label"></nz-option>
@@ -67,7 +80,8 @@
                     </nz-select> -->
                   </div>
                   <div class="w-1/12 ml-1">
-                    <button nz-button nzType="primary" nzDanger type="button" class="ml-1"
+                    <button nz-button nzType="primary" nzDanger type="button"
+                      class="ml-1"
                       (click)="removeMathmaticRule(i)">
                       <span nz-icon nzType="delete" nzTheme="outline"></span></button>
                   </div>
@@ -75,27 +89,34 @@
               </div>
               <div class="w-full">
                 <div formArrayName="multiConditionList">
-                  <div *ngFor="let multiCond of getRuleMultiCondition(i).controls; let j=index">
+                  <div
+                    *ngFor="let multiCond of getRuleMultiCondition(i).controls; let j=index">
                     <div [formGroupName]="j" class="flex flex-wrap mt-1">
                       <div class="w-11/12 ">
                         <div class="flex flex-wrap">
                           <div class="w-3/12 mx-2">
-                            <nz-select formControlName="oprator" nzShowSearch nzAllowClear>
-                              <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
+                            <nz-select formControlName="oprator" nzShowSearch
+                              nzAllowClear>
+                              <nz-option [nzLabel]="ifCond.name"
+                                [nzValue]="ifCond.key"
                                 *ngFor="let ifCond of conditonFormOprator"></nz-option>
                             </nz-select>
-
                           </div>
                           <div class="w-8/12">
-                            <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
-                              <ng-container *ngFor="let allCond of buisnessRuleTargetList">
+                            <nz-select formControlName="target" nzAllowClear
+                              nzPlaceHolder="Choose" nzShowSearch>
+                              <ng-container
+                                *ngFor="let allCond of buisnessRuleTargetList">
                                 <nz-option-group [nzLabel]="allCond.Group">
-                                  <nz-option *ngFor="let ifCond of allCond.GroupDate"
+                                  <nz-option
+                                    *ngFor="let ifCond of allCond.GroupDate"
                                     [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
                                     [nzLabel]="ifCond.name"></nz-option>
                                 </nz-option-group>
-                                <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
-                                  <nz-option *ngFor="let ifCond of allCond.VariableData"
+                                <nz-option-group [nzLabel]="allCond.Variable"
+                                  *ngIf="allCond.VariableData.length  > 0">
+                                  <nz-option
+                                    *ngFor="let ifCond of allCond.VariableData"
                                     [nzValue]="ifCond.value"
                                     [nzLabel]="ifCond.label"></nz-option>
                                 </nz-option-group>
@@ -110,7 +131,8 @@
                         </div>
                       </div>
                       <div class="w-1/12">
-                        <button nzSize='small' nz-button nzType="primary" nzDanger type="button" class="mt-1"
+                        <button nzSize='small' nz-button nzType="primary"
+                          nzDanger type="button" class="mt-1"
                           (click)="removegetRuleMultiCondition(i,j)">
                           <span nz-icon nzType="delete" nzTheme="outline"></span></button>
                       </div>
@@ -118,13 +140,16 @@
                   </div>
                 </div>
                 <div class="w-full m-2">
-                  <button nz-button nzType="primary" class="btn btn-blue" (click)="addgetRuleMultiCondition(i)">
+                  <button nz-button nzType="primary" class="btn btn-blue"
+                    (click)="addgetRuleMultiCondition(i)">
                     <b>+</b> Operator</button>
                 </div>
               </div>
             </div>
-            <div style="border: 1px solid #ccc !important; background-color: #2989d9; padding: 10px; margin: 5px;">
-              <nz-select formControlName="referenceOperator" nzShowSearch nzAllowClear
+            <div
+              style="border: 1px solid #ccc !important; background-color: #2989d9; padding: 10px; margin: 5px;">
+              <nz-select formControlName="referenceOperator" nzShowSearch
+                nzAllowClear
                 (change)="getConditionFormInput()">
                 <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
                   *ngFor="let ifCond of conditonFormOprator"></nz-option>
@@ -139,7 +164,8 @@
   <div *nzModalFooter>
     <div class="w-100 d-flex mb-2">
       <label class="form-label py-2">Condition</label>
-      <input type="text" class="form-control mx-1" nz-input id="conditionFormInputById" [(ngModel)]="conditionFormInput"
+      <input type="text" class="form-control mx-1" nz-input
+        id="conditionFormInputById" [(ngModel)]="conditionFormInput"
         readonly />
       <!-- <input type="text" class="form-control mx-1" nz-input id="conditionFormInputById" [(ngModel)]="conditionFormInput"
         [readonly]="isReadOnly" (dblclick)="isReadOnly = !isReadOnly" /> -->
@@ -154,166 +180,224 @@
   <form [formGroup]="buisnessForm">
     <div formArrayName="buisnessRule">
       <div *ngFor="let employee of buisnessRule().controls; let i=index">
-        <div class="border" [formGroupName]="i">
-          <div class="flex flex-wrap">
-            <div class="w-1/2 ">
-              <div class="flex flex-wrap">
-                <h3 class="pt-1 ml-4 mr-4"> If</h3>
-                <div class="w-1/4 ml-1">
-                  <nz-select formControlName="ifCondition" nzShowSearch nzAllowClear
-                    (change)="changeDynamicBuisnessRuleIf()">
-                    <nz-option [nzLabel]="ifCond.name"
-                      [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
-                      *ngFor="let ifCond of buisnessRuleData"></nz-option>
-                  </nz-select>
-                </div>
-                <div class="w-1/4 ml-1">
-                  <nz-select formControlName="oprator" nzShowSearch nzAllowClear
-                    (ngModelChange)="operatorChange($event, i)">
-                    <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
-                      *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
-                  </nz-select>
-                </div>
-                <div class="w-1/4 ml-1">
-                  <input *ngIf="buisnessRule().controls[i].value.isGetValue" type="text" placeholder="Enter value"
-                    nz-input id="getValue{{i}}" formControlName="getValue" required class="form-control"
-                    name="getValue{{i}}" />
+        <div class="flex flex-wrap mb-2" [formGroupName]="i"
+          style="border: 1px solid rgb(197 187 187); border-radius: 5px;padding: 1%;">
+          <div class="w-1/2">
+            <div formArrayName="ifRuleMain">
+              <div
+                *ngFor="let objIfRule of buisnessRuleIfMain(i).controls; let ifIndex=index">
+                <div [formGroupName]="ifIndex">
+                  <div class="flex flex-wrap">
+                    <div class="ml-1">
+                      <button nz-button nzType="primary"
+                      *ngIf="ifIndex === buisnessRuleIfMain(i).controls.length - 1"
+                      (click)="addBuisnessIfRuleMain(i)">
+                      <b>+</b></button>
+                    </div>
+                    <h3 class="pt-1 ml-4 mr-4"> If</h3>
+                    <div class="w-1/4 ml-1">
+                      <nz-select formControlName="ifCondition" nzShowSearch
+                        nzAllowClear
+                        (change)="changeDynamicBuisnessRuleIf()">
+                        <nz-option [nzLabel]="ifCond.name"
+                          [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                          *ngFor="let ifCond of buisnessRuleData"></nz-option>
+                      </nz-select>
+                    </div>
+                    <div class="w-1/4 ml-1">
+                      <nz-select formControlName="oprator" nzShowSearch
+                        nzAllowClear
+                        (ngModelChange)="operatorChange($event, i,ifIndex)">
+                        <nz-option [nzLabel]="ifCond.name"
+                          [nzValue]="ifCond.key"
+                          *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
+                      </nz-select>
+                    </div>
+                    <div class="w-1/4 ml-1">
+                      <input
+                        *ngIf="buisnessRuleIfMain(i).controls[ifIndex].value.isGetValue"
+                        type="text" placeholder="Enter value"
+                        nz-input id="getValue{{ifIndex}}"
+                        formControlName="getValue"
+                        required class="form-control"
+                        name="getValue{{ifIndex}}" />
+                    </div>
+                    <div class="ml-1">
+                      <button nz-button nzType="primary" nzDanger
+                        *ngIf="buisnessRuleIfMain(i).controls.length > 1"
+                        (click)="removeBuisnessIfRuleMain(i,ifIndex)">
+                        <span nz-icon nzType="delete" nzTheme="outline" class="-mt-9"></span></button>
+                    </div>
+                  </div>
+                  <div formArrayName="conditional">
+                    <div
+                      *ngFor="let skill of buisnessRuleSkills(i,ifIndex).controls; let conditionIndex=index">
+                      <div [formGroupName]="conditionIndex">
+                        <div class="flex flex-wrap mt-2">
+                          <div class="ml-1">
+                            <button nz-button nzType="primary"
+                              class="btn btn-primary"
+                              id="btn{{i}},{{conditionIndex}}"
+                              (click)="buttonTextCahnge(i,ifIndex,conditionIndex)">
+                              {{this.buisnessRuleSkills(i,ifIndex).at(conditionIndex).get("condType")?.value}}
+                            </button>
+                          </div>
+                          <div class="w-1/4 ml-1">
+                            <nz-select formControlName="condifCodition"
+                              nzShowSearch
+                              nzAllowClear
+                              (change)="changeDynamicBuisnessRuleIf()">
+                              <nz-option [nzLabel]="ifCond.name"
+                                [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                                *ngFor="let ifCond of buisnessRuleData"></nz-option>
+                            </nz-select>
+                            <!-- <input type="text" placeholder="Enter condType" id="condType{{i}},{{skillIndex}}"
+                              formControlName="condType" required class="form-control ml-1 d-none"
+                              name="condType{{i}},{{skillIndex}}"> -->
+                          </div>
+                          <div class="w-1/4 ml-1">
+                            <nz-select formControlName="condOperator"
+                              nzShowSearch
+                              nzAllowClear>
+                              <nz-option [nzLabel]="ifCond.name"
+                                [nzValue]="ifCond.key"
+                                *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
+                            </nz-select>
+                          </div>
+                          <div class="w-1/4 ml-1">
+                            <input type="text" placeholder="Enter value"
+                              nz-input
+                              id="condValue{{i}}"
+                              formControlName="condValue" required
+                              class="form-control" name="condValue{{i}}" />
+                          </div>
+                          <div class="ml-1">
+                            <button nz-button nzType="primary" nzDanger
+                              class="btn btn-danger"
+                              (click)="removeBuisnessRuleSkill(i,ifIndex,conditionIndex)">
+                              <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mr-1 ml-1">
+                      <button nz-button nzType="primary" class="w-full mt-1"
+                        (click)="addRuleCondition(i,ifIndex)">
+                        <b>+</b> Condition</button>
+                    </div>
+                  </div>
+                  <div class="mt-1 mb-1 ml-1"
+                    *ngIf="ifIndex !== buisnessRuleIfMain(i).controls.length - 1">
+                    <button nz-button nzType="primary" class
+                      id="btn{{i}},{{ifIndex}}"
+                      (click)="ifButtonCondition(i,ifIndex)">
+                      {{this.buisnessRuleIfMain(i).at(ifIndex).get("condType")?.value}}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="w-1/2">
-              <div class="flex flex-wrap">
-                <h4 class="pt-1 mr-2">then</h4>
-                <div class="w-1/4">
-                  <nz-select formControlName="target" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
-                    <ng-container *ngFor="let allCond of buisnessRuleTargetList">
-                      <nz-option-group [nzLabel]="allCond.Group">
-                        <nz-option *ngFor="let ifCond of allCond.GroupDate"
-                          [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
-                          [nzLabel]="ifCond.name"></nz-option>
-                      </nz-option-group>
-                      <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
-                        <nz-option *ngFor="let ifCond of allCond.VariableData"
-                          [nzValue]="ifCond.value"
-                          [nzLabel]="ifCond.label"></nz-option>
-                      </nz-option-group>
-                    </ng-container>
-                  </nz-select>
-                  <!-- <nz-select formControlName="target" nzShowSearch nzAllowClear>
+          </div>
+          <div class="w-1/2">
+            <div class="flex flex-wrap">
+              <h4 class="pt-1 mr-2">then</h4>
+              <div class="w-1/4">
+                <nz-select formControlName="target" nzAllowClear
+                  nzPlaceHolder="Choose" nzShowSearch>
+                  <ng-container
+                    *ngFor="let allCond of buisnessRuleTargetList">
+                    <nz-option-group [nzLabel]="allCond.Group">
+                      <nz-option *ngFor="let ifCond of allCond.GroupDate"
+                        [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
+                        [nzLabel]="ifCond.name"></nz-option>
+                    </nz-option-group>
+                    <nz-option-group [nzLabel]="allCond.Variable"
+                      *ngIf="allCond.VariableData.length  > 0">
+                      <nz-option *ngFor="let ifCond of allCond.VariableData"
+                        [nzValue]="ifCond.value"
+                        [nzLabel]="ifCond.label"></nz-option>
+                    </nz-option-group>
+                  </ng-container>
+                </nz-select>
+                <!-- <nz-select formControlName="target" nzShowSearch nzAllowClear>
                     <nz-option [nzLabel]="ifCond.name"
                       [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
                       *ngFor="let ifCond of buisnessRuleTargetList"></nz-option>
                   </nz-select> -->
-                </div>
-                <div class="w-1/4">
-                  <div style="width:100%">
-                    <nz-select formControlName="opratorForTraget" nzShowSearch nzAllowClear>
-                      <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
-                        *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
-                    </nz-select>
-                  </div>
-                </div>
-                <div class="w-1/4">
-                  <input type="text" placeholder="Enter value" nz-input id="resultValue{{i}}"
-                    formControlName="resultValue" required class="form-control ml-1" style="direction: ltr; "
-                    name="resultValue{{i}}" readonly />
-                </div>
-                <div class="w-1/6">
-                  <button nz-button nzType="primary" class="w-9 mr-1" (click)="addConditionRule(i)">
-                    +
-                  </button>
-                  <button nz-button nzType="primary" nzDanger class="w-11" (click)="removeBuisnessRule(i)">
-                    <span nz-icon nzType="delete" nzTheme="outline"></span>
-                  </button>
+              </div>
+              <div class="w-1/4">
+                <div style="width:100%">
+                  <nz-select formControlName="opratorForTraget" nzShowSearch
+                    nzAllowClear>
+                    <nz-option [nzLabel]="ifCond.name"
+                      [nzValue]="ifCond.key"
+                      *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
+                  </nz-select>
                 </div>
               </div>
-            </div>
-
-          </div>
-          <div class="flex flex-wrap">
-            <div class="w-1/2">
-              <div formArrayName="conditional">
-                <div *ngFor="let skill of buisnessRuleSkills(i).controls; let skillIndex=index">
-                  <div [formGroupName]="skillIndex" class="flex flex-wrap">
-                    <div class="flex flex-wrap mt-2">
-                      <div class="w-2/12 ml-1">
-                        <button nz-button nzType="primary" class="btn btn-primary" id="btn{{i}},{{skillIndex}}"
-                          (click)="buttonTextCahnge(i,skillIndex)">
-                          {{this.buisnessRuleSkills(i).at(skillIndex).get("condType")?.value}}
-                        </button>
-                      </div>
-                      <div class="w-1/5 ml-1">
-                        <nz-select formControlName="condifCodition" nzShowSearch nzAllowClear
-                          (change)="changeDynamicBuisnessRuleIf()">
-                          <nz-option [nzLabel]="ifCond.name"
-                            [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
-                            *ngFor="let ifCond of buisnessRuleData"></nz-option>
-                        </nz-select>
-                        <input type="text" placeholder="Enter condType" id="condType{{i}},{{skillIndex}}"
-                          formControlName="condType" required class="form-control ml-1 d-none"
-                          name="condType{{i}},{{skillIndex}}">
-                      </div>
-                      <div class="w-1/5 ml-1">
-                        <nz-select formControlName="condOperator" nzShowSearch nzAllowClear>
-                          <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
-                            *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
-                        </nz-select>
-                      </div>
-                      <div class="w-1/5 ml-1">
-                        <input type="text" placeholder="Enter value" nz-input id="condValue{{i}}"
-                          formControlName="condValue" required class="form-control" name="condValue{{i}}" />
-                      </div>
-                      <div class="w-1/12 ml-1">
-                        <button nz-button nzType="primary" nzDanger class="btn btn-danger"
-                          (click)="removeBuisnessRuleSkill(i,skillIndex)">
-                          <span nz-icon nzType="delete" nzTheme="outline"></span></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mr-1 ml-1">
-                  <button nz-button nzType="primary" class="w-full mt-1" (click)="addBuisnessRuleSkill(i)">
-                    <b>+</b> Condition</button>
-                </div>
+              <div class="w-1/4">
+                <input type="text" placeholder="Enter value" nz-input
+                  id="resultValue{{i}}"
+                  formControlName="resultValue" required
+                  class="form-control ml-1" style="direction: ltr; "
+                  name="resultValue{{i}}" readonly />
+              </div>
+              <div class="w-1/6">
+                <button nz-button nzType="primary" class="w-9 mr-1"
+                  (click)="addConditionRule(i)">
+                  +
+                </button>
+                <button nz-button nzType="primary" nzDanger class="w-11"
+                  (click)="removeBuisnessRule(i)">
+                  <span nz-icon nzType="delete" nzTheme="outline"></span>
+                </button>
               </div>
             </div>
-            <div class="w-1/2 ">
+            <div>
               <div formArrayName="thenCondition">
-                <div *ngFor="let skill of buisnessRuleThen(i).controls; let thenIndex=index">
+                <div
+                  *ngFor="let skill of buisnessRuleThen(i).controls; let thenIndex=index">
                   <div [formGroupName]="thenIndex" class="flex flex-wrap mt-2">
-
                     <h4 class="mr-2">then</h4>
-
                     <div class="w-1/4">
-                      <nz-select formControlName="thenTarget" nzAllowClear nzPlaceHolder="Choose" nzShowSearch>
-                        <ng-container *ngFor="let allCond of buisnessRuleTargetList">
+                      <nz-select formControlName="thenTarget" nzAllowClear
+                        nzPlaceHolder="Choose" nzShowSearch>
+                        <ng-container
+                          *ngFor="let allCond of buisnessRuleTargetList">
                           <nz-option-group [nzLabel]="allCond.Group">
-                            <nz-option *ngFor="let ifCond of allCond.GroupDate"
+                            <nz-option
+                              *ngFor="let ifCond of allCond.GroupDate"
                               [nzValue]="ifCond.key.charAt(0).toLowerCase() + ifCond.key.slice(1)"
                               [nzLabel]="ifCond.name"></nz-option>
                           </nz-option-group>
-                          <nz-option-group [nzLabel]="allCond.Variable" *ngIf="allCond.VariableData.length  > 0">
-                            <nz-option *ngFor="let ifCond of allCond.VariableData"
+                          <nz-option-group [nzLabel]="allCond.Variable"
+                            *ngIf="allCond.VariableData.length  > 0">
+                            <nz-option
+                              *ngFor="let ifCond of allCond.VariableData"
                               [nzValue]="ifCond.value"
                               [nzLabel]="ifCond.label"></nz-option>
                           </nz-option-group>
                         </ng-container>
                       </nz-select>
                       <!-- <nz-select formControlName="thenTarget" nzShowSearch nzAllowClear>
-                        <nz-option [nzLabel]="ifCond.name"
-                          [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
-                          *ngFor="let ifCond of buisnessRuleTargetList"></nz-option>
-                      </nz-select> -->
+                          <nz-option [nzLabel]="ifCond.name"
+                            [nzValue]="ifCond.name.charAt(0).toLowerCase() + ifCond.name.slice(1)"
+                            *ngFor="let ifCond of buisnessRuleTargetList"></nz-option>
+                        </nz-select> -->
                     </div>
                     <div class="w-1/4">
-                      <nz-select formControlName="thenOpratorForTraget" nzShowSearch nzAllowClear>
-                        <nz-option [nzLabel]="ifCond.name" [nzValue]="ifCond.key"
+                      <nz-select formControlName="thenOpratorForTraget"
+                        nzShowSearch nzAllowClear>
+                        <nz-option [nzLabel]="ifCond.name"
+                          [nzValue]="ifCond.key"
                           *ngFor="let ifCond of BuisnessRuleCondationList"></nz-option>
                       </nz-select>
                     </div>
                     <div class="w-1/4">
-                      <input type="text" placeholder="Enter value" nz-input id="resultValue{{i}}"
-                        formControlName="thenResultValue" required class="form-control ml-1" style="direction: ltr; "
+                      <input type="text" placeholder="Enter value" nz-input
+                        id="resultValue{{i}}"
+                        formControlName="thenResultValue" required
+                        class="form-control ml-1" style="direction: ltr; "
                         name="resultValue{{i}}" readonly />
                     </div>
                     <div class="w-1/6 ">
@@ -321,14 +405,16 @@
                         (click)='addConditionRule(i,thenIndex)'>+</button>
                       <button nz-button nzType="primary" nzDanger class="w-11"
                         (click)="removeBuisnessRuleThen(i,thenIndex)">
-                        <span nz-icon nzType="delete" nzTheme="outline" class="pr-1"></span></button>
+                        <span nz-icon nzType="delete" nzTheme="outline"
+                          class="pr-1"></span></button>
                     </div>
 
                   </div>
                 </div>
               </div>
               <div class="mr-1 ml-1">
-                <button nz-button nzType="primary" class="w-full mt-1" (click)="addBuisnessRuleThen(i)">
+                <button nz-button nzType="primary" class="w-full mt-1"
+                  (click)="addBuisnessRuleThen(i)">
                   <b>+</b> Then</button>
               </div>
             </div>
@@ -337,8 +423,11 @@
       </div>
     </div>
   </form>
-  <button nz-button nzType="primary" class=" mb-3" (click)="addGridBuisnessRule()">Add Rule</button>
-  <button nz-button nzType="primary" class="btn btn-info mb-3 ml-2" (click)="saveGridBusinessRule()">Save Grid Rule</button>
-  <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteGridBuisnessRule()">
+  <button nz-button nzType="primary" class=" mb-3"
+    (click)="addGridBuisnessRule()">Add Rule</button>
+  <button nz-button nzType="primary" class="btn btn-info mb-3 ml-2"
+    (click)="saveGridBusinessRule()">Save Grid Rule</button>
+  <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1"
+    (click)="deleteGridBuisnessRule()">
     <span nz-icon nzType="delete" nzTheme="outline"></span>Delete</button>
 </div>

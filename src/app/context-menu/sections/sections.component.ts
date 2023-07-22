@@ -134,6 +134,9 @@ export class SectionsComponent implements OnInit {
   }
   saveData(data: any) {
     debugger
+
+    this.temporyGrid();
+    return;
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
@@ -250,6 +253,10 @@ export class SectionsComponent implements OnInit {
 
     return convertedModel;
   }
+  temporyGrid() {
+    let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+    this.assignGridRules(tableData);
+  }
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     if (tableData) {
@@ -304,11 +311,13 @@ export class SectionsComponent implements OnInit {
     }
   }
   gridRules(getRes: any, data: any) {
+    debugger
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
         for (let index = 0; index < objRuleData.length; index++) {
+          // const elementv1 = objRuleData[index].ifRuleMain;
           const elementv1 = objRuleData[index];
           let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
@@ -317,24 +326,57 @@ export class SectionsComponent implements OnInit {
           else {
             for (let j = 0; j < data.tableData.length; j++) {
               //query
-              let query: any;
-              if (elementv1.oprator == 'NotNull')
-                query = "1==1"
-              else {
-                let firstValue = data.tableData[j][elementv1.ifCondition] ? data.tableData[j][elementv1.ifCondition] : "0";
-                query = firstValue + elementv1.oprator + elementv1.getValue
+              let query: any = '';
+              objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
+                if (objRuleData[index].ifRuleMain.length > 1) {
+                  if (element.oprator == 'NotNull'){
+                    query = "( 1==1"
+                  }
+                  else {
+                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                    let appendString = element.conditional.length > 0 ? " ( " : ' ';
+                    if (ruleIndex == 0) {
+                      query = appendString + firstValue + element.oprator + element.getValue
+                    } else {
+                      query += appendString + firstValue + element.oprator + element.getValue
+                    }
+                  }
+                  for (let k = 0; k < element.conditional.length; k++) {
+                    const conditionElement = element.conditional[k];
+                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                    if (k + 1 == element.conditional.length)
+                      query += " ) " + element.condType
+                  }
+                } 
+                else {
+                  if (element.oprator == 'NotNull')
+                    query = "1==1"
+                  else {
+                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                    query = firstValue + element.oprator + element.getValue
+                  }
+                  for (let k = 0; k < element.conditional.length; k++) {
+                    const conditionElement = element.conditional[k];
+                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                  }
+                }
+              });
+              let checkCondition = false;
+              if (objRuleData[index].ifRuleMain.length > 1) {
+                checkCondition = this.evaluateGridCondition(query)
+              } else {
+                checkCondition = this.evaluateGridConditionMain(query)
               }
-              for (let k = 0; k < elementv1.conditional.length; k++) {
-                const element = elementv1.conditional[k];
-                query += ' ' + element.condType + ' ' + data.tableData[j][element.condifCodition] + element.condOperator + element.condValue;
-              }
-              if (this.evaluateGridCondition(query)) {
+              if (checkCondition) {
                 for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                   const elementv2 = elementv1.getRuleCondition[k];
                   if (elementv1.getRuleCondition[k].referenceOperator != '') {
                     data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                  } else {
+                  }
+                  else {
                     if (k > 0) {
                       data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                       data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
@@ -473,6 +515,7 @@ export class SectionsComponent implements OnInit {
   private isNumeric(value: any): boolean {
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
+
   evaluateGridConditionOperator(condition: string): any {
     const operators: { [key: string]: (a: any, b: any) => any } = {
       "+": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a + b : null,
@@ -492,7 +535,7 @@ export class SectionsComponent implements OnInit {
 
     return operators[operator](leftValue, rightValue);
   }
-  evaluateGridCondition(condition: string): boolean {
+  evaluateGridConditionMain(condition: string): boolean {
     const operators: { [key: string]: (a: any, b: any) => boolean } = {
       "==": (a: any, b: any) => a == b,
       "!=": (a: any, b: any) => a != b,
@@ -532,6 +575,157 @@ export class SectionsComponent implements OnInit {
 
     return evaluateCondition(condition);
   }
+
+  evaluateGridCondition(condition: any): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const evaluateExpression = (expr: string): boolean => {
+      if (!expr.includes(' false ') && !expr.includes(' true ')) {
+        const [leftOperand, operator, rightOperand] = expr.trim().split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+        let leftValue: any = leftOperand;
+        if (leftOperand) {
+          leftValue = leftOperand;
+        } else if (leftOperand === 'null') {
+          leftValue = null;
+        }
+
+        let rightValue: any = rightOperand;
+        if (rightOperand) {
+          rightValue = rightOperand;
+        } else if (rightOperand === 'null') {
+          rightValue = null;
+        }
+
+        if (!operators[operator]) {
+          throw new Error(`Unknown operator: ${operator}`);
+        }
+
+        return operators[operator](leftValue, rightValue);
+      }
+      else {
+        if (expr.includes(' false ')) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+
+
+    };
+
+    const processSubCondition = (subCondition: string): boolean => {
+      const stack: string[] = [];
+      let currentExpression = '';
+
+      for (const char of subCondition) {
+        if (char === '(') {
+          if (currentExpression) {
+            stack.push(currentExpression);
+            currentExpression = '';
+          }
+          stack.push(char);
+        } else if (char === ')') {
+          if (currentExpression) {
+            stack.push(currentExpression);
+            currentExpression = '';
+          }
+          let innerExpression = '';
+          while (stack.length > 0 && stack[stack.length - 1] !== '(') {
+            innerExpression = stack.pop() + innerExpression;
+          }
+          stack.pop(); // Remove the opening parenthesis from the stack
+
+          const innerResult = processSubCondition(innerExpression);
+          stack.push(innerResult.toString());
+        } else {
+          currentExpression += char;
+        }
+      }
+
+      if (currentExpression) {
+        stack.push(currentExpression);
+      }
+
+      return evaluateCondition(stack.join(' '));
+    };
+
+    const evaluateCondition = (condition: any): boolean => {
+      if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some((subCondition: any) => processSubCondition(subCondition));
+      } else if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every((subCondition: any) => processSubCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return processSubCondition(condition);
+  }
+
+
+
+
+
+
+
+
+
+
+  // evaluateGridCondition(condition: any): boolean {
+  //   const operators: { [key: string]: (a: any, b: any) => boolean } = {
+  //     "==": (a: any, b: any) => a == b,
+  //     "!=": (a: any, b: any) => a != b,
+  //     ">=": (a: any, b: any) => a >= b,
+  //     "<=": (a: any, b: any) => a <= b,
+  //     "=": (a: any, b: any) => a === b,
+  //     ">": (a: any, b: any) => a > b,
+  //     "<": (a: any, b: any) => a < b,
+  //     "null": (a: any, b: any) => a === null,
+  //     "contains": (a: any, b: any) => a.includes(b),
+  //   };
+
+  //   const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+  //   const conditionParts = condition.split(logicalOperatorsRegex);
+
+  //   const evaluateExpression = (expr: string): boolean => {
+  //     const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+  //     if (!operators[operator]) {
+  //       throw new Error(`Unknown operator: ${operator}`);
+  //     }
+
+  //     return operators[operator](leftOperand, rightOperand);
+  //   };
+
+  //   condition = condition.trim().replace(/^\(|\)$/g, '');
+  //   const evaluateCondition = (condition: any): boolean => {
+  //     if (condition.includes("AND")) {
+  //       const subConditions = condition.split(" AND ");
+  //       return subConditions.every((subCondition: any) => evaluateCondition(subCondition));
+  //     } else if (condition.includes("OR")) {
+  //       const subConditions = condition.split(" OR ");
+  //       return subConditions.some((subCondition: any) => evaluateCondition(subCondition));
+  //     } else {
+  //       return evaluateExpression(condition);
+  //     }
+  //   };
+
+  //   return evaluateCondition(condition);
+  // }
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
     if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {

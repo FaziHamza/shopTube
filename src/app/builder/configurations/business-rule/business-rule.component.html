@@ -34,29 +34,24 @@
                           (click)="addBuisnessIfRuleMain(mainIndex)">
                           <b>+</b></button>
                         <h3 class="text-lg mr-1">If</h3>
-                        <div class="w-1/6 pr-1">
+                        <div class="w-1/4 pr-1">
                           <nz-select nzShowSearch nzAllowClear formControlName="ifCondition"
                             (change)="changeDynamicBuisnessRuleIf()">
                             <nz-option [nzLabel]="ct?.props?.label ? ct?.props?.label : ct?.key" [nzValue]="ct?.key"
                               *ngFor="let ct of businessRuleData"></nz-option>
                           </nz-select>
                         </div>
-                        <div class="w-1/6 ml-1">
+                        <div class="w-1/4 ml-1">
                           <nz-select nzShowSearch nzAllowClear formControlName="oprator">
                             <nz-option [nzLabel]="ct.name" [nzValue]="ct.key"
                               *ngFor="let ct of BuisnessRuleCondationList"></nz-option>
                           </nz-select>
                         </div>
-                        <div class="w-1/12 ml-1">
+                        <div class="w-1/4 ml-1">
                           <input nz-input type="text" placeholder="Enter value" id="getValue{{mainIndex}}"
                             formControlName="getValue" required class="form-control" name="getValue{{mainIndex}}" />
                         </div>
-                        <div class="mr-1" *ngIf="ifIndex !== buisnessRuleIfMain(mainIndex).controls.length - 1">
-                          <button nz-button nzType="primary" class id="btn{{mainIndex}},{{ifIndex}}"
-                            (click)="ifButtonCondition(mainIndex,ifIndex)">
-                            {{this.buisnessRuleIfMain(mainIndex).at(ifIndex).get("condType")?.value}}
-                          </button>
-                        </div>
+                        
                         <div class="ml-1">
                           <button nz-button nzType="primary" nzDanger
                             *ngIf="buisnessRuleIfMain(mainIndex).controls.length > 1"
@@ -110,7 +105,12 @@
                             <b>+</b> Condition</button>
                         </div>
                       </div>
-
+                      <div class="mt-1" *ngIf="ifIndex !== buisnessRuleIfMain(mainIndex).controls.length - 1">
+                        <button nz-button nzType="primary" class id="btn{{mainIndex}},{{ifIndex}}"
+                          (click)="ifButtonCondition(mainIndex,ifIndex)">
+                          {{this.buisnessRuleIfMain(mainIndex).at(ifIndex).get("condType")?.value}}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
