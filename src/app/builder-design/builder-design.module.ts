@@ -19,6 +19,9 @@ import { BuilderDesignComponent } from "./builder-design.component";
 import { BuilderDesignRoutingModule } from "./builder-design-routing.module";
 import { BuilderShareModule } from "../shared/builder-share.module";
 import { BuilderDesignLayoutComponent } from "./builder-design-layout/builder-design-layout.component";
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
 
 @NgModule({
   declarations: [
@@ -29,10 +32,12 @@ import { BuilderDesignLayoutComponent } from "./builder-design-layout/builder-de
     CommonModule,
     FormsModule,
     AngularSplitModule,
+    NzDropDownModule,
     NgJsonEditorModule,
     BuilderShareModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
+    NzToolTipModule,
     FormlyNgZorroAntdModule,
     MonacoEditorModule.forRoot(),
     NgxMaskModule.forRoot(),

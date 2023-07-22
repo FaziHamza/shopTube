@@ -44,13 +44,69 @@
                 </div>
             </div>
         </nz-header>
+
+
         <nz-layout class="main-layout b-horizontal-menu">
             <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
                 [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
                 <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzMode="horizontal">
-                    <li nz-menu-item>
-                        <i class="fa-light fa-table-columns"></i>
-                        <span>Dashboard</span>
+                    <li nz-menu-item class="!p-0" style="padding: 0 !important;">
+                        <!-- <i class="fa-light fa-table-columns"></i> -->
+                        <!-- <span>Dashboard</span> -->
+                        <ul class=" !rounded-none" nz-menu nzMode="horizontal">
+                            <!-- <li
+                              nz-submenu
+                              [(nzOpen)]="openMap['sub1']"
+                              (nzOpenChange)="openHandler('sub1')"
+                              nzTitle="Dashboard"
+                              nzIcon="pic-center"
+                              
+                            >
+                              <ul>
+                                <li nz-menu-group nzTitle="Item 1">
+                                  <ul>
+                                    <li nz-menu-item>Option 1</li>
+                                    <li nz-menu-item>Option 2</li>
+                                  </ul>
+                                </li>
+                                <li nz-menu-group nzTitle="Item 2">
+                                  <ul>
+                                    <li nz-menu-item>Option 3</li>
+                                    <li nz-menu-item>Option 4</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li> -->
+                            <li class="!p-0 !rounded-none" nz-submenu nzPlacement="bottomLeft" nzTitle="Dashboard"
+                            nzIcon="pic-center">
+                                <ul>
+                                  <li nz-menu-group nzTitle="Item 1">
+                                    <ul>
+                                      <li nz-menu-item>Option 1</li>
+                                      <li nz-menu-item>Option 2</li>
+                                    </ul>
+                                  </li>
+                                  <li nz-menu-group nzTitle="Item 2">
+                                    <ul>
+                                      <li nz-menu-item>Option 3</li>
+                                      <li nz-menu-item>Option 4</li>
+                                      <li nz-submenu nzTitle="Sub Menu">
+                                        <ul>
+                                          <li nz-menu-item nzDisabled>Option 5</li>
+                                          <li nz-menu-item>Option 6</li>
+                                        </ul>
+                                      </li>
+                                      <li nz-submenu nzDisabled nzTitle="Disabled Sub Menu">
+                                        <ul>
+                                          <li nz-menu-item>Option 5</li>
+                                          <li nz-menu-item>Option 6</li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
+                        </ul>
                     </li>
                     <li nz-menu-item>
                         <i class="fa-light fa-square-list"></i>
@@ -112,22 +168,22 @@
                     </div>
                     <div class="action-bar">
                         <div class="component-actions">
-                            <button nz-button nzType="link" class="active">
+                            <button nz-button nzType="link" class="active" nz-tooltip nzTooltipTitle="Preview" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
-                            <button nz-button nzType="link">
+                            <button nz-button nzType="link" nz-tooltip nzTooltipTitle="Undo" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-arrow-rotate-left"></i>
                             </button>
-                            <button nz-button nzType="link">
+                            <button nz-button nzType="link" nz-tooltip nzTooltipTitle="Redo" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-arrow-rotate-right"></i>
                             </button>
-                            <button nz-button nzType="link">
+                            <button nz-button nzType="link" nz-tooltip nzTooltipTitle="Save" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-floppy-disk"></i>
                             </button>
-                            <button nz-button nzType="link">
+                            <button nz-button nzType="link" nz-tooltip nzTooltipTitle="Source Code" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-brackets-curly"></i>
                             </button>
-                            <button nz-button nzType="link">
+                            <button nz-button nzType="link" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="#2563EB">
                                 <i class="fa-regular fa-trash"></i>
                             </button>
                         </div>
@@ -198,6 +254,103 @@
                         </div>
                     </div>
                     <div class="b-content-body">
+
+                        <div class="mb-4 h-[70px] bg-white flex items-center space-x-12 rounded">
+                            <div class="flex h-[30px] w-fit items-center space-x-2 ml-5">
+                              <button
+                                class="text-[16px] font-medium leading-normal not-italic border-b-2 text-[#2563EB] border-[#2563EB] w-fit pb-1"
+                                nz-dropdown
+                                nzTrigger="click"
+                                [nzDropdownMenu]="detailmenu"
+                              >
+                                Details
+                                <span nz-icon nzType="down"></span>
+                              </button>
+
+                            </div>
+                        
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A] border-b-2 border-transparent transition-colors cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                Resolution
+                              </p>
+                            </div>
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A]  border-b-2 border-transparent transition-all cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                Tasks
+                              </p>
+                            </div>
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A]  border-b-2 border-transparent transition-all cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                CheckList
+                              </p>
+                            </div>
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A]  border-b-2 border-transparent transition-all cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                Worklogs
+                              </p>
+                            </div>
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A]  border-b-2 border-transparent transition-all cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                Time Analysis
+                              </p>
+                            </div>
+                            <div class="flex h-[30px] w-fit items-center space-x-2">
+                              <p
+                                class="text-[16px] font-medium not-italic text-[#73757A]  border-b-2 border-transparent transition-all cursor-pointer hover:text-[#2563EB] hover:border-[#2563EB] w-fit pb-1"
+                              >
+                                History
+                              </p>
+                            </div>
+                          </div>
+
+                          <!-- menu items for detail -->
+                          <nz-dropdown-menu #detailmenu="nzDropdownMenu">
+                            <ul nz-menu>
+                              <li nz-menu-item>1st menu item</li>
+                              <li nz-menu-item>2nd menu item</li>
+                              <li nz-menu-divider></li>
+                              <li nz-menu-item nzDisabled>disabled menu item</li>
+                              <li nz-submenu nzTitle="sub menu">
+                                <ul>
+                                  <li nz-menu-item>3rd menu item</li>
+                                  <li nz-menu-item>4th menu item</li>
+                                </ul>
+                              </li>
+                              <li nz-submenu nzDisabled nzTitle="disabled sub menu">
+                                <ul>
+                                  <li nz-menu-item>3rd menu item</li>
+                                  <li nz-menu-item>4th menu item</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </nz-dropdown-menu>
+                          <!-- menu items for detail -->
+
+                          <div class="mb-4 h-[70px] bg-white flex items-center space-x-12 rounded px-10 " >
+                            <div class="flex space-x-10 items-center w-fit" >
+                              <i class="fa-thin fa-star text-lg"></i>
+                              <p class="text-[#64748B] text-base not-italic font-medium " >Tabs</p>
+                            </div>
+                            <div class="flex space-x-10 items-center w-fit" >
+                              <i class="fa-thin fa-star text-lg"></i>
+                              <p class="text-[#64748B] text-base not-italic font-medium " >Tabs</p>
+                            </div>
+                            <div class="flex space-x-10 items-center w-fit" >
+                              <i class="fa-thin fa-star text-lg"></i>
+                              <p class="text-[#64748B] text-base not-italic font-medium " >Tabs</p>
+                            </div>
+                        </div>
+
                         <div class="b-card form-card-body">
                             <nz-collapse [nzExpandIconPosition]="'right'">
                                 <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
